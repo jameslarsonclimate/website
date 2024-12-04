@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-import numpy as np
-import warnings
 import xarray as xr
-from global_land_mask import globe
-import proplot as pplt
+import pandas as pd
 
 # Plotting utility functions
 
@@ -69,29 +66,6 @@ def remove_seasonal_cycle(data):
     return data_anom
 
 
-def generate_subplot(fig, loc, region, latlabels='l', lonlabels='b', proj='aeqd', title=None):
-    """
-    Generates a subplot with specified projection and region boundaries.
-
-    Parameters:
-    loc (tuple): Location of the subplot in the figure (e.g., (1, 1, 1) for a single subplot).
-    region (dict): Dictionary specifying the region boundaries with keys 'lonw', 'lone', 'lats', 'latn'.
-    latlabels (str, optional): Position of latitude labels ('l' for left, 'r' for right, 'b' for both). Default is 'l'.
-    lonlabels (str, optional): Position of longitude labels ('t' for top, 'b' for bottom, 'both' for both). Default is 'b'.
-    proj (str, optional): Projection type for the plot. Default is 'aeqd' (azimuthal equidistant).
-
-    Returns:
-    ax: Axis object for the subplot.
-    """
-    ax = fig.subplot(loc, proj=proj, coast=True, labels=True, lonlabels=lonlabels, latlabels=latlabels,
-                     land=True, landcolor='white', abc=True, abcloc='upper left', title=title,
-                     latlines=10, lonlines=20, gridminor=True, latminorlines=5, lonminorlines=10,
-                     lonlim=(region['lonw'] + 5, region['lone'] - 5), latlim=(region['lats'] + 5, region['latn'] - 5),
-                     proj_kw={'central_longitude': (region['lonw'] + region['lone']) / 2},
-                     )
-    return ax
-
-
 def stand(da):
     """
     Standardizes the input data array by removing the mean and dividing by the standard deviation along the time dimension.
@@ -105,148 +79,39 @@ def stand(da):
     return (da - da.mean('time')) / da.std('time')
 
 
-def linregress_3D(x, y, lagx=0, lagy=0):
-    """
-    Performs linear regression between two data arrays along the time dimension.
+def get_latest_forecast_cycle():
+    """Get the most recent forecast initialization time (00, 06, 12, or 18 UTC).
 
-    Parameters:
-    x (xarray.DataArray): Independent variable with the first dimension being time. Can be multi-dimensional.
-    y (xarray.DataArray): Dependent variable with the first dimension being time. Can be multi-dimensional.
-
-    Returns:
-    tuple: Covariance, correlation, regression slope, and intercept arrays.
-
-    Adapted from: http://hrishichandanpurkar.blogspot.com/2017/09/vectorized-functions-for-correlation.html
-    """
-    # Suppress warnings that may arise from operations involving NaNs or other runtime issues
-    # This ensures that warnings do not interrupt the function execution and clutter the output
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", category=RuntimeWarning)
-
-        # 2. Add lag information if any, and shift the data accordingly
-        if lagx != 0:
-            # If x lags y by 1, x must be shifted 1 step backwards. 
-            # But as the 'zero-th' value is nonexistant, xr assigns it as invalid (nan). Hence it needs to be dropped
-            x   = x.shift(time=-lagx).dropna(dim='time')
-            # Next important step is to re-align the two datasets so that y adjusts to the changed coordinates of x
-            x, y = xr.align(x, y)
-
-        if lagy != 0:
-            y   = y.shift(time=-lagy).dropna(dim='time')
-            x, y = xr.align(x, y)
-
-        # Compute data length, mean, and standard deviation along the time axis for further use
-        n = np.shape(x)[0]
-        xmean = np.nanmean(x, axis=0)
-        ymean = np.nanmean(y, axis=0)
-        xstd = np.nanstd(x, axis=0)
-        ystd = np.nanstd(y, axis=0)
-
-        # Compute covariance along the time axis
-        cov = np.nansum((x - xmean) * (y - ymean), axis=0) / n
-
-        # Compute correlation along the time axis
-        cor = cov / (xstd * ystd)
-
-        # Compute regression slope and intercept
-        slope = cov / (xstd ** 2)
-        intercept = ymean - xmean * slope
-
-    return cov, cor, slope, intercept
-
-
-def land_mask(da):
-    """
-    Creates a land mask for the given data array based on ocean and land grid cells.
-    Assumes that the longitude coordinates are on a -180 to 180 system (not 0 to 360).
-
-    Parameters:
-    da (xarray.DataArray): Data array for which the land mask is to be generated with the first dimension being time.
+    This function determines which of the four daily forecast initialization times 
+    was most recently passed. The function checks if the current time is past 
+    19:00, 13:00, 07:00, or 01:00 UTC and returns the corresponding initialization 
+    time (18:00, 12:00, 06:00, or 00:00 UTC respectively). These times correspond 
+    to when new forecast model runs typically become available, accounting for 
+    ~1 hour processing delay.
 
     Returns:
-    numpy.array: Boolean array where True indicates ocean and False indicates land.
+        pd.Timestamp: The most recent past forecast initialization time as a 
+            timezone-naive timestamp. Possible hours are 00, 06, 12, or 18 UTC.
+            If current time is before 01:00 UTC, returns 18:00 UTC from previous day.
+
+    Example:
+        >>> # If current time is 2024-03-15 14:30 UTC
+        >>> get_latest_forecast_cycle()
+        Timestamp('2024-03-15 12:00:00')
     """
-    data = da[0].copy(deep=True)
-    data.coords['lon'] = (data.coords['lon'] + 180) % 360 - 180
-    lon_grid, lat_grid = np.meshgrid(data['lon'], data['lat'])
-    return globe.is_ocean(lat_grid, lon_grid)
 
+    now = pd.Timestamp.now(tz='UTC')
+    
+    # Check which time is the most recent past time
+    if now >= pd.Timestamp(now.year, now.month, now.day, 19, 0, tz='UTC'):
+        recent_time = pd.Timestamp(now.year, now.month, now.day, 18, 0, tz='UTC')
+    elif now >= pd.Timestamp(now.year, now.month, now.day, 13, 0, tz='UTC'):
+        recent_time = pd.Timestamp(now.year, now.month, now.day, 12, 0, tz='UTC')
+    elif now >= pd.Timestamp(now.year, now.month, now.day, 7, 0, tz='UTC'):
+        recent_time = pd.Timestamp(now.year, now.month, now.day, 6, 0, tz='UTC')
+    elif now >= pd.Timestamp(now.year, now.month, now.day, 1, 0, tz='UTC'):
+        recent_time = pd.Timestamp(now.year, now.month, now.day, 0, 0, tz='UTC')
+    else:
+        recent_time = pd.Timestamp(now.year, now.month, now.day-1, 18, 0, tz='UTC')
 
-def high_pass_filter(data, window_size, output_path=None, output_filename=None, trackProgress=False):
-    """
-    Apply a high-pass spatial filter to an atmospheric variable.
-
-    Parameters:
-    data (xarray.DataArray): The input atmospheric data.
-    window_size (int): The size of the moving window for the high-pass filter.
-    output_path (str, optional): The path to save the output NetCDF file. If None, the data is not saved.
-    output_filename (str, optional): The name of the output NetCDF file. Required if output_path is provided.
-    trackProgress (str, optional): Pass True to this variable to output the current time step while iterating to track progress.
-
-    Returns:
-    xarray.DataArray: The high-pass filtered data.
-    """
-    # Ensure the window size is an odd integer for proper window centering
-    if window_size % 2 == 0:
-        window_size += 1
-
-    # Initialize the output array
-    HPfiltWeight = data.copy(deep=True)
-    weighted_avg = np.zeros_like(data)
-
-    # Apply the spatial filter to each time step
-    for k, timeVal in enumerate(data['time'].values):
-
-        if trackProgress == True:  # Optionally track progress by outputting the time step
-            print(timeVal)
-
-        # Temporarily store the spatial values for each time step, as well as the latitude weights and array dimensions
-        data_values = data[k].values
-        latitudes = data.lat.values
-        weights = np.cos(np.deg2rad(latitudes))
-        lat_size, lon_size = data_values.shape
-        half_window = window_size // 2
-
-        # Iterate over each grid point, avoiding edges
-        for i, ival in enumerate(range(half_window, lat_size - half_window)):
-            for j, jval in enumerate(range(lon_size)):
-                # Determine the window bounds
-                lat_min = ival - half_window
-                lat_max = ival + half_window + 1
-                lon_min = jval - half_window
-                lon_max = jval + half_window + 1
-
-                # Select the data in the window and shape the weights to the correct size
-                # Handle wrapping around for longitude
-                if lon_min < 0:
-                    lon_min_wrap = lon_min + lon_size
-                    window_lon = np.concatenate((data_values[lat_min:lat_max, lon_min_wrap:], data_values[lat_min:lat_max, :lon_max]), axis=1)
-                elif lon_max > lon_size:
-                    lon_max_wrap = lon_max - lon_size
-                    window_lon = np.concatenate((data_values[lat_min:lat_max, lon_min:], data_values[lat_min:lat_max, :lon_max_wrap]), axis=1)
-                else:
-                    window_lon = data_values[lat_min:lat_max, lon_min:lon_max]
-                weights_window = np.repeat(weights[lat_min:lat_max, np.newaxis], window_size, axis=1)
-
-                # Compute the weighted average
-                weighted_avg[k, ival, jval] = np.average(window_lon, weights=weights_window)
-
-    # Subtract low-pass filtered response from data to get high-pass filtered data
-    HPfiltWeight = data - weighted_avg
-
-    # Set all boundary latitude values to zero as the filter does not reach them
-    HPfiltWeight[:, :half_window+1, :] = 0
-    HPfiltWeight[:, -half_window:, :] = 0
-
-    # Update attributes, importing original attributes and modifying as needed
-    HPfiltWeight.attrs.update(data.attrs)
-    HPfiltWeight.attrs['methodology: spatial filter'] = ("1000km high-pass spatial filter applied using a moving average as a function of grid cell.")
-    if output_path and output_filename:
-        # Save the result to a NetCDF file
-        output_filepath = output_path + output_filename
-        print('saving: ' + output_filepath)
-        HPfiltWeight.to_netcdf(output_filepath)
-        print('save complete')
-
-    return HPfiltWeight
-
+    return recent_time.tz_localize(None)
