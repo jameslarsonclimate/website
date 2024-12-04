@@ -84,10 +84,10 @@ def get_latest_forecast_cycle():
 
     This function determines which of the four daily forecast initialization times 
     was most recently passed. The function checks if the current time is past 
-    19:00, 13:00, 07:00, or 01:00 UTC and returns the corresponding initialization 
+    19:30, 13:30, 07:30, or 01:30 UTC and returns the corresponding initialization 
     time (18:00, 12:00, 06:00, or 00:00 UTC respectively). These times correspond 
     to when new forecast model runs typically become available, accounting for 
-    ~1 hour processing delay.
+    ~1.5 hour processing delay.
 
     Returns:
         pd.Timestamp: The most recent past forecast initialization time as a 
@@ -103,13 +103,13 @@ def get_latest_forecast_cycle():
     now = pd.Timestamp.now(tz='UTC')
     
     # Check which time is the most recent past time
-    if now >= pd.Timestamp(now.year, now.month, now.day, 19, 0, tz='UTC'):
+    if now >= pd.Timestamp(now.year, now.month, now.day, 19, 30, tz='UTC'):
         recent_time = pd.Timestamp(now.year, now.month, now.day, 18, 0, tz='UTC')
-    elif now >= pd.Timestamp(now.year, now.month, now.day, 13, 0, tz='UTC'):
+    elif now >= pd.Timestamp(now.year, now.month, now.day, 13, 30, tz='UTC'):
         recent_time = pd.Timestamp(now.year, now.month, now.day, 12, 0, tz='UTC')
-    elif now >= pd.Timestamp(now.year, now.month, now.day, 7, 0, tz='UTC'):
+    elif now >= pd.Timestamp(now.year, now.month, now.day, 7, 30, tz='UTC'):
         recent_time = pd.Timestamp(now.year, now.month, now.day, 6, 0, tz='UTC')
-    elif now >= pd.Timestamp(now.year, now.month, now.day, 1, 0, tz='UTC'):
+    elif now >= pd.Timestamp(now.year, now.month, now.day, 1, 30, tz='UTC'):
         recent_time = pd.Timestamp(now.year, now.month, now.day, 0, 0, tz='UTC')
     else:
         recent_time = pd.Timestamp(now.year, now.month, now.day-1, 18, 0, tz='UTC')
