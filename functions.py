@@ -115,3 +115,11 @@ def get_latest_forecast_cycle():
         recent_time = pd.Timestamp(now.year, now.month, now.day-1, 18, 0, tz='UTC')
 
     return recent_time.tz_localize(None)
+
+
+def sel_region(da, center, width): 
+    half_width = width / 2
+    da = da.where(da['latitude'] > center[0] - half_width, drop=True)
+    da = da.where(da['latitude'] < center[0] + half_width, drop=True)
+    da = da.where(da['longitude'] > center[1] - half_width, drop=True)
+    return da.where(da['longitude'] < center[1] + half_width, drop=True)
