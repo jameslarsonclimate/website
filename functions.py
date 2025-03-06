@@ -123,3 +123,63 @@ def sel_region(da, center, width):
     da = da.where(da['latitude'] < center[0] + half_width, drop=True)
     da = da.where(da['longitude'] > center[1] - half_width, drop=True)
     return da.where(da['longitude'] < center[1] + half_width, drop=True)
+
+
+def convert_time_to_datetime64(data, units="seconds since 1970-01-01T00:00:00", 
+                               calendar="proleptic_gregorian"):
+    """
+    Convert time values from 'seconds since epoch' format to np.datetime64.
+    
+    Parameters
+    ----------
+    data : xarray.Dataset, xarray.DataArray or numpy.ndarray
+        Dataset containing time values or array of time values directly
+    units : str, optional
+        The time units string, default "seconds since 1970-01-01T00:00:00"
+    calendar : str, optional
+        The calendar type, default "proleptic_gregorian"
+    
+    Returns
+    -------
+    numpy.ndarray
+        Array of np.datetime64 values
+    """
+    import numpy as np
+    import cftime
+    
+    # Extract time values if this is an xarray object
+    if hasattr(data, 'time'):
+        seconds_since_epoch = data.time.values
+    else:
+        seconds_since_epoch = data
+    
+    # Convert to cftime objects
+    cftime_dates = cftime.num2date(seconds_since_epoch, units=units, calendar=calendar)
+    
+    # Convert to np.datetime64
+    if data.size == 1:
+        datetime64_values = np.datetime64(cftime_dates.strftime('%Y-%m-%dT%H'))
+    else:
+        datetime64_values = np.array([np.datetime64(date.strftime('%Y-%m-%dT%H')) 
+                                    for date in cftime_dates])
+    
+    return datetime64_values
+
+
+def calculate_forecast_range(timestamp):
+    """
+    Calculate forecast range from the timestamp to 5:00 the next day plus 24 hours
+    
+    Args:
+        timestamp: pd.Timestamp of the forecast initialization
+        
+    Returns:
+        np.ndarray: Range of forecast hours
+    """
+    # Calculate hours from timestamp to 05:00 the next day
+    hours_to_5am = (24 - timestamp.hour + 5) % 24
+    if hours_to_5am == 0:
+        hours_to_5am = 24  # If already at 5am, we want the next day's 5am
+        
+    # Set the forecast range from hours_to_5am to hours_to_5am + 25
+    return list(range(hours_to_5am, hours_to_5am + 25)) 
