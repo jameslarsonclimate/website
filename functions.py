@@ -4,9 +4,20 @@
 import xarray as xr
 import pandas as pd
 
+
+# Dictionary of commonly forecasted locations
+forecast_locations = {
+    "Fort Collins, CO": {"longitude": -105.0844, "latitude": 40.5853},
+    "ARDEC South, CO": {"longitude": -104.996890, "latitude": 40.611019},
+    "Steamboat Ski Resort, CO": {"longitude": -106.743743, "latitude": 40.457346},
+    "Cameron Pass, CO": {"longitude": -105.902831, "latitude": 40.520283},
+    "Winter Park, CO": {"longitude": -105.779869, "latitude": 39.850607},
+    "Jackson Hole Ski Resort, WY": {"longitude": -110.856876, "latitude": 43.598331},
+    "Medford, OR": {"longitude": -122.873062, "latitude": 42.368191},
+}
+
+
 # Plotting utility functions
-
-
 def detrend_dim(da, dim, deg=1):
     """
     Linearly detrend data along a specified dimension.
