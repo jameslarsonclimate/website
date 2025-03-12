@@ -6,6 +6,10 @@ import pandas as pd
 import xarray as xr
 import numpy as np
 from datetime import datetime, timedelta
+import warnings
+# Silence the specific RuntimeWarning about the 'gini' engine
+warnings.filterwarnings("ignore", message="Engine 'gini' loading failed.*", category=RuntimeWarning)
+
 
 
 # Define the points of interest
@@ -68,11 +72,11 @@ title = f"Forecasting for {cityName} - Model initialized {str(model_init)} UTC\n
 
 # Create the table
 data = {
-    "Model": ["HRRR", "NBM"],
-    "High (°F)": [t2m_max_HRRR, np.nan],  # Replace np.nan with actual values if available
-    "Low (°F)": [t2m_min_HRRR, np.nan],   # Replace np.nan with actual values if available
-    "Precipitation (in)": [tp_max_HRRR, np.nan],  # Replace np.nan with actual values if available
-    "Wind Speed (kt)": [si10_max_HRRR, np.nan]  # Replace np.nan with actual values if available
+    "Model": ["HRRR"],  # "NBM"],
+    "High (°F)": [t2m_max_HRRR],  # np.nan],
+    "Low (°F)": [t2m_min_HRRR],  # np.nan],   
+    "Precipitation (in)": [tp_max_HRRR],  # np.nan],  
+    "Wind Speed (kt)": [si10_max_HRRR],  # np.nan]  
 }
 
 df_forecast = pd.DataFrame(data).round(2)
