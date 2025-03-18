@@ -89,52 +89,109 @@ def stand(da):
     """
     return (da - da.mean('time')) / da.std('time')
 
-
 def get_latest_forecast_cycle(model='HRRR'):
     """Get the most recent forecast initialization time (00, 06, 12, or 18 UTC).
 
-    This function determines which of the four daily forecast initialization times 
-    was most recently passed. The function checks if the current time is past 
-    19:30, 13:30, 07:30, or 01:30 UTC and returns the corresponding initialization 
-    time (18:00, 12:00, 06:00, or 00:00 UTC respectively). These times correspond 
-    to when new forecast model runs typically become available, accounting for 
-    ~1.5 hour processing delay.
-
+    This function determines which of the four daily forecast initialization times
+    was most recently passed, accounting for each model's specific processing delay.
+    
     Parameters:
-        model (str): The forecast model to use. Default is 'HRRR'. If 'ECMWF' is 
-            specified, the returned time will be 12 hours earlier than the HRRR cycle.
+        model (str): The forecast model to use. Options include:
+            - 'HRRR': High-Resolution Rapid Refresh (1.5 hour delay)
+            - 'ECMWF': European Centre for Medium-Range Weather Forecasts (14 hour delay)
+            - Other models can be added to the model_configs dictionary
 
     Returns:
         pd.Timestamp: The most recent past forecast initialization time as a 
-            timezone-naive timestamp. For HRRR, possible hours are 00, 06, 12, or 18 UTC.
-            For ECMWF, the time will be 12 hours earlier.
-            If current time is before 01:00 UTC, returns 18:00 UTC from previous day.
+            timezone-naive timestamp. Possible hours are 00, 06, 12, or 18 UTC.
+            If no valid initialization time is found, returns 18:00 UTC from previous day.
 
     Example:
         >>> # If current time is 2024-03-15 14:30 UTC
-        >>> get_latest_forecast_cycle()
+        >>> get_latest_forecast_cycle()  # HRRR model (default)
         Timestamp('2024-03-15 12:00:00')
+        >>> get_latest_forecast_cycle('ECMWF')  # ECMWF model 
+        Timestamp('2024-03-15 00:00:00')
     """
-
+    # Model configuration dictionary with processing delays in hours
+    model_configs = {
+        'HRRR': 1.5,         # HRRR has ~1.5 hour processing delay
+        'ECMWF': 8.7,       # ECMWF has ~8.7 hour processing delay
+        # Add other models as needed
+    }
+    
+    # Get processing delay for the selected model (default to HRRR if model not found)
+    delay_hours = model_configs.get(model, 1.5)
+    
+    # Get current time and adjust for processing delay
     now = pd.Timestamp.now(tz='UTC')
+    effective_time = now - pd.Timedelta(hours=delay_hours)
     
-    # Check which time is the most recent past time
-    if now >= pd.Timestamp(now.year, now.month, now.day, 19, 30, tz='UTC'):
-        recent_time = pd.Timestamp(now.year, now.month, now.day, 18, 0, tz='UTC')
-    elif now >= pd.Timestamp(now.year, now.month, now.day, 13, 30, tz='UTC'):
-        recent_time = pd.Timestamp(now.year, now.month, now.day, 12, 0, tz='UTC')
-    elif now >= pd.Timestamp(now.year, now.month, now.day, 7, 30, tz='UTC'):
-        recent_time = pd.Timestamp(now.year, now.month, now.day, 6, 0, tz='UTC')
-    elif now >= pd.Timestamp(now.year, now.month, now.day, 1, 30, tz='UTC'):
-        recent_time = pd.Timestamp(now.year, now.month, now.day, 0, 0, tz='UTC')
-    else:
-        recent_time = pd.Timestamp(now.year, now.month, now.day-1, 18, 0, tz='UTC')
+    # Initialization times (same for all models)
+    init_hours = [0, 6, 12, 18]
     
-    # If model is ECMWF, subtract 12 hours
-    if model == 'ECMWF':
-        recent_time = recent_time - pd.Timedelta(hours=12)
+    # Find the most recent initialization time
+    today = effective_time.floor('D')  # Start of today
+    init_times = [today + pd.Timedelta(hours=h) for h in init_hours]
+    
+    # Add yesterday's 18Z time to handle early hours
+    yesterday = today - pd.Timedelta(days=1)
+    init_times.insert(0, yesterday + pd.Timedelta(hours=18))
+    
+    # Find the most recent initialization time before the effective time
+    for init_time in reversed(init_times):
+        if effective_time >= init_time:
+            return init_time.tz_localize(None)
+    
+    # Fallback (should rarely happen)
+    return (yesterday + pd.Timedelta(hours=18)).tz_localize(None)
 
-    return recent_time.tz_localize(None)
+# The following function is commented out as it is not used in the current context.
+# def get_latest_forecast_cycle(model='HRRR'):
+#     """Get the most recent forecast initialization time (00, 06, 12, or 18 UTC).
+
+#     This function determines which of the four daily forecast initialization times 
+#     was most recently passed. The function checks if the current time is past 
+#     19:30, 13:30, 07:30, or 01:30 UTC and returns the corresponding initialization 
+#     time (18:00, 12:00, 06:00, or 00:00 UTC respectively). These times correspond 
+#     to when new forecast model runs typically become available, accounting for 
+#     ~1.5 hour processing delay.
+
+#     Parameters:
+#         model (str): The forecast model to use. Default is 'HRRR'. If 'ECMWF' is 
+#             specified, the returned time will be 12 hours earlier than the HRRR cycle.
+
+#     Returns:
+#         pd.Timestamp: The most recent past forecast initialization time as a 
+#             timezone-naive timestamp. For HRRR, possible hours are 00, 06, 12, or 18 UTC.
+#             For ECMWF, the time will be 12 hours earlier.
+#             If current time is before 01:00 UTC, returns 18:00 UTC from previous day.
+
+#     Example:
+#         >>> # If current time is 2024-03-15 14:30 UTC
+#         >>> get_latest_forecast_cycle()
+#         Timestamp('2024-03-15 12:00:00')
+#     """
+
+#     now = pd.Timestamp.now(tz='UTC')
+    
+#     # Check which time is the most recent past time
+#     if now >= pd.Timestamp(now.year, now.month, now.day, 19, 30, tz='UTC'):
+#         recent_time = pd.Timestamp(now.year, now.month, now.day, 18, 0, tz='UTC')
+#     elif now >= pd.Timestamp(now.year, now.month, now.day, 13, 30, tz='UTC'):
+#         recent_time = pd.Timestamp(now.year, now.month, now.day, 12, 0, tz='UTC')
+#     elif now >= pd.Timestamp(now.year, now.month, now.day, 7, 30, tz='UTC'):
+#         recent_time = pd.Timestamp(now.year, now.month, now.day, 6, 0, tz='UTC')
+#     elif now >= pd.Timestamp(now.year, now.month, now.day, 1, 30, tz='UTC'):
+#         recent_time = pd.Timestamp(now.year, now.month, now.day, 0, 0, tz='UTC')
+#     else:
+#         recent_time = pd.Timestamp(now.year, now.month, now.day-1, 18, 0, tz='UTC')
+    
+#     # If model is ECMWF, subtract 12 hours
+#     if model == 'ECMWF':
+#         recent_time = recent_time - pd.Timedelta(hours=12)
+
+#     return recent_time.tz_localize(None)
 
 
 def sel_region(da, center, width): 
