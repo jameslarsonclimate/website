@@ -90,7 +90,7 @@ def stand(da):
     return (da - da.mean('time')) / da.std('time')
 
 
-def get_latest_forecast_cycle():
+def get_latest_forecast_cycle(model='HRRR'):
     """Get the most recent forecast initialization time (00, 06, 12, or 18 UTC).
 
     This function determines which of the four daily forecast initialization times 
@@ -100,9 +100,14 @@ def get_latest_forecast_cycle():
     to when new forecast model runs typically become available, accounting for 
     ~1.5 hour processing delay.
 
+    Parameters:
+        model (str): The forecast model to use. Default is 'HRRR'. If 'ECMWF' is 
+            specified, the returned time will be 12 hours earlier than the HRRR cycle.
+
     Returns:
         pd.Timestamp: The most recent past forecast initialization time as a 
-            timezone-naive timestamp. Possible hours are 00, 06, 12, or 18 UTC.
+            timezone-naive timestamp. For HRRR, possible hours are 00, 06, 12, or 18 UTC.
+            For ECMWF, the time will be 12 hours earlier.
             If current time is before 01:00 UTC, returns 18:00 UTC from previous day.
 
     Example:
@@ -124,6 +129,10 @@ def get_latest_forecast_cycle():
         recent_time = pd.Timestamp(now.year, now.month, now.day, 0, 0, tz='UTC')
     else:
         recent_time = pd.Timestamp(now.year, now.month, now.day-1, 18, 0, tz='UTC')
+    
+    # If model is ECMWF, subtract 12 hours
+    if model == 'ECMWF':
+        recent_time = recent_time - pd.Timedelta(hours=12)
 
     return recent_time.tz_localize(None)
 
@@ -192,5 +201,8 @@ def calculate_forecast_range(timestamp):
     if hours_to_5am == 0:
         hours_to_5am = 24  # If already at 5am, we want the next day's 5am
         
-    # Set the forecast range from hours_to_5am to hours_to_5am + 25
-    return list(range(hours_to_5am, hours_to_5am + 25)) 
+    # For 0z model run, add 24 hours to target the following day
+    if timestamp.hour == 0:
+        return list(range(hours_to_5am + 24, hours_to_5am + 49))
+    else:
+        return list(range(hours_to_5am, hours_to_5am + 25)) 

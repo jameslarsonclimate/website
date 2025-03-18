@@ -5,7 +5,7 @@
 set -e
 
 # Define file path
-FORECAST_SCRIPT="/Users/jglarson/Documents/Website/getForecast.py"
+FORECAST_SCRIPT="/Users/jglarson/Documents/Website/getForecast_wxChallenge.py"
 
 # Check if the Python file exists
 if [ ! -f "$FORECAST_SCRIPT" ]; then
