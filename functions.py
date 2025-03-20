@@ -196,10 +196,11 @@ def get_latest_forecast_cycle(model='HRRR'):
 
 def sel_region(da, center, width): 
     half_width = width / 2
-    da = da.where(da['latitude'] > center[0] - half_width, drop=True)
-    da = da.where(da['latitude'] < center[0] + half_width, drop=True)
-    da = da.where(da['longitude'] > center[1] - half_width, drop=True)
-    return da.where(da['longitude'] < center[1] + half_width, drop=True)
+    lon = (center[0] + 360) % 360
+    da = da.where(da['latitude'] > center[1] - half_width, drop=True)
+    da = da.where(da['latitude'] < center[1] + half_width, drop=True)
+    da = da.where(da['longitude'] > lon - half_width, drop=True)
+    return da.where(da['longitude'] < lon + half_width, drop=True)
 
 
 def convert_time_to_datetime64(data, units="seconds since 1970-01-01T00:00:00", 
