@@ -64,7 +64,7 @@ tp_max_HRRR = float(tp_HRRR.max().values)
 
 # ECMWF IFS
 
-forecastInit = get_latest_forecast_cycle(model='ECMWF')
+forecastInit = get_latest_forecast_cycle(model='IFS')
 
 # Use the function to calculate forecast range
 forecastRange = calculate_forecast_range(forecastInit)
