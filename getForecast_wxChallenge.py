@@ -13,9 +13,9 @@ warnings.filterwarnings("ignore", message="Engine 'gini' loading failed.*", cate
 
 
 # Define the points of interest
-cityName = "Louisville, KY (KSDF)"
-points = pd.DataFrame({"longitude": [-85.735122], # 
-                       "latitude":  [38.171471],  # Louisville, KY (KSDF)
+cityName = "San Antonio (KSAT)"
+points = pd.DataFrame({"longitude": [-98.469932], # 
+                       "latitude":  [29.523753],  # San Antonio (KSAT)
                        })
 
 ##################################################
