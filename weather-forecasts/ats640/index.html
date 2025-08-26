@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ATS 640 Synoptic Forecasts</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
+  header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+  pre{background:#f6f6f6;padding:1rem;border-radius:8px;overflow:auto}
+  img{width:100%;height:auto;border-radius:8px}
+  .back{margin-bottom:1rem;display:inline-block}
+</style>
+</head>
+<body>
+  <a class="back" href="../">← Back</a>
+  <header>
+    <h1>ATS 640 Synoptic – Forecasts</h1>
+    <div id="updated">Loading…</div>
+  </header>
+  <main>
+    <section>
+      <h2>Headline Numbers</h2>
+      <pre id="numbers">Loading…</pre>
+    </section>
+    <section>
+      <h2>Latest Figure</h2>
+      <img id="fig" alt="latest ATS640 figure"/>
+    </section>
+  </main>
+<script>
+(async function(){
+  try{
+    const res = await fetch(`../data/ats640/forecast.json?t=${Date.now()}`, {cache:"no-store"});
+    const data = await res.json();
+    document.getElementById("updated").textContent = "Last updated: " + new Date(data.generated_at_utc).toLocaleString();
+    document.getElementById("numbers").textContent = JSON.stringify({
+      domain: data.meta?.domain,
+      model: data.meta?.model,
+      init: data.meta?.init_time_utc,
+      t2m_c: data.metrics?.t2m_c,
+      mslp_hpa: data.metrics?.mslp_hpa,
+      wind850_ms: data.metrics?.wind850_ms
+    }, null, 2);
+    document.getElementById("fig").src = `../images/ats640/latest.png?t=${Date.now()}`;
+  }catch(e){
+    document.getElementById("numbers").textContent = "Failed to load.";
+    console.error(e);
+  }
+})();
+</script>
+</body>
+</html>
+
