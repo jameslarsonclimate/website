@@ -1,0 +1,34 @@
+{
+  "generated_at_utc": "2025-08-28T02:42:29+00:00",
+  "meta": {
+    "page": "wxchallenge",
+    "site": "San Antonio (KSAT)",
+    "models": [
+      "HRRR",
+      "IFS"
+    ],
+    "note": "temperatures in \u00b0F, winds in kt, precip in inches"
+  },
+  "models": {
+    "HRRR": {
+      "tmax_f": 101.2,
+      "tmin_f": 73.69,
+      "wind_max_kt": 11.11,
+      "precip_in": 0.008,
+      "init_time_utc": "2025-08-28T00",
+      "valid_range_utc": [
+        "2025-08-29T05",
+        "2025-08-30T00"
+      ]
+    },
+    "IFS": {
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "[Errno 2] No such file or directory: '/Users/jglarson/data/ifs/20250827/subset_7389b1fe__20250827120000-18h-oper-fc.grib2'"
+    }
+  }
+}
