@@ -1,0 +1,36 @@
+{
+  "generated_at_utc": "2025-08-28T03:02:58+00:00",
+  "meta": {
+    "page": "wxchallenge",
+    "site": "San Antonio (KSAT)",
+    "models": [
+      "HRRR",
+      "IFS"
+    ],
+    "note": "temperatures in \u00b0F, winds in kt, precip in inches"
+  },
+  "models": {
+    "HRRR": {
+      "tmax_f": 101.2,
+      "tmin_f": 73.69,
+      "wind_max_kt": 11.11,
+      "precip_in": 0.008,
+      "init_time_utc": "2025-08-28T00",
+      "valid_range_utc": [
+        "2025-08-29T05",
+        "2025-08-30T00"
+      ]
+    },
+    "IFS": {
+      "tmax_f": 95.96,
+      "tmin_f": 76.61,
+      "wind_max_kt": 8.2,
+      "precip_in": 0.001,
+      "init_time_utc": "2025-08-27T12",
+      "valid_range_utc": [
+        "2025-08-28T06",
+        "2025-08-29T03"
+      ]
+    }
+  }
+}
