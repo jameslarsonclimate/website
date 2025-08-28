@@ -6,9 +6,14 @@
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
   header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-  pre{background:#f6f6f6;padding:1rem;border-radius:8px;overflow:auto}
+  table{width:100%;border-collapse:collapse;margin-top:0.5rem}
+  th,td{border:1px solid #e6e6e6;padding:8px;text-align:left}
+  th{background:#fafafa}
+  .side-by-side{display:flex;gap:1rem;flex-wrap:wrap}
+  .card{flex:1;min-width:260px}
   img{width:100%;height:auto;border-radius:8px}
   .back{margin-bottom:1rem;display:inline-block}
+  pre{background:#f6f6f6;padding:1rem;border-radius:8px;overflow:auto}
 </style>
 </head>
 <body>
@@ -20,35 +25,83 @@
   <main>
     <section>
       <h2>Headline Numbers</h2>
-      <pre id="numbers">Loading…</pre>
+      <div class="side-by-side">
+        <div class="card">
+          <h3>HRRR</h3>
+          <table id="hrrr-table">
+            <tbody><tr><td>Loading…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>IFS (ECMWF)</h3>
+          <table id="ifs-table">
+            <tbody><tr><td>Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </section>
     <section>
       <h2>Latest Figure</h2>
       <img id="fig" alt="latest WXChallenge figure"/>
     </section>
+
+    <section>
+      <h2>Raw JSON</h2>
+      <pre id="raw">Loading…</pre>
+    </section>
   </main>
+
 <script>
+(function fmt(v){return v===null||v===undefined?'—':v})();
+
 (async function(){
   try{
     const res = await fetch(`../data/wxchallenge/forecast.json?t=${Date.now()}`, {cache:"no-store"});
     const data = await res.json();
-    document.getElementById("updated").textContent = "Last updated: " + new Date(data.generated_at_utc).toLocaleString();
-    document.getElementById("numbers").textContent = JSON.stringify({
-      site: data.meta?.site,
-      model: data.meta?.model,
-      init: data.meta?.init_time_utc,
-      tmax_c: data.metrics?.tmax_c,
-      tmin_c: data.metrics?.tmin_c,
-      wind10m_ms: data.metrics?.wind10m_ms,
-      precip_24h_mm: data.metrics?.precip_24h_mm
-    }, null, 2);
+
+    document.getElementById("updated").textContent =
+      "Last updated: " + new Date(data.generated_at_utc).toLocaleString();
+
+    // helper to build HTML rows from a metrics object
+    function buildTableRows(modelName, modelObj){
+      if(!modelObj) return "<tr><td>no data</td></tr>";
+      const m = modelObj;
+      const vr = m.valid_range_utc ? `${m.valid_range_utc[0]} — ${m.valid_range_utc[1]}` : "—";
+      return [
+        ["Init (UTC)", m.init_time_utc || "—"],
+        ["Valid range (UTC)", vr],
+        ["Tmax (°F)", m.tmax_f],
+        ["Tmin (°F)", m.tmin_f],
+        ["Wind max (kt)", m.wind_max_kt],
+        ["Precip (in)", m.precip_in]
+      ].map(([k,v]) => `<tr><th>${k}</th><td>${v===null||v===undefined?'—':v}</td></tr>`).join("");
+    }
+
+    // Support legacy payload (data.metrics) as fallback: map to HRRR card
+    const hrrr = data.models?.HRRR ?? (data.metrics ? {
+      init_time_utc: data.meta?.init_time_utc ?? null,
+      valid_range_utc: [data.generated_at_utc, data.generated_at_utc],
+      tmax_f: data.metrics?.tmax_c ? Math.round((data.metrics.tmax_c*9/5+32)*10)/10 : null,
+      tmin_f: data.metrics?.tmin_c ? Math.round((data.metrics.tmin_c*9/5+32)*10)/10 : null,
+      wind_max_kt: data.metrics?.wind10m_ms ? Math.round((data.metrics.wind10m_ms*1.94384)*100)/100 : null,
+      precip_in: data.metrics?.precip_24h_mm ? Math.round((data.metrics.precip_24h_mm/25.4)*1000)/1000 : null
+    } : null);
+
+    const ifs = data.models?.IFS ?? null;
+
+    document.getElementById("hrrr-table").innerHTML = buildTableRows("HRRR", hrrr);
+    document.getElementById("ifs-table").innerHTML  = buildTableRows("IFS", ifs);
+
+    document.getElementById("raw").textContent = JSON.stringify(data, null, 2);
     document.getElementById("fig").src = `../images/wxchallenge/latest.png?t=${Date.now()}`;
+
   }catch(e){
-    document.getElementById("numbers").textContent = "Failed to load.";
+    document.getElementById("hrrr-table").innerHTML = "<tr><td>Failed to load.</td></tr>";
+    document.getElementById("ifs-table").innerHTML = "<tr><td>Failed to load.</td></tr>";
+    document.getElementById("raw").textContent = "Failed to load.";
     console.error(e);
   }
 })();
 </script>
 </body>
 </html>
-
