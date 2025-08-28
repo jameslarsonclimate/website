@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-08-28T02:42:29+00:00",
+  "generated_at_utc": "2025-08-28T03:02:58+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "San Antonio (KSAT)",
@@ -22,13 +22,15 @@
       ]
     },
     "IFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "[Errno 2] No such file or directory: '/Users/jglarson/data/ifs/20250827/subset_7389b1fe__20250827120000-18h-oper-fc.grib2'"
+      "tmax_f": 95.96,
+      "tmin_f": 76.61,
+      "wind_max_kt": 8.2,
+      "precip_in": 0.001,
+      "init_time_utc": "2025-08-27T12",
+      "valid_range_utc": [
+        "2025-08-28T06",
+        "2025-08-29T03"
+      ]
     }
   }
 }
