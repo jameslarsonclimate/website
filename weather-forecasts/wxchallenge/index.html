@@ -1,105 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>WXChallenge Forecasts</title>
-<style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
-  header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-  table{width:100%;border-collapse:collapse;margin-top:0.5rem}
-  th,td{border:1px solid #e6e6e6;padding:8px;text-align:left}
-  th{background:#fafafa}
-  .side-by-side{display:flex;gap:1rem;flex-wrap:wrap}
-  .card{flex:1;min-width:260px}
-  img{width:100%;height:auto;border-radius:8px}
-  .back{margin-bottom:1rem;display:inline-block}
-  pre{background:#f6f6f6;padding:1rem;border-radius:8px;overflow:auto}
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>WXChallenge Forecasts</title>
+  <style>
+    /* Minimal readable styling */
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
+    header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    table{width:100%;border-collapse:collapse;margin-top:0.5rem}
+    th,td{border:1px solid #e6e6e6;padding:8px;text-align:left}
+    th{background:#fafafa}
+    .muted{color:#666;font-size:0.95rem}
+    .back{margin-bottom:1rem;display:inline-block}
+    img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
+  </style>
 </head>
+
 <body>
   <a class="back" href="../">← Back</a>
+
   <header>
     <h1>WXChallenge Forecasts</h1>
-    <div id="updated">Loading…</div>
+    <div id="updated" class="muted">Loading…</div>
   </header>
-  <main>
-    <section>
-      <h2>Headline Numbers</h2>
-      <div class="side-by-side">
-        <div class="card">
-          <h3>HRRR</h3>
-          <table id="hrrr-table">
-            <tbody><tr><td>Loading…</td></tr></tbody>
-          </table>
-        </div>
-        <div class="card">
-          <h3>IFS (ECMWF)</h3>
-          <table id="ifs-table">
-            <tbody><tr><td>Loading…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <section>
-      <h2>Latest Figure</h2>
-      <img id="fig" alt="latest WXChallenge figure"/>
-    </section>
 
-    <section>
-      <h2>Raw JSON</h2>
-      <pre id="raw">Loading…</pre>
-    </section>
-  </main>
+  <!-- Subheading and valid-range (populated by script) -->
+  <h2 id="forecast-for">Forecasting for —</h2>
+  <h3 id="valid-range" class="muted">Valid: —</h3>
+
+  <!-- Single table: models are rows, variables are columns -->
+  <section>
+    <table id="models-table" aria-label="Model comparison table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>High (°F)</th>
+          <th>Low (°F)</th>
+          <th>Precipitation (in)</th>
+          <th>Wind Speed (kt)</th>
+          <th>Model Init (UTC)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6">Loading…</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Latest Figure</h2>
+    <img id="fig" alt="latest WXChallenge figure"/>
+  </section>
 
 <script>
-(function fmt(v){return v===null||v===undefined?'—':v})();
+/* Simple helper to render missing values */
+function fmt(v){ return v===null||v===undefined ? '—' : v; }
 
+/*
+  Fetch a simple JSON schema and populate the page.
+
+  Expected JSON format (simple, no legacy transformations):
+  {
+    "generated_at_utc": "2025-09-02T05:00:00Z",
+    "meta": { "site": "Loveland, CO (KFNL)" },
+    "models": {
+      "HRRR": {
+        "tmax_f": 78.3,
+        "tmin_f": 52.1,
+        "precip_in": 0.02,
+        "wind_max_kt": 12.4,
+        "init_time_utc": "2025-09-02T00:00:00Z",
+        "valid_range_utc": ["2025-09-02T06:00:00Z","2025-09-03T05:00:00Z"]
+      },
+      "IFS": { ...same keys... }
+    }
+  }
+*/
 (async function(){
   try{
-    const res = await fetch(`../data/wxchallenge/forecast.json?t=${Date.now()}`, {cache:"no-store"});
+    // fetch the JSON produced by your Python script (no legacy mapping here)
+    const res = await fetch('../data/wxchallenge/forecast.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     const data = await res.json();
 
-    document.getElementById("updated").textContent =
-      "Last updated: " + new Date(data.generated_at_utc).toLocaleString();
-
-    // helper to build HTML rows from a metrics object
-    function buildTableRows(modelName, modelObj){
-      if(!modelObj) return "<tr><td>no data</td></tr>";
-      const m = modelObj;
-      const vr = m.valid_range_utc ? `${m.valid_range_utc[0]} — ${m.valid_range_utc[1]}` : "—";
-      return [
-        ["Init (UTC)", m.init_time_utc || "—"],
-        ["Valid range (UTC)", vr],
-        ["Tmax (°F)", m.tmax_f],
-        ["Tmin (°F)", m.tmin_f],
-        ["Wind max (kt)", m.wind_max_kt],
-        ["Precip (in)", m.precip_in]
-      ].map(([k,v]) => `<tr><th>${k}</th><td>${v===null||v===undefined?'—':v}</td></tr>`).join("");
+    // Updated timestamp
+    if (data?.generated_at_utc) {
+      document.getElementById('updated').textContent = 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString();
+    } else {
+      document.getElementById('updated').textContent = 'Last updated: —';
     }
 
-    // Support legacy payload (data.metrics) as fallback: map to HRRR card
-    const hrrr = data.models?.HRRR ?? (data.metrics ? {
-      init_time_utc: data.meta?.init_time_utc ?? null,
-      valid_range_utc: [data.generated_at_utc, data.generated_at_utc],
-      tmax_f: data.metrics?.tmax_c ? Math.round((data.metrics.tmax_c*9/5+32)*10)/10 : null,
-      tmin_f: data.metrics?.tmin_c ? Math.round((data.metrics.tmin_c*9/5+32)*10)/10 : null,
-      wind_max_kt: data.metrics?.wind10m_ms ? Math.round((data.metrics.wind10m_ms*1.94384)*100)/100 : null,
-      precip_in: data.metrics?.precip_24h_mm ? Math.round((data.metrics.precip_24h_mm/25.4)*1000)/1000 : null
-    } : null);
+    // Site name
+    const site = data?.meta?.site ?? '—';
+    document.getElementById('forecast-for').textContent = `Forecasting for ${site}`;
 
-    const ifs = data.models?.IFS ?? null;
+    // Valid range: prefer HRRR then IFS then meta
+    const hrrrValid = data?.models?.HRRR?.valid_range_utc ?? null;
+    const ifsValid  = data?.models?.IFS?.valid_range_utc  ?? null;
+    const metaValid = data?.meta?.valid_range_utc ?? null;
+    let validRange = hrrrValid || ifsValid || metaValid || null;
+    if (!validRange && data?.generated_at_utc) validRange = [data.generated_at_utc, data.generated_at_utc];
+    document.getElementById('valid-range').textContent = validRange ? `Valid: ${validRange[0]} - ${validRange[1]} UTC` : 'Valid: —';
 
-    document.getElementById("hrrr-table").innerHTML = buildTableRows("HRRR", hrrr);
-    document.getElementById("ifs-table").innerHTML  = buildTableRows("IFS", ifs);
+    // Build table rows for the two models (HRRR and IFS / ECMWF)
+    const rows = [];
+    function rowHtml(displayName, m){
+      if (!m) return `<tr><td>${displayName}</td><td colspan="5">no data</td></tr>`;
+      return `<tr>
+        <td>${displayName}</td>
+        <td>${fmt(m.tmax_f)}</td>
+        <td>${fmt(m.tmin_f)}</td>
+        <td>${fmt(m.precip_in)}</td>
+        <td>${fmt(m.wind_max_kt)}</td>
+        <td>${fmt(m.init_time_utc)}</td>
+      </tr>`;
+    }
 
-    document.getElementById("raw").textContent = JSON.stringify(data, null, 2);
-    document.getElementById("fig").src = `../images/wxchallenge/latest.png?t=${Date.now()}`;
+    rows.push(rowHtml('HRRR', data?.models?.HRRR ?? null));
+    rows.push(rowHtml('ECMWF IFS', data?.models?.IFS ?? null));
 
-  }catch(e){
-    document.getElementById("hrrr-table").innerHTML = "<tr><td>Failed to load.</td></tr>";
-    document.getElementById("ifs-table").innerHTML = "<tr><td>Failed to load.</td></tr>";
-    document.getElementById("raw").textContent = "Failed to load.";
-    console.error(e);
+    document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
+
+    // Update figure with cache-busting
+    const fig = document.getElementById('fig');
+    fig.src = `../images/wxchallenge/latest.png?t=${Date.now()}`;
+    fig.alt = `Latest figure for ${site}`;
+
+  } catch (err) {
+    // show a simple error state and log the error
+    document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
+    document.getElementById('updated').textContent = 'Last updated: —';
+    console.error(err);
   }
 })();
 </script>
