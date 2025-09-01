@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-09-01T17:55:10+00:00",
+  "generated_at_utc": "2025-09-01T18:21:42+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "San Antonio (KSAT)",
+    "site": "Loveland, CO (KFNL)",
     "models": [
       "HRRR",
       "IFS"
@@ -13,9 +13,9 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 96.39,
-      "tmin_f": 71.83,
-      "wind_max_kt": 11.96,
+      "tmax_f": 86.01,
+      "tmin_f": 51.8,
+      "wind_max_kt": 20.7,
       "precip_in": 0.0,
       "init_time_utc": "2025-09-01T12",
       "valid_range_utc": [
@@ -24,10 +24,10 @@
       ]
     },
     "IFS": {
-      "tmax_f": 92.02,
-      "tmin_f": 73.51,
-      "wind_max_kt": 5.39,
-      "precip_in": 0.004,
+      "tmax_f": 85.22,
+      "tmin_f": 52.13,
+      "wind_max_kt": 6.75,
+      "precip_in": 0.0,
       "init_time_utc": "2025-09-01T00",
       "valid_range_utc": [
         "2025-09-02T06",
@@ -36,9 +36,9 @@
     }
   },
   "metrics": {
-    "tmax_c": 96.39,
-    "tmin_c": 71.83,
-    "wind10m_ms": 11.96,
+    "tmax_c": 86.01,
+    "tmin_c": 51.8,
+    "wind10m_ms": 20.7,
     "precip_24h_mm": 0.0
   }
 }
