@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-08-28T03:02:58+00:00",
+  "generated_at_utc": "2025-09-01T17:55:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "San Antonio (KSAT)",
@@ -7,30 +7,38 @@
       "HRRR",
       "IFS"
     ],
-    "note": "temperatures in \u00b0F, winds in kt, precip in inches"
+    "note": "temperatures in \u00b0F, winds in kt, precip in inches",
+    "model": "HRRR",
+    "init_time_utc": "2025-09-01T12"
   },
   "models": {
     "HRRR": {
-      "tmax_f": 101.2,
-      "tmin_f": 73.69,
-      "wind_max_kt": 11.11,
-      "precip_in": 0.008,
-      "init_time_utc": "2025-08-28T00",
+      "tmax_f": 96.39,
+      "tmin_f": 71.83,
+      "wind_max_kt": 11.96,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-09-01T12",
       "valid_range_utc": [
-        "2025-08-29T05",
-        "2025-08-30T00"
+        "2025-09-02T05",
+        "2025-09-03T05"
       ]
     },
     "IFS": {
-      "tmax_f": 95.96,
-      "tmin_f": 76.61,
-      "wind_max_kt": 8.2,
-      "precip_in": 0.001,
-      "init_time_utc": "2025-08-27T12",
+      "tmax_f": 92.02,
+      "tmin_f": 73.51,
+      "wind_max_kt": 5.39,
+      "precip_in": 0.004,
+      "init_time_utc": "2025-09-01T00",
       "valid_range_utc": [
-        "2025-08-28T06",
-        "2025-08-29T03"
+        "2025-09-02T06",
+        "2025-09-03T03"
       ]
     }
+  },
+  "metrics": {
+    "tmax_c": 96.39,
+    "tmin_c": 71.83,
+    "wind10m_ms": 11.96,
+    "precip_24h_mm": 0.0
   }
 }
