@@ -48,7 +48,7 @@ model_valid_times_HRRR = convert_time_to_datetime64(t2m_HRRR.valid_time.values)
 # 10m wind speed
 si10_HRRR = H.xarray(":WIND", backend_kwargs={'decode_times':False}
                      ).herbie.pick_points(points, method="nearest"
-                                          )['si10'].sel(point=0)[1:]
+                                          )['max_10si'].sel(point=0)[1:]
 si10_max_HRRR = float(si10_HRRR.max().values)
 si10_max_HRRR = si10_max_HRRR * 1.94384  # Convert m/s to knots
 

@@ -59,7 +59,7 @@ try:
 
     # 2 m temperature: extract, convert K->F, compute max/min for the point
     t2m_hrrr = H_hrrr.xarray("TMP:2 m above", backend_kwargs={'decode_times': False}
-                            ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)
+                            ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)[1:]  # skip first timestep which is included for precip only
     t2m_hrrr = (t2m_hrrr - 273.15) * 1.8 + 32
     tmax_hrrr = float(t2m_hrrr.max().values)
     tmin_hrrr = float(t2m_hrrr.min().values)
@@ -68,7 +68,7 @@ try:
 
     # 10 m wind speed (HRRR exposes :WIND / si10)
     si10_hrrr = H_hrrr.xarray(":WIND", backend_kwargs={'decode_times': False}
-                              ).herbie.pick_points(points, method="nearest")['si10'].sel(point=0)
+                              ).herbie.pick_points(points, method="nearest")['max_10si'].sel(point=0)[1:]  # skip first timestep which is included for precip only
     wind_max_hrrr = float(si10_hrrr.max().values) * 1.94384
 
     # Total precipitation from APCP (convert mm -> in); compute 24h accumulation as in prior script
@@ -113,7 +113,7 @@ try:
 
     # 2 m temperature: extract and convert
     t2m_ifs = H_ifs.xarray(":2t:", backend_kwargs={'decode_times': False}
-                          ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)
+                          ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)[1:]  # skip first timestep which is included for precip only
     t2m_ifs = (t2m_ifs - 273.15) * 1.8 + 32
     tmax_ifs = float(t2m_ifs.max().values)
     tmin_ifs = float(t2m_ifs.min().values)
@@ -122,15 +122,15 @@ try:
 
     # Wind from components -> magnitude
     u10_ifs = H_ifs.xarray(":10u:", backend_kwargs={'decode_times': False}
-                          ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)
+                          ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)[1:]  # skip first timestep which is included for precip only
     v10_ifs = H_ifs.xarray(":10v:", backend_kwargs={'decode_times': False}
-                          ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)
+                          ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)[1:]  # skip first timestep which is included for precip only
     wind_max_ifs = float((np.sqrt(u10_ifs**2 + v10_ifs**2)).max().values) * 1.94384
 
     # Total precipitation (sum over requested steps) and convert to inches
     tp_ifs = H_ifs.xarray(":tp:", backend_kwargs={'decode_times': False}
                          ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    precip_ifs = float(tp_ifs.sum().values) * 0.0393701
+    precip_ifs = float(tp_ifs.sum().values) * 39.3701
 
     # Pack IFS metrics
     ifs_metrics = {
@@ -153,16 +153,79 @@ except Exception as exc:
         "error": str(exc)
     }
 
+# -------------------------
+# GFS (inline)
+# -------------------------
+try:
+    print("Fetching GFS data...")
+
+    # determine latest cycle & forecast range for GFS
+    init_gfs = get_latest_forecast_cycle(model="GFS")
+    fxx_gfs = calculate_forecast_range(init_gfs, model="GFS")
+
+    # request fields (product string may vary by deployment; adjust if needed)
+    H = FastHerbie([init_gfs], model="gfs", product="pgrb2.0p25", fxx=fxx_gfs)
+
+    # 2 m temperature -> convert K to °F
+    t2m_gfs = H.xarray("TMP:2 m above", backend_kwargs={'decode_times': False}
+                    ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+    t2m_f = (t2m_gfs - 273.15) * 9.0/5.0 + 32.0
+    tmax_gfs = float(t2m_f.max().values)
+    tmin_gfs = float(t2m_f.min().values)
+    init_times_gfs = convert_time_to_datetime64(t2m_gfs.time.values)
+    valid_times_gfs = convert_time_to_datetime64(t2m_gfs.valid_time.values)
+
+    # wind components -> magnitude (m/s -> kt)
+    u10 = H.xarray("UGRD:10 m above ground", backend_kwargs={'decode_times': False}
+                    ).herbie.pick_points(points, method="nearest")['u10'][1:]  # skip first timestep which is included for precip only
+    v10 = H.xarray("VGRD:10 m above ground", backend_kwargs={'decode_times': False}
+                    ).herbie.pick_points(points, method="nearest")['v10'][1:]  # skip first timestep which is included for precip only
+    wind_max_kt_gfs = float((np.sqrt(u10**2 + v10**2)).max().values) * 1.94384
+
+    # total precipitation (sum over steps) -> convert mm -> inches
+    # tp = H.xarray(":tp:", backend_kwargs={'decode_times': False}
+    #                 ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    # precip_in = float(tp.sum().values) * 0.0393701
+    # Total precipitation from APCP (convert mm -> in); compute 24h accumulation as in prior script
+    tp_gfs = H.xarray(":APCP:surface:0-*", backend_kwargs={'decode_times': False}
+                            ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    tp_gfs = tp_gfs * 0.0393701   # mm -> inches (1 mm -> 0.0393701 in)
+
+    # Subtract first timestep to get accumulation over the requested period (as in original)
+    tp_gfs = tp_gfs[1:] - tp_gfs[0]
+    precip_gfs = float(tp_gfs.max().values)
+
+    # Pack GFS metrics
+    gfs_metrics = {
+        "tmax_f": round(tmax_gfs, 2),
+        "tmin_f": round(tmin_gfs, 2),
+        "wind_max_kt": round(wind_max_kt_gfs, 2),
+        "precip_in": round(precip_gfs, 3),
+        "init_time_utc": pd.Timestamp(init_times_gfs[0]).isoformat() if hasattr(init_times_gfs, "__len__") else str(init_times_gfs),
+        "valid_range_utc": [str(valid_times_gfs[0]), str(valid_times_gfs[-1])]
+    }
+except Exception as exc:
+    print("Warning: failed to fetch GFS metrics:", exc)
+    gfs_metrics = {
+        "tmax_f": None,
+        "tmin_f": None,
+        "wind_max_kt": None,
+        "precip_in": None,
+        "init_time_utc": None,
+        "valid_range_utc": None,
+        "error": str(exc)
+    }
+
 # Create the title and the table combining both models (use the current variable names)
 title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
 
 data = {
-    "Model": ["HRRR", "IFS"],
-    "High (°F)": [tmax_hrrr, tmax_ifs],
-    "Low (°F)": [tmin_hrrr, tmin_ifs],
-    "Precipitation (in)": [precip_hrrr, precip_ifs],
-    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs],
-    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC"]
+    "Model": ["HRRR", "IFS", "GFS"],
+    "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs],
+    "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs],
+    "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs],
+    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs],
+    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC"]
 }
 
 df_forecast = pd.DataFrame(data).round(2)
@@ -183,24 +246,10 @@ payload = {
     "meta": {
         "page": "wxchallenge",
         "site": cityName,
-        "models": ["HRRR", "IFS"],
+        "models": ["HRRR", "IFS", "GFS"],
         "note": "temperatures in °F, winds in kt, precip in inches",
-        # legacy fields left empty for now; will be set to HRRR below for backwards compatibility
-        "model": None,
-        "init_time_utc": None,
     },
-    "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics},
-}
-
-# Populate legacy top-level fields so index.html can still read headline numbers
-payload["meta"]["model"] = "HRRR"
-payload["meta"]["init_time_utc"] = hrrr_metrics.get("init_time_utc")
-
-payload["metrics"] = {
-    "tmax_c": hrrr_metrics.get("tmax_f"),
-    "tmin_c": hrrr_metrics.get("tmin_f"),
-    "wind10m_ms": hrrr_metrics.get("wind_max_kt"),
-    "precip_24h_mm": hrrr_metrics.get("precip_in"),
+    "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics, "GFS": gfs_metrics},
 }
 
 # Write JSON payload

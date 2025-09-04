@@ -125,6 +125,10 @@ def get_latest_forecast_cycle(model='HRRR'):
         'IFS': {
             'delay': 8.7,        # IFS has ~8.7 hour processing delay
             'init_hours': [0, 12]  # IFS runs twice daily (00z and 12z only)
+        },
+        'GFS': {
+            'delay': 5.0,        # GFS has ~5 hour processing delay
+            'init_hours': [0, 6, 12, 18]  # GFS runs 4 times daily
         }
         # Add other models as needed
     }
@@ -229,6 +233,10 @@ def calculate_forecast_range(timestamp, model="HRRR"):
     For IFS:
         Calculate forecast range from the timestamp to 6:00 the next day plus 24 hours
         in 3-hour increments
+
+    For GFS:
+        Calculate forecast range from the timestamp to 3:00 the next day plus 24 hours
+        in 3-hour increments
     """
     if model == "HRRR":
         # Original behavior for HRRR (target 5:00 AM)
@@ -243,19 +251,34 @@ def calculate_forecast_range(timestamp, model="HRRR"):
             return list(range(hours_to_target, hours_to_target + 25))
     
     elif model == "IFS":
-        # Modified behavior for IFS (target 6:00 AM)
-        hours_to_target = (24 - timestamp.hour + 6) % 24
+        # Modified behavior for IFS (target 3:00 AM)
+        hours_to_target = (24 - timestamp.hour + 3) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 6am, we want the next day's 6am
-            
+            hours_to_target = 24  # If already at 3am, we want the next day's 3am
+
         # Calculate start point
         if timestamp.hour == 0:
             start = hours_to_target + 24
         else:
             start = hours_to_target
-        
-        # Generate exactly 8 time steps with 3-hour increments (covering 06:00 to 06:00)
-        return list(range(start, start + (8 * 3), 3))
-    
+
+        # Generate exactly 9 time steps with 3-hour increments (covering 06:00 to 06:00)
+        return list(range(start, start + (9 * 3), 3))
+
+    elif model == "GFS":
+        # Modified behavior for GFS (target 3:00 AM)
+        hours_to_target = (24 - timestamp.hour + 3) % 24
+        if hours_to_target == 0:
+            hours_to_target = 24  # If already at 3am, we want the next day's 3am
+
+        # Calculate start point
+        if timestamp.hour == 0:
+            start = hours_to_target + 24
+        else:
+            start = hours_to_target
+
+        # Generate exactly 8 time steps with 3-hour increments (covering 03:00 to 03:00)
+        return list(range(start, start + (9 * 3), 3))
+
     else:
-        raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS'")
+        raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS'")
