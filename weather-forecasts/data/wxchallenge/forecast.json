@@ -1,44 +1,48 @@
 {
-  "generated_at_utc": "2025-09-01T18:21:42+00:00",
+  "generated_at_utc": "2025-09-04T22:19:53+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Loveland, CO (KFNL)",
     "models": [
       "HRRR",
-      "IFS"
+      "IFS",
+      "GFS"
     ],
-    "note": "temperatures in \u00b0F, winds in kt, precip in inches",
-    "model": "HRRR",
-    "init_time_utc": "2025-09-01T12"
+    "note": "temperatures in \u00b0F, winds in kt, precip in inches"
   },
   "models": {
     "HRRR": {
-      "tmax_f": 86.01,
-      "tmin_f": 51.8,
-      "wind_max_kt": 20.7,
+      "tmax_f": 70.59,
+      "tmin_f": 53.73,
+      "wind_max_kt": 8.5,
       "precip_in": 0.0,
-      "init_time_utc": "2025-09-01T12",
+      "init_time_utc": "2025-09-04T18",
       "valid_range_utc": [
-        "2025-09-02T05",
-        "2025-09-03T05"
+        "2025-09-05T06",
+        "2025-09-06T05"
       ]
     },
     "IFS": {
-      "tmax_f": 85.22,
-      "tmin_f": 52.13,
-      "wind_max_kt": 6.75,
+      "tmax_f": 72.51,
+      "tmin_f": 53.92,
+      "wind_max_kt": 9.05,
       "precip_in": 0.0,
-      "init_time_utc": "2025-09-01T00",
+      "init_time_utc": "2025-09-04T12",
       "valid_range_utc": [
-        "2025-09-02T06",
-        "2025-09-03T03"
+        "2025-09-05T06",
+        "2025-09-06T03"
+      ]
+    },
+    "GFS": {
+      "tmax_f": 72.64,
+      "tmin_f": 53.69,
+      "wind_max_kt": 8.39,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-09-04T12",
+      "valid_range_utc": [
+        "2025-09-05T06",
+        "2025-09-06T03"
       ]
     }
-  },
-  "metrics": {
-    "tmax_c": 86.01,
-    "tmin_c": 51.8,
-    "wind10m_ms": 20.7,
-    "precip_24h_mm": 0.0
   }
 }
