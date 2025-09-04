@@ -24,6 +24,15 @@ import subprocess
 from pathlib import Path
 from datetime import datetime, timezone
 from PIL import Image, ImageDraw
+import warnings
+
+# Suppress the specific FutureWarning message from cfgrib
+warnings.filterwarnings(
+    "ignore",
+    # message="In a future version of xarray the default value for compat will change",
+    message="In*",
+    category=FutureWarning
+)
 
 # Silence a specific non-actionable warning emitted by xarray plugins
 warnings.filterwarnings("ignore", message="Engine 'gini' loading failed.*", category=RuntimeWarning)
@@ -125,7 +134,7 @@ try:
                           ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)[1:]  # skip first timestep which is included for precip only
     v10_ifs = H_ifs.xarray(":10v:", backend_kwargs={'decode_times': False}
                           ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)[1:]  # skip first timestep which is included for precip only
-    wind_max_ifs = float((np.sqrt(u10_ifs**2 + v10_ifs**2)).max().values) * 1.94384
+    wind_max_ifs = float((np.sqrt(u10_ifs**2 + v10_ifs**2)).max().values) * 1.94384 # Convert m/s to knots
 
     # Total precipitation (sum over requested steps) and convert to inches
     tp_ifs = H_ifs.xarray(":tp:", backend_kwargs={'decode_times': False}
@@ -180,7 +189,7 @@ try:
                     ).herbie.pick_points(points, method="nearest")['u10'][1:]  # skip first timestep which is included for precip only
     v10 = H.xarray("VGRD:10 m above ground", backend_kwargs={'decode_times': False}
                     ).herbie.pick_points(points, method="nearest")['v10'][1:]  # skip first timestep which is included for precip only
-    wind_max_kt_gfs = float((np.sqrt(u10**2 + v10**2)).max().values) * 1.94384
+    wind_max_gfs = float((np.sqrt(u10**2 + v10**2)).max().values) * 1.94384
 
     # total precipitation (sum over steps) -> convert mm -> inches
     # tp = H.xarray(":tp:", backend_kwargs={'decode_times': False}
@@ -199,7 +208,7 @@ try:
     gfs_metrics = {
         "tmax_f": round(tmax_gfs, 2),
         "tmin_f": round(tmin_gfs, 2),
-        "wind_max_kt": round(wind_max_kt_gfs, 2),
+        "wind_max_kt": round(wind_max_gfs, 2),
         "precip_in": round(precip_gfs, 3),
         "init_time_utc": pd.Timestamp(init_times_gfs[0]).isoformat() if hasattr(init_times_gfs, "__len__") else str(init_times_gfs),
         "valid_range_utc": [str(valid_times_gfs[0]), str(valid_times_gfs[-1])]
@@ -262,11 +271,78 @@ print(f"Wrote {json_path}")
 # -------------------------
 img_path = IMAGES / "latest.png"
 try:
-    im = Image.new("RGB", (1000, 300), (245, 247, 250))
-    d = ImageDraw.Draw(im)
-    txt = f"{cityName}\nUpdated: {now_iso}\nHRRR tmax: {hrrr_metrics.get('tmax_f')}°F  IFS tmax: {ifs_metrics.get('tmax_f')}°F"
-    d.text((20, 20), txt, fill=(20, 20, 20))
-    im.save(img_path, "PNG")
+    import matplotlib.pyplot as plt
+    import matplotlib.dates as mdates
+
+    def to_1d(x):
+        try:
+            x = x.sel(point=0)
+        except Exception:
+            pass
+        return np.asarray(x).flatten()
+
+    # --- prepare time series for each model ---
+    times_hrrr = pd.to_datetime(valid_times_hrrr)
+    temps_hrrr = to_1d(t2m_hrrr)
+    wind_hrrr = to_1d(si10_hrrr) * 1.94384
+    precip_hrrr = to_1d(tp_hrrr)  # already converted to inches and processed earlier
+
+    times_ifs = pd.to_datetime(valid_times_ifs)
+    temps_ifs = to_1d(t2m_ifs)
+    wind_ifs = to_1d(np.sqrt(u10_ifs**2 + v10_ifs**2)) * 1.94384
+    # convert IFS tp (mm -> in) and compute accumulation inside the window (match other models)
+    tp_ifs_in = tp_ifs * 0.0393701
+    if tp_ifs_in.size >= 2:
+        precip_ifs = to_1d(tp_ifs_in[1:] - tp_ifs_in[0])
+    else:
+        precip_ifs = to_1d(tp_ifs_in)
+
+    times_gfs = pd.to_datetime(valid_times_gfs)
+    temps_gfs = to_1d(t2m_f)
+    wind_gfs = to_1d(np.sqrt(u10**2 + v10**2)) * 1.94384
+    precip_gfs = to_1d(tp_gfs)  # already converted to inches and processed earlier
+
+    # --- create combined 3-panel figure ---
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+
+    # Temperature
+    ax = axes[0]
+    ax.plot(times_hrrr, temps_hrrr, marker='o', linestyle='-', color='C0', label='HRRR')
+    ax.plot(times_ifs, temps_ifs, marker='o', linestyle='-', color='C1', label='IFS')
+    ax.plot(times_gfs, temps_gfs, marker='o', linestyle='-', color='C2', label='GFS')
+    ax.set_ylabel("Temperature (°F)")
+    ax.grid(True, linestyle='--', alpha=0.4)
+    ax.legend(loc='best')
+
+    # Wind
+    ax = axes[1]
+    ax.plot(times_hrrr, wind_hrrr, marker='o', linestyle='-', color='C0', label='HRRR')
+    ax.plot(times_ifs, wind_ifs, marker='o', linestyle='-', color='C1', label='IFS')
+    ax.plot(times_gfs, wind_gfs, marker='o', linestyle='-', color='C2', label='GFS')
+    ax.set_ylabel("Wind Speed (kt)")
+    ax.grid(True, linestyle='--', alpha=0.4)
+    ax.legend(loc='best')
+
+    # Precipitation (use bars for clarity)
+    ax = axes[2]
+    # use a small width; matplotlib will align bars by datetime
+    ax.bar(times_hrrr, precip_hrrr, width=0.03, label='HRRR', color='C0', alpha=0.6)
+    ax.bar(times_ifs, precip_ifs, width=0.03, label='IFS', color='C1', alpha=0.6)
+    ax.bar(times_gfs, precip_gfs, width=0.03, label='GFS', color='C2', alpha=0.6)
+    ax.set_ylabel("Precipitation (in)")
+    ax.set_xlabel("Valid time (UTC)")
+    ax.grid(True, linestyle='--', alpha=0.4)
+    ax.legend(loc='best')
+
+    # format x-axis
+    axes[-1].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d\n%H:%M'))
+    plt.setp(axes[-1].xaxis.get_majorticklabels(), rotation=30, ha='right')
+    plt.suptitle(f"{cityName} — Temperature, Wind, Precip", y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+
+    # save and close
+    fig.savefig(img_path, dpi=150)
+    plt.close(fig)
     print(f"Wrote {img_path}")
 except Exception as e:
     print("Image creation skipped:", e)

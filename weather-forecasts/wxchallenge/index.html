@@ -65,15 +65,12 @@ function fmt(v){ return v===null||v===undefined ? '—' : v; }
     "generated_at_utc": "2025-09-02T05:00:00Z",
     "meta": { "site": "Loveland, CO (KFNL)" },
     "models": {
-      "HRRR": {
-        "tmax_f": 78.3,
-        "tmin_f": 52.1,
-        "precip_in": 0.02,
-        "wind_max_kt": 12.4,
-        "init_time_utc": "2025-09-02T00:00:00Z",
-        "valid_range_utc": ["2025-09-02T06:00:00Z","2025-09-03T05:00:00Z"]
-      },
-      "IFS": { ...same keys... }
+      "HRRR": { ... },
+      "IFS": { ... },
+      "GFS": { ... },
+      "NBM": { ... },
+      "IFS_ens": { ... },   // optional key name used for "IFS Ens"
+      "AIFS": { ... }
     }
   }
 */
@@ -95,16 +92,29 @@ function fmt(v){ return v===null||v===undefined ? '—' : v; }
     const site = data?.meta?.site ?? '—';
     document.getElementById('forecast-for').textContent = `Forecasting for ${site}`;
 
-    // Valid range: prefer HRRR then IFS then meta
-    const hrrrValid = data?.models?.HRRR?.valid_range_utc ?? null;
-    const ifsValid  = data?.models?.IFS?.valid_range_utc  ?? null;
-    const metaValid = data?.meta?.valid_range_utc ?? null;
-    let validRange = hrrrValid || ifsValid || metaValid || null;
-    if (!validRange && data?.generated_at_utc) validRange = [data.generated_at_utc, data.generated_at_utc];
+    // Valid range: prefer a model order (HRRR, IFS, GFS, NBM, IFS_ens, AIFS) then meta
+    const preferKeys = ['HRRR','IFS','GFS','NBM','IFS_ens','AIFS'];
+    let validRange = null;
+    for (const k of preferKeys) {
+      const v = data?.models?.[k]?.valid_range_utc ?? null;
+      if (v) { validRange = v; break; }
+    }
+    if (!validRange) {
+      validRange = data?.meta?.valid_range_utc ?? null;
+      if (!validRange && data?.generated_at_utc) validRange = [data.generated_at_utc, data.generated_at_utc];
+    }
     document.getElementById('valid-range').textContent = validRange ? `Valid: ${validRange[0]} - ${validRange[1]} UTC` : 'Valid: —';
 
-    // Build table rows for the two models (HRRR and IFS / ECMWF)
-    const rows = [];
+    // Build table rows for models: show HRRR, ECMWF IFS, GFS, NBM, IFS Ens, AIFS
+    const modelMap = [
+      { key: 'HRRR',   label: 'HRRR' },
+      { key: 'IFS',    label: 'ECMWF IFS' },
+      { key: 'GFS',    label: 'GFS' },
+      { key: 'NBM',    label: 'NBM' },
+      { key: 'IFS_ens',label: 'IFS Ens' },
+      { key: 'AIFS',   label: 'AIFS' }
+    ];
+
     function rowHtml(displayName, m){
       if (!m) return `<tr><td>${displayName}</td><td colspan="5">no data</td></tr>`;
       return `<tr>
@@ -117,8 +127,7 @@ function fmt(v){ return v===null||v===undefined ? '—' : v; }
       </tr>`;
     }
 
-    rows.push(rowHtml('HRRR', data?.models?.HRRR ?? null));
-    rows.push(rowHtml('ECMWF IFS', data?.models?.IFS ?? null));
+    const rows = modelMap.map(m => rowHtml(m.label, data?.models?.[m.key] ?? null));
 
     document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
 
