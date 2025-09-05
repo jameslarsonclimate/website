@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-09-05T16:21:54+00:00",
+  "generated_at_utc": "2025-09-05T18:54:47+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Loveland, CO (KFNL)",
@@ -34,11 +34,11 @@
       ]
     },
     "GFS": {
-      "tmax_f": 79.98,
-      "tmin_f": 52.02,
-      "wind_max_kt": 5.15,
-      "precip_in": 0.002,
-      "init_time_utc": "2025-09-05T06",
+      "tmax_f": 81.09,
+      "tmin_f": 52.28,
+      "wind_max_kt": 5.34,
+      "precip_in": 0.005,
+      "init_time_utc": "2025-09-05T12",
       "valid_range_utc": [
         "2025-09-06T06",
         "2025-09-07T03"
