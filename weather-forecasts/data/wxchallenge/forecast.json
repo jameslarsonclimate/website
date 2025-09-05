@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-09-05T18:54:47+00:00",
+  "generated_at_utc": "2025-09-05T21:13:14+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Loveland, CO (KFNL)",
+    "site": "Memphis, TN (KMEM)",
     "models": [
       "HRRR",
       "IFS",
@@ -12,32 +12,32 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 78.76,
-      "tmin_f": 46.81,
-      "wind_max_kt": 8.19,
-      "precip_in": 0.001,
-      "init_time_utc": "2025-09-05T12",
+      "tmax_f": 75.17,
+      "tmin_f": 60.73,
+      "wind_max_kt": 19.25,
+      "precip_in": 0.989,
+      "init_time_utc": "2025-09-05T18",
       "valid_range_utc": [
         "2025-09-06T06",
         "2025-09-07T05"
       ]
     },
     "IFS": {
-      "tmax_f": 79.72,
-      "tmin_f": 49.63,
-      "wind_max_kt": 3.82,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-09-05T00",
+      "tmax_f": 74.14,
+      "tmin_f": 62.09,
+      "wind_max_kt": 10.07,
+      "precip_in": 4.78,
+      "init_time_utc": "2025-09-05T12",
       "valid_range_utc": [
         "2025-09-06T06",
         "2025-09-07T03"
       ]
     },
     "GFS": {
-      "tmax_f": 81.09,
-      "tmin_f": 52.28,
-      "wind_max_kt": 5.34,
-      "precip_in": 0.005,
+      "tmax_f": 74.07,
+      "tmin_f": 60.2,
+      "wind_max_kt": 8.21,
+      "precip_in": 0.106,
       "init_time_utc": "2025-09-05T12",
       "valid_range_utc": [
         "2025-09-06T06",
