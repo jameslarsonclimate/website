@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-09-04T22:36:41+00:00",
+  "generated_at_utc": "2025-09-05T16:21:54+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Loveland, CO (KFNL)",
@@ -12,36 +12,36 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 70.59,
-      "tmin_f": 53.73,
-      "wind_max_kt": 8.5,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-09-04T18",
+      "tmax_f": 78.76,
+      "tmin_f": 46.81,
+      "wind_max_kt": 8.19,
+      "precip_in": 0.001,
+      "init_time_utc": "2025-09-05T12",
       "valid_range_utc": [
-        "2025-09-05T06",
-        "2025-09-06T05"
+        "2025-09-06T06",
+        "2025-09-07T05"
       ]
     },
     "IFS": {
-      "tmax_f": 72.51,
-      "tmin_f": 53.92,
-      "wind_max_kt": 9.05,
+      "tmax_f": 79.72,
+      "tmin_f": 49.63,
+      "wind_max_kt": 3.82,
       "precip_in": 0.0,
-      "init_time_utc": "2025-09-04T12",
+      "init_time_utc": "2025-09-05T00",
       "valid_range_utc": [
-        "2025-09-05T06",
-        "2025-09-06T03"
+        "2025-09-06T06",
+        "2025-09-07T03"
       ]
     },
     "GFS": {
-      "tmax_f": 72.64,
-      "tmin_f": 53.69,
-      "wind_max_kt": 8.39,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-09-04T12",
+      "tmax_f": 79.98,
+      "tmin_f": 52.02,
+      "wind_max_kt": 5.15,
+      "precip_in": 0.002,
+      "init_time_utc": "2025-09-05T06",
       "valid_range_utc": [
-        "2025-09-05T06",
-        "2025-09-06T03"
+        "2025-09-06T06",
+        "2025-09-07T03"
       ]
     }
   }
