@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-09-05T21:13:14+00:00",
+  "generated_at_utc": "2025-09-11T23:06:37+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Memphis, TN (KMEM)",
+    "site": "Eagle, CO (KEGE)",
     "models": [
       "HRRR",
       "IFS",
@@ -12,36 +12,36 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 75.17,
-      "tmin_f": 60.73,
-      "wind_max_kt": 19.25,
-      "precip_in": 0.989,
-      "init_time_utc": "2025-09-05T18",
+      "tmax_f": 60.25,
+      "tmin_f": 48.17,
+      "wind_max_kt": 12.02,
+      "precip_in": 0.637,
+      "init_time_utc": "2025-09-11T18",
       "valid_range_utc": [
-        "2025-09-06T06",
-        "2025-09-07T05"
+        "2025-09-12T06",
+        "2025-09-13T05"
       ]
     },
     "IFS": {
-      "tmax_f": 74.14,
-      "tmin_f": 62.09,
-      "wind_max_kt": 10.07,
-      "precip_in": 4.78,
-      "init_time_utc": "2025-09-05T12",
+      "tmax_f": 66.85,
+      "tmin_f": 48.43,
+      "wind_max_kt": 3.99,
+      "precip_in": 0.272,
+      "init_time_utc": "2025-09-11T12",
       "valid_range_utc": [
-        "2025-09-06T06",
-        "2025-09-07T03"
+        "2025-09-12T06",
+        "2025-09-13T03"
       ]
     },
     "GFS": {
-      "tmax_f": 74.07,
-      "tmin_f": 60.2,
-      "wind_max_kt": 8.21,
-      "precip_in": 0.106,
-      "init_time_utc": "2025-09-05T12",
+      "tmax_f": 55.56,
+      "tmin_f": 45.05,
+      "wind_max_kt": 5.77,
+      "precip_in": 0.428,
+      "init_time_utc": "2025-09-11T18",
       "valid_range_utc": [
-        "2025-09-06T06",
-        "2025-09-07T03"
+        "2025-09-12T06",
+        "2025-09-13T03"
       ]
     }
   }
