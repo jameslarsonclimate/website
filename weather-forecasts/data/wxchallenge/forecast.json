@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-09-12T00:11:37+00:00",
+  "generated_at_utc": "2025-09-12T03:33:01+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Eagle, CO (KEGE)",
@@ -13,25 +13,25 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 60.25,
-      "tmin_f": 48.17,
-      "wind_max_kt": 12.02,
-      "precip_in": 0.637,
-      "init_time_utc": "2025-09-11T18",
+      "tmax_f": 65.22,
+      "tmin_f": 46.17,
+      "wind_max_kt": 19.13,
+      "precip_in": 0.2,
+      "init_time_utc": "2025-09-12T00",
       "valid_range_utc": [
-        "2025-09-12T06",
-        "2025-09-13T05"
+        "2025-09-13T06",
+        "2025-09-14T00"
       ]
     },
     "IFS": {
       "tmax_f": 66.85,
       "tmin_f": 48.43,
       "wind_max_kt": 3.99,
-      "precip_in": 0.272,
+      "precip_in": 0.298,
       "init_time_utc": "2025-09-11T12",
       "valid_range_utc": [
         "2025-09-12T06",
-        "2025-09-13T03"
+        "2025-09-13T06"
       ]
     },
     "GFS": {
@@ -47,13 +47,13 @@
     },
     "AIFS": {
       "tmax_f": 58.9,
-      "tmin_f": 46.57,
+      "tmin_f": 45.09,
       "wind_max_kt": 3.33,
-      "precip_in": 0.316,
+      "precip_in": 0.427,
       "init_time_utc": "2025-09-11T18",
       "valid_range_utc": [
         "2025-09-12T06",
-        "2025-09-13T00"
+        "2025-09-13T06"
       ]
     }
   }
