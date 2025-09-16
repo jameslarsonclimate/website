@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-09-16T23:09:00+00:00",
+  "generated_at_utc": "2025-09-16T23:31:58+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Eagle, CO (KEGE)",
+    "site": "Loveland, CO (KFNL)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,10 +13,10 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 70.8,
-      "tmin_f": 42.86,
-      "wind_max_kt": 9.47,
-      "precip_in": 0.0,
+      "tmax_f": 69.57,
+      "tmin_f": 48.94,
+      "wind_max_kt": 15.68,
+      "precip_in": 0.001,
       "init_time_utc": "2025-09-16T18",
       "valid_range_utc": [
         "2025-09-17T06",
@@ -24,10 +24,10 @@
       ]
     },
     "IFS": {
-      "tmax_f": 64.1,
-      "tmin_f": 36.66,
-      "wind_max_kt": 2.85,
-      "precip_in": 1.509,
+      "tmax_f": 72.42,
+      "tmin_f": 48.59,
+      "wind_max_kt": 8.96,
+      "precip_in": 2.117,
       "init_time_utc": "2025-09-16T12",
       "valid_range_utc": [
         "2025-09-17T06",
@@ -35,10 +35,10 @@
       ]
     },
     "GFS": {
-      "tmax_f": 67.85,
-      "tmin_f": 38.4,
-      "wind_max_kt": 6.84,
-      "precip_in": 0.039,
+      "tmax_f": 72.53,
+      "tmin_f": 53.16,
+      "wind_max_kt": 7.41,
+      "precip_in": 0.175,
       "init_time_utc": "2025-09-16T18",
       "valid_range_utc": [
         "2025-09-17T06",
@@ -46,10 +46,10 @@
       ]
     },
     "AIFS": {
-      "tmax_f": 57.32,
-      "tmin_f": 36.56,
-      "wind_max_kt": 3.3,
-      "precip_in": 0.545,
+      "tmax_f": 64.69,
+      "tmin_f": 49.0,
+      "wind_max_kt": 2.32,
+      "precip_in": 0.843,
       "init_time_utc": "2025-09-16T18",
       "valid_range_utc": [
         "2025-09-17T06",
