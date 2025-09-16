@@ -45,8 +45,10 @@ ROOT = Path(__file__).resolve().parent
 (DATA := ROOT / "data" / "wxchallenge").mkdir(parents=True, exist_ok=True)
 
 # Single point to summarize (longitude, latitude)
-cityName = "Loveland, CO (KFNL)"
-points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
+# cityName = "Loveland, CO (KFNL)"
+# points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
+cityName = 'Eagle, CO (KEGE)'
+points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -122,7 +124,7 @@ try:
 
     # 2 m temperature: extract and convert
     t2m_ifs = H_ifs.xarray(":2t:", backend_kwargs={'decode_times': False}
-                          ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+                          ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)  
     t2m_ifs = (t2m_ifs - 273.15) * 1.8 + 32
     tmax_ifs = float(t2m_ifs.max().values)
     tmin_ifs = float(t2m_ifs.min().values)
@@ -131,15 +133,15 @@ try:
 
     # Wind from components -> magnitude
     u10_ifs = H_ifs.xarray(":10u:", backend_kwargs={'decode_times': False}
-                          ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+                          ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)  
     v10_ifs = H_ifs.xarray(":10v:", backend_kwargs={'decode_times': False}
-                          ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+                          ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)
     wind_max_ifs = float((np.sqrt(u10_ifs**2 + v10_ifs**2)).max().values) * 1.94384 # Convert m/s to knots
 
     # Total precipitation (sum over requested steps) and convert to inches
     tp_ifs = H_ifs.xarray(":tp:", backend_kwargs={'decode_times': False}
                          ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    precip_ifs = float(tp_ifs.sum().values) * 39.3701
+    precip_ifs = float(tp_ifs.sum().values) * 39.3701 # Convert meters to inches (1 m -> 39.3701 in)
 
     # Pack IFS metrics
     ifs_metrics = {
@@ -153,6 +155,58 @@ try:
 except Exception as exc:
     print("Warning: failed to fetch IFS metrics:", exc)
     ifs_metrics = {
+        "tmax_f": None,
+        "tmin_f": None,
+        "wind_max_kt": None,
+        "precip_in": None,
+        "init_time_utc": None,
+        "valid_range_utc": None,
+        "error": str(exc)
+    }
+
+# -------------------------
+# AIFS (inline)
+# -------------------------
+try:
+    print("Fetching AIFS data...")
+
+    init_aifs = get_latest_forecast_cycle(model="AIFS")
+    fxx_aifs = calculate_forecast_range(init_aifs, model="AIFS")
+    H_aifs = FastHerbie([init_aifs], model="aifs", product="oper", fxx=fxx_aifs)
+
+    # 2 m temperature: extract and convert
+    t2m_aifs = H_aifs.xarray(":2t:", backend_kwargs={'decode_times': False}
+                            ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)
+    t2m_aifs = (t2m_aifs - 273.15) * 1.8 + 32
+    tmax_aifs = float(t2m_aifs.max().values)
+    tmin_aifs = float(t2m_aifs.min().values)
+    init_times_aifs = convert_time_to_datetime64(t2m_aifs.time.values)
+    valid_times_aifs = convert_time_to_datetime64(t2m_aifs.valid_time.values)
+
+    # Wind from components -> magnitude
+    u10_aifs = H_aifs.xarray(":10u:", backend_kwargs={'decode_times': False}
+                            ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)
+    v10_aifs = H_aifs.xarray(":10v:", backend_kwargs={'decode_times': False}
+                            ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)
+    wind_max_aifs = float((np.sqrt(u10_aifs**2 + v10_aifs**2)).max().values) * 1.94384 # Convert m/s to knots
+
+    # Total precipitation (sum over requested steps) and convert to inches
+    tp_aifs = H_aifs.xarray(":tp:", backend_kwargs={'decode_times': False}
+                            ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    precip_aifs = float(tp_aifs.sum().values) * 0.0393701 # Convert meters to inches (1 m -> 39.3701 in)
+
+    # Pack AIFS metrics
+    aifs_metrics = {
+        "tmax_f": round(tmax_aifs, 2),
+        "tmin_f": round(tmin_aifs, 2),
+        "wind_max_kt": round(wind_max_aifs, 2),
+        "precip_in": round(precip_aifs, 3),
+        "init_time_utc": pd.Timestamp(init_times_aifs[0]).isoformat() if hasattr(init_times_aifs, "__len__") else str(init_times_aifs),
+        "valid_range_utc": [str(valid_times_aifs[0]), str(valid_times_aifs[-1])]
+    }
+except Exception as exc:
+    print("Warning: failed to fetch AIFS metrics:", exc)
+    aifs_metrics = {
         "tmax_f": None,
         "tmin_f": None,
         "wind_max_kt": None,
@@ -255,10 +309,10 @@ payload = {
     "meta": {
         "page": "wxchallenge",
         "site": cityName,
-        "models": ["HRRR", "IFS", "GFS"],
+        "models": ["HRRR", "IFS", "GFS", "AIFS"],
         "note": "temperatures in °F, winds in kt, precip in inches",
     },
-    "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics, "GFS": gfs_metrics},
+    "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics, "GFS": gfs_metrics, "AIFS": aifs_metrics},
 }
 
 # Write JSON payload
@@ -291,11 +345,13 @@ try:
     temps_ifs = to_1d(t2m_ifs)
     wind_ifs = to_1d(np.sqrt(u10_ifs**2 + v10_ifs**2)) * 1.94384
     # convert IFS tp (mm -> in) and compute accumulation inside the window (match other models)
-    tp_ifs_in = tp_ifs * 0.0393701
-    if tp_ifs_in.size >= 2:
-        precip_ifs = to_1d(tp_ifs_in[1:] - tp_ifs_in[0])
-    else:
-        precip_ifs = to_1d(tp_ifs_in)
+    precip_ifs = tp_ifs.cumsum().values * 39.3701
+
+    times_aifs = pd.to_datetime(valid_times_aifs)
+    temps_aifs = to_1d(t2m_aifs)
+    wind_aifs = to_1d(np.sqrt(u10_aifs**2 + v10_aifs**2)) * 1.94384
+    # convert AIFS tp (mm -> in) and compute accumulation inside the window (match other models)
+    precip_aifs = tp_aifs.cumsum().values * 0.0393701
 
     times_gfs = pd.to_datetime(valid_times_gfs)
     temps_gfs = to_1d(t2m_f)
@@ -310,6 +366,7 @@ try:
     ax.plot(times_hrrr, temps_hrrr, marker='o', linestyle='-', color='C0', label='HRRR')
     ax.plot(times_ifs, temps_ifs, marker='o', linestyle='-', color='C1', label='IFS')
     ax.plot(times_gfs, temps_gfs, marker='o', linestyle='-', color='C2', label='GFS')
+    ax.plot(times_aifs, temps_aifs, marker='o', linestyle='-', color='C3', label='AIFS')
     ax.set_ylabel("Temperature (°F)")
     ax.grid(True, linestyle='--', alpha=0.4)
     ax.legend(loc='best')
@@ -319,16 +376,17 @@ try:
     ax.plot(times_hrrr, wind_hrrr, marker='o', linestyle='-', color='C0', label='HRRR')
     ax.plot(times_ifs, wind_ifs, marker='o', linestyle='-', color='C1', label='IFS')
     ax.plot(times_gfs, wind_gfs, marker='o', linestyle='-', color='C2', label='GFS')
+    ax.plot(times_aifs, wind_aifs, marker='o', linestyle='-', color='C3', label='AIFS')
     ax.set_ylabel("Wind Speed (kt)")
     ax.grid(True, linestyle='--', alpha=0.4)
     ax.legend(loc='best')
 
-    # Precipitation (use bars for clarity)
+    # Precipitation (line plot)
     ax = axes[2]
-    # use a small width; matplotlib will align bars by datetime
-    ax.bar(times_hrrr, precip_hrrr, width=0.03, label='HRRR', color='C0', alpha=0.6)
-    ax.bar(times_ifs, precip_ifs, width=0.03, label='IFS', color='C1', alpha=0.6)
-    ax.bar(times_gfs, precip_gfs, width=0.03, label='GFS', color='C2', alpha=0.6)
+    ax.plot(times_hrrr, precip_hrrr, marker='o', linestyle='-', color='C0', label='HRRR', alpha=0.8)
+    ax.plot(times_ifs, precip_ifs, marker='o', linestyle='-', color='C1', label='IFS', alpha=0.8)
+    ax.plot(times_gfs, precip_gfs, marker='o', linestyle='-', color='C2', label='GFS', alpha=0.8)
+    ax.plot(times_aifs, precip_aifs, marker='o', linestyle='-', color='C3', label='AIFS', alpha=0.8)
     ax.set_ylabel("Precipitation (in)")
     ax.set_xlabel("Valid time (UTC)")
     ax.grid(True, linestyle='--', alpha=0.4)

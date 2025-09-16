@@ -126,6 +126,11 @@ def get_latest_forecast_cycle(model='HRRR'):
             'delay': 8.7,        # IFS has ~8.7 hour processing delay
             'init_hours': [0, 12]  # IFS runs twice daily (00z and 12z only)
         },
+        'AIFS': {
+            'delay': 5,        # AIFS has ~5 hour processing delay
+            'init_hours': [0, 6, 12, 18]  # AIFS runs 4 times daily
+        },
+
         'GFS': {
             'delay': 5.0,        # GFS has ~5 hour processing delay
             'init_hours': [0, 6, 12, 18]  # GFS runs 4 times daily
@@ -251,10 +256,10 @@ def calculate_forecast_range(timestamp, model="HRRR"):
             return list(range(hours_to_target, hours_to_target + 25))
     
     elif model == "IFS":
-        # Modified behavior for IFS (target 3:00 AM)
-        hours_to_target = (24 - timestamp.hour + 3) % 24
+        # Modified behavior for IFS (target 6:00 AM)
+        hours_to_target = (24 - timestamp.hour + 6) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 3am, we want the next day's 3am
+            hours_to_target = 24  # If already at 6am, we want the next day's 6am
 
         # Calculate start point
         if timestamp.hour == 0:
@@ -264,6 +269,21 @@ def calculate_forecast_range(timestamp, model="HRRR"):
 
         # Generate exactly 9 time steps with 3-hour increments (covering 06:00 to 06:00)
         return list(range(start, start + (9 * 3), 3))
+    
+    elif model == "AIFS":
+        # Modified behavior for AIFS (target 6:00 AM)
+        hours_to_target = (24 - timestamp.hour + 6) % 24
+        if hours_to_target == 0:
+            hours_to_target = 24  # If already at 3am, we want the next day's 3am
+
+        # Calculate start point
+        if timestamp.hour == 0:
+            start = hours_to_target + 24
+        else:
+            start = hours_to_target
+
+        # Generate exactly 5 time steps with 6-hour increments (covering 06:00 to 06:00)
+        return list(range(start, start + (5 * 6), 6))
 
     elif model == "GFS":
         # Modified behavior for GFS (target 3:00 AM)
