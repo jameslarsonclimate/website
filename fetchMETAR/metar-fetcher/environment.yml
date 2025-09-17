@@ -1,0 +1,49 @@
+import pandas as pd
+from datetime import datetime, timedelta
+from urllib.request import urlopen
+import os
+
+# Constants
+SERVICE = "http://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?"
+MAX_ATTEMPTS = 6
+
+def download_data(uri):
+    """Fetch the data from the IEM ASOS service."""
+    attempt = 0
+    while attempt < MAX_ATTEMPTS:
+        try:
+            data = urlopen(uri, timeout=300).read().decode("utf-8")
+            if data is not None and not data.startswith("ERROR"):
+                return data
+        except Exception as exp:
+            print(f"download_data({uri}) failed with {exp}")
+            attempt += 1
+    print("Exhausted attempts to download, returning empty data")
+    return ""
+
+def download_metar_asos_data(airport_code):
+    """Download METAR/ASOS data for the specified airport code."""
+    end_date = datetime.utcnow()
+    start_date = end_date - timedelta(weeks=2)
+
+    # Prepare the URL for downloading data
+    uri = (f"{SERVICE}data=all&tz=Etc/UTC&format=comma&"
+           f"year1={start_date.year}&month1={start_date.month}&day1={start_date.day}&"
+           f"year2={end_date.year}&month2={end_date.month}&day2={end_date.day}&"
+           f"station={airport_code}")
+
+    print(f"Downloading data for {airport_code} from {start_date} to {end_date}...")
+    data = download_data(uri)
+
+    # Save data to CSV
+    if data:
+        output_file = f"{airport_code}_metar_asos_data.csv"
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(data)
+        print(f"Data saved to {output_file}")
+    else:
+        print("No data downloaded.")
+
+# Example usage
+airport_code = "KATL"  # Replace with your desired airport code
+download_metar_asos_data(airport_code)

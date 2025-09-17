@@ -1,0 +1,62 @@
+import pandas as pd
+from datetime import datetime, timedelta
+from urllib.request import urlopen
+import os
+
+# Constants
+SERVICE_URL = "http://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?"
+MAX_ATTEMPTS = 6
+
+def download_data(uri):
+    """Fetch the data from the IEM ASOS service."""
+    attempt = 0
+    while attempt < MAX_ATTEMPTS:
+        try:
+            data = urlopen(uri, timeout=300).read().decode("utf-8")
+            if data and not data.startswith("ERROR"):
+                return data
+        except Exception as exp:
+            print(f"Failed to download data from {uri}: {exp}")
+            attempt += 1
+    print("Exhausted attempts to download, returning empty data")
+    return ""
+
+def fetch_metar_data(station_code):
+    """Fetch METAR/ASOS data for the specified station code."""
+    end_date = datetime.utcnow()
+    start_date = end_date - timedelta(weeks=2)
+
+    # Construct the URL for the data request
+    uri = (
+        f"{SERVICE_URL}data=all&tz=Etc/UTC&format=comma&"
+        f"year1={start_date.year}&month1={start_date.month}&day1={start_date.day}&"
+        f"year2={end_date.year}&month2={end_date.month}&day2={end_date.day}&"
+        f"station={station_code}"
+    )
+    
+    print(f"Downloading data for {station_code} from {start_date.date()} to {end_date.date()}...")
+    data = download_data(uri)
+    
+    return data
+
+def save_data_to_csv(data, station_code):
+    """Save the downloaded data to a CSV file."""
+    if data:
+        # Convert the data to a DataFrame
+        df = pd.read_csv(pd.compat.StringIO(data))
+        # Save to CSV
+        csv_filename = f"{station_code}_metar_data.csv"
+        df.to_csv(csv_filename, index=False)
+        print(f"Data saved to {csv_filename}")
+    else:
+        print("No data to save.")
+
+def main(station_code):
+    """Main function to fetch and save METAR data."""
+    data = fetch_metar_data(station_code)
+    save_data_to_csv(data, station_code)
+
+# Example usage
+if __name__ == "__main__":
+    # Replace 'KATL' with the desired airport code
+    main('KATL')  # Example: Atlanta Hartsfield-Jackson International Airport

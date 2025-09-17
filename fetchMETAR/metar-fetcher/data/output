@@ -1,0 +1,39 @@
+import pandas as pd
+from datetime import datetime, timedelta
+from urllib.request import urlopen
+import os
+
+# Function to download METAR/ASOS data for a specified airport code
+def download_metar_asos_data(airport_code):
+    # Define the service URL
+    SERVICE = "http://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?"
+    
+    # Get today's date and the date two weeks ago
+    end_date = datetime.utcnow()
+    start_date = end_date - timedelta(weeks=2)
+
+    # Prepare the URL for the request
+    url = f"{SERVICE}data=all&tz=Etc/UTC&format=comma&latlon=yes&"
+    url += start_date.strftime("year1=%Y&month1=%m&day1=%d&")
+    url += end_date.strftime("year2=%Y&month2=%m&day2=%d&")
+    url += f"&station={airport_code}"
+
+    # Download the data
+    try:
+        print(f"Downloading data for {airport_code} from {start_date} to {end_date}...")
+        data = urlopen(url).read().decode("utf-8")
+        
+        # Save the data to a CSV file
+        output_filename = f"{airport_code}_metar_asos_data.csv"
+        with open(output_filename, "w", encoding="utf-8") as file:
+            file.write(data)
+        
+        print(f"Data saved to {output_filename}")
+    except Exception as e:
+        print(f"Failed to download data: {e}")
+
+# Specify the airport code
+airport_code = "KATL"  # Example: Atlanta Hartsfield-Jackson International Airport
+
+# Call the function to download data
+download_metar_asos_data(airport_code)

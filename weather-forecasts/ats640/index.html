@@ -1,53 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ATS 640 Synoptic Forecasts</title>
-<style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
-  header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-  pre{background:#f6f6f6;padding:1rem;border-radius:8px;overflow:auto}
-  img{width:100%;height:auto;border-radius:8px}
-  .back{margin-bottom:1rem;display:inline-block}
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ATS 640 Synoptic Forecasts</title>
+  <style>
+    /* Minimal readable styling */
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
+    header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    table{width:100%;border-collapse:collapse;margin-top:0.5rem}
+    th,td{border:1px solid #e6e6e6;padding:8px;text-align:left}
+    th{background:#fafafa}
+    .muted{color:#666;font-size:0.95rem}
+    .back{margin-bottom:1rem;display:inline-block}
+    img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
+  </style>
 </head>
+
 <body>
   <a class="back" href="../">← Back</a>
+
   <header>
-    <h1>ATS 640 Synoptic – Forecasts</h1>
-    <div id="updated">Loading…</div>
+    <h1>ATS 640 Synoptic Forecasts</h1>
+    <div id="updated" class="muted">Loading…</div>
   </header>
-  <main>
-    <section>
-      <h2>Headline Numbers</h2>
-      <pre id="numbers">Loading…</pre>
-    </section>
-    <section>
-      <h2>Latest Figure</h2>
-      <img id="fig" alt="latest ATS640 figure"/>
-    </section>
-  </main>
+
+  <div class="site-links" role="navigation" aria-label="Site selection">
+    <a href="#" id="site-fortcollins" data-site="KFNL" class="active">Fort Collins, CO</a>
+    <a href="#" id="site-travel" data-site="TRAVEL">Traveling City</a>
+  </div>
+  
+  <!-- Insert the ASOS link just above the Forecasting heading -->
+  <p style="margin-top:0.5rem">
+    <a href="asos.html">Recently Observed ASOS data</a>
+  </p>
+
+  <!-- Subheading and valid-range (populated by script) -->
+  <h2 id="forecast-for">Forecasting for —</h2>
+  <h3 id="valid-range" class="muted">Valid: —</h3>
+
+  <!-- Single table: models are rows, variables are columns -->
+  <section>
+    <table id="models-table" aria-label="Model comparison table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>High (°F)</th>
+          <th>Low (°F)</th>
+          <th>Precipitation (in)</th>
+          <th>Wind Speed (kt)</th>
+          <th>Model Init (UTC)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6">Loading…</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Latest Figure</h2>
+    <img id="fig" alt="latest WXChallenge figure"/>
+  </section>
+
 <script>
-(async function(){
+/* Simple helper to render missing values */
+function fmt(v){ return v===null||v===undefined ? '—' : v; }
+
+/* site map: readable label used locally for each link */
+const SITE_LABELS = {
+  'KFNL': 'Fort Collins, CO (KFNL)',
+  'TRAVEL': 'Traveling City'
+};
+
+let selectedSiteKey = 'KFNL';
+
+async function loadForecastForSite(siteKey){
+  selectedSiteKey = siteKey;
+  // visually mark active link
+  document.querySelectorAll('.site-links a').forEach(a=>{
+    a.classList.toggle('active', a.dataset.site === siteKey);
+  });
+
+  // show immediate site label while fetching
+  const siteLabel = SITE_LABELS[siteKey] ?? siteKey;
+  document.getElementById('forecast-for').textContent = `Forecasting for ${siteLabel}`;
+  document.getElementById('valid-range').textContent = 'Valid: Loading…';
+
   try{
-    const res = await fetch(`../data/ats640/forecast.json?t=${Date.now()}`, {cache:"no-store"});
+    // If you have separate JSON per site, include site param here.
+    const res = await fetch('../data/wxchallenge/forecast.json?site=' + encodeURIComponent(siteKey) + '&t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     const data = await res.json();
-    document.getElementById("updated").textContent = "Last updated: " + new Date(data.generated_at_utc).toLocaleString();
-    document.getElementById("numbers").textContent = JSON.stringify({
-      domain: data.meta?.domain,
-      model: data.meta?.model,
-      init: data.meta?.init_time_utc,
-      t2m_c: data.metrics?.t2m_c,
-      mslp_hpa: data.metrics?.mslp_hpa,
-      wind850_ms: data.metrics?.wind850_ms
-    }, null, 2);
-    document.getElementById("fig").src = `../images/ats640/latest.png?t=${Date.now()}`;
-  }catch(e){
-    document.getElementById("numbers").textContent = "Failed to load.";
-    console.error(e);
+
+    // Updated timestamp (use data.generated_at_utc or fallback)
+    document.getElementById('updated').textContent = data?.generated_at_utc ? 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString() : 'Last updated: —';
+
+    // site label: prefer JSON meta.site if present (useable when backend serves per-site JSON)
+    const metaSite = data?.meta?.site ?? siteLabel;
+    document.getElementById('forecast-for').textContent = `Forecasting for ${metaSite}`;
+
+    // valid range: try model list order then meta
+    const preferKeys = ['HRRR','IFS','GFS','NBM','IFS_ens','AIFS'];
+    let validRange = null;
+    for (const k of preferKeys) {
+      const v = data?.models?.[k]?.valid_range_utc ?? null;
+      if (v) { validRange = v; break; }
+    }
+    if (!validRange) validRange = data?.meta?.valid_range_utc ?? null;
+    document.getElementById('valid-range').textContent = validRange ? `Valid: ${validRange[0]} - ${validRange[1]} UTC` : 'Valid: —';
+
+    // Build table rows (same mapping as before)
+    const modelMap = [
+      { key: 'HRRR',   label: 'HRRR' },
+      { key: 'IFS',    label: 'ECMWF IFS' },
+      { key: 'GFS',    label: 'GFS' },
+      { key: 'NBM',    label: 'NBM' },
+      { key: 'IFS_ens',label: 'IFS Ens' },
+      { key: 'AIFS',   label: 'AIFS' }
+    ];
+    function rowHtml(displayName, m){
+      if (!m) return `<tr><td>${displayName}</td><td colspan="5">no data</td></tr>`;
+      return `<tr>
+        <td>${displayName}</td>
+        <td>${fmt(m.tmax_f)}</td>
+        <td>${fmt(m.tmin_f)}</td>
+        <td>${fmt(m.precip_in)}</td>
+        <td>${fmt(m.wind_max_kt)}</td>
+        <td>${fmt(m.init_time_utc)}</td>
+      </tr>`;
+    }
+    const rows = modelMap.map(m => rowHtml(m.label, data?.models?.[m.key] ?? null));
+    document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
+
+    // update figure
+    const fig = document.getElementById('fig');
+    fig.src = `../images/wxchallenge/latest.png?t=${Date.now()}`;
+    fig.alt = `Latest figure for ${metaSite}`;
+  } catch (err) {
+    document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
+    document.getElementById('updated').textContent = 'Last updated: —';
+    console.error(err);
   }
-})();
+}
+
+/* Wire up site links */
+document.querySelectorAll('.site-links a').forEach(a=>{
+  a.addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    const key = a.dataset.site;
+    loadForecastForSite(key);
+  });
+});
+
+/* initial load */
+loadForecastForSite(selectedSiteKey);
 </script>
 </body>
 </html>
-

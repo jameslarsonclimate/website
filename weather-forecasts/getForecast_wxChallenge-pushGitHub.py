@@ -45,10 +45,10 @@ ROOT = Path(__file__).resolve().parent
 (DATA := ROOT / "data" / "wxchallenge").mkdir(parents=True, exist_ok=True)
 
 # Single point to summarize (longitude, latitude)
-# cityName = "Loveland, CO (KFNL)"
-# points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
-cityName = 'Eagle, CO (KEGE)'
-points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
+cityName = "Loveland, CO (KFNL)"
+points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
+# cityName = 'Eagle, CO (KEGE)'
+# points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -93,10 +93,10 @@ try:
 
     # Pack HRRR metrics
     hrrr_metrics = {
-        "tmax_f": round(tmax_hrrr, 2),
-        "tmin_f": round(tmin_hrrr, 2),
-        "wind_max_kt": round(wind_max_hrrr, 2),
-        "precip_in": round(precip_hrrr, 3),
+        "tmax_f": round(tmax_hrrr, 1),
+        "tmin_f": round(tmin_hrrr, 1),
+        "wind_max_kt": round(wind_max_hrrr, 1),
+        "precip_in": round(precip_hrrr, 2),
         "init_time_utc": pd.Timestamp(init_times_hrrr[0]).isoformat() if hasattr(init_times_hrrr, "__len__") else str(init_times_hrrr),
         "valid_range_utc": [str(valid_times_hrrr[0]), str(valid_times_hrrr[-1])]
     }
@@ -141,14 +141,14 @@ try:
     # Total precipitation (sum over requested steps) and convert to inches
     tp_ifs = H_ifs.xarray(":tp:", backend_kwargs={'decode_times': False}
                          ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    precip_ifs = float(tp_ifs.sum().values) * 39.3701 # Convert meters to inches (1 m -> 39.3701 in)
+    precip_ifs = float(tp_ifs.max().values) * 39.3701 # Convert meters to inches (1 m -> 39.3701 in)
 
     # Pack IFS metrics
     ifs_metrics = {
-        "tmax_f": round(tmax_ifs, 2),
-        "tmin_f": round(tmin_ifs, 2),
-        "wind_max_kt": round(wind_max_ifs, 2),
-        "precip_in": round(precip_ifs, 3),
+        "tmax_f": round(tmax_ifs, 1),
+        "tmin_f": round(tmin_ifs, 1),
+        "wind_max_kt": round(wind_max_ifs, 1),
+        "precip_in": round(precip_ifs, 2),
         "init_time_utc": pd.Timestamp(init_times_ifs[0]).isoformat() if hasattr(init_times_ifs, "__len__") else str(init_times_ifs),
         "valid_range_utc": [str(valid_times_ifs[0]), str(valid_times_ifs[-1])]
     }
@@ -193,14 +193,14 @@ try:
     # Total precipitation (sum over requested steps) and convert to inches
     tp_aifs = H_aifs.xarray(":tp:", backend_kwargs={'decode_times': False}
                             ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    precip_aifs = float(tp_aifs.sum().values) * 0.0393701 # Convert meters to inches (1 m -> 39.3701 in)
+    precip_aifs = float(tp_aifs.max().values) * 0.0393701 # Convert millimeters to inches (1 m -> 39.3701 in)
 
     # Pack AIFS metrics
     aifs_metrics = {
-        "tmax_f": round(tmax_aifs, 2),
-        "tmin_f": round(tmin_aifs, 2),
-        "wind_max_kt": round(wind_max_aifs, 2),
-        "precip_in": round(precip_aifs, 3),
+        "tmax_f": round(tmax_aifs, 1),
+        "tmin_f": round(tmin_aifs, 1),
+        "wind_max_kt": round(wind_max_aifs, 1),
+        "precip_in": round(precip_aifs, 2),
         "init_time_utc": pd.Timestamp(init_times_aifs[0]).isoformat() if hasattr(init_times_aifs, "__len__") else str(init_times_aifs),
         "valid_range_utc": [str(valid_times_aifs[0]), str(valid_times_aifs[-1])]
     }
@@ -260,10 +260,10 @@ try:
 
     # Pack GFS metrics
     gfs_metrics = {
-        "tmax_f": round(tmax_gfs, 2),
-        "tmin_f": round(tmin_gfs, 2),
-        "wind_max_kt": round(wind_max_gfs, 2),
-        "precip_in": round(precip_gfs, 3),
+        "tmax_f": round(tmax_gfs, 1),
+        "tmin_f": round(tmin_gfs, 1),
+        "wind_max_kt": round(wind_max_gfs, 1),
+        "precip_in": round(precip_gfs, 2),
         "init_time_utc": pd.Timestamp(init_times_gfs[0]).isoformat() if hasattr(init_times_gfs, "__len__") else str(init_times_gfs),
         "valid_range_utc": [str(valid_times_gfs[0]), str(valid_times_gfs[-1])]
     }
@@ -283,12 +283,12 @@ except Exception as exc:
 title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
 
 data = {
-    "Model": ["HRRR", "IFS", "GFS"],
-    "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs],
-    "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs],
-    "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs],
-    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs],
-    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC"]
+    "Model": ["HRRR", "IFS", "GFS", "AIFS"],
+    "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs, tmax_aifs],
+    "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs, tmin_aifs],
+    "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs, precip_aifs],
+    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs, wind_max_aifs],
+    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC", f"{str(init_times_aifs)} UTC"]
 }
 
 df_forecast = pd.DataFrame(data).round(2)
@@ -345,13 +345,13 @@ try:
     temps_ifs = to_1d(t2m_ifs)
     wind_ifs = to_1d(np.sqrt(u10_ifs**2 + v10_ifs**2)) * 1.94384
     # convert IFS tp (mm -> in) and compute accumulation inside the window (match other models)
-    precip_ifs = tp_ifs.cumsum().values * 39.3701
+    precip_ifs = tp_ifs.values * 39.3701
 
     times_aifs = pd.to_datetime(valid_times_aifs)
     temps_aifs = to_1d(t2m_aifs)
     wind_aifs = to_1d(np.sqrt(u10_aifs**2 + v10_aifs**2)) * 1.94384
     # convert AIFS tp (mm -> in) and compute accumulation inside the window (match other models)
-    precip_aifs = tp_aifs.cumsum().values * 0.0393701
+    precip_aifs = tp_aifs.values * 0.0393701
 
     times_gfs = pd.to_datetime(valid_times_gfs)
     temps_gfs = to_1d(t2m_f)
