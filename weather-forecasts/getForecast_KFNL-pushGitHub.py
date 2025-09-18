@@ -41,8 +41,8 @@ warnings.filterwarnings("ignore", message="Engine 'gini' loading failed.*", cate
 # Paths and constants
 # -------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parent
-(IMAGES := ROOT / "images" / "wxchallenge").mkdir(parents=True, exist_ok=True)
-(DATA := ROOT / "data" / "wxchallenge").mkdir(parents=True, exist_ok=True)
+(IMAGES := ROOT / "images" / "ats640").mkdir(parents=True, exist_ok=True)
+(DATA := ROOT / "data" / "ats640").mkdir(parents=True, exist_ok=True)
 
 # Single point to summarize (longitude, latitude)
 cityName = "Loveland, CO (KFNL)"

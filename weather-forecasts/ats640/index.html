@@ -27,6 +27,7 @@
 
   <div class="site-links" role="navigation" aria-label="Site selection">
     <a href="#" id="site-fortcollins" data-site="KFNL" class="active">Fort Collins, CO</a>
+    <br/>
     <a href="#" id="site-travel" data-site="TRAVEL">Traveling City</a>
   </div>
   
@@ -60,7 +61,7 @@
 
   <section>
     <h2>Latest Figure</h2>
-    <img id="fig" alt="latest WXChallenge figure"/>
+    <img id="fig" alt="latest ATS 640 figure"/>
   </section>
 
 <script>
@@ -91,11 +92,11 @@ async function loadForecastForSite(siteKey){
     // choose per-site JSON filenames 
     let urlBase;
     if (siteKey === 'KFNL') {
-      urlBase = '../data/wxchallenge/forecast-KFNL.json';
+      urlBase = '../data/ats640/forecast-KFNL.json';
     } else if (siteKey === 'TRAVEL') {
-      urlBase = '../data/wxchallenge/forecast-away.json';
+      urlBase = '../data/ats640/forecast-away.json';
     } else {
-      urlBase = '../data/wxchallenge/forecast.json?site=' + encodeURIComponent(siteKey);
+      urlBase = '../data/ats640/forecast.json?site=' + encodeURIComponent(siteKey);
     }
     const url = urlBase + (urlBase.includes('?') ? '&' : '?') + 't=' + Date.now();
     const res = await fetch(url, { cache: 'no-store' });
@@ -144,7 +145,7 @@ async function loadForecastForSite(siteKey){
 
     // update figure
     const fig = document.getElementById('fig');
-    fig.src = `../images/wxchallenge/latest.png?t=${Date.now()}`;
+    fig.src = `../images/ats640/latest.png?t=${Date.now()}`;
     fig.alt = `Latest figure for ${metaSite}`;
   } catch (err) {
     document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
