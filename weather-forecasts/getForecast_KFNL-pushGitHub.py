@@ -323,7 +323,7 @@ print(f"Wrote {json_path}")
 # -------------------------
 # Small image for site
 # -------------------------
-img_path = IMAGES / "latest.png"
+img_path = IMAGES / "latest-KFNL.png"
 try:
     import matplotlib.pyplot as plt
     import matplotlib.dates as mdates

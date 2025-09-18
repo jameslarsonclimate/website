@@ -143,9 +143,15 @@ async function loadForecastForSite(siteKey){
     const rows = modelMap.map(m => rowHtml(m.label, data?.models?.[m.key] ?? null));
     document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
 
-    // update figure
+    // update figure (choose per-site image)
     const fig = document.getElementById('fig');
-    fig.src = `../images/ats640/latest.png?t=${Date.now()}`;
+    let figName = 'latest.png';
+    if (siteKey === 'KFNL') {
+      figName = 'latest-KFNL.png';
+    } else if (siteKey === 'TRAVEL') {
+      figName = 'latest-away.png';
+    }
+    fig.src = `../images/ats640/${figName}?t=${Date.now()}`;
     fig.alt = `Latest figure for ${metaSite}`;
   } catch (err) {
     document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
