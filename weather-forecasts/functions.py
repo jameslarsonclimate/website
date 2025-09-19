@@ -130,11 +130,15 @@ def get_latest_forecast_cycle(model='HRRR'):
             'delay': 5,        # AIFS has ~5 hour processing delay
             'init_hours': [0, 6, 12, 18]  # AIFS runs 4 times daily
         },
-
         'GFS': {
             'delay': 5.0,        # GFS has ~5 hour processing delay
             'init_hours': [0, 6, 12, 18]  # GFS runs 4 times daily
+        },
+        'NBM': {
+            'delay': 1.5,        # NBM has ~1.5 hour processing delay
+            'init_hours': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]  # NBM runs hourly
         }
+
         # Add other models as needed
     }
     

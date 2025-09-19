@@ -49,6 +49,9 @@ ROOT = Path(__file__).resolve().parent
 # points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
 cityName = 'Kansas City, MO (KMCI)'
 points = pd.DataFrame({"longitude": [-94.711], "latitude": [39.301]})
+cityName = 'Fargo, ND (KFAR)'
+points = pd.DataFrame({"longitude": [-96.789], "latitude": [46.877]})
+
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
