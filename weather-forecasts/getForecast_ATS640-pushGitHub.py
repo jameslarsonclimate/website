@@ -251,10 +251,6 @@ try:
                     ).herbie.pick_points(points, method="nearest")['v10']
     wind_max_gfs = float((np.sqrt(u10**2 + v10**2)).max().values) * 1.94384
 
-    # total precipitation (sum over steps) -> convert mm -> inches
-    # tp = H.xarray(":tp:", backend_kwargs={'decode_times': False}
-    #                 ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    # precip_in = float(tp.sum().values) * 0.0393701
     # Total precipitation from APCP (convert mm -> in); compute 24h accumulation as in prior script
     tp_gfs = H.xarray(":APCP:surface:0-*", backend_kwargs={'decode_times': False}
                             ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)

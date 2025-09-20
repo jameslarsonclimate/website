@@ -238,7 +238,7 @@ try:
 
     # 2 m temperature -> convert K to °F
     t2m_gfs = H.xarray("TMP:2 m above", backend_kwargs={'decode_times': False}
-                    ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+                    ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)
     t2m_f = (t2m_gfs - 273.15) * 9.0/5.0 + 32.0
     tmax_gfs = float(t2m_f.max().values)
     tmin_gfs = float(t2m_f.min().values)
@@ -247,15 +247,11 @@ try:
 
     # wind components -> magnitude (m/s -> kt)
     u10 = H.xarray("UGRD:10 m above ground", backend_kwargs={'decode_times': False}
-                    ).herbie.pick_points(points, method="nearest")['u10'][1:]  # skip first timestep which is included for precip only
+                    ).herbie.pick_points(points, method="nearest")['u10']
     v10 = H.xarray("VGRD:10 m above ground", backend_kwargs={'decode_times': False}
-                    ).herbie.pick_points(points, method="nearest")['v10'][1:]  # skip first timestep which is included for precip only
+                    ).herbie.pick_points(points, method="nearest")['v10']
     wind_max_gfs = float((np.sqrt(u10**2 + v10**2)).max().values) * 1.94384
 
-    # total precipitation (sum over steps) -> convert mm -> inches
-    # tp = H.xarray(":tp:", backend_kwargs={'decode_times': False}
-    #                 ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    # precip_in = float(tp.sum().values) * 0.0393701
     # Total precipitation from APCP (convert mm -> in); compute 24h accumulation as in prior script
     tp_gfs = H.xarray(":APCP:surface:0-*", backend_kwargs={'decode_times': False}
                             ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
