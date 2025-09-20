@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-09-20T17:38:34+00:00",
+  "generated_at_utc": "2025-09-20T18:14:07+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Kansas City, MO (KMCI)",
@@ -41,7 +41,7 @@
       "precip_in": 0.69,
       "init_time_utc": "2025-09-20T12",
       "valid_range_utc": [
-        "2025-09-21T09",
+        "2025-09-21T06",
         "2025-09-22T06"
       ]
     },
