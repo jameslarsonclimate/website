@@ -28,7 +28,7 @@
   <div class="site-links" role="navigation" aria-label="Site selection">
     <a href="#" id="site-fortcollins" data-site="KFNL" class="active">Fort Collins, CO</a>
     <br/>
-    <a href="#" id="site-travel" data-site="TRAVEL">Traveling City</a>
+    <a href="#" id="site-away" data-site="AWAY">Away City</a>
   </div>
   
   <!-- Insert the ASOS link just above the Forecasting heading -->
@@ -71,7 +71,7 @@ function fmt(v){ return v===null||v===undefined ? '—' : v; }
 /* site map: readable label used locally for each link */
 const SITE_LABELS = {
   'KFNL': 'Fort Collins, CO (KFNL)',
-  'TRAVEL': 'Traveling City'
+  'AWAY': 'Away City'
 };
 
 let selectedSiteKey = 'KFNL';
@@ -93,7 +93,7 @@ async function loadForecastForSite(siteKey){
     let urlBase;
     if (siteKey === 'KFNL') {
       urlBase = '../data/ats640/forecast-KFNL.json';
-    } else if (siteKey === 'TRAVEL') {
+    } else if (siteKey === 'AWAY') {
       urlBase = '../data/ats640/forecast-away.json';
     } else {
       urlBase = '../data/ats640/forecast.json?site=' + encodeURIComponent(siteKey);
@@ -148,7 +148,7 @@ async function loadForecastForSite(siteKey){
     let figName = 'latest.png';
     if (siteKey === 'KFNL') {
       figName = 'latest-KFNL.png';
-    } else if (siteKey === 'TRAVEL') {
+    } else if (siteKey === 'AWAY') {
       figName = 'latest-away.png';
     }
     fig.src = `../images/ats640/${figName}?t=${Date.now()}`;

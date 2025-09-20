@@ -53,6 +53,10 @@ points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
+now = datetime.now(timezone.utc)
+print(f"Starting forecast for {cityName} at {now.strftime('%Y-%m-%dT%H:%MZ')}")
+
+
 # -------------------------
 # HRRR (inline)
 # -------------------------
@@ -317,7 +321,7 @@ payload = {
 }
 
 # Write JSON payload
-json_path = DATA / "forecast.json"
+json_path = DATA / "forecast-KFNL.json"
 json_path.write_text(json.dumps(payload, indent=2))
 print(f"Wrote {json_path}")
 

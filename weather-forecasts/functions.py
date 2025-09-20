@@ -301,7 +301,7 @@ def calculate_forecast_range(timestamp, model="HRRR"):
         else:
             start = hours_to_target
 
-        # Generate exactly 8 time steps with 3-hour increments (covering 03:00 to 03:00)
+        # Generate exactly 8 time steps with 3-hour increments (covering 06:00 to 06:00)
         return list(range(start, start + (9 * 3), 3))
 
     else:
