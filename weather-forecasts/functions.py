@@ -127,7 +127,7 @@ def get_latest_forecast_cycle(model='HRRR'):
             'init_hours': [0, 12]  # IFS runs twice daily (00z and 12z only)
         },
         'AIFS': {
-            'delay': 5,        # AIFS has ~5 hour processing delay
+            'delay': 7,        # AIFS has ~5 hour processing delay
             'init_hours': [0, 6, 12, 18]  # AIFS runs 4 times daily
         },
         'GFS': {
@@ -248,11 +248,11 @@ def calculate_forecast_range(timestamp, model="HRRR"):
         in 3-hour increments
     """
     if model == "HRRR":
-        # Original behavior for HRRR (target 5:00 AM)
-        hours_to_target = (24 - timestamp.hour + 5) % 24
+        # Original behavior for HRRR (target 6:00 AM)
+        hours_to_target = (24 - timestamp.hour + 6) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 5am, we want the next day's 5am
-            
+            hours_to_target = 24  # If already at 6am, we want the next day's 6am
+
         # For 0z model run, add 24 hours to target the following day
         if timestamp.hour == 0:
             return list(range(hours_to_target + 24, hours_to_target + 49))
@@ -278,7 +278,7 @@ def calculate_forecast_range(timestamp, model="HRRR"):
         # Modified behavior for AIFS (target 6:00 AM)
         hours_to_target = (24 - timestamp.hour + 6) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 3am, we want the next day's 3am
+            hours_to_target = 24  # If already at 6am, we want the next day's 6am
 
         # Calculate start point
         if timestamp.hour == 0:
@@ -290,10 +290,10 @@ def calculate_forecast_range(timestamp, model="HRRR"):
         return list(range(start, start + (5 * 6), 6))
 
     elif model == "GFS":
-        # Modified behavior for GFS (target 3:00 AM)
-        hours_to_target = (24 - timestamp.hour + 3) % 24
+        # Modified behavior for GFS (target 6:00 AM)
+        hours_to_target = (24 - timestamp.hour + 6) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 3am, we want the next day's 3am
+            hours_to_target = 24  # If already at 6am, we want the next day's 6am
 
         # Calculate start point
         if timestamp.hour == 0:

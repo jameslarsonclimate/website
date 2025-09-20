@@ -70,7 +70,7 @@ try:
 
     # 2 m temperature: extract, convert K->F, compute max/min for the point
     t2m_hrrr = H_hrrr.xarray("TMP:2 m above", backend_kwargs={'decode_times': False}
-                            ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+                            ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)
     t2m_hrrr = (t2m_hrrr - 273.15) * 1.8 + 32
     tmax_hrrr = float(t2m_hrrr.max().values)
     tmin_hrrr = float(t2m_hrrr.min().values)
@@ -79,7 +79,7 @@ try:
 
     # 10 m wind speed (HRRR exposes :WIND / si10)
     si10_hrrr = H_hrrr.xarray(":WIND", backend_kwargs={'decode_times': False}
-                              ).herbie.pick_points(points, method="nearest")['max_10si'].sel(point=0)[1:]  # skip first timestep which is included for precip only
+                              ).herbie.pick_points(points, method="nearest")['max_10si'].sel(point=0)
     wind_max_hrrr = float(si10_hrrr.max().values) * 1.94384
 
     # Total precipitation from APCP (convert mm -> in); compute 24h accumulation as in prior script
@@ -88,7 +88,7 @@ try:
     tp_hrrr = tp_hrrr * 0.0393701   # mm -> inches (1 mm -> 0.0393701 in)
 
     # Subtract first timestep to get accumulation over the requested period (as in original)
-    tp_hrrr = tp_hrrr[1:] - tp_hrrr[0]
+    tp_hrrr = tp_hrrr - tp_hrrr[0]
     precip_hrrr = float(tp_hrrr.max().values)
 
     # Pack HRRR metrics
@@ -141,6 +141,8 @@ try:
     # Total precipitation (sum over requested steps) and convert to inches
     tp_ifs = H_ifs.xarray(":tp:", backend_kwargs={'decode_times': False}
                          ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    tp_ifs = tp_ifs - tp_ifs[0] # Subtract first timestep to get accumulation over the requested period
+
     precip_ifs = float(tp_ifs.max().values) * 39.3701 # Convert meters to inches (1 m -> 39.3701 in)
 
     # Pack IFS metrics
@@ -193,6 +195,7 @@ try:
     # Total precipitation (sum over requested steps) and convert to inches
     tp_aifs = H_aifs.xarray(":tp:", backend_kwargs={'decode_times': False}
                             ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    tp_aifs = tp_aifs - tp_aifs[0] # Subtract first timestep to get accumulation over the requested period
     precip_aifs = float(tp_aifs.max().values) * 0.0393701 # Convert millimeters to inches (1 m -> 39.3701 in)
 
     # Pack AIFS metrics
@@ -252,10 +255,8 @@ try:
     # Total precipitation from APCP (convert mm -> in); compute 24h accumulation as in prior script
     tp_gfs = H.xarray(":APCP:surface:0-*", backend_kwargs={'decode_times': False}
                             ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    tp_gfs = tp_gfs * 0.0393701   # mm -> inches (1 mm -> 0.0393701 in)
-
-    # Subtract first timestep to get accumulation over the requested period (as in original)
-    tp_gfs = tp_gfs[1:] - tp_gfs[0]
+    tp_gfs = (tp_gfs - tp_gfs[0]) * 0.0393701   # mm -> inches (1 mm -> 0.0393701 in)
+    
     precip_gfs = float(tp_gfs.max().values)
 
     # Pack GFS metrics
