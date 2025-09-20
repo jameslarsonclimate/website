@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-09-18T19:43:52+00:00",
+  "generated_at_utc": "2025-09-20T17:31:56+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Fargo, ND (KFAR)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 66.2,
-      "tmin_f": 59.7,
-      "wind_max_kt": 9.1,
-      "precip_in": 0.97,
-      "init_time_utc": "2025-09-18T18",
+      "tmax_f": 69.7,
+      "tmin_f": 57.1,
+      "wind_max_kt": 5.3,
+      "precip_in": 0.01,
+      "init_time_utc": "2025-09-20T12",
       "valid_range_utc": [
-        "2025-09-19T06",
-        "2025-09-20T05"
+        "2025-09-21T06",
+        "2025-09-22T06"
       ]
     },
     "IFS": {
-      "tmax_f": 62.6,
-      "tmin_f": 59.8,
-      "wind_max_kt": 6.8,
-      "precip_in": 1.6,
-      "init_time_utc": "2025-09-18T00",
+      "tmax_f": 71.7,
+      "tmin_f": 58.3,
+      "wind_max_kt": 3.9,
+      "precip_in": 0.03,
+      "init_time_utc": "2025-09-20T00",
       "valid_range_utc": [
-        "2025-09-19T06",
-        "2025-09-20T06"
+        "2025-09-21T06",
+        "2025-09-22T06"
       ]
     },
     "GFS": {
-      "tmax_f": 68.5,
-      "tmin_f": 59.7,
-      "wind_max_kt": 10.2,
-      "precip_in": 0.87,
-      "init_time_utc": "2025-09-18T12",
+      "tmax_f": 73.2,
+      "tmin_f": 59.9,
+      "wind_max_kt": 4.5,
+      "precip_in": 0.02,
+      "init_time_utc": "2025-09-20T12",
       "valid_range_utc": [
-        "2025-09-19T06",
-        "2025-09-20T03"
+        "2025-09-21T09",
+        "2025-09-22T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 64.2,
-      "tmin_f": 61.3,
-      "wind_max_kt": 6.8,
-      "precip_in": 1.13,
-      "init_time_utc": "2025-09-18T12",
+      "tmax_f": 70.0,
+      "tmin_f": 55.9,
+      "wind_max_kt": 3.8,
+      "precip_in": 0.04,
+      "init_time_utc": "2025-09-20T06",
       "valid_range_utc": [
-        "2025-09-19T06",
-        "2025-09-20T06"
+        "2025-09-21T06",
+        "2025-09-22T06"
       ]
     }
   }
