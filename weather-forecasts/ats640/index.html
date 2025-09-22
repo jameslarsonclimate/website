@@ -26,7 +26,7 @@
   </header>
 
   <div class="site-links" role="navigation" aria-label="Site selection">
-    <a href="#" id="site-fortcollins" data-site="KFNL" class="active">Fort Collins, CO</a>
+    <a href="#" id="site-fortcollins" data-site="CSU" class="active">Fort Collins, CO</a>
     <br/>
     <a href="#" id="site-away" data-site="AWAY">Away City</a>
   </div>
@@ -70,11 +70,11 @@ function fmt(v){ return v===null||v===undefined ? '—' : v; }
 
 /* site map: readable label used locally for each link */
 const SITE_LABELS = {
-  'KFNL': 'Fort Collins, CO (KFNL)',
+  'CSU': 'Fort Collins, CO (CSU)',
   'AWAY': 'Away City'
 };
 
-let selectedSiteKey = 'KFNL';
+let selectedSiteKey = 'CSU';
 
 async function loadForecastForSite(siteKey){
   selectedSiteKey = siteKey;
@@ -91,8 +91,8 @@ async function loadForecastForSite(siteKey){
   try{
     // choose per-site JSON filenames 
     let urlBase;
-    if (siteKey === 'KFNL') {
-      urlBase = '../data/ats640/forecast-KFNL.json';
+    if (siteKey === 'CSU') {
+      urlBase = '../data/ats640/forecast-CSU.json';
     } else if (siteKey === 'AWAY') {
       urlBase = '../data/ats640/forecast-away.json';
     } else {
@@ -146,8 +146,8 @@ async function loadForecastForSite(siteKey){
     // update figure (choose per-site image)
     const fig = document.getElementById('fig');
     let figName = 'latest.png';
-    if (siteKey === 'KFNL') {
-      figName = 'latest-KFNL.png';
+    if (siteKey === 'CSU') {
+      figName = 'latest-CSU.png';
     } else if (siteKey === 'AWAY') {
       figName = 'latest-away.png';
     }

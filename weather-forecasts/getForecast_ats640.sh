@@ -32,10 +32,10 @@ fi
 # Run the Python script
 python "$FORECAST_SCRIPT"
 
-# Run the KFNL forecast script immediately after
-SECOND_SCRIPT="/Users/jglarson/Documents/Website/weather-forecasts/getForecast_KFNL-pushGitHub.py"
+# Run the CSU forecast script immediately after
+SECOND_SCRIPT="/Users/jglarson/Documents/Website/weather-forecasts/getForecast_CSU-pushGitHub.py"
 if [ -f "$SECOND_SCRIPT" ]; then
-    echo "Running KFNL forecast script..."
+    echo "Running CSU forecast script..."
     python "$SECOND_SCRIPT"
 else
     echo "Warning: $SECOND_SCRIPT not found, skipping."

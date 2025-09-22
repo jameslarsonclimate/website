@@ -45,10 +45,8 @@ ROOT = Path(__file__).resolve().parent
 (DATA := ROOT / "data" / "ats640").mkdir(parents=True, exist_ok=True)
 
 # Single point to summarize (longitude, latitude)
-cityName = "Loveland, CO (KFNL)"
-points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
-# cityName = 'Eagle, CO (KEGE)'
-# points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
+cityName = "Fort Collins, CO (CSU)"
+points = pd.DataFrame({"longitude": [-105.085], "latitude": [40.576]})
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -317,14 +315,14 @@ payload = {
 }
 
 # Write JSON payload
-json_path = DATA / "forecast-KFNL.json"
+json_path = DATA / "forecast-CSU.json"
 json_path.write_text(json.dumps(payload, indent=2))
 print(f"Wrote {json_path}")
 
 # -------------------------
 # Small image for site
 # -------------------------
-img_path = IMAGES / "latest-KFNL.png"
+img_path = IMAGES / "latest-CSU.png"
 try:
     import matplotlib.pyplot as plt
     import matplotlib.dates as mdates
