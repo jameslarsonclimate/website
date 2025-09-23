@@ -47,8 +47,8 @@ ROOT = Path(__file__).resolve().parent
 # Single point to summarize (longitude, latitude)
 # cityName = "Loveland, CO (KFNL)"
 # points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
-cityName = 'Kansas City, MO (KMCI)'
-points = pd.DataFrame({"longitude": [-94.711], "latitude": [39.301]})
+cityName = 'Boston, MA (KBOS)'
+points = pd.DataFrame({"longitude": [-71.010], "latitude": [42.365]})
 
 now = datetime.now(timezone.utc)
 print(f"Starting forecast for {cityName} at {now.strftime('%Y-%m-%dT%H:%MZ')}")

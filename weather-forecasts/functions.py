@@ -223,86 +223,191 @@ def convert_time_to_datetime64(data, units="seconds since 1970-01-01T00:00:00",
     
     return datetime64_values
 
+def _snap_hour_for_model(target_hour, model):
+    """
+    Snap a requested target_hour to the nearest model output hour based on model frequency.
+    Returns an int in 0-23. Uses nearest rounding (e.g., 2 -> 3 for 3-hour models).
+    """
+    freq_map = {'HRRR': 1, 'IFS': 3, 'GFS': 3, 'AIFS': 6, 'NBM': 1}
+    freq = freq_map.get(model, 1)
+    if freq == 1:
+        return int(target_hour) % 24
+    # Round to nearest multiple of freq
+    snapped = int(round(target_hour / freq) * freq) % 24
+    return snapped
 
-def calculate_forecast_range(timestamp, model="HRRR"):
+# ...existing code...
+def calculate_forecast_range(timestamp, model="HRRR", target_hour=6):
     """
     Calculate forecast range based on model type.
-    
+
     Args:
         timestamp: pd.Timestamp of the forecast initialization
-        model: str, model type ('HRRR' or 'IFS')
-        
+        model: str, model type ('HRRR', 'IFS', 'GFS', 'AIFS')
+        target_hour: int, target "anchor" hour (UTC) to align the forecast window.
+                     Default 6 preserves original 06-06z behavior.
+
     Returns:
         list: Range of forecast hours
-    
-    For HRRR:
-        Calculate forecast range from the timestamp to 5:00 the next day plus 24 hours
-        in 1-hour increments
-        
-    For IFS:
-        Calculate forecast range from the timestamp to 6:00 the next day plus 24 hours
-        in 3-hour increments
 
-    For GFS:
-        Calculate forecast range from the timestamp to 3:00 the next day plus 24 hours
-        in 3-hour increments
+    Notes:
+    - HRRR unchanged by default (hourly increments).
+    - IFS/GFS/AIFS unchanged by default (3- or 6-hour increments as before).
+    - Supplying target_hour=2 will produce a 02-02z window instead of 06-06z when possible;
+      if the model does not produce hourly outputs the requested hour is snapped to the
+      nearest model output hour (e.g., 02 -> 03 for 3-hour models using nearest rounding).
     """
-    if model == "HRRR":
-        # Original behavior for HRRR (target 6:00 AM)
-        hours_to_target = (24 - timestamp.hour + 6) % 24
-        if hours_to_target == 0:
-            hours_to_target = 24  # If already at 6am, we want the next day's 6am
+    if not isinstance(target_hour, int) or not (0 <= target_hour <= 23):
+        raise ValueError("target_hour must be an integer between 0 and 23 (inclusive)")
 
-        # For 0z model run, add 24 hours to target the following day
+    # Snap the requested target_hour to the model's native output frequency so we don't
+    # request an anchor hour that the model never produces (e.g., 02 for a 3-hour model).
+    freq_map = {'HRRR': 1, 'IFS': 3, 'GFS': 3, 'AIFS': 6, 'NBM': 1}
+    freq = freq_map.get(model, 1)
+    snapped_target = _snap_hour_for_model(target_hour, model)
+    if snapped_target != target_hour:
+        # lightweight notice for logs; safe to keep for cron/CI logs
+        print(f"Note: target_hour {target_hour} snapped to {snapped_target} for model {model} (interval={freq}h)")
+
+    target = snapped_target
+
+    if model == "HRRR":
+        # Original behavior for HRRR but anchored to target (HRRR is hourly)
+        hours_to_target = (24 - timestamp.hour + target) % 24
+        if hours_to_target == 0:
+            hours_to_target = 24  # If already at target_hour, target the next day's hour
+
+        # For 0z model run, add 24 hours to target the following day (preserve original special-case)
         if timestamp.hour == 0:
             return list(range(hours_to_target + 24, hours_to_target + 49))
         else:
             return list(range(hours_to_target, hours_to_target + 25))
-    
+
     elif model == "IFS":
-        # Modified behavior for IFS (target 6:00 AM)
-        hours_to_target = (24 - timestamp.hour + 6) % 24
+        # Behavior for IFS anchored to target (3-hour outputs)
+        hours_to_target = (24 - timestamp.hour + target) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 6am, we want the next day's 6am
+            hours_to_target = 24
 
-        # Calculate start point
         if timestamp.hour == 0:
             start = hours_to_target + 24
         else:
             start = hours_to_target
 
-        # Generate exactly 9 time steps with 3-hour increments (covering 06:00 to 06:00)
+        # Generate exactly 9 time steps with 3-hour increments (preserve original behavior)
         return list(range(start, start + (9 * 3), 3))
-    
-    elif model == "AIFS":
-        # Modified behavior for AIFS (target 6:00 AM)
-        hours_to_target = (24 - timestamp.hour + 6) % 24
-        if hours_to_target == 0:
-            hours_to_target = 24  # If already at 6am, we want the next day's 6am
 
-        # Calculate start point
+    elif model == "AIFS":
+        # Behavior for AIFS anchored to target (6-hour outputs)
+        hours_to_target = (24 - timestamp.hour + target) % 24
+        if hours_to_target == 0:
+            hours_to_target = 24
+
         if timestamp.hour == 0:
             start = hours_to_target + 24
         else:
             start = hours_to_target
 
-        # Generate exactly 5 time steps with 6-hour increments (covering 06:00 to 06:00)
+        # Generate exactly 5 time steps with 6-hour increments (preserve original behavior)
         return list(range(start, start + (5 * 6), 6))
 
     elif model == "GFS":
-        # Modified behavior for GFS (target 6:00 AM)
-        hours_to_target = (24 - timestamp.hour + 6) % 24
+        # Behavior for GFS anchored to target (3-hour outputs)
+        hours_to_target = (24 - timestamp.hour + target) % 24
         if hours_to_target == 0:
-            hours_to_target = 24  # If already at 6am, we want the next day's 6am
+            hours_to_target = 24
 
-        # Calculate start point
         if timestamp.hour == 0:
             start = hours_to_target + 24
         else:
             start = hours_to_target
 
-        # Generate exactly 8 time steps with 3-hour increments (covering 06:00 to 06:00)
+        # Generate exactly 9 time steps with 3-hour increments (preserve original behavior)
         return list(range(start, start + (9 * 3), 3))
 
     else:
-        raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS'")
+        raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS', 'AIFS'")
+
+
+# def calculate_forecast_range(timestamp, model="HRRR"):
+#     """
+#     Calculate forecast range based on model type.
+    
+#     Args:
+#         timestamp: pd.Timestamp of the forecast initialization
+#         model: str, model type ('HRRR' or 'IFS')
+        
+#     Returns:
+#         list: Range of forecast hours
+    
+#     For HRRR:
+#         Calculate forecast range from the timestamp to 5:00 the next day plus 24 hours
+#         in 1-hour increments
+        
+#     For IFS:
+#         Calculate forecast range from the timestamp to 6:00 the next day plus 24 hours
+#         in 3-hour increments
+
+#     For GFS:
+#         Calculate forecast range from the timestamp to 3:00 the next day plus 24 hours
+#         in 3-hour increments
+#     """
+#     if model == "HRRR":
+#         # Original behavior for HRRR (target 6:00 AM)
+#         hours_to_target = (24 - timestamp.hour + 6) % 24
+#         if hours_to_target == 0:
+#             hours_to_target = 24  # If already at 6am, we want the next day's 6am
+
+#         # For 0z model run, add 24 hours to target the following day
+#         if timestamp.hour == 0:
+#             return list(range(hours_to_target + 24, hours_to_target + 49))
+#         else:
+#             return list(range(hours_to_target, hours_to_target + 25))
+    
+#     elif model == "IFS":
+#         # Modified behavior for IFS (target 6:00 AM)
+#         hours_to_target = (24 - timestamp.hour + 6) % 24
+#         if hours_to_target == 0:
+#             hours_to_target = 24  # If already at 6am, we want the next day's 6am
+
+#         # Calculate start point
+#         if timestamp.hour == 0:
+#             start = hours_to_target + 24
+#         else:
+#             start = hours_to_target
+
+#         # Generate exactly 9 time steps with 3-hour increments (covering 06:00 to 06:00)
+#         return list(range(start, start + (9 * 3), 3))
+    
+#     elif model == "AIFS":
+#         # Modified behavior for AIFS (target 6:00 AM)
+#         hours_to_target = (24 - timestamp.hour + 6) % 24
+#         if hours_to_target == 0:
+#             hours_to_target = 24  # If already at 6am, we want the next day's 6am
+
+#         # Calculate start point
+#         if timestamp.hour == 0:
+#             start = hours_to_target + 24
+#         else:
+#             start = hours_to_target
+
+#         # Generate exactly 5 time steps with 6-hour increments (covering 06:00 to 06:00)
+#         return list(range(start, start + (5 * 6), 6))
+
+#     elif model == "GFS":
+#         # Modified behavior for GFS (target 6:00 AM)
+#         hours_to_target = (24 - timestamp.hour + 6) % 24
+#         if hours_to_target == 0:
+#             hours_to_target = 24  # If already at 6am, we want the next day's 6am
+
+#         # Calculate start point
+#         if timestamp.hour == 0:
+#             start = hours_to_target + 24
+#         else:
+#             start = hours_to_target
+
+#         # Generate exactly 8 time steps with 3-hour increments (covering 06:00 to 06:00)
+#         return list(range(start, start + (9 * 3), 3))
+
+#     else:
+#         raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS'")

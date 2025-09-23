@@ -65,7 +65,7 @@ try:
     init_hrrr = get_latest_forecast_cycle(model="HRRR")
 
     # Determine forecast steps to request (uses functions.calculate_forecast_range)
-    fxx_hrrr = calculate_forecast_range(init_hrrr, model="HRRR")
+    fxx_hrrr = calculate_forecast_range(init_hrrr, model="HRRR", target_hour=2)
 
     # Request fields from Herbie
     H_hrrr = FastHerbie([init_hrrr], model="hrrr", product="sfc", fxx=fxx_hrrr)
@@ -121,7 +121,7 @@ try:
     print("Fetching IFS data...")
 
     init_ifs = get_latest_forecast_cycle(model="IFS")
-    fxx_ifs = calculate_forecast_range(init_ifs, model="IFS")
+    fxx_ifs = calculate_forecast_range(init_ifs, model="IFS", target_hour=2)
     H_ifs = FastHerbie([init_ifs], model="ifs", product="oper", fxx=fxx_ifs)
 
     # 2 m temperature: extract and convert
@@ -175,7 +175,7 @@ try:
     print("Fetching AIFS data...")
 
     init_aifs = get_latest_forecast_cycle(model="AIFS")
-    fxx_aifs = calculate_forecast_range(init_aifs, model="AIFS")
+    fxx_aifs = calculate_forecast_range(init_aifs, model="AIFS", target_hour=2)
     H_aifs = FastHerbie([init_aifs], model="aifs", product="oper", fxx=fxx_aifs)
 
     # 2 m temperature: extract and convert
@@ -229,7 +229,7 @@ try:
 
     # determine latest cycle & forecast range for GFS
     init_gfs = get_latest_forecast_cycle(model="GFS")
-    fxx_gfs = calculate_forecast_range(init_gfs, model="GFS")
+    fxx_gfs = calculate_forecast_range(init_gfs, model="GFS", target_hour=2)
 
     # request fields (product string may vary by deployment; adjust if needed)
     H = FastHerbie([init_gfs], model="gfs", product="pgrb2.0p25", fxx=fxx_gfs)
