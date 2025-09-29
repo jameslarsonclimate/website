@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-09-17T15:12:40+00:00",
+  "generated_at_utc": "2025-09-29T18:15:15+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Loveland, CO (KFNL)",
+    "site": "Savannah, GA (KSAV)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 72.3,
-      "tmin_f": 46.3,
-      "wind_max_kt": 8.5,
+      "tmax_f": 81.8,
+      "tmin_f": 69.2,
+      "wind_max_kt": 13.1,
       "precip_in": 0.0,
-      "init_time_utc": "2025-09-17T12",
+      "init_time_utc": "2025-09-29T12",
       "valid_range_utc": [
-        "2025-09-18T06",
-        "2025-09-19T05"
+        "2025-09-30T06",
+        "2025-10-01T06"
       ]
     },
     "IFS": {
-      "tmax_f": 73.2,
-      "tmin_f": 47.1,
-      "wind_max_kt": 2.7,
+      "tmax_f": 81.4,
+      "tmin_f": 69.1,
+      "wind_max_kt": 10.9,
       "precip_in": 0.01,
-      "init_time_utc": "2025-09-17T00",
+      "init_time_utc": "2025-09-29T00",
       "valid_range_utc": [
-        "2025-09-18T06",
-        "2025-09-19T06"
+        "2025-09-30T06",
+        "2025-10-01T06"
       ]
     },
     "GFS": {
-      "tmax_f": 76.6,
-      "tmin_f": 52.7,
-      "wind_max_kt": 8.5,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-09-17T06",
+      "tmax_f": 79.6,
+      "tmin_f": 67.7,
+      "wind_max_kt": 9.3,
+      "precip_in": 0.04,
+      "init_time_utc": "2025-09-29T12",
       "valid_range_utc": [
-        "2025-09-18T06",
-        "2025-09-19T03"
+        "2025-09-30T06",
+        "2025-10-01T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 71.3,
-      "tmin_f": 48.1,
-      "wind_max_kt": 4.6,
-      "precip_in": 0.08,
-      "init_time_utc": "2025-09-17T06",
+      "tmax_f": 81.0,
+      "tmin_f": 69.8,
+      "wind_max_kt": 8.9,
+      "precip_in": 0.05,
+      "init_time_utc": "2025-09-29T06",
       "valid_range_utc": [
-        "2025-09-18T06",
-        "2025-09-19T06"
+        "2025-09-30T06",
+        "2025-10-01T06"
       ]
     }
   }
