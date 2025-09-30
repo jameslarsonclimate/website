@@ -49,6 +49,8 @@ ROOT = Path(__file__).resolve().parent
 # points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
 cityName = 'Boston, MA (KBOS)'
 points = pd.DataFrame({"longitude": [-71.010], "latitude": [42.365]})
+cityName = 'Seattle, WA (KSEA)'
+points = pd.DataFrame({"longitude": [-122.311468], "latitude": [47.451]})
 
 now = datetime.now(timezone.utc)
 print(f"Starting forecast for {cityName} at {now.strftime('%Y-%m-%dT%H:%MZ')}")
@@ -160,6 +162,59 @@ try:
 except Exception as exc:
     print("Warning: failed to fetch IFS metrics:", exc)
     ifs_metrics = {
+        "tmax_f": None,
+        "tmin_f": None,
+        "wind_max_kt": None,
+        "precip_in": None,
+        "init_time_utc": None,
+        "valid_range_utc": None,
+        "error": str(exc)
+    }
+
+# -------------------------
+# EPS
+# -------------------------
+try:
+    print("Fetching EPS data...")
+
+    init_eps = get_latest_forecast_cycle(model="IFS")
+    fxx_eps = calculate_forecast_range(init_eps, model="IFS")
+    H_eps = FastHerbie([init_eps], model="eps", product="enfo", fxx=fxx_eps)
+
+    # # 2 m temperature: extract and convert
+    # t2m_aifs = H_aifs.xarray(":2t:", backend_kwargs={'decode_times': False}
+    #                         ).herbie.pick_points(points, method="nearest")['t2m'].sel(point=0)
+    # t2m_aifs = (t2m_aifs - 273.15) * 1.8 + 32
+    # tmax_aifs = float(t2m_aifs.max().values)
+    # tmin_aifs = float(t2m_aifs.min().values)
+    # init_times_aifs = convert_time_to_datetime64(t2m_aifs.time.values)
+    # valid_times_aifs = convert_time_to_datetime64(t2m_aifs.valid_time.values)
+
+    # # Wind from components -> magnitude
+    # u10_aifs = H_aifs.xarray(":10u:", backend_kwargs={'decode_times': False}
+    #                         ).herbie.pick_points(points, method="nearest")['u10'].sel(point=0)
+    # v10_aifs = H_aifs.xarray(":10v:", backend_kwargs={'decode_times': False}
+    #                         ).herbie.pick_points(points, method="nearest")['v10'].sel(point=0)
+    # wind_max_aifs = float((np.sqrt(u10_aifs**2 + v10_aifs**2)).max().values) * 1.94384 # Convert m/s to knots
+
+    # Total precipitation (sum over requested steps) and convert to inches
+    tp_eps = H_aifs.xarray(":tp:sfc:[1-9][0-9]?:g:", backend_kwargs={'decode_times': False}
+                            ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    tp_eps = tp_eps - tp_eps[0] # Subtract first timestep to get accumulation over the requested period
+    precip_eps = float(tp_eps.max().values) * 0.0393701 # Convert millimeters to inches (1 m -> 39.3701 in)
+
+    # Pack EPS metrics
+    eps_metrics = {
+        "tmax_f": round(tmax_eps, 1),
+        "tmin_f": round(tmin_eps, 1),
+        "wind_max_kt": round(wind_max_eps, 1),
+        "precip_in": round(precip_eps, 2),
+        "init_time_utc": pd.Timestamp(init_times_eps[0]).isoformat() if hasattr(init_times_eps, "__len__") else str(init_times_eps),
+        "valid_range_utc": [str(valid_times_eps[0]), str(valid_times_eps[-1])]
+    }
+except Exception as exc:
+    print("Warning: failed to fetch EPS metrics:", exc)
+    eps_metrics = {
         "tmax_f": None,
         "tmin_f": None,
         "wind_max_kt": None,
@@ -283,12 +338,12 @@ except Exception as exc:
 title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
 
 data = {
-    "Model": ["HRRR", "IFS", "GFS", "AIFS"],
-    "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs, tmax_aifs],
-    "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs, tmin_aifs],
-    "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs, precip_aifs],
-    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs, wind_max_aifs],
-    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC", f"{str(init_times_aifs)} UTC"]
+    "Model": ["HRRR", "IFS", "GFS", "AIFS", "EPS"],
+    "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs, tmax_aifs, tmax_eps],
+    "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs, tmin_aifs, tmin_eps],
+    "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs, precip_aifs, precip_eps],
+    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs, wind_max_aifs, wind_max_eps],
+    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC", f"{str(init_times_aifs)} UTC", f"{str(init_times_eps)} UTC"]
 }
 
 df_forecast = pd.DataFrame(data).round(2)
@@ -309,10 +364,10 @@ payload = {
     "meta": {
         "page": "wxchallenge",
         "site": cityName,
-        "models": ["HRRR", "IFS", "GFS", "AIFS"],
+        "models": ["HRRR", "IFS", "GFS", "AIFS", "EPS"],
         "note": "temperatures in °F, winds in kt, precip in inches",
     },
-    "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics, "GFS": gfs_metrics, "AIFS": aifs_metrics},
+    "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics, "GFS": gfs_metrics, "AIFS": aifs_metrics, "EPS": eps_metrics},
 }
 
 # Write JSON payload
@@ -358,6 +413,12 @@ try:
     wind_gfs = to_1d(np.sqrt(u10**2 + v10**2)) * 1.94384
     precip_gfs = to_1d(tp_gfs)  # already converted to inches and processed earlier
 
+    times_eps = pd.to_datetime(valid_times_eps)
+    # temps_eps = to_1d(t2m_eps)
+    # wind_eps = to_1d(np.sqrt(u10_eps**2 + v10_eps**2)) * 1.94384
+    # convert EPS tp (mm -> in) and compute accumulation inside the window (match other models)
+    precip_eps = tp_eps.values * 39.3701
+
     # --- create combined 3-panel figure ---
     fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
 
@@ -387,6 +448,7 @@ try:
     ax.plot(times_ifs, precip_ifs, marker='o', linestyle='-', color='C1', label='IFS', alpha=0.8)
     ax.plot(times_gfs, precip_gfs, marker='o', linestyle='-', color='C2', label='GFS', alpha=0.8)
     ax.plot(times_aifs, precip_aifs, marker='o', linestyle='-', color='C3', label='AIFS', alpha=0.8)
+    ax.plot(times_eps, precip_eps, marker='o', linestyle='-', color='C4', label='EPS', alpha=0.8)
     ax.set_ylabel("Precipitation (in)")
     ax.set_xlabel("Valid time (UTC)")
     ax.grid(True, linestyle='--', alpha=0.4)

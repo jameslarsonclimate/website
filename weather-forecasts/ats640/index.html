@@ -111,7 +111,7 @@ async function loadForecastForSite(siteKey){
     document.getElementById('forecast-for').textContent = `Forecasting for ${metaSite}`;
 
     // valid range: try model list order then meta
-    const preferKeys = ['HRRR','IFS','GFS','NBM','IFS_ens','AIFS'];
+    const preferKeys = ['HRRR','IFS','GFS','NBM','IFS_ens','AIFS','EPS'];
     let validRange = null;
     for (const k of preferKeys) {
       const v = data?.models?.[k]?.valid_range_utc ?? null;
@@ -127,7 +127,8 @@ async function loadForecastForSite(siteKey){
       { key: 'GFS',    label: 'GFS' },
       { key: 'NBM',    label: 'NBM' },
       { key: 'IFS_ens',label: 'IFS Ens' },
-      { key: 'AIFS',   label: 'AIFS' }
+      { key: 'AIFS',   label: 'AIFS' },
+      { key: 'EPS',    label: 'EPS' }
     ];
     function rowHtml(displayName, m){
       if (!m) return `<tr><td>${displayName}</td><td colspan="5">no data</td></tr>`;
