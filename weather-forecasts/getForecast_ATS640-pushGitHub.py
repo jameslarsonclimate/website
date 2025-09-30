@@ -179,7 +179,10 @@ try:
 
     init_eps = get_latest_forecast_cycle(model="IFS")
     fxx_eps = calculate_forecast_range(init_eps, model="IFS")
-    H_eps = FastHerbie([init_eps], model="eps", product="enfo", fxx=fxx_eps)
+    # H_eps = FastHerbie([init_eps], model="eps", product="enfo", fxx=fxx_eps)
+    H_eps_init = FastHerbie([init_eps], model="ifs", product="enfo", fxx=[fxx_eps[0]])
+    H_eps_end = FastHerbie([init_eps], model="ifs", product="enfo", fxx=[fxx_eps[-1]])
+
 
     # # 2 m temperature: extract and convert
     # t2m_aifs = H_aifs.xarray(":2t:", backend_kwargs={'decode_times': False}
@@ -187,8 +190,8 @@ try:
     # t2m_aifs = (t2m_aifs - 273.15) * 1.8 + 32
     # tmax_aifs = float(t2m_aifs.max().values)
     # tmin_aifs = float(t2m_aifs.min().values)
-    # init_times_aifs = convert_time_to_datetime64(t2m_aifs.time.values)
-    # valid_times_aifs = convert_time_to_datetime64(t2m_aifs.valid_time.values)
+    init_times_aifs = convert_time_to_datetime64(t2m_aifs.time.values)
+    valid_times_aifs = convert_time_to_datetime64(t2m_aifs.valid_time.values)
 
     # # Wind from components -> magnitude
     # u10_aifs = H_aifs.xarray(":10u:", backend_kwargs={'decode_times': False}
@@ -198,19 +201,29 @@ try:
     # wind_max_aifs = float((np.sqrt(u10_aifs**2 + v10_aifs**2)).max().values) * 1.94384 # Convert m/s to knots
 
     # Total precipitation (sum over requested steps) and convert to inches
-    tp_eps = H_aifs.xarray(":tp:sfc:[1-9][0-9]?:g:", backend_kwargs={'decode_times': False}
-                            ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
-    tp_eps = tp_eps - tp_eps[0] # Subtract first timestep to get accumulation over the requested period
-    precip_eps = float(tp_eps.max().values) * 0.0393701 # Convert millimeters to inches (1 m -> 39.3701 in)
+    # tp_eps = H_aifs.xarray(":tp:sfc:[1-9][0-9]?:g:", backend_kwargs={'decode_times': False}
+    #                         ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    # tp_eps = tp_eps - tp_eps[0] # Subtract first timestep to get accumulation over the requested period
+    # precip_eps = float(tp_eps.max().values) * 0.0393701 # Convert millimeters to inches (1 m -> 39.3701 in)
+    tp_init = H_eps_init.xarray(":tp:sfc:[1-9][0-9]?:g:", backend_kwargs={'decode_times': False}
+                  ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    tp_end = H_eps_end.xarray(":tp:sfc:[1-9][0-9]?:g:", backend_kwargs={'decode_times': False}
+                  ).herbie.pick_points(points, method="nearest")['tp'].sel(point=0)
+    precip_eps = (tp_end - tp_init) * 39.3701
+
+    init_times_eps = convert_time_to_datetime64(tp_init.time.values)
+    valid_time_init_eps = convert_time_to_datetime64(tp_init.valid_time.values)
+    valid_time_end_eps = convert_time_to_datetime64(tp_end.valid_time.values)
+
 
     # Pack EPS metrics
     eps_metrics = {
-        "tmax_f": round(tmax_eps, 1),
-        "tmin_f": round(tmin_eps, 1),
-        "wind_max_kt": round(wind_max_eps, 1),
+        "tmax_f": np.nan,  # round(tmax_eps, 1),
+        "tmin_f": np.nan,  # round(tmin_eps, 1),
+        "wind_max_kt": np.nan,  # round(wind_max_eps, 1),
         "precip_in": round(precip_eps, 2),
         "init_time_utc": pd.Timestamp(init_times_eps[0]).isoformat() if hasattr(init_times_eps, "__len__") else str(init_times_eps),
-        "valid_range_utc": [str(valid_times_eps[0]), str(valid_times_eps[-1])]
+        "valid_range_utc": [str(valid_time_init_eps), str(valid_time_end_eps)]
     }
 except Exception as exc:
     print("Warning: failed to fetch EPS metrics:", exc)
