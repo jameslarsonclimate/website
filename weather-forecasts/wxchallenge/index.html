@@ -42,8 +42,8 @@
           <th>Model</th>
           <th>High (°F)</th>
           <th>Low (°F)</th>
-          <th>Precipitation (in)</th>
           <th>Wind Speed (kt)</th>
+          <th>Precipitation (in)</th>
           <th>Model Init (UTC)</th>
         </tr>
       </thead>
@@ -126,8 +126,8 @@ function fmt(v){ return v===null||v===undefined ? '—' : v; }
         <td>${displayName}</td>
         <td>${fmt(m.tmax_f)}</td>
         <td>${fmt(m.tmin_f)}</td>
-        <td>${fmt(m.precip_in)}</td>
         <td>${fmt(m.wind_max_kt)}</td>
+        <td>${fmt(m.precip_in)}</td>
         <td>${fmt(m.init_time_utc)}</td>
       </tr>`;
     }
