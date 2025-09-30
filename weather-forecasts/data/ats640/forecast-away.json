@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-09-23T19:29:48+00:00",
+  "generated_at_utc": "2025-09-30T16:14:23+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Boston, MA (KBOS)",
+    "site": "Seattle, WA (KSEA)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 67.2,
-      "tmin_f": 62.7,
-      "wind_max_kt": 9.4,
-      "precip_in": 0.07,
-      "init_time_utc": "2025-09-23T12",
+      "tmax_f": 60.8,
+      "tmin_f": 52.8,
+      "wind_max_kt": 17.6,
+      "precip_in": 0.13,
+      "init_time_utc": "2025-09-30T12",
       "valid_range_utc": [
-        "2025-09-24T06",
-        "2025-09-25T06"
+        "2025-10-01T06",
+        "2025-10-02T06"
       ]
     },
     "IFS": {
-      "tmax_f": 65.1,
-      "tmin_f": 63.0,
-      "wind_max_kt": 9.0,
-      "precip_in": 0.32,
-      "init_time_utc": "2025-09-23T00",
+      "tmax_f": 66.6,
+      "tmin_f": 53.4,
+      "wind_max_kt": 10.8,
+      "precip_in": 0.55,
+      "init_time_utc": "2025-09-30T00",
       "valid_range_utc": [
-        "2025-09-24T06",
-        "2025-09-25T06"
+        "2025-10-01T06",
+        "2025-10-02T06"
       ]
     },
     "GFS": {
-      "tmax_f": 64.0,
-      "tmin_f": 62.6,
-      "wind_max_kt": 9.9,
-      "precip_in": 0.06,
-      "init_time_utc": "2025-09-23T12",
+      "tmax_f": 65.1,
+      "tmin_f": 53.8,
+      "wind_max_kt": 9.4,
+      "precip_in": 0.31,
+      "init_time_utc": "2025-09-30T06",
       "valid_range_utc": [
-        "2025-09-24T06",
-        "2025-09-25T06"
+        "2025-10-01T06",
+        "2025-10-02T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 66.1,
-      "tmin_f": 63.8,
+      "tmax_f": 62.0,
+      "tmin_f": 56.0,
       "wind_max_kt": 7.8,
-      "precip_in": 0.58,
-      "init_time_utc": "2025-09-23T12",
+      "precip_in": 0.33,
+      "init_time_utc": "2025-09-30T06",
       "valid_range_utc": [
-        "2025-09-24T06",
-        "2025-09-25T06"
+        "2025-10-01T06",
+        "2025-10-02T06"
       ]
     }
   }
