@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-09-30T14:33:15+00:00",
+  "generated_at_utc": "2025-09-30T20:47:43+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Savannah, GA (KSAV)",
@@ -13,9 +13,20 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 80.6,
-      "tmin_f": 66.1,
-      "wind_max_kt": 9.7,
+      "tmax_f": 80.5,
+      "tmin_f": 64.8,
+      "wind_max_kt": 10.5,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-09-30T18",
+      "valid_range_utc": [
+        "2025-10-01T06",
+        "2025-10-02T06"
+      ]
+    },
+    "IFS": {
+      "tmax_f": 80.3,
+      "tmin_f": 66.0,
+      "wind_max_kt": 7.3,
       "precip_in": 0.0,
       "init_time_utc": "2025-09-30T12",
       "valid_range_utc": [
@@ -23,34 +34,23 @@
         "2025-10-02T06"
       ]
     },
-    "IFS": {
-      "tmax_f": 81.6,
-      "tmin_f": 64.5,
-      "wind_max_kt": 7.4,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-09-30T00",
-      "valid_range_utc": [
-        "2025-10-01T06",
-        "2025-10-02T06"
-      ]
-    },
     "GFS": {
-      "tmax_f": 82.3,
-      "tmin_f": 63.1,
-      "wind_max_kt": 7.8,
+      "tmax_f": 83.0,
+      "tmin_f": 64.8,
+      "wind_max_kt": 8.0,
       "precip_in": 0.0,
-      "init_time_utc": "2025-09-30T06",
+      "init_time_utc": "2025-09-30T12",
       "valid_range_utc": [
         "2025-10-01T06",
         "2025-10-02T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 81.2,
-      "tmin_f": 65.8,
-      "wind_max_kt": 7.7,
+      "tmax_f": 81.4,
+      "tmin_f": 65.4,
+      "wind_max_kt": 7.9,
       "precip_in": 0.0,
-      "init_time_utc": "2025-09-30T06",
+      "init_time_utc": "2025-09-30T12",
       "valid_range_utc": [
         "2025-10-01T06",
         "2025-10-02T06"
