@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-01T19:58:38+00:00",
+  "generated_at_utc": "2025-10-01T20:07:50+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Savannah, GA (KSAV)",
@@ -24,11 +24,11 @@
       ]
     },
     "IFS": {
-      "tmax_f": 76.7,
-      "tmin_f": 62.1,
-      "wind_max_kt": 9.2,
+      "tmax_f": 77.5,
+      "tmin_f": 62.5,
+      "wind_max_kt": 8.7,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-01T00",
+      "init_time_utc": "2025-10-01T12",
       "valid_range_utc": [
         "2025-10-02T06",
         "2025-10-03T06"
