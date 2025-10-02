@@ -123,8 +123,8 @@ def get_latest_forecast_cycle(model='HRRR'):
             'init_hours': [0, 6, 12, 18]  # HRRR runs 4 times daily
         },
         'IFS': {
-            'delay': 8.7,        # IFS has ~8.7 hour processing delay
-            'init_hours': [0, 6, 12, 18]  # IFS runs 4 times daily
+            'delay': 8,        # IFS has ~8 hour processing delay
+            'init_hours': [0, 12]  # IFS runs 2 times daily
         },
         'AIFS': {
             'delay': 7,        # AIFS has ~5 hour processing delay
