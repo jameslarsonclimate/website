@@ -51,6 +51,8 @@ cityName = 'Boston, MA (KBOS)'
 points = pd.DataFrame({"longitude": [-71.010], "latitude": [42.365]})
 cityName = 'Seattle, WA (KSEA)'
 points = pd.DataFrame({"longitude": [-122.308], "latitude": [47.648]})
+cityName = 'Washington, DC (KDCA)'
+points = pd.DataFrame({"longitude": [-77.0369], "latitude": [38.851]})
 
 now = datetime.now(timezone.utc)
 print(f"Starting forecast for {cityName} at {now.strftime('%Y-%m-%dT%H:%MZ')}")
