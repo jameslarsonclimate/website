@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-07T19:35:22+00:00",
+  "generated_at_utc": "2025-10-09T19:07:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Washington, DC (KDCA)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 71.7,
-      "tmin_f": 50.2,
-      "wind_max_kt": 11.7,
-      "precip_in": 0.39,
-      "init_time_utc": "2025-10-07T18",
+      "tmax_f": 65.4,
+      "tmin_f": 43.8,
+      "wind_max_kt": 9.1,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-10-09T12",
       "valid_range_utc": [
-        "2025-10-08T06",
-        "2025-10-09T06"
+        "2025-10-10T06",
+        "2025-10-11T06"
       ]
     },
     "IFS": {
-      "tmax_f": 71.2,
-      "tmin_f": 53.1,
-      "wind_max_kt": 10.9,
-      "precip_in": 0.16,
-      "init_time_utc": "2025-10-07T00",
+      "tmax_f": 63.2,
+      "tmin_f": 48.3,
+      "wind_max_kt": 6.4,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-10-09T00",
       "valid_range_utc": [
-        "2025-10-08T06",
-        "2025-10-09T06"
+        "2025-10-10T06",
+        "2025-10-11T06"
       ]
     },
     "GFS": {
-      "tmax_f": 69.7,
-      "tmin_f": 55.0,
-      "wind_max_kt": 9.7,
-      "precip_in": 0.16,
-      "init_time_utc": "2025-10-07T12",
+      "tmax_f": 66.0,
+      "tmin_f": 47.6,
+      "wind_max_kt": 8.7,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-10-09T12",
       "valid_range_utc": [
-        "2025-10-08T06",
-        "2025-10-09T06"
+        "2025-10-10T06",
+        "2025-10-11T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 73.4,
-      "tmin_f": 55.6,
-      "wind_max_kt": 10.1,
-      "precip_in": 0.28,
-      "init_time_utc": "2025-10-07T12",
+      "tmax_f": 63.8,
+      "tmin_f": 46.9,
+      "wind_max_kt": 5.2,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-10-09T12",
       "valid_range_utc": [
-        "2025-10-08T06",
-        "2025-10-09T06"
+        "2025-10-10T06",
+        "2025-10-11T06"
       ]
     }
   }
