@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-13T19:46:19+00:00",
+  "generated_at_utc": "2025-10-13T19:50:17+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Glasgow, MT (KGGW)",
@@ -24,11 +24,11 @@
       ]
     },
     "IFS": {
-      "tmax_f": 54.5,
-      "tmin_f": 34.9,
-      "wind_max_kt": 12.1,
+      "tmax_f": 51.4,
+      "tmin_f": 34.1,
+      "wind_max_kt": 11.6,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-13T00",
+      "init_time_utc": "2025-10-13T12",
       "valid_range_utc": [
         "2025-10-14T06",
         "2025-10-15T06"
