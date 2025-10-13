@@ -49,8 +49,9 @@ cityName = "Loveland, CO (KFNL)"
 points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
 # cityName = 'Eagle, CO (KEGE)'
 # points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
-cityName = 'Savannah, GA (KSAV)'
-points = pd.DataFrame({"longitude": [-81.20], "latitude": [32.129]})
+cityName = 'Glasgow, MT (KGGW)'
+points = pd.DataFrame({"longitude": [-106.6165], "latitude": [48.2128]}) 
+
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -285,20 +286,34 @@ except Exception as exc:
 # Create the title and the table combining both models (use the current variable names)
 title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
 
-data = {
-    "Model": ["HRRR", "IFS", "GFS", "AIFS"],
-    "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs, tmax_aifs],
-    "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs, tmin_aifs],
-    "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs, precip_aifs],
-    "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs, wind_max_aifs],
-    "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC", f"{str(init_times_aifs)} UTC"]
-}
+# data = {
+#     "Model": ["HRRR", "IFS", "GFS", "AIFS"],
+#     "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs, tmax_aifs],
+#     "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs, tmin_aifs],
+#     "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs, precip_aifs],
+#     "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs, wind_max_aifs],
+#     "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC", f"{str(init_times_aifs)} UTC"]
+# }
 
-df_forecast = pd.DataFrame(data).round(2)
+# df_forecast = pd.DataFrame(data).round(2)
+
+models = [
+    ("HRRR", init_times_hrrr, tmax_hrrr, tmin_hrrr, wind_max_hrrr, precip_hrrr),
+    ("ECMWF",  init_times_ifs,  tmax_ifs,  tmin_ifs,  wind_max_ifs,  precip_ifs),
+    ("GFS",  init_times_gfs,  tmax_gfs,  tmin_gfs,  wind_max_gfs,  precip_gfs),
+    ("AIFS", init_times_aifs, tmax_aifs, tmin_aifs, wind_max_aifs, precip_aifs),
+]
+
+for name, init, tmax, tmin, wind, prec in models:
+    run = run_hour(init)
+    print(f"{name} - {run}")
+    print(f'{fmt(tmax,'t')}°F   {fmt(tmin,'t')}°F   {fmt(wind,'w')} kt   {fmt(prec,'p')}"')
+    print()
+
 
 # Print the title and table without row numbers
 print(title)
-print(df_forecast.to_string(index=False))
+# print(df_forecast.to_string(index=False))
 
 
 # -------------------------------------------------------------------

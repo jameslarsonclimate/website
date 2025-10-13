@@ -123,11 +123,11 @@ def get_latest_forecast_cycle(model='HRRR'):
             'init_hours': [0, 6, 12, 18]  # HRRR runs 4 times daily
         },
         'IFS': {
-            'delay': 8,        # IFS has ~8 hour processing delay
+            'delay': 7.75,        # IFS has ~7.75 hour processing delay
             'init_hours': [0, 12]  # IFS runs 2 times daily
         },
         'AIFS': {
-            'delay': 7,        # AIFS has ~5 hour processing delay
+            'delay': 7,        # AIFS has ~7 hour processing delay
             'init_hours': [0, 6, 12, 18]  # AIFS runs 4 times daily
         },
         'GFS': {
@@ -327,6 +327,30 @@ def calculate_forecast_range(timestamp, model="HRRR", target_hour=6):
 
     else:
         raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS', 'AIFS'")
+
+
+def run_hour(init):
+    if init is None:
+        return "n/a"
+    try:
+        val = init[0] if hasattr(init, "__len__") and not isinstance(init, (str, bytes)) else init
+        ts = pd.Timestamp(val)
+        return f"{ts.hour:02d}z"
+    except Exception:
+        return "n/a"
+
+def fmt(val, kind):
+    if val is None:
+        return "n/a"
+    try:
+        if kind == "t":
+            return f"{val:.1f}"
+        if kind == "w":
+            return f"{int(round(val))}"
+        if kind == "p":
+            return f"{val:.2f}"
+    except Exception:
+        return "n/a"
 
 
 # def calculate_forecast_range(timestamp, model="HRRR"):
