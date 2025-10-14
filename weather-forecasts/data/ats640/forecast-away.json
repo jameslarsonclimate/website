@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-10-09T19:07:09+00:00",
+  "generated_at_utc": "2025-10-14T16:04:30+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Washington, DC (KDCA)",
+    "site": "Glasgow, MT (KGGW)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 65.4,
-      "tmin_f": 43.8,
-      "wind_max_kt": 9.1,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-10-09T12",
+      "tmax_f": 48.4,
+      "tmin_f": 36.5,
+      "wind_max_kt": 17.3,
+      "precip_in": 0.38,
+      "init_time_utc": "2025-10-14T12",
       "valid_range_utc": [
-        "2025-10-10T06",
-        "2025-10-11T06"
+        "2025-10-15T06",
+        "2025-10-16T06"
       ]
     },
     "IFS": {
-      "tmax_f": 63.2,
-      "tmin_f": 48.3,
-      "wind_max_kt": 6.4,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-10-09T00",
+      "tmax_f": 53.0,
+      "tmin_f": 39.4,
+      "wind_max_kt": 10.4,
+      "precip_in": 0.22,
+      "init_time_utc": "2025-10-14T00",
       "valid_range_utc": [
-        "2025-10-10T06",
-        "2025-10-11T06"
+        "2025-10-15T06",
+        "2025-10-16T06"
       ]
     },
     "GFS": {
-      "tmax_f": 66.0,
-      "tmin_f": 47.6,
-      "wind_max_kt": 8.7,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-10-09T12",
+      "tmax_f": 54.8,
+      "tmin_f": 43.1,
+      "wind_max_kt": 10.8,
+      "precip_in": 0.1,
+      "init_time_utc": "2025-10-14T06",
       "valid_range_utc": [
-        "2025-10-10T06",
-        "2025-10-11T06"
+        "2025-10-15T06",
+        "2025-10-16T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 63.8,
-      "tmin_f": 46.9,
-      "wind_max_kt": 5.2,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-10-09T12",
+      "tmax_f": 46.9,
+      "tmin_f": 41.3,
+      "wind_max_kt": 6.0,
+      "precip_in": 0.1,
+      "init_time_utc": "2025-10-14T06",
       "valid_range_utc": [
-        "2025-10-10T06",
-        "2025-10-11T06"
+        "2025-10-15T06",
+        "2025-10-16T06"
       ]
     }
   }
