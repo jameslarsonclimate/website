@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-15T16:57:33+00:00",
+  "generated_at_utc": "2025-10-15T20:03:14+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Glasgow, MT (KGGW)",
@@ -13,22 +13,22 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 48.4,
-      "tmin_f": 44.6,
-      "wind_max_kt": 13.5,
-      "precip_in": 0.62,
-      "init_time_utc": "2025-10-15T12",
+      "tmax_f": 48.3,
+      "tmin_f": 45.0,
+      "wind_max_kt": 12.1,
+      "precip_in": 0.76,
+      "init_time_utc": "2025-10-15T18",
       "valid_range_utc": [
         "2025-10-16T06",
         "2025-10-17T06"
       ]
     },
     "IFS": {
-      "tmax_f": 51.5,
-      "tmin_f": 46.6,
-      "wind_max_kt": 8.4,
-      "precip_in": 0.18,
-      "init_time_utc": "2025-10-15T00",
+      "tmax_f": 54.5,
+      "tmin_f": 44.5,
+      "wind_max_kt": 7.7,
+      "precip_in": 0.02,
+      "init_time_utc": "2025-10-15T12",
       "valid_range_utc": [
         "2025-10-16T06",
         "2025-10-17T06"
@@ -46,11 +46,11 @@
       ]
     },
     "AIFS": {
-      "tmax_f": 48.9,
-      "tmin_f": 44.7,
-      "wind_max_kt": 5.3,
-      "precip_in": 0.1,
-      "init_time_utc": "2025-10-15T06",
+      "tmax_f": 48.3,
+      "tmin_f": 45.0,
+      "wind_max_kt": 5.2,
+      "precip_in": 0.27,
+      "init_time_utc": "2025-10-15T12",
       "valid_range_utc": [
         "2025-10-16T06",
         "2025-10-17T06"
