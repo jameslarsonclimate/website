@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-14T19:50:02+00:00",
+  "generated_at_utc": "2025-10-15T16:57:33+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Glasgow, MT (KGGW)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 50.0,
-      "tmin_f": 40.4,
-      "wind_max_kt": 16.4,
-      "precip_in": 0.55,
-      "init_time_utc": "2025-10-14T18",
+      "tmax_f": 48.4,
+      "tmin_f": 44.6,
+      "wind_max_kt": 13.5,
+      "precip_in": 0.62,
+      "init_time_utc": "2025-10-15T12",
       "valid_range_utc": [
-        "2025-10-15T06",
-        "2025-10-16T06"
+        "2025-10-16T06",
+        "2025-10-17T06"
       ]
     },
     "IFS": {
-      "tmax_f": 56.6,
-      "tmin_f": 41.4,
-      "wind_max_kt": 11.1,
-      "precip_in": 0.06,
-      "init_time_utc": "2025-10-14T12",
+      "tmax_f": 51.5,
+      "tmin_f": 46.6,
+      "wind_max_kt": 8.4,
+      "precip_in": 0.18,
+      "init_time_utc": "2025-10-15T00",
       "valid_range_utc": [
-        "2025-10-15T06",
-        "2025-10-16T06"
+        "2025-10-16T06",
+        "2025-10-17T06"
       ]
     },
     "GFS": {
-      "tmax_f": 56.2,
-      "tmin_f": 42.5,
-      "wind_max_kt": 11.6,
-      "precip_in": 0.23,
-      "init_time_utc": "2025-10-14T12",
+      "tmax_f": 54.5,
+      "tmin_f": 50.0,
+      "wind_max_kt": 9.6,
+      "precip_in": 0.25,
+      "init_time_utc": "2025-10-15T12",
       "valid_range_utc": [
-        "2025-10-15T06",
-        "2025-10-16T06"
+        "2025-10-16T06",
+        "2025-10-17T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 47.7,
-      "tmin_f": 41.1,
-      "wind_max_kt": 6.3,
-      "precip_in": 0.14,
-      "init_time_utc": "2025-10-14T12",
+      "tmax_f": 48.9,
+      "tmin_f": 44.7,
+      "wind_max_kt": 5.3,
+      "precip_in": 0.1,
+      "init_time_utc": "2025-10-15T06",
       "valid_range_utc": [
-        "2025-10-15T06",
-        "2025-10-16T06"
+        "2025-10-16T06",
+        "2025-10-17T06"
       ]
     }
   }
