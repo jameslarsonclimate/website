@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-21T18:56:14+00:00",
+  "generated_at_utc": "2025-10-22T22:06:45+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Glasgow, MT (KGGW)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 57.4,
-      "tmin_f": 31.3,
-      "wind_max_kt": 10.5,
+      "tmax_f": 58.6,
+      "tmin_f": 34.9,
+      "wind_max_kt": 11.1,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-21T12",
+      "init_time_utc": "2025-10-22T18",
       "valid_range_utc": [
-        "2025-10-22T06",
-        "2025-10-23T06"
+        "2025-10-23T06",
+        "2025-10-24T06"
       ]
     },
     "IFS": {
-      "tmax_f": 57.4,
-      "tmin_f": 35.8,
-      "wind_max_kt": 9.0,
+      "tmax_f": 60.2,
+      "tmin_f": 34.5,
+      "wind_max_kt": 7.0,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-21T00",
+      "init_time_utc": "2025-10-22T12",
       "valid_range_utc": [
-        "2025-10-22T06",
-        "2025-10-23T06"
+        "2025-10-23T06",
+        "2025-10-24T06"
       ]
     },
     "GFS": {
-      "tmax_f": 57.9,
-      "tmin_f": 42.9,
-      "wind_max_kt": 9.8,
+      "tmax_f": 62.8,
+      "tmin_f": 41.5,
+      "wind_max_kt": 9.6,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-21T12",
+      "init_time_utc": "2025-10-22T12",
       "valid_range_utc": [
-        "2025-10-22T06",
-        "2025-10-23T06"
+        "2025-10-23T06",
+        "2025-10-24T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 51.1,
-      "tmin_f": 33.3,
-      "wind_max_kt": 7.8,
+      "tmax_f": 54.7,
+      "tmin_f": 33.0,
+      "wind_max_kt": 7.5,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-21T06",
+      "init_time_utc": "2025-10-22T12",
       "valid_range_utc": [
-        "2025-10-22T06",
-        "2025-10-23T06"
+        "2025-10-23T06",
+        "2025-10-24T06"
       ]
     }
   }
