@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-29T22:03:19+00:00",
+  "generated_at_utc": "2025-10-30T17:24:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Concord, NH (KCON)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 51.7,
-      "tmin_f": 37.8,
-      "wind_max_kt": 14.9,
-      "precip_in": 1.49,
-      "init_time_utc": "2025-10-29T18",
+      "tmax_f": 55.3,
+      "tmin_f": 43.6,
+      "wind_max_kt": 25.3,
+      "precip_in": 0.29,
+      "init_time_utc": "2025-10-30T12",
       "valid_range_utc": [
-        "2025-10-30T06",
-        "2025-10-31T06"
+        "2025-10-31T06",
+        "2025-11-01T06"
       ]
     },
     "IFS": {
-      "tmax_f": 55.6,
-      "tmin_f": 39.0,
-      "wind_max_kt": 21.1,
-      "precip_in": 0.63,
-      "init_time_utc": "2025-10-29T12",
+      "tmax_f": 58.2,
+      "tmin_f": 43.2,
+      "wind_max_kt": 17.9,
+      "precip_in": 0.14,
+      "init_time_utc": "2025-10-30T00",
       "valid_range_utc": [
-        "2025-10-30T06",
-        "2025-10-31T06"
+        "2025-10-31T06",
+        "2025-11-01T06"
       ]
     },
     "GFS": {
-      "tmax_f": 53.0,
-      "tmin_f": 37.4,
-      "wind_max_kt": 11.7,
-      "precip_in": 0.23,
-      "init_time_utc": "2025-10-29T12",
+      "tmax_f": 56.1,
+      "tmin_f": 41.7,
+      "wind_max_kt": 16.4,
+      "precip_in": 0.66,
+      "init_time_utc": "2025-10-30T12",
       "valid_range_utc": [
-        "2025-10-30T06",
-        "2025-10-31T06"
+        "2025-10-31T06",
+        "2025-11-01T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 55.2,
-      "tmin_f": 39.6,
-      "wind_max_kt": 10.1,
-      "precip_in": 1.17,
-      "init_time_utc": "2025-10-29T12",
+      "tmax_f": 54.9,
+      "tmin_f": 43.6,
+      "wind_max_kt": 13.9,
+      "precip_in": 0.27,
+      "init_time_utc": "2025-10-30T06",
       "valid_range_utc": [
-        "2025-10-30T06",
-        "2025-10-31T06"
+        "2025-10-31T06",
+        "2025-11-01T06"
       ]
     }
   }
