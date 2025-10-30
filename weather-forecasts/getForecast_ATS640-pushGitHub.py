@@ -49,8 +49,8 @@ ROOT = Path(__file__).resolve().parent
 # points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
 cityName = 'Boston, MA (KBOS)'
 points = pd.DataFrame({"longitude": [-71.010], "latitude": [42.365]})
-cityName = 'Glasgow, MT (KGGW)'
-points = pd.DataFrame({"longitude": [-106.6165], "latitude": [48.2128]}) 
+cityName = 'Charleston, WV (KCRW)' 
+points = pd.DataFrame({"longitude": [-81.59466], "latitude": [38.372122]})
 
 now = datetime.now(timezone.utc)
 print(f"Starting forecast for {cityName} at {now.strftime('%Y-%m-%dT%H:%MZ')}")

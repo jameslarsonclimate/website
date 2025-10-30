@@ -49,9 +49,8 @@ cityName = "Loveland, CO (KFNL)"
 points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
 # cityName = 'Eagle, CO (KEGE)'
 # points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
-cityName = 'Glasgow, MT (KGGW)'
-points = pd.DataFrame({"longitude": [-106.6165], "latitude": [48.2128]}) 
-
+cityName = 'Concord, NH (KCON)'
+points = pd.DataFrame({"longitude": [-71.505923], "latitude": [43.206442]})
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
