@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-10-30T17:13:15+00:00",
+  "generated_at_utc": "2025-10-30T19:46:35+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Charleston, WV (KCRW)",
@@ -13,11 +13,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 50.9,
-      "tmin_f": 40.1,
-      "wind_max_kt": 10.9,
+      "tmax_f": 51.9,
+      "tmin_f": 42.1,
+      "wind_max_kt": 11.1,
       "precip_in": 0.0,
-      "init_time_utc": "2025-10-30T12",
+      "init_time_utc": "2025-10-30T18",
       "valid_range_utc": [
         "2025-10-31T06",
         "2025-11-01T06"
@@ -25,10 +25,10 @@
     },
     "IFS": {
       "tmax_f": 52.2,
-      "tmin_f": 39.5,
-      "wind_max_kt": 12.6,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-10-30T00",
+      "tmin_f": 38.7,
+      "wind_max_kt": 12.2,
+      "precip_in": 0.01,
+      "init_time_utc": "2025-10-30T12",
       "valid_range_utc": [
         "2025-10-31T06",
         "2025-11-01T06"
@@ -46,11 +46,11 @@
       ]
     },
     "AIFS": {
-      "tmax_f": 52.1,
-      "tmin_f": 40.2,
-      "wind_max_kt": 11.1,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-10-30T06",
+      "tmax_f": 52.9,
+      "tmin_f": 41.0,
+      "wind_max_kt": 11.3,
+      "precip_in": 0.01,
+      "init_time_utc": "2025-10-30T12",
       "valid_range_utc": [
         "2025-10-31T06",
         "2025-11-01T06"
