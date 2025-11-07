@@ -108,6 +108,14 @@ try:
     }
 except Exception as exc:
     print("Warning: failed to fetch HRRR metrics:", exc)
+    init_times_hrrr = None
+    valid_times_hrrr = None
+    tmax_hrrr = None
+    tmin_hrrr = None
+    wind_max_hrrr = None
+    precip_hrrr = None
+    si10_hrrr = None
+    tp_hrrr = None
     hrrr_metrics = {
         "tmax_f": None,
         "tmin_f": None,
@@ -162,6 +170,15 @@ try:
     }
 except Exception as exc:
     print("Warning: failed to fetch IFS metrics:", exc)
+    init_times_ifs = None
+    valid_times_ifs = None
+    tmax_ifs = None
+    tmin_ifs = None
+    wind_max_ifs = None
+    precip_ifs = None
+    u10_ifs = None
+    v10_ifs = None
+    tp_ifs = None
     ifs_metrics = {
         "tmax_f": None,
         "tmin_f": None,
@@ -215,6 +232,15 @@ try:
     }
 except Exception as exc:
     print("Warning: failed to fetch AIFS metrics:", exc)
+    init_times_aifs = None
+    valid_times_aifs = None
+    tmax_aifs = None
+    tmin_aifs = None
+    wind_max_aifs = None
+    precip_aifs = None
+    u10_aifs = None
+    v10_aifs = None
+    tp_aifs = None
     aifs_metrics = {
         "tmax_f": None,
         "tmin_f": None,
@@ -272,6 +298,15 @@ try:
     }
 except Exception as exc:
     print("Warning: failed to fetch GFS metrics:", exc)
+    init_times_gfs = None
+    valid_times_gfs = None
+    tmax_gfs = None
+    tmin_gfs = None
+    wind_max_gfs = None
+    precip_gfs = None
+    u10_gfs = None
+    v10_gfs = None
+    tp_gfs = None
     gfs_metrics = {
         "tmax_f": None,
         "tmin_f": None,
@@ -284,17 +319,6 @@ except Exception as exc:
 
 # Create the title and the table combining both models (use the current variable names)
 title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
-
-# data = {
-#     "Model": ["HRRR", "IFS", "GFS", "AIFS"],
-#     "High (°F)": [tmax_hrrr, tmax_ifs, tmax_gfs, tmax_aifs],
-#     "Low (°F)": [tmin_hrrr, tmin_ifs, tmin_gfs, tmin_aifs],
-#     "Precipitation (in)": [precip_hrrr, precip_ifs, precip_gfs, precip_aifs],
-#     "Wind Speed (kt)": [wind_max_hrrr, wind_max_ifs, wind_max_gfs, wind_max_aifs],
-#     "Model Init": [f"{str(init_times_hrrr)} UTC", f"{str(init_times_ifs)} UTC", f"{str(init_times_gfs)} UTC", f"{str(init_times_aifs)} UTC"]
-# }
-
-# df_forecast = pd.DataFrame(data).round(2)
 
 models = [
     ("HRRR", init_times_hrrr, tmax_hrrr, tmin_hrrr, wind_max_hrrr, precip_hrrr),
@@ -317,9 +341,6 @@ print(title)
 
 # -------------------------------------------------------------------
 # Build JSON payload consumed by the website
-# - include 'models' object with HRRR and IFS (current schema)
-# - also include legacy top-level metrics + meta.model/meta.init_time_utc
-#   so the existing index.html (which expects the old schema) continues to work
 # -------------------------------------------------------------------
 payload = {
     "generated_at_utc": now_iso,
@@ -332,10 +353,54 @@ payload = {
     "models": {"HRRR": hrrr_metrics, "IFS": ifs_metrics, "GFS": gfs_metrics, "AIFS": aifs_metrics},
 }
 
-# Write JSON payload
+# Write "current" JSON payload (keeps existing behavior for the website)
 json_path = DATA / "forecast.json"
 json_path.write_text(json.dumps(payload, indent=2))
 print(f"Wrote {json_path}")
+
+# --- NEW: maintain a daily history (one JSON object per line). If the same day is run
+# --- multiple times, overwrite that day's entry.
+history_path = DATA / "forecast_history.jsonl"
+date_key = now_iso[:10]  # YYYY-MM-DD
+
+# build a compact history entry that includes the date key
+history_entry = {
+    "date": date_key,
+    "generated_at_utc": now_iso,
+    "meta": payload["meta"],
+    "models": payload["models"],
+}
+
+# read existing lines (if any), filter out today's entry, and append new entry
+existing_lines = []
+if history_path.exists():
+    try:
+        with history_path.open("r", encoding="utf8") as fh:
+            for ln in fh:
+                ln = ln.strip()
+                if not ln:
+                    continue
+                try:
+                    obj = json.loads(ln)
+                except Exception:
+                    # skip malformed lines
+                    continue
+                # keep lines that are not today's date
+                if obj.get("date") != date_key:
+                    existing_lines.append(obj)
+    except Exception as e:
+        print("Warning: could not read existing history file, starting fresh:", e)
+
+# append new entry and write back as newline-delimited JSON (one object per line)
+existing_lines.append(history_entry)
+try:
+    with history_path.open("w", encoding="utf8") as fh:
+        for obj in existing_lines:
+            fh.write(json.dumps(obj, separators=(",", ":"), ensure_ascii=False) + "\n")
+    print(f"Wrote {history_path} ({len(existing_lines)} entries)")
+except Exception as e:
+    print("Warning: failed to update history file:", e)
+
 
 # -------------------------
 # Small image for site
@@ -352,62 +417,120 @@ try:
             pass
         return np.asarray(x).flatten()
 
-    # --- prepare time series for each model ---
-    times_hrrr = pd.to_datetime(valid_times_hrrr)
-    temps_hrrr = to_1d(t2m_hrrr)
-    wind_hrrr = to_1d(si10_hrrr) * 1.94384
-    precip_hrrr = to_1d(tp_hrrr)  # already converted to inches and processed earlier
+    def make_model_series(times_var, temp_var=None, wind_var=None, precip_var=None,
+                          temp_conv=None, wind_conv=None, precip_conv=None):
+        """
+        Return dict with keys 'times','temps','winds','precs' or None on failure.
+        wind_var may be a tuple (u10, v10) or a single DataArray.
+        """
+        try:
+            if times_var is None:
+                raise ValueError("missing times")
+            times = pd.to_datetime(times_var)
 
-    times_ifs = pd.to_datetime(valid_times_ifs)
-    temps_ifs = to_1d(t2m_ifs)
-    wind_ifs = to_1d(np.sqrt(u10_ifs**2 + v10_ifs**2)) * 1.94384
-    # convert IFS tp (mm -> in) and compute accumulation inside the window (match other models)
-    precip_ifs = tp_ifs.values * 39.3701
+            temps = None
+            if temp_var is not None:
+                temps = to_1d(temp_var)
+                if temp_conv is not None:
+                    temps = temp_conv(temps)
 
-    times_aifs = pd.to_datetime(valid_times_aifs)
-    temps_aifs = to_1d(t2m_aifs)
-    wind_aifs = to_1d(np.sqrt(u10_aifs**2 + v10_aifs**2)) * 1.94384
-    # convert AIFS tp (mm -> in) and compute accumulation inside the window (match other models)
-    precip_aifs = tp_aifs.values * 0.0393701
+            winds = None
+            if wind_var is not None:
+                if isinstance(wind_var, (list, tuple)):
+                    u, v = wind_var
+                    u1 = to_1d(u)
+                    v1 = to_1d(v)
+                    winds = np.sqrt(u1**2 + v1**2)
+                else:
+                    winds = to_1d(wind_var)
+                if wind_conv is not None and winds is not None:
+                    winds = wind_conv(winds)
 
-    times_gfs = pd.to_datetime(valid_times_gfs)
-    temps_gfs = to_1d(t2m_f)
-    wind_gfs = to_1d(np.sqrt(u10**2 + v10**2)) * 1.94384
-    precip_gfs = to_1d(tp_gfs)  # already converted to inches and processed earlier
+            precs = None
+            if precip_var is not None:
+                precs = to_1d(precip_var)
+                if precip_conv is not None and precs is not None:
+                    precs = precip_conv(precs)
 
-    # --- create combined 3-panel figure ---
+            return {"times": times, "temps": temps, "winds": winds, "precs": precs}
+        except Exception:
+            return None
+
+    # build series for each model, using the same conversions as the rest of the script
+    series = {}
+    series["HRRR"] = make_model_series(valid_times_hrrr,
+                                       temp_var=t2m_hrrr,
+                                       wind_var=si10_hrrr,
+                                       precip_var=tp_hrrr,
+                                       wind_conv=lambda x: x * 1.94384)   # m/s -> kt
+
+    series["IFS"] = make_model_series(valid_times_ifs,
+                                      temp_var=t2m_ifs,
+                                      wind_var=(u10_ifs, v10_ifs),
+                                      precip_var=tp_ifs,
+                                      wind_conv=lambda x: x * 1.94384,
+                                      precip_conv=lambda x: x * 39.3701)   # m -> in (as used elsewhere)
+
+    series["AIFS"] = make_model_series(valid_times_aifs,
+                                       temp_var=t2m_aifs,
+                                       wind_var=(u10_aifs, v10_aifs),
+                                       precip_var=tp_aifs,
+                                       wind_conv=lambda x: x * 1.94384,
+                                       precip_conv=lambda x: x * 0.0393701)
+
+    series["GFS"] = make_model_series(valid_times_gfs,
+                                      temp_var=t2m_f,
+                                      wind_var=(u10, v10),
+                                      precip_var=tp_gfs,
+                                      wind_conv=lambda x: x * 1.94384)  # tp_gfs already converted earlier
+
+    # if no valid series at all, skip image creation
+    if not any(v is not None for v in series.values()):
+        raise RuntimeError("No model series available to plot")
+
+    # plotting
+    colors = {"HRRR": "C0", "IFS": "C1", "GFS": "C2", "AIFS": "C3"}
     fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
 
     # Temperature
     ax = axes[0]
-    ax.plot(times_hrrr, temps_hrrr, marker='o', linestyle='-', color='C0', label='HRRR')
-    ax.plot(times_ifs, temps_ifs, marker='o', linestyle='-', color='C1', label='IFS')
-    ax.plot(times_gfs, temps_gfs, marker='o', linestyle='-', color='C2', label='GFS')
-    ax.plot(times_aifs, temps_aifs, marker='o', linestyle='-', color='C3', label='AIFS')
+    for name in ["HRRR", "IFS", "GFS", "AIFS"]:
+        s = series.get(name)
+        if s and s["times"] is not None and s["temps"] is not None:
+            try:
+                ax.plot(s["times"], s["temps"], marker="o", linestyle="-", color=colors[name], label=name)
+            except Exception:
+                pass
     ax.set_ylabel("Temperature (°F)")
-    ax.grid(True, linestyle='--', alpha=0.4)
-    ax.legend(loc='best')
+    ax.grid(True, linestyle="--", alpha=0.4)
+    ax.legend(loc="best")
 
     # Wind
     ax = axes[1]
-    ax.plot(times_hrrr, wind_hrrr, marker='o', linestyle='-', color='C0', label='HRRR')
-    ax.plot(times_ifs, wind_ifs, marker='o', linestyle='-', color='C1', label='IFS')
-    ax.plot(times_gfs, wind_gfs, marker='o', linestyle='-', color='C2', label='GFS')
-    ax.plot(times_aifs, wind_aifs, marker='o', linestyle='-', color='C3', label='AIFS')
+    for name in ["HRRR", "IFS", "GFS", "AIFS"]:
+        s = series.get(name)
+        if s and s["times"] is not None and s["winds"] is not None:
+            try:
+                ax.plot(s["times"], s["winds"], marker="o", linestyle="-", color=colors[name], label=name)
+            except Exception:
+                pass
     ax.set_ylabel("Wind Speed (kt)")
-    ax.grid(True, linestyle='--', alpha=0.4)
-    ax.legend(loc='best')
+    ax.grid(True, linestyle="--", alpha=0.4)
+    ax.legend(loc="best")
 
     # Precipitation (line plot)
     ax = axes[2]
-    ax.plot(times_hrrr, precip_hrrr, marker='o', linestyle='-', color='C0', label='HRRR', alpha=0.8)
-    ax.plot(times_ifs, precip_ifs, marker='o', linestyle='-', color='C1', label='IFS', alpha=0.8)
-    ax.plot(times_gfs, precip_gfs, marker='o', linestyle='-', color='C2', label='GFS', alpha=0.8)
-    ax.plot(times_aifs, precip_aifs, marker='o', linestyle='-', color='C3', label='AIFS', alpha=0.8)
+    for name in ["HRRR", "IFS", "GFS", "AIFS"]:
+        s = series.get(name)
+        if s and s["times"] is not None and s["precs"] is not None:
+            try:
+                ax.plot(s["times"], s["precs"], marker="o", linestyle="-", color=colors[name], label=name, alpha=0.8)
+            except Exception:
+                pass
     ax.set_ylabel("Precipitation (in)")
     ax.set_xlabel("Valid time (UTC)")
-    ax.grid(True, linestyle='--', alpha=0.4)
-    ax.legend(loc='best')
+    ax.grid(True, linestyle="--", alpha=0.4)
+    ax.legend(loc="best")
 
     # format x-axis
     axes[-1].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d\n%H:%M'))
