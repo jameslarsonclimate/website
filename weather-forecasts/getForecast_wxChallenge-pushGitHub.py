@@ -47,10 +47,8 @@ ROOT = Path(__file__).resolve().parent
 # Single point to summarize (longitude, latitude)
 cityName = "Loveland, CO (KFNL)"
 points = pd.DataFrame({"longitude": [-105.004186], "latitude": [40.451685]})
-# cityName = 'Eagle, CO (KEGE)'
-# points = pd.DataFrame({"longitude": [-106.9156], "latitude": [39.6426]})
-cityName = 'Concord, NH (KCON)'
-points = pd.DataFrame({"longitude": [-71.505923], "latitude": [43.206442]})
+cityName = 'Juneau, AK (PAJN)'
+points = pd.DataFrame({"longitude": [-134.576622], "latitude": [58.356023]})
 
 # ISO timestamp (UTC) for metadata and git commit message
 now_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -72,7 +70,7 @@ try:
     fxx_hrrr = calculate_forecast_range(init_hrrr, model="HRRR")
 
     # Request fields from Herbie
-    H_hrrr = FastHerbie([init_hrrr], model="hrrr", product="sfc", fxx=fxx_hrrr)
+    H_hrrr = FastHerbie([init_hrrr], model="hrrrak", product="sfc", fxx=fxx_hrrr)
 
     # 2 m temperature: extract, convert K->F, compute max/min for the point
     t2m_hrrr = H_hrrr.xarray("TMP:2 m above", backend_kwargs={'decode_times': False}
@@ -318,8 +316,10 @@ except Exception as exc:
     }
 
 # Create the title and the table combining both models (use the current variable names)
-title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
-
+try:
+    title = f"Forecasting for {cityName} \nValid: {str(valid_times_hrrr[0])} - {str(valid_times_hrrr[-1])} UTC"
+except Exception:
+    title = f"Forecasting for {cityName} \nValid: {str(valid_times_gfs[0])} - {str(valid_times_gfs[-1])} UTC"
 models = [
     ("HRRR", init_times_hrrr, tmax_hrrr, tmin_hrrr, wind_max_hrrr, precip_hrrr),
     ("ECMWF",  init_times_ifs,  tmax_ifs,  tmin_ifs,  wind_max_ifs,  precip_ifs),
