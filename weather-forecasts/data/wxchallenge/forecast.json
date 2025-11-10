@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-11-10T21:16:28+00:00",
+  "generated_at_utc": "2025-11-10T22:11:42+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Juneau, AK (PAJN)",
@@ -13,13 +13,15 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "\nCant open index file https://nomads.ncep.noaa.gov/pub/data/nccf/com/hrrr/prod/hrrr.20251110/alaska/hrrr.t18z.wrfsfcf15.ak.grib2.idx\nDownload the full file first (with `H.download()`).\nYou will need to remake the Herbie object (H = `Herbie()`)\nor delete this cached property: `del H.index_as_dataframe()`"
+      "tmax_f": 41.1,
+      "tmin_f": 38.3,
+      "wind_max_kt": 13.5,
+      "precip_in": 0.74,
+      "init_time_utc": "2025-11-10T18",
+      "valid_range_utc": [
+        "2025-11-11T06",
+        "2025-11-12T06"
+      ]
     },
     "IFS": {
       "tmax_f": 37.8,
