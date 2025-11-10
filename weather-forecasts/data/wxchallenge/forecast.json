@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-11-10T22:11:42+00:00",
+  "generated_at_utc": "2025-11-10T23:02:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Juneau, AK (PAJN)",
@@ -35,11 +35,11 @@
       ]
     },
     "GFS": {
-      "tmax_f": 36.8,
-      "tmin_f": 34.9,
-      "wind_max_kt": 9.0,
-      "precip_in": 1.2,
-      "init_time_utc": "2025-11-10T12",
+      "tmax_f": 36.3,
+      "tmin_f": 35.0,
+      "wind_max_kt": 9.5,
+      "precip_in": 1.28,
+      "init_time_utc": "2025-11-10T18",
       "valid_range_utc": [
         "2025-11-11T06",
         "2025-11-12T06"
