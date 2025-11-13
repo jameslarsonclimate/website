@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-11-04T20:50:16+00:00",
+  "generated_at_utc": "2025-11-13T20:05:50+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Fort Collins, CO (CSU)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 62.2,
-      "tmin_f": 38.0,
-      "wind_max_kt": 8.0,
+      "tmax_f": 69.8,
+      "tmin_f": 39.6,
+      "wind_max_kt": 5.8,
       "precip_in": 0.0,
-      "init_time_utc": "2025-11-04T18",
+      "init_time_utc": "2025-11-13T18",
       "valid_range_utc": [
-        "2025-11-05T02",
-        "2025-11-06T02"
+        "2025-11-14T02",
+        "2025-11-15T02"
       ]
     },
     "IFS": {
-      "tmax_f": 59.9,
-      "tmin_f": 36.0,
-      "wind_max_kt": 4.6,
+      "tmax_f": 71.4,
+      "tmin_f": 34.4,
+      "wind_max_kt": 4.7,
       "precip_in": 0.0,
-      "init_time_utc": "2025-11-04T12",
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-05T03",
-        "2025-11-06T03"
+        "2025-11-14T03",
+        "2025-11-15T03"
       ]
     },
     "GFS": {
-      "tmax_f": 67.3,
-      "tmin_f": 43.5,
-      "wind_max_kt": 6.4,
+      "tmax_f": 70.1,
+      "tmin_f": 49.4,
+      "wind_max_kt": 4.0,
       "precip_in": 0.0,
-      "init_time_utc": "2025-11-04T12",
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-05T03",
-        "2025-11-06T03"
+        "2025-11-14T03",
+        "2025-11-15T03"
       ]
     },
     "AIFS": {
-      "tmax_f": 64.5,
-      "tmin_f": 34.7,
-      "wind_max_kt": 5.5,
+      "tmax_f": 66.3,
+      "tmin_f": 41.7,
+      "wind_max_kt": 3.1,
       "precip_in": 0.0,
-      "init_time_utc": "2025-11-04T12",
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-05T00",
-        "2025-11-06T00"
+        "2025-11-14T00",
+        "2025-11-15T00"
       ]
     }
   }
