@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2025-11-13T20:02:30+00:00",
+  "generated_at_utc": "2025-11-13T20:12:07+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Redding, CA (KRDD)",
+    "site": "Los Angeles, CA (KLAX)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,10 +13,10 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 58.9,
-      "tmin_f": 48.7,
-      "wind_max_kt": 11.0,
-      "precip_in": 0.0,
+      "tmax_f": 63.7,
+      "tmin_f": 60.9,
+      "wind_max_kt": 10.0,
+      "precip_in": 0.82,
       "init_time_utc": "2025-11-13T18",
       "valid_range_utc": [
         "2025-11-14T06",
@@ -24,10 +24,10 @@
       ]
     },
     "IFS": {
-      "tmax_f": 61.3,
-      "tmin_f": 50.0,
-      "wind_max_kt": 9.3,
-      "precip_in": 0.1,
+      "tmax_f": 63.4,
+      "tmin_f": 60.3,
+      "wind_max_kt": 9.8,
+      "precip_in": 1.7,
       "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
         "2025-11-14T06",
@@ -35,10 +35,10 @@
       ]
     },
     "GFS": {
-      "tmax_f": 62.5,
-      "tmin_f": 50.8,
-      "wind_max_kt": 7.2,
-      "precip_in": 0.03,
+      "tmax_f": 65.1,
+      "tmin_f": 61.6,
+      "wind_max_kt": 11.2,
+      "precip_in": 1.03,
       "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
         "2025-11-14T06",
@@ -46,10 +46,10 @@
       ]
     },
     "AIFS": {
-      "tmax_f": 61.0,
-      "tmin_f": 50.2,
-      "wind_max_kt": 4.1,
-      "precip_in": 0.08,
+      "tmax_f": 64.6,
+      "tmin_f": 62.5,
+      "wind_max_kt": 7.6,
+      "precip_in": 1.32,
       "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
         "2025-11-14T06",
