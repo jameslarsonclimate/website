@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-11-12T20:51:09+00:00",
+  "generated_at_utc": "2025-11-13T18:34:13+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Juneau, AK (PAJN)",
@@ -13,47 +13,45 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 38.3,
-      "tmin_f": 33.6,
-      "wind_max_kt": 4.2,
-      "precip_in": 0.0,
-      "init_time_utc": "2025-11-12T18",
-      "valid_range_utc": [
-        "2025-11-13T06",
-        "2025-11-14T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "No valid message found: PosixPath('/Users/jglarson/data/hrrrak/20251113/subset_381b2f9a__hrrr.t12z.wrfsfcf33.ak.grib2')"
     },
     "IFS": {
-      "tmax_f": 31.3,
-      "tmin_f": 27.5,
-      "wind_max_kt": 5.5,
-      "precip_in": 0.11,
-      "init_time_utc": "2025-11-12T12",
+      "tmax_f": 33.9,
+      "tmin_f": 30.0,
+      "wind_max_kt": 4.9,
+      "precip_in": 0.26,
+      "init_time_utc": "2025-11-13T00",
       "valid_range_utc": [
-        "2025-11-13T06",
-        "2025-11-14T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     },
     "GFS": {
-      "tmax_f": 31.2,
-      "tmin_f": 25.9,
-      "wind_max_kt": 4.9,
-      "precip_in": 0.13,
-      "init_time_utc": "2025-11-12T12",
+      "tmax_f": 33.2,
+      "tmin_f": 29.6,
+      "wind_max_kt": 4.2,
+      "precip_in": 0.27,
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-13T06",
-        "2025-11-14T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 30.1,
-      "tmin_f": 27.6,
-      "wind_max_kt": 2.4,
-      "precip_in": 0.16,
-      "init_time_utc": "2025-11-12T12",
+      "tmax_f": 32.5,
+      "tmin_f": 29.8,
+      "wind_max_kt": 2.8,
+      "precip_in": 0.46,
+      "init_time_utc": "2025-11-13T06",
       "valid_range_utc": [
-        "2025-11-13T06",
-        "2025-11-14T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     }
   }
