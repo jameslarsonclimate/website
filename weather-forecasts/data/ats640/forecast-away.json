@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-11-04T20:45:10+00:00",
+  "generated_at_utc": "2025-11-13T20:02:30+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Redding, CA (KRDD)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 60.7,
-      "tmin_f": 53.5,
-      "wind_max_kt": 23.2,
-      "precip_in": 0.69,
-      "init_time_utc": "2025-11-04T18",
+      "tmax_f": 58.9,
+      "tmin_f": 48.7,
+      "wind_max_kt": 11.0,
+      "precip_in": 0.0,
+      "init_time_utc": "2025-11-13T18",
       "valid_range_utc": [
-        "2025-11-05T06",
-        "2025-11-06T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     },
     "IFS": {
-      "tmax_f": 61.6,
-      "tmin_f": 55.6,
-      "wind_max_kt": 24.0,
-      "precip_in": 0.84,
-      "init_time_utc": "2025-11-04T12",
+      "tmax_f": 61.3,
+      "tmin_f": 50.0,
+      "wind_max_kt": 9.3,
+      "precip_in": 0.1,
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-05T06",
-        "2025-11-06T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     },
     "GFS": {
-      "tmax_f": 58.3,
-      "tmin_f": 51.2,
-      "wind_max_kt": 14.9,
-      "precip_in": 1.37,
-      "init_time_utc": "2025-11-04T12",
+      "tmax_f": 62.5,
+      "tmin_f": 50.8,
+      "wind_max_kt": 7.2,
+      "precip_in": 0.03,
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-05T06",
-        "2025-11-06T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 58.6,
-      "tmin_f": 55.8,
-      "wind_max_kt": 12.1,
-      "precip_in": 1.45,
-      "init_time_utc": "2025-11-04T12",
+      "tmax_f": 61.0,
+      "tmin_f": 50.2,
+      "wind_max_kt": 4.1,
+      "precip_in": 0.08,
+      "init_time_utc": "2025-11-13T12",
       "valid_range_utc": [
-        "2025-11-05T06",
-        "2025-11-06T06"
+        "2025-11-14T06",
+        "2025-11-15T06"
       ]
     }
   }
