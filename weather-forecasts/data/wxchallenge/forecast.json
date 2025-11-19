@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-11-18T19:48:27+00:00",
+  "generated_at_utc": "2025-11-19T20:30:21+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Juneau, AK (PAJN)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 44.0,
-      "tmin_f": 37.2,
-      "wind_max_kt": 14.9,
-      "precip_in": 1.75,
-      "init_time_utc": "2025-11-18T18",
+      "tmax_f": 43.4,
+      "tmin_f": 37.5,
+      "wind_max_kt": 20.8,
+      "precip_in": 1.07,
+      "init_time_utc": "2025-11-19T18",
       "valid_range_utc": [
-        "2025-11-19T06",
-        "2025-11-20T06"
+        "2025-11-20T06",
+        "2025-11-21T06"
       ]
     },
     "IFS": {
-      "tmax_f": 37.0,
-      "tmin_f": 35.3,
-      "wind_max_kt": 5.8,
-      "precip_in": 0.52,
-      "init_time_utc": "2025-11-18T12",
+      "tmax_f": 37.5,
+      "tmin_f": 33.8,
+      "wind_max_kt": 11.9,
+      "precip_in": 1.04,
+      "init_time_utc": "2025-11-19T12",
       "valid_range_utc": [
-        "2025-11-19T06",
-        "2025-11-20T06"
+        "2025-11-20T06",
+        "2025-11-21T06"
       ]
     },
     "GFS": {
-      "tmax_f": 35.4,
-      "tmin_f": 32.7,
-      "wind_max_kt": 5.3,
-      "precip_in": 0.24,
-      "init_time_utc": "2025-11-18T12",
+      "tmax_f": 36.2,
+      "tmin_f": 32.8,
+      "wind_max_kt": 9.1,
+      "precip_in": 0.89,
+      "init_time_utc": "2025-11-19T12",
       "valid_range_utc": [
-        "2025-11-19T06",
-        "2025-11-20T06"
+        "2025-11-20T06",
+        "2025-11-21T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 36.9,
-      "tmin_f": 32.7,
-      "wind_max_kt": 3.9,
-      "precip_in": 0.59,
-      "init_time_utc": "2025-11-18T12",
+      "tmax_f": 38.0,
+      "tmin_f": 35.1,
+      "wind_max_kt": 5.4,
+      "precip_in": 1.19,
+      "init_time_utc": "2025-11-19T12",
       "valid_range_utc": [
-        "2025-11-19T06",
-        "2025-11-20T06"
+        "2025-11-20T06",
+        "2025-11-21T06"
       ]
     }
   }
