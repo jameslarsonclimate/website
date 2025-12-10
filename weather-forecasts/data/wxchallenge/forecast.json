@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-12-09T21:39:32+00:00",
+  "generated_at_utc": "2025-12-10T20:32:01+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Reno, NV (KRNO)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 63.6,
-      "tmin_f": 33.9,
-      "wind_max_kt": 2.8,
+      "tmax_f": 63.1,
+      "tmin_f": 33.3,
+      "wind_max_kt": 3.1,
       "precip_in": 0.0,
-      "init_time_utc": "2025-12-09T18",
+      "init_time_utc": "2025-12-10T18",
       "valid_range_utc": [
-        "2025-12-10T06",
-        "2025-12-11T06"
+        "2025-12-11T06",
+        "2025-12-12T06"
       ]
     },
     "IFS": {
-      "tmax_f": 53.0,
-      "tmin_f": 38.4,
-      "wind_max_kt": 0.9,
+      "tmax_f": 49.6,
+      "tmin_f": 35.0,
+      "wind_max_kt": 1.4,
       "precip_in": 0.0,
-      "init_time_utc": "2025-12-09T12",
+      "init_time_utc": "2025-12-10T12",
       "valid_range_utc": [
-        "2025-12-10T06",
-        "2025-12-11T06"
+        "2025-12-11T06",
+        "2025-12-12T06"
       ]
     },
     "GFS": {
-      "tmax_f": 58.7,
-      "tmin_f": 44.0,
-      "wind_max_kt": 5.0,
+      "tmax_f": 58.4,
+      "tmin_f": 42.9,
+      "wind_max_kt": 3.0,
       "precip_in": 0.0,
-      "init_time_utc": "2025-12-09T12",
+      "init_time_utc": "2025-12-10T12",
       "valid_range_utc": [
-        "2025-12-10T06",
-        "2025-12-11T06"
+        "2025-12-11T06",
+        "2025-12-12T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 55.7,
-      "tmin_f": 39.3,
-      "wind_max_kt": 0.9,
+      "tmax_f": 53.8,
+      "tmin_f": 37.0,
+      "wind_max_kt": 0.7,
       "precip_in": 0.0,
-      "init_time_utc": "2025-12-09T12",
+      "init_time_utc": "2025-12-10T12",
       "valid_range_utc": [
-        "2025-12-10T06",
-        "2025-12-11T06"
+        "2025-12-11T06",
+        "2025-12-12T06"
       ]
     }
   }
