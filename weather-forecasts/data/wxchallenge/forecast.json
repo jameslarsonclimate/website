@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-01-19T20:33:23+00:00",
+  "generated_at_utc": "2026-01-19T20:50:59+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Reno, NV (KRNO)",
+    "site": "Houston, TX (KHOU)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,9 +13,9 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 54.8,
-      "tmin_f": 22.4,
-      "wind_max_kt": 3.6,
+      "tmax_f": 65.4,
+      "tmin_f": 43.4,
+      "wind_max_kt": 8.4,
       "precip_in": 0.0,
       "init_time_utc": "2026-01-19T18",
       "valid_range_utc": [
@@ -24,9 +24,9 @@
       ]
     },
     "IFS": {
-      "tmax_f": 43.2,
-      "tmin_f": 28.4,
-      "wind_max_kt": 1.7,
+      "tmax_f": 63.0,
+      "tmin_f": 46.7,
+      "wind_max_kt": 7.0,
       "precip_in": 0.0,
       "init_time_utc": "2026-01-19T12",
       "valid_range_utc": [
@@ -35,9 +35,9 @@
       ]
     },
     "GFS": {
-      "tmax_f": 46.2,
-      "tmin_f": 35.8,
-      "wind_max_kt": 3.5,
+      "tmax_f": 61.9,
+      "tmin_f": 51.8,
+      "wind_max_kt": 8.9,
       "precip_in": 0.0,
       "init_time_utc": "2026-01-19T12",
       "valid_range_utc": [
@@ -46,9 +46,9 @@
       ]
     },
     "AIFS": {
-      "tmax_f": 44.7,
-      "tmin_f": 27.9,
-      "wind_max_kt": 1.4,
+      "tmax_f": 62.4,
+      "tmin_f": 46.9,
+      "wind_max_kt": 8.0,
       "precip_in": 0.0,
       "init_time_utc": "2026-01-19T12",
       "valid_range_utc": [
