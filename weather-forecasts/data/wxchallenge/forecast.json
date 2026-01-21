@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-01-19T20:50:59+00:00",
+  "generated_at_utc": "2026-01-21T20:51:46+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Houston, TX (KHOU)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 65.4,
-      "tmin_f": 43.4,
-      "wind_max_kt": 8.4,
+      "tmax_f": 70.9,
+      "tmin_f": 60.4,
+      "wind_max_kt": 6.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-01-19T18",
+      "init_time_utc": "2026-01-21T18",
       "valid_range_utc": [
-        "2026-01-20T06",
-        "2026-01-21T06"
+        "2026-01-22T06",
+        "2026-01-23T06"
       ]
     },
     "IFS": {
-      "tmax_f": 63.0,
-      "tmin_f": 46.7,
-      "wind_max_kt": 7.0,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-01-19T12",
+      "tmax_f": 69.2,
+      "tmin_f": 58.5,
+      "wind_max_kt": 6.1,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-01-21T12",
       "valid_range_utc": [
-        "2026-01-20T06",
-        "2026-01-21T06"
+        "2026-01-22T06",
+        "2026-01-23T06"
       ]
     },
     "GFS": {
-      "tmax_f": 61.9,
-      "tmin_f": 51.8,
-      "wind_max_kt": 8.9,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-01-19T12",
+      "tmax_f": 71.9,
+      "tmin_f": 60.9,
+      "wind_max_kt": 4.9,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-01-21T12",
       "valid_range_utc": [
-        "2026-01-20T06",
-        "2026-01-21T06"
+        "2026-01-22T06",
+        "2026-01-23T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 62.4,
-      "tmin_f": 46.9,
-      "wind_max_kt": 8.0,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-01-19T12",
+      "tmax_f": 64.6,
+      "tmin_f": 59.4,
+      "wind_max_kt": 4.8,
+      "precip_in": 0.05,
+      "init_time_utc": "2026-01-21T12",
       "valid_range_utc": [
-        "2026-01-20T06",
-        "2026-01-21T06"
+        "2026-01-22T06",
+        "2026-01-23T06"
       ]
     }
   }
