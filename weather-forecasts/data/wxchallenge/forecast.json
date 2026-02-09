@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-05T23:11:44+00:00",
+  "generated_at_utc": "2026-02-09T21:17:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Elkins, WV (KEKN)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 29.6,
-      "tmin_f": 11.0,
-      "wind_max_kt": 17.7,
-      "precip_in": 0.29,
-      "init_time_utc": "2026-02-05T18",
+      "tmax_f": 50.9,
+      "tmin_f": 26.0,
+      "wind_max_kt": 15.4,
+      "precip_in": 0.24,
+      "init_time_utc": "2026-02-09T18",
       "valid_range_utc": [
-        "2026-02-06T06",
-        "2026-02-07T06"
+        "2026-02-10T06",
+        "2026-02-11T06"
       ]
     },
     "IFS": {
-      "tmax_f": 21.5,
-      "tmin_f": 13.0,
-      "wind_max_kt": 15.1,
-      "precip_in": 0.22,
-      "init_time_utc": "2026-02-05T12",
+      "tmax_f": 52.9,
+      "tmin_f": 28.9,
+      "wind_max_kt": 11.4,
+      "precip_in": 0.12,
+      "init_time_utc": "2026-02-09T12",
       "valid_range_utc": [
-        "2026-02-06T12",
-        "2026-02-07T06"
+        "2026-02-10T06",
+        "2026-02-11T06"
       ]
     },
     "GFS": {
-      "tmax_f": 27.6,
-      "tmin_f": 7.7,
-      "wind_max_kt": 16.0,
-      "precip_in": 0.47,
-      "init_time_utc": "2026-02-05T18",
+      "tmax_f": 47.3,
+      "tmin_f": 29.5,
+      "wind_max_kt": 12.7,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-02-09T12",
       "valid_range_utc": [
-        "2026-02-06T06",
-        "2026-02-07T06"
+        "2026-02-10T06",
+        "2026-02-11T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 23.7,
-      "tmin_f": 15.2,
-      "wind_max_kt": 12.6,
-      "precip_in": 0.32,
-      "init_time_utc": "2026-02-05T12",
+      "tmax_f": 54.9,
+      "tmin_f": 32.2,
+      "wind_max_kt": 8.3,
+      "precip_in": 0.16,
+      "init_time_utc": "2026-02-09T12",
       "valid_range_utc": [
-        "2026-02-06T06",
-        "2026-02-07T06"
+        "2026-02-10T06",
+        "2026-02-11T06"
       ]
     }
   }
