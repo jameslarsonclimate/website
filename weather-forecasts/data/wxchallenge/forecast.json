@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-10T21:09:54+00:00",
+  "generated_at_utc": "2026-02-10T21:44:33+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Elkins, WV (KEKN)",
@@ -44,13 +44,15 @@
       ]
     },
     "AIFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Expecting value: line 1 column 1 (char 0)"
+      "tmax_f": 44.4,
+      "tmin_f": 26.6,
+      "wind_max_kt": 11.1,
+      "precip_in": 0.07,
+      "init_time_utc": "2026-02-10T12",
+      "valid_range_utc": [
+        "2026-02-11T06",
+        "2026-02-12T06"
+      ]
     }
   }
 }
