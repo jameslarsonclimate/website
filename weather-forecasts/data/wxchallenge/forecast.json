@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-10T22:59:27+00:00",
+  "generated_at_utc": "2026-02-11T20:31:18+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Elkins, WV (KEKN)",
@@ -13,45 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 42.6,
-      "tmin_f": 24.2,
-      "wind_max_kt": 13.4,
-      "precip_in": 0.12,
-      "init_time_utc": "2026-02-10T18",
+      "tmax_f": 28.4,
+      "tmin_f": 23.8,
+      "wind_max_kt": 9.2,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-02-11T18",
       "valid_range_utc": [
-        "2026-02-11T06",
-        "2026-02-12T06"
+        "2026-02-12T06",
+        "2026-02-13T06"
       ]
     },
     "IFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "No valid message found: PosixPath('/Users/jglarson/data/ifs/20260210/subset_540e5c75__20260210120000-24h-oper-fc.grib2')"
+      "tmax_f": 23.5,
+      "tmin_f": 18.4,
+      "wind_max_kt": 10.6,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-02-11T12",
+      "valid_range_utc": [
+        "2026-02-12T06",
+        "2026-02-13T06"
+      ]
     },
     "GFS": {
-      "tmax_f": 39.2,
-      "tmin_f": 21.4,
-      "wind_max_kt": 13.2,
-      "precip_in": 0.11,
-      "init_time_utc": "2026-02-10T18",
+      "tmax_f": 27.1,
+      "tmin_f": 19.6,
+      "wind_max_kt": 10.9,
+      "precip_in": 0.09,
+      "init_time_utc": "2026-02-11T12",
       "valid_range_utc": [
-        "2026-02-11T06",
-        "2026-02-12T06"
+        "2026-02-12T06",
+        "2026-02-13T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 44.4,
-      "tmin_f": 26.6,
-      "wind_max_kt": 11.1,
-      "precip_in": 0.07,
-      "init_time_utc": "2026-02-10T12",
+      "tmax_f": 27.5,
+      "tmin_f": 20.3,
+      "wind_max_kt": 9.4,
+      "precip_in": 0.08,
+      "init_time_utc": "2026-02-11T12",
       "valid_range_utc": [
-        "2026-02-11T06",
-        "2026-02-12T06"
+        "2026-02-12T06",
+        "2026-02-13T06"
       ]
     }
   }
