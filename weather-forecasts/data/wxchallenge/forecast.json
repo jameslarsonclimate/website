@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-16T22:34:17+00:00",
+  "generated_at_utc": "2026-02-17T21:10:31+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Flagstaff, AZ (KFLG)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 35.5,
-      "tmin_f": 27.2,
-      "wind_max_kt": 26.5,
-      "precip_in": 0.78,
-      "init_time_utc": "2026-02-16T18",
+      "tmax_f": 30.8,
+      "tmin_f": 15.5,
+      "wind_max_kt": 26.1,
+      "precip_in": 0.51,
+      "init_time_utc": "2026-02-17T18",
       "valid_range_utc": [
-        "2026-02-17T06",
-        "2026-02-18T06"
+        "2026-02-18T06",
+        "2026-02-19T06"
       ]
     },
     "IFS": {
-      "tmax_f": 32.4,
-      "tmin_f": 24.5,
-      "wind_max_kt": 18.4,
+      "tmax_f": 26.8,
+      "tmin_f": 15.7,
+      "wind_max_kt": 19.7,
       "precip_in": 0.55,
-      "init_time_utc": "2026-02-16T12",
+      "init_time_utc": "2026-02-17T12",
       "valid_range_utc": [
-        "2026-02-17T06",
-        "2026-02-18T06"
+        "2026-02-18T06",
+        "2026-02-19T06"
       ]
     },
     "GFS": {
-      "tmax_f": 33.3,
-      "tmin_f": 23.8,
-      "wind_max_kt": 17.9,
-      "precip_in": 0.88,
-      "init_time_utc": "2026-02-16T12",
+      "tmax_f": 27.7,
+      "tmin_f": 4.9,
+      "wind_max_kt": 25.5,
+      "precip_in": 0.95,
+      "init_time_utc": "2026-02-17T12",
       "valid_range_utc": [
-        "2026-02-17T06",
-        "2026-02-18T06"
+        "2026-02-18T06",
+        "2026-02-19T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 33.0,
-      "tmin_f": 28.1,
-      "wind_max_kt": 12.2,
-      "precip_in": 0.65,
-      "init_time_utc": "2026-02-16T12",
+      "tmax_f": 29.5,
+      "tmin_f": 20.7,
+      "wind_max_kt": 15.9,
+      "precip_in": 0.79,
+      "init_time_utc": "2026-02-17T12",
       "valid_range_utc": [
-        "2026-02-17T06",
-        "2026-02-18T06"
+        "2026-02-18T06",
+        "2026-02-19T06"
       ]
     }
   }
