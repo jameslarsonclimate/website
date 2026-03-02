@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-26T21:40:59+00:00",
+  "generated_at_utc": "2026-03-02T21:53:34+00:00",
   "meta": {
     "page": "wxchallenge",
-    "site": "Flagstaff, AZ (KFLG)",
+    "site": "Des Moines, IA (KDSM)",
     "models": [
       "HRRR",
       "IFS",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 69.7,
-      "tmin_f": 39.5,
-      "wind_max_kt": 10.2,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-02-26T18",
+      "tmax_f": 44.2,
+      "tmin_f": 36.8,
+      "wind_max_kt": 8.4,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-03-02T18",
       "valid_range_utc": [
-        "2026-02-27T06",
-        "2026-02-28T06"
+        "2026-03-03T06",
+        "2026-03-04T06"
       ]
     },
     "IFS": {
-      "tmax_f": 58.2,
-      "tmin_f": 34.9,
-      "wind_max_kt": 4.6,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-02-26T12",
+      "tmax_f": 46.6,
+      "tmin_f": 31.9,
+      "wind_max_kt": 4.7,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-03-02T12",
       "valid_range_utc": [
-        "2026-02-27T06",
-        "2026-02-28T06"
+        "2026-03-03T06",
+        "2026-03-04T06"
       ]
     },
     "GFS": {
-      "tmax_f": 64.5,
-      "tmin_f": 42.9,
-      "wind_max_kt": 8.5,
+      "tmax_f": 44.1,
+      "tmin_f": 38.5,
+      "wind_max_kt": 7.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-02-26T12",
+      "init_time_utc": "2026-03-02T12",
       "valid_range_utc": [
-        "2026-02-27T06",
-        "2026-02-28T06"
+        "2026-03-03T06",
+        "2026-03-04T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 56.0,
-      "tmin_f": 37.3,
-      "wind_max_kt": 2.3,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-02-26T12",
+      "tmax_f": 40.4,
+      "tmin_f": 36.7,
+      "wind_max_kt": 5.1,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-03-02T12",
       "valid_range_utc": [
-        "2026-02-27T06",
-        "2026-02-28T06"
+        "2026-03-03T06",
+        "2026-03-04T06"
       ]
     }
   }
