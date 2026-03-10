@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-03-09T21:43:07+00:00",
+  "generated_at_utc": "2026-03-10T20:48:27+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Des Moines, IA (KDSM)",
@@ -13,47 +13,47 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 70.2,
-      "tmin_f": 42.5,
-      "wind_max_kt": 11.7,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-03-09T18",
+      "tmax_f": 46.9,
+      "tmin_f": 25.2,
+      "wind_max_kt": 15.9,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-03-10T18",
       "valid_range_utc": [
-        "2026-03-10T06",
-        "2026-03-11T06"
+        "2026-03-11T06",
+        "2026-03-12T06"
       ]
     },
     "IFS": {
-      "tmax_f": 61.4,
-      "tmin_f": 40.7,
-      "wind_max_kt": 7.6,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-03-09T12",
+      "tmax_f": 47.1,
+      "tmin_f": 33.2,
+      "wind_max_kt": 16.3,
+      "precip_in": 0.07,
+      "init_time_utc": "2026-03-10T12",
       "valid_range_utc": [
-        "2026-03-10T06",
-        "2026-03-11T06"
+        "2026-03-11T06",
+        "2026-03-12T06"
       ]
     },
     "GFS": {
-      "tmax_f": 66.3,
-      "tmin_f": 51.3,
-      "wind_max_kt": 9.8,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-03-09T12",
+      "tmax_f": 48.1,
+      "tmin_f": 35.5,
+      "wind_max_kt": 19.2,
+      "precip_in": 0.16,
+      "init_time_utc": "2026-03-10T12",
       "valid_range_utc": [
-        "2026-03-10T06",
-        "2026-03-11T06"
+        "2026-03-11T06",
+        "2026-03-12T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 55.1,
-      "tmin_f": 39.9,
-      "wind_max_kt": 11.0,
-      "precip_in": 0.02,
-      "init_time_utc": "2026-03-09T12",
+      "tmax_f": 44.9,
+      "tmin_f": 31.4,
+      "wind_max_kt": 18.0,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-03-10T12",
       "valid_range_utc": [
-        "2026-03-10T06",
-        "2026-03-11T06"
+        "2026-03-11T06",
+        "2026-03-12T06"
       ]
     }
   }
