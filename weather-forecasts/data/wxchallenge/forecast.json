@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-03-11T19:48:36+00:00",
+  "generated_at_utc": "2026-03-11T20:05:18+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Des Moines, IA (KDSM)",
@@ -24,13 +24,15 @@
       ]
     },
     "IFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Expecting value: line 1 column 1 (char 0)"
+      "tmax_f": 55.3,
+      "tmin_f": 25.1,
+      "wind_max_kt": 18.7,
+      "precip_in": 0.07,
+      "init_time_utc": "2026-03-11T12",
+      "valid_range_utc": [
+        "2026-03-12T06",
+        "2026-03-13T06"
+      ]
     },
     "GFS": {
       "tmax_f": 56.4,
@@ -44,13 +46,15 @@
       ]
     },
     "AIFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Expecting value: line 1 column 1 (char 0)"
+      "tmax_f": 51.8,
+      "tmin_f": 25.7,
+      "wind_max_kt": 16.8,
+      "precip_in": 0.1,
+      "init_time_utc": "2026-03-11T12",
+      "valid_range_utc": [
+        "2026-03-12T06",
+        "2026-03-13T06"
+      ]
     }
   }
 }
