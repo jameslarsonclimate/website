@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-03-10T20:48:27+00:00",
+  "generated_at_utc": "2026-03-11T19:48:36+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Des Moines, IA (KDSM)",
@@ -13,48 +13,44 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 46.9,
-      "tmin_f": 25.2,
-      "wind_max_kt": 15.9,
-      "precip_in": 0.04,
-      "init_time_utc": "2026-03-10T18",
+      "tmax_f": 57.5,
+      "tmin_f": 23.2,
+      "wind_max_kt": 24.0,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-03-11T18",
       "valid_range_utc": [
-        "2026-03-11T06",
-        "2026-03-12T06"
+        "2026-03-12T06",
+        "2026-03-13T06"
       ]
     },
     "IFS": {
-      "tmax_f": 47.1,
-      "tmin_f": 33.2,
-      "wind_max_kt": 16.3,
-      "precip_in": 0.07,
-      "init_time_utc": "2026-03-10T12",
-      "valid_range_utc": [
-        "2026-03-11T06",
-        "2026-03-12T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "Expecting value: line 1 column 1 (char 0)"
     },
     "GFS": {
-      "tmax_f": 48.1,
-      "tmin_f": 35.5,
-      "wind_max_kt": 19.2,
-      "precip_in": 0.16,
-      "init_time_utc": "2026-03-10T12",
+      "tmax_f": 56.4,
+      "tmin_f": 31.6,
+      "wind_max_kt": 26.7,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-03-11T12",
       "valid_range_utc": [
-        "2026-03-11T06",
-        "2026-03-12T06"
+        "2026-03-12T06",
+        "2026-03-13T06"
       ]
     },
     "AIFS": {
-      "tmax_f": 44.9,
-      "tmin_f": 31.4,
-      "wind_max_kt": 18.0,
-      "precip_in": 0.04,
-      "init_time_utc": "2026-03-10T12",
-      "valid_range_utc": [
-        "2026-03-11T06",
-        "2026-03-12T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "Expecting value: line 1 column 1 (char 0)"
     }
   }
 }
