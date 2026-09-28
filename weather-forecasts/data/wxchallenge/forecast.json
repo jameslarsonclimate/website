@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-28T21:24:22+00:00",
+  "generated_at_utc": "2026-09-28T22:18:23+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -17,6 +17,7 @@
       "GFS_MOS",
       "NAM_MOS",
       "NBM",
+      "USL",
       "CONSENSUS"
     ],
     "note": "temperatures in \u00b0F, winds in kt, precip in inches"
@@ -114,14 +115,25 @@
         "2026-09-30T06"
       ]
     },
+    "USL": {
+      "tmax_f": 87.0,
+      "tmin_f": 72.0,
+      "wind_max_kt": 10.0,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-09-28T12",
+      "valid_range_utc": [
+        "2026-09-29T06",
+        "2026-09-30T06"
+      ]
+    },
     "CONSENSUS": {
-      "tmax_f": 86.1,
-      "tmin_f": 71.9,
-      "wind_max_kt": 11.0,
-      "precip_in": 0.06,
+      "tmax_f": 86.2,
+      "tmin_f": 72.0,
+      "wind_max_kt": 11.2,
+      "precip_in": 0.05,
       "method": {
         "tmax_f": {
-          "method": "equal-weight mean (not enough verified days)",
+          "method": "bias-corrected, 1/MAE weighted",
           "members": [
             "HRRR",
             "IFS",
@@ -129,11 +141,15 @@
             "AIFS",
             "GFS_MOS",
             "NAM_MOS",
-            "NBM"
+            "NBM",
+            "USL"
+          ],
+          "not_yet_verified": [
+            "USL"
           ]
         },
         "tmin_f": {
-          "method": "equal-weight mean (not enough verified days)",
+          "method": "bias-corrected, 1/MAE weighted",
           "members": [
             "HRRR",
             "IFS",
@@ -141,11 +157,15 @@
             "AIFS",
             "GFS_MOS",
             "NAM_MOS",
-            "NBM"
+            "NBM",
+            "USL"
+          ],
+          "not_yet_verified": [
+            "USL"
           ]
         },
         "wind_max_kt": {
-          "method": "equal-weight mean (not enough verified days)",
+          "method": "bias-corrected, 1/MAE weighted",
           "members": [
             "HRRR",
             "IFS",
@@ -153,11 +173,15 @@
             "AIFS",
             "GFS_MOS",
             "NAM_MOS",
-            "NBM"
+            "NBM",
+            "USL"
+          ],
+          "not_yet_verified": [
+            "USL"
           ]
         },
         "precip_in": {
-          "method": "equal-weight mean (not enough verified days)",
+          "method": "bias-corrected, 1/MAE weighted",
           "members": [
             "HRRR",
             "IFS",
@@ -165,7 +189,11 @@
             "AIFS",
             "GFS_MOS",
             "NAM_MOS",
-            "NBM"
+            "NBM",
+            "USL"
+          ],
+          "not_yet_verified": [
+            "USL"
           ]
         }
       }

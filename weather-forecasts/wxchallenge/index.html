@@ -158,7 +158,7 @@ function isDark(){
 
 const GROUPS = [
   { title: 'Grid models', rows: [['HRRR','HRRR'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
-  { title: 'Statistical guidance', rows: [['GFS_MOS','GFS MOS'],['NAM_MOS','NAM MOS'],['NBM','NBM']] },
+  { title: 'Statistical / point guidance', rows: [['GFS_MOS','GFS MOS'],['NAM_MOS','NAM MOS'],['NBM','NBM'],['USL','USL']] },
   { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
 ];
 const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));

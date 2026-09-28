@@ -113,16 +113,32 @@
           "forecast": {
             "tmax_f": 88,
             "tmin_f": 74,
-            "wind_max_kt": 11,
+            "wind_max_kt": 10,
             "precip_in": 0.01
           },
           "error": {
             "tmax_f": 2,
             "tmin_f": 0,
-            "wind_max_kt": -3,
+            "wind_max_kt": -4,
             "precip_in": 0.01
           },
-          "points": 3.9,
+          "points": 4.4,
+          "run": "2026-09-23T21:00:00+00:00"
+        },
+        "NBM": {
+          "forecast": {
+            "tmax_f": 89,
+            "tmin_f": 74,
+            "wind_max_kt": 10,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": 0,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 5.0,
           "run": "2026-09-23T21:00:00+00:00"
         }
       }
@@ -250,6 +266,22 @@
           },
           "points": 3.5,
           "run": "2026-09-24T21:00:00+00:00"
+        },
+        "NBM": {
+          "forecast": {
+            "tmax_f": 86,
+            "tmin_f": 71,
+            "wind_max_kt": 9,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 0,
+            "tmin_f": 1,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 3.0,
+          "run": "2026-09-24T21:00:00+00:00"
         }
       }
     },
@@ -376,6 +408,22 @@
           },
           "points": 2.5,
           "run": "2026-09-25T21:00:00+00:00"
+        },
+        "NBM": {
+          "forecast": {
+            "tmax_f": 85,
+            "tmin_f": 67,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 1,
+            "tmin_f": 1,
+            "wind_max_kt": -3,
+            "precip_in": 0.0
+          },
+          "points": 3.5,
+          "run": "2026-09-25T21:00:00+00:00"
         }
       }
     },
@@ -489,18 +537,50 @@
         },
         "CONSENSUS": {
           "forecast": {
-            "tmax_f": 85,
+            "tmax_f": 86,
             "tmin_f": 66,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": 1,
+            "wind_max_kt": -3,
+            "precip_in": 0.0
+          },
+          "points": 5.5,
+          "run": "2026-09-26T21:00:00+00:00"
+        },
+        "NBM": {
+          "forecast": {
+            "tmax_f": 86,
+            "tmin_f": 67,
             "wind_max_kt": 6,
             "precip_in": 0.0
           },
           "error": {
-            "tmax_f": 2,
-            "tmin_f": 1,
+            "tmax_f": 3,
+            "tmin_f": 2,
             "wind_max_kt": -4,
             "precip_in": 0.0
           },
-          "points": 5.0,
+          "points": 7.0,
+          "run": "2026-09-26T21:00:00+00:00"
+        },
+        "USL": {
+          "forecast": {
+            "tmax_f": 86,
+            "tmin_f": 66,
+            "wind_max_kt": 10,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": 1,
+            "wind_max_kt": 0,
+            "precip_in": 0.0
+          },
+          "points": 4.0,
           "run": "2026-09-26T21:00:00+00:00"
         }
       }
@@ -611,24 +691,58 @@
     },
     "CONSENSUS": {
       "n_days": 4,
-      "total_points": 14.9,
-      "mean_points": 3.73,
+      "total_points": 15.9,
+      "mean_points": 3.98,
       "bias": {
-        "tmax_f": 0.75,
+        "tmax_f": 1.0,
         "tmin_f": 0.5,
         "wind_max_kt": -3.75,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 1.25,
+        "tmax_f": 1.5,
         "tmin_f": 0.5,
         "wind_max_kt": 3.75,
+        "precip_in": 0.0
+      }
+    },
+    "NBM": {
+      "n_days": 4,
+      "total_points": 18.5,
+      "mean_points": 4.62,
+      "bias": {
+        "tmax_f": 1.75,
+        "tmin_f": 1.0,
+        "wind_max_kt": -3.75,
+        "precip_in": 0.0
+      },
+      "mae": {
+        "tmax_f": 1.75,
+        "tmin_f": 1.0,
+        "wind_max_kt": 3.75,
+        "precip_in": 0.0
+      }
+    },
+    "USL": {
+      "n_days": 1,
+      "total_points": 4.0,
+      "mean_points": 4.0,
+      "bias": {
+        "tmax_f": 3.0,
+        "tmin_f": 1.0,
+        "wind_max_kt": 0.0,
+        "precip_in": 0.0
+      },
+      "mae": {
+        "tmax_f": 3.0,
+        "tmin_f": 1.0,
+        "wind_max_kt": 0.0,
         "precip_in": 0.0
       }
     }
   },
   "period_start": "2026-09-24",
-  "generated_at_utc": "2026-09-28T21:24:22+00:00",
+  "generated_at_utc": "2026-09-28T22:18:25+00:00",
   "observations": [
     {
       "date": "2026-09-24",
