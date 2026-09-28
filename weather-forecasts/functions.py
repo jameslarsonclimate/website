@@ -90,7 +90,7 @@ def stand(da):
     return (da - da.mean('time')) / da.std('time')
 
 
-def get_latest_forecast_cycle(model='HRRR'):
+def get_latest_forecast_cycle(model='HRRR', now=None):
     """Get the most recent forecast initialization time (00, 06, 12, or 18 UTC).
 
     This function determines which of the daily forecast initialization times
@@ -124,7 +124,9 @@ def get_latest_forecast_cycle(model='HRRR'):
         },
         'IFS': {
             'delay': 7.75,        # IFS has ~7.75 hour processing delay
-            'init_hours': [0, 12]  # IFS runs 2 times daily
+            # 00/12Z run to 240 h; 06/18Z (0-90 h by 3 h) are in the open data too
+            # (they were the 'scda' stream before IFS cycle 50r1, 'oper' since May 2026)
+            'init_hours': [0, 6, 12, 18]
         },
         'AIFS': {
             'delay': 7,        # AIFS has ~7 hour processing delay
@@ -153,7 +155,9 @@ def get_latest_forecast_cycle(model='HRRR'):
     init_hours = config['init_hours']
     
     # Get current time and adjust for processing delay
-    now = pd.Timestamp.now(tz='UTC')
+    # `now` lets a hindcast ask "what was the latest run at this time?"
+    now = pd.Timestamp.now(tz='UTC') if now is None else pd.Timestamp(now)
+    now = now.tz_localize('UTC') if now.tzinfo is None else now.tz_convert('UTC')
     effective_time = now - pd.Timedelta(hours=delay_hours)
     
     # Find the most recent initialization time
@@ -173,6 +177,19 @@ def get_latest_forecast_cycle(model='HRRR'):
     # Fallback (should rarely happen) - return the latest init time from 2 days ago
     two_days_ago = yesterday - pd.Timedelta(days=1)
     return (two_days_ago + pd.Timedelta(hours=max(init_hours))).tz_localize(None)
+
+def previous_forecast_cycle(init, model='HRRR'):
+    """Return the model cycle before `init` (used to fall back when the newest run
+    is not fully posted yet)."""
+    hours = {'HRRR': [0, 6, 12, 18], 'IFS': [0, 6, 12, 18], 'AIFS': [0, 6, 12, 18],
+             'GFS': [0, 6, 12, 18]}.get(model, [0, 6, 12, 18])
+    t = pd.Timestamp(init)
+    for _ in range(48):
+        t = t - pd.Timedelta(hours=1)
+        if t.hour in hours:
+            return t
+    raise ValueError(f"no previous cycle for {model}")
+
 
 def sel_region(da, center, width): 
     half_width = width / 2
@@ -279,9 +296,18 @@ def calculate_forecast_range(timestamp, model="HRRR", target_hour=6):
 
         # For 0z model run, add 24 hours to target the following day (preserve original special-case)
         if timestamp.hour == 0:
-            return list(range(hours_to_target + 24, hours_to_target + 49))
+            fxx = list(range(hours_to_target + 24, hours_to_target + 49))
         else:
-            return list(range(hours_to_target, hours_to_target + 25))
+            fxx = list(range(hours_to_target, hours_to_target + 25))
+
+        # HRRR synoptic cycles only run to f48; requesting beyond that makes the whole
+        # FastHerbie request fail. Truncate and warn (00z run misses the last 00-06Z hours).
+        HRRR_MAX_FXX = 48
+        if fxx[-1] > HRRR_MAX_FXX:
+            print(f"Warning: HRRR {timestamp:%H}z only reaches f{HRRR_MAX_FXX}; "
+                  f"window truncated (f{fxx[0]}-f{HRRR_MAX_FXX}). Tmin may be missed.")
+            fxx = [f for f in fxx if f <= HRRR_MAX_FXX]
+        return fxx
 
     elif model == "IFS":
         # Behavior for IFS anchored to target (3-hour outputs)
@@ -327,6 +353,28 @@ def calculate_forecast_range(timestamp, model="HRRR", target_hour=6):
 
     else:
         raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS', 'AIFS'")
+
+
+def forecast_hours_for_day(init, target_day, step, max_fxx):
+    """
+    Forecast hours from `init` covering the WxChallenge day `target_day`
+    (06Z target_day -> 06Z next day) at the model's output interval `step`.
+
+    Returns (fxx_list, truncated_flag). Hours past `max_fxx` are dropped (e.g. an
+    00Z HRRR only reaches f48, so it misses the last hours of the next-day window).
+    """
+    init = pd.Timestamp(init).tz_localize(None) if pd.Timestamp(init).tzinfo else pd.Timestamp(init)
+    start = pd.Timestamp(target_day.year, target_day.month, target_day.day, 6)
+    f0 = int((start - init) / pd.Timedelta(hours=1))
+    if f0 < 0:
+        raise ValueError(f"init {init} is after the start of the {target_day} window")
+    first = f0 if f0 % step == 0 else f0 + (step - f0 % step)
+    fxx = list(range(first, f0 + 24 + 1, step))
+    truncated = fxx[-1] > max_fxx
+    fxx = [f for f in fxx if f <= max_fxx]
+    if not fxx:
+        raise ValueError(f"init {init} does not reach the {target_day} window (max f{max_fxx})")
+    return fxx, truncated
 
 
 def run_hour(init):

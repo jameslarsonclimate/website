@@ -1,0 +1,20 @@
+# Conda environment for the WxChallenge scripts.
+#   create:  conda env create -f environment.yml
+#   update:  conda env update -f environment.yml --prune
+name: wxchallenge
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.11
+  - herbie-data>=2026.5     # knows about the May 2026 IFS 50r1 / AIFS v2 open-data layout
+  - eccodes
+  - cfgrib
+  - xarray
+  - pandas
+  - numpy
+  - cftime
+  - scikit-learn            # Herbie pick_points (BallTree)
+  - matplotlib
+  - pillow
+  - requests
+  - pytest

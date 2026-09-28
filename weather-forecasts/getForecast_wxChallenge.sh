@@ -1,11 +1,14 @@
 #!/bin/bash
-# Script to run getForecast.py with the weather-output conda environment
+# Run the WxChallenge forecast script in the weather-output conda environment.
+# Usage: ./getForecast_wxChallenge.sh [ICAO] [--target-date YYYY-MM-DD] [--no-push] [--skip-grib]
 
 # Set error handling
 set -e
 
 # Define file path
-FORECAST_SCRIPT="/Users/jglarson/Documents/Website/weather-forecasts/getForecast_wxChallenge-pushGitHub.py"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FORECAST_SCRIPT="$SCRIPT_DIR/getForecast_wxChallenge-pushGitHub.py"
+cd "$SCRIPT_DIR"
 
 # Check if the Python file exists
 if [ ! -f "$FORECAST_SCRIPT" ]; then
@@ -20,17 +23,28 @@ echo "------------------------------"
 
 # Activate conda environment and execute the Python script
 # Using 'eval' with $() to ensure conda initialization works in non-interactive shell
+# cron/launchd start with a minimal PATH, so look for conda in common install locations
+if ! command -v conda >/dev/null 2>&1; then
+    for base in "$HOME/miniforge3" "$HOME/mambaforge" "$HOME/miniconda3" "$HOME/anaconda3" \
+                "/opt/homebrew/Caskroom/miniforge/base" "/opt/miniconda3" "/opt/anaconda3"; do
+        if [ -x "$base/bin/conda" ]; then export PATH="$base/bin:$PATH"; break; fi
+    done
+fi
+if ! command -v conda >/dev/null 2>&1; then
+    echo "Error: conda not found on PATH."
+    exit 1
+fi
 eval "$(conda shell.bash hook)"
-conda activate weather-output
 
-# Check if environment activation was successful
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to activate conda environment 'weather-output'"
+# (with 'set -e' a separate '$?' check never runs, so test the command directly)
+if ! conda activate wxchallenge; then
+    echo "Error: Failed to activate conda environment 'wxchallenge'"
     exit 1
 fi
 
 # Run the Python script
-python "$FORECAST_SCRIPT"
+# Arguments are passed through, e.g. ./getForecast_wxChallenge.sh KTPA --no-push
+python "$FORECAST_SCRIPT" "$@"
 
 # Deactivate the environment
 conda deactivate

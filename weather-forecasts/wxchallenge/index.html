@@ -5,15 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>WXChallenge Forecasts</title>
   <style>
-    /* Minimal readable styling */
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem}
+    :root{
+      --bg:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;
+      --line:#e4e3df; --head:#f5f4f1; --group:#eef2f7; --group-ink:#3d4250;
+      --hl:#fff7d6; --note:#8a5a00; --link:#1c5cab;
+      /* error-points ramp (orange, best -> worst) */
+      --e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
+      /* diverging bias: cold (under) <- neutral -> warm (over) */
+      --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c;
+      --tip:#1f1f1e; --tip-ink:#ffffff;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --bg:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#a09f97;
+        --line:#343431; --head:#242422; --group:#232830; --group-ink:#c9d1e0;
+        --hl:#3a3420; --note:#f0b35c; --link:#86b6ef;
+        --e0:#3a2419; --e1:#d95926; --e2:#f3a57e;
+        --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
+        --tip:#f5f4f1; --tip-ink:#0b0b0b;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"]{
+      --bg:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#a09f97;
+      --line:#343431; --head:#242422; --group:#232830; --group-ink:#c9d1e0;
+      --hl:#3a3420; --note:#f0b35c; --link:#86b6ef;
+      --e0:#3a2419; --e1:#d95926; --e2:#f3a57e;
+      --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
+      --tip:#f5f4f1; --tip-ink:#0b0b0b;
+      color-scheme: dark;
+    }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:1040px;margin:2rem auto;padding:0 16px;
+         background:var(--bg);color:var(--ink)}
+    a{color:var(--link)}
     header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
     table{width:100%;border-collapse:collapse;margin-top:0.5rem}
-    th,td{border:1px solid #e6e6e6;padding:8px;text-align:left}
-    th{background:#fafafa}
-    .muted{color:#666;font-size:0.95rem}
+    th,td{border:1px solid var(--line);padding:8px;text-align:left;white-space:nowrap}
+    th{background:var(--head);font-weight:600}
+    td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+    tr.group td{background:var(--group);font-weight:600;font-size:0.9rem;color:var(--group-ink)}
+    tr.consensus td{font-weight:700;background:var(--hl)}
+    .muted{color:var(--ink-2);font-size:0.95rem}
+    .small{font-size:0.85rem;color:var(--ink-3)}
+    .note{color:var(--note);font-size:0.85rem;white-space:normal}
     .back{margin-bottom:1rem;display:inline-block}
     img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
+    h2{margin-top:2.2rem}
+
+    /* verification scoreboard */
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0.75rem 0 0.25rem}
+    .tabs button{font:inherit;font-size:0.9rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+                 background:var(--bg);color:var(--ink);cursor:pointer}
+    .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+    #score{margin-top:0.5rem}
+    #score th, #score td{padding:7px 9px}
+    #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px;min-width:3.2rem}
+    #score td.model{position:sticky;left:0;background:var(--bg);z-index:1;font-weight:600}
+    #score tr.consensus td.model{background:var(--hl)}
+    #score tr.obs td{background:var(--head);font-weight:600}
+    #score tr.obs td.model{background:var(--head)}
+    #score td.sum{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+    #score th.day{text-align:center;line-height:1.2}
+    #score th.day span{display:block;font-weight:400;font-size:0.8rem;color:var(--ink-2)}
+    #score th.day.hind span::after{content:" (h)"}
+    .star{font-size:0.75em;margin-left:2px}
+    .legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:0.6rem;font-size:0.85rem;color:var(--ink-2)}
+    .swatches{display:inline-flex;gap:2px}
+    .swatches i{display:inline-block;width:22px;height:14px;border-radius:3px}
+    #tip{position:fixed;pointer-events:none;background:var(--tip);color:var(--tip-ink);padding:8px 10px;border-radius:6px;
+         font-size:0.82rem;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none;z-index:10;max-width:280px}
+    #tip b{font-weight:650}
   </style>
 </head>
 
@@ -24,33 +87,29 @@
     <h1>WXChallenge Forecasts</h1>
     <div id="updated" class="muted">Loading…</div>
   </header>
-  
-  <!-- Insert the ASOS link just above the Forecasting heading -->
+
   <p style="margin-top:0.5rem">
-    <a href="asos.html">Recently Observed ASOS data</a>
+    <a href="#verification">How the models have done this period</a>
   </p>
 
-  <!-- Subheading and valid-range (populated by script) -->
   <h2 id="forecast-for">Forecasting for —</h2>
   <h3 id="valid-range" class="muted">Valid: —</h3>
 
-  <!-- Single table: models are rows, variables are columns -->
-  <section>
+  <section class="scroll">
     <table id="models-table" aria-label="Model comparison table">
       <thead>
         <tr>
           <th>Model</th>
-          <th>High (°F)</th>
-          <th>Low (°F)</th>
-          <th>Wind Speed (kt)</th>
-          <th>Precipitation (in)</th>
-          <th>Model Init (UTC)</th>
+          <th class="num">High (°F)</th>
+          <th class="num">Low (°F)</th>
+          <th class="num">Wind (kt)</th>
+          <th class="num">Precip (in)</th>
+          <th>Init (UTC)</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td colspan="6">Loading…</td></tr>
-      </tbody>
+      <tbody><tr><td colspan="6">Loading…</td></tr></tbody>
     </table>
+    <p id="consensus-note" class="muted"></p>
   </section>
 
   <section>
@@ -58,93 +117,265 @@
     <img id="fig" alt="latest WXChallenge figure"/>
   </section>
 
+  <section id="verification">
+    <h2>Model verification this period</h2>
+    <p id="verif-period" class="muted">Loading…</p>
+
+    <div class="tabs" role="group" aria-label="Verification view">
+      <button data-view="points" aria-pressed="true">Error points</button>
+      <button data-view="tmax_f" aria-pressed="false">High</button>
+      <button data-view="tmin_f" aria-pressed="false">Low</button>
+      <button data-view="wind_max_kt" aria-pressed="false">Wind</button>
+      <button data-view="precip_in" aria-pressed="false">Precip</button>
+    </div>
+
+    <div class="scroll">
+      <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <div id="legend" class="legend"></div>
+    <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using
+      WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
+      (h) = day filled in by a hindcast. Hover or tap a cell for details.</p>
+    <img id="verif-fig" alt="Daily and cumulative error points by model"/>
+  </section>
+
+  <div id="tip" role="tooltip"></div>
+
 <script>
-/* Simple helper to render missing values */
-function fmt(v){ return v===null||v===undefined ? '—' : v; }
+function fmt(v, d){
+  if (v === null || v === undefined) return '—';
+  return (typeof v === 'number' && d !== undefined) ? v.toFixed(d) : v;
+}
+function signed(v, d){
+  if (v === null || v === undefined) return '—';
+  const s = Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v;
+  return (s > 0 ? '+' : s < 0 ? '−' : '') + Math.abs(s).toFixed(d);
+}
+function isDark(){
+  const t = document.documentElement.dataset.theme;
+  return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+}
 
-/*
-  Fetch a simple JSON schema and populate the page.
+const GROUPS = [
+  { title: 'Grid models', rows: [['HRRR','HRRR'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
+  { title: 'Statistical guidance', rows: [['GFS_MOS','GFS MOS'],['NAM_MOS','NAM MOS'],['NBM','NBM']] },
+  { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
+];
+const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
+const VARS = {
+  tmax_f:      { name: 'High', unit: '°F', dec: 0, bins: [1, 3, 5] },
+  tmin_f:      { name: 'Low',  unit: '°F', dec: 0, bins: [1, 3, 5] },
+  wind_max_kt: { name: 'Wind', unit: 'kt', dec: 0, bins: [1, 3, 6] },
+  precip_in:   { name: 'Precip', unit: 'in', dec: 2, bins: [0.02, 0.10, 0.25] },
+};
 
-  Expected JSON format (simple, no legacy transformations):
-  {
-    "generated_at_utc": "2025-09-02T05:00:00Z",
-    "meta": { "site": "Loveland, CO (KFNL)" },
-    "models": {
-      "HRRR": { ... },
-      "IFS": { ... },
-      "GFS": { ... },
-      "NBM": { ... },
-      "IFS_ens": { ... },   // optional key name used for "IFS Ens"
-      "AIFS": { ... }
-    }
+/* ---------- colour scales (tokens only; see the CSS custom properties) ---------- */
+// error points: continuous one-hue ramp, t=0 best of the day -> t=1 worst
+function pointsFill(t){
+  return t <= 0.5
+    ? `color-mix(in oklab, var(--e1) ${Math.round(t * 200)}%, var(--e0))`
+    : `color-mix(in oklab, var(--e2) ${Math.round((t - 0.5) * 200)}%, var(--e1))`;
+}
+function pointsInk(t){ return isDark() ? (t > 0.6 ? '#1a1a19' : '#ffffff') : (t > 0.45 ? '#ffffff' : '#0b0b0b'); }
+// signed error: diverging, 3 steps per arm + neutral
+function biasStep(err, bins){
+  const a = Math.abs(err);
+  const step = a <= bins[0] ? 0 : a <= bins[1] ? 1 : a <= bins[2] ? 2 : 3;
+  return err < 0 ? -step : step;
+}
+function biasFill(step){
+  if (step === 0) return 'var(--neu)';
+  return `var(--${step < 0 ? 'c' : 'w'}${Math.abs(step)})`;
+}
+function biasInk(step){
+  const a = Math.abs(step);
+  if (isDark()) return a === 3 ? '#1a1a19' : '#ffffff';
+  return a >= 2 ? '#ffffff' : '#0b0b0b';
+}
+
+/* ---------- forecast table ---------- */
+function modelRow(key, label, m){
+  const cls = key === 'CONSENSUS' ? ' class="consensus"' : '';
+  if (!m || m.tmax_f === null || m.tmax_f === undefined) {
+    const why = m && m.error ? `<span class="note">${m.error.slice(0,120)}</span>` : 'no data';
+    return `<tr${cls}><td>${label}</td><td colspan="5">${why}</td></tr>`;
   }
-*/
+  const note = m.note ? `<div class="note">${m.note}</div>` : '';
+  return `<tr${cls}><td>${label}${note}</td>
+    <td class="num">${fmt(m.tmax_f,1)}</td><td class="num">${fmt(m.tmin_f,1)}</td>
+    <td class="num">${fmt(m.wind_max_kt,1)}</td><td class="num">${fmt(m.precip_in,2)}</td>
+    <td>${fmt(m.init_time_utc)}</td></tr>`;
+}
+
+/* ---------- verification scoreboard ---------- */
+let VERIF = null, VIEW = 'points';
+const tip = document.getElementById('tip');
+
+function dayHead(d){
+  const dt = new Date(d.date + 'T12:00:00Z');
+  const wd = dt.toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' });
+  return `<th class="day${d.hindcast ? ' hind' : ''}">${d.date.slice(5)}<span>${wd}</span></th>`;
+}
+
+function renderScore(){
+  const v = VERIF, table = document.getElementById('score'), legend = document.getElementById('legend');
+  const days = (v.days || []).filter(d => Object.keys(d.models).length);
+  if (!days.length) {
+    table.innerHTML = '<tbody><tr><td>No verified days yet: scores appear once a forecast day has ended.</td></tr></tbody>';
+    legend.innerHTML = '';
+    return;
+  }
+  const summary = v.summary || {};
+  const models = Object.keys(summary).sort((a, b) =>
+    (a === 'CONSENSUS') - (b === 'CONSENSUS') || summary[a].mean_points - summary[b].mean_points);
+
+  // best / worst per day (points view) for the relative colouring and the star
+  const range = days.map(d => {
+    const p = Object.values(d.models).map(m => m.points);
+    return { lo: Math.min(...p), hi: Math.max(...p) };
+  });
+
+  let head = '<thead><tr><th>Model</th>' + days.map(dayHead).join('');
+  head += VIEW === 'points' ? '<th class="num">Avg</th><th class="num">Total</th>'
+                            : '<th class="num">Bias</th><th class="num">Avg error</th>';
+  head += '</tr></thead>';
+
+  // observed row
+  let obs = '<tr class="obs"><td class="model">Observed</td>';
+  obs += days.map(d => {
+    const o = d.obs;
+    const txt = VIEW === 'points'
+      ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}`
+      : fmt(o[VIEW], VARS[VIEW].dec);
+    return `<td class="cell" data-obs="${d.date}">${txt}</td>`;
+  }).join('') + '<td></td><td></td></tr>';
+
+  const rows = models.map(name => {
+    const s = summary[name];
+    let tr = `<tr${name === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[name] || name}</td>`;
+    days.forEach((d, i) => {
+      const m = d.models[name];
+      if (!m) { tr += '<td class="cell small">—</td>'; return; }
+      if (VIEW === 'points') {
+        const { lo, hi } = range[i];
+        const t = hi > lo ? (m.points - lo) / (hi - lo) : 0;
+        const star = m.points === lo ? '<span class="star" aria-label="best">★</span>' : '';
+        tr += `<td class="cell" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${star}</td>`;
+      } else {
+        const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
+        tr += `<td class="cell" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}</td>`;
+      }
+    });
+    if (VIEW === 'points') {
+      tr += `<td class="sum">${s.mean_points.toFixed(1)}</td><td class="sum">${s.total_points.toFixed(1)}</td>`;
+    } else {
+      const dec = VARS[VIEW].dec === 0 ? 1 : 2;
+      tr += `<td class="sum">${signed(s.bias[VIEW], dec)}</td><td class="sum">${s.mae[VIEW].toFixed(dec)}</td>`;
+    }
+    return tr + '</tr>';
+  });
+  table.innerHTML = head + '<tbody>' + obs + rows.join('') + '</tbody>';
+
+  // legend
+  if (VIEW === 'points') {
+    const sw = [0, 0.25, 0.5, 0.75, 1].map(t => `<i style="background:${pointsFill(t)}"></i>`).join('');
+    legend.innerHTML = `<span>Best of the day</span><span class="swatches">${sw}</span><span>Worst of the day</span>
+      <span>· models sorted by average points (lower is better)</span>`;
+  } else {
+    const b = VARS[VIEW].bins, u = VARS[VIEW].unit, dec = VARS[VIEW].dec;
+    const sw = [-3, -2, -1, 0, 1, 2, 3].map(s => `<i style="background:${biasFill(s)}"></i>`).join('');
+    legend.innerHTML = `<span>Too ${VIEW === 'precip_in' ? 'dry' : VIEW === 'wind_max_kt' ? 'light' : 'cold'}</span>
+      <span class="swatches">${sw}</span>
+      <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
+      <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
+  }
+}
+
+function showTip(td, ev){
+  const d = VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
+  const name = td.dataset.model, m = d && d.models[name];
+  if (!m) return;
+  const f = m.forecast, o = d.obs, e = m.error;
+  const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${signed(e[k], VARS[k].dec)})`;
+  tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date}</b><br>` +
+    ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
+    `<br><b>${m.points.toFixed(1)} points</b>` +
+    (m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${d.hindcast ? ' · hindcast' : ''}</span>` : '');
+  tip.style.display = 'block';
+  moveTip(ev);
+}
+function moveTip(ev){
+  const x = Math.min(ev.clientX + 14, innerWidth - tip.offsetWidth - 8);
+  const y = ev.clientY + 16 + tip.offsetHeight > innerHeight ? ev.clientY - tip.offsetHeight - 12 : ev.clientY + 16;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const score = document.getElementById('score');
+score.addEventListener('pointerover', ev => { const td = ev.target.closest('td[data-model]'); if (td) showTip(td, ev); });
+score.addEventListener('pointermove', ev => { if (tip.style.display === 'block') moveTip(ev); });
+score.addEventListener('pointerout', ev => { if (ev.target.closest('td[data-model]')) tip.style.display = 'none'; });
+document.addEventListener('scroll', () => { tip.style.display = 'none'; }, { passive: true });
+
+document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('click', () => {
+  VIEW = btn.dataset.view;
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-pressed', b === btn));
+  try { localStorage.setItem('wxc-view', VIEW); } catch (e) {}
+  if (VERIF) renderScore();
+}));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (VERIF) renderScore(); });
+
 (async function(){
-  try{
-    // fetch the JSON produced by your Python script (no legacy mapping here)
-    const res = await fetch('../data/wxchallenge/forecast.json?t=' + Date.now(), { cache: 'no-store' });
+  const bust = '?t=' + Date.now();
+  try {
+    const res = await fetch('../data/wxchallenge/forecast.json' + bust, { cache: 'no-store' });
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     const data = await res.json();
-
-    // Updated timestamp
-    if (data?.generated_at_utc) {
-      document.getElementById('updated').textContent = 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString();
-    } else {
-      document.getElementById('updated').textContent = 'Last updated: —';
-    }
-
-    // Site name
+    document.getElementById('updated').textContent = data.generated_at_utc
+      ? 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString() : 'Last updated: —';
     const site = data?.meta?.site ?? '—';
     document.getElementById('forecast-for').textContent = `Forecasting for ${site}`;
-
-    // Valid range: prefer a model order (HRRR, IFS, GFS, NBM, IFS_ens, AIFS) then meta
-    const preferKeys = ['HRRR','IFS','GFS','NBM','IFS_ens','AIFS'];
-    let validRange = null;
-    for (const k of preferKeys) {
-      const v = data?.models?.[k]?.valid_range_utc ?? null;
-      if (v) { validRange = v; break; }
+    const vr = data?.meta?.valid_range_utc
+      ?? Object.values(data.models || {}).map(m => m.valid_range_utc).find(Boolean);
+    document.getElementById('valid-range').textContent = vr ? `Valid: ${vr[0]} – ${vr[1]} UTC` : 'Valid: —';
+    const rows = [];
+    for (const g of GROUPS) {
+      rows.push(`<tr class="group"><td colspan="6">${g.title}</td></tr>`);
+      for (const [key, label] of g.rows) rows.push(modelRow(key, label, data?.models?.[key]));
     }
-    if (!validRange) {
-      validRange = data?.meta?.valid_range_utc ?? null;
-      if (!validRange && data?.generated_at_utc) validRange = [data.generated_at_utc, data.generated_at_utc];
-    }
-    document.getElementById('valid-range').textContent = validRange ? `Valid: ${validRange[0]} - ${validRange[1]} UTC` : 'Valid: —';
-
-    // Build table rows for models: show HRRR, ECMWF IFS, GFS, NBM, IFS Ens, AIFS
-    const modelMap = [
-      { key: 'HRRR',   label: 'HRRR' },
-      { key: 'IFS',    label: 'ECMWF IFS' },
-      { key: 'GFS',    label: 'GFS' },
-      { key: 'NBM',    label: 'NBM' },
-      { key: 'IFS_ens',label: 'IFS Ens' },
-      { key: 'AIFS',   label: 'AIFS' }
-    ];
-
-    function rowHtml(displayName, m){
-      if (!m) return `<tr><td>${displayName}</td><td colspan="5">no data</td></tr>`;
-      return `<tr>
-        <td>${displayName}</td>
-        <td>${fmt(m.tmax_f)}</td>
-        <td>${fmt(m.tmin_f)}</td>
-        <td>${fmt(m.wind_max_kt)}</td>
-        <td>${fmt(m.precip_in)}</td>
-        <td>${fmt(m.init_time_utc)}</td>
-      </tr>`;
-    }
-
-    const rows = modelMap.map(m => rowHtml(m.label, data?.models?.[m.key] ?? null));
-
     document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
-
-    // Update figure with cache-busting
+    const cm = data?.models?.CONSENSUS?.method?.tmax_f;
+    if (cm) document.getElementById('consensus-note').textContent =
+      `Consensus: ${cm.method}; members: ${cm.members.map(k => LABEL[k] || k).join(', ')}` +
+      (cm.excluded_outliers ? `; excluded as outliers: ${cm.excluded_outliers.map(k => LABEL[k] || k).join(', ')}` : '') + '.';
     const fig = document.getElementById('fig');
-    fig.src = `../images/wxchallenge/latest.png?t=${Date.now()}`;
+    fig.src = `../images/wxchallenge/latest.png${bust}`;
     fig.alt = `Latest figure for ${site}`;
-
   } catch (err) {
-    // show a simple error state and log the error
     document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
-    document.getElementById('updated').textContent = 'Last updated: —';
+    console.error(err);
+  }
+
+  try {
+    const res = await fetch('../data/wxchallenge/verification.json' + bust, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+    VERIF = await res.json();
+    const scored = (VERIF.days || []).filter(d => Object.keys(d.models).length);
+    const hind = scored.filter(d => d.hindcast).length;
+    document.getElementById('verif-period').textContent =
+      `${VERIF.station} since ${VERIF.period_start}: ${scored.length} scored day${scored.length === 1 ? '' : 's'}` +
+      (hind ? ` (${hind} from hindcasts of the runs available at 21Z the day before)` : '');
+    try {
+      const saved = localStorage.getItem('wxc-view');
+      if (saved && document.querySelector(`.tabs button[data-view="${saved}"]`)) {
+        document.querySelector(`.tabs button[data-view="${saved}"]`).click();
+      }
+    } catch (e) {}
+    renderScore();
+    if (scored.length) document.getElementById('verif-fig').src = `../images/wxchallenge/verification.png${bust}`;
+    else document.getElementById('verif-fig').remove();
+  } catch (err) {
+    document.getElementById('verif-period').textContent = 'Verification not available yet.';
+    document.getElementById('score').innerHTML = '';
+    document.getElementById('verif-fig').remove();
     console.error(err);
   }
 })();
