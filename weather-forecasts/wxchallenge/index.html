@@ -178,6 +178,12 @@ function fmt(v, d){
   if (v === null || v === undefined) return '—';
   return (typeof v === 'number' && d !== undefined) ? v.toFixed(d) : v;
 }
+/* "2026-09-29T12" -> "09/29 12Z" (the year is just noise in the tables) */
+function runLabel(iso){
+  if (!iso) return '—';
+  const m = String(iso).match(/^\d{4}-(\d{2})-(\d{2})T(\d{2})/);
+  return m ? `${m[1]}/${m[2]} ${m[3]}Z` : iso;
+}
 function signed(v, d){
   if (v === null || v === undefined) return '—';
   const s = Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v;
@@ -237,7 +243,7 @@ function modelRow(key, label, m){
   return `<tr${cls}><td>${label}${note}</td>
     <td class="num">${fmt(m.tmax_f,1)}</td><td class="num">${fmt(m.tmin_f,1)}</td>
     <td class="num">${fmt(m.wind_max_kt,1)}</td><td class="num">${fmt(m.precip_in,2)}</td>
-    <td>${fmt(m.init_time_utc)}</td></tr>`;
+    <td>${runLabel(m.init_time_utc)}</td></tr>`;
 }
 
 /* ---------- verification scoreboard ---------- */
@@ -396,7 +402,7 @@ function renderEnsembles(data){
   let h = '<thead><tr><th>Ensemble</th>' + vars.map(([, n]) => `<th>${n}</th>`).join('') + '</tr></thead><tbody>';
   for (const [k, l, m] of ens) {
     const st = m.ensemble.stats;
-    h += `<tr><td>${l}<div class="small">${m.ensemble.n_members} members<br>${m.init_time_utc.replace('T', ' ')}Z run</div></td>`;
+    h += `<tr><td>${l}<div class="small">${m.ensemble.n_members} members<br>${runLabel(m.init_time_utc)} run</div></td>`;
     for (const [v, , dec] of vars) {
       const s = st[v];
       h += `<td>${boxSvg(s, scale[v][0], scale[v][1], cons[v], dec)}
