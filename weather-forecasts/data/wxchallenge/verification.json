@@ -584,152 +584,310 @@
           "run": "2026-09-26T21:00:00+00:00"
         }
       }
+    },
+    {
+      "date": "2026-09-28",
+      "obs": {
+        "tmax_f": 85,
+        "tmin_f": 70,
+        "wind_max_kt": 10,
+        "precip_in": 0.0
+      },
+      "wind_source": "CLI",
+      "run": "2026-09-27T21:00:00+00:00",
+      "hindcast": true,
+      "models": {
+        "HRRR": {
+          "forecast": {
+            "tmax_f": 86,
+            "tmin_f": 69,
+            "wind_max_kt": 6,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 1,
+            "tmin_f": -1,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 4.0,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "RRFS": {
+          "forecast": {
+            "tmax_f": 83,
+            "tmin_f": 67,
+            "wind_max_kt": 6,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -2,
+            "tmin_f": -3,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 7.0,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "IFS": {
+          "forecast": {
+            "tmax_f": 92,
+            "tmin_f": 73,
+            "wind_max_kt": 6,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 7,
+            "tmin_f": 3,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 12.0,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "GFS": {
+          "forecast": {
+            "tmax_f": 86,
+            "tmin_f": 74,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 1,
+            "tmin_f": 4,
+            "wind_max_kt": -3,
+            "precip_in": 0.0
+          },
+          "points": 6.5,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "AIFS": {
+          "forecast": {
+            "tmax_f": 87,
+            "tmin_f": 70,
+            "wind_max_kt": 5,
+            "precip_in": 0.01
+          },
+          "error": {
+            "tmax_f": 2,
+            "tmin_f": 0,
+            "wind_max_kt": -5,
+            "precip_in": 0.01
+          },
+          "points": 4.9,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "GFS_MOS": {
+          "forecast": {
+            "tmax_f": 88,
+            "tmin_f": 69,
+            "wind_max_kt": 8,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": -1,
+            "wind_max_kt": -2,
+            "precip_in": 0.0
+          },
+          "points": 5.0,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "NBM": {
+          "forecast": {
+            "tmax_f": 88,
+            "tmin_f": 70,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": 0,
+            "wind_max_kt": -3,
+            "precip_in": 0.0
+          },
+          "points": 4.5,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "USL": {
+          "forecast": {
+            "tmax_f": 88,
+            "tmin_f": 69,
+            "wind_max_kt": 10,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": -1,
+            "wind_max_kt": 0,
+            "precip_in": 0.0
+          },
+          "points": 4.0,
+          "run": "2026-09-27T21:00:00+00:00"
+        },
+        "CONSENSUS": {
+          "forecast": {
+            "tmax_f": 87,
+            "tmin_f": 70,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 2,
+            "tmin_f": 0,
+            "wind_max_kt": -3,
+            "precip_in": 0.0
+          },
+          "points": 3.5,
+          "run": "2026-09-27T21:00:00+00:00"
+        }
+      }
     }
   ],
   "summary": {
     "HRRR": {
-      "n_days": 4,
-      "total_points": 28.5,
-      "mean_points": 7.12,
+      "n_days": 5,
+      "total_points": 32.5,
+      "mean_points": 6.5,
       "bias": {
-        "tmax_f": -2.0,
-        "tmin_f": -2.25,
-        "wind_max_kt": -4.75,
+        "tmax_f": -1.4,
+        "tmin_f": -2.0,
+        "wind_max_kt": -4.6,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 2.5,
-        "tmin_f": 2.25,
-        "wind_max_kt": 4.75,
+        "tmax_f": 2.2,
+        "tmin_f": 2.0,
+        "wind_max_kt": 4.6,
         "precip_in": 0.0
       }
     },
     "IFS": {
-      "n_days": 4,
-      "total_points": 18.3,
-      "mean_points": 4.58,
+      "n_days": 5,
+      "total_points": 30.3,
+      "mean_points": 6.06,
       "bias": {
-        "tmax_f": 1.25,
-        "tmin_f": -0.25,
-        "wind_max_kt": -4.75,
-        "precip_in": 0.01
-      },
-      "mae": {
-        "tmax_f": 1.75,
-        "tmin_f": 0.25,
-        "wind_max_kt": 4.75,
-        "precip_in": 0.01
-      }
-    },
-    "GFS": {
-      "n_days": 4,
-      "total_points": 23.9,
-      "mean_points": 5.97,
-      "bias": {
-        "tmax_f": 1.75,
-        "tmin_f": 3.0,
-        "wind_max_kt": -2.25,
+        "tmax_f": 2.4,
+        "tmin_f": 0.4,
+        "wind_max_kt": -4.6,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 1.75,
-        "tmin_f": 3.0,
-        "wind_max_kt": 2.25,
+        "tmax_f": 2.8,
+        "tmin_f": 0.8,
+        "wind_max_kt": 4.6,
+        "precip_in": 0.0
+      }
+    },
+    "GFS": {
+      "n_days": 5,
+      "total_points": 30.4,
+      "mean_points": 6.08,
+      "bias": {
+        "tmax_f": 1.6,
+        "tmin_f": 3.2,
+        "wind_max_kt": -2.4,
+        "precip_in": 0.0
+      },
+      "mae": {
+        "tmax_f": 1.6,
+        "tmin_f": 3.2,
+        "wind_max_kt": 2.4,
         "precip_in": 0.0
       }
     },
     "AIFS": {
-      "n_days": 4,
-      "total_points": 20.5,
-      "mean_points": 5.12,
+      "n_days": 5,
+      "total_points": 25.4,
+      "mean_points": 5.08,
       "bias": {
-        "tmax_f": -1.5,
-        "tmin_f": -0.25,
-        "wind_max_kt": -4.75,
+        "tmax_f": -0.8,
+        "tmin_f": -0.2,
+        "wind_max_kt": -4.8,
         "precip_in": 0.01
       },
       "mae": {
         "tmax_f": 2.0,
-        "tmin_f": 0.25,
-        "wind_max_kt": 4.75,
+        "tmin_f": 0.2,
+        "wind_max_kt": 4.8,
         "precip_in": 0.01
       }
     },
     "GFS_MOS": {
-      "n_days": 4,
-      "total_points": 27.0,
-      "mean_points": 6.75,
+      "n_days": 5,
+      "total_points": 32.0,
+      "mean_points": 6.4,
       "bias": {
-        "tmax_f": 2.75,
-        "tmin_f": 2.25,
-        "wind_max_kt": -3.5,
+        "tmax_f": 2.8,
+        "tmin_f": 1.6,
+        "wind_max_kt": -3.2,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 2.75,
-        "tmin_f": 2.25,
-        "wind_max_kt": 3.5,
+        "tmax_f": 2.8,
+        "tmin_f": 2.0,
+        "wind_max_kt": 3.2,
         "precip_in": 0.0
       }
     },
     "CONSENSUS": {
-      "n_days": 4,
-      "total_points": 15.9,
-      "mean_points": 3.98,
+      "n_days": 5,
+      "total_points": 19.4,
+      "mean_points": 3.88,
       "bias": {
-        "tmax_f": 0.0,
-        "tmin_f": 0.5,
-        "wind_max_kt": -3.75,
+        "tmax_f": 0.4,
+        "tmin_f": 0.4,
+        "wind_max_kt": -3.6,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 1.5,
-        "tmin_f": 0.5,
-        "wind_max_kt": 3.75,
+        "tmax_f": 1.6,
+        "tmin_f": 0.4,
+        "wind_max_kt": 3.6,
         "precip_in": 0.0
       }
     },
     "NBM": {
-      "n_days": 4,
-      "total_points": 18.5,
-      "mean_points": 4.62,
+      "n_days": 5,
+      "total_points": 23.0,
+      "mean_points": 4.6,
       "bias": {
-        "tmax_f": 1.75,
-        "tmin_f": 1.0,
-        "wind_max_kt": -3.75,
+        "tmax_f": 2.0,
+        "tmin_f": 0.8,
+        "wind_max_kt": -3.6,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 1.75,
-        "tmin_f": 1.0,
-        "wind_max_kt": 3.75,
+        "tmax_f": 2.0,
+        "tmin_f": 0.8,
+        "wind_max_kt": 3.6,
         "precip_in": 0.0
       }
     },
     "RRFS": {
-      "n_days": 4,
-      "total_points": 31.0,
-      "mean_points": 7.75,
+      "n_days": 5,
+      "total_points": 38.0,
+      "mean_points": 7.6,
       "bias": {
-        "tmax_f": -4.0,
-        "tmin_f": -2.0,
-        "wind_max_kt": -3.5,
+        "tmax_f": -3.6,
+        "tmin_f": -2.2,
+        "wind_max_kt": -3.6,
         "precip_in": 0.0
       },
       "mae": {
-        "tmax_f": 4.0,
-        "tmin_f": 2.0,
-        "wind_max_kt": 3.5,
+        "tmax_f": 3.6,
+        "tmin_f": 2.2,
+        "wind_max_kt": 3.6,
         "precip_in": 0.0
       }
     },
     "USL": {
-      "n_days": 1,
-      "total_points": 4.0,
+      "n_days": 2,
+      "total_points": 8.0,
       "mean_points": 4.0,
       "bias": {
         "tmax_f": 3.0,
-        "tmin_f": 1.0,
+        "tmin_f": 0.0,
         "wind_max_kt": 0.0,
         "precip_in": 0.0
       },
@@ -742,7 +900,7 @@
     }
   },
   "period_start": "2026-09-24",
-  "generated_at_utc": "2026-09-29T03:25:19+00:00",
+  "generated_at_utc": "2026-09-29T16:04:03+00:00",
   "observations": [
     {
       "date": "2026-09-24",
@@ -843,6 +1001,32 @@
       "cli_gust_mph": 22,
       "cli_tmax_f": 83,
       "cli_tmin_f": 65,
+      "cli_preliminary": false,
+      "cli_wind_kt": 10,
+      "wind_max_kt": 10,
+      "wind_source": "CLI"
+    },
+    {
+      "date": "2026-09-28",
+      "tmax_f_raw": 84.9,
+      "tmin_f_raw": 70.0,
+      "tmax_f": 85,
+      "tmin_f": 70,
+      "wind_max_kt_metar": 8,
+      "gust_max_kt_metar": null,
+      "wind_max_kt_all_reports": 8,
+      "precip_in": 0.0,
+      "precip_trace": false,
+      "precip_source": "hourly P groups",
+      "precip_6hr_groups_in": 0.0,
+      "n_routine_obs": 24,
+      "complete": true,
+      "station": "KTPA",
+      "fetched_at_utc": "2026-09-29T15:59:44+00:00",
+      "cli_wind_mph": 12,
+      "cli_gust_mph": 15,
+      "cli_tmax_f": 85,
+      "cli_tmin_f": 70,
       "cli_preliminary": false,
       "cli_wind_kt": 10,
       "wind_max_kt": 10,
