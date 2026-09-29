@@ -70,6 +70,7 @@
     #score th, #score td{padding:7px 9px}
     #ens-table td{white-space:normal;vertical-align:top}
     #today-table td.cell, #ens-prob td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
+    #today-table td.pending{color:var(--ink-3);background:transparent;border:1px dashed var(--line);font-style:italic}
     #today-table td.sum{text-align:right;font-variant-numeric:tabular-nums}
     #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px;min-width:3.2rem}
     #score td.model{position:sticky;left:0;background:var(--bg);z-index:1;font-weight:600}
@@ -152,8 +153,10 @@
       <table id="today-table" aria-label="Forecast errors so far today"><tbody><tr><td>Loading…</td></tr></tbody></table>
     </div>
     <p class="small">Forecast (runs before the 00Z deadline) minus observed at each hourly METAR so far.
-      Blue = running cold / light / dry, red = warm / strong / wet. "High / low so far" compare the forecast's
-      extreme over the elapsed hours with the observed one.</p>
+      Blue = running cold / light / dry, red = warm / strong / wet. "Daily high / low" show each model's
+      forecast high and low (the number in the forecast table, which is what gets scored) and, in brackets, its
+      difference from the observed high or low so far. They stay grey until the time the model expects its high
+      or low has passed (hover for the time), because until then the observed value can still change.</p>
   </section>
 
   <section id="verification">
@@ -445,14 +448,25 @@ function renderToday(tj){
     const step = biasStep(v, bins);
     return `<td class="cell" style="background:${biasFill(step)};color:${biasInk(step)}">${txt ?? signed(v, dec)}</td>`;
   };
-  let h = `<thead><tr><th>Model</th><th>Temp bias</th><th class="num">Temp error</th><th>High so far</th>
-    <th>Low so far</th><th>Wind bias</th><th>Precip so far</th></tr></thead><tbody>`;
+  // daily high / low: the model's scored value vs the observed extreme so far;
+  // grey until the time the model has its high (low) has passed
+  const extreme = (r, key) => {
+    const fc = r[key + '_fcst'] ?? r[key + '_so_far'], err = r[key + '_err'];
+    if (fc === undefined || fc === null) return '<td class="cell small">—</td>';
+    const txt = `${fc.toFixed(0)} (${err === null || err === undefined ? '—' : signed(err, 0)})`;
+    if (r[key + '_pending']) {
+      const at = r[key + '_at'] ? ` expected around ${r[key + '_at'].slice(11, 13)}Z` : '';
+      return `<td class="cell pending" title="Forecast ${key}${at}; not settled yet">${txt}</td>`;
+    }
+    return cell(err, [1, 3, 5], 0, txt);
+  };
+  let h = `<thead><tr><th>Model</th><th>Temp bias</th><th class="num">Temp error</th><th>Daily high</th>
+    <th>Daily low</th><th>Wind bias</th><th>Precip so far</th></tr></thead><tbody>`;
   for (const [k, r] of rows) {
     h += `<tr${k === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[k] || k}<div class="small">${r.init_time_utc ? r.init_time_utc.slice(11) + 'Z run' : ''}</div></td>` +
       cell(r.temp_bias, [1, 3, 5], 1, signed(r.temp_bias, 1) + '°') +
       `<td class="sum">${r.temp_mae.toFixed(1)}°</td>` +
-      cell(r.high_err, [1, 3, 5], 0, r.high_so_far === undefined ? null : `${r.high_so_far.toFixed(0)} (${signed(r.high_err, 0)})`) +
-      cell(r.low_err, [1, 3, 5], 0, r.low_so_far === undefined ? null : `${r.low_so_far.toFixed(0)} (${signed(r.low_err, 0)})`) +
+      extreme(r, 'high') + extreme(r, 'low') +
       cell(r.wind_bias, [1, 3, 6], 1) +
       cell(r.precip_err, [0.02, 0.10, 0.25], 2, r.precip_so_far === undefined ? null : `${r.precip_so_far.toFixed(2)} (${signed(r.precip_err, 2)})`) +
       '</tr>';
