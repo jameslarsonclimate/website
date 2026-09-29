@@ -61,6 +61,9 @@
     .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #score{margin-top:0.5rem}
     #score th, #score td{padding:7px 9px}
+    #ens-table td{white-space:normal;vertical-align:top}
+    #today-table td.cell, #ens-prob td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
+    #today-table td.sum{text-align:right;font-variant-numeric:tabular-nums}
     #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px;min-width:3.2rem}
     #score td.model{position:sticky;left:0;background:var(--bg);z-index:1;font-weight:600}
     #score tr.consensus td.model{background:var(--hl)}
@@ -112,6 +115,19 @@
     <p id="consensus-note" class="muted"></p>
   </section>
 
+  <section id="ensembles">
+    <h2>Ensembles</h2>
+    <p class="small">ECMWF IFS and AIFS ensembles (51 members each, via Open-Meteo) for the same 06Z–06Z day.
+      Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the bar is the
+      median and the dot the mean; ▼ marks the consensus. Probabilities are the share of members reaching each amount.</p>
+    <div class="scroll">
+      <table id="ens-table" aria-label="Ensemble spread"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <div class="scroll">
+      <table id="ens-prob" aria-label="Ensemble precipitation probabilities"><tbody></tbody></table>
+    </div>
+  </section>
+
   <section>
     <h2>Latest Figure</h2>
     <img id="fig" alt="latest WXChallenge figure"/>
@@ -123,6 +139,14 @@
       forecasts for today. Solid lines are the runs available before the 00Z deadline; dashed lines are
       the newest HRRR, MOS and NBM runs. Grey shading is the part of the day still to come.</p>
     <img id="today-fig" alt="Today so far: observations vs forecasts"/>
+    <h3 style="margin-top:1.2rem">How the forecasts are doing so far today</h3>
+    <p id="today-note" class="small"></p>
+    <div class="scroll">
+      <table id="today-table" aria-label="Forecast errors so far today"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <p class="small">Forecast (runs before the 00Z deadline) minus observed at each hourly METAR so far.
+      Blue = running cold / light / dry, red = warm / strong / wet. "High / low so far" compare the forecast's
+      extreme over the elapsed hours with the observed one.</p>
   </section>
 
   <section id="verification">
@@ -167,6 +191,7 @@ function isDark(){
 const GROUPS = [
   { title: 'Grid models', rows: [['HRRR','HRRR'],['RRFS','RRFS'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
   { title: 'Statistical / point guidance', rows: [['GFS_MOS','GFS MOS'],['NBM','NBM'],['USL','USL']] },
+  { title: 'Ensembles (mean)', rows: [['ENS','ECMWF ENS'],['AIFS_ENS','AIFS ENS']] },
   { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
 ];
 const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
@@ -331,6 +356,97 @@ document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('c
 }));
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (VERIF) renderScore(); });
 
+
+/* ---------- ensembles ---------- */
+const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS']];
+function boxSvg(st, lo, hi, cons, dec){
+  const W = 165, H = 30, pad = 6;
+  const x = v => pad + (W - 2 * pad) * (hi > lo ? (v - lo) / (hi - lo) : 0.5);
+  const y = 13, bh = 12;
+  const tick = cons === null || cons === undefined ? '' :
+    `<path d="M${x(cons) - 4},2 L${x(cons) + 4},2 L${x(cons)},8 Z" fill="var(--ink)"/>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="min ${st.p0}, 25% ${st.p25}, median ${st.p50}, 75% ${st.p75}, max ${st.p100}">
+    <line x1="${x(st.p0)}" x2="${x(st.p100)}" y1="${y + bh / 2}" y2="${y + bh / 2}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <line x1="${x(st.p0)}" x2="${x(st.p0)}" y1="${y + 2}" y2="${y + bh - 2}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <line x1="${x(st.p100)}" x2="${x(st.p100)}" y1="${y + 2}" y2="${y + bh - 2}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <rect x="${x(st.p25)}" y="${y}" width="${Math.max(2, x(st.p75) - x(st.p25))}" height="${bh}" rx="3"
+      fill="var(--c1)" stroke="var(--c3)" stroke-width="1"/>
+    <line x1="${x(st.p50)}" x2="${x(st.p50)}" y1="${y - 1}" y2="${y + bh + 1}" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="${x(st.mean)}" cy="${y + bh / 2}" r="2.6" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.3"/>
+    ${tick}
+    <text x="${pad}" y="${H - 1}" font-size="8.5" fill="var(--ink-3)">${lo.toFixed(dec)}</text>
+    <text x="${W - pad}" y="${H - 1}" font-size="8.5" fill="var(--ink-3)" text-anchor="end">${hi.toFixed(dec)}</text>
+  </svg>`;
+}
+function renderEnsembles(data){
+  const ens = ENS_KEYS.map(([k, l]) => [k, l, data?.models?.[k]]).filter(([, , m]) => m && m.ensemble);
+  const t = document.getElementById('ens-table'), pt = document.getElementById('ens-prob');
+  if (!ens.length) { document.getElementById('ensembles').remove(); return; }
+  const cons = data?.models?.CONSENSUS || {};
+  const vars = [['tmax_f', 'High (°F)', 0], ['tmin_f', 'Low (°F)', 0], ['wind_max_kt', 'Max wind (kt)', 0], ['precip_in', 'Precip (in)', 2]];
+  // shared scale per variable so the two ensembles line up
+  const scale = {};
+  for (const [v] of vars) {
+    const lo = Math.min(...ens.map(([, , m]) => m.ensemble.stats[v].p0), cons[v] ?? Infinity);
+    const hi = Math.max(...ens.map(([, , m]) => m.ensemble.stats[v].p100), cons[v] ?? -Infinity);
+    const padv = v === 'precip_in' ? 0.02 : 1;
+    scale[v] = [Math.max(v === 'precip_in' || v === 'wind_max_kt' ? 0 : -1e9, lo - padv), hi + padv];
+  }
+  let h = '<thead><tr><th>Ensemble</th>' + vars.map(([, n]) => `<th>${n}</th>`).join('') + '</tr></thead><tbody>';
+  for (const [k, l, m] of ens) {
+    const st = m.ensemble.stats;
+    h += `<tr><td>${l}<div class="small">${m.ensemble.n_members} members<br>${m.init_time_utc.replace('T', ' ')}Z run</div></td>`;
+    for (const [v, , dec] of vars) {
+      const s = st[v];
+      h += `<td>${boxSvg(s, scale[v][0], scale[v][1], cons[v], dec)}
+        <div class="small">median ${s.p50.toFixed(dec)} · σ ${s.std.toFixed(dec === 0 ? 1 : 2)}<br>10–90%: ${s.p10.toFixed(dec)}–${s.p90.toFixed(dec)}</div></td>`;
+    }
+    h += '</tr>';
+  }
+  t.innerHTML = h + '</tbody>';
+  const th = Object.keys(ens[0][2].ensemble.stats.precip_prob);
+  let p = '<thead><tr><th>Chance of precip</th>' + th.map(x => `<th class="num">≥ ${x}"</th>`).join('') + '</tr></thead><tbody>';
+  for (const [k, l, m] of ens) {
+    p += `<tr><td>${l}</td>` + th.map(x => {
+      const v = m.ensemble.stats.precip_prob[x];
+      const ink = isDark() ? (v > 0.6 ? '#1a1a19' : '#ffffff') : (v > 0.55 ? '#ffffff' : '#0b0b0b');
+      const fill = v <= 0 ? 'var(--neu)' : `color-mix(in oklab, var(--c3) ${Math.round(v * 100)}%, var(--c1))`;
+      return `<td class="cell num" style="background:${v <= 0 ? 'var(--bg)' : fill};color:${v <= 0 ? 'var(--ink-3)' : ink};text-align:center">${Math.round(v * 100)}%</td>`;
+    }).join('') + '</tr>';
+  }
+  pt.innerHTML = p + '</tbody>';
+}
+
+/* ---------- today so far: errors ---------- */
+function renderToday(tj){
+  const tb = document.getElementById('today-table');
+  const rows = Object.entries(tj.models || {}).sort((a, b) => a[1].temp_mae - b[1].temp_mae);
+  if (!rows.length) { tb.innerHTML = '<tbody><tr><td>No forecasts to compare yet today.</td></tr></tbody>'; return; }
+  const o = tj.obs || {};
+  document.getElementById('today-note').textContent =
+    `${tj.date}, through ${tj.through_utc?.slice(11, 16)}Z (${o.n_obs} hourly obs): observed high so far ${fmt(o.high, 0)}°F, ` +
+    `low ${fmt(o.low, 0)}°F, max wind ${fmt(o.wind, 0)} kt, precip ${fmt(o.precip, 2)}".`;
+  const cell = (v, bins, dec, txt) => {
+    if (v === null || v === undefined) return '<td class="cell small">—</td>';
+    const step = biasStep(v, bins);
+    return `<td class="cell" style="background:${biasFill(step)};color:${biasInk(step)}">${txt ?? signed(v, dec)}</td>`;
+  };
+  let h = `<thead><tr><th>Model</th><th>Temp bias</th><th class="num">Temp error</th><th>High so far</th>
+    <th>Low so far</th><th>Wind bias</th><th>Precip so far</th></tr></thead><tbody>`;
+  for (const [k, r] of rows) {
+    h += `<tr${k === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[k] || k}<div class="small">${r.init_time_utc ? r.init_time_utc.slice(11) + 'Z run' : ''}</div></td>` +
+      cell(r.temp_bias, [1, 3, 5], 1, signed(r.temp_bias, 1) + '°') +
+      `<td class="sum">${r.temp_mae.toFixed(1)}°</td>` +
+      cell(r.high_err, [1, 3, 5], 0, r.high_so_far === undefined ? null : `${r.high_so_far.toFixed(0)} (${signed(r.high_err, 0)})`) +
+      cell(r.low_err, [1, 3, 5], 0, r.low_so_far === undefined ? null : `${r.low_so_far.toFixed(0)} (${signed(r.low_err, 0)})`) +
+      cell(r.wind_bias, [1, 3, 6], 1) +
+      cell(r.precip_err, [0.02, 0.10, 0.25], 2, r.precip_so_far === undefined ? null : `${r.precip_so_far.toFixed(2)} (${signed(r.precip_err, 2)})`) +
+      '</tr>';
+  }
+  tb.innerHTML = h + '</tbody>';
+}
+
 (async function(){
   const bust = '?t=' + Date.now();
   try {
@@ -354,6 +470,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if
     if (cm) document.getElementById('consensus-note').textContent =
       `Consensus: ${cm.method}; members: ${cm.members.map(k => LABEL[k] || k).join(', ')}` +
       (cm.excluded_outliers ? `; excluded as outliers: ${cm.excluded_outliers.map(k => LABEL[k] || k).join(', ')}` : '') + '.';
+    renderEnsembles(data);
     const fig = document.getElementById('fig');
     fig.src = `../images/wxchallenge/latest.png${bust}`;
     const tf = document.getElementById('today-fig');
@@ -362,6 +479,15 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if
     fig.alt = `Latest figure for ${site}`;
   } catch (err) {
     document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
+    console.error(err);
+  }
+
+  try {
+    const res = await fetch('../data/wxchallenge/today.json' + bust, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+    renderToday(await res.json());
+  } catch (err) {
+    document.getElementById('today-table').innerHTML = '<tbody><tr><td>Not available yet.</td></tr></tbody>';
     console.error(err);
   }
 
