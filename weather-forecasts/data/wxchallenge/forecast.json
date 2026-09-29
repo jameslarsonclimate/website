@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-29T16:46:03+00:00",
+  "generated_at_utc": "2026-09-29T16:58:29+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -419,13 +419,13 @@
       "error": "index -1 is out of bounds for axis 0 with size 0"
     },
     "CONSENSUS": {
-      "tmax_f": 86.2,
+      "tmax_f": 86.6,
       "tmin_f": 72.5,
-      "wind_max_kt": 10.2,
+      "wind_max_kt": 9.6,
       "precip_in": 0.11,
       "method": {
         "tmax_f": {
-          "method": "bias-corrected, 1/MAE weighted",
+          "method": "bias-corrected (n/(n+3) of each model's mean error), 1/MAE weighted",
           "members": [
             "HRRR",
             "RRFS",
@@ -442,7 +442,7 @@
           ]
         },
         "tmin_f": {
-          "method": "bias-corrected, 1/MAE weighted",
+          "method": "bias-corrected (n/(n+3) of each model's mean error), 1/MAE weighted",
           "members": [
             "HRRR",
             "RRFS",
@@ -459,7 +459,7 @@
           ]
         },
         "wind_max_kt": {
-          "method": "bias-corrected, 1/MAE weighted",
+          "method": "bias-corrected (n/(n+3) of each model's mean error), 1/MAE weighted",
           "members": [
             "HRRR",
             "RRFS",
@@ -476,7 +476,7 @@
           ]
         },
         "precip_in": {
-          "method": "bias-corrected, 1/MAE weighted",
+          "method": "bias-corrected (n/(n+3) of each model's mean error), 1/MAE weighted",
           "members": [
             "HRRR",
             "RRFS",
