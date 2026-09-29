@@ -117,6 +117,14 @@
     <img id="fig" alt="latest WXChallenge figure"/>
   </section>
 
+  <section id="today">
+    <h2>Today so far</h2>
+    <p class="small">Observations for the current 06Z–06Z day (every METAR, specials included) against the
+      forecasts for today. Solid lines are the runs available before the 00Z deadline; dashed lines are
+      the newest HRRR, MOS and NBM runs. Grey shading is the part of the day still to come.</p>
+    <img id="today-fig" alt="Today so far: observations vs forecasts"/>
+  </section>
+
   <section id="verification">
     <h2>Model verification this period</h2>
     <p id="verif-period" class="muted">Loading…</p>
@@ -348,6 +356,9 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if
       (cm.excluded_outliers ? `; excluded as outliers: ${cm.excluded_outliers.map(k => LABEL[k] || k).join(', ')}` : '') + '.';
     const fig = document.getElementById('fig');
     fig.src = `../images/wxchallenge/latest.png${bust}`;
+    const tf = document.getElementById('today-fig');
+    tf.onerror = () => document.getElementById('today').remove();
+    tf.src = `../images/wxchallenge/today.png${bust}`;
     fig.alt = `Latest figure for ${site}`;
   } catch (err) {
     document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
