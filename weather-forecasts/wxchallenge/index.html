@@ -54,7 +54,8 @@
     #models-table td:first-child, #models-table th:first-child{width:12rem;max-width:12rem;white-space:normal}
     #models-table .note{font-size:0.8rem;line-height:1.25}
     /* size the table to its content instead of stretching to the page width */
-    #models-table{width:auto}
+    #models-table{width:auto;margin-left:auto;margin-right:auto}
+    #consensus-note{max-width:44rem;margin:0.6rem auto 0;line-height:1.45}
     #models-table td.num, #models-table th.num{padding:8px 14px;min-width:4.5rem}
     .back{margin-bottom:1rem;display:inline-block}
     img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
@@ -479,9 +480,19 @@ function renderToday(tj){
     }
     document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
     const cm = data?.models?.CONSENSUS?.method?.tmax_f;
-    if (cm) document.getElementById('consensus-note').textContent =
-      `Consensus: ${cm.method}; members: ${cm.members.map(k => LABEL[k] || k).join(', ')}` +
-      (cm.excluded_outliers ? `; excluded as outliers: ${cm.excluded_outliers.map(k => LABEL[k] || k).join(', ')}` : '') + '.';
+    if (cm) {
+      const names = ks => ks.map(k => LABEL[k] || k).join(', ');
+      const scored = !/equal-weight/.test(cm.method);
+      let txt = scored
+        ? 'Consensus: a skill-weighted average of the models above. Each model\'s typical error this ' +
+          'period is partly taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%), ' +
+          'and models that have been closer to the observations count more.'
+        : 'Consensus: a plain average of the models above (no scored days yet at this city).';
+      txt += ' Models far from the rest (over 8 °F or 10 kt from the middle) are left out.';
+      if (cm.not_yet_verified?.length) txt += ` Not scored yet, so used as-is: ${names(cm.not_yet_verified)}.`;
+      if (cm.excluded_outliers?.length) txt += ` Left out today: ${names(cm.excluded_outliers)}.`;
+      document.getElementById('consensus-note').textContent = txt;
+    }
     renderEnsembles(data);
     const fig = document.getElementById('fig');
     fig.src = `../images/wxchallenge/latest.png${bust}`;
