@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-29T17:19:06+00:00",
+  "generated_at_utc": "2026-09-29T17:22:01+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -89,7 +89,7 @@
       ],
       "n_steps": 5,
       "temp_source": "instantaneous 2 m T",
-      "note": "6-hourly output: only 5 temperature samples, high/low likely underdone"
+      "note": "6-hourly output: high/low likely underdone"
     },
     "GFS_MOS": {
       "tmax_f": 89.0,

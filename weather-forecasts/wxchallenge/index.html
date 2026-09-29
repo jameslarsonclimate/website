@@ -50,6 +50,9 @@
     .muted{color:var(--ink-2);font-size:0.95rem}
     .small{font-size:0.85rem;color:var(--ink-3)}
     .note{color:var(--note);font-size:0.85rem;white-space:normal}
+    /* keep the Model column narrow: notes wrap under the name instead of widening the table */
+    #models-table td:first-child, #models-table th:first-child{width:12rem;max-width:12rem;white-space:normal}
+    #models-table .note{font-size:0.8rem;line-height:1.25}
     .back{margin-bottom:1rem;display:inline-block}
     img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
     h2{margin-top:2.2rem}
