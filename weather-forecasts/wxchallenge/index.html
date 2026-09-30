@@ -125,9 +125,12 @@
 
   <section id="ensembles">
     <h2>Ensembles</h2>
-    <p class="small">ECMWF IFS and AIFS ensembles (51 members each, via Open-Meteo) for the same 06Z–06Z day.
-      Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the bar is the
-      median and the dot the mean; ▼ marks the consensus. Probabilities are the share of members reaching each amount.</p>
+    <p class="small">ECMWF IFS and AIFS ensembles (51 members each, via Open-Meteo), plus two 3 km precipitation
+      ensembles: REFS (NOAA's new operational short-range ensemble: RRFS, RRFS ensemble and HRRR members from the
+      latest two cycles) and HRRRCast (NOAA GSL's experimental AI emulator of the HRRR, 18 members), for the same
+      06Z–06Z day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the bar
+      is the median and the dot the mean; ▼ marks the consensus. Probabilities are the share of members reaching each
+      amount. Because of how precip is scored, the members' median is the best single precip value to enter.</p>
     <div class="scroll">
       <table id="ens-table" aria-label="Ensemble spread"><tbody><tr><td>Loading…</td></tr></tbody></table>
     </div>
@@ -208,6 +211,7 @@ const GROUPS = [
   { title: 'Grid models', rows: [['HRRR','HRRR'],['RRFS','RRFS'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
   { title: 'Statistical / point guidance', rows: [['GFS_MOS','GFS MOS'],['NBM','NBM'],['USL','USL']] },
   { title: 'Ensembles (mean)', rows: [['ENS','ECMWF ENS'],['AIFS_ENS','AIFS ENS']] },
+  { title: 'Precip ensembles (median; not in consensus)', rows: [['REFS','REFS'],['HRRRCAST','HRRRCast (AI)']] },
   { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
 ];
 const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
@@ -245,7 +249,8 @@ function biasInk(step){
 /* ---------- forecast table ---------- */
 function modelRow(key, label, m){
   const cls = key === 'CONSENSUS' ? ' class="consensus"' : '';
-  if (!m || m.tmax_f === null || m.tmax_f === undefined) {
+  const none = v => v === null || v === undefined;
+  if (!m || (none(m.tmax_f) && none(m.precip_in))) {
     const why = m && m.error ? `<span class="note">${m.error.slice(0,120)}</span>` : 'no data';
     return `<tr${cls}><td>${label}</td><td colspan="5">${why}</td></tr>`;
   }
@@ -374,7 +379,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if
 
 
 /* ---------- ensembles ---------- */
-const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS']];
+const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['REFS','REFS'], ['HRRRCAST','HRRRCast (AI)']];
 function boxSvg(st, lo, hi, cons, dec){
   const W = 165, H = 30, pad = 6;
   const x = v => pad + (W - 2 * pad) * (hi > lo ? (v - lo) / (hi - lo) : 0.5);
@@ -401,20 +406,23 @@ function renderEnsembles(data){
   if (!ens.length) { document.getElementById('ensembles').remove(); return; }
   const cons = data?.models?.CONSENSUS || {};
   const vars = [['tmax_f', 'High (°F)', 0], ['tmin_f', 'Low (°F)', 0], ['wind_max_kt', 'Max wind (kt)', 0], ['precip_in', 'Precip (in)', 2]];
-  // shared scale per variable so the two ensembles line up
+  // shared scale per variable so the ensembles line up (precip-only ensembles have no temps/winds)
   const scale = {};
   for (const [v] of vars) {
-    const lo = Math.min(...ens.map(([, , m]) => m.ensemble.stats[v].p0), cons[v] ?? Infinity);
-    const hi = Math.max(...ens.map(([, , m]) => m.ensemble.stats[v].p100), cons[v] ?? -Infinity);
+    const has = ens.filter(([, , m]) => m.ensemble.stats[v]);
+    const lo = Math.min(...has.map(([, , m]) => m.ensemble.stats[v].p0), cons[v] ?? Infinity);
+    const hi = Math.max(...has.map(([, , m]) => m.ensemble.stats[v].p100), cons[v] ?? -Infinity);
     const padv = v === 'precip_in' ? 0.02 : 1;
     scale[v] = [Math.max(v === 'precip_in' || v === 'wind_max_kt' ? 0 : -1e9, lo - padv), hi + padv];
   }
   let h = '<thead><tr><th>Ensemble</th>' + vars.map(([, n]) => `<th>${n}</th>`).join('') + '</tr></thead><tbody>';
   for (const [k, l, m] of ens) {
     const st = m.ensemble.stats;
-    h += `<tr><td>${l}<div class="small">${m.ensemble.n_members} members<br>${runLabel(m.init_time_utc)} run</div></td>`;
+    const lag = m.precip_only && k === 'REFS' ? ' + 6 h older' : '';
+    h += `<tr><td>${l}<div class="small">${m.ensemble.n_members} members<br>${runLabel(m.init_time_utc)} run${lag}</div></td>`;
     for (const [v, , dec] of vars) {
       const s = st[v];
+      if (!s) { h += '<td class="small muted">precip only</td>'; continue; }
       h += `<td>${boxSvg(s, scale[v][0], scale[v][1], cons[v], dec)}
         <div class="small">median ${s.p50.toFixed(dec)} · σ ${s.std.toFixed(dec === 0 ? 1 : 2)}<br>10–90%: ${s.p10.toFixed(dec)}–${s.p90.toFixed(dec)}</div></td>`;
     }
@@ -422,14 +430,15 @@ function renderEnsembles(data){
   }
   t.innerHTML = h + '</tbody>';
   const th = Object.keys(ens[0][2].ensemble.stats.precip_prob);
-  let p = '<thead><tr><th>Chance of precip</th>' + th.map(x => `<th class="num">≥ ${x}"</th>`).join('') + '</tr></thead><tbody>';
+  let p = '<thead><tr><th>Chance of precip</th>' + th.map(x => `<th class="num">≥ ${x}"</th>`).join('') +
+    '<th class="num">Median</th></tr></thead><tbody>';
   for (const [k, l, m] of ens) {
     p += `<tr><td>${l}</td>` + th.map(x => {
       const v = m.ensemble.stats.precip_prob[x];
       const ink = isDark() ? (v > 0.6 ? '#1a1a19' : '#ffffff') : (v > 0.55 ? '#ffffff' : '#0b0b0b');
       const fill = v <= 0 ? 'var(--neu)' : `color-mix(in oklab, var(--c3) ${Math.round(v * 100)}%, var(--c1))`;
       return `<td class="cell num" style="background:${v <= 0 ? 'var(--bg)' : fill};color:${v <= 0 ? 'var(--ink-3)' : ink};text-align:center">${Math.round(v * 100)}%</td>`;
-    }).join('') + '</tr>';
+    }).join('') + `<td class="num">${m.ensemble.stats.precip_in.p50.toFixed(2)}"</td></tr>`;
   }
   pt.innerHTML = p + '</tbody>';
 }
