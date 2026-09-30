@@ -514,7 +514,7 @@ function renderToday(tj){
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     const data = await res.json();
     document.getElementById('updated').textContent = data.generated_at_utc
-      ? 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString() : 'Last updated: —';
+      ? 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'}) : 'Last updated: —';
     const site = data?.meta?.site ?? '—';
     document.getElementById('forecast-for').textContent = `Forecasting for ${site}`;
     const vr = data?.meta?.valid_range_utc
