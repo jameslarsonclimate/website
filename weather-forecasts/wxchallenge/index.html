@@ -69,6 +69,11 @@
     #score{margin-top:0.5rem}
     #score th, #score td{padding:7px 9px}
     #ens-table td{white-space:normal;vertical-align:top}
+    #ens-table .ens-stats{line-height:1.5}
+    #ens-table .ens-stats span{white-space:nowrap;margin-right:0.6em}
+    .k-med,.k-mean{display:inline-block;vertical-align:-1px;margin-right:4px}
+    .k-med{width:3px;height:11px;background:var(--ink)}
+    .k-mean{width:7px;height:7px;background:var(--e1);transform:rotate(45deg);margin:0 5px 1px 2px}
     #today-table td.cell, #ens-prob td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
     #today-table td.pending{color:var(--ink-3);background:transparent;border:1px dashed var(--line);font-style:italic}
     #today-table td.sum{text-align:right;font-variant-numeric:tabular-nums}
@@ -128,8 +133,9 @@
     <p class="small">ECMWF IFS and AIFS ensembles (51 members each, via Open-Meteo), plus two 3 km precipitation
       ensembles: REFS (NOAA's new operational short-range ensemble: RRFS, RRFS ensemble and HRRR members from the
       latest two cycles) and HRRRCast (NOAA GSL's experimental AI emulator of the HRRR, 18 members), for the same
-      06Z–06Z day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the bar
-      is the median and the dot the mean; ▼ marks the consensus. Probabilities are the share of members reaching each
+      06Z–06Z day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the dark bar
+      <b class="k-med"></b>is the median and the orange diamond <b class="k-mean"></b>the mean; ▼ marks the consensus. The precip axis is square-root
+      scaled so light amounts aren't squeezed by a few wet members. Probabilities are the share of members reaching each
       amount. Because of how precip is scored, the members' median is the best single precip value to enter.</p>
     <div class="scroll">
       <table id="ens-table" aria-label="Ensemble spread"><tbody><tr><td>Loading…</td></tr></tbody></table>
@@ -380,24 +386,40 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if
 
 /* ---------- ensembles ---------- */
 const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['REFS','REFS'], ['HRRRCAST','HRRRCast (AI)']];
-function boxSvg(st, lo, hi, cons, dec){
-  const W = 165, H = 30, pad = 6;
-  const x = v => pad + (W - 2 * pad) * (hi > lo ? (v - lo) / (hi - lo) : 0.5);
-  const y = 13, bh = 12;
-  const tick = cons === null || cons === undefined ? '' :
-    `<path d="M${x(cons) - 4},2 L${x(cons) + 4},2 L${x(cons)},8 Z" fill="var(--ink)"/>`;
+// round-number tick spacing giving roughly n intervals across `range`
+function niceStep(range, n = 3){
+  const raw = (range > 0 ? range : 1) / n, p = 10 ** Math.floor(Math.log10(raw)), f = raw / p;
+  return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p;
+}
+// precip is right-skewed (a few wet members stretch the axis), so it gets a square-root axis
+const PRECIP_TICKS = [0, 0.1, 0.25, 0.5, 1, 1.5, 2, 3, 4, 5];
+function boxSvg(st, [lo, hi, step], cons, dec, sqrt = false){
+  const W = 200, H = 48, pad = 12, f = sqrt ? Math.sqrt : (v => v);
+  const x = v => pad + (W - 2 * pad) * (hi > lo ? (f(Math.max(lo, v)) - f(lo)) / (f(hi) - f(lo)) : 0.5);
+  const y = 10, bh = 14, cy = y + bh / 2, ay = 31;           // box top/height, box centre, axis line
+  const tdec = step >= 1 ? 0 : step >= 0.1 ? 1 : 2;
+  const tv = [];
+  if (sqrt) tv.push(...PRECIP_TICKS.filter(t => t >= lo && t <= hi + 1e-9));
+  else for (let t = lo; t <= hi + step / 1e3; t += step) tv.push(t);
+  let ticks = '';
+  for (const t of tv)
+    ticks += `<line x1="${x(t)}" x2="${x(t)}" y1="${ay}" y2="${ay + 3}" stroke="var(--ink-3)"/>
+      <text x="${x(t)}" y="${H - 3}" font-size="10" fill="var(--ink-3)" text-anchor="middle">${sqrt ? String(t) : t.toFixed(tdec)}</text>`;
+  const tri = cons === null || cons === undefined ? '' :
+    `<path d="M${x(cons) - 4.5},0 L${x(cons) + 4.5},0 L${x(cons)},7 Z" fill="var(--ink)"/>`;
+  const m = x(st.mean), r = 4.5;
   return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
-      aria-label="min ${st.p0}, 25% ${st.p25}, median ${st.p50}, 75% ${st.p75}, max ${st.p100}">
-    <line x1="${x(st.p0)}" x2="${x(st.p100)}" y1="${y + bh / 2}" y2="${y + bh / 2}" stroke="var(--ink-2)" stroke-width="1.5"/>
-    <line x1="${x(st.p0)}" x2="${x(st.p0)}" y1="${y + 2}" y2="${y + bh - 2}" stroke="var(--ink-2)" stroke-width="1.5"/>
-    <line x1="${x(st.p100)}" x2="${x(st.p100)}" y1="${y + 2}" y2="${y + bh - 2}" stroke="var(--ink-2)" stroke-width="1.5"/>
-    <rect x="${x(st.p25)}" y="${y}" width="${Math.max(2, x(st.p75) - x(st.p25))}" height="${bh}" rx="3"
+      aria-label="min ${st.p0}, 25% ${st.p25}, median ${st.p50}, mean ${st.mean}, 75% ${st.p75}, max ${st.p100}">
+    <line x1="${pad}" x2="${W - pad}" y1="${ay}" y2="${ay}" stroke="var(--line)"/>
+    ${ticks}
+    <line x1="${x(st.p0)}" x2="${x(st.p100)}" y1="${cy}" y2="${cy}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <line x1="${x(st.p0)}" x2="${x(st.p0)}" y1="${y + 3}" y2="${y + bh - 3}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <line x1="${x(st.p100)}" x2="${x(st.p100)}" y1="${y + 3}" y2="${y + bh - 3}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <rect x="${x(st.p25)}" y="${y}" width="${Math.max(2, x(st.p75) - x(st.p25))}" height="${bh}" rx="2"
       fill="var(--c1)" stroke="var(--c3)" stroke-width="1"/>
-    <line x1="${x(st.p50)}" x2="${x(st.p50)}" y1="${y - 1}" y2="${y + bh + 1}" stroke="var(--ink)" stroke-width="2.5"/>
-    <circle cx="${x(st.mean)}" cy="${y + bh / 2}" r="2.6" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.3"/>
-    ${tick}
-    <text x="${pad}" y="${H - 1}" font-size="8.5" fill="var(--ink-3)">${lo.toFixed(dec)}</text>
-    <text x="${W - pad}" y="${H - 1}" font-size="8.5" fill="var(--ink-3)" text-anchor="end">${hi.toFixed(dec)}</text>
+    <line x1="${x(st.p50)}" x2="${x(st.p50)}" y1="${y - 2}" y2="${y + bh + 2}" stroke="var(--ink)" stroke-width="3"/>
+    <path d="M${m},${cy - r} L${m + r},${cy} L${m},${cy + r} L${m - r},${cy} Z" fill="var(--e1)" stroke="var(--bg)" stroke-width="1.2"/>
+    ${tri}
   </svg>`;
 }
 function renderEnsembles(data){
@@ -412,8 +434,9 @@ function renderEnsembles(data){
     const has = ens.filter(([, , m]) => m.ensemble.stats[v]);
     const lo = Math.min(...has.map(([, , m]) => m.ensemble.stats[v].p0), cons[v] ?? Infinity);
     const hi = Math.max(...has.map(([, , m]) => m.ensemble.stats[v].p100), cons[v] ?? -Infinity);
-    const padv = v === 'precip_in' ? 0.02 : 1;
-    scale[v] = [Math.max(v === 'precip_in' || v === 'wind_max_kt' ? 0 : -1e9, lo - padv), hi + padv];
+    const step = v === 'precip_in' ? 0.5 : niceStep(hi - lo);
+    scale[v] = [Math.max(v === 'precip_in' || v === 'wind_max_kt' ? 0 : -1e9, Math.floor(lo / step) * step),
+                Math.ceil(hi / step) * step, step];
   }
   let h = '<thead><tr><th>Ensemble</th>' + vars.map(([, n]) => `<th>${n}</th>`).join('') + '</tr></thead><tbody>';
   for (const [k, l, m] of ens) {
@@ -423,8 +446,9 @@ function renderEnsembles(data){
     for (const [v, , dec] of vars) {
       const s = st[v];
       if (!s) { h += '<td class="small muted">precip only</td>'; continue; }
-      h += `<td>${boxSvg(s, scale[v][0], scale[v][1], cons[v], dec)}
-        <div class="small">median ${s.p50.toFixed(dec)} · σ ${s.std.toFixed(dec === 0 ? 1 : 2)}<br>10–90%: ${s.p10.toFixed(dec)}–${s.p90.toFixed(dec)}</div></td>`;
+      h += `<td>${boxSvg(s, scale[v], cons[v], dec, v === 'precip_in')}
+        <div class="small ens-stats"><span><b class="k-med"></b>median ${s.p50.toFixed(dec)}</span>
+          <span><b class="k-mean"></b>mean ${s.mean.toFixed(dec)}</span><br>10–90%: ${s.p10.toFixed(dec)}–${s.p90.toFixed(dec)}</div></td>`;
     }
     h += '</tr>';
   }
