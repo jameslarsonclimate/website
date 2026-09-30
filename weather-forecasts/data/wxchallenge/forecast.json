@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-30T14:02:49+00:00",
+  "generated_at_utc": "2026-09-30T14:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -39,16 +39,16 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 86.0,
-      "tmin_f": 71.5,
-      "wind_max_kt": 9.5,
-      "precip_in": 0.1,
-      "init_time_utc": "2026-09-30T06",
+      "tmax_f": 82.4,
+      "tmin_f": 71.6,
+      "wind_max_kt": 9.3,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-09-30T12",
       "valid_range_utc": [
         "2026-10-01T06",
-        "2026-10-02T06"
+        "2026-10-01T21"
       ],
-      "n_steps": 25,
+      "n_steps": 16,
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
@@ -689,7 +689,7 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 87.1,
+      "tmax_f": 86.8,
       "tmin_f": 74.3,
       "wind_max_kt": 11.5,
       "precip_in": 0.31,
