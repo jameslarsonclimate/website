@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-01T18:30:09+00:00",
+  "generated_at_utc": "2026-10-01T19:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -81,10 +81,10 @@
     },
     "AIFS": {
       "tmax_f": 87.1,
-      "tmin_f": 76.2,
-      "wind_max_kt": 7.5,
-      "precip_in": 0.3,
-      "init_time_utc": "2026-10-01T06",
+      "tmin_f": 75.8,
+      "wind_max_kt": 7.7,
+      "precip_in": 0.39,
+      "init_time_utc": "2026-10-01T12",
       "valid_range_utc": [
         "2026-10-02T06",
         "2026-10-03T06"
@@ -110,10 +110,10 @@
       "tmax_f": 88.0,
       "tmin_f": 76.0,
       "wind_max_kt": 9.0,
-      "precip_in": 0.26,
-      "pop06_max_pct": 53,
+      "precip_in": 0.36,
+      "pop06_max_pct": 78,
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-01T12",
+      "init_time_utc": "2026-10-01T18",
       "valid_range_utc": [
         "2026-10-02T06",
         "2026-10-03T06"
@@ -696,9 +696,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.02,
-      "precip_mean_in": 0.08,
-      "init_time_utc": "2026-10-01T06",
+      "precip_in": 0.04,
+      "precip_mean_in": 0.19,
+      "init_time_utc": "2026-10-01T12",
       "valid_range_utc": [
         "2026-10-02T06",
         "2026-10-03T06"
@@ -709,21 +709,21 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.076,
-            "std": 0.133,
-            "p0": 0.001,
-            "p10": 0.005,
-            "p25": 0.01,
-            "p50": 0.02,
-            "p75": 0.08,
-            "p90": 0.19,
-            "p100": 0.565
+            "mean": 0.187,
+            "std": 0.304,
+            "p0": 0.0,
+            "p10": 0.004,
+            "p25": 0.008,
+            "p50": 0.042,
+            "p75": 0.201,
+            "p90": 0.528,
+            "p100": 1.106
           },
           "precip_prob": {
             "0.01": 0.722,
-            "0.10": 0.222,
-            "0.25": 0.056,
-            "0.50": 0.056
+            "0.10": 0.333,
+            "0.25": 0.222,
+            "0.50": 0.111
           }
         },
         "member_names": [
@@ -748,24 +748,24 @@
         ],
         "members": {
           "precip_in": [
-            0.001,
-            0.001,
-            0.008,
-            0.045,
-            0.22,
-            0.01,
-            0.021,
-            0.013,
-            0.018,
+            0.028,
+            0.007,
             0.006,
-            0.565,
-            0.113,
+            0.02,
             0.091,
-            0.025,
-            0.177,
-            0.012,
-            0.032,
-            0.011
+            0.005,
+            0.0,
+            0.055,
+            1.106,
+            0.002,
+            0.848,
+            0.318,
+            0.128,
+            0.093,
+            0.391,
+            0.011,
+            0.226,
+            0.024
           ]
         }
       }
@@ -844,7 +844,7 @@
       "tmax_f": 87.2,
       "tmin_f": 75.8,
       "wind_max_kt": 11.5,
-      "precip_in": 0.35,
+      "precip_in": 0.37,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
