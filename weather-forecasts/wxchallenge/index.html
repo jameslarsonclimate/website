@@ -88,11 +88,13 @@
     #score .model{position:sticky;left:0;background:var(--bg);z-index:2;font-weight:600;box-shadow:inset -1px 0 var(--line)}
     #score .sum{position:sticky;right:0;background:var(--bg);z-index:2;font-variant-numeric:tabular-nums;
                 text-align:right;box-shadow:inset 1px 0 var(--line)}
-    #score thead .model, #score thead .sum{background:var(--head);z-index:3}
-    #score tr.consensus .model, #score tr.consensus .sum{background:var(--hl)}
+    #score .avg{position:sticky;right:var(--sum-w, 0);background:var(--bg);z-index:2;font-variant-numeric:tabular-nums;
+                text-align:right;box-shadow:inset 1px 0 var(--line)}
+    #score thead .model, #score thead .sum, #score thead .avg{background:var(--head);z-index:3}
+    #score tr.consensus .model, #score tr.consensus .sum, #score tr.consensus .avg{background:var(--hl)}
     #score tr.obs td{background:var(--head);font-weight:600}
-    #score td.sum b{font-weight:650}
-    #score td.sum span, #score th.sum span{display:block;font-weight:400;font-size:0.78rem;color:var(--ink-2)}
+    #score td.sum b, #score td.avg b{font-weight:650}
+    #score td.sum span, #score th.sum span, #score th.avg span{display:block;font-weight:400;font-size:0.78rem;color:var(--ink-2)}
     #score th.day{text-align:center;line-height:1.2}
     #score th.day span{display:block;font-weight:400;font-size:0.8rem;color:var(--ink-2)}
     #score th.day span.w{font-size:0.72rem;color:var(--ink-3)}
@@ -110,7 +112,8 @@
       #score th, #score td{padding:5px 5px;font-size:0.85rem}
       #score td.cell{min-width:2.5rem}
       #score .model{white-space:normal;max-width:4.6rem;line-height:1.15}
-      #score th.sum span{display:none}
+      #score th.sum span, #score th.avg span{display:none}
+      #score .avg{position:static}      /* only the total sticks on phones; avg is in view on load */
       #score td.sum span{font-size:0.7rem}
     }
     .star{font-size:0.75em;margin-left:2px}
@@ -311,6 +314,12 @@ function dayHead(d, cls){
     (w !== undefined ? `<span class="w" title="weight of this day in the models' bias and error">w=${w.toFixed(2)}</span>` : '') + '</th>';
 }
 
+// the Avg column sticks just left of the summary column, so it needs that column's width
+function pinAvg(){
+  const t = document.getElementById('score'), sum = t.querySelector('.sum');
+  if (sum) t.style.setProperty('--sum-w', sum.getBoundingClientRect().width + 'px');
+}
+
 // a model's share of today's consensus: the current variable's, or the average over the four
 function consWeight(name){
   const ks = VIEW === 'points' ? Object.keys(VARS) : [VIEW];
@@ -345,10 +354,10 @@ function renderScore(){
     head += '<tr class="span"><th class="model"></th>' +
       `<th colspan="${nHind}" class="hind">Hindcast (before the city)</th>` +
       (nHind < days.length ? `<th colspan="${days.length - nHind}" class="city1">City forecasts</th>` : '') +
-      '<th class="sum"></th></tr>';
+      (VIEW === 'points' ? '<th class="avg"></th>' : '') + '<th class="sum"></th></tr>';
   }
   head += '<tr><th class="model">Model</th>' + days.map((d, i) => dayHead(d, cls[i])).join('');
-  head += VIEW === 'points' ? '<th class="sum">Total<span>points · weight</span></th>'
+  head += VIEW === 'points' ? '<th class="avg">Avg<span>per day</span></th><th class="sum">Total<span>points · weight</span></th>'
                             : '<th class="sum">Error<span>weighted · weight</span></th>';
   head += '</tr></thead>';
 
@@ -360,7 +369,7 @@ function renderScore(){
       ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}`
       : fmt(o[VIEW], VARS[VIEW].dec);
     return `<td class="cell${cls[i]}" data-obs="${d.date}">${txt}</td>`;
-  }).join('') + '<td class="sum"></td></tr>';
+  }).join('') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
   const rows = models.map(name => {
     const s = summary[name];
@@ -382,7 +391,8 @@ function renderScore(){
     const cw = name === 'CONSENSUS' ? null : consWeight(name);
     const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
     if (VIEW === 'points') {
-      tr += `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d${wt}</span></td>`;
+      tr += `<td class="avg"><b>${s.mean_points.toFixed(1)}</b></td>` +
+            `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d${wt}</span></td>`;
     } else {
       const dec = VARS[VIEW].dec === 0 ? 1 : 2;
       tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}${wt}</span></td>`;
@@ -390,6 +400,7 @@ function renderScore(){
     return tr + '</tr>';
   });
   table.innerHTML = head + '<tbody>' + obs + rows.join('') + '</tbody>';
+  pinAvg();
 
   // legend
   if (VIEW === 'points') {
@@ -408,7 +419,8 @@ function renderScore(){
   document.getElementById('decay-note').textContent = hl
     ? `Recent days count more in each model's bias and error: a day's weight (w, under the date) halves every ` +
       `${hl.tmax_f} days for temperature, ${hl.wind_max_kt} for wind and ${hl.precip_in} for precip. The right ` +
-      `column gives the total points (or the weighted average error and bias) and each model's share of today's consensus.`
+      `columns give each model's average points per day (fair for models with fewer scored days, like USL) and total, ` +
+      `or on the other tabs its weighted average error and bias, and its share of today's consensus.`
     : '';
 }
 
@@ -654,7 +666,7 @@ function renderToday(tj){
     let touched = false;
     ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(t =>
       wrap.addEventListener(t, () => { touched = true; }, { passive: true, once: true }));
-    new ResizeObserver(() => { if (!touched) wrap.scrollLeft = wrap.scrollWidth; }).observe(wrap);
+    new ResizeObserver(() => { pinAvg(); if (!touched) wrap.scrollLeft = wrap.scrollWidth; }).observe(wrap);
     if (scored.length) document.getElementById('verif-fig').src = `../images/wxchallenge/verification.png${bust}`;
     else document.getElementById('verif-fig').remove();
   } catch (err) {

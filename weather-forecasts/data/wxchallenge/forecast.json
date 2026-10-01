@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-01T00:21:50+00:00",
+  "generated_at_utc": "2026-10-01T01:39:49+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -28,16 +28,16 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 84.0,
+      "tmax_f": 83.0,
       "tmin_f": 74.5,
-      "wind_max_kt": 7.5,
+      "wind_max_kt": 9.4,
       "precip_in": 0.0,
-      "init_time_utc": "2026-09-30T18",
+      "init_time_utc": "2026-10-01T00",
       "valid_range_utc": [
         "2026-10-02T06",
-        "2026-10-02T18"
+        "2026-10-02T16"
       ],
-      "n_steps": 13,
+      "n_steps": 11,
       "temp_source": "instantaneous 2 m T",
       "partial_window": true,
       "note": "00Z HRRR stops at f48: window truncated"
@@ -82,11 +82,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
-      "tmax_f": 87.1,
-      "tmin_f": 76.4,
-      "wind_max_kt": 7.1,
-      "precip_in": 0.4,
-      "init_time_utc": "2026-09-30T12",
+      "tmax_f": 86.3,
+      "tmin_f": 76.2,
+      "wind_max_kt": 7.6,
+      "precip_in": 0.41,
+      "init_time_utc": "2026-09-30T18",
       "valid_range_utc": [
         "2026-10-02T06",
         "2026-10-03T06"
@@ -112,10 +112,10 @@
       "tmax_f": 88.0,
       "tmin_f": 76.0,
       "wind_max_kt": 9.0,
-      "precip_in": 0.56,
-      "pop06_max_pct": 85,
+      "precip_in": 0.37,
+      "pop06_max_pct": 70,
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-09-30T18",
+      "init_time_utc": "2026-10-01T00",
       "valid_range_utc": [
         "2026-10-02T06",
         "2026-10-03T06"
@@ -759,10 +759,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 86.4,
+      "tmax_f": 86.2,
       "tmin_f": 75.5,
-      "wind_max_kt": 11.2,
-      "precip_in": 0.49,
+      "wind_max_kt": 11.5,
+      "precip_in": 0.47,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
