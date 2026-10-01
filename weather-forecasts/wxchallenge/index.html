@@ -14,6 +14,7 @@
       /* diverging bias: cold (under) <- neutral -> warm (over) */
       --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c;
       --tip:#1f1f1e; --tip-ink:#ffffff;
+      --hind:#e6ebf2; --hind-ink:#3d4250;
       color-scheme: light;
     }
     @media (prefers-color-scheme: dark){
@@ -24,6 +25,7 @@
         --e0:#3a2419; --e1:#d95926; --e2:#f3a57e;
         --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
         --tip:#f5f4f1; --tip-ink:#0b0b0b;
+        --hind:#262c36; --hind-ink:#c9d1e0;
         color-scheme: dark;
       }
     }
@@ -34,6 +36,7 @@
       --e0:#3a2419; --e1:#d95926; --e2:#f3a57e;
       --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
       --tip:#f5f4f1; --tip-ink:#0b0b0b;
+      --hind:#262c36; --hind-ink:#c9d1e0;
       color-scheme: dark;
     }
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:1040px;margin:2rem auto;padding:0 16px;
@@ -67,7 +70,7 @@
                  background:var(--bg);color:var(--ink);cursor:pointer}
     .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #score{margin-top:0.5rem}
-    #score th, #score td{padding:7px 9px}
+    #score th, #score td{padding:7px 9px;border:0;border-bottom:1px solid var(--line)}
     #ens-table td{white-space:normal;vertical-align:top}
     #ens-table .ens-stats{line-height:1.5}
     #ens-table .ens-stats span{white-space:nowrap;margin-right:0.6em}
@@ -77,15 +80,39 @@
     #today-table td.cell, #ens-prob td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
     #today-table td.pending{color:var(--ink-3);background:transparent;border:1px dashed var(--line);font-style:italic}
     #today-table td.sum{text-align:right;font-variant-numeric:tabular-nums}
-    #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px;min-width:3.2rem}
-    #score td.model{position:sticky;left:0;background:var(--bg);z-index:1;font-weight:600}
-    #score tr.consensus td.model{background:var(--hl)}
+    #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:6px;min-width:3.2rem}
+    /* the wrapper scrolls sideways, never the page; model names stick left, the summary right.
+       Sticky cells need solid (opaque) token backgrounds so scrolled cells don't show through. */
+    #score-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    #score{width:auto;min-width:100%;border-collapse:separate;border-spacing:0}
+    #score .model{position:sticky;left:0;background:var(--bg);z-index:2;font-weight:600;box-shadow:inset -1px 0 var(--line)}
+    #score .sum{position:sticky;right:0;background:var(--bg);z-index:2;font-variant-numeric:tabular-nums;
+                text-align:right;box-shadow:inset 1px 0 var(--line)}
+    #score thead .model, #score thead .sum{background:var(--head);z-index:3}
+    #score tr.consensus .model, #score tr.consensus .sum{background:var(--hl)}
     #score tr.obs td{background:var(--head);font-weight:600}
-    #score tr.obs td.model{background:var(--head)}
-    #score td.sum{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+    #score td.sum b{font-weight:650}
+    #score td.sum span, #score th.sum span{display:block;font-weight:400;font-size:0.78rem;color:var(--ink-2)}
     #score th.day{text-align:center;line-height:1.2}
     #score th.day span{display:block;font-weight:400;font-size:0.8rem;color:var(--ink-2)}
-    #score th.day.hind span::after{content:" (h)"}
+    #score th.day span.w{font-size:0.72rem;color:var(--ink-3)}
+    /* hindcast days: tinted column (cell gaps and header), divider before city day 1 */
+    #score th.hind, #score tr.obs td.hind{background:var(--hind);color:var(--hind-ink)}
+    #score td.cell.hind{border-color:var(--hind)}
+    #score td.cell.hind.small{background:var(--hind)}
+    #score th.city1, #score td.city1{box-shadow:inset 3px 0 var(--ink-2)}
+    #score tr.span th{font-size:0.78rem;font-weight:600;padding:4px 9px;text-align:left}
+    #score tr.span th.hind{color:var(--hind-ink)}
+    #score td.recon{font-style:italic}
+    #score td.recon sup{font-size:0.7em;margin-left:1px}
+    /* phones: keep the sticky columns narrow so several days stay visible between them */
+    @media (max-width:600px){
+      #score th, #score td{padding:5px 5px;font-size:0.85rem}
+      #score td.cell{min-width:2.5rem}
+      #score .model{white-space:normal;max-width:4.6rem;line-height:1.15}
+      #score th.sum span{display:none}
+      #score td.sum span{font-size:0.7rem}
+    }
     .star{font-size:0.75em;margin-left:2px}
     .legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:0.6rem;font-size:0.85rem;color:var(--ink-2)}
     .swatches{display:inline-flex;gap:2px}
@@ -180,13 +207,16 @@
       <button data-view="precip_in" aria-pressed="false">Precip</button>
     </div>
 
-    <div class="scroll">
+    <div id="score-wrap">
       <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
     </div>
     <div id="legend" class="legend"></div>
     <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using
       WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
-      (h) = day filled in by a hindcast. Hover or tap a cell for details.</p>
+      Shaded days come before this city's first forecast day: they are hindcasts (the runs available at 21Z
+      the day before), there to give every model a track record from day one. The consensus on those days
+      (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
+      the days before it. <span id="decay-note"></span> Hover or tap a cell for details.</p>
     <img id="verif-fig" alt="Daily and cumulative error points by model"/>
   </section>
 
@@ -268,13 +298,24 @@ function modelRow(key, label, m){
 }
 
 /* ---------- verification scoreboard ---------- */
-let VERIF = null, VIEW = 'points';
+let VERIF = null, VIEW = 'points', CONS_W = {};
 const tip = document.getElementById('tip');
+// the decay weight shown under each date: the variable's own, temperature for the points view
+const weightVar = () => VIEW === 'points' ? 'tmax_f' : VIEW;
 
-function dayHead(d){
+function dayHead(d, cls){
   const dt = new Date(d.date + 'T12:00:00Z');
   const wd = dt.toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' });
-  return `<th class="day${d.hindcast ? ' hind' : ''}">${d.date.slice(5)}<span>${wd}</span></th>`;
+  const w = d.decay_weight?.[weightVar()];
+  return `<th class="day${cls}">${d.date.slice(5)}<span>${wd}</span>` +
+    (w !== undefined ? `<span class="w" title="weight of this day in the models' bias and error">w=${w.toFixed(2)}</span>` : '') + '</th>';
+}
+
+// a model's share of today's consensus: the current variable's, or the average over the four
+function consWeight(name){
+  const ks = VIEW === 'points' ? Object.keys(VARS) : [VIEW];
+  if (!ks.some(k => CONS_W[k])) return null;
+  return ks.reduce((a, k) => a + (CONS_W[k]?.[name] ?? 0), 0) / ks.length;
 }
 
 function renderScore(){
@@ -288,6 +329,10 @@ function renderScore(){
   const summary = v.summary || {};
   const models = Object.keys(summary).sort((a, b) =>
     (a === 'CONSENSUS') - (b === 'CONSENSUS') || summary[a].mean_points - summary[b].mean_points);
+  // per-column classes: hindcast shading and the divider before city day 1
+  const firstCity = days.findIndex(d => !d.hindcast);
+  const cls = days.map((d, i) => (d.hindcast ? ' hind' : '') + (i === firstCity && i > 0 ? ' city1' : ''));
+  const nHind = firstCity < 0 ? days.length : firstCity;
 
   // best / worst per day (points view) for the relative colouring and the star
   const range = days.map(d => {
@@ -295,42 +340,52 @@ function renderScore(){
     return { lo: Math.min(...p), hi: Math.max(...p) };
   });
 
-  let head = '<thead><tr><th>Model</th>' + days.map(dayHead).join('');
-  head += VIEW === 'points' ? '<th class="num">Avg</th><th class="num">Total</th>'
-                            : '<th class="num">Bias</th><th class="num">Avg error</th>';
+  let head = '<thead>';
+  if (nHind) {
+    head += '<tr class="span"><th class="model"></th>' +
+      `<th colspan="${nHind}" class="hind">Hindcast (before the city)</th>` +
+      (nHind < days.length ? `<th colspan="${days.length - nHind}" class="city1">City forecasts</th>` : '') +
+      '<th class="sum"></th></tr>';
+  }
+  head += '<tr><th class="model">Model</th>' + days.map((d, i) => dayHead(d, cls[i])).join('');
+  head += VIEW === 'points' ? '<th class="sum">Total<span>points · weight</span></th>'
+                            : '<th class="sum">Error<span>weighted · weight</span></th>';
   head += '</tr></thead>';
 
   // observed row
   let obs = '<tr class="obs"><td class="model">Observed</td>';
-  obs += days.map(d => {
+  obs += days.map((d, i) => {
     const o = d.obs;
     const txt = VIEW === 'points'
       ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}`
       : fmt(o[VIEW], VARS[VIEW].dec);
-    return `<td class="cell" data-obs="${d.date}">${txt}</td>`;
-  }).join('') + '<td></td><td></td></tr>';
+    return `<td class="cell${cls[i]}" data-obs="${d.date}">${txt}</td>`;
+  }).join('') + '<td class="sum"></td></tr>';
 
   const rows = models.map(name => {
     const s = summary[name];
     let tr = `<tr${name === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[name] || name}</td>`;
     days.forEach((d, i) => {
       const m = d.models[name];
-      if (!m) { tr += '<td class="cell small">—</td>'; return; }
+      if (!m) { tr += `<td class="cell small${cls[i]}">—</td>`; return; }
+      const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
       if (VIEW === 'points') {
         const { lo, hi } = range[i];
         const t = hi > lo ? (m.points - lo) / (hi - lo) : 0;
         const star = m.points === lo ? '<span class="star" aria-label="best">★</span>' : '';
-        tr += `<td class="cell" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${star}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${r}${star}</td>`;
       } else {
         const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
-        tr += `<td class="cell" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
       }
     });
+    const cw = name === 'CONSENSUS' ? null : consWeight(name);
+    const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
     if (VIEW === 'points') {
-      tr += `<td class="sum">${s.mean_points.toFixed(1)}</td><td class="sum">${s.total_points.toFixed(1)}</td>`;
+      tr += `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d${wt}</span></td>`;
     } else {
       const dec = VARS[VIEW].dec === 0 ? 1 : 2;
-      tr += `<td class="sum">${signed(s.bias[VIEW], dec)}</td><td class="sum">${s.mae[VIEW].toFixed(dec)}</td>`;
+      tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}${wt}</span></td>`;
     }
     return tr + '</tr>';
   });
@@ -349,6 +404,12 @@ function renderScore(){
       <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
       <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
   }
+  const hl = v.half_life_days;
+  document.getElementById('decay-note').textContent = hl
+    ? `Recent days count more in each model's bias and error: a day's weight (w, under the date) halves every ` +
+      `${hl.tmax_f} days for temperature, ${hl.wind_max_kt} for wind and ${hl.precip_in} for precip. The right ` +
+      `column gives the total points (or the weighted average error and bias) and each model's share of today's consensus.`
+    : '';
 }
 
 function showTip(td, ev){
@@ -360,7 +421,10 @@ function showTip(td, ev){
   tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date}</b><br>` +
     ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
     `<br><b>${m.points.toFixed(1)} points</b>` +
-    (m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${d.hindcast ? ' · hindcast' : ''}</span>` : '');
+    (m.reconstructed
+      ? `<br><span style="opacity:.75">reconstructed, not submitted: rebuilt from the models' forecasts with only the earlier days' track record</span>`
+      : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${m.hindcast ? ' · hindcast' : ''}</span>` : '') +
+    (d.decay_weight ? `<br><span style="opacity:.75">day weight ${d.decay_weight[weightVar()].toFixed(2)}</span>` : '');
   tip.style.display = 'block';
   moveTip(ev);
 }
@@ -526,6 +590,9 @@ function renderToday(tj){
       for (const [key, label] of g.rows) rows.push(modelRow(key, label, data?.models?.[key]));
     }
     document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
+    CONS_W = Object.fromEntries(Object.entries(data?.models?.CONSENSUS?.method || {})
+      .filter(([, d]) => d.weights).map(([k, d]) => [k, d.weights]));
+    CONS_W.station = data?.meta?.station;
     const cm = data?.models?.CONSENSUS?.method?.tmax_f;
     if (cm) {
       const names = ks => ks.map(k => LABEL[k] || k).join(', ');
@@ -533,7 +600,8 @@ function renderToday(tj){
       let txt = scored
         ? 'Consensus: a skill-weighted average of the models above. Each model\'s typical error this ' +
           'period is partly taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%), ' +
-          'and models that have been closer to the observations count more.'
+          'and models that have been closer to the observations count more. Recent days count somewhat ' +
+          'more than older ones, so the blend adapts without a few bad days undoing weeks of record.'
         : 'Consensus: a plain average of the models above (no scored days yet at this city).';
       txt += ' Models far from the rest (over 8 °F or 10 kt from the middle) are left out.';
       if (cm.not_yet_verified?.length) txt += ` Not scored yet, so used as-is: ${names(cm.not_yet_verified)}.`;
@@ -565,11 +633,13 @@ function renderToday(tj){
     const res = await fetch('../data/wxchallenge/verification.json' + bust, { cache: 'no-store' });
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     VERIF = await res.json();
+    if (CONS_W.station && CONS_W.station !== VERIF.station) CONS_W = {};    // forecast is for another city
     const scored = (VERIF.days || []).filter(d => Object.keys(d.models).length);
     const hind = scored.filter(d => d.hindcast).length;
     document.getElementById('verif-period').textContent =
       `${VERIF.station} since ${VERIF.period_start}: ${scored.length} scored day${scored.length === 1 ? '' : 's'}` +
-      (hind ? ` (${hind} from hindcasts of the runs available at 21Z the day before)` : '');
+      (hind ? ` (${hind} hindcast day${hind === 1 ? '' : 's'} before the first forecast day` +
+              `${VERIF.city_start ? ', ' + VERIF.city_start.slice(5) : ''})` : '');
     try {
       const saved = localStorage.getItem('wxc-view');
       if (saved && document.querySelector(`.tabs button[data-view="${saved}"]`)) {
@@ -577,6 +647,14 @@ function renderToday(tj){
       }
     } catch (e) {}
     renderScore();
+    // newest days in view: scroll to the right end, and keep it there while the layout settles
+    // (fonts, viewport changes) until the reader scrolls the table themselves
+    const wrap = document.getElementById('score-wrap');
+    wrap.scrollLeft = wrap.scrollWidth;
+    let touched = false;
+    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(t =>
+      wrap.addEventListener(t, () => { touched = true; }, { passive: true, once: true }));
+    new ResizeObserver(() => { if (!touched) wrap.scrollLeft = wrap.scrollWidth; }).observe(wrap);
     if (scored.length) document.getElementById('verif-fig').src = `../images/wxchallenge/verification.png${bust}`;
     else document.getElementById('verif-fig').remove();
   } catch (err) {
