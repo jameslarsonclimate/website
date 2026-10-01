@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-01T01:39:49+00:00",
+  "generated_at_utc": "2026-10-01T01:58:26+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -28,16 +28,16 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 83.0,
+      "tmax_f": 84.7,
       "tmin_f": 74.5,
-      "wind_max_kt": 9.4,
+      "wind_max_kt": 11.5,
       "precip_in": 0.0,
       "init_time_utc": "2026-10-01T00",
       "valid_range_utc": [
         "2026-10-02T06",
-        "2026-10-02T16"
+        "2026-10-03T00"
       ],
-      "n_steps": 11,
+      "n_steps": 19,
       "temp_source": "instantaneous 2 m T",
       "partial_window": true,
       "note": "00Z HRRR stops at f48: window truncated"
@@ -56,11 +56,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 86.1,
-      "tmin_f": 74.9,
-      "wind_max_kt": 8.5,
-      "precip_in": 0.89,
-      "init_time_utc": "2026-09-30T12",
+      "tmax_f": 87.4,
+      "tmin_f": 75.2,
+      "wind_max_kt": 9.3,
+      "precip_in": 0.62,
+      "init_time_utc": "2026-09-30T18",
       "valid_range_utc": [
         "2026-10-02T06",
         "2026-10-03T06"
@@ -759,10 +759,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 86.2,
+      "tmax_f": 86.5,
       "tmin_f": 75.5,
-      "wind_max_kt": 11.5,
-      "precip_in": 0.47,
+      "wind_max_kt": 11.8,
+      "precip_in": 0.44,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
