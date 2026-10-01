@@ -1,6 +1,6 @@
 {
   "date": "2026-10-01",
-  "through_utc": "2026-10-01T19:53",
+  "through_utc": "2026-10-01T20:01",
   "obs": {
     "high": 87.08000000000001,
     "low": 73.94,
@@ -63,8 +63,8 @@
       "low_err": -0.1,
       "low_pending": false,
       "wind_bias": 1.8,
-      "precip_so_far": 0.17,
-      "precip_err": -0.11
+      "precip_so_far": 0.18,
+      "precip_err": -0.1
     },
     "GFS": {
       "init_time_utc": "2026-09-30T18",
@@ -101,8 +101,8 @@
       "low_err": 0.5,
       "low_pending": false,
       "wind_bias": 2.4,
-      "precip_so_far": 0.1,
-      "precip_err": -0.18
+      "precip_so_far": 0.11,
+      "precip_err": -0.17
     },
     "GFS_MOS": {
       "init_time_utc": "2026-09-30T18",
@@ -197,5 +197,5 @@
     }
   },
   "station": "KTPA",
-  "generated_at_utc": "2026-10-01T20:06:59+00:00"
+  "generated_at_utc": "2026-10-01T20:30:08+00:00"
 }
