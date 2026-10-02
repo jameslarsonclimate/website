@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-02T16:00:08+00:00",
+  "generated_at_utc": "2026-10-02T16:09:18+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -153,13 +153,15 @@
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-10-03 available at 2026-10-02 16Z"
+      "tmax_f": 88.0,
+      "tmin_f": 77.0,
+      "wind_max_kt": 9.0,
+      "precip_in": 0.22,
+      "init_time_utc": "2026-10-02T12",
+      "valid_range_utc": [
+        "2026-10-03T06",
+        "2026-10-04T06"
+      ]
     },
     "ENS": {
       "tmax_f": 86.0,
@@ -1332,9 +1334,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 87.5,
-      "tmin_f": 76.7,
-      "wind_max_kt": 12.4,
-      "precip_in": 0.38,
+      "tmin_f": 76.8,
+      "wind_max_kt": 11.7,
+      "precip_in": 0.36,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1346,19 +1348,21 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.077,
-            "RRFS": 0.046,
-            "IFS": 0.075,
-            "GFS": 0.127,
-            "AIFS": 0.098,
-            "GFS_MOS": 0.081,
-            "NBM": 0.128,
-            "ENS": 0.151,
-            "AIFS_ENS": 0.217
+            "HRRR": 0.069,
+            "RRFS": 0.042,
+            "IFS": 0.067,
+            "GFS": 0.114,
+            "AIFS": 0.089,
+            "GFS_MOS": 0.073,
+            "NBM": 0.115,
+            "USL": 0.099,
+            "ENS": 0.136,
+            "AIFS_ENS": 0.196
           }
         },
         "tmin_f": {
@@ -1371,19 +1375,21 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.067,
-            "RRFS": 0.069,
-            "IFS": 0.108,
-            "GFS": 0.084,
-            "AIFS": 0.21,
-            "GFS_MOS": 0.109,
-            "NBM": 0.13,
-            "ENS": 0.111,
-            "AIFS_ENS": 0.111
+            "HRRR": 0.057,
+            "RRFS": 0.059,
+            "IFS": 0.092,
+            "GFS": 0.072,
+            "AIFS": 0.18,
+            "GFS_MOS": 0.094,
+            "NBM": 0.112,
+            "USL": 0.141,
+            "ENS": 0.096,
+            "AIFS_ENS": 0.096
           }
         },
         "wind_max_kt": {
@@ -1396,19 +1402,21 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.133,
-            "RRFS": 0.106,
-            "IFS": 0.099,
-            "GFS": 0.151,
-            "AIFS": 0.093,
-            "GFS_MOS": 0.111,
-            "NBM": 0.112,
-            "ENS": 0.098,
-            "AIFS_ENS": 0.098
+            "HRRR": 0.098,
+            "RRFS": 0.078,
+            "IFS": 0.073,
+            "GFS": 0.111,
+            "AIFS": 0.068,
+            "GFS_MOS": 0.081,
+            "NBM": 0.082,
+            "USL": 0.264,
+            "ENS": 0.072,
+            "AIFS_ENS": 0.072
           }
         },
         "precip_in": {
@@ -1421,19 +1429,21 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.103,
-            "RRFS": 0.114,
-            "IFS": 0.109,
-            "GFS": 0.115,
-            "AIFS": 0.113,
-            "GFS_MOS": 0.111,
-            "NBM": 0.116,
-            "ENS": 0.117,
-            "AIFS_ENS": 0.101
+            "HRRR": 0.09,
+            "RRFS": 0.1,
+            "IFS": 0.096,
+            "GFS": 0.101,
+            "AIFS": 0.099,
+            "GFS_MOS": 0.098,
+            "NBM": 0.101,
+            "USL": 0.125,
+            "ENS": 0.102,
+            "AIFS_ENS": 0.089
           }
         }
       }

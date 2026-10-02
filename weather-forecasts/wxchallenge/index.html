@@ -15,6 +15,8 @@
       --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c;
       --tip:#1f1f1e; --tip-ink:#ffffff;
       --hind:#e6ebf2; --hind-ink:#3d4250;
+      /* categorical series (PoP chart): fixed slot order, light steps */
+      --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
       color-scheme: light;
     }
     @media (prefers-color-scheme: dark){
@@ -26,6 +28,7 @@
         --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
         --tip:#f5f4f1; --tip-ink:#0b0b0b;
         --hind:#262c36; --hind-ink:#c9d1e0;
+        --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
         color-scheme: dark;
       }
     }
@@ -37,6 +40,7 @@
       --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
       --tip:#f5f4f1; --tip-ink:#0b0b0b;
       --hind:#262c36; --hind-ink:#c9d1e0;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
       color-scheme: dark;
     }
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:1040px;margin:2rem auto;padding:0 16px;
@@ -77,7 +81,7 @@
     .k-med,.k-mean{display:inline-block;vertical-align:-1px;margin-right:4px}
     .k-med{width:3px;height:11px;background:var(--ink)}
     .k-mean{width:7px;height:7px;background:var(--e1);transform:rotate(45deg);margin:0 5px 1px 2px}
-    #today-table td.cell, #ens-prob td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
+    #today-table td.cell, #ens-prob td.cell, #pop-table td.cell, #pop-rel td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
     #today-table td.pending{color:var(--ink-3);background:transparent;border:1px dashed var(--line);font-style:italic}
     #today-table td.sum{text-align:right;font-variant-numeric:tabular-nums}
     #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:6px;min-width:3.2rem}
@@ -132,6 +136,20 @@
     .evo-grid img{margin-top:0;border:1px solid var(--line);background:#fff}
     .evo-grid figcaption{font-size:0.85rem;color:var(--ink-2);margin-top:2px}
     .evo-links{padding-left:1.2rem;line-height:1.7}
+    /* chance of precipitation: table, small-multiple charts, reliability */
+    #pop-table{width:auto}
+    #pop-table td.cell{min-width:3.4rem}
+    #pop-table td.range{background:var(--neu);color:var(--ink);white-space:nowrap}
+    #pop-table td.basis{white-space:normal;font-size:0.85rem;color:var(--ink-2)}
+    .pop-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:1rem}
+    .pop-chart h4{margin:0 0 4px;font-size:0.95rem}
+    .pop-chart .lg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:0.8rem;color:var(--ink-2);margin-bottom:2px}
+    .pop-chart .lg i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:3px;margin-right:4px}
+    .pop-chart svg{width:100%;height:auto;display:block;overflow:visible}
+    .pop-chart circle.hit{fill:transparent;cursor:default}
+    #pop-rel{width:auto;margin-top:0.4rem}
+    #pop-rel td.cell{min-width:3rem;font-size:0.8rem}
+    #pop-rel-wrap h3{margin-top:1.4rem}
   </style>
 </head>
 
@@ -169,7 +187,8 @@
 
   <section id="ensembles">
     <h2>Ensembles</h2>
-    <p class="small">ECMWF IFS and AIFS ensembles (51 members each, via Open-Meteo), plus two 3 km precipitation
+    <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31) and the Canadian GEPS (21; these two
+      are shown and scored but not part of the consensus), all via Open-Meteo, plus two 3 km precipitation
       ensembles: REFS (NOAA's new operational short-range ensemble: RRFS, RRFS ensemble and HRRR members from the
       latest two cycles) and HRRRCast (NOAA GSL's experimental AI emulator of the HRRR, 18 members), for the same
       06Z–06Z day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the dark bar
@@ -184,6 +203,21 @@
     </div>
   </section>
 
+  <section id="pop" hidden>
+    <h2>Chance of precipitation</h2>
+    <p class="small">Chance of at least 0.01" (a trace counts as dry) in each 6-hour block of the 06Z–06Z day and
+      over the whole day. MOS and NBM text guidance (P06) and NBM QMD are calibrated probabilities; the ensembles
+      are the raw share of their members (uncalibrated, and coarse for small ensembles: note the member counts).
+      MOS has 6-hour chances only, so its 24-hour chance is shown as a range: at least the largest block chance,
+      at most the chance if the blocks were independent. None of this goes into the consensus.</p>
+    <div class="scroll">
+      <table id="pop-table" aria-label="Chance of precipitation by source"><tbody></tbody></table>
+    </div>
+    <p id="pop-qmd" class="small"></p>
+    <div id="pop-charts" class="pop-charts"></div>
+    <p class="small">Each line holds one source's chance for each 6-hour block (UTC); hover or tap a dot for
+      the value. The table above has every number.</p>
+  </section>
   <section>
     <h2>Latest Figure</h2>
     <img id="fig" alt="latest WXChallenge figure"/>
@@ -364,12 +398,21 @@
       <button data-view="tmin_f" aria-pressed="false">Low</button>
       <button data-view="wind_max_kt" aria-pressed="false">Wind</button>
       <button data-view="precip_in" aria-pressed="false">Precip</button>
+      <button data-view="pop" aria-pressed="false">Chance of precip</button>
     </div>
 
     <div id="score-wrap">
       <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
     </div>
     <div id="legend" class="legend"></div>
+    <div id="pop-rel-wrap" hidden>
+      <h3>Calibration of the precipitation chances</h3>
+      <p class="small">Every stored forecast day of every city, 24-hour and 6-hour chances together. For each
+        source and forecast range: how often precip (&ge; 0.01") was observed, and in how many forecasts (n). A
+        well-calibrated source sees rain about as often as it forecast; a few dozen forecasts are needed before
+        this means much.</p>
+      <div class="scroll"><table id="pop-rel" aria-label="Calibration of precipitation chances"><tbody></tbody></table></div>
+    </div>
     <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using
       WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
       Shaded days come before this city's first forecast day: they are hindcasts (the runs available at 23Z
@@ -406,7 +449,8 @@ const GROUPS = [
   { title: 'Grid models', rows: [['HRRR','HRRR'],['RRFS','RRFS'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
   { title: 'Statistical / point guidance', rows: [['GFS_MOS','GFS MOS'],['NBM','NBM'],['USL','USL']] },
   { title: 'Ensembles (mean)', rows: [['ENS','ECMWF ENS'],['AIFS_ENS','AIFS ENS']] },
-  { title: 'Precip ensembles (median; not in consensus)', rows: [['REFS','REFS'],['HRRRCAST','HRRRCast (AI)']] },
+  { title: 'More ensembles (mean; not in consensus)', rows: [['GEFS','GEFS'],['GEPS','GEPS (Canadian)']] },
+  { title: 'Precip only (median; not in consensus)', rows: [['REFS','REFS'],['HRRRCAST','HRRRCast (AI)'],['NBM_QMD','NBM QMD (50% level)']] },
   { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
 ];
 const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
@@ -484,6 +528,8 @@ function consWeight(name){
 }
 
 function renderScore(){
+  if (VIEW === 'pop') return renderPopScore();
+  document.getElementById('pop-rel-wrap').hidden = true;
   const v = VERIF, table = document.getElementById('score'), legend = document.getElementById('legend');
   const days = (v.days || []).filter(d => Object.keys(d.models).length);
   if (!days.length) {
@@ -602,9 +648,12 @@ function moveTip(ev){
   tip.style.left = x + 'px'; tip.style.top = y + 'px';
 }
 const score = document.getElementById('score');
-score.addEventListener('pointerover', ev => { const td = ev.target.closest('td[data-model]'); if (td) showTip(td, ev); });
+score.addEventListener('pointerover', ev => {
+  if (VIEW === 'pop') { const td = ev.target.closest('td[data-pop-day]'); if (td) showPopScoreTip(td, ev); return; }
+  const td = ev.target.closest('td[data-model]'); if (td) showTip(td, ev);
+});
 score.addEventListener('pointermove', ev => { if (tip.style.display === 'block') moveTip(ev); });
-score.addEventListener('pointerout', ev => { if (ev.target.closest('td[data-model]')) tip.style.display = 'none'; });
+score.addEventListener('pointerout', ev => { if (ev.target.closest('td[data-model], td[data-pop-day]')) tip.style.display = 'none'; });
 document.addEventListener('scroll', () => { tip.style.display = 'none'; }, { passive: true });
 
 document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('click', () => {
@@ -613,11 +662,15 @@ document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('c
   try { localStorage.setItem('wxc-view', VIEW); } catch (e) {}
   if (VERIF) renderScore();
 }));
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (VERIF) renderScore(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (VERIF) renderScore();
+  if (Object.keys(POP_DATA).length) renderPop({ models: POP_DATA });
+});
 
 
 /* ---------- ensembles ---------- */
-const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['REFS','REFS'], ['HRRRCAST','HRRRCast (AI)']];
+const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS'], ['GEPS','GEPS (Canadian)'],
+                  ['REFS','REFS'], ['HRRRCAST','HRRRCast (AI)']];
 // round-number tick spacing giving roughly n intervals across `range`
 function niceStep(range, n = 3){
   const raw = (range > 0 ? range : 1) / n, p = 10 ** Math.floor(Math.log10(raw)), f = raw / p;
@@ -699,6 +752,209 @@ function renderEnsembles(data){
   pt.innerHTML = p + '</tbody>';
 }
 
+/* ---------- chance of precipitation (PoP; display only, never in the consensus) ---------- */
+const POP_BLOCKS = ['06-12', '12-18', '18-00', '00-06'];
+const POP_FAMILIES = [
+  { title: 'Statistical guidance', rows: [['NBM_QMD','NBM QMD'], ['NBM','NBM text'], ['GFS_MOS','GFS MOS']] },
+  { title: 'Global ensembles', rows: [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS'], ['GEPS','GEPS']] },
+  { title: '3 km ensembles', rows: [['HRRRCAST','HRRRCast (AI)'], ['REFS','REFS']] },
+];
+const POP_LABEL = Object.fromEntries(POP_FAMILIES.flatMap(f => f.rows));
+const pct = p => `${Math.round(p * 100)}%`;
+const blockLabel = b => b.replace('-', '–') + 'Z';
+function popFill(v){
+  return v <= 0 ? 'var(--bg)' : `color-mix(in oklab, var(--c3) ${Math.round(v * 100)}%, var(--c1))`;
+}
+function popInk(v){
+  if (v <= 0) return 'var(--ink-3)';
+  return isDark() ? (v > 0.6 ? '#1a1a19' : '#ffffff') : (v > 0.55 ? '#ffffff' : '#0b0b0b');
+}
+function popCell(v, title){
+  if (v === null || v === undefined) return '<td class="cell small">—</td>';
+  return `<td class="cell num" style="background:${popFill(v)};color:${popInk(v)}"${title ? ` title="${title}"` : ''}>${pct(v)}</td>`;
+}
+function popBasis(p){
+  if (p.n_members) return `${p.n_members} members (raw share)`;
+  return p.basis === 'NBM QMD' ? 'calibrated (NBM QMD)' : `calibrated (${p.basis || 'MOS'})`;
+}
+let POP_DATA = {};
+function renderPop(data){
+  const sec = document.getElementById('pop'), models = data?.models || {};
+  POP_DATA = models;
+  const fams = POP_FAMILIES.map(f => ({ ...f, rows: f.rows.filter(([k]) => models[k]?.pop) })).filter(f => f.rows.length);
+  if (!fams.length) { sec.hidden = true; return; }
+  let h = '<thead><tr><th>Source</th>' + POP_BLOCKS.map(b => `<th class="num">${blockLabel(b)}</th>`).join('') +
+    '<th class="num">24 h</th><th>Basis</th></tr></thead><tbody>';
+  for (const f of fams) {
+    h += `<tr class="group"><td colspan="7">${f.title}</td></tr>`;
+    for (const [k, l] of f.rows) {
+      const m = models[k], p = m.pop;
+      h += `<tr><td>${l}<div class="small">${runLabel(m.init_time_utc)} run</div></td>` +
+        POP_BLOCKS.map(b => popCell(p.blocks?.[b])).join('');
+      if (p.p24 !== null && p.p24 !== undefined) h += popCell(p.p24);
+      else if (p.p24_range) h += `<td class="cell num range" title="Only 6-hour chances exist: the day's chance is at least the largest block and at most the independent-blocks value">${pct(p.p24_range[0])}–${pct(p.p24_range[1])}</td>`;
+      else h += '<td class="cell small">—</td>';
+      h += `<td class="basis">${popBasis(p)}</td></tr>`;
+    }
+  }
+  document.getElementById('pop-table').innerHTML = h + '</tbody>';
+  const q = models.NBM_QMD?.pop?.q24_in;
+  document.getElementById('pop-qmd').textContent = q
+    ? `NBM QMD 24-hour precip percentiles (dry outcomes included): ` +
+      Object.entries(q).map(([k, v]) => `${k}% ${v.toFixed(2)}"`).join(' · ') +
+      `. The 50% level is the amount that minimises the expected WxChallenge precip points.` : '';
+  document.getElementById('pop-charts').innerHTML = fams.map(popChart).join('');
+  sec.hidden = false;
+}
+// one small multiple per family: a step line per source over the four 6-h blocks
+function popChart(f){
+  const rows = f.rows.filter(([k]) => POP_BLOCKS.some(b => POP_DATA[k].pop.blocks?.[b] !== null && POP_DATA[k].pop.blocks?.[b] !== undefined));
+  const dayOnly = f.rows.filter(r => !rows.includes(r)).map(([, l]) => l);
+  const W = 340, H = 170, L = 34, R = 74, T = 8, B = 22, pw = W - L - R, ph = H - T - B;
+  const x = i => L + pw * i / 4, y = v => T + ph * (1 - v);
+  let g = '';
+  for (const v of [0, 0.25, 0.5, 0.75, 1])
+    g += `<line x1="${L}" x2="${L + pw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/>` +
+         `<text x="${L - 6}" y="${y(v) + 3.5}" font-size="10" fill="var(--ink-3)" text-anchor="end">${v * 100}%</text>`;
+  ['06Z', '12Z', '18Z', '00Z', '06Z'].forEach((t, i) =>
+    g += `<text x="${x(i)}" y="${H - 6}" font-size="10" fill="var(--ink-3)" text-anchor="middle">${t}</text>`);
+  let lines = '', dots = '', hits = '';
+  const ends = [];
+  rows.forEach(([k, l], si) => {
+    const col = `var(--s${si + 1})`, bl = POP_DATA[k].pop.blocks;
+    let d = '';
+    POP_BLOCKS.forEach((b, i) => {
+      const v = bl[b];
+      if (v === null || v === undefined) return;
+      const prev = i > 0 ? bl[POP_BLOCKS[i - 1]] : null;
+      d += (prev === null || prev === undefined ? `M${x(i)},${y(v)}` : `L${x(i)},${y(v)}`) + ` L${x(i + 1)},${y(v)} `;
+      const cx = (x(i) + x(i + 1)) / 2;
+      dots += `<circle cx="${cx}" cy="${y(v)}" r="4" fill="${col}" stroke="var(--bg)" stroke-width="2"/>`;
+      hits += `<circle class="hit" cx="${cx}" cy="${y(v)}" r="11" data-pop-src="${k}" data-pop-b="${b}"/>`;
+    });
+    lines += `<path d="${d}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"/>`;
+    const last = [...POP_BLOCKS].reverse().find(b => bl[b] !== null && bl[b] !== undefined);
+    if (last) ends.push({ l, col, y: y(bl[last]) });
+  });
+  // direct labels at the right edge, nudged apart so they never overlap
+  ends.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 12);
+  const over = ends.length ? Math.max(0, ends[ends.length - 1].y - (T + ph + 4)) : 0;
+  ends.forEach(e => e.y -= over);
+  const labels = ends.map(e => `<text x="${L + pw + 6}" y="${e.y + 3.5}" font-size="10.5" fill="var(--ink-2)">${e.l}</text>`).join('');
+  const legend = rows.map(([k, l], si) => {
+    const n = POP_DATA[k].pop.n_members;
+    return `<span><i style="background:var(--s${si + 1})"></i>${l}${n ? ` (${n})` : ''}</span>`;
+  }).join('') + (dayOnly.length ? `<span>${dayOnly.join(', ')}: 24 h only (table)</span>` : '');
+  return `<figure class="pop-chart" style="margin:0"><h4>${f.title}</h4><div class="lg">${legend}</div>` +
+    (rows.length ? `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${f.title}: chance of precipitation per 6-hour block">${g}${lines}${dots}${labels}${hits}</svg>` : '') +
+    '</figure>';
+}
+document.getElementById('pop-charts').addEventListener('pointerover', ev => {
+  const c = ev.target.closest('circle[data-pop-src]');
+  if (!c) return;
+  const k = c.dataset.popSrc, b = c.dataset.popB, p = POP_DATA[k]?.pop;
+  if (!p) return;
+  tip.innerHTML = `<b>${POP_LABEL[k] || k} · ${blockLabel(b)}</b><br>${pct(p.blocks[b])} chance of ≥ 0.01"` +
+    `<br><span style="opacity:.75">${popBasis(p)} · ${runLabel(POP_DATA[k].init_time_utc)} run</span>`;
+  tip.style.display = 'block';
+  moveTip(ev);
+});
+document.getElementById('pop-charts').addEventListener('pointermove', ev => { if (tip.style.display === 'block') moveTip(ev); });
+document.getElementById('pop-charts').addEventListener('pointerout', ev => { if (ev.target.closest('circle[data-pop-src]')) tip.style.display = 'none'; });
+
+/* the scoreboard's "Chance of precip" tab: each source's 24-h chance per day vs what happened */
+function renderPopScore(){
+  const pv = VERIF.pop, table = document.getElementById('score'), legend = document.getElementById('legend');
+  const rel = document.getElementById('pop-rel-wrap');
+  if (!pv || !pv.days?.length) {
+    table.innerHTML = '<tbody><tr><td>No verified chances of precipitation yet: they are kept from live runs from now on, ' +
+      'and scored once a forecast day has ended.</td></tr></tbody>';
+    legend.innerHTML = ''; rel.hidden = true;
+    document.getElementById('decay-note').textContent = '';
+    return;
+  }
+  const days = pv.days, sm = pv.summary || {};
+  const key = s => sm[s].brier_24h ?? (sm[s].brier_6h === null ? 9 : 1 + sm[s].brier_6h);
+  const srcs = Object.keys(sm).sort((a, b) => key(a) - key(b));
+  let head = '<thead><tr><th class="model">Source</th>' + days.map(d => {
+    const dt = new Date(d.date + 'T12:00:00Z');
+    return `<th class="day">${d.date.slice(5)}<span>${dt.toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' })}</span></th>`;
+  }).join('') + '<th class="sum">Brier<span>24 h · 6 h blocks</span></th></tr></thead>';
+  let obs = '<tr class="obs"><td class="model">Observed</td>' + days.map((d, i) => {
+    const o = d.obs['24h'];
+    const txt = o === null ? '—' : o ? `wet ${fmt(d.precip_in, 2)}` : 'dry';
+    return `<td class="cell" data-pop-day="${i}">${txt}</td>`;
+  }).join('') + '<td class="sum"></td></tr>';
+  const rows = srcs.map(k => {
+    const s = sm[k];
+    let tr = `<tr><td class="model">${POP_LABEL[k] || LABEL[k] || k}</td>`;
+    days.forEach((d, i) => {
+      const m = d.models[k], o = d.obs['24h'];
+      if (!m) { tr += '<td class="cell small">—</td>'; return; }
+      const attrs = `data-pop-day="${i}" data-pop-model="${k}"`;
+      if (m.p24 === null || m.p24 === undefined) {
+        const r = m.p24_range;
+        tr += `<td class="cell small" ${attrs}>${r ? `${Math.round(r[0] * 100)}–${pct(r[1])}` : '6 h'}</td>`;
+        return;
+      }
+      if (o === null) { tr += `<td class="cell" ${attrs}>${pct(m.p24)}</td>`; return; }
+      // forecast minus outcome: blue = too dry (wet day called unlikely), red = too wet
+      const step = biasStep(m.p24 - o, [0.2, 0.4, 0.6]);
+      tr += `<td class="cell" ${attrs} style="background:${biasFill(step)};color:${biasInk(step)}">${pct(m.p24)}</td>`;
+    });
+    const f = v => v === null || v === undefined ? '—' : v.toFixed(3);
+    tr += `<td class="sum"><b>${f(s.brier_24h)}</b><span>${f(s.brier_6h)} · ${s.n_days} d</span></td>`;
+    return tr + '</tr>';
+  });
+  const br = pv.base_rate || {};
+  const f3 = v => v === null || v === undefined ? '—' : v.toFixed(3);
+  const ref = br.freq_24h === null || br.freq_24h === undefined ? '' :
+    `<tr><td class="model" style="font-weight:400">Base rate<div class="small">hindsight reference</div></td>` +
+    days.map(() => '<td class="cell small"></td>').join('') +
+    `<td class="sum"><b>${f3(br.brier_24h)}</b><span>${f3(br.brier_6h)} · wet ${pct(br.freq_24h)} of days</span></td></tr>`;
+  table.innerHTML = head + '<tbody>' + obs + rows.join('') + ref + '</tbody>';
+  const sw = [-3, -2, -1, 0, 1, 2, 3].map(s => `<i style="background:${biasFill(s)}"></i>`).join('');
+  legend.innerHTML = `<span>Too dry</span><span class="swatches">${sw}</span><span>Too wet</span>
+    <span>· the cell is the day's chance of ≥ 0.01"; grey within 20 points of what happened</span>`;
+  document.getElementById('decay-note').textContent = 'On the "Chance of precip" tab: Brier score = average of ' +
+    '(chance − outcome)², outcome 1 if at least 0.01" fell, else 0; lower is better, 0.25 is a coin flip. ' +
+    'MOS has no single 24-hour chance (its range is shown) and is scored on its 6-hour blocks only. The base rate row ' +
+    'is what always forecasting this period\'s observed frequency would have scored. Only live runs are scored.';
+  renderPopRel(pv.reliability || {});
+  rel.hidden = false;
+}
+function renderPopRel(rel){
+  const srcs = Object.keys(rel).filter(k => rel[k].n).sort((a, b) => rel[b].n - rel[a].n);
+  const t = document.getElementById('pop-rel');
+  if (!srcs.length) { document.getElementById('pop-rel-wrap').hidden = true; return; }
+  const bins = rel[srcs[0]].bins.map(b => b.bin);
+  let h = '<thead><tr><th>Source</th>' + bins.map(([a, b]) => `<th class="num">${a * 100}–${b * 100}%</th>`).join('') +
+    '<th class="num">n</th></tr></thead><tbody>';
+  for (const k of srcs) {
+    h += `<tr><td>${POP_LABEL[k] || LABEL[k] || k}</td>` + rel[k].bins.map(b => b.n
+      ? `<td class="cell num" style="background:${popFill(b.obs_freq)};color:${popInk(b.obs_freq)}" title="${b.n} forecasts averaging ${pct(b.mean_p)}; rain in ${pct(b.obs_freq)}">${pct(b.obs_freq)}<span class="small" style="color:inherit;opacity:.75"> ·${b.n}</span></td>`
+      : '<td class="cell small">—</td>').join('') + `<td class="num">${rel[k].n}</td></tr>`;
+  }
+  t.innerHTML = h + '</tbody>';
+}
+function showPopScoreTip(td, ev){
+  const d = VERIF.pop.days[+td.dataset.popDay];
+  if (!d) return;
+  const k = td.dataset.popModel, m = k && d.models[k];
+  const ob = d.precip_6h_in || {};
+  const lines = POP_BLOCKS.map(b => {
+    const f = m?.blocks?.[b], o = ob[b];
+    return `${blockLabel(b)}: ${m ? (f === null || f === undefined ? '—' : pct(f)) + ' · ' : ''}` +
+      `${o === null || o === undefined ? 'obs —' : `obs ${o.toFixed(2)}"`}`;
+  });
+  tip.innerHTML = `<b>${k ? (POP_LABEL[k] || k) + ' · ' : ''}${d.date}</b><br>` +
+    (m ? `24 h: ${m.p24 !== null && m.p24 !== undefined ? pct(m.p24) : m.p24_range ? `${pct(m.p24_range[0])}–${pct(m.p24_range[1])}` : '—'} · ` : '') +
+    `observed ${fmt(d.precip_in, 2)}"<br>` + lines.join('<br>') +
+    (m?.n_members ? `<br><span style="opacity:.75">${m.n_members} members</span>` : '');
+  tip.style.display = 'block';
+  moveTip(ev);
+}
 /* ---------- today so far: errors ---------- */
 function renderToday(tj){
   const tb = document.getElementById('today-table');
@@ -777,6 +1033,7 @@ function renderToday(tj){
       document.getElementById('consensus-note').textContent = txt;
     }
     renderEnsembles(data);
+    try { renderPop(data); } catch (e) { document.getElementById('pop').hidden = true; console.error(e); }
     const fig = document.getElementById('fig');
     fig.src = `../images/wxchallenge/latest.png${bust}`;
     const tf = document.getElementById('today-fig');
