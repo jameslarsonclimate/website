@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-02T14:15:40+00:00",
+  "generated_at_utc": "2026-10-02T16:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -20,21 +20,28 @@
       "USL",
       "ENS",
       "AIFS_ENS",
+      "GEFS",
+      "GEPS",
       "HRRRCAST",
       "REFS",
+      "NBM_QMD",
       "CONSENSUS"
     ],
     "note": "temperatures in \u00b0F, winds in kt, precip in inches"
   },
   "models": {
     "HRRR": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 86.0,
+      "tmin_f": 74.8,
+      "wind_max_kt": 11.8,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-10-02T12",
+      "valid_range_utc": [
+        "2026-10-03T06",
+        "2026-10-04T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
       "tmax_f": 85.2,
@@ -95,6 +102,21 @@
       "wind_max_kt": 8.0,
       "precip_in": 0.88,
       "pop06_max_pct": 69,
+      "pop": {
+        "p24": null,
+        "blocks": {
+          "06-12": 0.55,
+          "12-18": 0.59,
+          "18-00": 0.68,
+          "00-06": 0.69
+        },
+        "n_members": null,
+        "basis": "GFS MOS P06",
+        "p24_range": [
+          0.69,
+          0.982
+        ]
+      },
       "precip_note": "MOS Q06 categories [2, 2, 3, 2] -> midpoints",
       "init_time_utc": "2026-10-02T06",
       "valid_range_utc": [
@@ -108,6 +130,21 @@
       "wind_max_kt": 8.0,
       "precip_in": 0.28,
       "pop06_max_pct": 51,
+      "pop": {
+        "p24": null,
+        "blocks": {
+          "06-12": 0.22,
+          "12-18": 0.25,
+          "18-00": 0.51,
+          "00-06": 0.4
+        },
+        "n_members": null,
+        "basis": "NBS P06",
+        "p24_range": [
+          0.51,
+          0.828
+        ]
+      },
       "precip_note": "NBS Q06 amounts",
       "init_time_utc": "2026-10-02T12",
       "valid_range_utc": [
@@ -122,14 +159,14 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-03 available at 2026-10-02 15Z"
+      "error": "no USL run for 2026-10-03 available at 2026-10-02 16Z"
     },
     "ENS": {
       "tmax_f": 86.0,
       "tmin_f": 74.9,
       "wind_max_kt": 7.7,
-      "precip_in": 0.33,
-      "init_time_utc": "2026-10-02T00",
+      "precip_in": 0.32,
+      "init_time_utc": "2026-10-02T06",
       "valid_range_utc": [
         "2026-10-03T06",
         "2026-10-04T06"
@@ -172,21 +209,21 @@
             "p100": 11.7
           },
           "precip_in": {
-            "mean": 0.33,
-            "std": 0.21,
-            "p0": 0.01,
+            "mean": 0.32,
+            "std": 0.22,
+            "p0": 0.06,
             "p10": 0.11,
-            "p25": 0.14,
-            "p50": 0.27,
-            "p75": 0.52,
-            "p90": 0.61,
-            "p100": 0.82
+            "p25": 0.19,
+            "p50": 0.25,
+            "p75": 0.42,
+            "p90": 0.58,
+            "p100": 1.15
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 0.902,
-            "0.25": 0.549,
-            "0.50": 0.294
+            "0.25": 0.49,
+            "0.50": 0.118
           }
         },
         "members": {
@@ -350,59 +387,70 @@
             7.9
           ],
           "precip_in": [
-            0.12,
-            0.51,
-            0.12,
-            0.19,
-            0.21,
-            0.06,
-            0.27,
-            0.59,
-            0.23,
-            0.74,
-            0.43,
-            0.43,
-            0.27,
-            0.34,
-            0.57,
-            0.52,
-            0.66,
-            0.29,
-            0.52,
-            0.06,
-            0.46,
-            0.18,
-            0.76,
-            0.52,
-            0.14,
-            0.13,
-            0.41,
-            0.13,
-            0.18,
             0.25,
-            0.01,
-            0.82,
+            0.71,
+            0.44,
             0.11,
-            0.33,
-            0.61,
-            0.13,
-            0.31,
-            0.14,
-            0.11,
-            0.53,
-            0.27,
-            0.52,
-            0.05,
-            0.53,
-            0.22,
-            0.04,
-            0.19,
+            0.1,
             0.49,
-            0.27,
-            0.61,
-            0.11
+            0.46,
+            0.34,
+            0.58,
+            0.34,
+            0.21,
+            0.26,
+            0.3,
+            0.22,
+            0.17,
+            0.11,
+            0.37,
+            0.33,
+            0.99,
+            0.44,
+            0.24,
+            0.2,
+            0.26,
+            0.7,
+            0.23,
+            0.24,
+            0.08,
+            0.19,
+            0.13,
+            0.06,
+            0.18,
+            0.26,
+            0.06,
+            0.2,
+            0.25,
+            0.19,
+            0.28,
+            0.25,
+            0.12,
+            0.41,
+            0.18,
+            0.19,
+            0.3,
+            0.19,
+            0.08,
+            0.26,
+            0.49,
+            0.44,
+            0.49,
+            1.15,
+            0.71
           ]
         }
+      },
+      "pop": {
+        "p24": 1.0,
+        "blocks": {
+          "06-12": 0.451,
+          "12-18": 0.608,
+          "18-00": 1.0,
+          "00-06": 0.529
+        },
+        "n_members": 51,
+        "basis": "member fraction"
       }
     },
     "AIFS_ENS": {
@@ -684,6 +732,401 @@
             0.05
           ]
         }
+      },
+      "pop": {
+        "p24": 0.98,
+        "blocks": {
+          "06-12": 0.549,
+          "12-18": 0.431,
+          "18-00": 0.882,
+          "00-06": 0.706
+        },
+        "n_members": 51,
+        "basis": "member fraction"
+      }
+    },
+    "GEFS": {
+      "tmax_f": 87.8,
+      "tmin_f": 80.0,
+      "wind_max_kt": 12.5,
+      "precip_in": 0.33,
+      "init_time_utc": "2026-10-02T06",
+      "valid_range_utc": [
+        "2026-10-03T06",
+        "2026-10-04T06"
+      ],
+      "note": "ensemble mean of 31 members (Open-Meteo); not in the consensus",
+      "ensemble": {
+        "n_members": 31,
+        "stats": {
+          "tmax_f": {
+            "mean": 87.78,
+            "std": 3.07,
+            "p0": 80.8,
+            "p10": 83.1,
+            "p25": 85.1,
+            "p50": 89.4,
+            "p75": 90.15,
+            "p90": 90.5,
+            "p100": 92.3
+          },
+          "tmin_f": {
+            "mean": 79.97,
+            "std": 0.54,
+            "p0": 78.7,
+            "p10": 79.1,
+            "p25": 79.55,
+            "p50": 80.1,
+            "p75": 80.4,
+            "p90": 80.5,
+            "p100": 80.8
+          },
+          "wind_max_kt": {
+            "mean": 12.51,
+            "std": 1.17,
+            "p0": 9.8,
+            "p10": 10.7,
+            "p25": 11.95,
+            "p50": 12.6,
+            "p75": 13.4,
+            "p90": 13.7,
+            "p100": 15.4
+          },
+          "precip_in": {
+            "mean": 0.33,
+            "std": 0.27,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.11,
+            "p50": 0.27,
+            "p75": 0.53,
+            "p90": 0.66,
+            "p100": 1.03
+          },
+          "precip_prob": {
+            "0.01": 0.871,
+            "0.10": 0.742,
+            "0.25": 0.548,
+            "0.50": 0.258
+          }
+        },
+        "members": {
+          "tmax_f": [
+            88.0,
+            83.1,
+            90.1,
+            88.7,
+            85.2,
+            90.3,
+            87.6,
+            89.5,
+            90.2,
+            89.4,
+            80.8,
+            89.9,
+            86.7,
+            84.4,
+            82.4,
+            90.4,
+            90.5,
+            83.2,
+            88.5,
+            92.3,
+            89.8,
+            83.1,
+            89.4,
+            89.8,
+            83.8,
+            91.0,
+            90.3,
+            87.0,
+            91.2,
+            89.7,
+            85.0
+          ],
+          "tmin_f": [
+            80.3,
+            80.2,
+            80.4,
+            79.4,
+            80.0,
+            80.4,
+            79.9,
+            80.8,
+            80.5,
+            80.1,
+            79.5,
+            79.0,
+            79.0,
+            80.8,
+            79.8,
+            79.4,
+            80.0,
+            80.4,
+            79.1,
+            80.6,
+            80.3,
+            80.5,
+            80.1,
+            79.6,
+            79.5,
+            79.9,
+            80.3,
+            78.7,
+            80.1,
+            80.1,
+            80.4
+          ],
+          "wind_max_kt": [
+            13.8,
+            12.6,
+            12.3,
+            10.7,
+            11.9,
+            13.4,
+            13.8,
+            13.4,
+            13.1,
+            11.7,
+            13.4,
+            11.5,
+            13.4,
+            9.9,
+            12.6,
+            13.3,
+            15.4,
+            11.8,
+            13.7,
+            12.3,
+            12.3,
+            10.6,
+            12.6,
+            12.7,
+            13.4,
+            12.5,
+            12.5,
+            12.7,
+            12.0,
+            9.8,
+            12.6
+          ],
+          "precip_in": [
+            0.68,
+            0.38,
+            0.32,
+            0.26,
+            0.06,
+            0.66,
+            0.19,
+            0.17,
+            0.4,
+            0.47,
+            0.05,
+            0.37,
+            0.0,
+            0.6,
+            0.0,
+            0.0,
+            0.19,
+            0.58,
+            0.0,
+            0.37,
+            0.64,
+            1.03,
+            0.93,
+            0.18,
+            0.18,
+            0.13,
+            0.27,
+            0.08,
+            0.04,
+            0.4,
+            0.59
+          ]
+        }
+      },
+      "pop": {
+        "p24": 0.871,
+        "blocks": {
+          "06-12": 0.323,
+          "12-18": 0.452,
+          "18-00": 0.839,
+          "00-06": 0.581
+        },
+        "n_members": 31,
+        "basis": "member fraction"
+      }
+    },
+    "GEPS": {
+      "tmax_f": 87.0,
+      "tmin_f": 75.0,
+      "wind_max_kt": 7.4,
+      "precip_in": 0.38,
+      "init_time_utc": "2026-10-02T00",
+      "valid_range_utc": [
+        "2026-10-03T06",
+        "2026-10-04T06"
+      ],
+      "note": "ensemble mean of 21 members (Open-Meteo); not in the consensus",
+      "ensemble": {
+        "n_members": 21,
+        "stats": {
+          "tmax_f": {
+            "mean": 86.97,
+            "std": 2.68,
+            "p0": 81.1,
+            "p10": 84.3,
+            "p25": 85.1,
+            "p50": 87.4,
+            "p75": 88.7,
+            "p90": 90.4,
+            "p100": 91.8
+          },
+          "tmin_f": {
+            "mean": 75.01,
+            "std": 1.62,
+            "p0": 72.9,
+            "p10": 73.0,
+            "p25": 73.3,
+            "p50": 74.9,
+            "p75": 75.7,
+            "p90": 77.2,
+            "p100": 78.9
+          },
+          "wind_max_kt": {
+            "mean": 7.43,
+            "std": 1.05,
+            "p0": 5.1,
+            "p10": 6.4,
+            "p25": 6.8,
+            "p50": 7.4,
+            "p75": 8.2,
+            "p90": 8.6,
+            "p100": 9.7
+          },
+          "precip_in": {
+            "mean": 0.38,
+            "std": 0.42,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.02,
+            "p50": 0.24,
+            "p75": 0.66,
+            "p90": 0.97,
+            "p100": 1.4
+          },
+          "precip_prob": {
+            "0.01": 0.857,
+            "0.10": 0.524,
+            "0.25": 0.429,
+            "0.50": 0.381
+          }
+        },
+        "members": {
+          "tmax_f": [
+            88.3,
+            85.9,
+            81.1,
+            86.2,
+            82.4,
+            87.4,
+            85.6,
+            91.4,
+            87.7,
+            88.7,
+            85.1,
+            87.7,
+            91.8,
+            84.7,
+            88.9,
+            84.3,
+            87.1,
+            84.5,
+            88.1,
+            89.0,
+            90.4
+          ],
+          "tmin_f": [
+            74.4,
+            73.2,
+            73.3,
+            75.1,
+            73.2,
+            75.7,
+            73.0,
+            76.1,
+            74.8,
+            77.2,
+            74.0,
+            74.9,
+            77.1,
+            75.7,
+            78.9,
+            72.9,
+            75.2,
+            73.0,
+            75.4,
+            74.9,
+            77.3
+          ],
+          "wind_max_kt": [
+            8.6,
+            9.1,
+            6.4,
+            6.8,
+            9.7,
+            6.4,
+            8.4,
+            7.4,
+            7.6,
+            7.6,
+            7.0,
+            8.0,
+            8.4,
+            7.2,
+            7.0,
+            6.4,
+            5.1,
+            7.6,
+            6.2,
+            8.2,
+            7.0
+          ],
+          "precip_in": [
+            0.97,
+            0.05,
+            1.4,
+            0.01,
+            0.48,
+            0.73,
+            0.66,
+            0.25,
+            1.19,
+            0.24,
+            0.71,
+            0.0,
+            0.07,
+            0.52,
+            0.0,
+            0.54,
+            0.02,
+            0.01,
+            0.1,
+            0.0,
+            0.07
+          ]
+        }
+      },
+      "pop": {
+        "p24": 0.857,
+        "blocks": {
+          "06-12": 0.429,
+          "12-18": 0.048,
+          "18-00": 0.571,
+          "00-06": 0.619
+        },
+        "n_members": 21,
+        "basis": "member fraction"
       }
     },
     "HRRRCAST": {
@@ -699,6 +1142,17 @@
       ],
       "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
+      "pop": {
+        "p24": 1.0,
+        "blocks": {
+          "06-12": 0.056,
+          "12-18": 0.167,
+          "18-00": 0.833,
+          "00-06": 0.611
+        },
+        "n_members": 18,
+        "basis": "member fraction"
+      },
       "ensemble": {
         "n_members": 18,
         "stats": {
@@ -777,6 +1231,17 @@
       ],
       "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
       "precip_only": true,
+      "pop": {
+        "p24": 1.0,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 14,
+        "basis": "member fraction"
+      },
       "ensemble": {
         "n_members": 14,
         "stats": {
@@ -834,15 +1299,47 @@
         }
       }
     },
+    "NBM_QMD": {
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": 0.26,
+      "init_time_utc": "2026-10-02T06",
+      "valid_range_utc": [
+        "2026-10-03T06",
+        "2026-10-04T06"
+      ],
+      "note": "calibrated PoP and percentiles (NBM QMD); precip = 50% level",
+      "precip_only": true,
+      "pop": {
+        "p24": 0.765,
+        "blocks": {
+          "06-12": 0.104,
+          "12-18": 0.13,
+          "18-00": 0.646,
+          "00-06": 0.399
+        },
+        "n_members": null,
+        "basis": "NBM QMD",
+        "q24_in": {
+          "10": 0.0,
+          "25": 0.021,
+          "50": 0.256,
+          "75": 0.72,
+          "90": 1.673
+        }
+      }
+    },
     "CONSENSUS": {
       "tmax_f": 87.5,
       "tmin_f": 76.7,
-      "wind_max_kt": 11.2,
-      "precip_in": 0.41,
+      "wind_max_kt": 12.4,
+      "precip_in": 0.38,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -853,19 +1350,21 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.05,
-            "IFS": 0.081,
-            "GFS": 0.138,
-            "AIFS": 0.107,
-            "GFS_MOS": 0.088,
-            "NBM": 0.138,
-            "ENS": 0.164,
-            "AIFS_ENS": 0.235
+            "HRRR": 0.077,
+            "RRFS": 0.046,
+            "IFS": 0.075,
+            "GFS": 0.127,
+            "AIFS": 0.098,
+            "GFS_MOS": 0.081,
+            "NBM": 0.128,
+            "ENS": 0.151,
+            "AIFS_ENS": 0.217
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -876,19 +1375,21 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.074,
-            "IFS": 0.115,
-            "GFS": 0.09,
-            "AIFS": 0.225,
-            "GFS_MOS": 0.117,
-            "NBM": 0.14,
-            "ENS": 0.119,
-            "AIFS_ENS": 0.119
+            "HRRR": 0.067,
+            "RRFS": 0.069,
+            "IFS": 0.108,
+            "GFS": 0.084,
+            "AIFS": 0.21,
+            "GFS_MOS": 0.109,
+            "NBM": 0.13,
+            "ENS": 0.111,
+            "AIFS_ENS": 0.111
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -899,19 +1400,21 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.116,
-            "IFS": 0.111,
-            "GFS": 0.149,
-            "AIFS": 0.104,
-            "GFS_MOS": 0.129,
-            "NBM": 0.119,
-            "ENS": 0.123,
-            "AIFS_ENS": 0.151
+            "HRRR": 0.133,
+            "RRFS": 0.106,
+            "IFS": 0.099,
+            "GFS": 0.151,
+            "AIFS": 0.093,
+            "GFS_MOS": 0.111,
+            "NBM": 0.112,
+            "ENS": 0.098,
+            "AIFS_ENS": 0.098
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -922,14 +1425,15 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.127,
-            "IFS": 0.122,
-            "GFS": 0.128,
-            "AIFS": 0.126,
-            "GFS_MOS": 0.124,
-            "NBM": 0.129,
-            "ENS": 0.13,
-            "AIFS_ENS": 0.113
+            "HRRR": 0.103,
+            "RRFS": 0.114,
+            "IFS": 0.109,
+            "GFS": 0.115,
+            "AIFS": 0.113,
+            "GFS_MOS": 0.111,
+            "NBM": 0.116,
+            "ENS": 0.117,
+            "AIFS_ENS": 0.101
           }
         }
       }
