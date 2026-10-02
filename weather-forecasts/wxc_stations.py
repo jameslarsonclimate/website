@@ -145,12 +145,7 @@ STATIONS = {
         Station("KFNL", "Loveland, CO", 40.451685, -105.004186, cli_pil="", tz="America/Denver"),
         Station("PAJN", "Juneau, AK", 58.356023, -134.576622, cli_pil="CLIJNU", tz="America/Juneau"),
         Station("KCON", "Concord, NH", 43.1953, -71.5011, tz="America/New_York"),
-        Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York"),
-        Station("KRNO", "Reno, NV", 39.4839, -119.7711, tz="America/Los_Angeles"),
-        Station("KHOU", "Houston (Hobby), TX", 29.6375, -95.2824, tz="America/Chicago"),
-        Station("KEKN", "Elkins, WV", 38.8853, -79.8528, tz="America/New_York"),
-        Station("KFLG", "Flagstaff, AZ", 35.1403, -111.6722, tz="America/Phoenix"),
-    ]
+        Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York"),    ]
 }
 
 
