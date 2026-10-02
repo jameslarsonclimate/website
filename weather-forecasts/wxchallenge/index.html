@@ -127,14 +127,10 @@
     #tip{position:fixed;pointer-events:none;background:var(--tip);color:var(--tip-ink);padding:8px 10px;border-radius:6px;
          font-size:0.82rem;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none;z-index:10;max-width:280px}
     #tip b{font-weight:650}
-    /* forecast evolution: Pivotal links, WPC chart grid */
+    /* forecast evolution: Pivotal links */
     #evo-table{width:auto}
     #evo-table td.trend{white-space:normal}
     #evo-table td.trend a{display:inline-block;margin-right:0.9em;white-space:nowrap}
-    .evo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:0.6rem}
-    .evo-grid figure{margin:0}
-    .evo-grid img{margin-top:0;border:1px solid var(--line);background:#fff}
-    .evo-grid figcaption{font-size:0.85rem;color:var(--ink-2);margin-top:2px}
     .evo-links{padding-left:1.2rem;line-height:1.7}
     /* chance of precipitation: table, small-multiple charts, reliability */
     #pop-table{width:auto}
@@ -231,11 +227,6 @@
     </div>
     <p class="small">Loops open on Pivotal Weather; their terms prohibit embedding, so these are links only.
       <span id="evo-note"></span></p>
-    <h3>WPC fronts and weather</h3>
-    <div id="evo-wpc" class="evo-grid"></div>
-    <p class="small">WPC short-range forecasts: fronts, pressure centers and NDFD weather type, 12–48 h ahead
-      of the latest issuance. Tap a chart for full size. <a id="evo-wpc-page" target="_blank" rel="noopener">All WPC
-      short-range charts</a></p>
     <h3>More</h3>
     <ul id="evo-more" class="evo-links"></ul>
     <!-- written by wxc_links.py on every pipeline run -->
@@ -348,20 +339,6 @@
       }
       document.querySelector('#evo-table tbody').parentElement.innerHTML = h + '</tbody>';
 
-      // WPC charts: hotlinked, cache-busted every 30 min, hidden if they fail to load
-      const bust = Math.floor(Date.now() / (30 * 60e3));
-      const grid = document.getElementById('evo-wpc');
-      for (const im of cfg.wpc.images) {
-        const src = `${im.url}?v=${bust}`;
-        const f = document.createElement('figure');
-        f.innerHTML = `<a href="${src}" target="_blank" rel="noopener"><img loading="lazy" alt="WPC fronts and weather, ${im.label}"></a>` +
-                      `<figcaption>${im.label}</figcaption>`;
-        const img = f.querySelector('img');
-        img.onerror = () => { f.remove(); if (!grid.children.length) grid.hidden = true; };
-        img.src = src;
-        grid.appendChild(f);
-      }
-      document.getElementById('evo-wpc-page').href = cfg.wpc.page;
 
       const more = [[cfg.satellite_url, 'Observed satellite loop (RAMMB/CIRA SLIDER)'], [cfg.csu_url, 'CSU WxChallenge Zoom']];
       document.getElementById('evo-more').innerHTML = more.filter(([u]) => u).map(([u, t]) => `<li>${a(u, t)}</li>`).join('');
