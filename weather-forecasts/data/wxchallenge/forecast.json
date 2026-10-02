@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-01T23:45:36+00:00",
+  "generated_at_utc": "2026-10-01T23:49:38+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -696,79 +696,11 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.04,
-      "precip_mean_in": 0.19,
-      "init_time_utc": "2026-10-01T12",
-      "valid_range_utc": [
-        "2026-10-02T06",
-        "2026-10-03T06"
-      ],
-      "note": "median of 18 members (experimental AI model)",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "ensemble": {
-        "n_members": 18,
-        "stats": {
-          "precip_in": {
-            "mean": 0.187,
-            "std": 0.304,
-            "p0": 0.0,
-            "p10": 0.004,
-            "p25": 0.008,
-            "p50": 0.042,
-            "p75": 0.201,
-            "p90": 0.528,
-            "p100": 1.106
-          },
-          "precip_prob": {
-            "0.01": 0.722,
-            "0.10": 0.333,
-            "0.25": 0.222,
-            "0.50": 0.111
-          }
-        },
-        "member_names": [
-          "m00",
-          "m01",
-          "m02",
-          "m03",
-          "m04",
-          "m05",
-          "m06",
-          "m07",
-          "m08",
-          "m09",
-          "m10",
-          "m11",
-          "m12",
-          "m13",
-          "m14",
-          "m15",
-          "m16",
-          "m17"
-        ],
-        "members": {
-          "precip_in": [
-            0.028,
-            0.007,
-            0.006,
-            0.02,
-            0.091,
-            0.005,
-            0.0,
-            0.055,
-            1.106,
-            0.002,
-            0.848,
-            0.318,
-            0.128,
-            0.093,
-            0.391,
-            0.011,
-            0.226,
-            0.024
-          ]
-        }
-      }
+      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
     },
     "REFS": {
       "tmax_f": null,
