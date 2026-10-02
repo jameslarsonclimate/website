@@ -17,6 +17,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-15T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -172,6 +179,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-16T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -327,6 +341,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-17T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -482,6 +503,13 @@
         "precip_in": 1.31
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-18T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -637,6 +665,13 @@
         "precip_in": 0.1
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-19T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -792,6 +827,13 @@
         "precip_in": 0.08
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "6h_group",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-20T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -947,6 +989,13 @@
         "precip_in": 0.78
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-21T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -1102,6 +1151,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-22T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -1257,6 +1313,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-23T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -1412,6 +1475,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-24T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -1567,6 +1637,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-25T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -1722,6 +1799,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-26T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -1894,6 +1978,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-27T23:00:00+00:00",
       "hindcast": true,
       "models": {
@@ -2066,6 +2157,13 @@
         "precip_in": 0.0
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "6h_group",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-28T23:00:00+00:00",
       "hindcast": false,
       "models": {
@@ -2231,6 +2329,13 @@
         "precip_in": 0.42
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-29T23:00:08+00:00",
       "hindcast": false,
       "models": {
@@ -2427,6 +2532,13 @@
         "precip_in": 0.28
       },
       "wind_source": "CLI",
+      "obs_source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "6h_group",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "obs_pending": [],
       "run": "2026-09-30T23:30:08+00:00",
       "hindcast": false,
       "models": {
@@ -2871,7 +2983,7 @@
     }
   },
   "period_start": "2026-09-16",
-  "generated_at_utc": "2026-10-02T16:30:09+00:00",
+  "generated_at_utc": "2026-10-02T17:00:08+00:00",
   "observations": [
     {
       "date": "2026-09-16",
@@ -2879,25 +2991,63 @@
       "tmin_f_raw": 78.1,
       "tmax_f": 92,
       "tmin_f": 78,
+      "tmax_f_hourly": 91,
+      "tmin_f_hourly": 78,
       "wind_max_kt_metar": 10,
-      "gust_max_kt_metar": 20.0,
+      "gust_max_kt_metar": 20,
       "wind_max_kt_all_reports": 10,
+      "lst_window_utc": [
+        "2026-09-16T05:00Z",
+        "2026-09-17T05:00Z"
+      ],
+      "wind_max_kt_lst": 10,
+      "wind_max_lst_at": "2026-09-16T19:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": true,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
+      "precip_6h_in": {
+        "06-12": 0.0,
+        "12-18": 0.0,
+        "18-00": 0.0,
+        "00-06": 0.0
+      },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-01T00:21:50+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 17,
       "cli_gust_mph": 26,
+      "cli_wind_kt": 15,
       "cli_tmax_f": 92,
       "cli_tmin_f": 79,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": true,
       "cli_preliminary": false,
-      "cli_wind_kt": 15,
+      "cli_issued_utc": "2026-09-17T08:27Z",
+      "cli_product": "202609170827-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 15,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 17,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-17",
@@ -2905,25 +3055,63 @@
       "tmin_f_raw": 75.9,
       "tmax_f": 92,
       "tmin_f": 76,
+      "tmax_f_hourly": 92,
+      "tmin_f_hourly": 76,
       "wind_max_kt_metar": 10,
-      "gust_max_kt_metar": 20.0,
+      "gust_max_kt_metar": 20,
       "wind_max_kt_all_reports": 10,
+      "lst_window_utc": [
+        "2026-09-17T05:00Z",
+        "2026-09-18T05:00Z"
+      ],
+      "wind_max_kt_lst": 10,
+      "wind_max_lst_at": "2026-09-17T20:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": true,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
+      "precip_6h_in": {
+        "06-12": 0.0,
+        "12-18": 0.0,
+        "18-00": 0.0,
+        "00-06": 0.0
+      },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-01T00:21:50+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 17,
       "cli_gust_mph": 26,
+      "cli_wind_kt": 15,
       "cli_tmax_f": 92,
       "cli_tmin_f": 76,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 15,
+      "cli_issued_utc": "2026-09-18T08:29Z",
+      "cli_product": "202609180829-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 15,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 17,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-18",
@@ -2931,13 +3119,23 @@
       "tmin_f_raw": 75.0,
       "tmax_f": 92,
       "tmin_f": 75,
+      "tmax_f_hourly": 92,
+      "tmin_f_hourly": 75,
       "wind_max_kt_metar": 8,
-      "gust_max_kt_metar": 17.0,
+      "gust_max_kt_metar": 17,
       "wind_max_kt_all_reports": 8,
+      "lst_window_utc": [
+        "2026-09-18T05:00Z",
+        "2026-09-19T05:00Z"
+      ],
+      "wind_max_kt_lst": 8,
+      "wind_max_lst_at": "2026-09-18T17:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": true,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -2945,17 +3143,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 15,
       "cli_gust_mph": 27,
+      "cli_wind_kt": 13,
       "cli_tmax_f": 92,
       "cli_tmin_f": 75,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": true,
       "cli_preliminary": false,
-      "cli_wind_kt": 13,
+      "cli_issued_utc": "2026-09-19T08:29Z",
+      "cli_product": "202609190829-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 13,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 15,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-19",
@@ -2963,13 +3183,23 @@
       "tmin_f_raw": 75.0,
       "tmax_f": 89,
       "tmin_f": 75,
+      "tmax_f_hourly": 88,
+      "tmin_f_hourly": 75,
       "wind_max_kt_metar": 12,
-      "gust_max_kt_metar": 20.0,
-      "wind_max_kt_all_reports": 12,
+      "gust_max_kt_metar": 20,
+      "wind_max_kt_all_reports": 17,
+      "lst_window_utc": [
+        "2026-09-19T05:00Z",
+        "2026-09-20T05:00Z"
+      ],
+      "wind_max_kt_lst": 17,
+      "wind_max_lst_at": "2026-09-19T20:03Z",
+      "lst_covered": true,
       "precip_in": 1.31,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 1.31,
+      "precip_hourly_in": 1.31,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -2977,17 +3207,41 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [
+        "CF6 max wind 21 mph differs from the CLI 20 mph"
+      ],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 20,
       "cli_gust_mph": 29,
+      "cli_wind_kt": 17,
       "cli_tmax_f": 89,
       "cli_tmin_f": 75,
+      "cli_precip_in": 1.31,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 17,
+      "cli_issued_utc": "2026-09-20T08:42Z",
+      "cli_product": "202609200842-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 17,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 21,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-20",
@@ -2995,13 +3249,23 @@
       "tmin_f_raw": 75.0,
       "tmax_f": 88,
       "tmin_f": 75,
+      "tmax_f_hourly": 88,
+      "tmin_f_hourly": 75,
       "wind_max_kt_metar": 14,
-      "gust_max_kt_metar": 21.0,
+      "gust_max_kt_metar": 21,
       "wind_max_kt_all_reports": 14,
+      "lst_window_utc": [
+        "2026-09-20T05:00Z",
+        "2026-09-21T05:00Z"
+      ],
+      "wind_max_kt_lst": 14,
+      "wind_max_lst_at": "2026-09-20T20:53Z",
+      "lst_covered": true,
       "precip_in": 0.1,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.1,
+      "precip_hourly_in": 0.1,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3009,17 +3273,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 20,
       "cli_gust_mph": 29,
+      "cli_wind_kt": 17,
       "cli_tmax_f": 88,
       "cli_tmin_f": 75,
+      "cli_precip_in": 0.1,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 17,
+      "cli_issued_utc": "2026-09-21T08:32Z",
+      "cli_product": "202609210832-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 17,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 20,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-21",
@@ -3027,13 +3313,23 @@
       "tmin_f_raw": 73.0,
       "tmax_f": 89,
       "tmin_f": 73,
+      "tmax_f_hourly": 88,
+      "tmin_f_hourly": 74,
       "wind_max_kt_metar": 8,
       "gust_max_kt_metar": null,
       "wind_max_kt_all_reports": 8,
+      "lst_window_utc": [
+        "2026-09-21T05:00Z",
+        "2026-09-22T05:00Z"
+      ],
+      "wind_max_kt_lst": 8,
+      "wind_max_lst_at": "2026-09-21T18:53Z",
+      "lst_covered": true,
       "precip_in": 0.08,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.08,
+      "precip_hourly_in": 0.08,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3041,17 +3337,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "6h_group",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 13,
       "cli_gust_mph": 22,
+      "cli_wind_kt": 11,
       "cli_tmax_f": 89,
       "cli_tmin_f": 73,
+      "cli_precip_in": 0.08,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 11,
+      "cli_issued_utc": "2026-09-22T08:28Z",
+      "cli_product": "202609220828-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 11,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 13,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-22",
@@ -3059,13 +3377,23 @@
       "tmin_f_raw": 75.9,
       "tmax_f": 90,
       "tmin_f": 76,
+      "tmax_f_hourly": 89,
+      "tmin_f_hourly": 76,
       "wind_max_kt_metar": 8,
       "gust_max_kt_metar": null,
-      "wind_max_kt_all_reports": 8,
+      "wind_max_kt_all_reports": 10,
+      "lst_window_utc": [
+        "2026-09-22T05:00Z",
+        "2026-09-23T05:00Z"
+      ],
+      "wind_max_kt_lst": 10,
+      "wind_max_lst_at": "2026-09-22T23:30Z",
+      "lst_covered": true,
       "precip_in": 0.78,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.78,
+      "precip_hourly_in": 0.78,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3073,17 +3401,39 @@
         "00-06": 0.78
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 21,
       "cli_gust_mph": 31,
+      "cli_wind_kt": 18,
       "cli_tmax_f": 90,
       "cli_tmin_f": 76,
+      "cli_precip_in": 0.78,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 18,
+      "cli_issued_utc": "2026-09-23T08:29Z",
+      "cli_product": "202609230829-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 18,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 21,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-23",
@@ -3091,13 +3441,23 @@
       "tmin_f_raw": 75.9,
       "tmax_f": 90,
       "tmin_f": 76,
+      "tmax_f_hourly": 90,
+      "tmin_f_hourly": 76,
       "wind_max_kt_metar": 7,
       "gust_max_kt_metar": null,
       "wind_max_kt_all_reports": 7,
+      "lst_window_utc": [
+        "2026-09-23T05:00Z",
+        "2026-09-24T05:00Z"
+      ],
+      "wind_max_kt_lst": 7,
+      "wind_max_lst_at": "2026-09-23T18:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": true,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3105,17 +3465,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 10,
       "cli_gust_mph": 18,
+      "cli_wind_kt": 9,
       "cli_tmax_f": 90,
       "cli_tmin_f": 76,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": true,
       "cli_preliminary": false,
-      "cli_wind_kt": 9,
+      "cli_issued_utc": "2026-09-24T08:30Z",
+      "cli_product": "202609240830-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 9,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 10,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-24",
@@ -3123,13 +3505,23 @@
       "tmin_f_raw": 73.9,
       "tmax_f": 86,
       "tmin_f": 74,
+      "tmax_f_hourly": 86,
+      "tmin_f_hourly": 74,
       "wind_max_kt_metar": 12,
-      "gust_max_kt_metar": 21.0,
+      "gust_max_kt_metar": 21,
       "wind_max_kt_all_reports": 12,
+      "lst_window_utc": [
+        "2026-09-24T05:00Z",
+        "2026-09-25T05:00Z"
+      ],
+      "wind_max_kt_lst": 12,
+      "wind_max_lst_at": "2026-09-24T20:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3137,17 +3529,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 16,
       "cli_gust_mph": 28,
+      "cli_wind_kt": 14,
       "cli_tmax_f": 86,
       "cli_tmin_f": 75,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 14,
+      "cli_issued_utc": "2026-09-25T08:37Z",
+      "cli_product": "202609250837-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 14,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 16,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-25",
@@ -3155,13 +3569,23 @@
       "tmin_f_raw": 70.0,
       "tmax_f": 86,
       "tmin_f": 70,
+      "tmax_f_hourly": 85,
+      "tmin_f_hourly": 70,
       "wind_max_kt_metar": 10,
-      "gust_max_kt_metar": 18.0,
+      "gust_max_kt_metar": 18,
       "wind_max_kt_all_reports": 10,
+      "lst_window_utc": [
+        "2026-09-25T05:00Z",
+        "2026-09-26T05:00Z"
+      ],
+      "wind_max_kt_lst": 10,
+      "wind_max_lst_at": "2026-09-25T05:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3169,17 +3593,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 15,
       "cli_gust_mph": 23,
+      "cli_wind_kt": 13,
       "cli_tmax_f": 86,
       "cli_tmin_f": 70,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 13,
+      "cli_issued_utc": "2026-09-26T08:30Z",
+      "cli_product": "202609260830-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 13,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 15,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-26",
@@ -3187,13 +3633,23 @@
       "tmin_f_raw": 66.0,
       "tmax_f": 84,
       "tmin_f": 66,
+      "tmax_f_hourly": 83,
+      "tmin_f_hourly": 66,
       "wind_max_kt_metar": 10,
       "gust_max_kt_metar": null,
       "wind_max_kt_all_reports": 10,
+      "lst_window_utc": [
+        "2026-09-26T05:00Z",
+        "2026-09-27T05:00Z"
+      ],
+      "wind_max_kt_lst": 10,
+      "wind_max_lst_at": "2026-09-26T22:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3201,17 +3657,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 12,
       "cli_gust_mph": 20,
+      "cli_wind_kt": 10,
       "cli_tmax_f": 84,
       "cli_tmin_f": 66,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 10,
+      "cli_issued_utc": "2026-09-27T08:32Z",
+      "cli_product": "202609270832-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 10,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 12,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-27",
@@ -3219,13 +3697,23 @@
       "tmin_f_raw": 64.9,
       "tmax_f": 83,
       "tmin_f": 65,
+      "tmax_f_hourly": 83,
+      "tmin_f_hourly": 65,
       "wind_max_kt_metar": 9,
       "gust_max_kt_metar": null,
       "wind_max_kt_all_reports": 9,
+      "lst_window_utc": [
+        "2026-09-27T05:00Z",
+        "2026-09-28T05:00Z"
+      ],
+      "wind_max_kt_lst": 9,
+      "wind_max_lst_at": "2026-09-27T19:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3233,17 +3721,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 12,
       "cli_gust_mph": 22,
+      "cli_wind_kt": 10,
       "cli_tmax_f": 83,
       "cli_tmin_f": 65,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 10,
+      "cli_issued_utc": "2026-09-28T08:28Z",
+      "cli_product": "202609280828-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 10,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 12,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-28",
@@ -3251,13 +3761,23 @@
       "tmin_f_raw": 70.0,
       "tmax_f": 85,
       "tmin_f": 70,
+      "tmax_f_hourly": 85,
+      "tmin_f_hourly": 70,
       "wind_max_kt_metar": 8,
       "gust_max_kt_metar": null,
       "wind_max_kt_all_reports": 8,
+      "lst_window_utc": [
+        "2026-09-28T05:00Z",
+        "2026-09-29T05:00Z"
+      ],
+      "wind_max_kt_lst": 8,
+      "wind_max_lst_at": "2026-09-28T19:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3265,17 +3785,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "hourly",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 12,
       "cli_gust_mph": 15,
+      "cli_wind_kt": 10,
       "cli_tmax_f": 85,
       "cli_tmin_f": 70,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 10,
+      "cli_issued_utc": "2026-09-29T08:28Z",
+      "cli_product": "202609290828-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 10,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 12,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-29",
@@ -3283,13 +3825,23 @@
       "tmin_f_raw": 73.9,
       "tmax_f": 87,
       "tmin_f": 74,
+      "tmax_f_hourly": 86,
+      "tmin_f_hourly": 75,
       "wind_max_kt_metar": 8,
       "gust_max_kt_metar": null,
       "wind_max_kt_all_reports": 8,
+      "lst_window_utc": [
+        "2026-09-29T05:00Z",
+        "2026-09-30T05:00Z"
+      ],
+      "wind_max_kt_lst": 8,
+      "wind_max_lst_at": "2026-09-30T02:53Z",
+      "lst_covered": true,
       "precip_in": 0.0,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.0,
+      "precip_hourly_in": 0.0,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3297,17 +3849,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "6h_group",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 12,
       "cli_gust_mph": 16,
+      "cli_wind_kt": 10,
       "cli_tmax_f": 87,
       "cli_tmin_f": 74,
+      "cli_precip_in": 0.0,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 10,
+      "cli_issued_utc": "2026-09-30T08:28Z",
+      "cli_product": "202609300828-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 10,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 12,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-09-30",
@@ -3315,13 +3889,23 @@
       "tmin_f_raw": 75.0,
       "tmax_f": 88,
       "tmin_f": 75,
+      "tmax_f_hourly": 87,
+      "tmin_f_hourly": 75,
       "wind_max_kt_metar": 9,
-      "gust_max_kt_metar": 17.0,
+      "gust_max_kt_metar": 17,
       "wind_max_kt_all_reports": 9,
+      "lst_window_utc": [
+        "2026-09-30T05:00Z",
+        "2026-10-01T05:00Z"
+      ],
+      "wind_max_kt_lst": 9,
+      "wind_max_lst_at": "2026-09-30T20:53Z",
+      "lst_covered": true,
       "precip_in": 0.42,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.42,
+      "precip_hourly_in": 0.42,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3329,17 +3913,39 @@
         "00-06": 0.01
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "hourly",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 16,
       "cli_gust_mph": 21,
+      "cli_wind_kt": 14,
       "cli_tmax_f": 88,
       "cli_tmin_f": 75,
+      "cli_precip_in": 0.42,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 14,
+      "cli_issued_utc": "2026-10-01T08:28Z",
+      "cli_product": "202610010828-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 14,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 16,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     },
     {
       "date": "2026-10-01",
@@ -3347,13 +3953,23 @@
       "tmin_f_raw": 73.9,
       "tmax_f": 88,
       "tmin_f": 74,
+      "tmax_f_hourly": 87,
+      "tmin_f_hourly": 75,
       "wind_max_kt_metar": 8,
-      "gust_max_kt_metar": 16.0,
-      "wind_max_kt_all_reports": 8,
+      "gust_max_kt_metar": 16,
+      "wind_max_kt_all_reports": 13,
+      "lst_window_utc": [
+        "2026-10-01T05:00Z",
+        "2026-10-02T05:00Z"
+      ],
+      "wind_max_kt_lst": 13,
+      "wind_max_lst_at": "2026-10-01T19:13Z",
+      "lst_covered": true,
       "precip_in": 0.28,
       "precip_trace": false,
-      "precip_source": "hourly P groups",
+      "precip_source": "6h_group",
       "precip_6hr_groups_in": 0.28,
+      "precip_hourly_in": 0.28,
       "precip_6h_in": {
         "06-12": 0.0,
         "12-18": 0.0,
@@ -3361,17 +3977,39 @@
         "00-06": 0.0
       },
       "n_routine_obs": 24,
+      "n_standard_obs": 4,
       "complete": true,
+      "source": {
+        "tmax_f": "6h_group",
+        "tmin_f": "6h_group",
+        "precip_in": "6h_group",
+        "wind_max_kt": "cli"
+      },
+      "metar_ok": {
+        "tmax_f": true,
+        "tmin_f": true,
+        "precip_in": true
+      },
+      "notes": [],
       "station": "KTPA",
-      "fetched_at_utc": "2026-10-02T16:00:08+00:00",
+      "fetched_at_utc": "2026-10-02T16:43:38+00:00",
       "cli_wind_mph": 16,
       "cli_gust_mph": 26,
+      "cli_wind_kt": 14,
       "cli_tmax_f": 88,
       "cli_tmin_f": 74,
+      "cli_precip_in": 0.28,
+      "cli_precip_trace": false,
       "cli_preliminary": false,
-      "cli_wind_kt": 14,
+      "cli_issued_utc": "2026-10-02T08:31Z",
+      "cli_product": "202610020831-KTBW-CDUS42-CLITPA",
+      "cli_via": "iem_json",
       "wind_max_kt": 14,
-      "wind_source": "CLI"
+      "wind_source": "CLI",
+      "cf6_wind_mph": 16,
+      "pending": [],
+      "final": true,
+      "obs_method": 2
     }
   ],
   "pop": {

@@ -454,6 +454,9 @@ const GROUPS = [
   { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
 ];
 const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
+const OBS_SRC = {'6h_group': '6-h METAR group', hourly: 'hourly / SPECI METAR groups', cli: 'NWS CLI',
+  metar_override: 'METAR above the CLI', metar: 'METAR (no CLI)', cli_backup: 'CLI backup (METAR missing)',
+  pending: 'waiting for the final CLI'};
 const VARS = {
   tmax_f:      { name: 'High', unit: '°F', dec: 0, bins: [1, 3, 5] },
   tmin_f:      { name: 'Low',  unit: '°F', dec: 0, bins: [1, 3, 5] },
@@ -566,11 +569,17 @@ function renderScore(){
   // observed row
   let obs = '<tr class="obs"><td class="model">Observed</td>';
   obs += days.map((d, i) => {
-    const o = d.obs;
+    const o = d.obs, src = d.obs_source || {}, pend = d.obs_pending || [];
+    const shown = VIEW === 'points' ? ['tmax_f', 'tmin_f'] : [VIEW];
+    const mark = shown.some(k => pend.includes(k)) ? '<sup aria-label="pending">p</sup>' : '';
     const txt = VIEW === 'points'
       ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}`
       : fmt(o[VIEW], VARS[VIEW].dec);
-    return `<td class="cell${cls[i]}" data-obs="${d.date}">${txt}</td>`;
+    // where each observed value came from (wxc_obs "source"); p = still waiting for the final CLI
+    const title = ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k =>
+      `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${OBS_SRC[src[k]] || src[k] || d.wind_source || '?'}` +
+      `${pend.includes(k) ? ', pending' : ''})`).join('\n');
+    return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}">${txt}${mark}</td>`;
   }).join('') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
   const rows = models.map(name => {
