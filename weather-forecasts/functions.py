@@ -136,6 +136,10 @@ def get_latest_forecast_cycle(model='HRRR', now=None):
             'delay': 5.0,        # GFS has ~5 hour processing delay
             'init_hours': [0, 6, 12, 18]  # GFS runs 4 times daily
         },
+        'RRFS': {
+            'delay': 2.5,        # RRFS v1: the 84 h synoptic runs take ~2-2.5 h to post
+            'init_hours': [0, 6, 12, 18]  # hourly cycles only reach 18 h; these reach 84 h
+        },
         'NBM': {
             'delay': 1.5,        # NBM has ~1.5 hour processing delay
             'init_hours': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]  # NBM runs hourly
@@ -355,21 +359,25 @@ def calculate_forecast_range(timestamp, model="HRRR", target_hour=6):
         raise ValueError(f"Unsupported model: {model}. Supported models: 'HRRR', 'IFS', 'GFS', 'AIFS'")
 
 
-def forecast_hours_for_day(init, target_day, step, max_fxx):
+def forecast_hours_for_day(init, target_day, step, max_fxx, partial=False):
     """
     Forecast hours from `init` covering the WxChallenge day `target_day`
     (06Z target_day -> 06Z next day) at the model's output interval `step`.
 
     Returns (fxx_list, truncated_flag). Hours past `max_fxx` are dropped (e.g. an
     00Z HRRR only reaches f48, so it misses the last hours of the next-day window).
+    partial=True allows a run that starts inside the window (the rest of today);
+    it then begins at f001 or later, because f000 files carry no accumulated precip.
     """
     init = pd.Timestamp(init).tz_localize(None) if pd.Timestamp(init).tzinfo else pd.Timestamp(init)
     start = pd.Timestamp(target_day.year, target_day.month, target_day.day, 6)
     f0 = int((start - init) / pd.Timedelta(hours=1))
-    if f0 < 0:
+    end = f0 + 24
+    if f0 < 0 and not partial:
         raise ValueError(f"init {init} is after the start of the {target_day} window")
-    first = f0 if f0 % step == 0 else f0 + (step - f0 % step)
-    fxx = list(range(first, f0 + 24 + 1, step))
+    lo = max(f0, 1) if partial else f0
+    first = lo if lo % step == 0 else lo + (step - lo % step)
+    fxx = list(range(first, end + 1, step))
     truncated = fxx[-1] > max_fxx
     fxx = [f for f in fxx if f <= max_fxx]
     if not fxx:

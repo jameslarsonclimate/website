@@ -1,0 +1,789 @@
+
+083 
+CDUS42 KTBW 020831
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+431 AM EDT FRI OCT 02 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR OCTOBER 1 2026...
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ YESTERDAY                                                           
+  MAXIMUM         88   2:07 PM  94    2017  89     -1       91        
+  MINIMUM         74   4:19 AM  52    1920  73      1       76        
+  AVERAGE         81                        81      0       84     
+
+PRECIPITATION (IN)                                                    
+  YESTERDAY        0.28          2.36 1946   0.13   0.15     0.00     
+  MONTH TO DATE    0.28                      0.13   0.15     0.00     
+  SINCE SEP 1      5.28                      6.22  -0.94     0.70     
+  SINCE JAN 1     37.45                     43.31  -5.86    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  YESTERDAY        0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  YESTERDAY       16                        16      0       19        
+  MONTH TO DATE   16                        16      0       19        
+  SINCE SEP 1    550                       548      2      575        
+  SINCE JAN 1   3618                      3276    342     3664        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   5   RESULTANT WIND DIRECTION   E (110)       
+  HIGHEST WIND SPEED    16   HIGHEST WIND DIRECTION    SE (140)       
+  HIGHEST GUST SPEED    26   HIGHEST GUST DIRECTION    SE (150)       
+  AVERAGE WIND SPEED     5.7                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.7                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.                         
+  THUNDERSTORM                                                        
+  HEAVY RAIN                                                          
+  RAIN                                                                
+  LIGHT RAIN                                                          
+  FOG                                                                 
+  HAZE                                                                
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    90          12:00 AM                                      
+ LOWEST     61          12:00 PM                                      
+ AVERAGE    76                                                        
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        93      1986                      
+                                             2019                     
+                                             2024                     
+ MINIMUM TEMPERATURE (F)   73        55      1920                      
+
+
+SUNRISE AND SUNSET                                                    
+OCTOBER  2 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:15 PM EDT     
+OCTOBER  3 2026.......SUNRISE   7:24 AM EDT   SUNSET   7:14 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+126 
+CDUS42 KTBW 012120
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+520 PM EDT THU OCT 01 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR OCTOBER 1 2026...
+VALID TODAY AS OF 0500 PM LOCAL TIME.
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ TODAY                                                               
+  MAXIMUM         88   2:07 PM  94    2017  89     -1       91        
+  MINIMUM         74   4:19 AM  52    1920  73      1       76        
+  AVERAGE         81                        81      0       84     
+
+PRECIPITATION (IN)                                                    
+  TODAY            0.28          2.36 1946   0.13   0.15     0.00     
+  MONTH TO DATE    0.28                      0.13   0.15     0.00     
+  SINCE SEP 1      5.28                      6.22  -0.94     0.70     
+  SINCE JAN 1     37.45                     43.31  -5.86    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  TODAY            0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  TODAY           16                        16      0       19        
+  MONTH TO DATE   16                        16      0       19        
+  SINCE SEP 1    550                       548      2      575        
+  SINCE JAN 1   3618                      3276    342     3664        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   5   RESULTANT WIND DIRECTION   E (100)       
+  HIGHEST WIND SPEED    16   HIGHEST WIND DIRECTION    SE (140)       
+  HIGHEST GUST SPEED    26   HIGHEST GUST DIRECTION    SE (150)       
+  AVERAGE WIND SPEED     5.7                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.6                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED TODAY.                             
+  THUNDERSTORM                                                        
+  HEAVY RAIN                                                          
+  RAIN                                                                
+  LIGHT RAIN                                                          
+  FOG                                                                 
+  HAZE                                                                
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    90          12:00 AM                                      
+ LOWEST     61          12:00 PM                                      
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TOMORROW
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        93      1986                      
+                                             2019                     
+                                             2024                     
+ MINIMUM TEMPERATURE (F)   73        55      1920                      
+
+
+SUNRISE AND SUNSET                                                    
+OCTOBER  1 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:16 PM EDT     
+OCTOBER  2 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:15 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+485 
+CDUS42 KTBW 010828
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+428 AM EDT THU OCT 01 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR SEPTEMBER 30 2026...
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ YESTERDAY                                                           
+  MAXIMUM         88   1:31 PM  94    2018  89     -1       89        
+                                      2019                           
+  MINIMUM         75  11:59 PM  62    1920  74      1       74        
+                                      1947                           
+  AVERAGE         82                        81      1       82     
+
+PRECIPITATION (IN)                                                    
+  YESTERDAY        0.42          2.72 1987   0.14   0.28     0.00     
+  MONTH TO DATE    5.00                      6.09  -1.09     0.70     
+  SINCE SEP 1      5.00                      6.09  -1.09     0.70     
+  SINCE JAN 1     37.17                     43.18  -6.01    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  YESTERDAY        0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  YESTERDAY       17                        16      1       17        
+  MONTH TO DATE  534                       532      2      556        
+  SINCE SEP 1    534                       532      2      556        
+  SINCE JAN 1   3602                      3260    342     3645        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   2   RESULTANT WIND DIRECTION   E (90)        
+  HIGHEST WIND SPEED    16   HIGHEST WIND DIRECTION     N (350)       
+  HIGHEST GUST SPEED    21   HIGHEST GUST DIRECTION     N (350)       
+  AVERAGE WIND SPEED     4.2                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.7                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.                         
+  THUNDERSTORM                                                        
+  HEAVY RAIN                                                          
+  RAIN                                                                
+  LIGHT RAIN                                                          
+  FOG                                                                 
+  HAZE                                                                
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    91           6:00 PM                                      
+ LOWEST     57           1:00 PM                                      
+ AVERAGE    74                                                        
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        94      2017                      
+ MINIMUM TEMPERATURE (F)   73        52      1920                      
+
+
+SUNRISE AND SUNSET                                                    
+OCTOBER  1 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:16 PM EDT     
+OCTOBER  2 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:15 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+639 
+CDUS42 KTBW 302113
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+513 PM EDT WED SEP 30 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR SEPTEMBER 30 2026...
+VALID TODAY AS OF 0500 PM LOCAL TIME.
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ TODAY                                                               
+  MAXIMUM         88   1:31 PM  94    2018  89     -1       89        
+                                      2019                           
+  MINIMUM         76   7:06 AM  62    1920  74      2       74        
+                                      1947                           
+  AVERAGE         82                        81      1       82     
+
+PRECIPITATION (IN)                                                    
+  TODAY            0.00          2.72 1987   0.14  -0.14     0.00     
+  MONTH TO DATE    4.58                      6.09  -1.51     0.70     
+  SINCE SEP 1      4.58                      6.09  -1.51     0.70     
+  SINCE JAN 1     36.75                     43.18  -6.43    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  TODAY            0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  TODAY           17                        16      1       17        
+  MONTH TO DATE  534                       532      2      556        
+  SINCE SEP 1    534                       532      2      556        
+  SINCE JAN 1   3602                      3260    342     3645        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   2   RESULTANT WIND DIRECTION   E (110)       
+  HIGHEST WIND SPEED    13   HIGHEST WIND DIRECTION     N (20)        
+  HIGHEST GUST SPEED    21   HIGHEST GUST DIRECTION    SE (140)       
+  AVERAGE WIND SPEED     4.1                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.7                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED TODAY.                             
+  THUNDERSTORM                                                        
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    85           7:00 AM                                      
+ LOWEST     57           1:00 PM                                      
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TOMORROW
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        94      2017                      
+ MINIMUM TEMPERATURE (F)   73        52      1920                      
+
+
+SUNRISE AND SUNSET                                                    
+SEPTEMBER 30 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:17 PM EDT     
+OCTOBER  1 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:16 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+388 
+CDUS42 KTBW 300828
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+428 AM EDT WED SEP 30 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR SEPTEMBER 29 2026...
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ YESTERDAY                                                           
+  MAXIMUM         87   3:47 PM  94    2018  89     -2       92        
+  MINIMUM         74   4:35 AM  60    1909  74      0       76        
+  AVERAGE         81                        81      0       84     
+
+PRECIPITATION (IN)                                                    
+  YESTERDAY        0.00          1.94 1929   0.14  -0.14      T       
+  MONTH TO DATE    4.58                      5.95  -1.37     0.70     
+  SINCE SEP 1      4.58                      5.95  -1.37     0.70     
+  SINCE JAN 1     36.75                     43.04  -6.29    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  YESTERDAY        0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  YESTERDAY       16                        16      0       19        
+  MONTH TO DATE  517                       516      1      539        
+  SINCE SEP 1    517                       516      1      539        
+  SINCE JAN 1   3585                      3244    341     3628        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   3   RESULTANT WIND DIRECTION   S (170)       
+  HIGHEST WIND SPEED    12   HIGHEST WIND DIRECTION     S (190)       
+  HIGHEST GUST SPEED    16   HIGHEST GUST DIRECTION     S (190)       
+  AVERAGE WIND SPEED     4.2                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.7                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.                         
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    82           9:00 PM                                      
+ LOWEST     48           3:00 PM                                      
+ AVERAGE    65                                                        
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        94      2018                      
+                                             2019                     
+ MINIMUM TEMPERATURE (F)   74        62      1920                      
+                                             1947                     
+
+
+SUNRISE AND SUNSET                                                    
+SEPTEMBER 30 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:17 PM EDT     
+OCTOBER  1 2026.......SUNRISE   7:23 AM EDT   SUNSET   7:16 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+671 
+CDUS42 KTBW 292115
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+515 PM EDT TUE SEP 29 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR SEPTEMBER 29 2026...
+VALID TODAY AS OF 0500 PM LOCAL TIME.
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ TODAY                                                               
+  MAXIMUM         87   3:47 PM  94    2018  89     -2       92        
+  MINIMUM         74   4:35 AM  60    1909  74      0       76        
+  AVERAGE         81                        81      0       84     
+
+PRECIPITATION (IN)                                                    
+  TODAY            0.00          1.94 1929   0.14  -0.14      T       
+  MONTH TO DATE    4.58                      5.95  -1.37     0.70     
+  SINCE SEP 1      4.58                      5.95  -1.37     0.70     
+  SINCE JAN 1     36.75                     43.04  -6.29    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  TODAY            0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  TODAY           16                        16      0       19        
+  MONTH TO DATE  517                       516      1      539        
+  SINCE SEP 1    517                       516      1      539        
+  SINCE JAN 1   3585                      3244    341     3628        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   2   RESULTANT WIND DIRECTION  SE (150)       
+  HIGHEST WIND SPEED     9   HIGHEST WIND DIRECTION    SW (210)       
+  HIGHEST GUST SPEED    14   HIGHEST GUST DIRECTION     S (170)       
+  AVERAGE WIND SPEED     3.2                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.7                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED TODAY.                             
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    79           3:00 AM                                      
+ LOWEST     48           3:00 PM                                      
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TOMORROW
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        94      2018                      
+                                             2019                     
+ MINIMUM TEMPERATURE (F)   74        62      1920                      
+                                             1947                     
+
+
+SUNRISE AND SUNSET                                                    
+SEPTEMBER 29 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:18 PM EDT     
+SEPTEMBER 30 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:17 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+262 
+CDUS42 KTBW 290828
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+428 AM EDT TUE SEP 29 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR SEPTEMBER 28 2026...
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ YESTERDAY                                                           
+  MAXIMUM         85   4:20 PM  95    1961  89     -4       95        
+                                      2025                           
+  MINIMUM         70   2:21 AM  62    1931  74     -4       77        
+  AVERAGE         78                        82     -4       86     
+
+PRECIPITATION (IN)                                                    
+  YESTERDAY        0.00          3.12 1949   0.15  -0.15      T       
+  MONTH TO DATE    4.58                      5.81  -1.23     0.70     
+  SINCE SEP 1      4.58                      5.81  -1.23     0.70     
+  SINCE JAN 1     36.75                     42.90  -6.15    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  YESTERDAY        0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  YESTERDAY       13                        16     -3       21        
+  MONTH TO DATE  501                       500      1      520        
+  SINCE SEP 1    501                       500      1      520        
+  SINCE JAN 1   3569                      3228    341     3609        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   3   RESULTANT WIND DIRECTION  SW (210)       
+  HIGHEST WIND SPEED    12   HIGHEST WIND DIRECTION     W (260)       
+  HIGHEST GUST SPEED    15   HIGHEST GUST DIRECTION     W (250)       
+  AVERAGE WIND SPEED     5.0                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.4                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.                         
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    79           7:00 AM                                      
+ LOWEST     53           5:00 PM                                      
+ AVERAGE    66                                                        
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        94      2018                      
+ MINIMUM TEMPERATURE (F)   74        60      1909                      
+
+
+SUNRISE AND SUNSET                                                    
+SEPTEMBER 29 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:18 PM EDT     
+SEPTEMBER 30 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:17 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+414 
+CDUS42 KTBW 282119
+CLITPA
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE TAMPA BAY FL
+519 PM EDT MON SEP 28 2026
+
+...................................
+
+...THE TAMPA CLIMATE SUMMARY FOR SEPTEMBER 28 2026...
+VALID TODAY AS OF 0500 PM LOCAL TIME.
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1890 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ TODAY                                                               
+  MAXIMUM         85   3:59 PM  95    1961  89     -4       95        
+                                      2025                           
+  MINIMUM         70   2:21 AM  62    1931  74     -4       77        
+  AVERAGE         78                        82     -4       86     
+
+PRECIPITATION (IN)                                                    
+  TODAY            0.00          3.12 1949   0.15  -0.15      T       
+  MONTH TO DATE    4.58                      5.81  -1.23     0.70     
+  SINCE SEP 1      4.58                      5.81  -1.23     0.70     
+  SINCE JAN 1     36.75                     42.90  -6.15    37.52     
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  TODAY            0                         0      0        0        
+  MONTH TO DATE    0                         0      0        0        
+  SINCE SEP 1      0                         0      0        0        
+  SINCE JUL 1      0                         0      0        0        
+
+ COOLING                                                              
+  TODAY           13                        16     -3       21        
+  MONTH TO DATE  501                       500      1      520        
+  SINCE SEP 1    501                       500      1      520        
+  SINCE JAN 1   3569                      3228    341     3609        
+...................................................................
+
+
+WIND (MPH)                                                            
+  RESULTANT WIND SPEED   3   RESULTANT WIND DIRECTION   S (180)       
+  HIGHEST WIND SPEED    10   HIGHEST WIND DIRECTION    SW (210)       
+  HIGHEST GUST SPEED    15   HIGHEST GUST DIRECTION     W (270)       
+  AVERAGE WIND SPEED     4.5                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.5                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED TODAY.                             
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    79           7:00 AM                                      
+ LOWEST     55          12:00 PM                                      
+
+..........................................................
+
+
+THE TAMPA CLIMATE NORMALS FOR TOMORROW
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   89        94      2018                      
+ MINIMUM TEMPERATURE (F)   74        60      1909                      
+
+
+SUNRISE AND SUNSET                                                    
+SEPTEMBER 28 2026.....SUNRISE   7:21 AM EDT   SUNSET   7:19 PM EDT     
+SEPTEMBER 29 2026.....SUNRISE   7:22 AM EDT   SUNSET   7:18 PM EDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+

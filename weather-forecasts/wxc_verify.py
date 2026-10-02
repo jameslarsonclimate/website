@@ -3,7 +3,8 @@ Forecast-vs-observation bookkeeping for the WxChallenge page.
 
 Files (under data/wxchallenge/):
   runs.jsonl          every forecast run: station, target day, per-model values
-  observations.jsonl  observed values per station/day (upserted; CLI finals replace prelims)
+  observations.jsonl  observed values per station/day (upserted; final values replace pending ones;
+                      see wxc_obs for the method and the per-variable "source")
   verification.json   per-day errors + period summary for the current station
 
 Which run is verified for day D?  The last run generated before the 00Z D
@@ -35,8 +36,20 @@ LEGACY_HISTORY = DATA / "forecast_history.jsonl"
 
 VARS = ["tmax_f", "tmin_f", "wind_max_kt", "precip_in"]
 MIN_DAYS_FOR_CORRECTION = 2
+# A model's bias and MAE are decaying averages (like NBM's): a verified day's weight halves
+# every HALF_LIFE_DAYS days back from the newest verified day. Half-lives are long so a couple
+# of bad recent forecasts don't undo weeks of track record; scripts/tune_consensus.py tries others.
+HALF_LIFE_DAYS = {"tmax_f": 9.0, "tmin_f": 9.0, "wind_max_kt": 18.0, "precip_in": 12.0}
+# Bias corrections from only a few days are noisy, so only n_eff/(n_eff + BIAS_SHRINK_DAYS) of a
+# model's average error is removed, with n_eff = (sum w)^2 / sum(w^2) the effective number of days
+# (equal weights: 2 days -> 40%, 5 -> 62%, 8 -> 73%, 14 -> 82%; decay lowers n_eff a little).
+BIAS_SHRINK_DAYS = 3
+MAE_OFFSET = 0.5   # consensus weight = 1/(MAE + MAE_OFFSET)
 OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from the member median
+# shown and scored, but never consensus members (live or reconstructed): GEFS/GEPS ensembles
+NOT_IN_CONSENSUS = {"GEFS", "GEPS"}
 PERIOD_DAYS = 14   # a city period is two weeks (Mon-Thu x2, ~8 forecast days)
+HINDCAST_DAYS = 14   # days hindcast before a city's first forecast day, for its track record
 
 
 # ----------------------------------------------------------------------------
@@ -86,10 +99,12 @@ def write_jsonl(path: Path, rows: list):
     tmp.replace(path)
 
 
-def _strip(models: dict) -> dict:
-    """Keep only the scalar forecast values (drop plotting series etc.)."""
-    keep = VARS + ["init_time_utc", "valid_range_utc", "error"]
-    return {k: {kk: v.get(kk) for kk in keep if kk in v} for k, v in models.items()}
+def _strip(models: dict, pop: bool = True) -> dict:
+    """Keep only the scalar forecast values (drop plotting series etc.), plus the PoP record
+    (wxc_pop; display/verification only) unless pop=False."""
+    keep = VARS + ["init_time_utc", "valid_range_utc", "error"] + (["pop"] if pop else [])
+    return {k: {kk: v.get(kk) for kk in keep if kk in v and (kk != "pop" or v[kk])}
+            for k, v in models.items()}
 
 
 # ----------------------------------------------------------------------------
@@ -97,8 +112,9 @@ def _strip(models: dict) -> dict:
 # ----------------------------------------------------------------------------
 def append_run(generated_at: str, station: str, target_day: date, models: dict, hindcast: bool = False):
     rows = read_jsonl(RUNS)
+    # PoP is verified from live runs only (no PoP hindcasts), so hindcast rows don't keep it
     row = {"generated_at_utc": generated_at, "station": station,
-           "target_date": target_day.isoformat(), "models": _strip(models)}
+           "target_date": target_day.isoformat(), "models": _strip(models, pop=not hindcast)}
     if hindcast:
         row["hindcast"] = True
     rows.append(row)
@@ -129,17 +145,52 @@ def migrate_legacy_history():
 
 
 # ----------------------------------------------------------------------------
+# hourly series (for the "today so far" figure)
+# ----------------------------------------------------------------------------
+SERIES_DIR = DATA / "series"
+
+
+def save_series(station: str, day: date, kind: str, generated_at: str, models: dict, hindcast=False):
+    """kind: 'submitted' (last runs before the 00Z deadline) or 'latest'."""
+    SERIES_DIR.mkdir(parents=True, exist_ok=True)
+    path = SERIES_DIR / f"{station}_{day.isoformat()}_{kind}.json"
+    path.write_text(dumps({"station": station, "target_date": day.isoformat(), "kind": kind,
+                           "generated_at_utc": generated_at, "hindcast": hindcast, "models": models}))
+    return path
+
+
+def load_series(station: str, day: date, kind: str) -> Optional[dict]:
+    path = SERIES_DIR / f"{station}_{day.isoformat()}_{kind}.json"
+    try:
+        return json.loads(path.read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
+
+
+# ----------------------------------------------------------------------------
 # observations
 # ----------------------------------------------------------------------------
+def wind_is_final(rec: dict) -> bool:
+    """The stored wind is official: from a final CLI (or METAR above it, or no CLI at the site).
+    Records from before wxc_obs.OBS_METHOD 2 only had wind_source / cli_preliminary."""
+    s = (rec.get("source") or {}).get("wind_max_kt")
+    if s is not None:
+        return s != "pending"
+    return rec.get("wind_source") == "CLI" and not rec.get("cli_preliminary")
+
+
 def upsert_observations(records: list):
     rows = {(r["station"], r["date"]): r for r in read_jsonl(OBS)}
     for r in records:
         key = (r["station"], r["date"])
         old = rows.get(key)
-        # never replace a final CLI-based record with a preliminary one
-        if old and old.get("wind_source") == "CLI" and not old.get("cli_preliminary") \
-                and (r.get("wind_source") != "CLI" or r.get("cli_preliminary")):
+        # never replace a final wind with a pending one (e.g. the CLI fetch failed this time)
+        if old and wind_is_final(old) and not wind_is_final(r):
             r = {**r, **{k: old[k] for k in old if k.startswith("cli_") or k in ("wind_max_kt", "wind_source")}}
+            r["source"] = {**r.get("source", {}),
+                           "wind_max_kt": (old.get("source") or {}).get("wind_max_kt", "cli")}
+            r["pending"] = [v for v in r.get("pending", []) if v != "wind_max_kt"]
+            r["final"] = bool(r.get("complete")) and not r["pending"]
         rows[key] = r
     write_jsonl(OBS, sorted(rows.values(), key=lambda r: (r["station"], r["date"])))
 
@@ -148,15 +199,17 @@ GIVE_UP_WAITING_HOURS = 48    # stop re-fetching a day after this long (CLI neve
 
 
 def obs_is_final(rec: Optional[dict], has_cli: bool, now: datetime) -> bool:
-    """True when a stored observation won't change, so it needn't be fetched again."""
+    """True when a stored observation won't change, so it needn't be fetched again.
+    (has_cli is kept for callers; the record itself says what is still pending.)"""
+    from wxc_obs import OBS_METHOD
     if not rec:
+        return False
+    if rec.get("obs_method", 1) < OBS_METHOD:   # stored by an older method: fetch once more
         return False
     day_end = datetime.fromisoformat(rec["date"]).replace(tzinfo=timezone.utc) + timedelta(days=1, hours=6)
     if now - day_end > timedelta(hours=GIVE_UP_WAITING_HOURS):
         return True
-    if not rec.get("complete", False):
-        return False
-    return (not has_cli) or (rec.get("wind_source") == "CLI" and not rec.get("cli_preliminary"))
+    return bool(rec.get("final"))
 
 
 def obs_days_to_fetch(station: str, days: list, has_cli: bool, now: datetime) -> list:
@@ -181,14 +234,25 @@ def _r(x):
     return round_half_up(x)
 
 
+def submitted(v: str, x: float) -> float:
+    """A forecast value as entered on the WxChallenge form."""
+    return round(x, 2) if v == "precip_in" else _r(x)
+
+
+def var_points(v: str, fc: float, ob: float) -> float:
+    """Error points for one variable (fc as forecast, rounded here as submitted)."""
+    f = submitted(v, fc)
+    if v == "precip_in":
+        return precip_points(f, ob)
+    return (0.5 if v == "wind_max_kt" else 1.0) * abs(f - ob)
+
+
 def score_day(fc: dict, ob: dict) -> Optional[dict]:
     if any(fc.get(v) is None for v in VARS) or any(ob.get(v) is None for v in VARS):
         return None
-    f = {"tmax_f": _r(fc["tmax_f"]), "tmin_f": _r(fc["tmin_f"]),
-         "wind_max_kt": _r(fc["wind_max_kt"]), "precip_in": round(fc["precip_in"], 2)}
+    f = {v: submitted(v, fc[v]) for v in VARS}
     err = {v: round(f[v] - ob[v], 2) for v in VARS}
-    pts = abs(err["tmax_f"]) + abs(err["tmin_f"]) + 0.5 * abs(err["wind_max_kt"]) \
-        + precip_points(f["precip_in"], ob["precip_in"])
+    pts = sum(var_points(v, f[v], ob[v]) for v in VARS)
     return {"forecast": f, "error": err, "points": round(pts, 1)}
 
 
@@ -204,14 +268,23 @@ def run_for_day(runs: list, station: str, day: str) -> Optional[dict]:
     return cands[-1] if cands else None
 
 
+# models no longer used: kept in runs.jsonl but left out of scoring, the page and the consensus
+RETIRED = {"NAM_MOS"}
+
+
 def forecasts_for_day(runs: list, station: str, day: str) -> dict:
     """Per model, the latest pre-deadline forecast that has values (so a model that
-    failed in the last run is still scored from the run before)."""
+    failed in the last run is still scored from the run before). A live forecast is never
+    replaced by a hindcast: a hindcast filling a gap (stamped at HINDCAST_HOUR, often after
+    the last live run) must not override what was actually submitted, e.g. the consensus."""
     out = {}
     for r in _before_deadline(runs, station, day):
+        hind = bool(r.get("hindcast"))
         for name, fc in r["models"].items():
+            if name in RETIRED or (hind and name in out and not out[name][2]):
+                continue
             if all(fc.get(v) is not None for v in VARS):
-                out[name] = (fc, r["generated_at_utc"], bool(r.get("hindcast")))
+                out[name] = (fc, r["generated_at_utc"], hind)
     return out
 
 
@@ -229,55 +302,155 @@ def hindcast_plan(runs: list, station: str, day: str, all_models: list, max_atte
     only the missing ones when an earlier hindcast left gaps (e.g. a source was down),
     nothing once `max_attempts` hindcasts were made or everything is present.
     """
-    tries = sum(1 for r in runs if r.get("hindcast") and r["station"] == station and r["target_date"] == day)
+    # attempts are counted per model, so a model added later (e.g. RRFS) is still
+    # hindcast for recent days, and a source that keeps failing is given up on
+    tries = {}
+    for r in runs:
+        if r.get("hindcast") and r["station"] == station and r["target_date"] == day:
+            for m in r["models"]:
+                tries[m] = tries.get(m, 0) + 1
     have = forecasts_for_day(runs, station, day)
-    if tries == 0:
-        return list(all_models) if len(have) < 3 else []
-    if tries >= max_attempts:
-        return []
-    return [m for m in all_models if m not in have]
+    return [m for m in all_models if m not in have and tries.get(m, 0) < max_attempts]
 
 
-def verify(station: str, start: Optional[str] = None, end: Optional[str] = None) -> dict:
-    runs = read_jsonl(RUNS)
-    obs = [o for o in read_jsonl(OBS) if o["station"] == station and o.get("complete", True)]
-    if start:
-        obs = [o for o in obs if o["date"] >= start]
-    if end:
-        obs = [o for o in obs if o["date"] <= end]
-    days, per_model = [], {}
+def scored_days(station: str, start: Optional[str] = None, end: Optional[str] = None,
+                runs: Optional[list] = None, obs: Optional[list] = None) -> list:
+    """
+    One entry per observed day: obs, and per model the score of its last pre-deadline
+    forecast ("models") plus the unrounded forecast itself ("forecasts", used to rebuild the
+    consensus). Pass runs/obs to reuse already-loaded files (backtests).
+    """
+    runs = read_jsonl(RUNS) if runs is None else runs
+    obs = read_jsonl(OBS) if obs is None else obs
+    obs = [o for o in obs if o["station"] == station and o.get("complete", True)
+           and (not start or o["date"] >= start) and (not end or o["date"] <= end)]
+    days = []
     for o in sorted(obs, key=lambda o: o["date"]):
         fcs = forecasts_for_day(runs, station, o["date"])
         entry = {"date": o["date"], "obs": {v: o.get(v) for v in VARS},
                  "wind_source": o.get("wind_source"),
+                 "obs_source": o.get("source"), "obs_pending": o.get("pending") or [],
                  "run": max((t for _, t, _ in fcs.values()), default=None),
-                 "hindcast": any(h for _, _, h in fcs.values()), "models": {}}
+                 "hindcast": any(h for _, _, h in fcs.values()), "models": {}, "forecasts": {}}
         for name, (fc, t, hind) in fcs.items():
             s = score_day(fc, o)
             if s:
                 s["run"] = t
+                if hind:
+                    s["hindcast"] = True
                 entry["models"][name] = s
-                per_model.setdefault(name, []).append(s)
+                entry["forecasts"][name] = {v: fc[v] for v in VARS}
         days.append(entry)
+    return days
 
-    summary = {}
-    for name, lst in per_model.items():
+
+def decay_weight(age_days: float, half_life: Optional[float]) -> float:
+    """NBM-style decaying-average weight; half_life None (or 0) means equal weights."""
+    return 0.5 ** (age_days / half_life) if half_life else 1.0
+
+
+def n_eff(weights: list) -> float:
+    """Effective number of days behind a weighted mean: (sum w)^2 / sum(w^2)."""
+    s2 = sum(w * w for w in weights)
+    return sum(weights) ** 2 / s2 if s2 else 0.0
+
+
+def day_weights(dates: list, half_lives: dict = HALF_LIFE_DAYS) -> dict:
+    """{date: {var: weight}}, 1 for the newest date and decaying back from it."""
+    if not dates:
+        return {}
+    ref = date.fromisoformat(max(dates))
+    return {d: {v: decay_weight((ref - date.fromisoformat(d)).days, half_lives.get(v)) for v in VARS}
+            for d in dates}
+
+
+def model_stats(days: list, half_lives: dict = HALF_LIFE_DAYS) -> dict:
+    """
+    Per-model track record from scored days: totals plus decay-weighted bias and MAE.
+    Ages count from the newest of `days`, so a model that missed recent days (e.g. USL) has
+    fewer, older terms, a lower n_eff and so a smaller bias correction.
+    """
+    w = day_weights([d["date"] for d in days], half_lives)
+    per = {}
+    for d in days:
+        for name, s in d["models"].items():
+            per.setdefault(name, []).append((w[d["date"]], s))
+    out = {}
+    for name, lst in per.items():
         n = len(lst)
-        summary[name] = {
-            "n_days": n,
-            "total_points": round(sum(s["points"] for s in lst), 1),
-            "mean_points": round(sum(s["points"] for s in lst) / n, 2),
-            "bias": {v: round(sum(s["error"][v] for s in lst) / n, 2) for v in VARS},
-            "mae": {v: round(sum(abs(s["error"][v]) for s in lst) / n, 2) for v in VARS},
-        }
-    return {"station": station, "days": days, "summary": summary}
+        pts = sum(s["points"] for _, s in lst)
+        st = {"n_days": n, "total_points": round(pts, 1), "mean_points": round(pts / n, 2),
+              "bias": {}, "mae": {}, "n_eff": {}}
+        for v in VARS:
+            ws = [wd[v] for wd, _ in lst]
+            st["bias"][v] = round(sum(x * s["error"][v] for x, (_, s) in zip(ws, lst)) / sum(ws), 3)
+            st["mae"][v] = round(sum(x * abs(s["error"][v]) for x, (_, s) in zip(ws, lst)) / sum(ws), 3)
+            st["n_eff"][v] = round(n_eff(ws), 2)
+        out[name] = st
+    return out
+
+
+def reconstruct_consensus(days: list, i: int, half_lives: dict = HALF_LIFE_DAYS,
+                          lookback: Optional[int] = None, **kw) -> Optional[dict]:
+    """
+    The consensus for days[i] built only from what was known before it: the models'
+    forecasts for that day, corrected and weighted with the track record of the earlier
+    days (only those within `lookback` calendar days, if given). Extra keywords go to consensus().
+    """
+    d = days[i]
+    day = date.fromisoformat(d["date"])
+    prior = [p for p in days[:i] if p["date"] < d["date"]
+             and (lookback is None or (day - date.fromisoformat(p["date"])).days <= lookback)]
+    members = {n: fc for n, fc in d["forecasts"].items() if n != "CONSENSUS"}
+    if not members:
+        return None
+    c = consensus(members, model_stats(prior, half_lives), **kw)
+    return c if all(c.get(v) is not None for v in VARS) else None
+
+
+def city_start_date(runs: list, station: str, since: str = "") -> Optional[str]:
+    """A city's first forecast day: the first target day with a live (not hindcast) run."""
+    live = [r["target_date"] for r in runs if r["station"] == station and not r.get("hindcast")
+            and r["target_date"] >= since]
+    return min(live) if live else None
+
+
+def verify(station: str, start: Optional[str] = None, end: Optional[str] = None) -> dict:
+    """
+    Scores per day and model since `start`, plus each model's (decay-weighted) summary.
+    Days before the city's first forecast day, and days whose consensus only exists from a
+    hindcast, get a reconstructed consensus: what the current method would have submitted
+    with only the earlier days' track record (never the day itself).
+    """
+    runs = read_jsonl(RUNS)
+    days = scored_days(station, start, end, runs=runs)
+    city_start = city_start_date(runs, station, start or "")
+    for i, d in enumerate(days):
+        d["hindcast"] = city_start is None or d["date"] < city_start
+        stored = d["models"].get("CONSENSUS")
+        if d["hindcast"] or not stored or stored.get("hindcast"):
+            c = reconstruct_consensus(days, i)
+            s = score_day(c, d["obs"]) if c else None
+            if s:
+                s["reconstructed"] = True
+                d["models"]["CONSENSUS"] = s
+            else:
+                d["models"].pop("CONSENSUS", None)
+    weights = day_weights([d["date"] for d in days if d["models"]])
+    for d in days:
+        d.pop("forecasts")
+        if d["date"] in weights:
+            d["decay_weight"] = {v: round(w, 3) for v, w in weights[d["date"]].items()}
+    return {"station": station, "city_start": city_start, "half_life_days": HALF_LIFE_DAYS,
+            "days": days, "summary": model_stats(days)}
 
 
 def current_period_start(station: str, today: date) -> str:
-    """Start of the current city period: first obs/run date for this station within ~3 weeks."""
+    """Start of the current city period (hindcast days included): first obs/run date for
+    this station within the last PERIOD_DAYS + HINDCAST_DAYS + a week."""
     dates = [r["target_date"] for r in read_jsonl(RUNS) if r["station"] == station]
     dates += [o["date"] for o in read_jsonl(OBS) if o["station"] == station]
-    cutoff = (today - timedelta(days=PERIOD_DAYS + 7)).isoformat()
+    cutoff = (today - timedelta(days=PERIOD_DAYS + HINDCAST_DAYS + 7)).isoformat()
     recent = sorted(d for d in dates if d >= cutoff)
     return recent[0] if recent else today.isoformat()
 
@@ -285,24 +458,32 @@ def current_period_start(station: str, today: date) -> str:
 # ----------------------------------------------------------------------------
 # consensus
 # ----------------------------------------------------------------------------
-def consensus(models: dict, summary: dict) -> dict:
+def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None) -> dict:
     """
     Bias-corrected, skill-weighted blend of today's model values.
-    Models with >= MIN_DAYS_FOR_CORRECTION verified days are bias-corrected and
-    weighted by 1/(MAE + 0.5); models without that track record join uncorrected at
-    the median weight. With no verified models at all, an equal-weight mean is used.
+    Models with >= MIN_DAYS_FOR_CORRECTION verified days are bias-corrected (by the shrunk
+    decay-weighted bias n_eff/(n_eff + BIAS_SHRINK_DAYS) x mean error) and weighted by
+    1/(MAE + MAE_OFFSET); models without that track record join uncorrected at the median
+    weight. With no verified models at all, an equal-weight mean is used.
     Precip is not bias-corrected (errors are too skewed), only weighted.
+    shrink_days / mae_offset override the defaults (a number, or a dict per variable).
     """
     out, detail = {}, {}
     for v in VARS:
+        K = shrink_days if shrink_days is not None else BIAS_SHRINK_DAYS
+        K = K[v] if isinstance(K, dict) else K
+        off = mae_offset if mae_offset is not None else MAE_OFFSET
+        off = off[v] if isinstance(off, dict) else off
         vals, wts, used = [], [], []
         for name, m in models.items():
-            if name == "CONSENSUS" or m.get(v) is None:
+            if name == "CONSENSUS" or name in NOT_IN_CONSENSUS or m.get(v) is None:
                 continue
             s = summary.get(name)
             if s and s["n_days"] >= MIN_DAYS_FOR_CORRECTION:
-                x = m[v] - (s["bias"][v] if v != "precip_in" else 0.0)
-                w = 1.0 / (s["mae"][v] + 0.5)
+                n = s.get("n_eff", {}).get(v, s["n_days"])
+                shrink = n / (n + K)
+                x = m[v] - (shrink * s["bias"][v] if v != "precip_in" else 0.0)
+                w = 1.0 / (s["mae"][v] + off)
             else:
                 x, w = m[v], None
             vals.append(x); wts.append(w); used.append(name)
@@ -327,14 +508,16 @@ def consensus(models: dict, summary: dict) -> dict:
             # weight of the verified ones and no bias correction
             w_med = known[len(known) // 2]
             wts = [w_med if w is None else w for w in wts]
-            val = sum(x * w for x, w in zip(vals, wts)) / sum(wts)
-            method = "bias-corrected, 1/MAE weighted"
+            method = (f"bias-corrected (n_eff/(n_eff+{K:g}) of each model's decay-weighted mean error), "
+                      f"1/(MAE+{off:g}) weighted")
         else:
-            val = sum(vals) / len(vals)
+            wts = [1.0] * len(vals)
             method = "equal-weight mean (not enough verified days)"
+        val = sum(x * w for x, w in zip(vals, wts)) / sum(wts)
         out[v] = round(max(val, 0.0) if v in ("precip_in", "wind_max_kt") else val,
                        2 if v == "precip_in" else 1)
-        detail[v] = {"method": method, "members": used}
+        detail[v] = {"method": method, "members": used,
+                     "weights": {n: round(w / sum(wts), 3) for n, w in zip(used, wts)}}
         if excluded:
             detail[v]["excluded_outliers"] = excluded
         if known and unverified:
@@ -351,8 +534,14 @@ def write_verification(station: str, today: date) -> dict:
     res = verify(station, start=start)
     res["period_start"] = start
     res["generated_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    obs = [o for o in read_jsonl(OBS) if o["station"] == station and o["date"] >= start]
+    all_obs = read_jsonl(OBS)
+    obs = [o for o in all_obs if o["station"] == station and o["date"] >= start]
     res["observations"] = obs
+    try:                       # PoP verification (display only); never block the scoreboard
+        import wxc_pop
+        res["pop"] = wxc_pop.verify_pop(read_jsonl(RUNS), all_obs, station, start)
+    except Exception as exc:
+        print(f"Warning: PoP verification skipped ({type(exc).__name__}: {exc})")
     VERIF.write_text(dumps(res, indent=2))
     return res
 
@@ -372,8 +561,10 @@ def print_summary(res: dict):
 
 
 # same colours as the forecast figure (latest.png); MOS dashed, consensus black
-STYLE = {"HRRR": ("C0", "-"), "IFS": ("C1", "-"), "GFS": ("C2", "-"), "AIFS": ("C3", "-"),
-         "GFS_MOS": ("C2", "--"), "NAM_MOS": ("C4", "--"), "NBM": ("C5", "--"), "CONSENSUS": ("k", "-")}
+STYLE = {"HRRR": ("C0", "-"), "RRFS": ("C8", "-"), "IFS": ("C1", "-"), "GFS": ("C2", "-"), "AIFS": ("C3", "-"),
+         "GFS_MOS": ("C2", "--"), "NBM": ("C5", "--"), "USL": ("C6", "--"),
+         "ENS": ("C9", "--"), "AIFS_ENS": ("C3", "--"), "GEFS": ("C4", "--"), "GEPS": ("C7", "--"),
+         "CONSENSUS": ("k", "-")}
 
 
 def plot_verification(res: dict, path: Path):

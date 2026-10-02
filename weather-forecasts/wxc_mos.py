@@ -5,7 +5,6 @@ MOS / NBM text guidance from the Iowa State Mesonet MOS API.
 
 Models used here:
   GFS  -> GFS MOS (MAV), 00/06/12/18Z, 3-hourly
-  NAM  -> NAM MOS (MET), 00/12Z
   NBS  -> National Blend of Models short-range text (NBS), hourly runs, 3-hourly rows
 
 Daily (06Z-06Z) summary for WxChallenge day D:
@@ -23,6 +22,9 @@ from typing import Optional
 
 import pandas as pd
 
+import wxc_cache
+import wxc_pop
+
 IEM_MOS = "https://mesonet.agron.iastate.edu/api/1/mos.json"
 
 # MOS 6-h / 12-h QPF categories -> representative amount (inches)
@@ -32,7 +34,6 @@ QPF_CATEGORY_IN = {0: 0.0, 1: 0.05, 2: 0.17, 3: 0.37, 4: 0.75, 5: 1.25, 6: 2.25}
 MOS_PRODUCTS = {
     # label in payload : IEM model name
     "GFS_MOS": "GFS",
-    "NAM_MOS": "NAM",
     "NBM": "NBS",
 }
 
@@ -100,6 +101,14 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
             precip = float(sum(QPF_CATEGORY_IN.get(int(c), 0.0) for c in q06))
             note = f"MOS Q06 categories {list(map(int, q06))} -> midpoints"
     p06 = pd.to_numeric(q.get("p06"), errors="coerce").dropna() if "p06" in q else pd.Series(dtype=float)
+    # PoP: P06 at 12, 18, 00 and 06Z is the chance of >= 0.01" in the 6 h ending then (display
+    # only). No P24, and P12 ends at 00/12Z, so the 24-h PoP is only bounded by the four P06s.
+    blocks = {}
+    if "p06" in q:
+        for ft, v in zip(q["ft"], pd.to_numeric(q["p06"], errors="coerce")):
+            if not pd.isna(v):
+                blocks[wxc_pop.block_of_hour_ending(ft)] = float(v) / 100.0
+    pop = wxc_pop.record(None, blocks, basis=f"{'NBS' if model == 'NBS' else 'GFS MOS'} P06", bounds=True)
 
     return {
         "tmax_f": round(max(tmax_cands), 1) if tmax_cands else None,
@@ -107,6 +116,7 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
         "wind_max_kt": round(float(wsp.max()), 1) if not wsp.empty else None,
         "precip_in": round(precip, 2) if precip is not None else None,
         "pop06_max_pct": int(p06.max()) if not p06.empty else None,
+        "pop": pop,
         "precip_note": note,
         "init_time_utc": runtime.strftime("%Y-%m-%dT%H"),
         "valid_range_utc": [start.strftime("%Y-%m-%dT%H"), end.strftime("%Y-%m-%dT%H")],
@@ -120,7 +130,7 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
 
 # cycle hours and typical availability delay (hours) of each text product
 # (IEM archives NBS at the synoptic hours only: an hourly runtime such as 19Z returns 404)
-MOS_CYCLES = {"GFS": ([0, 6, 12, 18], 4.5), "NAM": ([0, 12], 4.5), "NBS": ([0, 6, 12, 18], 1.5)}
+MOS_CYCLES = {"GFS": ([0, 6, 12, 18], 4.5), "NBS": ([0, 6, 12, 18], 1.5)}   # (NAM MOS removed: retired Oct 2026)
 
 
 def candidate_runtimes(model: str, as_of: datetime, n: int = 3) -> list:
@@ -139,7 +149,7 @@ def candidate_runtimes(model: str, as_of: datetime, n: int = 3) -> list:
 def get_mos_forecasts(station: str, target_day: date, as_of: Optional[datetime] = None,
                       only: Optional[list] = None) -> dict:
     """
-    GFS MOS, NAM MOS and NBM (NBS) summaries for the target day.
+    GFS MOS and NBM (NBS) summaries for the target day.
     Live (as_of=None): the newest run, falling back to older runs if it doesn't cover
     the day. Hindcast (as_of set): the newest run that was out at `as_of`.
     """
@@ -152,9 +162,15 @@ def get_mos_forecasts(station: str, target_day: date, as_of: Optional[datetime] 
             tries = ([None] if as_of is None else []) + candidate_runtimes(
                 model, as_of or datetime.now(timezone.utc))
             for rt in tries:
+                if rt is not None:              # a specific run: maybe saved by an earlier script run
+                    hit = wxc_cache.load(station, label, rt, target_day)
+                    if hit is not None:
+                        res = hit
+                        break
                 df = fetch_mos(station, model, rt)
                 res = summarize_mos(df, target_day, model)
                 if not res.get("error"):
+                    wxc_cache.save(station, label, res["init_time_utc"] + ":00", target_day, res)
                     break
         except Exception as exc:
             res = {"tmax_f": None, "tmin_f": None, "wind_max_kt": None, "precip_in": None,

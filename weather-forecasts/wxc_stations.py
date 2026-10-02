@@ -32,6 +32,20 @@ class Station:
     # HRRR domain: "hrrr" (CONUS), "hrrrak" (Alaska) or None (Hawaii, PR, ...).
     # Leave as None-sentinel "auto" to infer from the ICAO prefix.
     hrrr_model: Optional[str] = "auto"
+    # RRFS domain for Herbie: "conus", "ak", "hi", "pr" or None
+    rrfs_domain: Optional[str] = "auto"
+    # GOES satellite for the cloud-mask panel: "G19" (East) or "G18" (West), or None
+    goes: Optional[str] = "auto"
+    # ABI sector: "C" (CONUS/PACUS, every 5 min) or "F" (full disk, every 10 min)
+    goes_sector: Optional[str] = "auto"
+    # Pivotal Weather map region (r=) for the page's forecast-evolution links, e.g. "us_se";
+    # None -> "conus" (wxc_links logs it). Only set codes checked on pivotalweather.com.
+    pivotal_region: Optional[str] = None
+    # RAMMB/CIRA SLIDER permalink centred on the station (None -> the SLIDER home page)
+    slider_url: Optional[str] = None
+    # IANA time zone; its STANDARD offset sets the CLI day (midnight to midnight local standard
+    # time all year, e.g. EST 05Z-05Z). None -> guessed from the ICAO prefix / longitude (logged).
+    tz: Optional[str] = None
 
     def __post_init__(self):
         self.icao = self.icao.upper()
@@ -39,10 +53,72 @@ class Station:
             self.cli_pil = "CLI" + self.icao[-3:]
         if self.hrrr_model == "auto":
             self.hrrr_model = default_hrrr_model(self.icao)
+        if self.rrfs_domain == "auto":
+            self.rrfs_domain = default_rrfs_domain(self.icao)
+        if self.goes == "auto":
+            self.goes = default_goes(self.icao, self.lon)
+        if self.goes_sector == "auto":
+            self.goes_sector = "C" if self.icao.startswith("K") else "F"
+        if self.tz is None:
+            self.tz = default_tz(self.icao, self.lon)
+            print(f"Note: {self.icao} has no tz in wxc_stations.STATIONS; guessed {self.tz} "
+                  f"(LST = UTC{self.lst_offset_hours:+g}). Set it if that is wrong.")
+
+    @property
+    def lst_offset_hours(self) -> float:
+        """UTC offset of local STANDARD time (no daylight saving), e.g. -5 for EST."""
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+        d = datetime(2026, 1, 15, 12, tzinfo=ZoneInfo(self.tz))
+        return (d.utcoffset() - d.dst()).total_seconds() / 3600
 
     @property
     def label(self) -> str:
         return f"{self.name} ({self.icao})"
+
+
+def default_rrfs_domain(icao: str) -> Optional[str]:
+    icao = icao.upper()
+    if icao.startswith("PA"):
+        return "ak"
+    if icao.startswith("PH"):
+        return "hi"
+    if icao.startswith(("TJ", "TI")):
+        return "pr"
+    if icao.startswith(("PG", "PW")):
+        return None
+    return "conus"
+
+
+# GOES-R series operational satellites: AWS bucket and nominal sub-satellite longitude
+GOES_SATELLITES = {"G19": ("noaa-goes19", -75.2), "G18": ("noaa-goes18", -137.2)}
+
+
+def default_goes(icao: str, lon: float) -> Optional[str]:
+    """Satellite with the nearest sub-satellite longitude; Alaska and Hawaii use GOES-18."""
+    icao = icao.upper()
+    if icao.startswith(("PA", "PH")):
+        return "G18"
+    if icao.startswith(("PG", "PW")):   # Guam, Wake: beyond the GOES-West view
+        return None
+    return min(GOES_SATELLITES, key=lambda s: abs(lon - GOES_SATELLITES[s][1]))
+
+
+def default_tz(icao: str, lon: float) -> str:
+    """Rough time zone guess for a station missing from the registry (US time-zone borders
+    are not meridians, so check it): by ICAO prefix outside CONUS, else by longitude."""
+    icao = icao.upper()
+    prefixes = {"PA": "America/Anchorage", "PH": "Pacific/Honolulu", "TJ": "America/Puerto_Rico",
+                "TI": "America/St_Thomas", "PG": "Pacific/Guam", "PW": "Pacific/Wake"}
+    if icao[:2] in prefixes:
+        return prefixes[icao[:2]]
+    if lon >= -86.5:
+        return "America/New_York"
+    if lon >= -102.0:
+        return "America/Chicago"
+    if lon >= -115.5:
+        return "America/Denver"
+    return "America/Los_Angeles"
 
 
 def default_hrrr_model(icao: str) -> Optional[str]:
@@ -54,15 +130,26 @@ def default_hrrr_model(icao: str) -> Optional[str]:
     return "hrrr"
 
 
+SLIDER_KTPA = ("https://slider.cira.colostate.edu/?sat=goes-19&sec=full_disk&x=9432&y=5063&z=5"
+               "&angle=0&im=12&ts=1&st=0&et=0&speed=130&motion=loop&maps%5Bborders%5D=white"
+               "&mops%5Bborders%5D=0.6&p%5B0%5D=geocolor&opacity%5B0%5D=1&pause=0&slider=-1"
+               "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
+               "&draw_color=FFD700&draw_width=6")
+
 # Past and present WxChallenge sites (coordinates of the ASOS sensor).
 STATIONS = {
     s.icao: s for s in [
-        Station("KTPA", "Tampa, FL", 27.979400, -82.535258),
-        Station("KDSM", "Des Moines, IA", 41.533347, -93.658496),
-        Station("KFNL", "Loveland, CO", 40.451685, -105.004186, cli_pil=""),
-        Station("PAJN", "Juneau, AK", 58.356023, -134.576622, cli_pil="CLIJNU"),
-        Station("KCON", "Concord, NH", 43.1953, -71.5011),
-        Station("KSAV", "Savannah, GA", 32.1314, -81.2023),
+        Station("KTPA", "Tampa, FL", 27.979400, -82.535258, pivotal_region="us_se",
+                slider_url=SLIDER_KTPA, tz="America/New_York"),
+        Station("KDSM", "Des Moines, IA", 41.533347, -93.658496, tz="America/Chicago"),
+        Station("KFNL", "Loveland, CO", 40.451685, -105.004186, cli_pil="", tz="America/Denver"),
+        Station("PAJN", "Juneau, AK", 58.356023, -134.576622, cli_pil="CLIJNU", tz="America/Juneau"),
+        Station("KCON", "Concord, NH", 43.1953, -71.5011, tz="America/New_York"),
+        Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York"),
+        Station("KRNO", "Reno, NV", 39.4839, -119.7711, tz="America/Los_Angeles"),
+        Station("KHOU", "Houston (Hobby), TX", 29.6375, -95.2824, tz="America/Chicago"),
+        Station("KEKN", "Elkins, WV", 38.8853, -79.8528, tz="America/New_York"),
+        Station("KFLG", "Flagstaff, AZ", 35.1403, -111.6722, tz="America/Phoenix"),
     ]
 }
 

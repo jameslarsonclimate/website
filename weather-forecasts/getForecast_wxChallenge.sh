@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run the WxChallenge forecast script in the weather-output conda environment.
-# Usage: ./getForecast_wxChallenge.sh [ICAO] [--target-date YYYY-MM-DD] [--no-push] [--skip-grib]
+# Usage: ./getForecast_wxChallenge.sh [ICAO] [--target-date YYYY-MM-DD] [--hindcast-days N] [--no-push] [--skip-grib]
 
 # Set error handling
 set -e
@@ -9,6 +9,18 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FORECAST_SCRIPT="$SCRIPT_DIR/getForecast_wxChallenge-pushGitHub.py"
 cd "$SCRIPT_DIR"
+
+# One run at a time: a scheduled run and a manual run at once would fight over git and
+# the saved model results. A leftover lock from a crashed run is ignored.
+# Fixed path, not $TMPDIR: launchd jobs have no TMPDIR, so scheduled runs (/tmp) and terminal
+# runs (/var/folders/...) would otherwise use different locks. scripts/warm_hindcast.sh checks it too.
+LOCK="/tmp/wxchallenge-$(id -u).lock"
+if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
+    echo "$(date): another forecast run (pid $(cat "$LOCK")) is still going; skipping this one."
+    exit 0
+fi
+echo $$ > "$LOCK"
+trap 'rm -f "$LOCK"' EXIT
 
 # Check if the Python file exists
 if [ ! -f "$FORECAST_SCRIPT" ]; then

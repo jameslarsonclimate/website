@@ -9,6 +9,7 @@ dependencies:
   - herbie-data>=2026.5     # knows about the May 2026 IFS 50r1 / AIFS v2 open-data layout
   - eccodes
   - cfgrib
+  - netcdf4                 # GOES clear-sky-mask files (cloud panel; also pulled in by Herbie)
   - xarray
   - pandas
   - numpy

@@ -4,11 +4,16 @@ WxChallenge forecast helper.
 For the current station (see wxc_stations.py, or pass an ICAO id on the command line):
   1. pulls observations for the last few completed days (IEM METARs + NWS CLI wind)
   2. verifies earlier runs against those observations (data/wxchallenge/verification.json)
-  3. fetches HRRR, ECMWF IFS, GFS and AIFS grids (Herbie) plus GFS MOS, NAM MOS and
-     NBM text guidance (IEM), each summarised for the next WxChallenge day (06Z-06Z)
+  3. fetches HRRR, RRFS, ECMWF IFS, GFS and AIFS grids (Herbie) plus GFS MOS and
+     NBM text guidance (IEM), each summarised for the next WxChallenge day (06Z-06Z),
+     the ECMWF, GEFS and GEPS ensembles (Open-Meteo; GEFS/GEPS not in the consensus), the 3 km
+     precip ensembles REFS and HRRRCast (wxc_cam_ens.py) and NBM QMD probabilistic precip
+     (wxc_nbm_qmd.py); precip-only sources are not part of the consensus. Every source with a
+     probability of precipitation carries a "pop" record (wxc_pop.py; display/verification only)
   4. builds a bias-corrected, skill-weighted CONSENSUS from the verified models
   5. writes data/wxchallenge/forecast.json, appends data/wxchallenge/runs.jsonl,
-     draws images/wxchallenge/latest.png and verification.png
+     draws images/wxchallenge/latest.png and verification.png, refreshes the page's
+     forecast-evolution link config (wxc_links.py)
   6. commits and pushes the data/images (GitHub Pages), best effort
 
 Usage:
@@ -28,8 +33,18 @@ import pandas as pd
 
 from functions import (convert_time_to_datetime64, forecast_hours_for_day, fmt,
                        get_latest_forecast_cycle, previous_forecast_cycle, run_hour)
+import wxc_cache
+import wxc_cam_ens
+import wxc_clouds
+import wxc_ens
+import wxc_goes
+import wxc_links
 import wxc_mos
+import wxc_nbm_qmd
 import wxc_obs
+import wxc_pop
+import wxc_today
+import wxc_usl
 import wxc_verify
 from wxc_stations import get_station
 
@@ -41,10 +56,17 @@ ROOT = Path(__file__).resolve().parent
 (DATA := ROOT / "data" / "wxchallenge").mkdir(parents=True, exist_ok=True)
 
 MS_TO_KT = 1.94384
-HINDCAST_HOUR = 21        # hindcasts use the runs available at 21Z the day before (your usual run time)
+HINDCAST_HOUR = 23        # hindcasts use the runs available at 23Z the day before (just before the 00Z
+                          # deadline, like a real submission: includes the 22Z USL, 18Z GFS and GFS MOS)
 MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't posted yet
-GRIB_ORDER = ["HRRR", "IFS", "GFS", "AIFS"]
-MOS_ORDER = list(wxc_mos.MOS_PRODUCTS)   # GFS_MOS, NAM_MOS, NBM
+TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
+GRIB_ORDER = ["HRRR", "RRFS", "IFS", "GFS", "AIFS"]
+MOS_ORDER = list(wxc_mos.MOS_PRODUCTS) + ["USL"]   # GFS_MOS, NBM (IEM text) + USL (microclimates.org)
+ENS_ORDER = list(wxc_ens.MODELS)                    # ENS, AIFS_ENS, GEFS, GEPS (Open-Meteo)
+CAM_ORDER = list(wxc_cam_ens.MODELS)                # HRRRCAST, REFS (3 km precip-only ensembles)
+# Herbie sources for HRRR. Azure's URL-signing API answers without an "href" for files that
+# aren't there, which Herbie doesn't catch (a KeyError traceback per missing hour), so it's left out.
+HRRR_SOURCES = ["aws", "nomads", "google"]
 
 
 # -------------------------------------------------------------------
@@ -94,8 +116,37 @@ def precip_factor(da, default):
     return default
 
 
+def _extra_failed(fields, exc):
+    """Note for a failed optional max/min download; the full traceback goes to the console."""
+    import traceback
+    print(f"  {fields} failed ({type(exc).__name__}): {exc}")
+    traceback.print_exc()
+    return f"{fields} unavailable ({type(exc).__name__}: {str(exc)[:120]})"
+
+
 def iso_hour(t):
     return pd.Timestamp(t).strftime("%Y-%m-%dT%H")
+
+
+class IncompleteCycle(RuntimeError):
+    """A model cycle whose later forecast hours aren't posted yet."""
+
+
+def fast_herbie(init, fxx, **kw):
+    """
+    FastHerbie that insists every requested forecast hour is posted. A cycle is posted hour
+    by hour (HRRR's f30-f48 come ~1.5-2 h after init), and summarizing whatever had arrived
+    gave e.g. a 00Z HRRR covering only 06-16Z: high missed, precip 0.00. Raising instead lets
+    fetch_with_fallback use the previous, complete cycle, and nothing partial gets cached.
+    """
+    from herbie import FastHerbie
+    H = FastHerbie([init], fxx=fxx, **kw)
+    have = {h.fxx for h in H.file_exists}
+    missing = [f for f in fxx if f not in have]
+    if missing:
+        raise IncompleteCycle(f"{len(missing)} of {len(fxx)} forecast hours not posted yet "
+                              f"(f{missing[0]:03d}-f{missing[-1]:03d})")
+    return H
 
 
 def summarize(label, init, times, temp_f, wind_kt, precip_in, tmax_extra=None,
@@ -132,25 +183,50 @@ def summarize(label, init, times, temp_f, wind_kt, precip_in, tmax_extra=None,
 # -------------------------------------------------------------------
 # GRIB models (Herbie)
 # -------------------------------------------------------------------
-def fetch_hrrr(init, day, points, station):
-    from herbie import FastHerbie
-    fxx, trunc = forecast_hours_for_day(init, day, step=1, max_fxx=48)
-    H = FastHerbie([init], model=station.hrrr_model, product="sfc", fxx=fxx)
+def fetch_hrrr(init, day, points, station, partial=False):
+    fxx, trunc = forecast_hours_for_day(init, day, step=1, max_fxx=48, partial=partial)
+    H = fast_herbie(init, fxx, model=station.hrrr_model, product="sfc", priority=HRRR_SOURCES)
     t2m = k_to_f(pick(H, "TMP:2 m above", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
     wind = pick(H, ":WIND", points, "max_10si") * MS_TO_KT      # hourly max 10 m wind
     tp = pick(H, "APCP", points, "tp")
     tp = (tp - tp[0]) * precip_factor(tp, 0.0393701)
-    notes = ["00Z HRRR stops at f48: window truncated"] if trunc else None
+    notes = [f"{pd.Timestamp(init):%HZ} HRRR stops at f48: window truncated"] if trunc else None
     return summarize("HRRR", init, times, t2m.values, wind.values, tp.values,
                      truncated=trunc, notes=notes)
 
 
-def fetch_ifs(init, day, points, station=None):
+def fetch_rrfs(init, day, points, station, partial=False):
+    """RRFS v1 (operational 14 Oct 2026; parallel data on AWS since Aug 2026), 2D fields."""
+    from herbie import FastHerbie
+    fxx, trunc = forecast_hours_for_day(init, day, step=1, max_fxx=84, partial=partial)
+    kw = dict(model="rrfs", product="2dfld", domain=station.rrfs_domain)
+    H = fast_herbie(init, fxx, **kw)
+    t2m = k_to_f(pick(H, "TMP:2 m above", points, "t2m"))
+    times = convert_time_to_datetime64(t2m.valid_time.values)
+    u = pick(H, "UGRD:10 m above ground", points, "u10")
+    v = pick(H, "VGRD:10 m above ground", points, "v10")
+    wind = np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
+    tp = pick(H, ":APCP:surface:0-", points, "tp")        # accumulated from init
+    tp = (tp - tp[0]) * precip_factor(tp, 0.0393701)
+    # hourly TMAX/TMIN (max/min over the hour ending at each step), first step excluded
+    tmax_x = tmin_x = None
+    notes = []
+    try:
+        H2 = FastHerbie([init], fxx=fxx[1:], **kw)
+        tmax_x = float(k_to_f(pick(H2, ":TMAX:2 m above", points, "tmax")).max())
+        tmin_x = float(k_to_f(pick(H2, ":TMIN:2 m above", points, "tmin")).min())
+    except Exception as exc:
+        notes.append(_extra_failed("TMAX/TMIN", exc))
+    return summarize("RRFS", init, times, t2m.values, wind.values, tp.values,
+                     tmax_x, tmin_x, trunc, notes)
+
+
+def fetch_ifs(init, day, points, station=None, partial=False):
     from herbie import FastHerbie
     max_fxx = 144 if pd.Timestamp(init).hour in (0, 12) else 90
-    fxx, trunc = forecast_hours_for_day(init, day, step=3, max_fxx=max_fxx)
-    H = FastHerbie([init], model="ifs", product="oper", fxx=fxx)
+    fxx, trunc = forecast_hours_for_day(init, day, step=3, max_fxx=max_fxx, partial=partial)
+    H = fast_herbie(init, fxx, model="ifs", product="oper")
     t2m = k_to_f(pick(H, ":2t:", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
     u = pick(H, ":10u:", points, "u10")
@@ -168,15 +244,15 @@ def fetch_ifs(init, day, points, station=None):
         tmax_x = float(k_to_f(pick(H2, ":mx2t3:", points, "mx2t3")).max())
         tmin_x = float(k_to_f(pick(H2, ":mn2t3:", points, "mn2t3")).min())
     except Exception as exc:
-        notes.append(f"mx2t3/mn2t3 unavailable ({type(exc).__name__})")
+        notes.append(_extra_failed("mx2t3/mn2t3", exc))
     return summarize("IFS", init, times, t2m.values, wind.values, tp.values,
                      tmax_x, tmin_x, trunc, notes)
 
 
-def fetch_gfs(init, day, points, station=None):
+def fetch_gfs(init, day, points, station=None, partial=False):
     from herbie import FastHerbie
-    fxx, trunc = forecast_hours_for_day(init, day, step=3, max_fxx=384)
-    H = FastHerbie([init], model="gfs", product="pgrb2.0p25", fxx=fxx)
+    fxx, trunc = forecast_hours_for_day(init, day, step=3, max_fxx=384, partial=partial)
+    H = fast_herbie(init, fxx, model="gfs", product="pgrb2.0p25")
     t2m = k_to_f(pick(H, "TMP:2 m above", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
     u = pick(H, "UGRD:10 m above ground", points, "u10")
@@ -193,15 +269,14 @@ def fetch_gfs(init, day, points, station=None):
         tmax_x = float(k_to_f(pick(H2, ":TMAX:2 m above", points, "tmax")).max())
         tmin_x = float(k_to_f(pick(H2, ":TMIN:2 m above", points, "tmin")).min())
     except Exception as exc:
-        notes.append(f"TMAX/TMIN unavailable ({type(exc).__name__})")
+        notes.append(_extra_failed("TMAX/TMIN", exc))
     return summarize("GFS", init, times, t2m.values, wind.values, tp.values,
                      tmax_x, tmin_x, trunc, notes)
 
 
-def fetch_aifs(init, day, points, station=None):
-    from herbie import FastHerbie
-    fxx, trunc = forecast_hours_for_day(init, day, step=6, max_fxx=360)
-    H = FastHerbie([init], model="aifs", product="oper", fxx=fxx)
+def fetch_aifs(init, day, points, station=None, partial=False):
+    fxx, trunc = forecast_hours_for_day(init, day, step=6, max_fxx=360, partial=partial)
+    H = fast_herbie(init, fxx, model="aifs", product="oper")
     t2m = k_to_f(pick(H, ":2t:", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
     u = pick(H, ":10u:", points, "u10")
@@ -210,7 +285,7 @@ def fetch_aifs(init, day, points, station=None):
     tp = pick(H, ":tp:", points, "tp")
     factor = precip_factor(tp, 0.0393701)
     tp = (tp - tp[0]) * factor
-    notes = ["6-hourly output: only 5 temperature samples, high/low likely underdone"]
+    notes = ["6-hourly output: high/low likely underdone"]
     if factor != 0.0393701:
         notes.append("AIFS tp reported in metres")
     return summarize("AIFS", init, times, t2m.values, wind.values, tp.values,
@@ -223,16 +298,25 @@ GRIB_MODELS = {
     "IFS": ("IFS", fetch_ifs),
     "GFS": ("GFS", fetch_gfs),
     "AIFS": ("AIFS", fetch_aifs),
+    "RRFS": ("RRFS", fetch_rrfs),
 }
 
 
-def fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of=None):
+def fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of=None, partial=False):
     init = get_latest_forecast_cycle(model=cycle_key, now=as_of)
     last = None
     for attempt in range(MAX_FALLBACK + 1):
+        cached = wxc_cache.load(station.icao, label, init, day, partial)
+        if cached is not None:
+            print(f"Using saved {label} {init:%Y-%m-%d %HZ} (already downloaded)")
+            return cached
         try:
             print(f"Fetching {label} {init:%Y-%m-%d %HZ}...")
-            res = fn(init, day, points, station)
+            res = fn(init, day, points, station, partial=partial)
+            # keep the station values so later runs don't download this model run again
+            # (skip if an optional field was missing: a later run may find it posted)
+            if "unavailable" not in (res["metrics"].get("note") or ""):
+                wxc_cache.save(station.icao, label, init, day, res, partial)
             if attempt:
                 res["metrics"]["note"] = (res["metrics"].get("note", "") +
                                           "; newest cycle unavailable, used previous").lstrip("; ")
@@ -247,17 +331,134 @@ def fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of=None):
 
 
 # -------------------------------------------------------------------
+# cloud cover: DISPLAY ONLY. Never part of the results above, the consensus, runs.jsonl
+# or the series files; kept per run in cache/{ICAO}/_cloud_{MODEL}_{init}.json (wxc_clouds)
+# -------------------------------------------------------------------
+TCDC_NOW = r":TCDC:entire atmosphere[^:]*:\d+ hour fcst:"           # instantaneous
+TCDC_AVE = r":TCDC:entire atmosphere[^:]*:\d+-\d+ hour ave fcst:"   # interval average
+
+
+def cloud_grib_setup(label, init, station):
+    """Herbie arguments, output interval and last forecast hour (as in the fetch_* functions)."""
+    ifs_max = 144 if pd.Timestamp(init).hour in (0, 12) else 90
+    return {"HRRR": (dict(model=station.hrrr_model, product="sfc", priority=HRRR_SOURCES), 1, 48),
+            "RRFS": (dict(model="rrfs", product="2dfld", domain=station.rrfs_domain), 1, 84),
+            "IFS": (dict(model="ifs", product="oper"), 3, ifs_max),
+            "GFS": (dict(model="gfs", product="pgrb2.0p25"), 3, 384),
+            "AIFS": (dict(model="aifs", product="oper"), 6, 360)}[label]
+
+
+def _cloud_values(da):
+    vals = np.atleast_1d(np.asarray(da.values, float))
+    vt = da.coords.get("valid_time")
+    try:
+        times = np.atleast_1d(convert_time_to_datetime64(vt.values))
+    except Exception:          # absent, or a single step (then the caller knows the time)
+        times = None
+    return vals, times
+
+
+def fetch_cloud_grib(label, init, fxx, points, station):
+    """Total cloud cover (%) of one GRIB run at the station for forecast hours `fxx`.
+    GFS/RRFS files hold an instantaneous and an interval-average TCDC; the instantaneous one
+    is used, and a step that only has the average is marked averaged."""
+    from herbie import FastHerbie
+    kw = cloud_grib_setup(label, init, station)[0]
+    init = pd.Timestamp(init)
+    if label in ("IFS", "AIFS"):
+        da = pick(FastHerbie([init], fxx=fxx, **kw), ":tcc:", points, "tcc")
+        vals, times = _cloud_values(da)
+        units = str(da.attrs.get("units", da.attrs.get("GRIB_units", ""))).strip()
+        if units != "%" and (units in ("(0 - 1)", "0-1", "1", "fraction") or np.nanmax(vals) <= 1.0):
+            vals = vals * 100.0                                  # tcc is a 0-1 fraction
+        averaged = [False] * len(vals)
+    else:
+        try:
+            vals, times = _cloud_values(pick(FastHerbie([init], fxx=fxx, **kw), TCDC_NOW, points, "tcc"))
+            averaged = [False] * len(vals)
+        except Exception:
+            vals, times, averaged = [], [], []
+            for f in fxx:                                        # step by step, average as fallback
+                H1 = FastHerbie([init], fxx=[f], **kw)
+                for search, ave in ((TCDC_NOW, False), (TCDC_AVE, True)):
+                    try:
+                        v, _ = _cloud_values(pick(H1, search, points, "tcc"))
+                    except Exception:
+                        continue
+                    vals.append(float(v[0]))
+                    times.append(init + pd.Timedelta(hours=f))
+                    averaged.append(ave)
+                    break
+            if not vals:
+                raise ValueError(f"no TCDC entire-atmosphere record in f{fxx[0]}-f{fxx[-1]}")
+    if times is None or len(times) != len(vals):
+        times = [init + pd.Timedelta(hours=f) for f in fxx]
+    return {"times": [pd.Timestamp(t).strftime("%Y-%m-%dT%H:%M") for t in times],
+            "cloud_pct": [float(v) for v in vals], "averaged": averaged}
+
+
+def model_cloud(station, label, init_iso, day, points, fetch_grib=True):
+    """Cloud cover of one run over WxChallenge day `day`: from its cloud file, or extracted
+    now (GRIB hours the file lacks; text products fetched again by run time) and saved."""
+    init = pd.Timestamp(init_iso)
+    rec = wxc_clouds.load_cloud(station.icao, label, init)
+    if label in GRIB_MODELS:
+        _, step, max_fxx = cloud_grib_setup(label, init, station)
+        start = pd.Timestamp(datetime(day.year, day.month, day.day, 6))
+        fxx, _ = forecast_hours_for_day(init, day, step, max_fxx, partial=init >= start)
+        have = set((rec or {}).get("times", []))
+        missing = [f for f in fxx if (init + pd.Timedelta(hours=f)).strftime("%Y-%m-%dT%H:%M") not in have]
+        if missing and fetch_grib:
+            new = fetch_cloud_grib(label, init, missing, points, station)
+            rec = wxc_clouds.merge(rec, {"model": label, "init_time_utc": iso_hour(init), **new})
+            wxc_clouds.save_cloud(station.icao, label, init, rec)
+    elif label in wxc_clouds.TEXT_MODELS and rec is None:
+        new = wxc_clouds.fetch_text_cloud(station.icao, label, init)
+        if new:
+            rec = wxc_clouds.merge(None, {"model": label, **new})
+            wxc_clouds.save_cloud(station.icao, label, init, rec)
+    return wxc_clouds.for_day(rec, day)
+
+
+def collect_clouds(station, day, runs, points, fetch_grib=True):
+    """{label: cloud series over `day`} for the runs {label: init_time_utc}. A model
+    without cloud data is left out with a warning; this never raises."""
+    out = {}
+    for label, init in runs.items():
+        if not init or (label not in GRIB_MODELS and label not in wxc_clouds.TEXT_MODELS):
+            continue                     # ENS / CAM ensembles: no cloud cover
+        try:
+            rec = model_cloud(station, label, init, day, points, fetch_grib)
+        except Exception as exc:
+            if label == "AIFS":          # tcc may not be in the AIFS open data: skip quietly
+                print(f"  (no AIFS cloud cover: {type(exc).__name__})")
+            else:
+                print(f"  warning: {label} cloud cover skipped ({type(exc).__name__}: {str(exc)[:150]})")
+            continue
+        if rec and rec.get("times"):
+            out[label] = rec
+    avg = [k for k, v in out.items() if any(v.get("averaged") or [])]
+    print(f"  cloud cover for {day}: {', '.join(out) or 'none'}"
+          + (f" (time-averaged steps in {', '.join(avg)})" if avg else ""))
+    return out
+
+
+# -------------------------------------------------------------------
 # plotting
 # -------------------------------------------------------------------
-def plot_forecast(results, mos, cons, station, day, path):
+def plot_forecast(results, mos, cons, station, day, path, clouds=None):
+    """clouds: {model: cloud series} adds a cloud-cover panel at the bottom (None: no panel)."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.dates as mdates
     import matplotlib.pyplot as plt
 
-    colors = {"HRRR": "C0", "IFS": "C1", "GFS": "C2", "AIFS": "C3",
-              "GFS_MOS": "C2", "NAM_MOS": "C4", "NBM": "C5"}
-    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    colors = {"HRRR": "C0", "RRFS": "C8", "IFS": "C1", "GFS": "C2", "AIFS": "C3",
+              "GFS_MOS": "C2", "NBM": "C5", "USL": "C6", "ENS": "C9", "AIFS_ENS": "C3",
+              "GEFS": "C4", "GEPS": "C7"}
+    n = 3 if clouds is None else 4
+    fig, axes = plt.subplots(n, 1, figsize=(12, 10 if n == 3 else 13.3), sharex=True,
+                             gridspec_kw={"height_ratios": [1, 1, 1, wxc_clouds.PANEL_RATIO][:n]})
     for name in GRIB_ORDER:
         s = results.get(name, {}).get("series")
         if not s:
@@ -265,13 +466,32 @@ def plot_forecast(results, mos, cons, station, day, path):
         axes[0].plot(s["times"], s["temp_f"], "o-", color=colors[name], label=name)
         axes[1].plot(s["times"], s["wind_kt"], "o-", color=colors[name], label=name)
         axes[2].plot(s["times"], s["precip_in"], "o-", color=colors[name], label=name, alpha=0.8)
-    for name in MOS_ORDER:
+    w0 = pd.Timestamp(datetime(day.year, day.month, day.day, 6))
+    w1 = w0 + pd.Timedelta(hours=24)
+    for name in MOS_ORDER + ENS_ORDER:
         s = mos.get(name, {}).get("series")
-        if not s or not s["times"]:
+        # GEFS/GEPS (not in the consensus) are in the tables and box plots; two more ensemble
+        # bands would bury the other lines here
+        if not s or not s["times"] or name in wxc_verify.NOT_IN_CONSENSUS:
             continue
         t = pd.to_datetime(s["times"])
+        if t.tz is not None:
+            t = t.tz_convert(None)
+        inside = (t >= w0) & (t <= w1)
+        if not inside.all():
+            # never draw points from outside the day: a bad timestamp would otherwise pull a
+            # line across the whole panel
+            print(f"  warning: {name}: {int((~inside).sum())} points outside {w0:%m-%d %HZ}-{w1:%m-%d %HZ} dropped")
+        keep = [i for i in np.argsort(t.values) if inside[i]]
+        t = t[keep]
+        s = {k: ([v[i] for i in keep] if isinstance(v, list) and len(v) == len(inside) else v) for k, v in s.items()}
+        if s.get("tmp_p10"):   # ensemble: shade the 10-90% range of the members
+            axes[0].fill_between(t, s["tmp_p10"], s["tmp_p90"], color=colors[name], alpha=0.12, lw=0,
+                                 label=f"{name} 10-90%")
         axes[0].plot(t, s["tmp_f"], "s--", color=colors[name], label=name, alpha=0.8)
         axes[1].plot(t, s["wsp_kt"], "s--", color=colors[name], label=name, alpha=0.8)
+        if s.get("precip_cum_in"):
+            axes[2].plot(t, s["precip_cum_in"], "s--", color=colors[name], label=name, alpha=0.8)
     if cons.get("tmax_f") is not None:
         axes[0].axhline(cons["tmax_f"], color="k", ls=":", lw=1.5, label="Consensus high/low")
         axes[0].axhline(cons["tmin_f"], color="k", ls=":", lw=1.5)
@@ -281,7 +501,17 @@ def plot_forecast(results, mos, cons, station, day, path):
         ax.set_ylabel(lab)
         ax.grid(True, linestyle="--", alpha=0.4)
         ax.legend(loc="best", fontsize=8, ncol=2)
+    if clouds is not None:
+        try:
+            # the same "o-" (grid models) / "s--" alpha 0.8 (text guidance) lines as above
+            wxc_clouds.draw_models(axes[3], clouds, lambda n: dict(ls="--", marker="s", alpha=0.8)
+                                   if n in MOS_ORDER + ENS_ORDER else dict(ls="-", marker="o"))
+        except Exception as exc:          # never lose the figure over the cloud panel
+            print(f"  warning: cloud panel left empty ({type(exc).__name__}: {exc})")
+        axes[3].xaxis.grid(True, linestyle="--", alpha=0.4)
+        wxc_clouds.style_axis(axes[3])
     axes[-1].set_xlabel("Valid time (UTC)")
+    axes[-1].set_xlim(w0, w1)          # always the forecast day, even if a series is off
     axes[-1].xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d\n%H:%M"))
     plt.setp(axes[-1].xaxis.get_majorticklabels(), rotation=30, ha="right")
     fig.suptitle(f"{station.label}: forecast for {day:%a %b %d} (06Z-06Z)", y=0.98)
@@ -339,7 +569,7 @@ def git_push(now_iso):
     return False
 
 
-def run_models(station, day, points, as_of=None, skip_grib=False, only=None):
+def run_models(station, day, points, as_of=None, skip_grib=False, only=None, partial=False):
     """All models for WxChallenge day `day`; as_of=None means the latest runs,
     otherwise the runs that were available at `as_of` (hindcast)."""
     results = {}
@@ -349,14 +579,153 @@ def run_models(station, day, points, as_of=None, skip_grib=False, only=None):
         if label == "HRRR" and not station.hrrr_model:
             print("Skipping HRRR (station outside HRRR domains)")
             continue
-        results[label] = fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of)
+        if label == "RRFS" and not station.rrfs_domain:
+            print("Skipping RRFS (station outside RRFS domains)")
+            continue
+        results[label] = fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of, partial)
     mos = {}
     if only is None or any(k in only for k in MOS_ORDER):
         print("Fetching MOS / NBM text guidance...")
         mos = wxc_mos.get_mos_forecasts(station.icao, day, as_of, only)
+    if only is None or "USL" in only:
+        mos["USL"] = wxc_usl.get_usl_forecast(station.icao, day, as_of)
+        u = mos["USL"]
+        print(f"  {'USL':8s} {u.get('init_time_utc')}: " + (u.get("error") or
+              f"{u['tmax_f']}/{u['tmin_f']}F {u['wind_max_kt']}kt {u['precip_in']}in"))
+    if not partial and (only is None or any(k in only for k in ENS_ORDER)):
+        print("Fetching global ensembles (Open-Meteo)...")
+        mos.update(wxc_ens.get_ensembles(station, day, as_of, only))
+    # 3 km precip ensembles: live runs only (no hindcasts; HRRRCast is ~1 GB per cycle)
+    if as_of is None and not partial and not skip_grib and (only is None or any(k in only for k in CAM_ORDER)):
+        print("Fetching 3 km precip ensembles (REFS, HRRRCast)...")
+        mos.update(wxc_cam_ens.get_cam_ensembles(station, day, only=only))
+    # NBM QMD calibrated PoP + precip percentiles: live runs only (~29 MB per new cycle)
+    if as_of is None and not partial and not skip_grib and (only is None or wxc_nbm_qmd.LABEL in only):
+        print("Fetching NBM QMD probabilistic precip...")
+        try:
+            mos[wxc_nbm_qmd.LABEL] = wxc_nbm_qmd.get_qmd(station, day)
+        except Exception as exc:
+            mos[wxc_nbm_qmd.LABEL] = wxc_nbm_qmd._fail(f"{type(exc).__name__}: {exc}")
+        if mos[wxc_nbm_qmd.LABEL].get("error"):
+            print(f"  {wxc_nbm_qmd.LABEL:8s} {mos[wxc_nbm_qmd.LABEL].get('init_time_utc')}: "
+                  f"{mos[wxc_nbm_qmd.LABEL]['error']}")
     models = {k: results[k]["metrics"] for k in GRIB_ORDER if k in results}
     models.update({k: {kk: vv for kk, vv in v.items() if kk != "series"} for k, v in mos.items()})
     return results, mos, models
+
+
+def collect_series(results, mos):
+    """Hourly/3-hourly series of every model in a compact, JSON-friendly form."""
+    out = {}
+    for k in GRIB_ORDER:
+        r = results.get(k) or {}
+        s = r.get("series")
+        if s:
+            out[k] = {"init_time_utc": r["metrics"].get("init_time_utc"),
+                      "tmax_f": r["metrics"].get("tmax_f"), "tmin_f": r["metrics"].get("tmin_f"),
+                      "times": [pd.Timestamp(t).strftime("%Y-%m-%dT%H:%M") for t in s["times"]],
+                      "temp_f": [round(float(v), 1) for v in s["temp_f"]],
+                      "wind_kt": [round(float(v), 1) for v in s["wind_kt"]],
+                      "precip_in": [round(float(v), 3) for v in s["precip_in"]]}
+    for k in MOS_ORDER + ENS_ORDER:
+        m = mos.get(k) or {}
+        s = m.get("series")
+        if s and s.get("times"):
+            out[k] = {"init_time_utc": m.get("init_time_utc"), "times": s["times"],
+                      # the scored daily values (e.g. USL/MOS daily summary), which can go
+                      # beyond the hourly values
+                      "tmax_f": m.get("tmax_f"), "tmin_f": m.get("tmin_f"),
+                      "temp_f": s.get("tmp_f"), "wind_kt": s.get("wsp_kt"),
+                      "precip_in": s.get("precip_cum_in")}
+    return out
+
+
+def today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib=False):
+    """Cloud cover for the today-so-far figure (display only; each part fails on its own)."""
+    out = {}
+    for kind, group in (("submitted", sub), ("latest", lat)):
+        runs = {k: m.get("init_time_utc") for k, m in ((group or {}).get("models") or {}).items()}
+        out[kind] = collect_clouds(station, today, runs, points, fetch_grib=not skip_grib)
+    try:
+        out["metar"] = wxc_clouds.sky_series(raw)
+    except Exception as exc:
+        print(f"  warning: METAR sky cover skipped ({type(exc).__name__}: {exc})")
+    if wxc_clouds.GOES_ENABLED:
+        try:
+            out["goes"] = wxc_goes.hourly_cloud(station, start, now)
+        except Exception as exc:
+            print(f"  warning: GOES cloud mask skipped ({type(exc).__name__}: {exc})")
+    return out
+
+
+def today_figure(station, now, points, skip_grib=False):
+    """Observations for the current 06Z-06Z day so far vs. the submitted and latest forecasts."""
+    today = (now - timedelta(hours=6)).date()
+    start = datetime(today.year, today.month, today.day, 6, tzinfo=timezone.utc)
+    print(f"\nToday so far ({today}, 06Z-06Z)")
+    sub = wxc_verify.load_series(station.icao, today, "submitted")
+    # No stored pre-deadline run (or only an older rebuild made from earlier runs, which
+    # may miss e.g. the 22Z USL): rebuild from everything out just before the 00Z deadline.
+    as_of = datetime(today.year, today.month, today.day, tzinfo=timezone.utc) - timedelta(minutes=1)
+    stale = (sub is not None and sub.get("hindcast")
+             and pd.to_datetime(sub.get("generated_at_utc") or 0, utc=True) < pd.Timestamp(as_of))
+    if sub is None or stale:
+        why = "older rebuild" if stale else "no stored pre-deadline series"
+        print(f"  {why} for {today}; rebuilding from runs available at {as_of:%Y-%m-%d %H:%MZ}")
+        r, m, _ = run_models(station, today, points, as_of, skip_grib)
+        wxc_verify.save_series(station.icao, today, "submitted", as_of.isoformat(), collect_series(r, m), hindcast=True)
+        sub = wxc_verify.load_series(station.icao, today, "submitted")
+    print("  latest runs for the rest of today:")
+    r, m, _ = run_models(station, today, points, None, skip_grib, only=TODAY_LATEST, partial=True)
+    wxc_verify.save_series(station.icao, today, "latest", now.isoformat(), collect_series(r, m))
+    lat = wxc_verify.load_series(station.icao, today, "latest")
+    raw = None
+    if wxc_clouds.CLOUDS_ENABLED:          # same request plus the sky columns (display only)
+        try:
+            raw = wxc_obs.fetch_metars(station.icao, start, now, specials=True, sky=True)
+        except Exception as exc:
+            print(f"  warning: METAR sky request failed ({type(exc).__name__}: {exc}); plain METARs used")
+    if raw is None:
+        raw = wxc_obs.fetch_metars(station.icao, start, now, specials=True)
+    if not raw.empty:   # only this day's reports, so the running precip total starts at 06Z
+        t = pd.to_datetime(raw["valid"], utc=True)
+        raw = raw[(t > pd.Timestamp(start)) & (t <= pd.Timestamp(now))]
+    obs = wxc_obs.report_series(raw)
+    clouds = None
+    if wxc_clouds.CLOUDS_ENABLED:
+        try:
+            clouds = today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib)
+        except Exception as exc:
+            print(f"  warning: cloud cover skipped ({type(exc).__name__}: {exc})")
+    wxc_today.plot_today(station, today, now, obs, sub, lat, IMAGES / "today.png", clouds=clouds)
+    print(f"Wrote {IMAGES / 'today.png'}")
+    bias = wxc_today.today_bias(obs, sub, today, now)
+    bias.update({"station": station.icao, "generated_at_utc": now.isoformat()})
+    (DATA / "today.json").write_text(wxc_verify.dumps(bias, indent=2))
+    if bias["models"]:
+        o = bias["obs"]
+        print(f"  So far through {bias['through_utc'][11:16]}Z: obs high {o['high']:.0f} low {o['low']:.0f} "
+              f"wind {o['wind']:.0f} kt precip {o['precip']:.2f}")
+        print(f"  {'model':10s} {'T bias':>6s} {'T MAE':>6s} {'hi err':>6s} {'lo err':>6s} {'wind':>5s} {'pcp err':>7s}")
+        for name, r in sorted(bias["models"].items(), key=lambda kv: kv[1]["temp_mae"]):
+            f = lambda v, d=1: "   --" if v is None else f"{v:+.{d}f}"  # noqa: E731
+            print(f"  {name:10s} {f(r['temp_bias']):>6s} {r['temp_mae']:6.1f} {f(r.get('high_err')):>6s} "
+                  f"{f(r.get('low_err')):>6s} {f(r.get('wind_bias')):>5s} {f(r.get('precip_err'), 2):>7s}")
+
+
+def print_pop(models):
+    """Console PoP table (display only)."""
+    rows = [(k, m["pop"]) for k, m in models.items() if m.get("pop")]
+    if not rows:
+        return
+    pc = lambda p: "  --" if p is None else f"{p:4.0%}"  # noqa: E731
+    print(f"\nChance of >= 0.01\" (PoP)  {'  '.join(wxc_pop.BLOCK_LABELS)}     24 h")
+    for k, p in rows:
+        b = p.get("blocks") or {}
+        p24 = (pc(p["p24"]) if p.get("p24") is not None else
+               (f"{p['p24_range'][0]:.0%}-{p['p24_range'][1]:.0%}" if p.get("p24_range") else "  --"))
+        n = f"  ({p['n_members']} members)" if p.get("n_members") else ""
+        print(f"  {k:22s} " + "  ".join(f"{pc(b.get(x)):>5s}" for x in wxc_pop.BLOCK_LABELS) + f"   {p24}{n}")
 
 
 def main():
@@ -366,12 +735,17 @@ def main():
     ap.add_argument("--obs-days", type=int, default=4, help="completed days of observations to (re)fetch")
     ap.add_argument("--no-push", action="store_true", help="skip git commit/push")
     ap.add_argument("--skip-grib", action="store_true", help="MOS/NBM + verification only (fast)")
-    ap.add_argument("--hindcast-days", type=int, default=4,
+    ap.add_argument("--no-today", action="store_true", help="skip the 'today so far' figure")
+    ap.add_argument("--hindcast-days", type=int, default=wxc_verify.HINDCAST_DAYS,
                     help="re-create model forecasts for up to N recent days that have no stored run "
-                         "(so biases are available from day one of a new city); 0 disables")
+                         "(so biases are available from day one of a new city; days already hindcast "
+                         "are skipped, so only the first run of a city is slow); 0 disables")
     args = ap.parse_args()
 
     station = get_station(args.station)
+    n_pruned = wxc_cache.prune()
+    if n_pruned:
+        print(f"Pruned {n_pruned} saved model results older than {wxc_cache.PRUNE_DAYS} days")
     now = datetime.now(timezone.utc).replace(microsecond=0)
     now_iso = now.isoformat()
     # The next day open for submission: forecasts for D (06Z D - 06Z D+1) are due 00Z D
@@ -392,16 +766,23 @@ def main():
             obs = [o for o in obs if date.fromisoformat(o["date"]) in need]
             wxc_verify.upsert_observations(obs)
             for o in obs:
-                print(f"  obs {o['date']}: {o['tmax_f']}/{o['tmin_f']}F  wind {o['wind_max_kt']}kt "
-                      f"({o['wind_source']})  precip {o['precip_in']}\"{' T' if o.get('precip_trace') else ''}"
-                      f"{'' if o['complete'] else '  [incomplete]'}")
+                src = o.get("source", {})
+                print(f"  obs {o['date']}: {o['tmax_f']}/{o['tmin_f']}F ({src.get('tmax_f')}/{src.get('tmin_f')})  "
+                      f"wind {o['wind_max_kt']}kt ({src.get('wind_max_kt')})  precip {o['precip_in']}\""
+                      f"{' T' if o.get('precip_trace') else ''} ({src.get('precip_in')})"
+                      f"{'' if o['complete'] else '  [incomplete]'}"
+                      f"{'  pending: ' + ', '.join(o['pending']) if o.get('pending') else ''}")
+                for n in o.get("notes", []):
+                    print(f"    note: {n}")
         except Exception as exc:
             print("Warning: observation update failed:", exc)
 
     # ---- 2. hindcasts: model runs for recent days that were never forecast ----
     if args.hindcast_days > 0:
         runs = wxc_verify.read_jsonl(wxc_verify.RUNS)
-        all_models = [k for k in GRIB_ORDER if k != "HRRR" or station.hrrr_model] + MOS_ORDER
+        # (ensembles are left out: Open-Meteo only serves the latest run)
+        all_models = [k for k in GRIB_ORDER if (k != "HRRR" or station.hrrr_model)
+                      and (k != "RRFS" or station.rrfs_domain)] + MOS_ORDER
         for d in window[-args.hindcast_days:]:
             todo = wxc_verify.hindcast_plan(runs, station.icao, d.isoformat(), all_models)
             if not todo:
@@ -440,6 +821,8 @@ def main():
               f"{fmt(m.get('wind_max_kt'), 'w'):>5s} {fmt(m.get('precip_in'), 'p'):>6s}"
               f"{'  ' + m['error'][:60] if m.get('error') else ''}")
 
+    print_pop(models)
+
     # ---- 5. outputs ----
     start = datetime(day.year, day.month, day.day, 6)
     payload = {
@@ -463,9 +846,20 @@ def main():
     wxc_verify.append_run(now_iso, station.icao, day,
                           {k: v for k, v in models.items() if k != "CONSENSUS" or v.get("tmax_f") is not None})
     print(f"Appended run to {wxc_verify.RUNS}")
+    # hourly series of this (pre-deadline) run, for tomorrow's "today so far" figure
+    wxc_verify.save_series(station.icao, day, "submitted", now_iso, collect_series(results, mos))
 
+    clouds = None
+    if wxc_clouds.CLOUDS_ENABLED:          # display only: after every scored output is written
+        try:
+            runs = {k: results[k]["metrics"].get("init_time_utc") for k in GRIB_ORDER if k in results}
+            runs.update({k: mos[k].get("init_time_utc") for k in wxc_clouds.TEXT_MODELS
+                         if k in mos and not mos[k].get("error")})
+            clouds = collect_clouds(station, day, runs, points, fetch_grib=not args.skip_grib)
+        except Exception as exc:
+            print(f"Warning: cloud cover skipped ({type(exc).__name__}: {exc})")
     try:
-        plot_forecast(results, mos, cons, station, day, IMAGES / "latest.png")
+        plot_forecast(results, mos, cons, station, day, IMAGES / "latest.png", clouds)
         print(f"Wrote {IMAGES / 'latest.png'}")
     except Exception as exc:
         print("Forecast image skipped:", exc)
@@ -474,6 +868,18 @@ def main():
             print(f"Wrote {IMAGES / 'verification.png'}")
     except Exception as exc:
         print("Verification image skipped:", exc)
+    if not args.no_today:
+        try:
+            today_figure(station, now, points, args.skip_grib)
+        except Exception as exc:
+            print("Today-so-far figure skipped:", type(exc).__name__, exc)
+
+    # forecast-evolution links on the page (station config only; the page builds the run times)
+    try:
+        page = ROOT / "wxchallenge" / "index.html"
+        print(f"{'Updated' if wxc_links.update_page(page, station) else 'Unchanged'}: forecast-evolution links in {page}")
+    except Exception as exc:
+        print(f"Warning: forecast-evolution links skipped ({type(exc).__name__}: {exc})")
 
     # ---- 6. publish ----
     if not args.no_push:
