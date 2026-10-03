@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-03T20:04:14+00:00",
+  "generated_at_utc": "2026-10-03T20:33:38+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -55,7 +55,7 @@
       ],
       "n_steps": 25,
       "temp_source": "2 m T + interval max/min fields",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer')))"
+      "note": "newest cycle unavailable, used previous"
     },
     "IFS": {
       "tmax_f": 88.1,
@@ -1225,14 +1225,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.14,
-      "precip_mean_in": 0.19,
-      "init_time_utc": "2026-10-03T12",
+      "precip_in": 0.06,
+      "precip_mean_in": 0.1,
+      "init_time_utc": "2026-10-03T18",
       "valid_range_utc": [
         "2026-10-04T06",
         "2026-10-05T06"
       ],
-      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
+      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 0.929,
@@ -1249,55 +1249,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.192,
-            "std": 0.232,
-            "p0": 0.007,
-            "p10": 0.027,
-            "p25": 0.047,
-            "p50": 0.141,
-            "p75": 0.211,
-            "p90": 0.357,
-            "p100": 0.935
+            "mean": 0.102,
+            "std": 0.11,
+            "p0": 0.01,
+            "p10": 0.011,
+            "p25": 0.025,
+            "p50": 0.055,
+            "p75": 0.162,
+            "p90": 0.222,
+            "p100": 0.406
           },
           "precip_prob": {
             "0.01": 0.929,
-            "0.10": 0.571,
-            "0.25": 0.143,
-            "0.50": 0.071
+            "0.10": 0.357,
+            "0.25": 0.071,
+            "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.012,
+            0.054,
+            0.125,
+            0.01,
+            0.027,
+            0.069,
+            0.011,
             0.241,
             0.025,
             0.177,
             0.057,
             0.406,
             0.044,
-            0.174,
-            0.212,
-            0.935,
-            0.108,
-            0.032,
-            0.062,
-            0.007,
-            0.209
+            0.174
           ]
         }
       }
