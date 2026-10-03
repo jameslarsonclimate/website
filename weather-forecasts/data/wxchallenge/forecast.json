@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-03T23:15:50+00:00",
+  "generated_at_utc": "2026-10-03T23:36:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -70,8 +70,8 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS": {
-      "tmax_f": 89.3,
-      "tmin_f": 78.1,
+      "tmax_f": 90.0,
+      "tmin_f": 78.0,
       "wind_max_kt": 8.5,
       "precip_in": 0.2,
       "init_time_utc": "2026-10-03T18",
@@ -80,8 +80,7 @@
         "2026-10-05T06"
       ],
       "n_steps": 9,
-      "temp_source": "instantaneous 2 m T",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, )"
+      "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
       "tmax_f": 89.6,
