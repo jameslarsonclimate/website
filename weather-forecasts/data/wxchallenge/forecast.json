@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-03T19:02:04+00:00",
+  "generated_at_utc": "2026-10-03T20:04:14+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -31,11 +31,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 86.5,
-      "tmin_f": 75.1,
-      "wind_max_kt": 7.0,
-      "precip_in": 0.17,
-      "init_time_utc": "2026-10-03T12",
+      "tmax_f": 87.4,
+      "tmin_f": 75.0,
+      "wind_max_kt": 8.1,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-10-03T18",
       "valid_range_utc": [
         "2026-10-04T06",
         "2026-10-05T06"
@@ -44,20 +44,25 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: HTTPSConnectionPool(host='noaa-rrfs-ops-pds.s3.amazonaws.com', port=443): Read timed out."
+      "tmax_f": 85.2,
+      "tmin_f": 73.3,
+      "wind_max_kt": 7.9,
+      "precip_in": 0.24,
+      "init_time_utc": "2026-10-03T12",
+      "valid_range_utc": [
+        "2026-10-04T06",
+        "2026-10-05T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "2 m T + interval max/min fields",
+      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer')))"
     },
     "IFS": {
-      "tmax_f": 88.6,
-      "tmin_f": 74.4,
-      "wind_max_kt": 6.0,
-      "precip_in": 0.17,
-      "init_time_utc": "2026-10-03T06",
+      "tmax_f": 88.1,
+      "tmin_f": 74.7,
+      "wind_max_kt": 6.7,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-10-03T12",
       "valid_range_utc": [
         "2026-10-04T06",
         "2026-10-05T06"
@@ -1330,14 +1335,15 @@
     },
     "CONSENSUS": {
       "tmax_f": 89.1,
-      "tmin_f": 77.0,
-      "wind_max_kt": 10.3,
-      "precip_in": 0.15,
+      "tmin_f": 76.9,
+      "wind_max_kt": 10.6,
+      "precip_in": 0.14,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
             "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "AIFS",
@@ -1348,21 +1354,23 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.071,
-            "IFS": 0.08,
-            "GFS": 0.108,
-            "AIFS": 0.105,
-            "GFS_MOS": 0.075,
-            "NBM": 0.128,
-            "USL": 0.103,
-            "ENS": 0.148,
-            "AIFS_ENS": 0.183
+            "HRRR": 0.068,
+            "RRFS": 0.046,
+            "IFS": 0.076,
+            "GFS": 0.103,
+            "AIFS": 0.1,
+            "GFS_MOS": 0.071,
+            "NBM": 0.122,
+            "USL": 0.099,
+            "ENS": 0.141,
+            "AIFS_ENS": 0.174
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
             "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "AIFS",
@@ -1373,21 +1381,23 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.056,
-            "IFS": 0.095,
-            "GFS": 0.079,
-            "AIFS": 0.181,
-            "GFS_MOS": 0.101,
-            "NBM": 0.119,
-            "USL": 0.169,
-            "ENS": 0.091,
-            "AIFS_ENS": 0.109
+            "HRRR": 0.053,
+            "RRFS": 0.056,
+            "IFS": 0.089,
+            "GFS": 0.075,
+            "AIFS": 0.171,
+            "GFS_MOS": 0.095,
+            "NBM": 0.112,
+            "USL": 0.16,
+            "ENS": 0.086,
+            "AIFS_ENS": 0.103
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
             "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "AIFS",
@@ -1398,21 +1408,23 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.105,
-            "IFS": 0.077,
-            "GFS": 0.116,
-            "AIFS": 0.072,
-            "GFS_MOS": 0.085,
-            "NBM": 0.087,
-            "USL": 0.27,
-            "ENS": 0.091,
-            "AIFS_ENS": 0.097
+            "HRRR": 0.097,
+            "RRFS": 0.075,
+            "IFS": 0.071,
+            "GFS": 0.108,
+            "AIFS": 0.066,
+            "GFS_MOS": 0.078,
+            "NBM": 0.08,
+            "USL": 0.25,
+            "ENS": 0.084,
+            "AIFS_ENS": 0.09
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
             "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "AIFS",
@@ -1423,15 +1435,16 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.106,
-            "IFS": 0.106,
-            "GFS": 0.113,
-            "AIFS": 0.111,
-            "GFS_MOS": 0.099,
-            "NBM": 0.114,
-            "USL": 0.14,
-            "ENS": 0.107,
-            "AIFS_ENS": 0.105
+            "HRRR": 0.095,
+            "RRFS": 0.103,
+            "IFS": 0.095,
+            "GFS": 0.101,
+            "AIFS": 0.099,
+            "GFS_MOS": 0.089,
+            "NBM": 0.102,
+            "USL": 0.126,
+            "ENS": 0.096,
+            "AIFS_ENS": 0.094
           }
         }
       }
