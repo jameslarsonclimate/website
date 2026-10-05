@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-05T14:00:07+00:00",
+  "generated_at_utc": "2026-10-05T15:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -37,21 +37,20 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
     },
     "RRFS": {
-      "tmax_f": 81.2,
-      "tmin_f": 73.5,
-      "wind_max_kt": 7.3,
-      "precip_in": 0.23,
-      "init_time_utc": "2026-10-05T06",
+      "tmax_f": 80.9,
+      "tmin_f": 73.9,
+      "wind_max_kt": 7.6,
+      "precip_in": 0.34,
+      "init_time_utc": "2026-10-05T12",
       "valid_range_utc": [
         "2026-10-06T06",
         "2026-10-07T06"
       ],
       "n_steps": 25,
-      "temp_source": "2 m T + interval max/min fields",
-      "note": "newest cycle unavailable, used previous"
+      "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
       "tmax_f": 80.7,
@@ -156,7 +155,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-06 available at 2026-10-05 14Z"
+      "error": "no USL run for 2026-10-06 available at 2026-10-05 15Z"
     },
     "ENS": {
       "tmax_f": 82.5,
@@ -1219,14 +1218,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.37,
-      "precip_mean_in": 0.55,
-      "init_time_utc": "2026-10-05T06",
+      "precip_in": 0.65,
+      "precip_mean_in": 0.99,
+      "init_time_utc": "2026-10-05T12",
       "valid_range_utc": [
         "2026-10-06T06",
         "2026-10-07T06"
       ],
-      "note": "median of 13 members, 06Z + 00Z runs (RRFS para)",
+      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -1236,60 +1235,62 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.554,
-            "std": 0.469,
+            "mean": 0.989,
+            "std": 0.943,
             "p0": 0.106,
-            "p10": 0.156,
-            "p25": 0.239,
-            "p50": 0.367,
-            "p75": 0.8,
-            "p90": 1.033,
-            "p100": 1.823
+            "p10": 0.208,
+            "p25": 0.245,
+            "p50": 0.645,
+            "p75": 1.584,
+            "p90": 2.525,
+            "p100": 2.946
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
-            "0.25": 0.692,
-            "0.50": 0.385
+            "0.25": 0.714,
+            "0.50": 0.571
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.344,
+            0.199,
+            0.775,
+            1.991,
+            2.753,
+            0.514,
+            2.946,
             0.229,
             0.239,
             0.266,
             1.823,
             0.106,
             0.8,
-            0.865,
-            0.367,
-            0.268,
-            0.138,
-            1.075,
-            0.65,
-            0.379
+            0.865
           ]
         }
       }
@@ -1327,9 +1328,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 82.1,
-      "tmin_f": 75.4,
+      "tmin_f": 75.5,
       "wind_max_kt": 10.1,
-      "precip_in": 0.64,
+      "precip_in": 0.65,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
