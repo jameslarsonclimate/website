@@ -1,18 +1,18 @@
 {
   "date": "2026-10-05",
-  "through_utc": "2026-10-05T21:53",
+  "through_utc": "2026-10-05T22:53",
   "obs": {
     "high": 87.98,
     "low": 78.98,
     "wind": 9,
     "precip": 0.0,
-    "n_obs": 16
+    "n_obs": 17
   },
   "models": {
     "HRRR": {
       "init_time_utc": "2026-10-04T18",
-      "n": 16,
-      "temp_bias": -2.6,
+      "n": 17,
+      "temp_bias": -2.7,
       "temp_mae": 3.0,
       "high_fcst": 88.2,
       "high_at": "2026-10-05T18:00",
@@ -30,7 +30,7 @@
     },
     "RRFS": {
       "init_time_utc": "2026-10-04T18",
-      "n": 16,
+      "n": 17,
       "temp_bias": -3.1,
       "temp_mae": 3.3,
       "high_fcst": 84.9,
@@ -43,15 +43,15 @@
       "low_source": "daily",
       "low_err": -5.4,
       "low_pending": false,
-      "wind_bias": -1.0,
+      "wind_bias": -0.9,
       "precip_so_far": 0.1,
       "precip_err": 0.1
     },
     "IFS": {
       "init_time_utc": "2026-10-04T12",
-      "n": 16,
-      "temp_bias": -2.7,
-      "temp_mae": 2.9,
+      "n": 17,
+      "temp_bias": -2.9,
+      "temp_mae": 3.1,
       "high_fcst": 86.7,
       "high_at": "2026-10-05T18:00",
       "high_source": "daily",
@@ -68,8 +68,8 @@
     },
     "GFS": {
       "init_time_utc": "2026-10-04T18",
-      "n": 16,
-      "temp_bias": -0.6,
+      "n": 17,
+      "temp_bias": -0.7,
       "temp_mae": 1.2,
       "high_fcst": 85.3,
       "high_at": "2026-10-05T18:00",
@@ -81,15 +81,15 @@
       "low_source": "daily",
       "low_err": -1.9,
       "low_pending": true,
-      "wind_bias": 1.2,
-      "precip_so_far": 0.39,
-      "precip_err": 0.39
+      "wind_bias": 1.1,
+      "precip_so_far": 0.49,
+      "precip_err": 0.49
     },
     "AIFS": {
       "init_time_utc": "2026-10-04T12",
-      "n": 16,
-      "temp_bias": -1.5,
-      "temp_mae": 1.9,
+      "n": 17,
+      "temp_bias": -1.6,
+      "temp_mae": 2.0,
       "high_fcst": 86.7,
       "high_at": "2026-10-05T18:00",
       "high_source": "daily",
@@ -100,14 +100,14 @@
       "low_source": "daily",
       "low_err": -2.6,
       "low_pending": true,
-      "wind_bias": -0.2,
-      "precip_so_far": 0.16,
-      "precip_err": 0.16
+      "wind_bias": -0.3,
+      "precip_so_far": 0.19,
+      "precip_err": 0.19
     },
     "GFS_MOS": {
       "init_time_utc": "2026-10-04T18",
-      "n": 16,
-      "temp_bias": 0.5,
+      "n": 17,
+      "temp_bias": 0.3,
       "temp_mae": 1.0,
       "high_fcst": 89.0,
       "high_at": "2026-10-05T18:00",
@@ -119,11 +119,11 @@
       "low_source": "daily",
       "low_err": -1.0,
       "low_pending": true,
-      "wind_bias": -0.3
+      "wind_bias": -0.2
     },
     "NBM": {
       "init_time_utc": "2026-10-04T18",
-      "n": 16,
+      "n": 17,
       "temp_bias": -2.1,
       "temp_mae": 2.3,
       "high_fcst": 87.0,
@@ -140,7 +140,7 @@
     },
     "USL": {
       "init_time_utc": "2026-10-04T22",
-      "n": 16,
+      "n": 17,
       "temp_bias": -0.5,
       "temp_mae": 1.5,
       "high_fcst": 87.0,
@@ -154,14 +154,14 @@
       "low_err": -2.0,
       "low_pending": false,
       "wind_bias": 1.2,
-      "precip_so_far": 0.1,
-      "precip_err": 0.1
+      "precip_so_far": 0.13,
+      "precip_err": 0.13
     },
     "ENS": {
       "init_time_utc": "2026-10-04T06",
-      "n": 16,
-      "temp_bias": -2.5,
-      "temp_mae": 2.8,
+      "n": 17,
+      "temp_bias": -2.7,
+      "temp_mae": 2.9,
       "high_fcst": 85.7,
       "high_at": "2026-10-05T18:00",
       "high_source": "daily",
@@ -173,14 +173,14 @@
       "low_err": -4.1,
       "low_pending": false,
       "wind_bias": -0.9,
-      "precip_so_far": 0.06,
-      "precip_err": 0.06
+      "precip_so_far": 0.07,
+      "precip_err": 0.07
     },
     "AIFS_ENS": {
       "init_time_utc": "2026-10-04T12",
-      "n": 16,
-      "temp_bias": -0.9,
-      "temp_mae": 2.1,
+      "n": 17,
+      "temp_bias": -1.1,
+      "temp_mae": 2.2,
       "high_fcst": 87.5,
       "high_at": "2026-10-05T18:00",
       "high_source": "daily",
@@ -192,14 +192,14 @@
       "low_err": -3.1,
       "low_pending": false,
       "wind_bias": -0.6,
-      "precip_so_far": 0.11,
-      "precip_err": 0.11
+      "precip_so_far": 0.13,
+      "precip_err": 0.13
     },
     "GEFS": {
       "init_time_utc": "2026-10-04T18",
-      "n": 16,
+      "n": 17,
       "temp_bias": 0.4,
-      "temp_mae": 1.2,
+      "temp_mae": 1.1,
       "high_fcst": 86.2,
       "high_at": "2026-10-05T19:00",
       "high_source": "daily",
@@ -210,11 +210,11 @@
       "low_source": "daily",
       "low_err": 0.4,
       "low_pending": false,
-      "wind_bias": 1.6,
-      "precip_so_far": 0.21,
-      "precip_err": 0.21
+      "wind_bias": 1.5,
+      "precip_so_far": 0.23,
+      "precip_err": 0.23
     }
   },
   "station": "KTPA",
-  "generated_at_utc": "2026-10-05T22:48:09+00:00"
+  "generated_at_utc": "2026-10-05T23:00:49+00:00"
 }
