@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-05T18:01:16+00:00",
+  "generated_at_utc": "2026-10-05T18:35:34+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -124,32 +124,13 @@
       ]
     },
     "NBM": {
-      "tmax_f": 84.0,
-      "tmin_f": 74,
-      "wind_max_kt": 7.0,
-      "precip_in": 0.62,
-      "pop06_max_pct": 79,
-      "pop": {
-        "p24": null,
-        "blocks": {
-          "06-12": 0.28,
-          "12-18": 0.57,
-          "18-00": 0.79,
-          "00-06": 0.62
-        },
-        "n_members": null,
-        "basis": "NBS P06",
-        "p24_range": [
-          0.79,
-          0.975
-        ]
-      },
-      "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-05T12",
-      "valid_range_utc": [
-        "2026-10-06T06",
-        "2026-10-07T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Read timed out."
     },
     "USL": {
       "tmax_f": 84.0,
@@ -962,9 +943,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.64,
-      "precip_mean_in": 0.78,
-      "init_time_utc": "2026-10-05T06",
+      "precip_in": 0.76,
+      "precip_mean_in": 0.95,
+      "init_time_utc": "2026-10-05T12",
       "valid_range_utc": [
         "2026-10-06T06",
         "2026-10-07T06"
@@ -974,7 +955,7 @@
       "pop": {
         "p24": 1.0,
         "blocks": {
-          "06-12": 0.722,
+          "06-12": 0.333,
           "12-18": 1.0,
           "18-00": 1.0,
           "00-06": 1.0
@@ -986,21 +967,21 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.776,
-            "std": 0.49,
-            "p0": 0.253,
-            "p10": 0.311,
-            "p25": 0.468,
-            "p50": 0.639,
-            "p75": 0.879,
-            "p90": 1.341,
-            "p100": 2.287
+            "mean": 0.954,
+            "std": 0.519,
+            "p0": 0.413,
+            "p10": 0.45,
+            "p25": 0.616,
+            "p50": 0.758,
+            "p75": 1.077,
+            "p90": 1.724,
+            "p100": 2.435
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
             "0.25": 1.0,
-            "0.50": 0.667
+            "0.50": 0.833
           }
         },
         "member_names": [
@@ -1025,24 +1006,24 @@
         ],
         "members": {
           "precip_in": [
-            0.589,
-            0.345,
-            0.654,
-            1.262,
-            0.861,
-            0.625,
-            0.462,
-            0.613,
-            0.955,
-            0.294,
-            2.287,
-            0.805,
-            0.319,
-            0.757,
-            1.524,
-            0.484,
-            0.885,
-            0.253
+            0.772,
+            0.413,
+            0.734,
+            1.707,
+            0.889,
+            0.692,
+            0.428,
+            0.742,
+            1.09,
+            0.542,
+            2.435,
+            1.152,
+            0.591,
+            0.983,
+            1.764,
+            0.744,
+            1.038,
+            0.459
           ]
         }
       }
@@ -1160,10 +1141,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 82.0,
-      "tmin_f": 75.7,
+      "tmax_f": 81.7,
+      "tmin_f": 75.8,
       "wind_max_kt": 10.6,
-      "precip_in": 0.91,
+      "precip_in": 0.94,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1174,22 +1155,20 @@
             "GFS",
             "AIFS",
             "GFS_MOS",
-            "NBM",
             "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.081,
-            "RRFS": 0.051,
-            "IFS": 0.081,
-            "GFS": 0.102,
-            "AIFS": 0.108,
-            "GFS_MOS": 0.084,
-            "NBM": 0.132,
-            "USL": 0.112,
-            "ENS": 0.098,
-            "AIFS_ENS": 0.15
+            "HRRR": 0.093,
+            "RRFS": 0.059,
+            "IFS": 0.094,
+            "GFS": 0.117,
+            "AIFS": 0.125,
+            "GFS_MOS": 0.097,
+            "USL": 0.129,
+            "ENS": 0.113,
+            "AIFS_ENS": 0.173
           }
         },
         "tmin_f": {
@@ -1201,22 +1180,20 @@
             "GFS",
             "AIFS",
             "GFS_MOS",
-            "NBM",
             "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.064,
-            "RRFS": 0.059,
-            "IFS": 0.093,
-            "GFS": 0.095,
-            "AIFS": 0.163,
-            "GFS_MOS": 0.126,
-            "NBM": 0.112,
-            "USL": 0.136,
-            "ENS": 0.068,
-            "AIFS_ENS": 0.084
+            "HRRR": 0.072,
+            "RRFS": 0.067,
+            "IFS": 0.104,
+            "GFS": 0.107,
+            "AIFS": 0.184,
+            "GFS_MOS": 0.142,
+            "USL": 0.153,
+            "ENS": 0.077,
+            "AIFS_ENS": 0.095
           }
         },
         "wind_max_kt": {
@@ -1228,22 +1205,20 @@
             "GFS",
             "AIFS",
             "GFS_MOS",
-            "NBM",
             "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.097,
-            "RRFS": 0.076,
-            "IFS": 0.069,
-            "GFS": 0.108,
-            "AIFS": 0.065,
-            "GFS_MOS": 0.078,
-            "NBM": 0.078,
-            "USL": 0.238,
-            "ENS": 0.093,
-            "AIFS_ENS": 0.098
+            "HRRR": 0.105,
+            "RRFS": 0.082,
+            "IFS": 0.075,
+            "GFS": 0.117,
+            "AIFS": 0.07,
+            "GFS_MOS": 0.084,
+            "USL": 0.258,
+            "ENS": 0.101,
+            "AIFS_ENS": 0.106
           }
         },
         "precip_in": {
@@ -1255,22 +1230,20 @@
             "GFS",
             "AIFS",
             "GFS_MOS",
-            "NBM",
             "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.101,
-            "RRFS": 0.106,
-            "IFS": 0.1,
-            "GFS": 0.101,
-            "AIFS": 0.099,
-            "GFS_MOS": 0.088,
-            "NBM": 0.104,
-            "USL": 0.105,
-            "ENS": 0.096,
-            "AIFS_ENS": 0.101
+            "HRRR": 0.112,
+            "RRFS": 0.118,
+            "IFS": 0.111,
+            "GFS": 0.112,
+            "AIFS": 0.11,
+            "GFS_MOS": 0.098,
+            "USL": 0.117,
+            "ENS": 0.108,
+            "AIFS_ENS": 0.113
           }
         }
       }
