@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-05T20:30:10+00:00",
+  "generated_at_utc": "2026-10-05T20:38:30+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -1051,82 +1051,11 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.6,
-      "precip_mean_in": 1.08,
-      "init_time_utc": "2026-10-05T18",
-      "valid_range_utc": [
-        "2026-10-06T06",
-        "2026-10-07T06"
-      ],
-      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 1.0,
-        "blocks": {
-          "06-12": null,
-          "12-18": null,
-          "18-00": null,
-          "00-06": null
-        },
-        "n_members": 14,
-        "basis": "member fraction"
-      },
-      "ensemble": {
-        "n_members": 14,
-        "stats": {
-          "precip_in": {
-            "mean": 1.081,
-            "std": 1.036,
-            "p0": 0.175,
-            "p10": 0.198,
-            "p25": 0.306,
-            "p50": 0.602,
-            "p75": 1.724,
-            "p90": 2.863,
-            "p100": 2.946
-          },
-          "precip_prob": {
-            "0.01": 1.0,
-            "0.10": 1.0,
-            "0.25": 0.786,
-            "0.50": 0.571
-          }
-        },
-        "member_names": [
-          "RRFS 18Z",
-          "RRFS m001 18Z",
-          "RRFS m002 18Z",
-          "RRFS m003 18Z",
-          "RRFS m004 18Z",
-          "RRFS m005 18Z",
-          "HRRR 18Z",
-          "RRFS 12Z",
-          "RRFS m001 12Z",
-          "RRFS m002 12Z",
-          "RRFS m003 12Z",
-          "RRFS m004 12Z",
-          "RRFS m005 12Z",
-          "HRRR 12Z"
-        ],
-        "members": {
-          "precip_in": [
-            0.197,
-            0.175,
-            0.925,
-            0.421,
-            0.689,
-            0.293,
-            2.91,
-            0.344,
-            0.199,
-            0.775,
-            1.991,
-            2.753,
-            0.514,
-            2.946
-          ]
-        }
-      }
+      "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
     },
     "NBM_QMD": {
       "tmax_f": null,
