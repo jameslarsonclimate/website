@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-05T15:00:09+00:00",
+  "generated_at_utc": "2026-10-05T16:00:14+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -31,13 +31,17 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 80.0,
+      "tmin_f": 73.5,
+      "wind_max_kt": 11.0,
+      "precip_in": 2.95,
+      "init_time_utc": "2026-10-05T12",
+      "valid_range_utc": [
+        "2026-10-06T06",
+        "2026-10-07T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
       "tmax_f": 80.9,
@@ -155,7 +159,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-06 available at 2026-10-05 15Z"
+      "error": "no USL run for 2026-10-06 available at 2026-10-05 16Z"
     },
     "ENS": {
       "tmax_f": 82.5,
@@ -1327,14 +1331,15 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 82.1,
+      "tmax_f": 82.0,
       "tmin_f": 75.5,
-      "wind_max_kt": 10.1,
-      "precip_in": 0.65,
+      "wind_max_kt": 10.5,
+      "precip_in": 0.91,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -1345,19 +1350,21 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.063,
-            "IFS": 0.101,
-            "GFS": 0.126,
-            "AIFS": 0.134,
-            "GFS_MOS": 0.105,
-            "NBM": 0.164,
-            "ENS": 0.122,
-            "AIFS_ENS": 0.186
+            "HRRR": 0.091,
+            "RRFS": 0.058,
+            "IFS": 0.092,
+            "GFS": 0.114,
+            "AIFS": 0.122,
+            "GFS_MOS": 0.095,
+            "NBM": 0.149,
+            "ENS": 0.11,
+            "AIFS_ENS": 0.169
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -1368,19 +1375,21 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.074,
-            "IFS": 0.116,
-            "GFS": 0.118,
-            "AIFS": 0.203,
-            "GFS_MOS": 0.158,
-            "NBM": 0.14,
-            "ENS": 0.085,
-            "AIFS_ENS": 0.105
+            "HRRR": 0.074,
+            "RRFS": 0.068,
+            "IFS": 0.107,
+            "GFS": 0.11,
+            "AIFS": 0.188,
+            "GFS_MOS": 0.146,
+            "NBM": 0.13,
+            "ENS": 0.079,
+            "AIFS_ENS": 0.098
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -1391,19 +1400,21 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.114,
-            "IFS": 0.104,
-            "GFS": 0.163,
-            "AIFS": 0.097,
-            "GFS_MOS": 0.117,
-            "NBM": 0.118,
-            "ENS": 0.14,
-            "AIFS_ENS": 0.147
+            "HRRR": 0.127,
+            "RRFS": 0.1,
+            "IFS": 0.091,
+            "GFS": 0.142,
+            "AIFS": 0.085,
+            "GFS_MOS": 0.102,
+            "NBM": 0.103,
+            "ENS": 0.122,
+            "AIFS_ENS": 0.128
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
@@ -1414,14 +1425,15 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.133,
-            "IFS": 0.125,
-            "GFS": 0.127,
-            "AIFS": 0.124,
-            "GFS_MOS": 0.111,
-            "NBM": 0.131,
-            "ENS": 0.121,
-            "AIFS_ENS": 0.127
+            "HRRR": 0.112,
+            "RRFS": 0.118,
+            "IFS": 0.111,
+            "GFS": 0.112,
+            "AIFS": 0.11,
+            "GFS_MOS": 0.098,
+            "NBM": 0.117,
+            "ENS": 0.108,
+            "AIFS_ENS": 0.113
           }
         }
       }
