@@ -183,8 +183,8 @@
 
   <section id="ensembles">
     <h2>Ensembles</h2>
-    <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31) and the Canadian GEPS (21; these two
-      are shown and scored but not part of the consensus), all via Open-Meteo, plus two 3 km precipitation
+    <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31; shown and scored but not
+      part of the consensus), all via Open-Meteo, plus two 3 km precipitation
       ensembles: REFS (NOAA's new operational short-range ensemble: RRFS, RRFS ensemble and HRRR members from the
       latest two cycles) and HRRRCast (NOAA GSL's experimental AI emulator of the HRRR, 18 members), for the same
       06Z–06Z day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the dark bar
@@ -405,7 +405,7 @@ const GROUPS = [
   { title: 'Grid models', rows: [['HRRR','HRRR'],['RRFS','RRFS'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
   { title: 'Statistical / point guidance', rows: [['GFS_MOS','GFS MOS'],['NBM','NBM'],['USL','USL']] },
   { title: 'Ensembles (mean)', rows: [['ENS','ECMWF ENS'],['AIFS_ENS','AIFS ENS']] },
-  { title: 'More ensembles (mean; not in consensus)', rows: [['GEFS','GEFS'],['GEPS','GEPS (Canadian)']] },
+  { title: 'More ensembles (mean; not in consensus)', rows: [['GEFS','GEFS']] },
   { title: 'Precip only (median; not in consensus)', rows: [['REFS','REFS'],['HRRRCAST','HRRRCast (AI)'],['NBM_QMD','NBM QMD (50% level)']] },
   { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
 ];
@@ -634,7 +634,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
 
 
 /* ---------- ensembles ---------- */
-const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS'], ['GEPS','GEPS (Canadian)'],
+const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS'],
                   ['REFS','REFS'], ['HRRRCAST','HRRRCast (AI)']];
 // round-number tick spacing giving roughly n intervals across `range`
 function niceStep(range, n = 3){
@@ -721,7 +721,7 @@ function renderEnsembles(data){
 const POP_BLOCKS = ['06-12', '12-18', '18-00', '00-06'];
 const POP_FAMILIES = [
   { title: 'Statistical guidance', rows: [['NBM_QMD','NBM QMD'], ['NBM','NBM text'], ['GFS_MOS','GFS MOS']] },
-  { title: 'Global ensembles', rows: [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS'], ['GEPS','GEPS']] },
+  { title: 'Global ensembles', rows: [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS']] },
   { title: '3 km ensembles', rows: [['HRRRCAST','HRRRCast (AI)'], ['REFS','REFS']] },
 ];
 const POP_LABEL = Object.fromEntries(POP_FAMILIES.flatMap(f => f.rows));

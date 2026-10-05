@@ -5,9 +5,8 @@ gigabytes of global GRIB.
   ENS       ECMWF IFS ENS 0.25 deg, 51 members      (in the consensus)
   AIFS_ENS  ECMWF AIFS ENS, 51 members              (in the consensus)
   GEFS      NCEP GEFS 0.25 deg, 31 members          (shown and scored, NOT in the consensus)
-  GEPS      CMC GEM global ensemble, 21 members     (shown and scored, NOT in the consensus)
 
-  https://ensemble-api.open-meteo.com/v1/ensemble?models=ecmwf_ifs025,ecmwf_aifs025,ncep_gefs025,gem_global&...
+  https://ensemble-api.open-meteo.com/v1/ensemble?models=ecmwf_ifs025,ecmwf_aifs025,ncep_gefs025&...
 
 Open-Meteo serves only the latest run (the run time comes from each model's
 meta.json), so ensembles are not hindcast; results are cached per run like the
@@ -16,7 +15,7 @@ other models, so repeated script runs reuse them.
 Per member the WxChallenge day (06Z-06Z) is summarised: high, low, max wind and
 precip total. The summary gives the ensemble mean (used as the model's forecast),
 percentiles for box plots and precipitation probabilities.
-Note: Open-Meteo interpolates the 3-hourly (IFS, GEFS, GEPS) / 6-hourly (AIFS) output to
+Note: Open-Meteo interpolates the 3-hourly (IFS, GEFS) / 6-hourly (AIFS) output to
 hourly values, so highs and lows are only as good as those output times (muted extremes).
 Each model also gets a PoP record (wxc_pop): the share of members with >= 0.01" in the day
 and in each 6-h block (block edges fall on output times, so the block sums are exact).
@@ -33,12 +32,12 @@ import wxc_pop
 API = "https://ensemble-api.open-meteo.com/v1/ensemble"
 META = "https://ensemble-api.open-meteo.com/data/{path}/static/meta.json"
 # our label -> Open-Meteo model id (checked against the API on 2026-10-02)
-MODELS = {"ENS": "ecmwf_ifs025", "AIFS_ENS": "ecmwf_aifs025", "GEFS": "ncep_gefs025", "GEPS": "gem_global"}
-# meta.json folder per model id (GEFS/GEPS don't follow the "<id>_ensemble" pattern)
+MODELS = {"ENS": "ecmwf_ifs025", "AIFS_ENS": "ecmwf_aifs025", "GEFS": "ncep_gefs025"}
+# meta.json folder per model id (GEFS doesn't follow the "<id>_ensemble" pattern)
 META_PATH = {"ecmwf_ifs025": "ecmwf_ifs025_ensemble", "ecmwf_aifs025": "ecmwf_aifs025_ensemble",
-             "ncep_gefs025": "ncep_gefs025", "gem_global": "cmc_gem_geps"}
-from wxc_verify import NOT_IN_CONSENSUS   # GEFS, GEPS
-EXTRA_ENABLED = True       # False skips GEFS and GEPS (ECMWF ensembles unaffected)
+             "ncep_gefs025": "ncep_gefs025"}
+from wxc_verify import NOT_IN_CONSENSUS   # GEFS
+EXTRA_ENABLED = True       # False skips GEFS (ECMWF ensembles unaffected)
 PRECIP_THRESHOLDS = [0.01, 0.10, 0.25, 0.50]
 PCTS = [0, 10, 25, 50, 75, 90, 100]
 
@@ -149,7 +148,7 @@ def _result(label, init, summ, target_day):
 
 
 def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, only=None) -> dict:
-    """ENS, AIFS_ENS, GEFS and GEPS for the target day. Live only (Open-Meteo keeps only the
+    """ENS, AIFS_ENS and GEFS for the target day. Live only (Open-Meteo keeps only the
     latest run), so a hindcast (as_of) gets an error entry."""
     labels = [k for k in MODELS if (only is None or k in only)
               and (EXTRA_ENABLED or k not in NOT_IN_CONSENSUS)]

@@ -6,7 +6,7 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
   2. verifies earlier runs against those observations (data/wxchallenge/verification.json)
   3. fetches HRRR, RRFS, ECMWF IFS, GFS and AIFS grids (Herbie) plus GFS MOS and
      NBM text guidance (IEM), each summarised for the next WxChallenge day (06Z-06Z),
-     the ECMWF, GEFS and GEPS ensembles (Open-Meteo; GEFS/GEPS not in the consensus), the 3 km
+     the ECMWF and GEFS ensembles (Open-Meteo; GEFS not in the consensus), the 3 km
      precip ensembles REFS and HRRRCast (wxc_cam_ens.py) and NBM QMD probabilistic precip
      (wxc_nbm_qmd.py); precip-only sources are not part of the consensus. Every source with a
      probability of precipitation carries a "pop" record (wxc_pop.py; display/verification only)
@@ -62,7 +62,7 @@ MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't 
 TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
 GRIB_ORDER = ["HRRR", "RRFS", "IFS", "GFS", "AIFS"]
 MOS_ORDER = list(wxc_mos.MOS_PRODUCTS) + ["USL"]   # GFS_MOS, NBM (IEM text) + USL (microclimates.org)
-ENS_ORDER = list(wxc_ens.MODELS)                    # ENS, AIFS_ENS, GEFS, GEPS (Open-Meteo)
+ENS_ORDER = list(wxc_ens.MODELS)                    # ENS, AIFS_ENS, GEFS (Open-Meteo)
 CAM_ORDER = list(wxc_cam_ens.MODELS)                # HRRRCAST, REFS (3 km precip-only ensembles)
 # Herbie sources for HRRR. Azure's URL-signing API answers without an "href" for files that
 # aren't there, which Herbie doesn't catch (a KeyError traceback per missing hour), so it's left out.
@@ -455,7 +455,7 @@ def plot_forecast(results, mos, cons, station, day, path, clouds=None):
 
     colors = {"HRRR": "C0", "RRFS": "C8", "IFS": "C1", "GFS": "C2", "AIFS": "C3",
               "GFS_MOS": "C2", "NBM": "C5", "USL": "C6", "ENS": "C9", "AIFS_ENS": "C3",
-              "GEFS": "C4", "GEPS": "C7"}
+              "GEFS": "C4"}
     n = 3 if clouds is None else 4
     fig, axes = plt.subplots(n, 1, figsize=(12, 10 if n == 3 else 13.3), sharex=True,
                              gridspec_kw={"height_ratios": [1, 1, 1, wxc_clouds.PANEL_RATIO][:n]})
@@ -470,8 +470,8 @@ def plot_forecast(results, mos, cons, station, day, path, clouds=None):
     w1 = w0 + pd.Timedelta(hours=24)
     for name in MOS_ORDER + ENS_ORDER:
         s = mos.get(name, {}).get("series")
-        # GEFS/GEPS (not in the consensus) are in the tables and box plots; two more ensemble
-        # bands would bury the other lines here
+        # GEFS (not in the consensus) is in the tables and box plots; another ensemble
+        # band would bury the other lines here
         if not s or not s["times"] or name in wxc_verify.NOT_IN_CONSENSUS:
             continue
         t = pd.to_datetime(s["times"])

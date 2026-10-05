@@ -16,7 +16,7 @@ from pathlib import Path
 import pandas as pd
 
 import wxc_clouds
-from wxc_verify import STYLE
+from wxc_verify import RETIRED, STYLE
 
 
 def _so_far(obs: pd.DataFrame) -> dict:
@@ -211,7 +211,7 @@ def today_bias(obs: pd.DataFrame, submitted: dict, day, now) -> dict:
     t_last = float(_secs([last])[0])
     t_start = float(_secs([start])[0])
     for name, s in (submitted or {}).get("models", {}).items():
-        if not s or not s.get("times") or not s.get("temp_f"):
+        if not s or not s.get("times") or not s.get("temp_f") or name in RETIRED:
             continue
         t = _secs(s["times"])
         inside = (ot >= t[0]) & (ot <= t[-1])

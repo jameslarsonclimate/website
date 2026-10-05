@@ -46,8 +46,8 @@ HALF_LIFE_DAYS = {"tmax_f": 9.0, "tmin_f": 9.0, "wind_max_kt": 18.0, "precip_in"
 BIAS_SHRINK_DAYS = 3
 MAE_OFFSET = 0.5   # consensus weight = 1/(MAE + MAE_OFFSET)
 OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from the member median
-# shown and scored, but never consensus members (live or reconstructed): GEFS/GEPS ensembles
-NOT_IN_CONSENSUS = {"GEFS", "GEPS"}
+# shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble
+NOT_IN_CONSENSUS = {"GEFS"}
 PERIOD_DAYS = 14   # a city period is two weeks (Mon-Thu x2, ~8 forecast days)
 HINDCAST_DAYS = 14   # days hindcast before a city's first forecast day, for its track record
 
@@ -88,6 +88,15 @@ def read_jsonl(path: Path) -> list:
             except json.JSONDecodeError:
                 pass
     return out
+
+
+def read_runs() -> list:
+    """runs.jsonl without RETIRED models (the file itself keeps them)."""
+    rows = read_jsonl(RUNS)
+    for r in rows:
+        for k in RETIRED & set(r.get("models", {})):
+            del r["models"][k]
+    return rows
 
 
 def write_jsonl(path: Path, rows: list):
@@ -269,7 +278,7 @@ def run_for_day(runs: list, station: str, day: str) -> Optional[dict]:
 
 
 # models no longer used: kept in runs.jsonl but left out of scoring, the page and the consensus
-RETIRED = {"NAM_MOS"}
+RETIRED = {"NAM_MOS", "GEPS"}
 
 
 def forecasts_for_day(runs: list, station: str, day: str) -> dict:
@@ -320,7 +329,7 @@ def scored_days(station: str, start: Optional[str] = None, end: Optional[str] = 
     forecast ("models") plus the unrounded forecast itself ("forecasts", used to rebuild the
     consensus). Pass runs/obs to reuse already-loaded files (backtests).
     """
-    runs = read_jsonl(RUNS) if runs is None else runs
+    runs = read_runs() if runs is None else runs
     obs = read_jsonl(OBS) if obs is None else obs
     obs = [o for o in obs if o["station"] == station and o.get("complete", True)
            and (not start or o["date"] >= start) and (not end or o["date"] <= end)]
@@ -422,7 +431,7 @@ def verify(station: str, start: Optional[str] = None, end: Optional[str] = None)
     hindcast, get a reconstructed consensus: what the current method would have submitted
     with only the earlier days' track record (never the day itself).
     """
-    runs = read_jsonl(RUNS)
+    runs = read_runs()
     days = scored_days(station, start, end, runs=runs)
     city_start = city_start_date(runs, station, start or "")
     for i, d in enumerate(days):
@@ -539,7 +548,7 @@ def write_verification(station: str, today: date) -> dict:
     res["observations"] = obs
     try:                       # PoP verification (display only); never block the scoreboard
         import wxc_pop
-        res["pop"] = wxc_pop.verify_pop(read_jsonl(RUNS), all_obs, station, start)
+        res["pop"] = wxc_pop.verify_pop(read_runs(), all_obs, station, start)
     except Exception as exc:
         print(f"Warning: PoP verification skipped ({type(exc).__name__}: {exc})")
     VERIF.write_text(dumps(res, indent=2))
@@ -563,7 +572,7 @@ def print_summary(res: dict):
 # same colours as the forecast figure (latest.png); MOS dashed, consensus black
 STYLE = {"HRRR": ("C0", "-"), "RRFS": ("C8", "-"), "IFS": ("C1", "-"), "GFS": ("C2", "-"), "AIFS": ("C3", "-"),
          "GFS_MOS": ("C2", "--"), "NBM": ("C5", "--"), "USL": ("C6", "--"),
-         "ENS": ("C9", "--"), "AIFS_ENS": ("C3", "--"), "GEFS": ("C4", "--"), "GEPS": ("C7", "--"),
+         "ENS": ("C9", "--"), "AIFS_ENS": ("C3", "--"), "GEFS": ("C4", "--"),
          "CONSENSUS": ("k", "-")}
 
 

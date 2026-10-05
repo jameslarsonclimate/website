@@ -648,7 +648,7 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     assert fc["models"]["ENS"]["ensemble"]["stats"]["precip_prob"]["0.01"] > 0
     assert fc["models"]["REFS"]["precip_in"] == 0.12 and fc["models"]["REFS"]["tmax_f"] is None
     assert fc["models"]["HRRRCAST"]["error"] == "not posted"
-    assert not {"REFS", "HRRRCAST", "NBM_QMD", "GEFS", "GEPS"} & set(fc["models"]["CONSENSUS"]["method"]["precip_in"]["members"])
+    assert not {"REFS", "HRRRCAST", "NBM_QMD", "GEFS"} & set(fc["models"]["CONSENSUS"]["method"]["precip_in"]["members"])
     assert fc["models"]["GEFS"]["tmax_f"] is not None                    # shown, just not blended
     # PoP: MOS bounds from P06, QMD from the (faked) file values; kept in runs.jsonl for live runs
     assert fc["models"]["NBM"]["pop"]["p24"] is None and fc["models"]["NBM"]["pop"]["p24_range"] == [0.3, pytest.approx(1 - 0.7 ** 4, abs=1e-3)]
@@ -708,7 +708,7 @@ def _openmeteo(day0="2026-09-29", seed=1):
     hrs = np.arange(96)
     # key suffixes as the real API names them in a combined request (GEFS has no "_ensemble")
     for model, suffix, n in (("ecmwf_ifs025", "_ecmwf_ifs025_ensemble", 51), ("ecmwf_aifs025", "_ecmwf_aifs025_ensemble", 51),
-                             ("ncep_gefs025", "_ncep_gefs025", 31), ("gem_global", "_gem_global_ensemble", 21)):
+                             ("ncep_gefs025", "_ncep_gefs025", 31)):
         for mem in range(n):
             tag = "" if mem == 0 else f"_member{mem:02d}"
             off = rng.normal(0, 2)
@@ -753,7 +753,8 @@ def test_ensemble_summary(monkeypatch):
     monkeypatch.setattr(wxc_ens, "_get_json", lambda url, params=None: calls.append(params) or data)
     out = wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30))
     assert out["ENS"]["init_time_utc"] == "2026-09-29T00" and "ensemble" in out["AIFS_ENS"]
-    assert out["GEFS"]["ensemble"]["n_members"] == 31 and out["GEPS"]["pop"]["n_members"] == 21
+    assert out["GEFS"]["ensemble"]["n_members"] == 31 and out["GEFS"]["pop"]["n_members"] == 31
+    assert "GEPS" not in out
     assert "not in the consensus" in out["GEFS"]["note"] and "not in" not in out["ENS"]["note"]
     wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30))
     assert len(calls) == 1                                   # second call served from the cache
@@ -762,12 +763,12 @@ def test_ensemble_summary(monkeypatch):
     import wxc_cache
     monkeypatch.setattr(wxc_cache, "ENABLED", False)
     def flaky(url, params=None):
-        if "," in params["models"] or params["models"] == "gem_global":
+        if "," in params["models"] or params["models"] == "ncep_gefs025":
             raise RuntimeError("400 bad model")
         return data
     monkeypatch.setattr(wxc_ens, "_get_json", flaky)
     out = wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30))
-    assert "ensemble" in out["ENS"] and "ensemble" in out["GEFS"] and "400 bad model" in out["GEPS"]["error"]
+    assert "ensemble" in out["ENS"] and "ensemble" in out["AIFS_ENS"] and "400 bad model" in out["GEFS"]["error"]
     assert "no hindcast" in wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30),
                                                   as_of=datetime(2026, 9, 29, 21, tzinfo=timezone.utc))["ENS"]["error"]
 
