@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-07**, scored over 2026-10-07T06Z to 2026-10-08T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-07T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-06T22:36:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-06T22:48:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -34,14 +34,14 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS | 06/12Z | 80.0 | 75.4 | 5.0 | 1.83 |
 | GFS_MOS | 06/18Z | 84.0 | 75.0 | 7.0 | 3.30 |
 | NBM | 06/18Z | 81.0 | 74.0 | 8.0 | 1.04 |
-| USL | 06/12Z | 83.0 | 76.0 | 11.0 | 0.62 |
+| USL | 06/22Z | 82.0 | 75.0 | 10.0 | 2.82 |
 | ENS | 06/06Z | 81.2 | 73.9 | 7.8 | 0.82 |
 | AIFS_ENS | 06/12Z | 80.3 | 74.3 | 7.8 | 1.66 |
 | GEFS | 06/12Z | 78.8 | 74.7 | 12.1 | 1.15 |
 | HRRRCAST (precip only) | 06/12Z | — | — | — | 2.35 |
 | REFS (precip only) | 06/18Z | — | — | — | 1.44 |
 | NBM_QMD (precip only) | 06/12Z | — | — | — | 2.37 |
-| **CONSENSUS** |  | **81.5** | **75.1** | **11.7** | **1.39** |
+| **CONSENSUS** |  | **81.4** | **75.0** | **11.4** | **1.62** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -271,24 +271,24 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-04 | 0.01" (wet: 00-06) | 25/22/62/62 | 7/6/37/50 | 18/43/90/53 | 12/18/65/49 | 13/0/84/81 | 0/0/22/67 | 24h 93% | 7/0/28/50 |
 | 10-05 | 0.00" (dry) | 47/46/76/60 | 8/15/49/34 | 4/24/80/24 | 10/49/92/88 | 48/77/84/71 | 22/61/83/94 | 24h 100% | 3/6/46/33 |
 
-## Today so far (2026-10-06, through 2026-10-06T21:53Z)
+## Today so far (2026-10-06, through 2026-10-06T22:29Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 79.0 °F, low 75.9 °F, max wind 5 kt, precip 0.92" (16 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 79.0 °F, low 75.9 °F, max wind 6 kt, precip 1.04" (16 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 05/18Z | -0.5 | 1.4 | 81 (+2) | 73 (-3) pending | +1.4 | 0.99 | +0.07 |
-| RRFS | 05/18Z | +0.8 | 2.5 | 82 (+3) | 74 (-2) pending | -0.2 | 0.07 | -0.85 |
-| IFS | 05/12Z | +1.1 | 2.5 | 84 (+4) | 75 (-1) | -0.8 | 0.10 | -0.82 |
-| GFS | 05/18Z | +3.0 | 3.0 | 87 (+8) | 75 (-1) pending | -0.2 | 0.46 | -0.46 |
-| AIFS | 05/12Z | +0.7 | 1.3 | 82 (+2) | 76 (+0) pending | -0.6 | 0.60 | -0.32 |
+| HRRR | 05/18Z | -0.5 | 1.4 | 81 (+2) | 73 (-3) pending | +1.4 | 1.26 | +0.22 |
+| RRFS | 05/18Z | +0.8 | 2.5 | 82 (+3) | 74 (-2) pending | -0.2 | 0.08 | -0.96 |
+| IFS | 05/12Z | +1.1 | 2.5 | 84 (+4) | 75 (-1) | -0.8 | 0.13 | -0.91 |
+| GFS | 05/18Z | +3.0 | 3.0 | 87 (+8) | 75 (-1) pending | -0.2 | 0.49 | -0.55 |
+| AIFS | 05/12Z | +0.7 | 1.3 | 82 (+2) | 76 (+0) pending | -0.6 | 0.65 | -0.39 |
 | GFS_MOS | 05/18Z | +2.8 | 2.8 | 86 (+7) | 77 (+1) | +0.5 | — | — |
 | NBM | 05/18Z | +1.2 | 1.9 | 84 (+5) | 75 (-1) pending | +1.3 | — | — |
-| ENS | 04/18Z | +0.6 | 2.1 | 82 (+4) | 74 (-2) | +0.0 | 0.32 | -0.60 |
-| AIFS_ENS | 05/00Z | +1.1 | 1.6 | 82 (+3) | 75 (-1) pending | +0.5 | 0.55 | -0.37 |
-| GEFS | 05/18Z | +4.3 | 4.3 | 86 (+7) | 77 (+1) | +1.8 | 0.50 | -0.42 |
+| ENS | 04/18Z | +0.6 | 2.1 | 82 (+4) | 74 (-2) | +0.0 | 0.34 | -0.70 |
+| AIFS_ENS | 05/00Z | +1.1 | 1.6 | 82 (+3) | 75 (-1) pending | +0.5 | 0.60 | -0.44 |
+| GEFS | 05/18Z | +4.3 | 4.3 | 86 (+7) | 77 (+1) | +1.8 | 0.51 | -0.53 |
 
 ## Raw data
 
