@@ -332,6 +332,8 @@
       forecasts for today. Solid lines are the runs available before the 00Z deadline; dashed lines are
       the newest HRRR, MOS and NBM runs. Grey shading is the part of the day still to come.</p>
     <img id="today-fig" alt="Today so far: observations vs forecasts"/>
+    <!-- Hidden for now ("How the forecasts are doing so far today"); to bring it back, uncomment this
+         block and the today.json fetch in the script (search "today so far: errors").
     <h3 style="margin-top:1.2rem">How the forecasts are doing so far today</h3>
     <p id="today-note" class="small"></p>
     <div class="scroll">
@@ -342,6 +344,7 @@
       forecast high and low (the number in the forecast table, which is what gets scored) and, in brackets, its
       difference from the observed high or low so far. They stay grey until the time the model expects its high
       or low has passed (hover for the time), because until then the observed value can still change.</p>
+    -->
   </section>
 
   <section id="verification">
@@ -375,7 +378,10 @@
       the day before), there to give every model a track record from day one. The consensus on those days
       (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
       the days before it. <span id="decay-note"></span> Hover or tap a cell for details.</p>
+    <!-- Hidden for now: daily and cumulative error points figure; to bring it back, uncomment this
+         and the verif-fig lines in the script.
     <img id="verif-fig" alt="Daily and cumulative error points by model"/>
+    -->
   </section>
 
   <div id="tip" role="tooltip"></div>
@@ -1010,6 +1016,7 @@ function renderToday(tj){
     console.error(err);
   }
 
+  /* today so far: errors (hidden for now, see the commented-out block in the "today" section)
   try {
     const res = await fetch('../data/wxchallenge/today.json' + bust, { cache: 'no-store' });
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
@@ -1018,6 +1025,7 @@ function renderToday(tj){
     document.getElementById('today-table').innerHTML = '<tbody><tr><td>Not available yet.</td></tr></tbody>';
     console.error(err);
   }
+  */
 
   try {
     const res = await fetch('../data/wxchallenge/verification.json' + bust, { cache: 'no-store' });
@@ -1045,12 +1053,13 @@ function renderToday(tj){
     ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(t =>
       wrap.addEventListener(t, () => { touched = true; }, { passive: true, once: true }));
     new ResizeObserver(() => { pinAvg(); if (!touched) wrap.scrollLeft = wrap.scrollWidth; }).observe(wrap);
-    if (scored.length) document.getElementById('verif-fig').src = `../images/wxchallenge/verification.png${bust}`;
-    else document.getElementById('verif-fig').remove();
+    // error-points figure hidden for now (see the commented-out verif-fig image)
+    // if (scored.length) document.getElementById('verif-fig').src = `../images/wxchallenge/verification.png${bust}`;
+    // else document.getElementById('verif-fig').remove();
   } catch (err) {
     document.getElementById('verif-period').textContent = 'Verification not available yet.';
     document.getElementById('score').innerHTML = '';
-    document.getElementById('verif-fig').remove();
+    // document.getElementById('verif-fig').remove();   // figure hidden for now
     console.error(err);
   }
 })();
