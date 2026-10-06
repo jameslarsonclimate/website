@@ -37,12 +37,18 @@ def _verif():
            "obs_pending": ["wind_max_kt"], "hindcast": False,
            "models": {"HRRR": {"error": {"tmax_f": 0, "tmin_f": -3, "wind_max_kt": 1, "precip_in": 0.11},
                                "points": 7.8}}}
+    early = {"date": "2026-10-04", "hindcast": True, "obs": {"tmax_f": 89, "tmin_f": 79, "wind_max_kt": 9,
+                                                              "precip_in": 0.01},
+             "models": {"HRRR": {"error": {"tmax_f": -2, "tmin_f": -4, "wind_max_kt": -1, "precip_in": 0.0},
+                                 "points": 9.0}}}
     return {"station": "KTPA", "period_start": "2026-09-16", "city_start": "2026-09-29",
-            "half_life_days": {"tmax_f": 9.0}, "days": [day],
+            "half_life_days": {"tmax_f": 9.0}, "days": [early, day],
             "summary": {"HRRR": {"n_days": 20, "mean_points": 11.11,
                                  "bias": {"tmax_f": -1.93, "tmin_f": -0.01, "wind_max_kt": -2.3, "precip_in": 0.06},
                                  "mae": {"tmax_f": 2.1, "tmin_f": 3.1, "wind_max_kt": 3.4, "precip_in": 0.18}}},
-            "pop": {"summary": {"ENS": {"brier_6h": 0.322, "n_blocks": 12}},
+            "pop": {"summary": {"ENS": {"brier_6h": 0.322, "n_blocks": 12}}, "event_in": 0.01,
+                    "days": [{"date": "2026-10-05", "precip_in": 0.01, "obs": {"24h": 1, "00-06": 1},
+                              "models": {"ENS": {"p24": 1.0, "blocks": {"06-12": 0.9}}}}],
                     "base_rate": {"freq_6h": 0.083, "brier_6h": 0.0761}}}
 
 
@@ -59,7 +65,8 @@ def test_brief_has_every_section_and_key_numbers():
     for heading in ("# WxChallenge forecast brief: Tampa, FL (KTPA)", "## How to use this brief",
                     "## Scoring", "## Guidance for the target day", "## Consensus method",
                     "## Ensemble spread", "## Chance of measurable precip", "## Track record this period",
-                    "## Recent days", "## Today so far", "## Raw data"):
+                    "## Daily verification (all 2 days", "## Daily verification of precip chances",
+                    "## Today so far", "## Raw data"):
         assert heading in txt, heading
     assert "Submission deadline: 2026-10-07T00Z" in txt
     assert "| **CONSENSUS** |  | **81.5** | **75.0** | **11.7** | **1.40** |" in txt
@@ -68,8 +75,10 @@ def test_brief_has_every_section_and_key_numbers():
     assert "outliers excluded: GFS" in txt
     assert "| ENS | 51 | Precip in | 0.10 | 0.40 | 0.85 | 1.00 | 1.50 | 0.80 |" in txt
     assert "| HRRR | 20 | 11.1 | -1.9 | +0.0 |" in txt          # -0.01 shown as +0.0, never -0.0
-    assert "+0/-3/+1/+0.11" in txt                                # recent errors, high/low/wind/precip
-    assert "| 2026-10-05 | 88 | 78 | ~11 | 0.00 |" in txt          # preliminary wind marked
+    assert "| 10-04 h | 9.0 | HRRR |" in txt and "| 10-05 | 7.8 | HRRR |" in txt   # every day, hindcasts marked
+    assert "| 10-05 | 78 | -3 |" in txt and "| 10-05 | 0.00 | +0.11 |" in txt   # obs + error per variable
+    assert "| 10-05 | ~11 | +1 |" in txt                          # preliminary wind marked
+    assert '| 10-05 | 0.01" (wet: 00-06) | 90/—/—/— |' in txt     # daily precip chances
     assert "76 (+0) pending" in txt                               # rounded -0.2 isn't "-0"
     assert "-0 " not in txt and "-0.0 " not in txt and "Warning" not in txt
 

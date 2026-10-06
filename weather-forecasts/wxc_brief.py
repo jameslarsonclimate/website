@@ -25,7 +25,6 @@ VARS = ["tmax_f", "tmin_f", "wind_max_kt", "precip_in"]
 VAR_NAMES = {"tmax_f": "High °F", "tmin_f": "Low °F", "wind_max_kt": "Wind kt", "precip_in": 'Precip in'}
 ENS_VARS = {"tmax_f": "High °F", "tmin_f": "Low °F", "wind_max_kt": "Wind kt", "precip_in": "Precip in"}
 BLOCKS = ["06-12", "12-18", "18-00", "00-06"]
-RECENT_DAYS = 8
 STALE_HOURS = 3
 
 
@@ -106,7 +105,7 @@ def _howto():
         "this period's verification (method below).",
         "2. Check the track-record table: a model with a large, consistent bias (|bias| close to its "
         "MAE) is reliably off in that direction. The consensus already removes most of that bias; "
-        "lean further only if the last few days (recent-errors table) show the bias growing.",
+        "lean further only if the last few days (daily verification tables) show the bias growing.",
         "3. Use the ensemble percentiles for uncertainty. For **precip**, enter roughly the ensemble "
         "**median**, not the mean: points are charged per 0.01\" of error, and charged most heavily "
         "near zero, so the median minimizes expected points. Check the chance-of-rain table: when "
@@ -272,44 +271,74 @@ def _track_record(verif):
         _table(head, rows)])
 
 
-def _recent(verif, order):
-    days = [d for d in verif.get("days", []) if d.get("models")][-RECENT_DAYS:]
+def _daily(verif, order):
+    """Every verified day this period: one table of error points, then one per variable with the
+    observation and each model's error (the page's verification tabs, one row per day)."""
+    days = [d for d in verif.get("days", []) if d.get("models")]
     if not days:
         return ""
-    obs_rows = []
-    for d in days:
-        o = d.get("obs", {})
-        pend = d.get("obs_pending") or []
-        cells = []
-        for v in VARS:
-            x = o.get(v)
-            txt = "—" if x is None else _f(x, v) if v == "precip_in" else f"{x:g}"
-            cells.append(("~" if v in pend else "") + txt)
-        obs_rows.append([d["date"] + (" (hindcast)" if d.get("hindcast") else ""), *cells])
     names = [n for n in order if any(n in d["models"] for d in days)]
-    err_rows, pts_rows = [], []
-    for n in names:
-        errs, pts = [n], [n]
+    label = {d["date"]: d["date"][5:] + (" h" if d.get("hindcast") else "") for d in days}
+
+    pts_rows = []
+    for d in days:
+        pts = {n: s.get("points") for n, s in d["models"].items() if s.get("points") is not None}
+        best = min(pts, key=pts.get) if pts else "—"
+        pts_rows.append([label[d["date"]], *(f"{pts[n]:.1f}" if n in pts else "—" for n in names), best])
+    out = [
+        f"## Daily verification (all {len(days)} days this period)", "",
+        "One row per day; \"h\" = hindcast day (before the first forecast day for this city). "
+        "On hindcast days the CONSENSUS is reconstructed: what the current method would have "
+        "submitted using only the earlier days' track record.", "",
+        "Error points (lower is better):", "",
+        _table(["Date", *names, "Best"], pts_rows)]
+
+    for v in VARS:
+        rows = []
         for d in days:
-            s = d["models"].get(n)
-            if not s:
-                errs.append("—"); pts.append("—")
-                continue
-            e = s.get("error", {})
-            errs.append("/".join(_s(e[v], v, None if v == "precip_in" else 0) if e.get(v) is not None
-                                 else "?" for v in VARS))
-            pts.append(f"{s['points']:.1f}" if s.get("points") is not None else "—")
-        err_rows.append(errs)
-        pts_rows.append(pts)
-    dates = [d["date"][5:] for d in days]
+            ob = d.get("obs", {}).get(v)
+            ob_txt = "—" if ob is None else _f(ob, v) if v == "precip_in" else f"{ob:g}"
+            if v in (d.get("obs_pending") or []):
+                ob_txt = "~" + ob_txt
+            cells = []
+            for n in names:
+                e = (d["models"].get(n) or {}).get("error", {}).get(v)
+                cells.append("—" if e is None else _s(e, v, None if v == "precip_in" else 0))
+            rows.append([label[d["date"]], ob_txt, *cells])
+        out += ["", f"{VAR_NAMES[v]}: observed (~ = still preliminary) and each model's error "
+                "(forecast - observed, as submitted):", "",
+                _table(["Date", "Obs", *names], rows)]
+    return "\n".join(out)
+
+
+def _pop_daily(verif, order):
+    """Each verified day's 6-hour precip chances against what happened."""
+    pv = verif.get("pop") or {}
+    days = pv.get("days") or []
+    if not days:
+        return ""
+    names = [n for n in order if any(n in d.get("models", {}) for d in days)]
+
+    def chances(m):
+        if not m:
+            return "—"
+        b = m.get("blocks") or {}
+        if any(b.get(k) is not None for k in BLOCKS):
+            return "/".join("—" if b.get(k) is None else f"{round(100 * b[k])}" for k in BLOCKS)
+        return f"24h {_pct(m.get('p24'))}" if m.get("p24") is not None else "—"
+
+    rows = []
+    for d in days:
+        ob = d.get("obs", {})
+        wet = [k for k in BLOCKS if ob.get(k)]
+        rows.append([d["date"][5:], f"{_f(d.get('precip_in'), 'precip_in')}\" " +
+                     (f"(wet: {', '.join(wet)})" if wet else "(dry)"),
+                     *(chances(d["models"].get(n)) for n in names)])
     return "\n".join([
-        f"## Recent days (last {len(days)} verified)", "",
-        "Observed (~ = still preliminary):", "",
-        _table(["Date", *VAR_NAMES.values()], obs_rows),
-        "", "Errors as forecast - observed, high/low/wind/precip:", "",
-        _table(["Model", *dates], err_rows),
-        "", "Error points per day:", "",
-        _table(["Model", *dates], pts_rows)])
+        "## Daily verification of precip chances", "",
+        f"Chance (%) of ≥{pv.get('event_in', 0.01):g}\" in each 6-hour block, "
+        f"{'/'.join(BLOCKS)} UTC, against the observed precip and which blocks were wet.", "",
+        _table(["Date", "Observed", *names], rows, right_from=2)])
 
 
 def _today(today):
@@ -356,7 +385,7 @@ def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime 
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
                 _ensembles(fc, order), _pop(fc, verif, order), _track_record(verif),
-                _recent(verif, order), _today(today), _links()]
+                _daily(verif, order), _pop_daily(verif, order), _today(today), _links()]
     return "\n\n".join(s for s in sections if s) + "\n"
 
 
