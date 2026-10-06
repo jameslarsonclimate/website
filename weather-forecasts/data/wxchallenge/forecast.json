@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-06T18:30:54+00:00",
+  "generated_at_utc": "2026-10-06T19:00:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -82,11 +82,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
-      "tmax_f": 79.8,
-      "tmin_f": 75.1,
-      "wind_max_kt": 4.5,
-      "precip_in": 1.68,
-      "init_time_utc": "2026-10-06T06",
+      "tmax_f": 80.0,
+      "tmin_f": 75.4,
+      "wind_max_kt": 5.0,
+      "precip_in": 1.83,
+      "init_time_utc": "2026-10-06T12",
       "valid_range_utc": [
         "2026-10-07T06",
         "2026-10-08T06"
@@ -126,26 +126,26 @@
     "NBM": {
       "tmax_f": 81.0,
       "tmin_f": 74.0,
-      "wind_max_kt": 7.0,
-      "precip_in": 0.94,
-      "pop06_max_pct": 80,
+      "wind_max_kt": 8.0,
+      "precip_in": 1.04,
+      "pop06_max_pct": 79,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.61,
-          "12-18": 0.8,
-          "18-00": 0.77,
-          "00-06": 0.48
+          "06-12": 0.73,
+          "12-18": 0.79,
+          "18-00": 0.74,
+          "00-06": 0.42
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.8,
+          0.79,
           0.991
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-06T12",
+      "init_time_utc": "2026-10-06T18",
       "valid_range_utc": [
         "2026-10-07T06",
         "2026-10-08T06"
@@ -962,9 +962,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 1.9,
-      "precip_mean_in": 2.15,
-      "init_time_utc": "2026-10-06T06",
+      "precip_in": 2.35,
+      "precip_mean_in": 2.67,
+      "init_time_utc": "2026-10-06T12",
       "valid_range_utc": [
         "2026-10-07T06",
         "2026-10-08T06"
@@ -974,7 +974,7 @@
       "pop": {
         "p24": 1.0,
         "blocks": {
-          "06-12": 0.944,
+          "06-12": 1.0,
           "12-18": 1.0,
           "18-00": 1.0,
           "00-06": 1.0
@@ -986,15 +986,15 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 2.148,
-            "std": 0.952,
-            "p0": 1.049,
-            "p10": 1.145,
-            "p25": 1.468,
-            "p50": 1.904,
-            "p75": 2.61,
-            "p90": 3.283,
-            "p100": 4.739
+            "mean": 2.67,
+            "std": 1.147,
+            "p0": 1.226,
+            "p10": 1.6,
+            "p25": 1.854,
+            "p50": 2.351,
+            "p75": 3.166,
+            "p90": 4.293,
+            "p100": 5.362
           },
           "precip_prob": {
             "0.01": 1.0,
@@ -1025,24 +1025,24 @@
         ],
         "members": {
           "precip_in": [
-            1.252,
-            1.179,
-            1.883,
-            3.439,
-            1.925,
-            1.523,
-            1.45,
-            1.778,
-            2.621,
-            1.574,
-            4.739,
-            2.46,
-            1.064,
-            2.957,
-            3.217,
-            1.976,
-            2.579,
-            1.049
+            1.889,
+            1.882,
+            2.407,
+            3.644,
+            2.295,
+            1.58,
+            1.226,
+            2.471,
+            3.271,
+            2.238,
+            5.362,
+            2.851,
+            1.701,
+            5.058,
+            3.965,
+            1.845,
+            2.77,
+            1.608
           ]
         }
       }
@@ -1162,8 +1162,8 @@
     "CONSENSUS": {
       "tmax_f": 81.3,
       "tmin_f": 75.0,
-      "wind_max_kt": 11.8,
-      "precip_in": 1.54,
+      "wind_max_kt": 11.9,
+      "precip_in": 1.57,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
