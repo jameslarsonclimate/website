@@ -146,7 +146,13 @@
     #pop-rel{width:auto;margin-top:0.4rem}
     #pop-rel td.cell{min-width:3rem;font-size:0.8rem}
     #pop-rel-wrap h3{margin-top:1.4rem}
+    /* in the page text (for screen readers and tools that read the HTML) but not drawn */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+             clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
   </style>
+  <!-- plain-text summary of this page's data for AI assistants (written by wxc_brief.py) -->
+  <link rel="alternate" type="text/markdown" title="WxChallenge forecast brief"
+        href="https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/brief.md"/>
 </head>
 
 <body>
@@ -1072,5 +1078,15 @@ function renderToday(tj){
   }
 })();
 </script>
+<!-- Not drawn on screen. This page fills its tables with JavaScript, so tools that fetch it
+     without running scripts see only "Loading…"; this points them to the same data as text. -->
+<p class="sr-only">
+  Machine-readable version: the forecasts, model verification, scoring rules and today-so-far
+  numbers shown on this page are summarised as plain text at
+  <a href="https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/brief.md">https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/brief.md</a>
+  (raw JSON: <a href="https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/forecast.json">forecast.json</a>,
+  <a href="https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/verification.json">verification.json</a>,
+  <a href="https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/today.json">today.json</a>).
+</p>
 </body>
 </html>
