@@ -13,7 +13,9 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
   4. builds a bias-corrected, skill-weighted CONSENSUS from the verified models
   5. writes data/wxchallenge/forecast.json, appends data/wxchallenge/runs.jsonl,
      draws images/wxchallenge/latest.png and verification.png, refreshes the page's
-     forecast-evolution link config (wxc_links.py)
+     forecast-evolution link config (wxc_links.py) and writes data/wxchallenge/brief.md,
+     a plain-text summary for AI assistants (wxc_brief.py; linked only from llms.txt and a
+     visually hidden link on the page)
   6. commits and pushes the data/images (GitHub Pages), best effort
 
 Usage:
@@ -33,6 +35,7 @@ import pandas as pd
 
 from functions import (convert_time_to_datetime64, forecast_hours_for_day, fmt,
                        get_latest_forecast_cycle, previous_forecast_cycle, run_hour)
+import wxc_brief
 import wxc_cache
 import wxc_cam_ens
 import wxc_clouds
@@ -880,6 +883,12 @@ def main():
         print(f"{'Updated' if wxc_links.update_page(page, station) else 'Unchanged'}: forecast-evolution links in {page}")
     except Exception as exc:
         print(f"Warning: forecast-evolution links skipped ({type(exc).__name__}: {exc})")
+
+    # plain-text brief for AI assistants (after today.json, which it summarises)
+    try:
+        print(f"Wrote {wxc_brief.write_brief(DATA)}")
+    except Exception as exc:
+        print(f"Warning: AI brief skipped ({type(exc).__name__}: {exc})")
 
     # ---- 6. publish ----
     if not args.no_push:

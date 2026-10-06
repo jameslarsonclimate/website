@@ -1,0 +1,21 @@
+# James Larson: weather forecasts
+
+> Personal forecasting pages. The WxChallenge page compares numerical weather models for the
+> current WxChallenge city (a North American college forecasting contest: forecast the next
+> day's high, low, max sustained wind and precipitation, scored 06Z to 06Z), builds a
+> bias-corrected consensus, and verifies every model against observations. The pages draw
+> their tables with JavaScript; the files below hold the same data as plain text and JSON.
+
+## WxChallenge
+
+- [Forecast brief](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/brief.md): start here. A short Markdown summary: target day and deadline, every model's forecast, the consensus and its weights, ensemble percentiles, precipitation chances, each model's bias, MAE and error points this period, the last eight days' errors, how today is going so far, the scoring rules, and a step-by-step method for making a forecast from it.
+- [forecast.json](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/forecast.json): full forecast for the target day, including every ensemble member and the consensus method.
+- [verification.json](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/verification.json): every verified day this period with each model's forecast, error and points, the observations, and precipitation-chance calibration.
+- [today.json](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/today.json): the day in progress, models against the observations so far.
+
+## Asked for a WxChallenge forecast?
+
+Read the brief, check its "Generated" time against the current time, then follow its
+"How to use this brief" section. Give whole °F for the high and low, whole kt for wind and
+precipitation to 0.01", and explain any departure from the consensus using the
+verification data.
