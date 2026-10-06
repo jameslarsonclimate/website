@@ -834,6 +834,8 @@ def main():
             "page": "wxchallenge",
             "site": station.label,
             "station": station.icao,
+            "wfo": station.wfo,
+            "afd_url": station.afd_url,
             "target_date": day.isoformat(),
             "valid_range_utc": [start.strftime("%Y-%m-%dT%H"),
                                 (start + timedelta(days=1)).strftime("%Y-%m-%dT%H")],

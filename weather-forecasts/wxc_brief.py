@@ -112,7 +112,9 @@ def _howto():
         "the calibrated chances (NBM, NBM QMD, MOS) are low, 0.00 is often the best entry.",
         "4. Use \"Today so far\" (the day currently in progress, not the target day) to see which "
         "models are handling the current pattern; persistent errors there often carry into tomorrow.",
-        "5. Give whole °F for high/low, whole kt for wind, and precip to 0.01\". State the reasoning "
+        "5. Read the latest AFD for the forecaster's view of the pattern; it often explains when a "
+        "model bias learned earlier in the period won't apply.",
+        "6. Give whole °F for high/low, whole kt for wind, and precip to 0.01\". State the reasoning "
         "for any departure from the consensus.",
     ])
 
@@ -369,13 +371,17 @@ def _today(today):
                 "Precip so far", "Precip err"], rows, right_from=2)])
 
 
-def _links():
+def _links(fc):
     d = f"{SITE}/data/wxchallenge"
+    meta = fc.get("meta", {})
+    afd = ([f"- NWS Area Forecast Discussion ({meta.get('wfo')}): {meta['afd_url']}"]
+           if meta.get("afd_url") else [])
     return "\n".join([
         "## Raw data", "",
         f"- Forecast (all models, ensemble members, consensus weights): {d}/forecast.json",
         f"- Verification (every day, every model, observations, PoP calibration): {d}/verification.json",
         f"- Today so far: {d}/today.json",
+        *afd,
         f"- Human page: {SITE}/wxchallenge/",
     ])
 
@@ -385,7 +391,7 @@ def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime 
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
                 _ensembles(fc, order), _pop(fc, verif, order), _track_record(verif),
-                _daily(verif, order), _pop_daily(verif, order), _today(today), _links()]
+                _daily(verif, order), _pop_daily(verif, order), _today(today), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
 
 

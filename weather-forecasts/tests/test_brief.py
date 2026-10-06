@@ -11,7 +11,10 @@ def _forecast():
     stats = {"mean": 0.8, "p10": 0.1, "p25": 0.4, "p50": 0.85, "p75": 1.0, "p90": 1.5}
     return {
         "generated_at_utc": "2026-10-06T22:12:10+00:00",
-        "meta": {"site": "Tampa, FL (KTPA)", "station": "KTPA", "target_date": "2026-10-07",
+        "meta": {"site": "Tampa, FL (KTPA)", "station": "KTPA", "wfo": "TBW",
+                 "afd_url": "https://forecast.weather.gov/product.php?site=TBW&issuedby=TBW&product=AFD"
+                            "&format=txt&version=1&glossary=0",
+                 "target_date": "2026-10-07",
                  "valid_range_utc": ["2026-10-07T06", "2026-10-08T06"],
                  "models": ["HRRR", "ENS", "NBM_QMD", "CONSENSUS"]},
         "models": {
@@ -78,6 +81,8 @@ def test_brief_has_every_section_and_key_numbers():
     assert "| 10-04 h | 9.0 | HRRR |" in txt and "| 10-05 | 7.8 | HRRR |" in txt   # every day, hindcasts marked
     assert "| 10-05 | 78 | -3 |" in txt and "| 10-05 | 0.00 | +0.11 |" in txt   # obs + error per variable
     assert "| 10-05 | ~11 | +1 |" in txt                          # preliminary wind marked
+    assert "- NWS Area Forecast Discussion (TBW): https://forecast.weather.gov/product.php?site=TBW" in txt
+    assert "Read the latest AFD" in txt
     assert '| 10-05 | 0.01" (wet: 00-06) | 90/—/—/— |' in txt     # daily precip chances
     assert "76 (+0) pending" in txt                               # rounded -0.2 isn't "-0"
     assert "-0 " not in txt and "-0.0 " not in txt and "Warning" not in txt

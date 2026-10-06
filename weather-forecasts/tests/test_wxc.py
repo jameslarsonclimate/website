@@ -24,7 +24,7 @@ import wxc_mos  # noqa: E402
 import wxc_obs  # noqa: E402
 import wxc_usl  # noqa: E402
 import wxc_verify  # noqa: E402
-from wxc_stations import STATIONS, default_hrrr_model  # noqa: E402
+from wxc_stations import STATIONS, Station, default_hrrr_model  # noqa: E402
 
 KSAV = HERE / "fixtures" / "KSAV_routine_20250917_20251001.csv"
 
@@ -439,6 +439,10 @@ def test_station_registry():
     assert STATIONS["KTPA"].cli_pil == "CLITPA" and STATIONS["KTPA"].hrrr_model == "hrrr"
     assert STATIONS["KFNL"].cli_pil == "" and default_hrrr_model("PHNL") is None
     assert STATIONS["PAJN"].rrfs_domain == "ak" and STATIONS["KTPA"].rrfs_domain == "conus"
+    assert STATIONS["KTPA"].wfo == "TBW" and STATIONS["KTPA"].afd_url == (
+        "https://forecast.weather.gov/product.php?site=TBW&issuedby=TBW&product=AFD"
+        "&format=txt&version=1&glossary=0")
+    assert Station("KXYZ", "Nowhere", 40.0, -100.0, tz="America/Chicago").afd_url is None
 
 
 # ----------------------------------------------------------------- GRIB code paths

@@ -169,6 +169,7 @@
 
   <h2 id="forecast-for">Forecasting for —</h2>
   <h3 id="valid-range" class="muted">Valid: —</h3>
+  <p id="afd-link" class="small" hidden></p>
 
   <section class="scroll">
     <table id="models-table" aria-label="Model comparison table">
@@ -993,6 +994,13 @@ function renderToday(tj){
     const vr = data?.meta?.valid_range_utc
       ?? Object.values(data.models || {}).map(m => m.valid_range_utc).find(Boolean);
     document.getElementById('valid-range').textContent = vr ? `Valid: ${vr[0]} – ${vr[1]} UTC` : 'Valid: —';
+    const afd = document.getElementById('afd-link'), wfo = data?.meta?.wfo, afdUrl = data?.meta?.afd_url;
+    if (wfo && afdUrl) {
+      afd.innerHTML = '<a target="_blank" rel="noopener"></a>';
+      afd.firstChild.href = afdUrl;
+      afd.firstChild.textContent = `NWS forecast discussion (${wfo})`;
+      afd.hidden = false;
+    }
     const rows = [];
     for (const g of GROUPS) {
       rows.push(`<tr class="group"><td colspan="6">${g.title}</td></tr>`);

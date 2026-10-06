@@ -18,6 +18,9 @@ from typing import Optional
 
 CURRENT_STATION = "KTPA"
 
+AFD_URL = ("https://forecast.weather.gov/product.php?site={wfo}&issuedby={wfo}&product=AFD"
+           "&format=txt&version=1&glossary=0")
+
 
 @dataclass
 class Station:
@@ -46,6 +49,9 @@ class Station:
     # IANA time zone; its STANDARD offset sets the CLI day (midnight to midnight local standard
     # time all year, e.g. EST 05Z-05Z). None -> guessed from the ICAO prefix / longitude (logged).
     tz: Optional[str] = None
+    # NWS forecast office (WFO) that issues the Area Forecast Discussion, e.g. "TBW" for KTPA.
+    # Not always the CLI PIL's letters; None -> no AFD link.
+    wfo: Optional[str] = None
 
     def __post_init__(self):
         self.icao = self.icao.upper()
@@ -75,6 +81,11 @@ class Station:
     @property
     def label(self) -> str:
         return f"{self.name} ({self.icao})"
+
+    @property
+    def afd_url(self) -> Optional[str]:
+        """Latest NWS Area Forecast Discussion from the station's WFO (None when wfo is unset)."""
+        return AFD_URL.format(wfo=self.wfo.upper()) if self.wfo else None
 
 
 def default_rrfs_domain(icao: str) -> Optional[str]:
@@ -140,12 +151,15 @@ SLIDER_KTPA = ("https://slider.cira.colostate.edu/?sat=goes-19&sec=full_disk&x=9
 STATIONS = {
     s.icao: s for s in [
         Station("KTPA", "Tampa, FL", 27.979400, -82.535258, pivotal_region="us_se",
-                slider_url=SLIDER_KTPA, tz="America/New_York"),
-        Station("KDSM", "Des Moines, IA", 41.533347, -93.658496, tz="America/Chicago"),
-        Station("KFNL", "Loveland, CO", 40.451685, -105.004186, cli_pil="", tz="America/Denver"),
-        Station("PAJN", "Juneau, AK", 58.356023, -134.576622, cli_pil="CLIJNU", tz="America/Juneau"),
-        Station("KCON", "Concord, NH", 43.1953, -71.5011, tz="America/New_York"),
-        Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York"),    ]
+                slider_url=SLIDER_KTPA, tz="America/New_York", wfo="TBW"),
+        Station("KDSM", "Des Moines, IA", 41.533347, -93.658496, tz="America/Chicago", wfo="DMX"),
+        Station("KFNL", "Loveland, CO", 40.451685, -105.004186, cli_pil="", tz="America/Denver",
+                wfo="BOU"),
+        Station("PAJN", "Juneau, AK", 58.356023, -134.576622, cli_pil="CLIJNU", tz="America/Juneau",
+                wfo="AJK"),
+        Station("KCON", "Concord, NH", 43.1953, -71.5011, tz="America/New_York", wfo="GYX"),
+        Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York", wfo="CHS"),
+    ]
 }
 
 

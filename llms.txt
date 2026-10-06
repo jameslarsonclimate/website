@@ -12,6 +12,7 @@
 - [forecast.json](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/forecast.json): full forecast for the target day, including every ensemble member and the consensus method.
 - [verification.json](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/verification.json): every verified day this period with each model's forecast, error and points, the observations, and precipitation-chance calibration.
 - [today.json](https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/today.json): the day in progress, models against the observations so far.
+- [NWS Area Forecast Discussion (TBW)](https://forecast.weather.gov/product.php?site=TBW&issuedby=TBW&product=AFD&format=txt&version=1&glossary=0): the latest forecaster discussion from the NWS office for the current city (Tampa). When the city changes, the brief's "Raw data" section has the right office.
 
 ## Asked for a WxChallenge forecast?
 
