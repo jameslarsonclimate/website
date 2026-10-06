@@ -1,9 +1,11 @@
 {
-  "generated_at_utc": "2026-10-06T22:48:09+00:00",
+  "generated_at_utc": "2026-10-06T23:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
     "station": "KTPA",
+    "wfo": "TBW",
+    "afd_url": "https://forecast.weather.gov/product.php?site=TBW&issuedby=TBW&product=AFD&format=txt&version=1&glossary=0",
     "target_date": "2026-10-07",
     "valid_range_utc": [
       "2026-10-07T06",
@@ -69,11 +71,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS": {
-      "tmax_f": 79.8,
-      "tmin_f": 72.1,
-      "wind_max_kt": 10.6,
-      "precip_in": 1.61,
-      "init_time_utc": "2026-10-06T12",
+      "tmax_f": 79.1,
+      "tmin_f": 71.5,
+      "wind_max_kt": 14.4,
+      "precip_in": 2.36,
+      "init_time_utc": "2026-10-06T18",
       "valid_range_utc": [
         "2026-10-07T06",
         "2026-10-08T06"
@@ -1161,9 +1163,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 81.4,
-      "tmin_f": 75.0,
-      "wind_max_kt": 11.4,
-      "precip_in": 1.62,
+      "tmin_f": 74.9,
+      "wind_max_kt": 11.8,
+      "precip_in": 1.69,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",

@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-07**, scored over 2026-10-07T06Z to 2026-10-08T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-07T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-06T22:48:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-06T23:00:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -12,7 +12,8 @@
 2. Check the track-record table: a model with a large, consistent bias (|bias| close to its MAE) is reliably off in that direction. The consensus already removes most of that bias; lean further only if the last few days (daily verification tables) show the bias growing.
 3. Use the ensemble percentiles for uncertainty. For **precip**, enter roughly the ensemble **median**, not the mean: points are charged per 0.01" of error, and charged most heavily near zero, so the median minimizes expected points. Check the chance-of-rain table: when the calibrated chances (NBM, NBM QMD, MOS) are low, 0.00 is often the best entry.
 4. Use "Today so far" (the day currently in progress, not the target day) to see which models are handling the current pattern; persistent errors there often carry into tomorrow.
-5. Give whole °F for high/low, whole kt for wind, and precip to 0.01". State the reasoning for any departure from the consensus.
+5. Read the latest AFD for the forecaster's view of the pattern; it often explains when a model bias learned earlier in the period won't apply.
+6. Give whole °F for high/low, whole kt for wind, and precip to 0.01". State the reasoning for any departure from the consensus.
 
 ## Scoring (error points; lower is better)
 
@@ -30,7 +31,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRR | 06/18Z | 81.1 | 71.9 | 10.1 | 1.39 |
 | RRFS | 06/18Z | 78.5 | 71.4 | 9.0 | 1.46 |
 | IFS | 06/12Z | 83.3 | 74.3 | 7.8 | 0.58 |
-| GFS | 06/12Z | 79.8 | 72.1 | 10.6 | 1.61 |
+| GFS | 06/18Z | 79.1 | 71.5 | 14.4 | 2.36 |
 | AIFS | 06/12Z | 80.0 | 75.4 | 5.0 | 1.83 |
 | GFS_MOS | 06/18Z | 84.0 | 75.0 | 7.0 | 3.30 |
 | NBM | 06/18Z | 81.0 | 74.0 | 8.0 | 1.04 |
@@ -41,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 06/12Z | — | — | — | 2.35 |
 | REFS (precip only) | 06/18Z | — | — | — | 1.44 |
 | NBM_QMD (precip only) | 06/12Z | — | — | — | 2.37 |
-| **CONSENSUS** |  | **81.4** | **75.0** | **11.4** | **1.62** |
+| **CONSENSUS** |  | **81.4** | **74.9** | **11.8** | **1.69** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -295,4 +296,5 @@ Temp bias/MAE are over the hourly obs so far. High/low columns show the model's 
 - Forecast (all models, ensemble members, consensus weights): https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/forecast.json
 - Verification (every day, every model, observations, PoP calibration): https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/verification.json
 - Today so far: https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/today.json
+- NWS Area Forecast Discussion (TBW): https://forecast.weather.gov/product.php?site=TBW&issuedby=TBW&product=AFD&format=txt&version=1&glossary=0
 - Human page: https://jameslarsonclimate.github.io/website/weather-forecasts/wxchallenge/
