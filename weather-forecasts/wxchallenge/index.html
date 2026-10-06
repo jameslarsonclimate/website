@@ -227,6 +227,10 @@
     </div>
     <p class="small">Loops open on Pivotal Weather; their terms prohibit embedding, so these are links only.
       <span id="evo-note"></span></p>
+    <h3>NBM 1D viewer</h3>
+    <ul id="evo-nbm" class="evo-links"></ul>
+    <p class="small">NOAA GSL's point viewer for the National Blend of Models at this station: the spread of
+      NBM forecasts (percentiles) over the coming days, opened on precipitation.</p>
     <h3>More</h3>
     <ul id="evo-more" class="evo-links"></ul>
     <!-- written by wxc_links.py on every pipeline run -->
@@ -267,6 +271,7 @@
    30
   ]
  },
+ "nbm_viewer_url": "https://apps.gsl.noaa.gov/nbmviewer/?col=2&hgt=1&obs=false&fontsize=1&location=KTPA&selectedgroup=Precipitation&darkmode=on&graph=fa-chart-bar&probfield=Tmax&proboperator=%3E%3D&probvalue=40&colorfriendly=false&whiskers=true&boxes=false&median=true&det=false&tz=local",
  "satellite_url": "https://slider.cira.colostate.edu/?sat=goes-19&sec=full_disk&x=9432&y=5063&z=5&angle=0&im=12&ts=1&st=0&et=0&speed=130&motion=loop&maps%5Bborders%5D=white&mops%5Bborders%5D=0.6&p%5B0%5D=geocolor&opacity%5B0%5D=1&pause=0&slider=-1&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider&draw_color=FFD700&draw_width=6",
  "csu_url": null,
  "skipped": [
@@ -319,6 +324,9 @@
       document.querySelector('#evo-table tbody').parentElement.innerHTML = h + '</tbody>';
 
 
+      const nbm = document.getElementById('evo-nbm');
+      if (cfg.nbm_viewer_url) nbm.innerHTML = `<li>${a(cfg.nbm_viewer_url, `NBM 1D viewer for ${cfg.station}: precipitation`)}</li>`;
+      else { nbm.previousElementSibling.remove(); nbm.nextElementSibling.remove(); nbm.remove(); }
       const more = [[cfg.satellite_url, 'Observed satellite loop (RAMMB/CIRA SLIDER)'], [cfg.csu_url, 'CSU WxChallenge Zoom']];
       document.getElementById('evo-more').innerHTML = more.filter(([u]) => u).map(([u, t]) => `<li>${a(u, t)}</li>`).join('');
       sec.hidden = false;
