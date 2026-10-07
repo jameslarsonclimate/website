@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-08**, scored over 2026-10-08T06Z to 2026-10-09T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-08T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-07T16:58:16+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-07T17:30:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -31,7 +31,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRR | 07/12Z | 79.5 | 73.0 | 10.3 | 1.74 |
 | RRFS | 07/12Z | 75.8 | 71.9 | 10.4 | 0.71 |
 | IFS | 07/06Z | 82.7 | 73.1 | 5.1 | 0.43 |
-| GFS | 07/06Z | 84.8 | 73.5 | 14.1 | 0.56 |
+| GFS | 07/12Z | 81.9 | 70.4 | 15.5 | 0.59 |
 | AIFS | 07/06Z | 79.2 | 74.4 | 6.6 | 1.23 |
 | GFS_MOS | 07/12Z | 84.0 | 75.0 | 11.0 | 1.46 |
 | NBM | 07/12Z | 81.0 | 73.0 | 8.0 | 0.92 |
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 07/06Z | — | — | — | 1.55 |
 | REFS (precip only) | 07/12Z | — | — | — | 1.23 |
 | NBM_QMD (precip only) | 07/06Z | — | — | — | 0.98 |
-| **CONSENSUS** |  | **81.0** | **74.7** | **12.0** | **0.95** |
+| **CONSENSUS** |  | **80.7** | **74.4** | **12.1** | **0.95** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
