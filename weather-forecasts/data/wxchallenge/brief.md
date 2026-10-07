@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-08**, scored over 2026-10-08T06Z to 2026-10-09T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-08T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-07T18:00:10+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-07T18:30:10+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -278,25 +278,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-05 | 0.00" (dry) | 47/46/76/60 | 8/15/49/34 | 4/24/80/24 | 10/49/92/88 | 48/77/84/71 | 22/61/83/94 | 24h 100% | 3/6/46/33 |
 | 10-06 | 1.36" (wet: 12-18, 18-00, 00-06) | 55/65/78/61 | 17/45/63/68 | 31/84/96/86 | 61/98/100/94 | 94/97/100/42 | 33/100/100/100 | 24h 100% | 16/46/86/61 |
 
-## Today so far (2026-10-07, through 2026-10-07T16:53Z)
+## Today so far (2026-10-07, through 2026-10-07T17:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 81.0 °F, low 75.9 °F, max wind 7 kt, precip 0.07" (10 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 82.9 °F, low 75.9 °F, max wind 7 kt, precip 0.07" (11 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 06/18Z | -0.2 | 0.5 | 81 (+0) pending | 72 (-4) pending | +0.5 | 0.11 | +0.04 |
-| RRFS | 06/18Z | -2.5 | 2.5 | 78 (-2) | 71 (-4) pending | -0.1 | 0.87 | +0.80 |
-| IFS | 06/12Z | +0.3 | 0.6 | 83 (+2) pending | 74 (-2) pending | +1.0 | 0.27 | +0.20 |
-| GFS | 06/18Z | -0.9 | 1.0 | 79 (-2) | 72 (-4) pending | +2.5 | 0.27 | +0.20 |
-| AIFS | 06/12Z | -0.6 | 0.6 | 80 (-1) | 75 (+0) | -1.0 | 0.82 | +0.75 |
-| GFS_MOS | 06/18Z | +0.5 | 0.7 | 84 (+3) pending | 75 (-1) pending | +0.1 | — | — |
-| NBM | 06/18Z | -1.2 | 1.2 | 81 (+0) pending | 74 (-2) pending | +1.1 | — | — |
-| USL | 06/22Z | +0.6 | 0.6 | 82 (+1) pending | 75 (-1) pending | +0.8 | 0.25 | +0.18 |
-| ENS | 06/12Z | -0.4 | 0.5 | 81 (+0) | 74 (-2) pending | +0.8 | 0.48 | +0.41 |
-| AIFS_ENS | 06/12Z | -1.0 | 1.0 | 80 (-1) | 74 (-2) | +0.7 | 0.76 | +0.69 |
-| GEFS | 06/18Z | +0.2 | 0.9 | 80 (-1) | 75 (-1) pending | +3.7 | 0.28 | +0.21 |
+| HRRR | 06/18Z | -0.2 | 0.5 | 81 (-2) | 72 (-4) pending | +0.4 | 0.11 | +0.04 |
+| RRFS | 06/18Z | -2.4 | 2.4 | 78 (-4) | 71 (-4) pending | +0.0 | 0.88 | +0.81 |
+| IFS | 06/12Z | +0.6 | 0.8 | 83 (+0) pending | 74 (-2) pending | +1.0 | 0.29 | +0.22 |
+| GFS | 06/18Z | -1.0 | 1.1 | 79 (-4) | 72 (-4) pending | +2.3 | 0.35 | +0.28 |
+| AIFS | 06/12Z | -0.6 | 0.6 | 80 (-3) | 75 (+0) | -1.1 | 0.90 | +0.83 |
+| GFS_MOS | 06/18Z | +0.7 | 0.8 | 84 (+1) pending | 75 (-1) pending | +0.2 | — | — |
+| NBM | 06/18Z | -1.2 | 1.2 | 81 (-2) | 74 (-2) pending | +1.2 | — | — |
+| USL | 06/22Z | +0.6 | 0.7 | 82 (-1) | 75 (-1) pending | +0.7 | 0.30 | +0.23 |
+| ENS | 06/12Z | -0.4 | 0.4 | 81 (-2) | 74 (-2) pending | +0.8 | 0.54 | +0.47 |
+| AIFS_ENS | 06/12Z | -0.9 | 1.0 | 80 (-3) | 74 (-2) | +0.5 | 0.84 | +0.77 |
+| GEFS | 06/18Z | +0.1 | 1.0 | 80 (-3) | 75 (-1) pending | +3.5 | 0.33 | +0.26 |
 
 ## Raw data
 
