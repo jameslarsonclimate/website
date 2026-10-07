@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-08**, scored over 2026-10-08T06Z to 2026-10-09T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-08T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-07T17:30:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-07T18:00:10+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -38,7 +38,7 @@ Run = day/hour (UTC) of the model initialization.
 | USL | 07/12Z | 83.0 | 75.0 | 10.0 | 0.32 |
 | ENS | 07/06Z | 79.5 | 73.1 | 7.2 | 1.04 |
 | AIFS_ENS | 07/06Z | 80.4 | 73.5 | 8.7 | 1.10 |
-| GEFS | 07/06Z | 81.2 | 74.5 | 14.7 | 0.90 |
+| GEFS | 07/12Z | 79.9 | 74.6 | 15.1 | 0.67 |
 | HRRRCAST (precip only) | 07/06Z | — | — | — | 1.55 |
 | REFS (precip only) | 07/12Z | — | — | — | 1.23 |
 | NBM_QMD (precip only) | 07/06Z | — | — | — | 0.98 |
@@ -78,10 +78,10 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | AIFS_ENS | 51 | Low °F | 72.1 | 73.1 | 73.6 | 74.1 | 74.8 | 73.5 |
 | AIFS_ENS | 51 | Wind kt | 6.8 | 7.6 | 8.5 | 9.3 | 10.9 | 8.7 |
 | AIFS_ENS | 51 | Precip in | 0.31 | 0.43 | 0.87 | 1.39 | 2.03 | 1.10 |
-| GEFS | 31 | High °F | 76.9 | 78.8 | 81.1 | 83.7 | 86.0 | 81.2 |
-| GEFS | 31 | Low °F | 72.6 | 73.0 | 75.0 | 75.5 | 76.0 | 74.5 |
-| GEFS | 31 | Wind kt | 9.6 | 12.7 | 15.2 | 17.1 | 18.3 | 14.7 |
-| GEFS | 31 | Precip in | 0.45 | 0.58 | 0.82 | 1.18 | 1.32 | 0.90 |
+| GEFS | 31 | High °F | 76.9 | 78.0 | 79.3 | 81.8 | 83.6 | 79.9 |
+| GEFS | 31 | Low °F | 73.3 | 73.9 | 74.5 | 75.2 | 75.9 | 74.6 |
+| GEFS | 31 | Wind kt | 12.9 | 13.7 | 14.3 | 16.4 | 17.9 | 15.1 |
+| GEFS | 31 | Precip in | 0.28 | 0.46 | 0.64 | 0.79 | 1.03 | 0.67 |
 | HRRRCAST | 18 | Precip in | 1.01 | 1.19 | 1.55 | 1.75 | 2.48 | 1.61 |
 | REFS | 14 | Precip in | 0.37 | 0.76 | 1.23 | 1.65 | 4.17 | 1.73 |
 
@@ -91,7 +91,7 @@ Share of members reaching each 24-h precip amount:
 | --- | --: | --: | --: | --: |
 | ENS | 98% | 82% | 69% | 61% |
 | AIFS_ENS | 100% | 94% | 92% | 71% |
-| GEFS | 100% | 100% | 100% | 87% |
+| GEFS | 100% | 100% | 97% | 64% |
 | HRRRCAST | 100% | 100% | 100% | 100% |
 | REFS | 100% | 100% | 100% | 79% |
 
@@ -107,7 +107,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.06", p25 0.36", p50 0.98", p75
 | NBM | NBS P06 | 42% | 70% | 80% | 54% | 80% to 98% | 0.13 (16) |
 | ENS | member fraction | 71% | 88% | 88% | 63% | 98% | 0.25 (16) |
 | AIFS_ENS | member fraction | 80% | 94% | 98% | 82% | 100% | 0.29 (16) |
-| GEFS | member fraction | 87% | 97% | 100% | 100% | 100% | 0.37 (16) |
+| GEFS | member fraction | 97% | 94% | 100% | 87% | 100% | 0.37 (16) |
 | HRRRCAST | member fraction | 100% | 100% | 100% | 100% | 100% | 0.19 (16) |
 | REFS | member fraction | — | — | — | — | 100% | — |
 | NBM_QMD | NBM QMD | 48% | 58% | 89% | 50% | 94% | 0.11 (16) |
