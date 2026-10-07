@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-08**, scored over 2026-10-08T06Z to 2026-10-09T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-08T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-07T20:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-07T20:30:10+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -33,27 +33,28 @@ Run = day/hour (UTC) of the model initialization.
 | IFS | 07/12Z | 81.3 | 73.5 | 4.7 | 0.88 |
 | GFS | 07/12Z | 81.9 | 70.4 | 15.5 | 0.59 |
 | AIFS | 07/12Z | 78.8 | 74.2 | 7.0 | 1.36 |
-| GFS_MOS | 07/12Z | 84.0 | 75.0 | 11.0 | 1.46 |
-| NBM | 07/18Z | 81.0 | 73.0 | 8.0 | 0.91 |
-| USL | 07/12Z | 83.0 | 75.0 | 10.0 | 0.32 |
-| ENS | 07/06Z | 79.5 | 73.1 | 7.2 | 1.04 |
-| GEFS | 07/12Z | 79.9 | 74.6 | 15.1 | 0.67 |
-| AIFS_ENS | 07/12Z | 79.6 | 73.5 | 8.8 | 1.46 |
-| HRRRCAST (precip only) | 07/12Z | — | — | — | 1.35 |
-| REFS (precip only) | 07/12Z | — | — | — | 1.23 |
-| NBM_QMD (precip only) | 07/12Z | — | — | — | 1.49 |
-| **CONSENSUS** |  | **80.4** | **74.4** | **12.1** | **1.01** |
+| GFS_MOS | — | — | — | — | — |
+| NBM | — | — | — | — | — |
+| USL | — | — | — | — | — |
+| ENS | — | — | — | — | — |
+| AIFS_ENS | — | — | — | — | — |
+| GEFS | — | — | — | — | — |
+| HRRRCAST (precip only) | — | — | — | — | — |
+| REFS (precip only) | — | — | — | — | — |
+| NBM_QMD (precip only) | — | — | — | — | — |
+| **CONSENSUS** |  | **80.2** | **73.9** | **13.1** | **0.99** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
-- GFS_MOS: MOS Q06 categories [2, 2, 4, 3] -> midpoints
-- NBM: NBS Q06 amounts
-- ENS: ensemble mean of 51 members (Open-Meteo)
-- GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
-- AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
-- HRRRCAST: median of 18 members (experimental AI model)
-- REFS: median of 14 members, 12Z + 06Z runs (RRFS para)
-- NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
+- GFS_MOS: failed this run (HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exc)
+- NBM: failed this run (HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exc)
+- USL: failed this run (USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max)
+- ENS: failed this run (Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', )
+- AIFS_ENS: failed this run (Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', )
+- GEFS: failed this run (Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', )
+- HRRRCAST: failed this run (no complete 00/06/12/18Z HRRRCast cycle covering the day yet)
+- REFS: failed this run (no RRFS ensemble cycle covering the day found on NOMADS (prod or para))
+- NBM_QMD: failed this run (no NBM QMD cycle covering the day is posted yet)
 
 GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) and NBM QMD are not in the consensus either; they inform the precip choice.
 
@@ -61,58 +62,10 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 
 - bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted. Precip is weighted but not bias-corrected.
 
-- High °F weights: AIFS_ENS 0.15, NBM 0.12, AIFS 0.12, USL 0.10, HRRR 0.10, ENS 0.09, IFS 0.09, GFS 0.09, GFS_MOS 0.08, RRFS 0.06
-- Low °F weights: AIFS 0.15, USL 0.15, GFS_MOS 0.13, NBM 0.11, GFS 0.10, AIFS_ENS 0.09, IFS 0.09, ENS 0.07, HRRR 0.06, RRFS 0.06
-- Wind kt weights: USL 0.23, GFS 0.11, AIFS_ENS 0.10, HRRR 0.10, ENS 0.09, GFS_MOS 0.08, NBM 0.08, RRFS 0.08, IFS 0.07, AIFS 0.07
-- Precip in weights: AIFS 0.11, NBM 0.11, RRFS 0.10, AIFS_ENS 0.10, IFS 0.10, GFS 0.10, USL 0.10, HRRR 0.10, ENS 0.10, GFS_MOS 0.09
-
-## Ensemble spread (target day)
-
-| Ensemble | Members | Variable | p10 | p25 | Median | p75 | p90 | Mean |
-| --- | --- | --- | --: | --: | --: | --: | --: | --: |
-| ENS | 51 | High °F | 75.8 | 77.5 | 79.0 | 81.8 | 83.8 | 79.5 |
-| ENS | 51 | Low °F | 71.6 | 72.7 | 73.4 | 73.8 | 74.1 | 73.1 |
-| ENS | 51 | Wind kt | 5.1 | 5.7 | 7.0 | 8.7 | 9.6 | 7.2 |
-| ENS | 51 | Precip in | 0.04 | 0.15 | 0.82 | 1.33 | 1.94 | 1.04 |
-| GEFS | 31 | High °F | 76.9 | 78.0 | 79.3 | 81.8 | 83.6 | 79.9 |
-| GEFS | 31 | Low °F | 73.3 | 73.9 | 74.5 | 75.2 | 75.9 | 74.6 |
-| GEFS | 31 | Wind kt | 12.9 | 13.7 | 14.3 | 16.4 | 17.9 | 15.1 |
-| GEFS | 31 | Precip in | 0.28 | 0.46 | 0.64 | 0.79 | 1.03 | 0.67 |
-| AIFS_ENS | 51 | High °F | 75.3 | 77.5 | 79.1 | 82.0 | 83.7 | 79.6 |
-| AIFS_ENS | 51 | Low °F | 72.6 | 73.0 | 73.6 | 73.8 | 74.8 | 73.5 |
-| AIFS_ENS | 51 | Wind kt | 6.9 | 7.7 | 9.0 | 9.8 | 10.3 | 8.8 |
-| AIFS_ENS | 51 | Precip in | 0.36 | 0.86 | 1.13 | 1.75 | 2.53 | 1.46 |
-| HRRRCAST | 18 | Precip in | 1.01 | 1.17 | 1.35 | 1.84 | 2.45 | 1.54 |
-| REFS | 14 | Precip in | 0.37 | 0.76 | 1.23 | 1.65 | 4.17 | 1.73 |
-
-Share of members reaching each 24-h precip amount:
-
-| Ensemble | ≥0.01" | ≥0.10" | ≥0.25" | ≥0.50" |
-| --- | --: | --: | --: | --: |
-| ENS | 98% | 82% | 69% | 61% |
-| GEFS | 100% | 100% | 97% | 64% |
-| AIFS_ENS | 100% | 100% | 94% | 88% |
-| HRRRCAST | 100% | 100% | 100% | 100% |
-| REFS | 100% | 100% | 100% | 79% |
-
-NBM QMD calibrated 24-h precip percentiles: p10 0.07", p25 0.55", p50 1.49", p75 2.27", p90 3.47"
-
-## Chance of measurable precip (≥0.01") on the target day
-
-6-hour blocks in UTC. Brier 6h = this period's Brier score of the 6-hour chances (lower is better; number of blocks verified in brackets).
-
-| Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
-| --- | --- | --: | --: | --: | --: | --: | --: |
-| GFS_MOS | GFS MOS P06 | 65% | 63% | 82% | 87% | 87% to 100% | 0.25 (16) |
-| NBM | NBS P06 | 49% | 58% | 90% | 52% | 90% to 99% | 0.13 (16) |
-| ENS | member fraction | 71% | 88% | 88% | 63% | 98% | 0.25 (16) |
-| GEFS | member fraction | 97% | 94% | 100% | 87% | 100% | 0.37 (16) |
-| AIFS_ENS | member fraction | 92% | 98% | 96% | 94% | 100% | 0.29 (16) |
-| HRRRCAST | member fraction | 100% | 100% | 100% | 100% | 100% | 0.19 (16) |
-| REFS | member fraction | — | — | — | — | 100% | — |
-| NBM_QMD | NBM QMD | 44% | 66% | 82% | 44% | 93% | 0.11 (16) |
-
-For reference, always forecasting the period's observed frequency (25% of 6-h blocks wet) scores Brier 0.19.
+- High °F weights: AIFS 0.26, HRRR 0.22, GFS 0.20, IFS 0.19, RRFS 0.13
+- Low °F weights: AIFS 0.34, GFS 0.21, IFS 0.19, HRRR 0.13, RRFS 0.13
+- Wind kt weights: GFS 0.25, HRRR 0.24, RRFS 0.19, IFS 0.17, AIFS 0.16
+- Precip in weights: AIFS 0.21, RRFS 0.20, IFS 0.20, GFS 0.19, HRRR 0.19
 
 ## Track record this period
 
@@ -139,7 +92,7 @@ One row per day; "h" = hindcast day (before the first forecast day for this city
 
 Error points (lower is better):
 
-| Date | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | GEFS | AIFS_ENS | CONSENSUS | Best |
+| Date | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | AIFS_ENS | GEFS | CONSENSUS | Best |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
 | 09-16 h | 13.5 | 17.0 | 7.8 | 4.6 | 8.9 | 4.0 | 4.5 | — | — | — | — | 9.1 | GFS_MOS |
 | 09-17 h | 10.0 | 12.0 | 11.3 | 1.0 | 5.0 | 5.5 | 5.5 | — | — | — | — | 5.5 | GFS |
@@ -155,17 +108,17 @@ Error points (lower is better):
 | 09-27 h | 5.0 | 5.0 | 6.5 | 8.5 | 4.0 | 6.5 | 7.0 | 4.0 | — | — | — | 4.0 | AIFS |
 | 09-28 h | 4.0 | 7.0 | 12.0 | 5.5 | 4.9 | 5.0 | 4.5 | 3.0 | — | — | — | 4.5 | USL |
 | 09-29 | 6.0 | 8.5 | 12.8 | 4.0 | 13.9 | 2.5 | 5.3 | 1.0 | — | — | — | 5.5 | USL |
-| 09-30 | 7.8 | 13.2 | 19.5 | 16.8 | 12.8 | 10.8 | 12.0 | 5.4 | 14.2 | — | 16.0 | 8.8 | USL |
-| 10-01 | 13.3 | 15.2 | 6.1 | 6.6 | 2.7 | 13.4 | 6.7 | 4.2 | 3.5 | — | 7.1 | 2.2 | CONSENSUS |
-| 10-02 | 10.6 | 12.5 | 16.1 | 16.4 | 13.3 | 26.7 | 13.2 | 6.5 | 14.1 | — | 9.2 | 13.2 | USL |
-| 10-03 | 10.6 | 24.0 | 14.6 | 19.7 | 20.5 | 16.8 | 16.4 | 17.7 | 20.4 | 15.0 | 14.8 | 16.0 | HRRR |
-| 10-04 | 6.5 | 8.0 | 9.9 | 8.6 | 9.7 | 12.4 | 7.2 | 15.9 | 12.4 | 8.7 | 7.8 | 8.7 | HRRR |
-| 10-05 | 7.8 | 14.9 | 10.8 | 22.1 | 17.3 | 22.2 | 10.4 | 11.0 | 11.1 | 13.7 | 13.8 | 12.4 | HRRR |
-| 10-06 | 22.5 | 20.1 | 17.5 | 18.4 | 5.9 | 10.0 | 16.4 | 18.0 | 15.4 | 17.3 | 8.6 | 10.7 | AIFS |
+| 09-30 | 7.8 | 13.2 | 19.5 | 16.8 | 12.8 | 10.8 | 12.0 | 5.4 | 14.2 | 16.0 | — | 8.8 | USL |
+| 10-01 | 13.3 | 15.2 | 6.1 | 6.6 | 2.7 | 13.4 | 6.7 | 4.2 | 3.5 | 7.1 | — | 2.2 | CONSENSUS |
+| 10-02 | 10.6 | 12.5 | 16.1 | 16.4 | 13.3 | 26.7 | 13.2 | 6.5 | 14.1 | 9.2 | — | 13.2 | USL |
+| 10-03 | 10.6 | 24.0 | 14.6 | 19.7 | 20.5 | 16.8 | 16.4 | 17.7 | 20.4 | 14.8 | 15.0 | 16.0 | HRRR |
+| 10-04 | 6.5 | 8.0 | 9.9 | 8.6 | 9.7 | 12.4 | 7.2 | 15.9 | 12.4 | 7.8 | 8.7 | 8.7 | HRRR |
+| 10-05 | 7.8 | 14.9 | 10.8 | 22.1 | 17.3 | 22.2 | 10.4 | 11.0 | 11.1 | 13.8 | 13.7 | 12.4 | HRRR |
+| 10-06 | 22.5 | 20.1 | 17.5 | 18.4 | 5.9 | 10.0 | 16.4 | 18.0 | 15.4 | 8.6 | 17.3 | 10.7 | AIFS |
 
 High °F: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
-| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | GEFS | AIFS_ENS | CONSENSUS |
+| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | AIFS_ENS | GEFS | CONSENSUS |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
 | 09-16 h | 92 | -7 | -6 | -2 | -1 | -2 | +0 | -2 | — | — | — | — | -3 |
 | 09-17 h | 92 | -6 | -7 | -5 | +0 | -3 | +2 | -3 | — | — | — | — | -3 |
@@ -181,17 +134,17 @@ High °F: observed (~ = still preliminary) and each model's error (forecast - ob
 | 09-27 h | 83 | +1 | -2 | +5 | +2 | +0 | +4 | +3 | +3 | — | — | — | +3 |
 | 09-28 h | 85 | +1 | -2 | +7 | +0 | +2 | +3 | +3 | +3 | — | — | — | +3 |
 | 09-29 | 87 | -1 | -2 | +3 | -1 | -4 | +1 | +1 | +0 | — | — | — | -1 |
-| 09-30 | 88 | +0 | -3 | -1 | -2 | -1 | +2 | +0 | +1 | -2 | — | +0 | -1 |
-| 10-01 | 88 | -3 | -7 | +0 | +2 | +0 | +2 | +0 | +1 | +0 | — | +1 | +0 |
-| 10-02 | 87 | -4 | -2 | +0 | +4 | +0 | +4 | +1 | +2 | -1 | — | +1 | +1 |
-| 10-03 | 90 | -1 | -6 | -5 | -5 | -3 | -1 | -3 | -2 | -4 | -5 | -2 | -3 |
+| 09-30 | 88 | +0 | -3 | -1 | -2 | -1 | +2 | +0 | +1 | -2 | +0 | — | -1 |
+| 10-01 | 88 | -3 | -7 | +0 | +2 | +0 | +2 | +0 | +1 | +0 | +1 | — | +0 |
+| 10-02 | 87 | -4 | -2 | +0 | +4 | +0 | +4 | +1 | +2 | -1 | +1 | — | +1 |
+| 10-03 | 90 | -1 | -6 | -5 | -5 | -3 | -1 | -3 | -2 | -4 | -2 | -5 | -3 |
 | 10-04 | 89 | -2 | -2 | -1 | +1 | +1 | +2 | +0 | +1 | -2 | +1 | +1 | +0 |
-| 10-05 | 88 | +0 | -3 | -1 | -3 | -1 | +1 | -1 | -1 | -2 | -2 | +0 | -1 |
-| 10-06 | 79 | +2 | +3 | +5 | +8 | +3 | +7 | +5 | +6 | +4 | +7 | +3 | +5 |
+| 10-05 | 88 | +0 | -3 | -1 | -3 | -1 | +1 | -1 | -1 | -2 | +0 | -2 | -1 |
+| 10-06 | 79 | +2 | +3 | +5 | +8 | +3 | +7 | +5 | +6 | +4 | +3 | +7 | +5 |
 
 Low °F: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
-| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | GEFS | AIFS_ENS | CONSENSUS |
+| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | AIFS_ENS | GEFS | CONSENSUS |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
 | 09-16 h | 78 | -6 | -4 | -3 | -1 | -2 | -1 | -1 | — | — | — | — | -3 |
 | 09-17 h | 76 | -4 | -3 | -3 | +0 | +0 | +1 | -1 | — | — | — | — | -1 |
@@ -207,17 +160,17 @@ Low °F: observed (~ = still preliminary) and each model's error (forecast - obs
 | 09-27 h | 65 | -2 | -1 | +0 | +4 | -1 | +1 | +2 | +1 | — | — | — | +1 |
 | 09-28 h | 70 | -1 | -3 | +3 | +4 | +0 | -1 | +0 | +0 | — | — | — | +1 |
 | 09-29 | 74 | -5 | -4 | -2 | +2 | -1 | -1 | -2 | -1 | — | — | — | -2 |
-| 09-30 | 75 | -3 | -3 | -4 | -2 | -1 | -1 | -3 | -1 | -3 | — | -3 | -2 |
-| 10-01 | 74 | -2 | -2 | +0 | +2 | +0 | +1 | +1 | +1 | +0 | — | +0 | +0 |
-| 10-02 | 77 | -5 | -4 | -2 | -1 | -1 | +1 | -1 | +0 | -2 | — | -1 | -1 |
-| 10-03 | 80 | -4 | -8 | -4 | -3 | -3 | -2 | -4 | -3 | -5 | +0 | -4 | -3 |
-| 10-04 | 79 | -4 | -5 | -4 | -1 | -2 | +0 | -3 | -2 | -4 | +1 | -3 | -2 |
-| 10-05 | 78 | -3 | -4 | -4 | -1 | -2 | +0 | -2 | -1 | -3 | +1 | -2 | -1 |
-| 10-06 | 76 | -3 | -2 | -1 | -1 | +0 | +1 | -1 | +0 | -2 | +1 | -1 | +0 |
+| 09-30 | 75 | -3 | -3 | -4 | -2 | -1 | -1 | -3 | -1 | -3 | -3 | — | -2 |
+| 10-01 | 74 | -2 | -2 | +0 | +2 | +0 | +1 | +1 | +1 | +0 | +0 | — | +0 |
+| 10-02 | 77 | -5 | -4 | -2 | -1 | -1 | +1 | -1 | +0 | -2 | -1 | — | -1 |
+| 10-03 | 80 | -4 | -8 | -4 | -3 | -3 | -2 | -4 | -3 | -5 | -4 | +0 | -3 |
+| 10-04 | 79 | -4 | -5 | -4 | -1 | -2 | +0 | -3 | -2 | -4 | -3 | +1 | -2 |
+| 10-05 | 78 | -3 | -4 | -4 | -1 | -2 | +0 | -2 | -1 | -3 | -2 | +1 | -1 |
+| 10-06 | 76 | -3 | -2 | -1 | -1 | +0 | +1 | -1 | +0 | -2 | -1 | +1 | +0 |
 
 Wind kt: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
-| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | GEFS | AIFS_ENS | CONSENSUS |
+| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | AIFS_ENS | GEFS | CONSENSUS |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
 | 09-16 h | 15 | -1 | -3 | -4 | -2 | -5 | -6 | -3 | — | — | — | — | -3 |
 | 09-17 h | 15 | +0 | -4 | -5 | -2 | -4 | -5 | -3 | — | — | — | — | -3 |
@@ -233,17 +186,17 @@ Wind kt: observed (~ = still preliminary) and each model's error (forecast - obs
 | 09-27 h | 10 | -4 | -4 | -3 | -5 | -6 | -3 | -4 | +0 | — | — | — | +0 |
 | 09-28 h | 10 | -4 | -4 | -4 | -3 | -5 | -2 | -3 | +0 | — | — | — | +1 |
 | 09-29 | 10 | +0 | -5 | -1 | -2 | -5 | -1 | -3 | +0 | — | — | — | +1 |
-| 09-30 | 14 | -3 | -7 | -6 | -5 | -7 | -7 | -7 | -4 | -8 | — | -7 | -3 |
-| 10-01 | 14 | -4 | -4 | -5 | -1 | -5 | -6 | -3 | -2 | -4 | — | -5 | -2 |
-| 10-02 | 10 | +0 | -2 | -1 | +1 | -2 | -2 | -1 | -1 | -2 | — | -1 | +1 |
-| 10-03 | 11 | +2 | -1 | -4 | -2 | -4 | -3 | -3 | -2 | -3 | +1 | -3 | +1 |
-| 10-04 | 9 | -1 | -2 | -2 | +0 | -2 | -1 | -2 | +0 | -2 | +2 | -2 | +2 |
-| 10-05 | 11 | +1 | -6 | -6 | -4 | -6 | -5 | -5 | -1 | -5 | -2 | -5 | -1 |
-| 10-06 | 8 | +4 | +0 | -3 | +3 | -4 | -2 | -2 | +2 | -2 | +3 | -1 | +3 |
+| 09-30 | 14 | -3 | -7 | -6 | -5 | -7 | -7 | -7 | -4 | -8 | -7 | — | -3 |
+| 10-01 | 14 | -4 | -4 | -5 | -1 | -5 | -6 | -3 | -2 | -4 | -5 | — | -2 |
+| 10-02 | 10 | +0 | -2 | -1 | +1 | -2 | -2 | -1 | -1 | -2 | -1 | — | +1 |
+| 10-03 | 11 | +2 | -1 | -4 | -2 | -4 | -3 | -3 | -2 | -3 | -3 | +1 | +1 |
+| 10-04 | 9 | -1 | -2 | -2 | +0 | -2 | -1 | -2 | +0 | -2 | -2 | +2 | +2 |
+| 10-05 | 11 | +1 | -6 | -6 | -4 | -6 | -5 | -5 | -1 | -5 | -5 | -2 | -1 |
+| 10-06 | 8 | +4 | +0 | -3 | +3 | -4 | -2 | -2 | +2 | -2 | -1 | +3 | +3 |
 
 Precip in: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
-| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | GEFS | AIFS_ENS | CONSENSUS |
+| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | AIFS_ENS | GEFS | CONSENSUS |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
 | 09-16 h | 0.00 | +0.00 | +0.15 | +0.02 | +0.04 | +0.06 | +0.00 | +0.00 | — | — | — | — | +0.04 |
 | 09-17 h | 0.00 | +0.00 | +0.00 | +0.02 | +0.00 | +0.00 | +0.00 | +0.00 | — | — | — | — | +0.00 |
@@ -259,24 +212,24 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 | 09-27 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | — | — | — | +0.00 |
 | 09-28 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.01 | +0.00 | +0.00 | +0.00 | — | — | — | +0.00 |
 | 09-29 | 0.00 | +0.00 | +0.00 | +0.21 | +0.00 | +0.18 | +0.00 | +0.02 | +0.00 | — | — | — | +0.05 |
-| 09-30 | 0.42 | +0.25 | -0.18 | -0.41 | -0.38 | -0.30 | -0.20 | -0.24 | +0.07 | -0.23 | — | -0.36 | -0.20 |
-| 10-01 | 0.28 | +0.41 | -0.15 | +0.18 | -0.08 | -0.01 | +0.52 | -0.15 | +0.06 | -0.06 | — | -0.13 | +0.06 |
-| 10-02 | 0.00 | +0.04 | +0.15 | +0.51 | +0.37 | +0.39 | +1.22 | +0.36 | +0.10 | +0.33 | — | +0.19 | +0.36 |
-| 10-03 | 0.00 | +0.12 | +0.30 | +0.09 | +0.36 | +0.45 | +0.44 | +0.23 | +0.41 | +0.32 | +0.30 | +0.21 | +0.30 |
-| 10-04 | 0.01 | +0.00 | +0.00 | +0.10 | +0.19 | +0.16 | +0.33 | +0.08 | +0.48 | +0.15 | +0.16 | +0.07 | +0.16 |
-| 10-05 | 0.00 | +0.11 | +0.13 | +0.07 | +0.76 | +0.39 | +1.02 | +0.13 | +0.25 | +0.09 | +0.31 | +0.29 | +0.32 |
-| 10-06 | 1.36 | +1.55 | -1.16 | -0.93 | -0.79 | -0.09 | -0.10 | -0.90 | -0.98 | -0.84 | -0.78 | -0.41 | -0.42 |
+| 09-30 | 0.42 | +0.25 | -0.18 | -0.41 | -0.38 | -0.30 | -0.20 | -0.24 | +0.07 | -0.23 | -0.36 | — | -0.20 |
+| 10-01 | 0.28 | +0.41 | -0.15 | +0.18 | -0.08 | -0.01 | +0.52 | -0.15 | +0.06 | -0.06 | -0.13 | — | +0.06 |
+| 10-02 | 0.00 | +0.04 | +0.15 | +0.51 | +0.37 | +0.39 | +1.22 | +0.36 | +0.10 | +0.33 | +0.19 | — | +0.36 |
+| 10-03 | 0.00 | +0.12 | +0.30 | +0.09 | +0.36 | +0.45 | +0.44 | +0.23 | +0.41 | +0.32 | +0.21 | +0.30 | +0.30 |
+| 10-04 | 0.01 | +0.00 | +0.00 | +0.10 | +0.19 | +0.16 | +0.33 | +0.08 | +0.48 | +0.15 | +0.07 | +0.16 | +0.16 |
+| 10-05 | 0.00 | +0.11 | +0.13 | +0.07 | +0.76 | +0.39 | +1.02 | +0.13 | +0.25 | +0.09 | +0.29 | +0.31 | +0.32 |
+| 10-06 | 1.36 | +1.55 | -1.16 | -0.93 | -0.79 | -0.09 | -0.10 | -0.90 | -0.98 | -0.84 | -0.41 | -0.78 | -0.42 |
 
 ## Daily verification of precip chances
 
 Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, against the observed precip and which blocks were wet.
 
-| Date | Observed | GFS_MOS | NBM | ENS | GEFS | AIFS_ENS | HRRRCAST | REFS | NBM_QMD |
+| Date | Observed | GFS_MOS | NBM | ENS | AIFS_ENS | GEFS | HRRRCAST | REFS | NBM_QMD |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
-| 10-03 | 0.00" (dry) | 67/48/59/52 | 17/14/66/42 | 45/61/100/53 | 90/58/77/48 | 57/53/84/61 | 33/0/72/33 | 24h 100% | 12/8/65/38 |
-| 10-04 | 0.01" (wet: 00-06) | 25/22/62/62 | 7/6/37/50 | 18/43/90/53 | 13/0/84/81 | 12/18/65/49 | 0/0/22/67 | 24h 93% | 7/0/28/50 |
-| 10-05 | 0.00" (dry) | 47/46/76/60 | 8/15/49/34 | 4/24/80/24 | 48/77/84/71 | 10/49/92/88 | 22/61/83/94 | 24h 100% | 3/6/46/33 |
-| 10-06 | 1.36" (wet: 12-18, 18-00, 00-06) | 55/65/78/61 | 17/45/63/68 | 31/84/96/86 | 94/97/100/42 | 61/98/100/94 | 33/100/100/100 | 24h 100% | 16/46/86/61 |
+| 10-03 | 0.00" (dry) | 67/48/59/52 | 17/14/66/42 | 45/61/100/53 | 57/53/84/61 | 90/58/77/48 | 33/0/72/33 | 24h 100% | 12/8/65/38 |
+| 10-04 | 0.01" (wet: 00-06) | 25/22/62/62 | 7/6/37/50 | 18/43/90/53 | 12/18/65/49 | 13/0/84/81 | 0/0/22/67 | 24h 93% | 7/0/28/50 |
+| 10-05 | 0.00" (dry) | 47/46/76/60 | 8/15/49/34 | 4/24/80/24 | 10/49/92/88 | 48/77/84/71 | 22/61/83/94 | 24h 100% | 3/6/46/33 |
+| 10-06 | 1.36" (wet: 12-18, 18-00, 00-06) | 55/65/78/61 | 17/45/63/68 | 31/84/96/86 | 61/98/100/94 | 94/97/100/42 | 33/100/100/100 | 24h 100% | 16/46/86/61 |
 
 ## Today so far (2026-10-07, through 2026-10-07T19:53Z)
 
