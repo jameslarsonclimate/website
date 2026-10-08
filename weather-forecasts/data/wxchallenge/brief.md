@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-09**, scored over 2026-10-09T06Z to 2026-10-10T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-09T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-08T18:41:19+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-08T19:00:04+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -32,9 +32,9 @@ Run = day/hour (UTC) of the model initialization.
 | RRFS | 08/12Z | 84.5 | 72.2 | 10.7 | 0.09 |
 | IFS | 08/06Z | 86.9 | 72.9 | 8.6 | 0.15 |
 | GFS | 08/12Z | 90.0 | 73.2 | 12.5 | 0.24 |
-| AIFS | 08/06Z | 86.6 | 74.2 | 12.1 | 0.21 |
+| AIFS | 08/12Z | 86.8 | 74.2 | 11.0 | 0.20 |
 | GFS_MOS | 08/12Z | 88.0 | 76.0 | 11.0 | 0.32 |
-| NBM | 08/12Z | 87.0 | 73.0 | 9.0 | 0.18 |
+| NBM | 08/18Z | 87.0 | 73.0 | 10.0 | 0.12 |
 | USL | 08/12Z | 88.0 | 74.0 | 11.0 | 0.33 |
 | ENS | 08/06Z | 85.7 | 73.1 | 9.3 | 0.20 |
 | AIFS_ENS | 08/06Z | 87.9 | 73.5 | 12.5 | 0.10 |
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 08/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 08/12Z | — | — | — | 0.08 |
 | NBM_QMD (precip only) | 08/06Z | — | — | — | 0.16 |
-| **CONSENSUS** |  | **87.1** | **74.5** | **14.3** | **0.19** |
+| **CONSENSUS** |  | **87.1** | **74.5** | **14.3** | **0.18** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -104,7 +104,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.16", p75
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
 | GFS_MOS | GFS MOS P06 | 32% | 44% | 60% | 49% | 60% to 92% | 0.21 (20) |
-| NBM | NBS P06 | 21% | 18% | 66% | 20% | 66% to 82% | 0.13 (20) |
+| NBM | NBS P06 | 8% | 17% | 63% | 14% | 63% to 76% | 0.13 (20) |
 | ENS | member fraction | 12% | 69% | 96% | 31% | 98% | 0.20 (20) |
 | AIFS_ENS | member fraction | 29% | 49% | 63% | 31% | 94% | 0.23 (20) |
 | GEFS | member fraction | 29% | 87% | 97% | 32% | 100% | 0.30 (20) |
