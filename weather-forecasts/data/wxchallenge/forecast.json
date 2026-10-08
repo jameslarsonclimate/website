@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-08T14:00:23+00:00",
+  "generated_at_utc": "2026-10-08T17:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -20,9 +20,9 @@
       "GFS_MOS",
       "NBM",
       "USL",
-      "ENS",
       "AIFS_ENS",
       "GEFS",
+      "ENS",
       "HRRRCAST",
       "REFS",
       "NBM_QMD",
@@ -32,45 +32,56 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
-    },
-    "RRFS": {
-      "tmax_f": 83.5,
-      "tmin_f": 71.4,
-      "wind_max_kt": 9.9,
-      "precip_in": 0.05,
-      "init_time_utc": "2026-10-08T06",
+      "tmax_f": 84.6,
+      "tmin_f": 74.3,
+      "wind_max_kt": 10.5,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-10-08T12",
       "valid_range_utc": [
         "2026-10-09T06",
         "2026-10-10T06"
       ],
       "n_steps": 25,
-      "temp_source": "instantaneous 2 m T",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))); newest cycle unavailable, used previous"
+      "temp_source": "instantaneous 2 m T"
+    },
+    "RRFS": {
+      "tmax_f": 84.5,
+      "tmin_f": 72.2,
+      "wind_max_kt": 10.7,
+      "precip_in": 0.09,
+      "init_time_utc": "2026-10-08T12",
+      "valid_range_utc": [
+        "2026-10-09T06",
+        "2026-10-10T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 86.9,
+      "tmin_f": 72.9,
+      "wind_max_kt": 8.6,
+      "precip_in": 0.15,
+      "init_time_utc": "2026-10-08T06",
+      "valid_range_utc": [
+        "2026-10-09T06",
+        "2026-10-10T06"
+      ],
+      "n_steps": 9,
+      "temp_source": "2 m T + interval max/min fields"
     },
     "GFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 90.0,
+      "tmin_f": 73.2,
+      "wind_max_kt": 12.5,
+      "precip_in": 0.24,
+      "init_time_utc": "2026-10-08T12",
+      "valid_range_utc": [
+        "2026-10-09T06",
+        "2026-10-10T06"
+      ],
+      "n_steps": 9,
+      "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
       "tmax_f": 86.6,
@@ -87,28 +98,28 @@
       "note": "6-hourly output: high/low likely underdone"
     },
     "GFS_MOS": {
-      "tmax_f": 89.0,
-      "tmin_f": 75.0,
-      "wind_max_kt": 10.0,
-      "precip_in": 0.64,
-      "pop06_max_pct": 71,
+      "tmax_f": 88.0,
+      "tmin_f": 76.0,
+      "wind_max_kt": 11.0,
+      "precip_in": 0.32,
+      "pop06_max_pct": 60,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.31,
-          "12-18": 0.32,
-          "18-00": 0.71,
-          "00-06": 0.54
+          "06-12": 0.32,
+          "12-18": 0.44,
+          "18-00": 0.6,
+          "00-06": 0.49
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.71,
-          0.937
+          0.6,
+          0.922
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 1, 3, 2] -> midpoints",
-      "init_time_utc": "2026-10-08T06",
+      "precip_note": "MOS Q06 categories [1, 1, 2, 1] -> midpoints",
+      "init_time_utc": "2026-10-08T12",
       "valid_range_utc": [
         "2026-10-09T06",
         "2026-10-10T06"
@@ -143,22 +154,15 @@
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-10-09 available at 2026-10-08 15Z"
-    },
-    "ENS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Open-Meteo meta failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 88.0,
+      "tmin_f": 74.0,
+      "wind_max_kt": 11.0,
+      "precip_in": 0.33,
+      "init_time_utc": "2026-10-08T12",
+      "valid_range_utc": [
+        "2026-10-09T06",
+        "2026-10-10T06"
+      ]
     },
     "AIFS_ENS": {
       "tmax_f": 87.9,
@@ -664,6 +668,298 @@
         "basis": "member fraction"
       }
     },
+    "ENS": {
+      "tmax_f": 85.7,
+      "tmin_f": 73.1,
+      "wind_max_kt": 9.3,
+      "precip_in": 0.2,
+      "init_time_utc": "2026-10-08T06",
+      "valid_range_utc": [
+        "2026-10-09T06",
+        "2026-10-10T06"
+      ],
+      "note": "ensemble mean of 51 members (Open-Meteo)",
+      "ensemble": {
+        "n_members": 51,
+        "stats": {
+          "tmax_f": {
+            "mean": 85.7,
+            "std": 1.3,
+            "p0": 82.6,
+            "p10": 83.9,
+            "p25": 84.95,
+            "p50": 85.9,
+            "p75": 86.6,
+            "p90": 87.2,
+            "p100": 88.4
+          },
+          "tmin_f": {
+            "mean": 73.08,
+            "std": 0.69,
+            "p0": 71.6,
+            "p10": 72.2,
+            "p25": 72.6,
+            "p50": 73.1,
+            "p75": 73.6,
+            "p90": 74.0,
+            "p100": 74.2
+          },
+          "wind_max_kt": {
+            "mean": 9.26,
+            "std": 1.33,
+            "p0": 5.3,
+            "p10": 7.8,
+            "p25": 8.5,
+            "p50": 9.1,
+            "p75": 10.1,
+            "p90": 11.1,
+            "p100": 12.1
+          },
+          "precip_in": {
+            "mean": 0.2,
+            "std": 0.13,
+            "p0": 0.0,
+            "p10": 0.07,
+            "p25": 0.1,
+            "p50": 0.19,
+            "p75": 0.28,
+            "p90": 0.38,
+            "p100": 0.53
+          },
+          "precip_prob": {
+            "0.01": 0.98,
+            "0.10": 0.686,
+            "0.25": 0.294,
+            "0.50": 0.02
+          }
+        },
+        "members": {
+          "tmax_f": [
+            86.8,
+            87.1,
+            85.0,
+            86.1,
+            84.6,
+            84.8,
+            85.4,
+            85.2,
+            86.9,
+            83.7,
+            85.0,
+            84.7,
+            86.4,
+            86.0,
+            84.1,
+            82.6,
+            85.5,
+            84.9,
+            86.6,
+            88.4,
+            86.4,
+            85.4,
+            84.7,
+            86.3,
+            83.0,
+            86.2,
+            85.9,
+            86.5,
+            85.2,
+            85.9,
+            85.6,
+            87.4,
+            87.0,
+            88.0,
+            82.6,
+            85.9,
+            85.7,
+            87.4,
+            86.8,
+            84.9,
+            85.3,
+            86.6,
+            86.1,
+            83.5,
+            87.2,
+            87.5,
+            83.9,
+            85.6,
+            85.4,
+            87.1,
+            85.9
+          ],
+          "tmin_f": [
+            73.1,
+            72.7,
+            71.6,
+            73.1,
+            72.5,
+            73.1,
+            74.0,
+            72.3,
+            73.6,
+            73.1,
+            73.7,
+            73.7,
+            73.0,
+            74.0,
+            71.7,
+            73.0,
+            72.6,
+            73.4,
+            72.8,
+            74.0,
+            71.9,
+            74.0,
+            73.1,
+            74.1,
+            74.1,
+            73.0,
+            73.1,
+            73.1,
+            74.2,
+            74.1,
+            71.9,
+            73.6,
+            72.5,
+            72.2,
+            72.7,
+            73.3,
+            72.6,
+            72.3,
+            73.3,
+            73.1,
+            73.0,
+            73.1,
+            73.6,
+            73.2,
+            73.9,
+            74.1,
+            71.9,
+            73.0,
+            72.5,
+            73.4,
+            72.3
+          ],
+          "wind_max_kt": [
+            8.6,
+            9.0,
+            9.6,
+            8.8,
+            10.4,
+            11.1,
+            9.5,
+            8.8,
+            10.4,
+            9.5,
+            10.6,
+            9.0,
+            11.2,
+            8.4,
+            8.6,
+            12.0,
+            10.9,
+            7.6,
+            9.5,
+            10.9,
+            9.4,
+            9.4,
+            11.6,
+            9.1,
+            10.3,
+            8.9,
+            8.1,
+            9.2,
+            12.1,
+            7.6,
+            7.8,
+            8.9,
+            9.3,
+            9.3,
+            11.6,
+            9.5,
+            9.3,
+            9.1,
+            8.5,
+            10.5,
+            7.8,
+            8.4,
+            8.0,
+            5.3,
+            8.8,
+            9.9,
+            8.5,
+            6.7,
+            8.2,
+            7.6,
+            9.0
+          ],
+          "precip_in": [
+            0.14,
+            0.34,
+            0.19,
+            0.44,
+            0.08,
+            0.07,
+            0.1,
+            0.32,
+            0.25,
+            0.24,
+            0.06,
+            0.1,
+            0.19,
+            0.29,
+            0.45,
+            0.29,
+            0.53,
+            0.26,
+            0.06,
+            0.04,
+            0.24,
+            0.12,
+            0.05,
+            0.08,
+            0.38,
+            0.11,
+            0.33,
+            0.13,
+            0.25,
+            0.07,
+            0.38,
+            0.11,
+            0.12,
+            0.0,
+            0.23,
+            0.25,
+            0.21,
+            0.4,
+            0.08,
+            0.12,
+            0.25,
+            0.25,
+            0.1,
+            0.45,
+            0.27,
+            0.14,
+            0.29,
+            0.13,
+            0.1,
+            0.1,
+            0.07
+          ]
+        }
+      },
+      "pop": {
+        "p24": 0.98,
+        "blocks": {
+          "06-12": 0.118,
+          "12-18": 0.686,
+          "18-00": 0.961,
+          "00-06": 0.314
+        },
+        "n_members": 51,
+        "basis": "member fraction"
+      }
+    },
     "HRRRCAST": {
       "tmax_f": null,
       "tmin_f": null,
@@ -866,77 +1162,117 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 87.2,
-      "tmin_f": 74.3,
-      "wind_max_kt": 15.1,
-      "precip_in": 0.23,
+      "tmax_f": 87.1,
+      "tmin_f": 74.5,
+      "wind_max_kt": 14.3,
+      "precip_in": 0.19,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
+            "IFS",
+            "GFS",
             "AIFS",
             "GFS_MOS",
             "NBM",
-            "AIFS_ENS"
+            "USL",
+            "AIFS_ENS",
+            "ENS"
           ],
           "weights": {
-            "RRFS": 0.116,
-            "AIFS": 0.218,
-            "GFS_MOS": 0.173,
-            "NBM": 0.24,
-            "AIFS_ENS": 0.253
+            "HRRR": 0.1,
+            "RRFS": 0.06,
+            "IFS": 0.095,
+            "GFS": 0.085,
+            "AIFS": 0.113,
+            "GFS_MOS": 0.089,
+            "NBM": 0.124,
+            "USL": 0.106,
+            "AIFS_ENS": 0.131,
+            "ENS": 0.096
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
+            "IFS",
+            "GFS",
             "AIFS",
             "GFS_MOS",
             "NBM",
-            "AIFS_ENS"
+            "USL",
+            "AIFS_ENS",
+            "ENS"
           ],
           "weights": {
-            "RRFS": 0.111,
-            "AIFS": 0.271,
-            "GFS_MOS": 0.234,
-            "NBM": 0.207,
-            "AIFS_ENS": 0.178
+            "HRRR": 0.065,
+            "RRFS": 0.059,
+            "IFS": 0.089,
+            "GFS": 0.1,
+            "AIFS": 0.145,
+            "GFS_MOS": 0.126,
+            "NBM": 0.111,
+            "USL": 0.135,
+            "AIFS_ENS": 0.095,
+            "ENS": 0.075
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
+            "IFS",
+            "GFS",
             "AIFS",
             "GFS_MOS",
             "NBM",
-            "AIFS_ENS"
+            "USL",
+            "AIFS_ENS",
+            "ENS"
           ],
           "weights": {
-            "RRFS": 0.208,
-            "AIFS": 0.17,
-            "GFS_MOS": 0.204,
-            "NBM": 0.208,
-            "AIFS_ENS": 0.21
+            "HRRR": 0.11,
+            "RRFS": 0.09,
+            "IFS": 0.08,
+            "GFS": 0.123,
+            "AIFS": 0.074,
+            "GFS_MOS": 0.088,
+            "NBM": 0.09,
+            "USL": 0.165,
+            "AIFS_ENS": 0.091,
+            "ENS": 0.089
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
+            "IFS",
+            "GFS",
             "AIFS",
             "GFS_MOS",
             "NBM",
-            "AIFS_ENS"
+            "USL",
+            "AIFS_ENS",
+            "ENS"
           ],
           "weights": {
-            "RRFS": 0.204,
-            "AIFS": 0.219,
-            "GFS_MOS": 0.177,
-            "NBM": 0.199,
-            "AIFS_ENS": 0.202
+            "HRRR": 0.098,
+            "RRFS": 0.105,
+            "IFS": 0.095,
+            "GFS": 0.105,
+            "AIFS": 0.113,
+            "GFS_MOS": 0.091,
+            "NBM": 0.102,
+            "USL": 0.099,
+            "AIFS_ENS": 0.104,
+            "ENS": 0.089
           }
         }
       }
