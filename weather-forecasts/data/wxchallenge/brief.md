@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-09**, scored over 2026-10-09T06Z to 2026-10-10T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-09T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-08T22:25:34+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-08T22:36:23+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,14 +35,14 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS | 08/12Z | 86.8 | 74.2 | 11.0 | 0.20 |
 | GFS_MOS | 08/18Z | 89.0 | 76.0 | 11.0 | 0.20 |
 | NBM | 08/18Z | 87.0 | 73.0 | 10.0 | 0.12 |
-| USL | 08/12Z | 88.0 | 74.0 | 11.0 | 0.33 |
+| USL | 08/22Z | 89.0 | 75.0 | 11.0 | 0.24 |
 | ENS | 08/06Z | 85.7 | 73.1 | 9.3 | 0.20 |
 | AIFS_ENS | 08/12Z | 87.8 | 73.3 | 12.6 | 0.14 |
 | GEFS | 08/12Z | 88.8 | 75.5 | 14.0 | 0.14 |
 | HRRRCAST (precip only) | 08/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 08/18Z | — | — | — | 0.08 |
 | NBM_QMD (precip only) | 08/12Z | — | — | — | 0.19 |
-| **CONSENSUS** |  | **87.2** | **74.4** | **14.4** | **0.17** |
+| **CONSENSUS** |  | **87.3** | **74.6** | **14.4** | **0.16** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -284,25 +284,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-06 | 1.36" (wet: 12-18, 18-00, 00-06) | 55/65/78/61 | 17/45/63/68 | 31/84/96/86 | 61/98/100/94 | 94/97/100/42 | 33/100/100/100 | 24h 100% | 16/46/86/61 |
 | 10-07 | 2.16" (wet: 06-12, 12-18, 18-00, 00-06) | 52/92/87/86 | 73/79/74/42 | 96/98/100/78 | 98/100/98/88 | 90/100/100/94 | 100/100/100/100 | 24h 100% | 61/81/91/55 |
 
-## Today so far (2026-10-08, through 2026-10-08T21:53Z)
+## Today so far (2026-10-08, through 2026-10-08T22:21Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 79.0 °F, low 75.0 °F, max wind 7 kt, precip 0.38" (16 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 79.0 °F, low 75.0 °F, max wind 7 kt, precip 0.39" (16 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 07/18Z | -1.3 | 1.5 | 79 (+0) | 73 (-2) pending | +2.3 | 1.40 | +1.02 |
-| RRFS | 07/18Z | -1.1 | 1.8 | 80 (+1) | 69 (-6) pending | +0.3 | 0.21 | -0.17 |
-| IFS | 07/12Z | -1.2 | 1.2 | 81 (+2) pending | 74 (-2) pending | -1.1 | 0.72 | +0.34 |
-| GFS | 07/18Z | -0.8 | 1.9 | 82 (+3) | 72 (-2) pending | +4.8 | 0.44 | +0.06 |
-| AIFS | 07/12Z | -0.7 | 1.0 | 79 (+0) | 74 (-1) pending | +0.6 | 1.05 | +0.67 |
+| HRRR | 07/18Z | -1.3 | 1.5 | 79 (+0) | 73 (-2) pending | +2.3 | 1.41 | +1.02 |
+| RRFS | 07/18Z | -1.1 | 1.8 | 80 (+1) | 69 (-6) pending | +0.3 | 0.23 | -0.16 |
+| IFS | 07/12Z | -1.2 | 1.2 | 81 (+2) | 74 (-2) pending | -1.1 | 0.75 | +0.36 |
+| GFS | 07/18Z | -0.8 | 1.9 | 82 (+3) | 72 (-2) pending | +4.8 | 0.48 | +0.09 |
+| AIFS | 07/12Z | -0.7 | 1.0 | 79 (+0) | 74 (-1) pending | +0.6 | 1.08 | +0.69 |
 | GFS_MOS | 07/18Z | +0.4 | 0.8 | 83 (+4) | 74 (-1) pending | +1.7 | — | — |
 | NBM | 07/18Z | -0.5 | 1.5 | 81 (+2) | 73 (-2) | +2.6 | — | — |
-| USL | 07/22Z | +1.5 | 1.6 | 83 (+4) | 75 (+0) | +2.1 | 0.50 | +0.12 |
-| ENS | 07/12Z | -1.1 | 1.4 | 79 (+0) | 73 (-2) | +0.6 | 1.09 | +0.71 |
-| AIFS_ENS | 07/12Z | -0.5 | 1.3 | 80 (+1) | 74 (-2) | +1.8 | 1.02 | +0.64 |
-| GEFS | 07/18Z | +0.5 | 0.9 | 81 (+2) | 75 (+0) | +5.5 | 0.50 | +0.12 |
+| USL | 07/22Z | +1.5 | 1.6 | 83 (+4) | 75 (+0) | +2.1 | 0.51 | +0.12 |
+| ENS | 07/12Z | -1.1 | 1.4 | 79 (+0) | 73 (-2) | +0.6 | 1.12 | +0.73 |
+| AIFS_ENS | 07/12Z | -0.5 | 1.3 | 80 (+1) | 74 (-2) | +1.8 | 1.06 | +0.67 |
+| GEFS | 07/18Z | +0.5 | 0.9 | 81 (+2) | 75 (+0) | +5.5 | 0.53 | +0.14 |
 
 ## Raw data
 
