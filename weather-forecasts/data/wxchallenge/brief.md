@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-10**, scored over 2026-10-10T06Z to 2026-10-11T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-10T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-09T18:02:11+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-09T18:34:55+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -39,7 +39,7 @@ Run = day/hour (UTC) of the model initialization.
 | ENS | 09/06Z | 83.8 | 76.6 | 10.2 | 0.37 |
 | AIFS_ENS | 09/06Z | 86.2 | 77.9 | 12.4 | 0.24 |
 | GEFS | 09/12Z | 89.8 | 79.8 | 13.1 | 0.09 |
-| HRRRCAST (precip only) | 09/06Z | — | — | — | 0.02 |
+| HRRRCAST (precip only) | 09/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 09/12Z | — | — | — | 0.20 |
 | NBM_QMD (precip only) | 09/06Z | — | — | — | 0.20 |
 | **CONSENSUS** |  | **86.3** | **78.7** | **15.2** | **0.31** |
@@ -82,7 +82,7 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | GEFS | 31 | Low °F | 79.5 | 79.6 | 79.8 | 80.0 | 80.4 | 79.8 |
 | GEFS | 31 | Wind kt | 11.6 | 12.5 | 12.9 | 13.7 | 14.5 | 13.1 |
 | GEFS | 31 | Precip in | 0.00 | 0.02 | 0.05 | 0.13 | 0.18 | 0.09 |
-| HRRRCAST | 18 | Precip in | 0.00 | 0.01 | 0.02 | 0.06 | 0.10 | 0.05 |
+| HRRRCAST | 18 | Precip in | 0.00 | 0.01 | 0.01 | 0.02 | 0.14 | 0.04 |
 | REFS | 14 | Precip in | 0.13 | 0.15 | 0.20 | 0.28 | 0.40 | 0.26 |
 
 Share of members reaching each 24-h precip amount:
@@ -92,7 +92,7 @@ Share of members reaching each 24-h precip amount:
 | ENS | 100% | 96% | 76% | 14% |
 | AIFS_ENS | 100% | 80% | 43% | 2% |
 | GEFS | 84% | 42% | 3% | 0% |
-| HRRRCAST | 61% | 11% | 6% | 0% |
+| HRRRCAST | 61% | 17% | 0% | 0% |
 | REFS | 100% | 93% | 36% | 7% |
 
 NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.07", p50 0.20", p75 0.52", p90 1.10"
