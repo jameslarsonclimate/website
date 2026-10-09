@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-10**, scored over 2026-10-10T06Z to 2026-10-11T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-10T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-09T19:06:54+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-09T19:30:28+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -41,7 +41,7 @@ Run = day/hour (UTC) of the model initialization.
 | GEFS | 09/12Z | 89.8 | 79.8 | 13.1 | 0.09 |
 | HRRRCAST (precip only) | 09/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 09/12Z | — | — | — | 0.20 |
-| NBM_QMD (precip only) | 09/06Z | — | — | — | 0.20 |
+| NBM_QMD (precip only) | 09/12Z | — | — | — | 0.33 |
 | **CONSENSUS** |  | **86.2** | **78.7** | **15.2** | **0.30** |
 
 Notes:
@@ -95,7 +95,7 @@ Share of members reaching each 24-h precip amount:
 | HRRRCAST | 61% | 17% | 0% | 0% |
 | REFS | 100% | 93% | 36% | 7% |
 
-NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.07", p50 0.20", p75 0.52", p90 1.10"
+NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.07", p50 0.33", p75 0.81", p90 1.18"
 
 ## Chance of measurable precip (≥0.01") on the target day
 
@@ -110,7 +110,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.07", p50 0.20", p75
 | GEFS | member fraction | 48% | 16% | 55% | 61% | 84% | 0.29 (24) |
 | HRRRCAST | member fraction | — | — | — | — | 61% | 0.17 (24) |
 | REFS | member fraction | — | — | — | — | 100% | — |
-| NBM_QMD | NBM QMD | 25% | 37% | 56% | 37% | 86% | 0.12 (24) |
+| NBM_QMD | NBM QMD | 30% | 50% | 62% | 34% | 84% | 0.12 (24) |
 
 For reference, always forecasting the period's observed frequency (46% of 6-h blocks wet) scores Brier 0.25.
 
