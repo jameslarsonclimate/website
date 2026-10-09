@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-09T21:12:08+00:00",
+  "generated_at_utc": "2026-10-09T21:59:55+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 83.2,
-      "tmin_f": 74.7,
-      "wind_max_kt": 12.6,
-      "precip_in": 0.86,
-      "init_time_utc": "2026-10-09T12",
+      "tmax_f": 82.6,
+      "tmin_f": 76.5,
+      "wind_max_kt": 11.4,
+      "precip_in": 0.77,
+      "init_time_utc": "2026-10-09T18",
       "valid_range_utc": [
         "2026-10-10T06",
         "2026-10-11T06"
@@ -45,7 +45,7 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 83.7,
+      "tmax_f": 84.0,
       "tmin_f": 77.6,
       "wind_max_kt": 11.9,
       "precip_in": 0.21,
@@ -55,8 +55,7 @@
         "2026-10-11T06"
       ],
       "n_steps": 25,
-      "temp_source": "instantaneous 2 m T",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, )"
+      "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
       "tmax_f": 84.6,
@@ -1163,10 +1162,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 86.2,
-      "tmin_f": 78.9,
-      "wind_max_kt": 15.1,
-      "precip_in": 0.29,
+      "tmax_f": 86.1,
+      "tmin_f": 79.0,
+      "wind_max_kt": 14.9,
+      "precip_in": 0.28,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
