@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-10**, scored over 2026-10-10T06Z to 2026-10-11T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-10T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-09T21:59:55+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-09T22:28:03+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -33,7 +33,7 @@ Run = day/hour (UTC) of the model initialization.
 | IFS | 09/12Z | 84.6 | 76.7 | 8.3 | 0.32 |
 | GFS | 09/12Z | 87.9 | 77.7 | 11.8 | 0.21 |
 | AIFS | 09/12Z | 86.2 | 79.3 | 11.8 | 0.28 |
-| GFS_MOS | 09/12Z | 90.0 | 80.0 | 11.0 | 0.27 |
+| GFS_MOS | 09/18Z | 90.0 | 80.0 | 12.0 | 0.32 |
 | NBM | 09/18Z | 87.0 | 78.0 | 12.0 | 0.11 |
 | USL | 09/12Z | 89.0 | 79.0 | 14.0 | 0.08 |
 | ENS | 09/06Z | 83.8 | 76.6 | 10.2 | 0.37 |
@@ -42,11 +42,11 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 09/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 09/18Z | — | — | — | 0.30 |
 | NBM_QMD (precip only) | 09/12Z | — | — | — | 0.33 |
-| **CONSENSUS** |  | **86.1** | **79.0** | **14.9** | **0.28** |
+| **CONSENSUS** |  | **86.1** | **79.0** | **15.0** | **0.28** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
-- GFS_MOS: MOS Q06 categories [1, 0, 1, 2] -> midpoints
+- GFS_MOS: MOS Q06 categories [1, 1, 1, 2] -> midpoints
 - NBM: NBS Q06 amounts
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
@@ -103,7 +103,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.07", p50 0.33", p75
 
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
-| GFS_MOS | GFS MOS P06 | 50% | 25% | 37% | 55% | 55% to 89% | 0.20 (24) |
+| GFS_MOS | GFS MOS P06 | 53% | 39% | 43% | 57% | 57% to 93% | 0.20 (24) |
 | NBM | NBS P06 | 26% | 37% | 56% | 40% | 56% to 88% | 0.13 (24) |
 | ENS | member fraction | 51% | 100% | 96% | 69% | 100% | 0.20 (24) |
 | AIFS_ENS | member fraction | 57% | 84% | 78% | 59% | 96% | 0.23 (24) |

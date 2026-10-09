@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-09T21:59:55+00:00",
+  "generated_at_utc": "2026-10-09T22:28:03+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -100,26 +100,26 @@
     "GFS_MOS": {
       "tmax_f": 90.0,
       "tmin_f": 80.0,
-      "wind_max_kt": 11.0,
-      "precip_in": 0.27,
-      "pop06_max_pct": 55,
+      "wind_max_kt": 12.0,
+      "precip_in": 0.32,
+      "pop06_max_pct": 57,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.5,
-          "12-18": 0.25,
-          "18-00": 0.37,
-          "00-06": 0.55
+          "06-12": 0.53,
+          "12-18": 0.39,
+          "18-00": 0.43,
+          "00-06": 0.57
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.55,
-          0.894
+          0.57,
+          0.93
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 0, 1, 2] -> midpoints",
-      "init_time_utc": "2026-10-09T12",
+      "precip_note": "MOS Q06 categories [1, 1, 1, 2] -> midpoints",
+      "init_time_utc": "2026-10-09T18",
       "valid_range_utc": [
         "2026-10-10T06",
         "2026-10-11T06"
@@ -1164,7 +1164,7 @@
     "CONSENSUS": {
       "tmax_f": 86.1,
       "tmin_f": 79.0,
-      "wind_max_kt": 14.9,
+      "wind_max_kt": 15.0,
       "precip_in": 0.28,
       "method": {
         "tmax_f": {
