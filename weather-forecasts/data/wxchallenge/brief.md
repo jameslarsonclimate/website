@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-10**, scored over 2026-10-10T06Z to 2026-10-11T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-10T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-09T16:01:47+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-09T16:30:39+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -29,7 +29,7 @@ Run = day/hour (UTC) of the model initialization.
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
 | HRRR | 09/12Z | 83.2 | 74.7 | 12.6 | 0.86 |
-| RRFS | 09/06Z | 83.9 | 76.3 | 12.3 | 0.15 |
+| RRFS | 09/12Z | 84.2 | 76.1 | 12.2 | 0.15 |
 | IFS | 09/06Z | 85.0 | 76.1 | 9.1 | 0.48 |
 | GFS | 09/06Z | 88.6 | 77.2 | 12.8 | 0.33 |
 | AIFS | 09/06Z | 86.1 | 79.2 | 12.0 | 0.33 |
