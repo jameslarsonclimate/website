@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-11**, scored over 2026-10-11T06Z to 2026-10-12T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-11T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-10T22:02:25+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-10T22:17:00+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
