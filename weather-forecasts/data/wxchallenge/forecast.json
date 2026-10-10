@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-10T19:35:46+00:00",
+  "generated_at_utc": "2026-10-10T20:43:40+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -59,10 +59,10 @@
     },
     "IFS": {
       "tmax_f": 84.2,
-      "tmin_f": 72.9,
-      "wind_max_kt": 6.8,
-      "precip_in": 0.3,
-      "init_time_utc": "2026-10-10T06",
+      "tmin_f": 72.8,
+      "wind_max_kt": 6.5,
+      "precip_in": 0.46,
+      "init_time_utc": "2026-10-10T12",
       "valid_range_utc": [
         "2026-10-11T06",
         "2026-10-12T06"
@@ -160,7 +160,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-11 available at 2026-10-10 19Z"
+      "error": "no USL run for 2026-10-11 available at 2026-10-10 20Z"
     },
     "ENS": {
       "tmax_f": 83.2,
@@ -1051,14 +1051,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.36,
-      "precip_mean_in": 0.57,
-      "init_time_utc": "2026-10-10T12",
+      "precip_in": 0.1,
+      "precip_mean_in": 0.24,
+      "init_time_utc": "2026-10-10T18",
       "valid_range_utc": [
         "2026-10-11T06",
         "2026-10-12T06"
       ],
-      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
+      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -1075,55 +1075,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.566,
-            "std": 0.462,
-            "p0": 0.034,
-            "p10": 0.092,
-            "p25": 0.193,
-            "p50": 0.358,
-            "p75": 0.978,
-            "p90": 1.281,
-            "p100": 1.353
+            "mean": 0.243,
+            "std": 0.317,
+            "p0": 0.032,
+            "p10": 0.039,
+            "p25": 0.056,
+            "p50": 0.098,
+            "p75": 0.253,
+            "p90": 0.736,
+            "p100": 1.061
           },
           "precip_prob": {
             "0.01": 1.0,
-            "0.10": 0.857,
-            "0.25": 0.714,
-            "0.50": 0.357
+            "0.10": 0.5,
+            "0.25": 0.286,
+            "0.50": 0.143
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.032,
+            0.049,
+            0.121,
+            0.076,
+            0.064,
+            0.054,
+            0.913,
             0.062,
             0.034,
             0.162,
             0.283,
             0.162,
             1.061,
-            0.324,
-            0.369,
-            1.353,
-            0.347,
-            1.26,
-            0.482,
-            0.731,
-            1.29
+            0.324
           ]
         }
       }
@@ -1162,8 +1162,8 @@
     "CONSENSUS": {
       "tmax_f": 84.3,
       "tmin_f": 74.3,
-      "wind_max_kt": 12.0,
-      "precip_in": 0.34,
+      "wind_max_kt": 11.9,
+      "precip_in": 0.36,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
