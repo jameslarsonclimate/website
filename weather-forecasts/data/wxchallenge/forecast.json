@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-10T22:17:00+00:00",
+  "generated_at_utc": "2026-10-10T22:27:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -99,27 +99,27 @@
     },
     "GFS_MOS": {
       "tmax_f": 88.0,
-      "tmin_f": 76,
+      "tmin_f": 75,
       "wind_max_kt": 8.0,
-      "precip_in": 0.17,
-      "pop06_max_pct": 57,
+      "precip_in": 0.22,
+      "pop06_max_pct": 63,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.57,
-          "12-18": 0.29,
-          "18-00": 0.15,
-          "00-06": 0.11
+          "06-12": 0.63,
+          "12-18": 0.38,
+          "18-00": 0.2,
+          "00-06": 0.15
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.57,
-          0.769
+          0.63,
+          0.844
         ]
       },
-      "precip_note": "MOS Q06 categories [2, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-10T12",
+      "precip_note": "MOS Q06 categories [2, 1, 0, 0] -> midpoints",
+      "init_time_utc": "2026-10-10T18",
       "valid_range_utc": [
         "2026-10-11T06",
         "2026-10-12T06"
@@ -1161,9 +1161,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 84.3,
-      "tmin_f": 74.3,
+      "tmin_f": 74.1,
       "wind_max_kt": 11.9,
-      "precip_in": 0.35,
+      "precip_in": 0.36,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
