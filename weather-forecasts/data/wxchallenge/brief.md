@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-11**, scored over 2026-10-11T06Z to 2026-10-12T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-11T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-10T18:41:22+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-10T19:35:46+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -28,11 +28,11 @@ Run = day/hour (UTC) of the model initialization.
 
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
-| HRRR | 10/12Z | 82.4 | 71.5 | 12.1 | 0.32 |
-| RRFS | 10/06Z | 82.5 | 69.5 | 8.9 | 0.37 |
+| HRRR | 10/18Z | 80.8 | 70.4 | 10.9 | 0.91 |
+| RRFS | 10/12Z | 82.7 | 69.4 | 9.6 | 0.06 |
 | IFS | 10/06Z | 84.2 | 72.9 | 6.8 | 0.30 |
 | GFS | 10/12Z | 86.0 | 76.6 | 8.6 | 0.16 |
-| AIFS | 10/06Z | 83.1 | 71.7 | 7.2 | 0.35 |
+| AIFS | 10/12Z | 82.6 | 71.1 | 7.1 | 0.38 |
 | GFS_MOS | 10/12Z | 88.0 | 76.0 | 8.0 | 0.17 |
 | NBM | 10/18Z | 85.0 | 74.0 | 8.0 | 0.33 |
 | USL | — | — | — | — | — |
@@ -41,14 +41,14 @@ Run = day/hour (UTC) of the model initialization.
 | GEFS | 10/12Z | 86.9 | 78.6 | 10.1 | 0.15 |
 | HRRRCAST (precip only) | 10/12Z | — | — | — | 0.13 |
 | REFS (precip only) | 10/12Z | — | — | — | 0.36 |
-| NBM_QMD (precip only) | 10/06Z | — | — | — | 0.44 |
-| **CONSENSUS** |  | **84.5** | **74.5** | **12.0** | **0.30** |
+| NBM_QMD (precip only) | 10/12Z | — | — | — | 0.41 |
+| **CONSENSUS** |  | **84.3** | **74.3** | **12.0** | **0.34** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [2, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-11 available at 2026-10-10 18Z)
+- USL: failed this run (no USL run for 2026-10-11 available at 2026-10-10 19Z)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
@@ -96,7 +96,7 @@ Share of members reaching each 24-h precip amount:
 | HRRRCAST | 94% | 61% | 28% | 11% |
 | REFS | 100% | 86% | 71% | 36% |
 
-NBM QMD calibrated 24-h precip percentiles: p10 0.02", p25 0.14", p50 0.44", p75 0.87", p90 1.50"
+NBM QMD calibrated 24-h precip percentiles: p10 0.03", p25 0.21", p50 0.41", p75 0.58", p90 0.97"
 
 ## Chance of measurable precip (≥0.01") on the target day
 
@@ -111,7 +111,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.02", p25 0.14", p50 0.44", p75
 | GEFS | member fraction | 97% | 81% | 10% | 6% | 100% | 0.31 (28) |
 | HRRRCAST | member fraction | — | — | — | — | 94% | 0.17 (24) |
 | REFS | member fraction | — | — | — | — | 100% | — |
-| NBM_QMD | NBM QMD | 56% | 77% | 15% | 0% | 91% | 0.12 (28) |
+| NBM_QMD | NBM QMD | 52% | 80% | 21% | 1% | 94% | 0.12 (28) |
 
 For reference, always forecasting the period's observed frequency (39% of 6-h blocks wet) scores Brier 0.24.
 
@@ -297,25 +297,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-08 | 0.66" (wet: 12-18, 18-00, 00-06) | 74/82/82/90 | 49/58/90/52 | 90/98/100/80 | 92/98/96/94 | 94/97/100/94 | 100/100/100/100 | 24h 100% | 44/66/82/44 |
 | 10-09 | 0.00" (dry) | 34/48/45/41 | 8/17/63/14 | 20/92/96/18 | 28/45/61/41 | 68/74/84/13 | 24h 72% | 24h 100% | 5/14/66/6 |
 
-## Today so far (2026-10-10, through 2026-10-10T17:53Z)
+## Today so far (2026-10-10, through 2026-10-10T18:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 88.0 °F, low 80.1 °F, max wind 98 kt, precip 0.00" (12 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 88.0 °F, low 80.1 °F, max wind 98 kt, precip 0.00" (13 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 09/18Z | -4.0 | 4.0 | 83 (-5) | 76 (-4) | -6.6 | 0.17 | +0.17 |
-| RRFS | 09/18Z | -3.2 | 3.2 | 84 (-4) | 78 (-2) pending | -6.1 | 0.13 | +0.13 |
-| IFS | 09/12Z | -3.6 | 3.6 | 85 (-3) | 77 (-3) pending | -7.7 | 0.15 | +0.15 |
-| GFS | 09/18Z | -1.8 | 1.8 | 88 (+0) | 78 (-2) | -4.8 | 0.10 | +0.10 |
-| AIFS | 09/12Z | -1.6 | 1.6 | 86 (-2) | 79 (-1) pending | -5.8 | 0.15 | +0.15 |
-| GFS_MOS | 09/18Z | +0.3 | 1.6 | 90 (+2) pending | 80 (+0) | -6.5 | — | — |
-| NBM | 09/18Z | -2.5 | 2.5 | 87 (-1) | 78 (-2) | -5.7 | — | — |
-| USL | 09/22Z | -0.7 | 0.7 | 88 (+0) pending | 79 (-1) | -8.5 | 0.06 | +0.06 |
-| ENS | 09/12Z | -3.4 | 3.4 | 84 (-4) | 77 (-3) | -6.8 | 0.17 | +0.17 |
-| AIFS_ENS | 09/12Z | -2.1 | 2.1 | 86 (-2) | 78 (-2) | -5.3 | 0.10 | +0.10 |
-| GEFS | 09/18Z | +0.2 | 0.8 | 90 (+2) pending | 80 (+0) | -4.2 | 0.08 | +0.08 |
+| HRRR | 09/18Z | -4.2 | 4.2 | 83 (-5) | 76 (-4) | -6.2 | 0.17 | +0.17 |
+| RRFS | 09/18Z | -3.3 | 3.3 | 84 (-4) | 78 (-2) pending | -5.7 | 0.13 | +0.13 |
+| IFS | 09/12Z | -3.7 | 3.7 | 85 (-3) | 77 (-3) pending | -7.4 | 0.19 | +0.19 |
+| GFS | 09/18Z | -1.7 | 1.7 | 88 (+0) | 78 (-2) | -4.3 | 0.10 | +0.10 |
+| AIFS | 09/12Z | -1.7 | 1.7 | 86 (-2) | 79 (-1) pending | -5.5 | 0.17 | +0.17 |
+| GFS_MOS | 09/18Z | +0.2 | 1.5 | 90 (+2) pending | 80 (+0) | -6.1 | — | — |
+| NBM | 09/18Z | -2.5 | 2.5 | 87 (-1) | 78 (-2) | -5.3 | — | — |
+| USL | 09/22Z | -0.6 | 0.6 | 88 (+0) pending | 79 (-1) | -8.1 | 0.06 | +0.06 |
+| ENS | 09/12Z | -3.5 | 3.5 | 84 (-4) | 77 (-3) | -6.5 | 0.20 | +0.20 |
+| AIFS_ENS | 09/12Z | -2.1 | 2.1 | 86 (-2) | 78 (-2) | -4.9 | 0.12 | +0.12 |
+| GEFS | 09/18Z | +0.4 | 0.9 | 90 (+2) pending | 80 (+0) | -3.7 | 0.08 | +0.08 |
 
 ## Raw data
 
