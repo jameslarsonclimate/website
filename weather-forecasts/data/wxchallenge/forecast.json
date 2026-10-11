@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-11T15:33:06+00:00",
+  "generated_at_utc": "2026-10-11T16:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -42,8 +42,7 @@
         "2026-10-13T06"
       ],
       "n_steps": 25,
-      "temp_source": "instantaneous 2 m T",
-      "note": "newest cycle unavailable, used previous"
+      "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
       "tmax_f": null,
@@ -52,7 +51,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
     },
     "IFS": {
       "tmax_f": 85.9,
@@ -95,28 +94,28 @@
       "note": "6-hourly output: high/low likely underdone"
     },
     "GFS_MOS": {
-      "tmax_f": 90.0,
+      "tmax_f": 89.0,
       "tmin_f": 70.0,
       "wind_max_kt": 8.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 5,
+      "pop06_max_pct": 6,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.05,
-          "12-18": 0.03,
-          "18-00": 0.0,
-          "00-06": 0.0
+          "06-12": 0.04,
+          "12-18": 0.06,
+          "18-00": 0.01,
+          "00-06": 0.02
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.05,
-          0.079
+          0.06,
+          0.124
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-11T06",
+      "init_time_utc": "2026-10-11T12",
       "valid_range_utc": [
         "2026-10-12T06",
         "2026-10-13T06"
@@ -157,7 +156,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-12 available at 2026-10-11 16Z"
+      "error": "no USL run for 2026-10-12 available at 2026-10-11 17Z"
     },
     "ENS": {
       "tmax_f": 85.9,
@@ -1157,7 +1156,7 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 86.0,
+      "tmax_f": 85.8,
       "tmin_f": 70.8,
       "wind_max_kt": 16.3,
       "precip_in": 0.0,
