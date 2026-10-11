@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-11T14:02:45+00:00",
+  "generated_at_utc": "2026-10-11T15:33:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -32,27 +32,27 @@
   },
   "models": {
     "HRRR": {
+      "tmax_f": 78.6,
+      "tmin_f": 67.9,
+      "wind_max_kt": 7.1,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-10-11T06",
+      "valid_range_utc": [
+        "2026-10-12T06",
+        "2026-10-13T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "instantaneous 2 m T",
+      "note": "newest cycle unavailable, used previous"
+    },
+    "RRFS": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
-    },
-    "RRFS": {
-      "tmax_f": 78.8,
-      "tmin_f": 66.7,
-      "wind_max_kt": 7.8,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-11T00",
-      "valid_range_utc": [
-        "2026-10-12T06",
-        "2026-10-13T06"
-      ],
-      "n_steps": 25,
-      "temp_source": "2 m T + interval max/min fields",
-      "note": "newest cycle unavailable, used previous"
+      "error": "Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
     },
     "IFS": {
       "tmax_f": 85.9,
@@ -157,7 +157,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-12 available at 2026-10-11 14Z"
+      "error": "no USL run for 2026-10-12 available at 2026-10-11 16Z"
     },
     "ENS": {
       "tmax_f": 85.9,
@@ -1050,12 +1050,12 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-10-11T06",
+      "init_time_utc": "2026-10-11T12",
       "valid_range_utc": [
         "2026-10-12T06",
         "2026-10-13T06"
       ],
-      "note": "median of 13 members, 06Z + 00Z runs (RRFS para)",
+      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 0.0,
@@ -1065,11 +1065,11 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
             "mean": 0.0,
@@ -1090,22 +1090,24 @@
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.0,
             0.0,
             0.0,
             0.0,
@@ -1155,15 +1157,15 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 86.2,
-      "tmin_f": 70.7,
-      "wind_max_kt": 16.6,
+      "tmax_f": 86.0,
+      "tmin_f": 70.8,
+      "wind_max_kt": 16.3,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "RRFS",
+            "HRRR",
             "IFS",
             "GFS",
             "AIFS",
@@ -1173,20 +1175,20 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.079,
-            "IFS": 0.116,
-            "GFS": 0.123,
-            "AIFS": 0.143,
-            "GFS_MOS": 0.122,
-            "NBM": 0.15,
-            "ENS": 0.112,
-            "AIFS_ENS": 0.155
+            "HRRR": 0.107,
+            "IFS": 0.113,
+            "GFS": 0.119,
+            "AIFS": 0.139,
+            "GFS_MOS": 0.118,
+            "NBM": 0.145,
+            "ENS": 0.109,
+            "AIFS_ENS": 0.151
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "RRFS",
+            "HRRR",
             "IFS",
             "GFS",
             "AIFS",
@@ -1196,20 +1198,20 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.074,
-            "IFS": 0.11,
-            "GFS": 0.121,
-            "AIFS": 0.181,
-            "GFS_MOS": 0.17,
-            "NBM": 0.13,
-            "ENS": 0.094,
-            "AIFS_ENS": 0.121
+            "HRRR": 0.081,
+            "IFS": 0.109,
+            "GFS": 0.12,
+            "AIFS": 0.179,
+            "GFS_MOS": 0.169,
+            "NBM": 0.129,
+            "ENS": 0.093,
+            "AIFS_ENS": 0.12
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "RRFS",
+            "HRRR",
             "IFS",
             "GFS",
             "AIFS",
@@ -1219,20 +1221,20 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.135,
-            "IFS": 0.123,
-            "GFS": 0.151,
-            "AIFS": 0.123,
-            "GFS_MOS": 0.134,
-            "NBM": 0.135,
-            "ENS": 0.096,
-            "AIFS_ENS": 0.102
+            "HRRR": 0.145,
+            "IFS": 0.122,
+            "GFS": 0.15,
+            "AIFS": 0.121,
+            "GFS_MOS": 0.133,
+            "NBM": 0.133,
+            "ENS": 0.095,
+            "AIFS_ENS": 0.101
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "RRFS",
+            "HRRR",
             "IFS",
             "GFS",
             "AIFS",
@@ -1242,14 +1244,14 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "RRFS": 0.1,
-            "IFS": 0.128,
-            "GFS": 0.137,
-            "AIFS": 0.14,
-            "GFS_MOS": 0.111,
-            "NBM": 0.138,
-            "ENS": 0.116,
-            "AIFS_ENS": 0.13
+            "HRRR": 0.119,
+            "IFS": 0.125,
+            "GFS": 0.134,
+            "AIFS": 0.137,
+            "GFS_MOS": 0.109,
+            "NBM": 0.135,
+            "ENS": 0.114,
+            "AIFS_ENS": 0.127
           }
         }
       }
