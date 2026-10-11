@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-12**, scored over 2026-10-12T06Z to 2026-10-13T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-12T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-11T21:12:21+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-11T21:49:24+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -29,11 +29,11 @@ Run = day/hour (UTC) of the model initialization.
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
 | HRRR | 11/18Z | 80.4 | 67.8 | 7.3 | 0.00 |
-| RRFS | 11/18Z | 78.6 | 67.4 | 7.3 | 0.00 |
+| RRFS | — | — | — | — | — |
 | IFS | 11/12Z | 85.5 | 71.2 | 6.7 | 0.00 |
 | GFS | 11/12Z | 87.7 | 71.2 | 9.0 | 0.00 |
 | AIFS | 11/12Z | 85.1 | 70.3 | 6.9 | 0.00 |
-| GFS_MOS | 11/12Z | 89.0 | 70.0 | 8.0 | 0.00 |
+| GFS_MOS | 11/18Z | 89.0 | 71.0 | 8.0 | 0.00 |
 | NBM | 11/18Z | 85.0 | 70.0 | 9.0 | 0.00 |
 | USL | — | — | — | — | — |
 | ENS | 10/18Z | 85.9 | 70.3 | 6.4 | 0.00 |
@@ -42,14 +42,14 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 11/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 11/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 11/12Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **85.6** | **70.9** | **16.3** | **0.00** |
+| **CONSENSUS** |  | **85.9** | **71.1** | **16.3** | **0.00** |
 
 Notes:
-- RRFS: TMAX/TMIN unavailable (RuntimeError: Processing failed: ("Connection broken: ConnectionResetError(54, 'Connection reset by peer')", ConnectionResetError(54, )
+- RRFS: failed this run (Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection )
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-12 available at 2026-10-11 21Z)
+- USL: failed this run (no USL run for 2026-10-12 available at 2026-10-11 22Z)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
@@ -63,10 +63,10 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 
 - bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted. Precip is weighted but not bias-corrected.
 
-- High °F weights: AIFS_ENS 0.14, NBM 0.14, AIFS 0.13, GFS 0.11, GFS_MOS 0.11, IFS 0.10, ENS 0.10, HRRR 0.10, RRFS 0.07
-- Low °F weights: AIFS 0.17, GFS_MOS 0.16, NBM 0.12, AIFS_ENS 0.11, GFS 0.11, IFS 0.10, ENS 0.09, HRRR 0.07, RRFS 0.07
-- Wind kt weights: GFS 0.13, HRRR 0.13, RRFS 0.12, GFS_MOS 0.12, NBM 0.12, IFS 0.11, AIFS 0.11, AIFS_ENS 0.09, ENS 0.08
-- Precip in weights: AIFS 0.12, NBM 0.12, GFS 0.12, AIFS_ENS 0.12, IFS 0.11, HRRR 0.11, ENS 0.10, GFS_MOS 0.10, RRFS 0.09
+- High °F weights: AIFS_ENS 0.15, NBM 0.14, AIFS 0.14, GFS 0.12, GFS_MOS 0.12, IFS 0.11, ENS 0.11, HRRR 0.11
+- Low °F weights: AIFS 0.18, GFS_MOS 0.17, NBM 0.13, GFS 0.12, AIFS_ENS 0.12, IFS 0.11, ENS 0.09, HRRR 0.08
+- Wind kt weights: GFS 0.15, HRRR 0.14, GFS_MOS 0.13, NBM 0.13, IFS 0.12, AIFS 0.12, AIFS_ENS 0.10, ENS 0.10
+- Precip in weights: AIFS 0.14, NBM 0.14, GFS 0.13, AIFS_ENS 0.13, IFS 0.12, HRRR 0.12, ENS 0.11, GFS_MOS 0.11
 
 ## Ensemble spread (target day)
 
@@ -105,7 +105,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
-| GFS_MOS | GFS MOS P06 | 4% | 6% | 1% | 2% | 6% to 12% | 0.20 (32) |
+| GFS_MOS | GFS MOS P06 | 3% | 5% | 0% | 0% | 5% to 8% | 0.20 (32) |
 | NBM | NBS P06 | 0% | 0% | 0% | 0% | 0% to 0% | 0.14 (32) |
 | ENS | member fraction | 0% | 0% | 0% | 0% | 0% | 0.30 (32) |
 | AIFS_ENS | member fraction | 2% | 0% | 0% | 0% | 2% | 0.26 (32) |
