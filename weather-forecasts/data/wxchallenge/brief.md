@@ -3,7 +3,7 @@
 - Station: **KTPA**
 - Target day: **2026-10-12**, scored over 2026-10-12T06Z to 2026-10-13T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-12T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-11T23:40:45+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-11T23:54:43+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -38,7 +38,7 @@ Run = day/hour (UTC) of the model initialization.
 | USL | — | — | — | — | — |
 | ENS | 10/18Z | 85.9 | 70.3 | 6.4 | 0.00 |
 | AIFS_ENS | 10/18Z | 85.4 | 69.6 | 7.5 | 0.00 |
-| GEFS | 11/12Z | 87.4 | 74.2 | 10.0 | 0.00 |
+| GEFS | 11/18Z | 87.2 | 74.7 | 9.8 | 0.00 |
 | HRRRCAST (precip only) | 11/12Z | — | — | — | 0.01 |
 | REFS (precip only) | 11/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 11/12Z | — | — | — | 0.00 |
@@ -79,9 +79,9 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | AIFS_ENS | 51 | Low °F | 67.6 | 68.8 | 69.7 | 70.5 | 71.2 | 69.6 |
 | AIFS_ENS | 51 | Wind kt | 6.2 | 6.7 | 7.5 | 8.1 | 8.8 | 7.5 |
 | AIFS_ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
-| GEFS | 31 | High °F | 86.1 | 86.5 | 87.5 | 88.1 | 89.0 | 87.4 |
-| GEFS | 31 | Low °F | 73.2 | 73.7 | 74.1 | 75.0 | 75.5 | 74.2 |
-| GEFS | 31 | Wind kt | 9.1 | 9.6 | 9.9 | 10.6 | 10.9 | 10.0 |
+| GEFS | 31 | High °F | 86.2 | 86.7 | 87.4 | 87.8 | 88.8 | 87.2 |
+| GEFS | 31 | Low °F | 73.9 | 74.3 | 74.5 | 75.2 | 75.6 | 74.7 |
+| GEFS | 31 | Wind kt | 9.0 | 9.4 | 9.9 | 10.2 | 10.8 | 9.8 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.01 |
 | REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
