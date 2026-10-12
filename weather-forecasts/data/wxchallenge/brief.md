@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T18:30:08+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T19:00:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -32,9 +32,9 @@ Run = day/hour (UTC) of the model initialization.
 | RRFS | 12/12Z | 63.9 | 39.3 | 4.6 | 0.00 |
 | IFS | 12/06Z | 59.1 | 40.8 | 3.6 | 0.00 |
 | GFS | 12/12Z | 56.9 | 41.9 | 3.7 | 0.00 |
-| AIFS | 12/06Z | 61.1 | 40.0 | 2.8 | 0.00 |
+| AIFS | 12/12Z | 60.5 | 39.7 | 2.7 | 0.00 |
 | GFS_MOS | 12/12Z | 59.0 | 39.0 | 5.0 | 0.00 |
-| NBM | 12/12Z | 63.0 | 37.0 | 4.0 | 0.00 |
+| NBM | 12/18Z | 63.0 | 37.0 | 4.0 | 0.00 |
 | USL | 12/12Z | 60.0 | 37.0 | 8.0 | 0.00 |
 | ENS | 10/18Z | 63.0 | 42.2 | 4.0 | 0.00 |
 | AIFS_ENS | 10/18Z | 61.1 | 43.0 | 4.1 | 0.01 |
@@ -104,7 +104,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
 | GFS_MOS | GFS MOS P06 | 2% | 13% | 12% | 4% | 13% to 28% | — |
-| NBM | NBS P06 | 7% | 9% | 6% | 0% | 9% to 20% | — |
+| NBM | NBS P06 | 7% | 9% | 6% | 3% | 9% to 23% | — |
 | ENS | member fraction | 0% | 2% | 2% | 16% | 16% | — |
 | AIFS_ENS | member fraction | 2% | 2% | 10% | 18% | 24% | — |
 | GEFS | member fraction | 0% | 0% | 10% | 3% | 10% | — |
