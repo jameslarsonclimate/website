@@ -1,6 +1,6 @@
 {
   "station": "KOLM",
-  "city_start": null,
+  "city_start": "2026-10-13",
   "half_life_days": {
     "tmax_f": 9.0,
     "tmin_f": 9.0,
@@ -2504,7 +2504,7 @@
     }
   },
   "period_start": "2026-09-28",
-  "generated_at_utc": "2026-10-12T17:28:54+00:00",
+  "generated_at_utc": "2026-10-12T18:00:13+00:00",
   "observations": [
     {
       "date": "2026-09-28",
