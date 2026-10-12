@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T23:36:05+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T23:54:29+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -38,7 +38,7 @@ Run = day/hour (UTC) of the model initialization.
 | USL | 12/22Z | 60.0 | 37.0 | 8.0 | 0.00 |
 | ENS | 10/18Z | 63.0 | 42.2 | 4.0 | 0.00 |
 | AIFS_ENS | 12/12Z | 60.7 | 41.0 | 3.6 | 0.00 |
-| GEFS | 12/12Z | 56.9 | 43.2 | 4.0 | 0.00 |
+| GEFS | 12/18Z | 58.2 | 43.4 | 4.2 | 0.00 |
 | HRRRCAST (precip only) | 12/12Z | — | — | — | 0.00 |
 | REFS (precip only) | 12/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 12/12Z | — | — | — | 0.00 |
@@ -80,9 +80,9 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | AIFS_ENS | 51 | Low °F | 37.7 | 39.5 | 41.2 | 42.6 | 44.0 | 41.0 |
 | AIFS_ENS | 51 | Wind kt | 2.5 | 3.0 | 3.4 | 4.3 | 5.1 | 3.6 |
 | AIFS_ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
-| GEFS | 31 | High °F | 54.8 | 55.4 | 56.6 | 58.4 | 59.0 | 56.9 |
-| GEFS | 31 | Low °F | 42.0 | 42.6 | 43.1 | 44.0 | 44.6 | 43.2 |
-| GEFS | 31 | Wind kt | 3.3 | 3.5 | 3.9 | 4.3 | 4.6 | 4.0 |
+| GEFS | 31 | High °F | 55.0 | 56.3 | 58.6 | 59.7 | 61.6 | 58.2 |
+| GEFS | 31 | Low °F | 42.5 | 42.8 | 43.6 | 43.9 | 44.4 | 43.4 |
+| GEFS | 31 | Wind kt | 3.6 | 3.8 | 4.3 | 4.7 | 5.0 | 4.2 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 |
 | REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.00 |
@@ -109,7 +109,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 | NBM | NBS P06 | 7% | 9% | 6% | 3% | 9% to 23% | — |
 | ENS | member fraction | 0% | 2% | 2% | 16% | 16% | — |
 | AIFS_ENS | member fraction | 2% | 0% | 0% | 2% | 4% | — |
-| GEFS | member fraction | 0% | 0% | 10% | 3% | 10% | — |
+| GEFS | member fraction | 0% | 0% | 0% | 10% | 10% | — |
 | HRRRCAST | member fraction | — | — | — | — | 22% | — |
 | REFS | member fraction | — | — | — | — | 7% | — |
 | NBM_QMD | NBM QMD | 0% | 0% | 0% | 0% | 0% | — |
