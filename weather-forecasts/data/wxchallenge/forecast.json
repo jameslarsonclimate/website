@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-12T15:00:52+00:00",
+  "generated_at_utc": "2026-10-12T16:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 80.5,
-      "tmin_f": 67.3,
-      "wind_max_kt": 6.4,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T06",
+      "tmax_f": 81.5,
+      "tmin_f": 67.9,
+      "wind_max_kt": 6.0,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-10-12T12",
       "valid_range_utc": [
         "2026-10-13T06",
         "2026-10-14T06"
@@ -160,7 +160,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-13 available at 2026-10-12 15Z"
+      "error": "no USL run for 2026-10-13 available at 2026-10-12 16Z"
     },
     "ENS": {
       "tmax_f": 86.1,
@@ -962,35 +962,206 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
+      "precip_in": 0.01,
+      "precip_mean_in": 0.01,
+      "init_time_utc": "2026-10-12T06",
+      "valid_range_utc": [
+        "2026-10-13T06",
+        "2026-10-14T06"
+      ],
+      "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
-      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
+      "pop": {
+        "p24": 0.222,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 18,
+        "basis": "member fraction"
+      },
+      "ensemble": {
+        "n_members": 18,
+        "stats": {
+          "precip_in": {
+            "mean": 0.006,
+            "std": 0.005,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.001,
+            "p50": 0.005,
+            "p75": 0.009,
+            "p90": 0.012,
+            "p100": 0.014
+          },
+          "precip_prob": {
+            "0.01": 0.222,
+            "0.10": 0.0,
+            "0.25": 0.0,
+            "0.50": 0.0
+          }
+        },
+        "member_names": [
+          "m00",
+          "m01",
+          "m02",
+          "m03",
+          "m04",
+          "m05",
+          "m06",
+          "m07",
+          "m08",
+          "m09",
+          "m10",
+          "m11",
+          "m12",
+          "m13",
+          "m14",
+          "m15",
+          "m16",
+          "m17"
+        ],
+        "members": {
+          "precip_in": [
+            0.002,
+            0.006,
+            0.004,
+            0.008,
+            0.001,
+            0.008,
+            0.0,
+            0.009,
+            0.003,
+            0.0,
+            0.004,
+            0.008,
+            0.012,
+            0.011,
+            0.0,
+            0.012,
+            0.001,
+            0.014
+          ]
+        }
+      }
     },
     "REFS": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
+      "precip_in": 0.0,
+      "precip_mean_in": 0.01,
       "init_time_utc": "2026-10-12T12",
-      "valid_range_utc": null,
+      "valid_range_utc": [
+        "2026-10-13T06",
+        "2026-10-14T06"
+      ],
+      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
       "precip_only": true,
-      "error": "only 0 REFS members: RRFS m002 12Z ConnectionError: HTTPSConnectionPool(host='nomads.ncep.noaa.gov', port=443): Max retries exceeded with url: /pub/data/nccf/com/rrfs/para/rrfsens.20261012/12/m002/rrfs.t12z.m002.2dfldnomads.3km.f042.conus.grib2 (Caused by NameResolutionError(\"HTTPSConnection(host='nomads.ncep.noaa.gov',"
+      "pop": {
+        "p24": 0.143,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 14,
+        "basis": "member fraction"
+      },
+      "ensemble": {
+        "n_members": 14,
+        "stats": {
+          "precip_in": {
+            "mean": 0.005,
+            "std": 0.012,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "p50": 0.0,
+            "p75": 0.0,
+            "p90": 0.026,
+            "p100": 0.037
+          },
+          "precip_prob": {
+            "0.01": 0.143,
+            "0.10": 0.0,
+            "0.25": 0.0,
+            "0.50": 0.0
+          }
+        },
+        "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
+          "RRFS 06Z",
+          "RRFS m001 06Z",
+          "RRFS m002 06Z",
+          "RRFS m003 06Z",
+          "RRFS m004 06Z",
+          "RRFS m005 06Z",
+          "HRRR 06Z"
+        ],
+        "members": {
+          "precip_in": [
+            0.037,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.005,
+            0.0,
+            0.034,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
     },
     "NBM_QMD": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-10-12T06",
+      "valid_range_utc": [
+        "2026-10-13T06",
+        "2026-10-14T06"
+      ],
+      "note": "calibrated PoP and percentiles (NBM QMD); precip = 50% level",
       "precip_only": true,
-      "error": "no NBM QMD cycle covering the day is posted yet"
+      "pop": {
+        "p24": 0.012,
+        "blocks": {
+          "06-12": 0.007,
+          "12-18": 0.0,
+          "18-00": 0.0,
+          "00-06": 0.001
+        },
+        "n_members": null,
+        "basis": "NBM QMD",
+        "q24_in": {
+          "10": 0.0,
+          "25": 0.0,
+          "50": 0.0,
+          "75": 0.0,
+          "90": 0.0
+        }
+      }
     },
     "CONSENSUS": {
-      "tmax_f": 85.9,
-      "tmin_f": 69.1,
+      "tmax_f": 86.0,
+      "tmin_f": 69.2,
       "wind_max_kt": 15.0,
       "precip_in": 0.0,
       "method": {
