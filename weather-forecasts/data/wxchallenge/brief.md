@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T22:24:08+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T22:36:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,10 +35,10 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS | 12/12Z | 60.5 | 39.7 | 2.7 | 0.00 |
 | GFS_MOS | 12/18Z | 60.0 | 39.0 | 6.0 | 0.00 |
 | NBM | 12/18Z | 63.0 | 37.0 | 4.0 | 0.00 |
-| USL | 12/12Z | 60.0 | 37.0 | 8.0 | 0.00 |
+| USL | 12/22Z | 60.0 | 37.0 | 8.0 | 0.00 |
 | ENS | 10/18Z | 63.0 | 42.2 | 4.0 | 0.00 |
-| GEFS | 12/12Z | 56.9 | 43.2 | 4.0 | 0.00 |
 | AIFS_ENS | 12/12Z | 60.7 | 41.0 | 3.6 | 0.00 |
+| GEFS | 12/12Z | 56.9 | 43.2 | 4.0 | 0.00 |
 | HRRRCAST (precip only) | 12/12Z | — | — | — | 0.00 |
 | REFS (precip only) | 12/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 12/12Z | — | — | — | 0.00 |
@@ -49,8 +49,8 @@ Notes:
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
 - ENS: ensemble mean of 51 members (Open-Meteo)
-- GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
+- GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - HRRRCAST: median of 18 members (experimental AI model)
 - REFS: median of 14 members, 18Z + 12Z runs (RRFS para)
 - NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
@@ -76,14 +76,14 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | ENS | 51 | Low °F | 40.4 | 41.0 | 42.0 | 43.2 | 44.5 | 42.2 |
 | ENS | 51 | Wind kt | 2.4 | 2.8 | 3.9 | 4.8 | 5.7 | 4.0 |
 | ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.00 |
-| GEFS | 31 | High °F | 54.8 | 55.4 | 56.6 | 58.4 | 59.0 | 56.9 |
-| GEFS | 31 | Low °F | 42.0 | 42.6 | 43.1 | 44.0 | 44.6 | 43.2 |
-| GEFS | 31 | Wind kt | 3.3 | 3.5 | 3.9 | 4.3 | 4.6 | 4.0 |
-| GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | AIFS_ENS | 51 | High °F | 58.3 | 58.8 | 60.8 | 62.5 | 63.3 | 60.7 |
 | AIFS_ENS | 51 | Low °F | 37.7 | 39.5 | 41.2 | 42.6 | 44.0 | 41.0 |
 | AIFS_ENS | 51 | Wind kt | 2.5 | 3.0 | 3.4 | 4.3 | 5.1 | 3.6 |
 | AIFS_ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| GEFS | 31 | High °F | 54.8 | 55.4 | 56.6 | 58.4 | 59.0 | 56.9 |
+| GEFS | 31 | Low °F | 42.0 | 42.6 | 43.1 | 44.0 | 44.6 | 43.2 |
+| GEFS | 31 | Wind kt | 3.3 | 3.5 | 3.9 | 4.3 | 4.6 | 4.0 |
+| GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 |
 | REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.00 |
 
@@ -92,8 +92,8 @@ Share of members reaching each 24-h precip amount:
 | Ensemble | ≥0.01" | ≥0.10" | ≥0.25" | ≥0.50" |
 | --- | --: | --: | --: | --: |
 | ENS | 16% | 0% | 0% | 0% |
-| GEFS | 10% | 0% | 0% | 0% |
 | AIFS_ENS | 4% | 0% | 0% | 0% |
+| GEFS | 10% | 0% | 0% | 0% |
 | HRRRCAST | 22% | 0% | 0% | 0% |
 | REFS | 7% | 0% | 0% | 0% |
 
@@ -108,8 +108,8 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 | GFS_MOS | GFS MOS P06 | 2% | 7% | 9% | 3% | 9% to 20% | — |
 | NBM | NBS P06 | 7% | 9% | 6% | 3% | 9% to 23% | — |
 | ENS | member fraction | 0% | 2% | 2% | 16% | 16% | — |
-| GEFS | member fraction | 0% | 0% | 10% | 3% | 10% | — |
 | AIFS_ENS | member fraction | 2% | 0% | 0% | 2% | 4% | — |
+| GEFS | member fraction | 0% | 0% | 10% | 3% | 10% | — |
 | HRRRCAST | member fraction | — | — | — | — | 22% | — |
 | REFS | member fraction | — | — | — | — | 7% | — |
 | NBM_QMD | NBM QMD | 0% | 0% | 0% | 0% | 0% | — |
