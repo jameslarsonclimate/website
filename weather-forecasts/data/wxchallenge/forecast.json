@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-12T14:30:06+00:00",
+  "generated_at_utc": "2026-10-12T15:00:52+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Tampa, FL (KTPA)",
@@ -160,7 +160,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-13 available at 2026-10-12 14Z"
+      "error": "no USL run for 2026-10-13 available at 2026-10-12 15Z"
     },
     "ENS": {
       "tmax_f": 86.1,
@@ -962,200 +962,31 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.01,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-12T06",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "median of 18 members (experimental AI model)",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 0.222,
-        "blocks": {
-          "06-12": null,
-          "12-18": null,
-          "18-00": null,
-          "00-06": null
-        },
-        "n_members": 18,
-        "basis": "member fraction"
-      },
-      "ensemble": {
-        "n_members": 18,
-        "stats": {
-          "precip_in": {
-            "mean": 0.006,
-            "std": 0.005,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.001,
-            "p50": 0.005,
-            "p75": 0.009,
-            "p90": 0.012,
-            "p100": 0.014
-          },
-          "precip_prob": {
-            "0.01": 0.222,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "member_names": [
-          "m00",
-          "m01",
-          "m02",
-          "m03",
-          "m04",
-          "m05",
-          "m06",
-          "m07",
-          "m08",
-          "m09",
-          "m10",
-          "m11",
-          "m12",
-          "m13",
-          "m14",
-          "m15",
-          "m16",
-          "m17"
-        ],
-        "members": {
-          "precip_in": [
-            0.002,
-            0.006,
-            0.004,
-            0.008,
-            0.001,
-            0.008,
-            0.0,
-            0.009,
-            0.003,
-            0.0,
-            0.004,
-            0.008,
-            0.012,
-            0.011,
-            0.0,
-            0.012,
-            0.001,
-            0.014
-          ]
-        }
-      }
+      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
     },
     "REFS": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.0,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-12T06",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "median of 13 members, 06Z + 00Z runs (RRFS para)",
+      "precip_in": null,
+      "init_time_utc": "2026-10-12T12",
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 0.231,
-        "blocks": {
-          "06-12": null,
-          "12-18": null,
-          "18-00": null,
-          "00-06": null
-        },
-        "n_members": 13,
-        "basis": "member fraction"
-      },
-      "ensemble": {
-        "n_members": 13,
-        "stats": {
-          "precip_in": {
-            "mean": 0.006,
-            "std": 0.012,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.0,
-            "p50": 0.0,
-            "p75": 0.005,
-            "p90": 0.026,
-            "p100": 0.034
-          },
-          "precip_prob": {
-            "0.01": 0.231,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "member_names": [
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
-        ],
-        "members": {
-          "precip_in": [
-            0.005,
-            0.0,
-            0.034,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.03,
-            0.0,
-            0.0,
-            0.012,
-            0.0,
-            0.0
-          ]
-        }
-      }
+      "error": "only 0 REFS members: RRFS m002 12Z ConnectionError: HTTPSConnectionPool(host='nomads.ncep.noaa.gov', port=443): Max retries exceeded with url: /pub/data/nccf/com/rrfs/para/rrfsens.20261012/12/m002/rrfs.t12z.m002.2dfldnomads.3km.f042.conus.grib2 (Caused by NameResolutionError(\"HTTPSConnection(host='nomads.ncep.noaa.gov',"
     },
     "NBM_QMD": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T06",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "calibrated PoP and percentiles (NBM QMD); precip = 50% level",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 0.012,
-        "blocks": {
-          "06-12": 0.007,
-          "12-18": 0.0,
-          "18-00": 0.0,
-          "00-06": 0.001
-        },
-        "n_members": null,
-        "basis": "NBM QMD",
-        "q24_in": {
-          "10": 0.0,
-          "25": 0.0,
-          "50": 0.0,
-          "75": 0.0,
-          "90": 0.0
-        }
-      }
+      "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
       "tmax_f": 85.9,
