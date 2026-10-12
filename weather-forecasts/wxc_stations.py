@@ -16,7 +16,7 @@ import sys
 from dataclasses import dataclass
 from typing import Optional
 
-CURRENT_STATION = "KTPA"
+CURRENT_STATION = "KOLM"
 
 AFD_URL = ("https://forecast.weather.gov/product.php?site={wfo}&issuedby={wfo}&product=AFD"
            "&format=txt&version=1&glossary=0")
@@ -159,6 +159,8 @@ STATIONS = {
                 wfo="AJK"),
         Station("KCON", "Concord, NH", 43.1953, -71.5011, tz="America/New_York", wfo="GYX"),
         Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York", wfo="CHS"),
+        Station("KOLM", "Olympia, WA", 46.973445, -122.898031, pivotal_region="us_nw",
+                tz="America/Los_Angeles", wfo="SEW"),
     ]
 }
 
