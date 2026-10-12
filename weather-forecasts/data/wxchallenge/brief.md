@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T23:04:08+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T23:12:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -31,30 +31,29 @@ Run = day/hour (UTC) of the model initialization.
 | HRRR | 12/18Z | 63.6 | 39.1 | 4.8 | 0.00 |
 | RRFS | 12/18Z | 59.2 | 40.5 | 4.9 | 0.01 |
 | IFS | 12/12Z | 59.9 | 40.9 | 3.3 | 0.00 |
-| GFS | 12/12Z | 56.9 | 41.9 | 3.7 | 0.00 |
+| GFS | 12/18Z | 57.7 | 42.7 | 3.8 | 0.00 |
 | AIFS | 12/12Z | 60.5 | 39.7 | 2.7 | 0.00 |
-| GFS_MOS | — | — | — | — | — |
-| NBM | — | — | — | — | — |
-| USL | — | — | — | — | — |
-| ENS | — | — | — | — | — |
-| AIFS_ENS | — | — | — | — | — |
-| GEFS | — | — | — | — | — |
-| HRRRCAST (precip only) | — | — | — | — | — |
-| REFS (precip only) | — | — | — | — | — |
-| NBM_QMD (precip only) | — | — | — | — | — |
-| **CONSENSUS** |  | **60.3** | **36.1** | **7.2** | **0.00** |
+| GFS_MOS | 12/18Z | 60.0 | 39.0 | 6.0 | 0.00 |
+| NBM | 12/18Z | 63.0 | 37.0 | 4.0 | 0.00 |
+| USL | 12/22Z | 60.0 | 37.0 | 8.0 | 0.00 |
+| ENS | 10/18Z | 63.0 | 42.2 | 4.0 | 0.00 |
+| AIFS_ENS | 12/12Z | 60.7 | 41.0 | 3.6 | 0.00 |
+| GEFS | 12/12Z | 56.9 | 43.2 | 4.0 | 0.00 |
+| HRRRCAST (precip only) | 12/12Z | — | — | — | 0.00 |
+| REFS (precip only) | 12/18Z | — | — | — | 0.00 |
+| NBM_QMD (precip only) | 12/12Z | — | — | — | 0.00 |
+| **CONSENSUS** |  | **60.7** | **36.5** | **7.5** | **0.00** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
-- GFS_MOS: failed this run (HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exc)
-- NBM: failed this run (HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exc)
-- USL: failed this run (USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max)
-- ENS: failed this run (Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', )
-- AIFS_ENS: failed this run (Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', )
-- GEFS: failed this run (Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', )
-- HRRRCAST: failed this run (no complete 00/06/12/18Z HRRRCast cycle covering the day yet)
-- REFS: failed this run (no RRFS ensemble cycle covering the day found on NOMADS (prod or para))
-- NBM_QMD: failed this run (no NBM QMD cycle covering the day is posted yet)
+- GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
+- NBM: NBS Q06 amounts
+- ENS: ensemble mean of 51 members (Open-Meteo)
+- AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
+- GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
+- HRRRCAST: median of 18 members (experimental AI model)
+- REFS: median of 14 members, 18Z + 12Z runs (RRFS para)
+- NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
 
 GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) and NBM QMD are not in the consensus either; they inform the precip choice.
 
@@ -64,10 +63,56 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 - Low: bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted.
 - Precip is weighted but not bias-corrected.
 
-- High °F weights: RRFS 0.26, AIFS 0.21, HRRR 0.19, IFS 0.18, GFS 0.16
-- Low °F weights: HRRR 0.23, GFS 0.23, AIFS 0.19, IFS 0.18, RRFS 0.17
-- Wind kt weights: RRFS 0.26, HRRR 0.23, IFS 0.19, GFS 0.16, AIFS 0.15
-- Precip in weights: RRFS 0.20, GFS 0.20, HRRR 0.20, AIFS 0.20, IFS 0.20
+- High °F weights: NBM 0.17, RRFS 0.13, AIFS 0.11, USL 0.11, AIFS_ENS 0.11, GFS_MOS 0.10, HRRR 0.10, IFS 0.09, GFS 0.08 (no track record yet: USL) (stale runs excluded: ENS) (using parent's track record: AIFS_ENS from AIFS)
+- Low °F weights: GFS_MOS 0.16, NBM 0.15, HRRR 0.11, GFS 0.11, USL 0.11, AIFS 0.09, AIFS_ENS 0.09, IFS 0.09, RRFS 0.08 (no track record yet: USL) (stale runs excluded: ENS) (using parent's track record: AIFS_ENS from AIFS)
+- Wind kt weights: RRFS 0.15, HRRR 0.13, NBM 0.12, GFS_MOS 0.12, USL 0.12, IFS 0.10, GFS 0.09, AIFS 0.09, AIFS_ENS 0.09 (no track record yet: USL) (stale runs excluded: ENS) (using parent's track record: AIFS_ENS from AIFS)
+- Precip in weights: GFS 0.11, GFS_MOS 0.11, HRRR 0.11, RRFS 0.11, AIFS 0.11, NBM 0.11, USL 0.11, AIFS_ENS 0.11, IFS 0.11 (no track record yet: USL) (stale runs excluded: ENS) (using parent's track record: AIFS_ENS from AIFS)
+
+## Ensemble spread (target day)
+
+| Ensemble | Members | Variable | p10 | p25 | Median | p75 | p90 | Mean |
+| --- | --- | --- | --: | --: | --: | --: | --: | --: |
+| ENS | 51 | High °F | 60.4 | 62.0 | 63.9 | 65.0 | 65.2 | 63.0 |
+| ENS | 51 | Low °F | 40.4 | 41.0 | 42.0 | 43.2 | 44.5 | 42.2 |
+| ENS | 51 | Wind kt | 2.4 | 2.8 | 3.9 | 4.8 | 5.7 | 4.0 |
+| ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.00 |
+| AIFS_ENS | 51 | High °F | 58.3 | 58.8 | 60.8 | 62.5 | 63.3 | 60.7 |
+| AIFS_ENS | 51 | Low °F | 37.7 | 39.5 | 41.2 | 42.6 | 44.0 | 41.0 |
+| AIFS_ENS | 51 | Wind kt | 2.5 | 3.0 | 3.4 | 4.3 | 5.1 | 3.6 |
+| AIFS_ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| GEFS | 31 | High °F | 54.8 | 55.4 | 56.6 | 58.4 | 59.0 | 56.9 |
+| GEFS | 31 | Low °F | 42.0 | 42.6 | 43.1 | 44.0 | 44.6 | 43.2 |
+| GEFS | 31 | Wind kt | 3.3 | 3.5 | 3.9 | 4.3 | 4.6 | 4.0 |
+| GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 |
+| REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.00 |
+
+Share of members reaching each 24-h precip amount:
+
+| Ensemble | ≥0.01" | ≥0.10" | ≥0.25" | ≥0.50" |
+| --- | --: | --: | --: | --: |
+| ENS | 16% | 0% | 0% | 0% |
+| AIFS_ENS | 4% | 0% | 0% | 0% |
+| GEFS | 10% | 0% | 0% | 0% |
+| HRRRCAST | 22% | 0% | 0% | 0% |
+| REFS | 7% | 0% | 0% | 0% |
+
+NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75 0.00", p90 0.00"
+
+## Chance of measurable precip (≥0.01") on the target day
+
+6-hour blocks in UTC. Brier 6h = this period's Brier score of the 6-hour chances (lower is better; number of blocks verified in brackets).
+
+| Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
+| --- | --- | --: | --: | --: | --: | --: | --: |
+| GFS_MOS | GFS MOS P06 | 2% | 7% | 9% | 3% | 9% to 20% | — |
+| NBM | NBS P06 | 7% | 9% | 6% | 3% | 9% to 23% | — |
+| ENS | member fraction | 0% | 2% | 2% | 16% | 16% | — |
+| AIFS_ENS | member fraction | 2% | 0% | 0% | 2% | 4% | — |
+| GEFS | member fraction | 0% | 0% | 10% | 3% | 10% | — |
+| HRRRCAST | member fraction | — | — | — | — | 22% | — |
+| REFS | member fraction | — | — | — | — | 7% | — |
+| NBM_QMD | NBM QMD | 0% | 0% | 0% | 0% | 0% | — |
 
 ## Track record this period
 
