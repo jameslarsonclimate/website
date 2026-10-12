@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T21:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T21:12:10+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -229,22 +229,22 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 | 10-10 h | 0.00 | +0.00 | +0.00 | +0.01 | +0.02 | +0.02 | +0.00 | +0.00 | — | +0.01 |
 | 10-11 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 |
 
-## Today so far (2026-10-12, through 2026-10-12T19:54Z)
+## Today so far (2026-10-12, through 2026-10-12T20:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 60.1 °F, low 28.0 °F, max wind 3 kt, precip 0.00" (14 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 61.0 °F, low 28.0 °F, max wind 4 kt, precip 0.00" (15 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 11/18Z | +6.4 | 6.4 | 65 (+5) pending | 38 (+10) | +1.9 | 0.00 | +0.00 |
-| RRFS | 11/18Z | +7.9 | 7.9 | 63 (+3) pending | 39 (+11) | +1.6 | 0.00 | +0.00 |
-| IFS | 11/12Z | +9.3 | 9.4 | 62 (+2) pending | 42 (+14) | +0.3 | 0.00 | +0.00 |
-| GFS | 11/18Z | +5.9 | 5.9 | 64 (+3) pending | 37 (+9) | +1.4 | 0.00 | +0.00 |
-| AIFS | 11/12Z | +5.8 | 7.1 | 62 (+2) pending | 37 (+9) | +0.2 | 0.00 | +0.00 |
-| GFS_MOS | 11/18Z | +3.1 | 4.3 | 62 (+2) pending | 33 (+5) | +2.0 | — | — |
-| NBM | 11/18Z | +5.5 | 6.0 | 65 (+5) pending | 35 (+7) | -0.6 | — | — |
-| USL | 11/22Z | +2.1 | 2.7 | 63 (+3) pending | 32 (+4) | +1.7 | 0.00 | +0.00 |
+| HRRR | 11/18Z | +6.1 | 6.1 | 65 (+4) pending | 38 (+10) | +1.6 | 0.00 | +0.00 |
+| RRFS | 11/18Z | +7.5 | 7.5 | 63 (+2) pending | 39 (+11) | +1.3 | 0.00 | +0.00 |
+| IFS | 11/12Z | +8.7 | 8.8 | 62 (+1) pending | 42 (+14) | +0.1 | 0.00 | +0.00 |
+| GFS | 11/18Z | +5.6 | 5.6 | 64 (+2) pending | 37 (+9) | +1.3 | 0.00 | +0.00 |
+| AIFS | 11/12Z | +5.1 | 7.0 | 62 (+1) pending | 37 (+9) | +0.0 | 0.00 | +0.00 |
+| GFS_MOS | 11/18Z | +2.7 | 4.1 | 62 (+1) pending | 33 (+5) | +2.0 | — | — |
+| NBM | 11/18Z | +5.1 | 5.6 | 65 (+4) pending | 35 (+7) | -0.9 | — | — |
+| USL | 11/22Z | +1.9 | 2.6 | 63 (+2) pending | 32 (+4) | +1.6 | 0.00 | +0.00 |
 
 ## Raw data
 
