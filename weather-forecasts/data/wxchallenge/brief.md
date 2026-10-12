@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T20:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T20:30:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -29,7 +29,7 @@ Run = day/hour (UTC) of the model initialization.
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
 | HRRR | 12/18Z | 63.6 | 39.1 | 4.8 | 0.00 |
-| RRFS | 12/12Z | 63.9 | 39.3 | 4.6 | 0.00 |
+| RRFS | 12/18Z | 59.2 | 40.5 | 4.9 | 0.01 |
 | IFS | 12/12Z | 59.9 | 40.9 | 3.3 | 0.00 |
 | GFS | 12/12Z | 56.9 | 41.9 | 3.7 | 0.00 |
 | AIFS | 12/12Z | 60.5 | 39.7 | 2.7 | 0.00 |
@@ -40,9 +40,9 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS_ENS | 10/18Z | 61.1 | 43.0 | 4.1 | 0.01 |
 | GEFS | 12/12Z | 56.9 | 43.2 | 4.0 | 0.00 |
 | HRRRCAST (precip only) | 12/12Z | — | — | — | 0.00 |
-| REFS (precip only) | 12/12Z | — | — | — | 0.00 |
+| REFS (precip only) | 12/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 12/12Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **61.1** | **36.6** | **7.3** | **0.00** |
+| **CONSENSUS** |  | **60.4** | **36.4** | **7.4** | **0.00** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -52,14 +52,16 @@ Notes:
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - HRRRCAST: median of 18 members (experimental AI model)
-- REFS: median of 14 members, 12Z + 06Z runs (RRFS para)
+- REFS: median of 14 members, 18Z + 12Z runs (RRFS para)
 - NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
 
 GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) and NBM QMD are not in the consensus either; they inform the precip choice.
 
 ## Consensus method
 
-- bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted. Precip is weighted but not bias-corrected.
+- High, Wind, Precip: bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted.
+- Low: bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted.
+- Precip is weighted but not bias-corrected.
 
 - High °F weights: NBM 0.19, RRFS 0.15, AIFS 0.12, GFS_MOS 0.12, USL 0.12, HRRR 0.11, IFS 0.10, GFS 0.09 (no track record yet: USL) (stale runs excluded: ENS, AIFS_ENS)
 - Low °F weights: GFS_MOS 0.17, NBM 0.17, HRRR 0.12, GFS 0.12, USL 0.12, AIFS 0.10, IFS 0.10, RRFS 0.09 (no track record yet: USL) (stale runs excluded: ENS, AIFS_ENS)
@@ -83,7 +85,7 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | GEFS | 31 | Wind kt | 3.3 | 3.5 | 3.9 | 4.3 | 4.6 | 4.0 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 |
-| REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.00 |
 
 Share of members reaching each 24-h precip amount:
 
@@ -118,7 +120,7 @@ Since 2026-09-28 at KOLM (forecast - observed, so negative bias = too cold / too
 
 | Model | Days | Pts/day | Bias high | Bias low | Bias wind | Bias precip | MAE high | MAE low | MAE wind | MAE precip |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| CONSENSUS | 14 | 5.6 | +0.1 | +1.9 | -1.3 | +0.01 | 1.1 | 3.2 | 2.4 | 0.01 |
+| CONSENSUS | 14 | 5.6 | +0.1 | +1.7 | -1.3 | +0.01 | 1.1 | 3.1 | 2.4 | 0.01 |
 | NBM | 14 | 6.3 | +0.6 | +1.7 | -3.1 | -0.01 | 0.9 | 3.1 | 3.8 | 0.01 |
 | USL | 1 | 6.5 | +0.0 | +6.0 | -1.0 | +0.00 | 0.0 | 6.0 | 1.0 | 0.00 |
 | GFS_MOS | 14 | 6.6 | +1.0 | +1.4 | -3.8 | +0.01 | 1.8 | 3.0 | 4.0 | 0.01 |
@@ -139,12 +141,12 @@ Error points (lower is better):
 | 09-28 h | 12.0 | 11.5 | 14.0 | 10.0 | 12.0 | 5.5 | 8.5 | — | 9.0 | GFS_MOS |
 | 09-29 h | 11.5 | 10.0 | 11.1 | 13.4 | 5.6 | 4.8 | 10.8 | — | 6.3 | GFS_MOS |
 | 09-30 h | 7.5 | 6.0 | 6.0 | 5.5 | 7.0 | 6.0 | 5.5 | — | 4.0 | CONSENSUS |
-| 10-01 h | 6.0 | 7.0 | 8.0 | 5.5 | 8.0 | 1.5 | 2.0 | — | 2.0 | GFS_MOS |
+| 10-01 h | 6.0 | 7.0 | 8.0 | 5.5 | 8.0 | 1.5 | 2.0 | — | 1.0 | CONSENSUS |
 | 10-02 h | 9.0 | 10.0 | 11.5 | 8.5 | 10.0 | 6.5 | 3.5 | — | 5.0 | NBM |
 | 10-03 h | 10.5 | 10.5 | 10.0 | 13.5 | 10.5 | 9.5 | 8.0 | — | 7.5 | CONSENSUS |
-| 10-04 h | 11.0 | 12.5 | 10.0 | 15.0 | 8.0 | 4.0 | 8.5 | — | 6.0 | GFS_MOS |
+| 10-04 h | 11.0 | 12.5 | 10.0 | 15.0 | 8.0 | 4.0 | 8.5 | — | 5.0 | GFS_MOS |
 | 10-05 h | 2.5 | 10.0 | 11.5 | 6.5 | 7.5 | 1.0 | 4.0 | — | 2.0 | GFS_MOS |
-| 10-06 h | 3.5 | 8.5 | 8.5 | 9.0 | 4.5 | 5.0 | 4.5 | — | 2.0 | CONSENSUS |
+| 10-06 h | 3.5 | 8.5 | 8.5 | 9.0 | 4.5 | 5.0 | 4.5 | — | 3.0 | CONSENSUS |
 | 10-07 h | 10.5 | 7.0 | 6.0 | 14.0 | 8.5 | 16.0 | 10.0 | — | 10.5 | IFS |
 | 10-08 h | 4.5 | 4.5 | 8.5 | 9.5 | 7.0 | 3.5 | 2.0 | — | 4.5 | NBM |
 | 10-09 h | 12.7 | 11.9 | 16.0 | 10.5 | 19.2 | 12.0 | 8.3 | — | 9.1 | NBM |
@@ -177,12 +179,12 @@ Low °F: observed (~ = still preliminary) and each model's error (forecast - obs
 | 09-28 h | 34 | +9 | +9 | +10 | +7 | +6 | +3 | +5 | — | +7 |
 | 09-29 h | 55 | -4 | -2 | -3 | -5 | -2 | +0 | -5 | — | -3 |
 | 09-30 h | 47 | -1 | +2 | +1 | +0 | +2 | +2 | -2 | — | +0 |
-| 10-01 h | 43 | +4 | +5 | +3 | +4 | +4 | +0 | +0 | — | +2 |
+| 10-01 h | 43 | +4 | +5 | +3 | +4 | +4 | +0 | +0 | — | +1 |
 | 10-02 h | 46 | +4 | +6 | +5 | +4 | +4 | +2 | +0 | — | +2 |
 | 10-03 h | 46 | +5 | +7 | +6 | +5 | +6 | +1 | +4 | — | +3 |
-| 10-04 h | 43 | +4 | +8 | +7 | +7 | +5 | +1 | +4 | — | +3 |
+| 10-04 h | 43 | +4 | +8 | +7 | +7 | +5 | +1 | +4 | — | +2 |
 | 10-05 h | 46 | +1 | +8 | +6 | +4 | +3 | -1 | +2 | — | +0 |
-| 10-06 h | 48 | +1 | +6 | +3 | +2 | +2 | -1 | +1 | — | +0 |
+| 10-06 h | 48 | +1 | +6 | +3 | +2 | +2 | -1 | +1 | — | -1 |
 | 10-07 h | 50 | -3 | +3 | +1 | -3 | -3 | -8 | -5 | — | -6 |
 | 10-08 h | 43 | +2 | +4 | +6 | +5 | +4 | +0 | +0 | — | +1 |
 | 10-09 h | 40 | +8 | +8 | +8 | +4 | +8 | +5 | +5 | — | +5 |

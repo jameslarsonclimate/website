@@ -1016,7 +1016,8 @@ function renderToday(tj){
       const scored = !/equal-weight/.test(cm.method);
       let txt = scored
         ? 'Consensus: a skill-weighted average of the models above. Each model\'s typical error this ' +
-          'period is partly taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%), ' +
+          'period is partly taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%; ' +
+          'lows, whose errors tend to persist, faster: 2 days 67%, 14 days 93%), ' +
           'and models that have been closer to the observations count more. Recent days count somewhat ' +
           'more than older ones, so the blend adapts without a few bad days undoing weeks of record.'
         : 'Consensus: a plain average of the models above (no scored days yet at this city).';

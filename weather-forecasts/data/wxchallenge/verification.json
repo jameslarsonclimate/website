@@ -635,17 +635,17 @@
         "CONSENSUS": {
           "forecast": {
             "tmax_f": 71,
-            "tmin_f": 45,
+            "tmin_f": 44,
             "wind_max_kt": 6,
             "precip_in": 0.0
           },
           "error": {
             "tmax_f": 0,
-            "tmin_f": 2,
+            "tmin_f": 1,
             "wind_max_kt": 0,
             "precip_in": 0.0
           },
-          "points": 2.0,
+          "points": 1.0,
           "reconstructed": true
         }
       },
@@ -1121,17 +1121,17 @@
         "CONSENSUS": {
           "forecast": {
             "tmax_f": 75,
-            "tmin_f": 46,
+            "tmin_f": 45,
             "wind_max_kt": 7,
             "precip_in": 0.0
           },
           "error": {
             "tmax_f": 3,
-            "tmin_f": 3,
+            "tmin_f": 2,
             "wind_max_kt": 0,
             "precip_in": 0.0
           },
-          "points": 6.0,
+          "points": 5.0,
           "reconstructed": true
         }
       },
@@ -1445,17 +1445,17 @@
         "CONSENSUS": {
           "forecast": {
             "tmax_f": 69,
-            "tmin_f": 48,
+            "tmin_f": 47,
             "wind_max_kt": 8,
             "precip_in": 0.0
           },
           "error": {
             "tmax_f": 1,
-            "tmin_f": 0,
+            "tmin_f": -1,
             "wind_max_kt": -2,
             "precip_in": 0.0
           },
-          "points": 2.0,
+          "points": 3.0,
           "reconstructed": true
         }
       },
@@ -2458,17 +2458,17 @@
     },
     "CONSENSUS": {
       "n_days": 14,
-      "total_points": 78.8,
-      "mean_points": 5.63,
+      "total_points": 77.8,
+      "mean_points": 5.56,
       "bias": {
         "tmax_f": 0.111,
-        "tmin_f": 1.916,
+        "tmin_f": 1.722,
         "wind_max_kt": -1.346,
         "precip_in": 0.005
       },
       "mae": {
         "tmax_f": 1.13,
-        "tmin_f": 3.174,
+        "tmin_f": 3.133,
         "wind_max_kt": 2.442,
         "precip_in": 0.005
       },
@@ -2504,7 +2504,7 @@
     }
   },
   "period_start": "2026-09-28",
-  "generated_at_utc": "2026-10-12T20:00:09+00:00",
+  "generated_at_utc": "2026-10-12T20:30:09+00:00",
   "observations": [
     {
       "date": "2026-09-28",
