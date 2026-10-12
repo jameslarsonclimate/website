@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-13**, scored over 2026-10-13T06Z to 2026-10-14T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-13T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-12T19:30:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-12T20:00:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -28,9 +28,9 @@ Run = day/hour (UTC) of the model initialization.
 
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
-| HRRR | 12/12Z | 61.9 | 39.5 | 5.0 | 0.00 |
+| HRRR | 12/18Z | 63.6 | 39.1 | 4.8 | 0.00 |
 | RRFS | 12/12Z | 63.9 | 39.3 | 4.6 | 0.00 |
-| IFS | 12/06Z | 59.1 | 40.8 | 3.6 | 0.00 |
+| IFS | 12/12Z | 59.9 | 40.9 | 3.3 | 0.00 |
 | GFS | 12/12Z | 56.9 | 41.9 | 3.7 | 0.00 |
 | AIFS | 12/12Z | 60.5 | 39.7 | 2.7 | 0.00 |
 | GFS_MOS | 12/12Z | 59.0 | 39.0 | 5.0 | 0.00 |
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 12/12Z | — | — | — | 0.00 |
 | REFS (precip only) | 12/12Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 12/12Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **61.1** | **37.8** | **6.7** | **0.00** |
+| **CONSENSUS** |  | **61.1** | **36.6** | **7.3** | **0.00** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -61,10 +61,10 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 
 - bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted. Precip is weighted but not bias-corrected.
 
-- High °F weights: NBM 0.15, RRFS 0.12, AIFS 0.10, GFS_MOS 0.10, USL 0.10, ENS 0.10, AIFS_ENS 0.10, HRRR 0.09, IFS 0.08, GFS 0.07 (no track record yet: USL, ENS, AIFS_ENS)
-- Low °F weights: GFS_MOS 0.14, NBM 0.14, HRRR 0.10, GFS 0.10, USL 0.10, ENS 0.10, AIFS_ENS 0.10, AIFS 0.08, IFS 0.08, RRFS 0.07 (no track record yet: USL, ENS, AIFS_ENS)
-- Wind kt weights: RRFS 0.13, HRRR 0.11, NBM 0.11, GFS_MOS 0.10, USL 0.10, ENS 0.10, AIFS_ENS 0.10, IFS 0.09, GFS 0.08, AIFS 0.08 (no track record yet: USL, ENS, AIFS_ENS)
-- Precip in weights: GFS_MOS 0.10, HRRR 0.10, RRFS 0.10, GFS 0.10, AIFS 0.10, NBM 0.10, USL 0.10, ENS 0.10, AIFS_ENS 0.10, IFS 0.10 (no track record yet: USL, ENS, AIFS_ENS)
+- High °F weights: NBM 0.19, RRFS 0.15, AIFS 0.12, GFS_MOS 0.12, USL 0.12, HRRR 0.11, IFS 0.10, GFS 0.09 (no track record yet: USL) (stale runs excluded: ENS, AIFS_ENS)
+- Low °F weights: GFS_MOS 0.17, NBM 0.17, HRRR 0.12, GFS 0.12, USL 0.12, AIFS 0.10, IFS 0.10, RRFS 0.09 (no track record yet: USL) (stale runs excluded: ENS, AIFS_ENS)
+- Wind kt weights: RRFS 0.16, HRRR 0.14, NBM 0.13, GFS_MOS 0.13, USL 0.13, IFS 0.12, GFS 0.10, AIFS 0.10 (no track record yet: USL) (stale runs excluded: ENS, AIFS_ENS)
+- Precip in weights: GFS_MOS 0.13, RRFS 0.12, GFS 0.12, AIFS 0.12, NBM 0.12, USL 0.12, HRRR 0.12, IFS 0.12 (no track record yet: USL) (stale runs excluded: ENS, AIFS_ENS)
 
 ## Ensemble spread (target day)
 
@@ -227,22 +227,22 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 | 10-10 h | 0.00 | +0.00 | +0.00 | +0.01 | +0.02 | +0.02 | +0.00 | +0.00 | — | +0.01 |
 | 10-11 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 |
 
-## Today so far (2026-10-12, through 2026-10-12T18:54Z)
+## Today so far (2026-10-12, through 2026-10-12T19:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 55.9 °F, low 28.0 °F, max wind 3 kt, precip 0.00" (13 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 60.1 °F, low 28.0 °F, max wind 3 kt, precip 0.00" (14 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 11/18Z | +6.8 | 6.8 | 65 (+9) pending | 38 (+10) | +1.9 | 0.00 | +0.00 |
-| RRFS | 11/18Z | +8.5 | 8.5 | 63 (+8) pending | 39 (+11) | +1.7 | 0.00 | +0.00 |
-| IFS | 11/12Z | +10.1 | 10.1 | 62 (+6) pending | 42 (+14) | +0.2 | 0.00 | +0.00 |
-| GFS | 11/18Z | +6.4 | 6.4 | 64 (+8) pending | 37 (+9) | +1.3 | 0.00 | +0.00 |
-| AIFS | 11/12Z | +6.7 | 7.2 | 62 (+6) pending | 37 (+9) | +0.2 | 0.00 | +0.00 |
-| GFS_MOS | 11/18Z | +3.7 | 4.2 | 62 (+6) pending | 33 (+5) | +1.7 | — | — |
-| NBM | 11/18Z | +6.1 | 6.2 | 65 (+9) pending | 35 (+7) | -0.7 | — | — |
-| USL | 11/22Z | +2.4 | 2.7 | 63 (+7) pending | 32 (+4) | +1.5 | 0.00 | +0.00 |
+| HRRR | 11/18Z | +6.4 | 6.4 | 65 (+5) pending | 38 (+10) | +1.9 | 0.00 | +0.00 |
+| RRFS | 11/18Z | +7.9 | 7.9 | 63 (+3) pending | 39 (+11) | +1.6 | 0.00 | +0.00 |
+| IFS | 11/12Z | +9.3 | 9.4 | 62 (+2) pending | 42 (+14) | +0.3 | 0.00 | +0.00 |
+| GFS | 11/18Z | +5.9 | 5.9 | 64 (+3) pending | 37 (+9) | +1.4 | 0.00 | +0.00 |
+| AIFS | 11/12Z | +5.8 | 7.1 | 62 (+2) pending | 37 (+9) | +0.2 | 0.00 | +0.00 |
+| GFS_MOS | 11/18Z | +3.1 | 4.3 | 62 (+2) pending | 33 (+5) | +2.0 | — | — |
+| NBM | 11/18Z | +5.5 | 6.0 | 65 (+5) pending | 35 (+7) | -0.6 | — | — |
+| USL | 11/22Z | +2.1 | 2.7 | 63 (+3) pending | 32 (+4) | +1.7 | 0.00 | +0.00 |
 
 ## Raw data
 

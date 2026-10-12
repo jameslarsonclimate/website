@@ -1023,6 +1023,9 @@ function renderToday(tj){
       txt += ' Models far from the rest (over 8 °F or 10 kt from the middle) are left out.';
       if (cm.not_yet_verified?.length) txt += ` Not scored yet, so used as-is: ${names(cm.not_yet_verified)}.`;
       if (cm.excluded_outliers?.length) txt += ` Left out today: ${names(cm.excluded_outliers)}.`;
+      if (cm.excluded_stale?.length) txt += ` Left out as out of date (run over 36 h older than the newest): ${names(cm.excluded_stale)}.`;
+      const px = Object.entries(cm.proxy_track_record || {});
+      if (px.length) txt += ` Not scored yet, so using their parent model's record: ${px.map(([k, p]) => `${LABEL[k] || k} (${LABEL[p] || p})`).join(', ')}.`;
       document.getElementById('consensus-note').textContent = txt;
     }
     renderEnsembles(data);
