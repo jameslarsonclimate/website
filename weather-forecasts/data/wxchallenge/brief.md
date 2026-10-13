@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-14**, scored over 2026-10-14T06Z to 2026-10-15T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-14T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-13T22:28:50+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-13T22:36:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,7 +35,7 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS | 13/12Z | 66.3 | 49.6 | 4.5 | 0.02 |
 | GFS_MOS | 13/18Z | 67.0 | 43.0 | 4.0 | 0.00 |
 | NBM | 13/18Z | 66.0 | 46.0 | 5.0 | 0.00 |
-| USL | 13/12Z | 63.0 | 48.0 | 7.0 | 0.00 |
+| USL | 13/22Z | 63.0 | 48.0 | 7.0 | 0.00 |
 | ENS | 13/06Z | 66.0 | 50.5 | 5.2 | 0.01 |
 | AIFS_ENS | 13/06Z | 65.0 | 51.2 | 4.9 | 0.02 |
 | GEFS | 13/12Z | 66.1 | 49.8 | 3.5 | 0.01 |

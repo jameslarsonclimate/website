@@ -60,6 +60,10 @@
     /* keep the Model column narrow: notes wrap under the name instead of widening the table */
     #models-table td:first-child, #models-table th:first-child{width:12rem;max-width:12rem;white-space:normal}
     #models-table .note{font-size:0.8rem;line-height:1.25}
+    /* last update couldn't reach some sources (wxc_carryover.py): the older forecasts stay up */
+    #run-status{margin:0.8rem 0 0;padding:0.6rem 0.8rem;border-radius:6px;background:var(--hl);
+                color:var(--note);border:1px solid var(--note);line-height:1.4}
+    tr.stale td.num{opacity:0.7}
     /* size the table to its content instead of stretching to the page width */
     #models-table{width:auto;margin-left:auto;margin-right:auto}
     #consensus-note{max-width:44rem;margin:0.6rem auto 0;line-height:1.45}
@@ -162,6 +166,7 @@
     <h1>WXChallenge Forecasts</h1>
     <div id="updated" class="muted">Loading…</div>
   </header>
+  <p id="run-status" role="status" hidden></p>
 
   <p style="margin-top:0.5rem">
     <a href="#verification">How the models have done this period</a>
@@ -466,14 +471,26 @@ function biasInk(step){
 }
 
 /* ---------- forecast table ---------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
+const localTime = iso => new Date(iso).toLocaleString([], {month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'});
+// connection-level failures (same idea as wxc_carryover.NETWORK_ERROR): show a plain message, details on hover
+const NET_ERR = /max retries exceeded|connection(error| refused| reset| aborted)|name ?resolution|failed to resolve|nodename nor servname|network is unreachable|no route to host|timed out|timeout|remotedisconnected/i;
 function modelRow(key, label, m){
-  const cls = key === 'CONSENSUS' ? ' class="consensus"' : '';
+  let cls = key === 'CONSENSUS' ? ' class="consensus"' : '';
   const none = v => v === null || v === undefined;
   if (!m || (none(m.tmax_f) && none(m.precip_in))) {
-    const why = m && m.error ? `<span class="note">${m.error.slice(0,120)}</span>` : 'no data';
+    let why = 'no data';
+    if (m && m.error) why = NET_ERR.test(m.error)
+      ? `<span class="note" title="${esc(m.error)}">Couldn't reach the data source (connectivity issue); not pulled this update</span>`
+      : `<span class="note">${esc(m.error.slice(0,120))}</span>`;
     return `<tr${cls}><td>${label}</td><td colspan="5">${why}</td></tr>`;
   }
-  const note = m.note ? `<div class="note">${m.note}</div>` : '';
+  let note = m.note ? `<div class="note">${m.note}</div>` : '';
+  if (m.stale) {        // the latest update failed for this model: its previous forecast is shown
+    cls = ' class="stale"';
+    const when = m.stale.fetched_at_utc ? ` (pulled ${localTime(m.stale.fetched_at_utc)})` : '';
+    note += `<div class="note" title="${esc(m.stale.error || '')}">⚠ Not refreshed: latest update failed, showing the previous forecast${when}</div>`;
+  }
   return `<tr${cls}><td>${label}${note}</td>
     <td class="num">${fmt(m.tmax_f,1)}</td><td class="num">${fmt(m.tmin_f,1)}</td>
     <td class="num">${fmt(m.wind_max_kt,1)}</td><td class="num">${fmt(m.precip_in,2)}</td>
@@ -989,6 +1006,21 @@ function renderToday(tj){
     const data = await res.json();
     document.getElementById('updated').textContent = data.generated_at_utc
       ? 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'}) : 'Last updated: —';
+    const rs = data.run_status, rsEl = document.getElementById('run-status');
+    if (rs && rs.ok === false) {
+      const when = rs.checked_at_utc ? ` at ${localTime(rs.checked_at_utc)}` : '';
+      const names = ks => ks.map(k => LABEL[k] || k).join(', ');
+      const kept = rs.carried_over || [];
+      const lost = (rs.failed || []).filter(k => !kept.includes(k));
+      const whole = data.generated_at_utc && rs.checked_at_utc && rs.checked_at_utc !== data.generated_at_utc;
+      rsEl.textContent = (rs.connectivity
+          ? `⚠ Connectivity issues: the most recent update${when} couldn't reach some data sources, so the latest forecasts weren't pulled.`
+          : `⚠ The most recent update${when} failed for some models.`) +
+        (whole ? ` Everything below is from the last successful update (${localTime(data.generated_at_utc)}).`
+               : (kept.length ? ` Showing the previous forecasts for ${names(kept)} (marked "not refreshed").` : '') +
+                 (lost.length ? ` Not available: ${names(lost)}.` : ''));
+      rsEl.hidden = false;
+    }
     const site = data?.meta?.site ?? '—';
     document.getElementById('forecast-for').textContent = `Forecasting for ${site}`;
     const vr = data?.meta?.valid_range_utc
