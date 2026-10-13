@@ -488,8 +488,8 @@ function modelRow(key, label, m){
   let note = m.note ? `<div class="note">${m.note}</div>` : '';
   if (m.stale) {        // the latest update failed for this model: its previous forecast is shown
     cls = ' class="stale"';
-    const when = m.stale.fetched_at_utc ? ` (pulled ${localTime(m.stale.fetched_at_utc)})` : '';
-    note += `<div class="note" title="${esc(m.stale.error || '')}">⚠ Not refreshed: latest update failed, showing the previous forecast${when}</div>`;
+    const when = m.stale.fetched_at_utc ? `; pulled ${localTime(m.stale.fetched_at_utc)}` : '';
+    note += `<div class="note" title="${esc(m.stale.error || '')}">⚠ Not refreshed (latest update failed${when})</div>`;
   }
   return `<tr${cls}><td>${label}${note}</td>
     <td class="num">${fmt(m.tmax_f,1)}</td><td class="num">${fmt(m.tmin_f,1)}</td>
