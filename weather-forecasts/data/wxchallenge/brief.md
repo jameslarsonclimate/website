@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-14**, scored over 2026-10-14T06Z to 2026-10-15T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-14T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-13T20:30:03+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-13T21:12:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -28,7 +28,7 @@ Run = day/hour (UTC) of the model initialization.
 
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
-| HRRR | 13/12Z | 63.9 | 50.4 | 6.7 | 0.00 |
+| HRRR | 13/18Z | 65.9 | 49.5 | 6.9 | 0.00 |
 | RRFS | 13/18Z | 68.9 | 51.0 | 5.8 | 0.00 |
 | IFS | 13/12Z | 66.0 | 51.4 | 4.3 | 0.01 |
 | GFS | 13/12Z | 64.5 | 49.3 | 3.6 | 0.00 |
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 13/12Z | — | — | — | 0.00 |
 | REFS (precip only) | 13/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 13/12Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **65.5** | **44.8** | **7.8** | **0.01** |
+| **CONSENSUS** |  | **65.7** | **44.7** | **7.8** | **0.01** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -234,25 +234,25 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 | 10-11 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 |
 | 10-12 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 |
 
-## Today so far (2026-10-13, through 2026-10-13T19:54Z)
+## Today so far (2026-10-13, through 2026-10-13T20:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 60.1 °F, low 39.0 °F, max wind 5.0 kt, precip 0.00" (14 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 61.0 °F, low 39.0 °F, max wind 5.0 kt, precip 0.00" (15 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 12/18Z | -3.4 | 3.6 | 64 (+4) pending | 39 (+0) | +2.0 | 0.00 | +0.00 |
-| RRFS | 12/18Z | -1.9 | 2.7 | 59 (-1) | 40 (+2) | +1.4 | 0.00 | +0.00 |
-| IFS | 12/12Z | -1.8 | 2.7 | 60 (+0) | 41 (+2) | +0.4 | 0.00 | +0.00 |
-| GFS | 12/18Z | -0.6 | 1.8 | 58 (-2) | 43 (+4) | +0.9 | 0.00 | +0.00 |
-| AIFS | 12/12Z | -3.3 | 3.3 | 60 (+0) pending | 40 (+1) | +0.0 | 0.00 | +0.00 |
-| GFS_MOS | 12/18Z | -2.9 | 3.1 | 60 (+0) | 39 (+0) | +0.6 | — | — |
-| NBM | 12/18Z | -4.2 | 4.2 | 63 (+3) pending | 37 (-2) | -0.2 | — | — |
-| USL | 12/22Z | -5.6 | 5.6 | 60 (+0) | 37 (-2) | +2.4 | 0.00 | +0.00 |
-| ENS | 10/18Z | -0.8 | 1.7 | 63 (+3) pending | 42 (+3) | +0.2 | 0.00 | +0.00 |
-| AIFS_ENS | 12/12Z | -2.4 | 2.7 | 61 (+1) pending | 41 (+2) | +0.0 | 0.00 | +0.00 |
-| GEFS | 12/18Z | -0.6 | 1.2 | 58 (-2) | 43 (+4) | +0.6 | 0.00 | +0.00 |
+| HRRR | 12/18Z | -3.0 | 3.5 | 64 (+3) pending | 39 (+0) | +2.0 | 0.00 | +0.00 |
+| RRFS | 12/18Z | -1.9 | 2.6 | 59 (-2) | 40 (+2) | +1.4 | 0.00 | +0.00 |
+| IFS | 12/12Z | -1.8 | 2.6 | 60 (-1) | 41 (+2) | +0.4 | 0.00 | +0.00 |
+| GFS | 12/18Z | -1.0 | 2.1 | 58 (-3) | 43 (+4) | +0.9 | 0.00 | +0.00 |
+| AIFS | 12/12Z | -3.4 | 3.5 | 60 (+0) | 40 (+1) | +0.0 | 0.00 | +0.00 |
+| GFS_MOS | 12/18Z | -2.9 | 3.1 | 60 (-1) | 39 (+0) | +0.6 | — | — |
+| NBM | 12/18Z | -4.1 | 4.1 | 63 (+2) pending | 37 (-2) | -0.2 | — | — |
+| USL | 12/22Z | -5.5 | 5.5 | 60 (-1) | 37 (-2) | +2.4 | 0.00 | +0.00 |
+| ENS | 10/18Z | -0.6 | 1.6 | 63 (+2) pending | 42 (+3) | +0.2 | 0.00 | +0.00 |
+| AIFS_ENS | 12/12Z | -2.5 | 2.7 | 61 (+0) | 41 (+2) | +0.0 | 0.00 | +0.00 |
+| GEFS | 12/18Z | -0.8 | 1.4 | 58 (-3) | 43 (+4) | +0.6 | 0.00 | +0.00 |
 
 ## Raw data
 
