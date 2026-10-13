@@ -1,15 +1,15 @@
 {
-  "generated_at_utc": "2026-10-12T23:54:29+00:00",
+  "generated_at_utc": "2026-10-13T14:01:59+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
     "station": "KOLM",
     "wfo": "SEW",
     "afd_url": "https://forecast.weather.gov/product.php?site=SEW&issuedby=SEW&product=AFD&format=txt&version=1&glossary=0",
-    "target_date": "2026-10-13",
+    "target_date": "2026-10-14",
     "valid_range_utc": [
-      "2026-10-13T06",
-      "2026-10-14T06"
+      "2026-10-14T06",
+      "2026-10-15T06"
     ],
     "models": [
       "HRRR",
@@ -32,1276 +32,179 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 63.6,
-      "tmin_f": 39.1,
-      "wind_max_kt": 4.8,
+      "tmax_f": 63.9,
+      "tmin_f": 50.4,
+      "wind_max_kt": 6.7,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T18",
+      "init_time_utc": "2026-10-13T12",
       "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
+        "2026-10-14T06",
+        "2026-10-15T06"
       ],
       "n_steps": 25,
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 59.2,
-      "tmin_f": 40.5,
-      "wind_max_kt": 4.9,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-10-12T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "n_steps": 25,
-      "temp_source": "2 m T + interval max/min fields"
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "25 of 25 forecast hours not posted yet (f030-f054)"
     },
     "IFS": {
-      "tmax_f": 59.9,
-      "tmin_f": 40.9,
-      "wind_max_kt": 3.3,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T12",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "n_steps": 9,
-      "temp_source": "2 m T + interval max/min fields"
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "Processing failed: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Read timed out."
     },
     "GFS": {
-      "tmax_f": 57.7,
-      "tmin_f": 42.7,
-      "wind_max_kt": 3.8,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "n_steps": 9,
-      "temp_source": "2 m T + interval max/min fields"
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "9 of 9 forecast hours not posted yet (f030-f054)"
     },
     "AIFS": {
-      "tmax_f": 60.5,
-      "tmin_f": 39.7,
-      "wind_max_kt": 2.7,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T12",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "n_steps": 5,
-      "temp_source": "instantaneous 2 m T",
-      "note": "6-hourly output: high/low likely underdone"
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "5 of 5 forecast hours not posted yet (f030-f054)"
     },
     "GFS_MOS": {
-      "tmax_f": 60.0,
-      "tmin_f": 39.0,
-      "wind_max_kt": 6.0,
-      "precip_in": 0.0,
-      "pop06_max_pct": 9,
-      "pop": {
-        "p24": null,
-        "blocks": {
-          "06-12": 0.02,
-          "12-18": 0.07,
-          "18-00": 0.09,
-          "00-06": 0.03
-        },
-        "n_members": null,
-        "basis": "GFS MOS P06",
-        "p24_range": [
-          0.09,
-          0.196
-        ]
-      },
-      "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-12T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exceeded with url: /api/1/mos.json?station=KOLM&model=GFS (Caused by NameResolutionError(\"HTTPSConnection(host='mesonet.agron.iastate.edu', port=443): Failed to resolve 'mesonet.agron.iastate.edu' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "NBM": {
-      "tmax_f": 63.0,
-      "tmin_f": 37.0,
-      "wind_max_kt": 4.0,
-      "precip_in": 0.0,
-      "pop06_max_pct": 9,
-      "pop": {
-        "p24": null,
-        "blocks": {
-          "06-12": 0.07,
-          "12-18": 0.09,
-          "18-00": 0.06,
-          "00-06": 0.03
-        },
-        "n_members": null,
-        "basis": "NBS P06",
-        "p24_range": [
-          0.09,
-          0.228
-        ]
-      },
-      "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-12T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exceeded with url: /api/1/mos.json?station=KOLM&model=NBS (Caused by NameResolutionError(\"HTTPSConnection(host='mesonet.agron.iastate.edu', port=443): Failed to resolve 'mesonet.agron.iastate.edu' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "USL": {
-      "tmax_f": 60.0,
-      "tmin_f": 37.0,
-      "wind_max_kt": 8.0,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T22",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ]
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max retries exceeded with url: /forecast/KOLM/ (Caused by NameResolutionError(\"HTTPConnection(host='www.microclimates.org', port=80): Failed to resolve 'www.microclimates.org' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "ENS": {
-      "tmax_f": 63.0,
-      "tmin_f": 42.2,
-      "wind_max_kt": 4.0,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-10T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "ensemble mean of 51 members (Open-Meteo)",
-      "ensemble": {
-        "n_members": 51,
-        "stats": {
-          "tmax_f": {
-            "mean": 63.03,
-            "std": 2.66,
-            "p0": 53.9,
-            "p10": 60.4,
-            "p25": 61.95,
-            "p50": 63.9,
-            "p75": 64.95,
-            "p90": 65.2,
-            "p100": 66.0
-          },
-          "tmin_f": {
-            "mean": 42.25,
-            "std": 1.69,
-            "p0": 39.6,
-            "p10": 40.4,
-            "p25": 41.0,
-            "p50": 42.0,
-            "p75": 43.2,
-            "p90": 44.5,
-            "p100": 48.6
-          },
-          "wind_max_kt": {
-            "mean": 4.0,
-            "std": 1.44,
-            "p0": 1.7,
-            "p10": 2.4,
-            "p25": 2.75,
-            "p50": 3.9,
-            "p75": 4.85,
-            "p90": 5.7,
-            "p100": 7.9
-          },
-          "precip_in": {
-            "mean": 0.0,
-            "std": 0.01,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.0,
-            "p50": 0.0,
-            "p75": 0.0,
-            "p90": 0.01,
-            "p100": 0.05
-          },
-          "precip_prob": {
-            "0.01": 0.157,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "members": {
-          "tmax_f": [
-            65.1,
-            65.2,
-            65.1,
-            62.9,
-            65.4,
-            65.2,
-            60.5,
-            65.1,
-            57.1,
-            64.7,
-            62.9,
-            64.2,
-            61.1,
-            61.4,
-            65.2,
-            59.0,
-            61.9,
-            63.9,
-            63.3,
-            64.8,
-            64.0,
-            63.1,
-            65.2,
-            62.0,
-            63.2,
-            65.1,
-            53.9,
-            62.3,
-            64.7,
-            60.4,
-            64.9,
-            64.5,
-            64.4,
-            63.2,
-            63.8,
-            65.8,
-            64.9,
-            64.1,
-            61.7,
-            66.0,
-            62.6,
-            65.0,
-            64.1,
-            65.7,
-            62.8,
-            61.8,
-            64.5,
-            60.6,
-            57.8,
-            63.7,
-            54.7
-          ],
-          "tmin_f": [
-            41.7,
-            43.4,
-            43.2,
-            42.1,
-            41.7,
-            42.1,
-            43.2,
-            42.0,
-            42.6,
-            41.4,
-            40.0,
-            44.2,
-            44.2,
-            40.2,
-            40.5,
-            42.8,
-            41.8,
-            44.8,
-            41.2,
-            40.6,
-            41.2,
-            41.1,
-            44.3,
-            42.6,
-            40.8,
-            43.0,
-            48.6,
-            40.9,
-            42.0,
-            44.6,
-            41.6,
-            41.3,
-            43.0,
-            40.3,
-            41.9,
-            43.0,
-            40.4,
-            42.3,
-            39.6,
-            44.5,
-            40.8,
-            40.6,
-            41.1,
-            43.7,
-            41.2,
-            43.2,
-            40.9,
-            40.0,
-            44.8,
-            42.8,
-            44.9
-          ],
-          "wind_max_kt": [
-            2.7,
-            3.6,
-            2.6,
-            5.7,
-            3.4,
-            2.6,
-            6.3,
-            3.8,
-            4.6,
-            1.7,
-            3.0,
-            2.6,
-            4.3,
-            7.3,
-            2.5,
-            4.8,
-            3.4,
-            4.2,
-            2.8,
-            4.0,
-            3.9,
-            5.2,
-            3.4,
-            3.9,
-            3.3,
-            3.1,
-            6.0,
-            4.3,
-            2.4,
-            5.4,
-            5.7,
-            2.4,
-            4.1,
-            7.3,
-            5.6,
-            2.6,
-            3.7,
-            2.6,
-            4.3,
-            2.2,
-            3.6,
-            2.2,
-            3.9,
-            2.0,
-            2.9,
-            5.3,
-            4.5,
-            4.9,
-            5.4,
-            4.2,
-            7.9
-          ],
-          "precip_in": [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.05,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.02,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.04,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.04,
-            0.01,
-            0.0,
-            0.01,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.01,
-            0.0,
-            0.02
-          ]
-        }
-      },
-      "pop": {
-        "p24": 0.157,
-        "blocks": {
-          "06-12": 0.0,
-          "12-18": 0.02,
-          "18-00": 0.02,
-          "00-06": 0.157
-        },
-        "n_members": 51,
-        "basis": "member fraction"
-      }
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "AIFS_ENS": {
-      "tmax_f": 60.7,
-      "tmin_f": 41.0,
-      "wind_max_kt": 3.6,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T12",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "ensemble mean of 51 members (Open-Meteo)",
-      "ensemble": {
-        "n_members": 51,
-        "stats": {
-          "tmax_f": {
-            "mean": 60.71,
-            "std": 2.1,
-            "p0": 56.0,
-            "p10": 58.3,
-            "p25": 58.8,
-            "p50": 60.8,
-            "p75": 62.5,
-            "p90": 63.3,
-            "p100": 64.7
-          },
-          "tmin_f": {
-            "mean": 41.05,
-            "std": 2.33,
-            "p0": 36.5,
-            "p10": 37.7,
-            "p25": 39.5,
-            "p50": 41.2,
-            "p75": 42.65,
-            "p90": 44.0,
-            "p100": 46.8
-          },
-          "wind_max_kt": {
-            "mean": 3.65,
-            "std": 1.02,
-            "p0": 1.7,
-            "p10": 2.5,
-            "p25": 3.0,
-            "p50": 3.4,
-            "p75": 4.35,
-            "p90": 5.1,
-            "p100": 5.8
-          },
-          "precip_in": {
-            "mean": 0.0,
-            "std": 0.0,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.0,
-            "p50": 0.0,
-            "p75": 0.0,
-            "p90": 0.0,
-            "p100": 0.02
-          },
-          "precip_prob": {
-            "0.01": 0.039,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "members": {
-          "tmax_f": [
-            63.8,
-            59.4,
-            58.4,
-            61.2,
-            56.0,
-            60.4,
-            59.4,
-            58.4,
-            56.5,
-            63.3,
-            63.3,
-            59.4,
-            62.3,
-            61.2,
-            59.5,
-            58.4,
-            59.0,
-            62.5,
-            58.7,
-            61.8,
-            60.1,
-            62.5,
-            62.0,
-            58.2,
-            60.5,
-            64.7,
-            62.9,
-            58.1,
-            58.8,
-            58.6,
-            60.8,
-            58.3,
-            62.9,
-            62.1,
-            60.1,
-            60.9,
-            62.2,
-            62.5,
-            64.1,
-            61.1,
-            58.8,
-            61.4,
-            57.7,
-            63.3,
-            61.2,
-            62.9,
-            60.4,
-            63.7,
-            60.6,
-            58.3,
-            63.7
-          ],
-          "tmin_f": [
-            42.3,
-            40.5,
-            38.9,
-            42.5,
-            40.3,
-            39.5,
-            46.8,
-            43.3,
-            41.4,
-            40.5,
-            37.1,
-            41.2,
-            40.7,
-            38.7,
-            44.0,
-            44.2,
-            37.7,
-            40.6,
-            37.7,
-            38.0,
-            42.6,
-            42.3,
-            43.3,
-            38.5,
-            38.5,
-            39.2,
-            43.6,
-            41.3,
-            45.5,
-            37.4,
-            42.4,
-            39.7,
-            39.6,
-            44.6,
-            42.7,
-            41.4,
-            37.6,
-            43.2,
-            40.5,
-            40.9,
-            36.5,
-            42.7,
-            42.2,
-            41.4,
-            41.4,
-            39.5,
-            43.2,
-            39.7,
-            40.0,
-            41.3,
-            45.0
-          ],
-          "wind_max_kt": [
-            4.1,
-            3.8,
-            2.6,
-            2.6,
-            3.2,
-            4.2,
-            4.7,
-            3.2,
-            3.9,
-            1.7,
-            3.9,
-            4.3,
-            4.6,
-            3.3,
-            2.5,
-            3.5,
-            3.2,
-            2.5,
-            3.2,
-            1.7,
-            4.2,
-            3.4,
-            3.0,
-            3.3,
-            4.4,
-            4.5,
-            3.0,
-            2.4,
-            2.6,
-            5.8,
-            5.8,
-            5.7,
-            3.4,
-            5.4,
-            5.1,
-            3.2,
-            3.0,
-            3.3,
-            3.5,
-            3.4,
-            4.4,
-            2.0,
-            4.7,
-            3.3,
-            2.9,
-            4.0,
-            3.5,
-            3.5,
-            5.1,
-            2.4,
-            5.2
-          ],
-          "precip_in": [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.02,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.02,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        }
-      },
-      "pop": {
-        "p24": 0.039,
-        "blocks": {
-          "06-12": 0.02,
-          "12-18": 0.0,
-          "18-00": 0.0,
-          "00-06": 0.02
-        },
-        "n_members": 51,
-        "basis": "member fraction"
-      }
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_aifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "GEFS": {
-      "tmax_f": 58.2,
-      "tmin_f": 43.4,
-      "wind_max_kt": 4.2,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "ensemble mean of 31 members (Open-Meteo); not in the consensus",
-      "ensemble": {
-        "n_members": 31,
-        "stats": {
-          "tmax_f": {
-            "mean": 58.24,
-            "std": 2.46,
-            "p0": 52.5,
-            "p10": 55.0,
-            "p25": 56.3,
-            "p50": 58.6,
-            "p75": 59.7,
-            "p90": 61.6,
-            "p100": 62.2
-          },
-          "tmin_f": {
-            "mean": 43.4,
-            "std": 0.82,
-            "p0": 41.2,
-            "p10": 42.5,
-            "p25": 42.8,
-            "p50": 43.6,
-            "p75": 43.85,
-            "p90": 44.4,
-            "p100": 45.4
-          },
-          "wind_max_kt": {
-            "mean": 4.25,
-            "std": 0.6,
-            "p0": 3.0,
-            "p10": 3.6,
-            "p25": 3.8,
-            "p50": 4.3,
-            "p75": 4.65,
-            "p90": 5.0,
-            "p100": 5.4
-          },
-          "precip_in": {
-            "mean": 0.0,
-            "std": 0.0,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.0,
-            "p50": 0.0,
-            "p75": 0.0,
-            "p90": 0.0,
-            "p100": 0.01
-          },
-          "precip_prob": {
-            "0.01": 0.097,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "members": {
-          "tmax_f": [
-            58.6,
-            55.0,
-            58.0,
-            62.0,
-            61.6,
-            59.4,
-            58.8,
-            56.2,
-            57.1,
-            56.3,
-            58.0,
-            55.2,
-            53.8,
-            57.6,
-            56.3,
-            56.3,
-            54.5,
-            57.8,
-            60.8,
-            58.6,
-            59.4,
-            61.0,
-            52.5,
-            59.6,
-            61.7,
-            60.9,
-            62.2,
-            59.8,
-            59.1,
-            58.1,
-            59.1
-          ],
-          "tmin_f": [
-            43.7,
-            44.1,
-            43.6,
-            44.4,
-            43.3,
-            42.8,
-            43.0,
-            43.4,
-            44.2,
-            43.7,
-            42.6,
-            43.5,
-            45.4,
-            43.4,
-            42.7,
-            42.3,
-            42.8,
-            44.5,
-            43.9,
-            43.6,
-            44.4,
-            41.2,
-            42.5,
-            43.9,
-            42.7,
-            42.8,
-            43.7,
-            42.2,
-            43.7,
-            43.8,
-            43.7
-          ],
-          "wind_max_kt": [
-            4.7,
-            3.6,
-            4.6,
-            4.2,
-            5.0,
-            5.3,
-            3.8,
-            4.1,
-            4.0,
-            3.8,
-            3.8,
-            4.6,
-            3.0,
-            4.6,
-            3.7,
-            3.2,
-            3.6,
-            4.3,
-            4.7,
-            4.6,
-            5.4,
-            4.4,
-            3.4,
-            5.0,
-            4.3,
-            3.9,
-            5.0,
-            4.0,
-            4.4,
-            3.8,
-            5.0
-          ],
-          "precip_in": [
-            0.0,
-            0.0,
-            0.0,
-            0.01,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.01,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.01,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        }
-      },
-      "pop": {
-        "p24": 0.097,
-        "blocks": {
-          "06-12": 0.0,
-          "12-18": 0.0,
-          "18-00": 0.0,
-          "00-06": 0.097
-        },
-        "n_members": 31,
-        "basis": "member fraction"
-      }
+      "tmax_f": null,
+      "tmin_f": null,
+      "wind_max_kt": null,
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
+      "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ncep_gefs025/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "HRRRCAST": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.0,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-12T12",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "median of 18 members (experimental AI model)",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 0.222,
-        "blocks": {
-          "06-12": null,
-          "12-18": null,
-          "18-00": null,
-          "00-06": null
-        },
-        "n_members": 18,
-        "basis": "member fraction"
-      },
-      "ensemble": {
-        "n_members": 18,
-        "stats": {
-          "precip_in": {
-            "mean": 0.005,
-            "std": 0.004,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.001,
-            "p50": 0.004,
-            "p75": 0.009,
-            "p90": 0.011,
-            "p100": 0.014
-          },
-          "precip_prob": {
-            "0.01": 0.222,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "member_names": [
-          "m00",
-          "m01",
-          "m02",
-          "m03",
-          "m04",
-          "m05",
-          "m06",
-          "m07",
-          "m08",
-          "m09",
-          "m10",
-          "m11",
-          "m12",
-          "m13",
-          "m14",
-          "m15",
-          "m16",
-          "m17"
-        ],
-        "members": {
-          "precip_in": [
-            0.002,
-            0.004,
-            0.0,
-            0.003,
-            0.007,
-            0.007,
-            0.001,
-            0.0,
-            0.005,
-            0.005,
-            0.0,
-            0.011,
-            0.001,
-            0.011,
-            0.014,
-            0.0,
-            0.011,
-            0.009
-          ]
-        }
-      }
+      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
     },
     "REFS": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.0,
-      "precip_mean_in": 0.0,
-      "init_time_utc": "2026-10-12T18",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 0.071,
-        "blocks": {
-          "06-12": null,
-          "12-18": null,
-          "18-00": null,
-          "00-06": null
-        },
-        "n_members": 14,
-        "basis": "member fraction"
-      },
-      "ensemble": {
-        "n_members": 14,
-        "stats": {
-          "precip_in": {
-            "mean": 0.004,
-            "std": 0.008,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.0,
-            "p50": 0.0,
-            "p75": 0.002,
-            "p90": 0.008,
-            "p100": 0.032
-          },
-          "precip_prob": {
-            "0.01": 0.071,
-            "0.10": 0.0,
-            "0.25": 0.0,
-            "0.50": 0.0
-          }
-        },
-        "member_names": [
-          "RRFS 18Z",
-          "RRFS m001 18Z",
-          "RRFS m002 18Z",
-          "RRFS m003 18Z",
-          "RRFS m004 18Z",
-          "RRFS m005 18Z",
-          "HRRR 18Z",
-          "RRFS 12Z",
-          "RRFS m001 12Z",
-          "RRFS m002 12Z",
-          "RRFS m003 12Z",
-          "RRFS m004 12Z",
-          "RRFS m005 12Z",
-          "HRRR 12Z"
-        ],
-        "members": {
-          "precip_in": [
-            0.01,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.005,
-            0.0,
-            0.0,
-            0.002,
-            0.032,
-            0.0,
-            0.0,
-            0.002,
-            0.0
-          ]
-        }
-      }
+      "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
     },
     "NBM_QMD": {
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-12T12",
-      "valid_range_utc": [
-        "2026-10-13T06",
-        "2026-10-14T06"
-      ],
-      "note": "calibrated PoP and percentiles (NBM QMD); precip = 50% level",
+      "precip_in": null,
+      "init_time_utc": null,
+      "valid_range_utc": null,
       "precip_only": true,
-      "pop": {
-        "p24": 0.0,
-        "blocks": {
-          "06-12": 0.0,
-          "12-18": 0.001,
-          "18-00": 0.0,
-          "00-06": 0.0
-        },
-        "n_members": null,
-        "basis": "NBM QMD",
-        "q24_in": {
-          "10": 0.0,
-          "25": 0.0,
-          "50": 0.0,
-          "75": 0.0,
-          "90": 0.0
-        }
-      }
+      "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
-      "tmax_f": 60.7,
-      "tmin_f": 36.5,
-      "wind_max_kt": 7.5,
+      "tmax_f": 63.1,
+      "tmin_f": 46.5,
+      "wind_max_kt": 9.0,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "HRRR",
-            "RRFS",
-            "IFS",
-            "GFS",
-            "AIFS",
-            "GFS_MOS",
-            "NBM",
-            "USL",
-            "AIFS_ENS"
+            "HRRR"
           ],
           "weights": {
-            "HRRR": 0.098,
-            "RRFS": 0.134,
-            "IFS": 0.09,
-            "GFS": 0.081,
-            "AIFS": 0.108,
-            "GFS_MOS": 0.105,
-            "NBM": 0.169,
-            "USL": 0.108,
-            "AIFS_ENS": 0.108
-          },
-          "excluded_stale": [
-            "ENS"
-          ],
-          "proxy_track_record": {
-            "AIFS_ENS": "AIFS"
-          },
-          "not_yet_verified": [
-            "USL"
-          ]
+            "HRRR": 1.0
+          }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "HRRR",
-            "RRFS",
-            "IFS",
-            "GFS",
-            "AIFS",
-            "GFS_MOS",
-            "NBM",
-            "USL",
-            "AIFS_ENS"
+            "HRRR"
           ],
           "weights": {
-            "HRRR": 0.113,
-            "RRFS": 0.081,
-            "IFS": 0.088,
-            "GFS": 0.109,
-            "AIFS": 0.094,
-            "GFS_MOS": 0.158,
-            "NBM": 0.154,
-            "USL": 0.109,
-            "AIFS_ENS": 0.094
-          },
-          "excluded_stale": [
-            "ENS"
-          ],
-          "proxy_track_record": {
-            "AIFS_ENS": "AIFS"
-          },
-          "not_yet_verified": [
-            "USL"
-          ]
+            "HRRR": 1.0
+          }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "HRRR",
-            "RRFS",
-            "IFS",
-            "GFS",
-            "AIFS",
-            "GFS_MOS",
-            "NBM",
-            "USL",
-            "AIFS_ENS"
+            "HRRR"
           ],
           "weights": {
-            "HRRR": 0.129,
-            "RRFS": 0.148,
-            "IFS": 0.105,
-            "GFS": 0.091,
-            "AIFS": 0.087,
-            "GFS_MOS": 0.116,
-            "NBM": 0.121,
-            "USL": 0.116,
-            "AIFS_ENS": 0.087
-          },
-          "excluded_stale": [
-            "ENS"
-          ],
-          "proxy_track_record": {
-            "AIFS_ENS": "AIFS"
-          },
-          "not_yet_verified": [
-            "USL"
-          ]
+            "HRRR": 1.0
+          }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
-            "HRRR",
-            "RRFS",
-            "IFS",
-            "GFS",
-            "AIFS",
-            "GFS_MOS",
-            "NBM",
-            "USL",
-            "AIFS_ENS"
+            "HRRR"
           ],
           "weights": {
-            "HRRR": 0.111,
-            "RRFS": 0.111,
-            "IFS": 0.11,
-            "GFS": 0.112,
-            "AIFS": 0.111,
-            "GFS_MOS": 0.112,
-            "NBM": 0.111,
-            "USL": 0.111,
-            "AIFS_ENS": 0.111
-          },
-          "excluded_stale": [
-            "ENS"
-          ],
-          "proxy_track_record": {
-            "AIFS_ENS": "AIFS"
-          },
-          "not_yet_verified": [
-            "USL"
-          ]
+            "HRRR": 1.0
+          }
         }
       }
     }
