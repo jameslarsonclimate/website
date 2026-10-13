@@ -683,6 +683,27 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     # 9/24-25 are final (>48 h old) and 9/27 has a final CLI: only 9/26 is re-fetched
     assert len(fetched) >= 1 and fetched[0][0].date() == date(2025, 9, 26) and fetched[0][1].date() == date(2025, 9, 27)
 
+    # ---- an hour later the text guidance and Open-Meteo can't be reached (laptop offline):
+    # the page keeps their last forecasts, flagged; runs.jsonl records the failures ----
+    fc1 = json.loads((work / "data/wxchallenge/forecast.json").read_text())
+
+    def offline(*a, **k):
+        raise ConnectionError("HTTPSConnectionPool(host='x', port=443): Max retries exceeded with url: /")
+    monkeypatch.setattr(mo, "fetch_mos", offline)
+    monkeypatch.setattr(en, "_get_json", offline)
+    monkeypatch.setattr(en, "latest_init", offline)
+    fixed += timedelta(hours=1)
+    m.main()
+    fc2 = json.loads((work / "data/wxchallenge/forecast.json").read_text())
+    for k in ["GFS_MOS", "NBM", "ENS"]:
+        assert fc2["models"][k]["tmax_f"] == fc1["models"][k]["tmax_f"], k
+        assert fc2["models"][k]["stale"]["fetched_at_utc"] == fc1["generated_at_utc"]
+    assert "stale" not in fc2["models"]["HRRR"] and fc2["models"]["CONSENSUS"]["tmax_f"] is not None
+    st = fc2["run_status"]
+    assert st["ok"] is False and st["connectivity"] and {"GFS_MOS", "NBM", "ENS"} <= set(st["carried_over"])
+    last = wxc_verify.read_jsonl(work / "data/wxchallenge/runs.jsonl")[-1]
+    assert "Max retries" in last["models"]["NBM"]["error"] and last["models"]["NBM"]["tmax_f"] is None
+
 
 # ----------------------------------------------------------------- cache
 def test_cache_roundtrip_and_reuse(fake_herbie, monkeypatch):

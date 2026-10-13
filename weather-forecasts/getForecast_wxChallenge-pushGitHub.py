@@ -15,7 +15,8 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
      draws images/wxchallenge/latest.png and verification.png, refreshes the page's
      forecast-evolution link config (wxc_links.py) and writes data/wxchallenge/brief.md,
      a plain-text summary for AI assistants (wxc_brief.py; linked only from llms.txt and a
-     visually hidden link on the page)
+     visually hidden link on the page). A model that fails this run (e.g. the laptop offline)
+     keeps its last good forecast for the day on the page, flagged as stale (wxc_carryover.py)
   6. commits and pushes the data/images (GitHub Pages), best effort
 
 Usage:
@@ -38,6 +39,7 @@ from functions import (convert_time_to_datetime64, forecast_hours_for_day, fmt,
 import wxc_brief
 import wxc_cache
 import wxc_cam_ens
+import wxc_carryover
 import wxc_clouds
 import wxc_ens
 import wxc_goes
@@ -676,11 +678,17 @@ def today_figure(station, now, points, skip_grib=False):
         why = "older rebuild" if stale else "no stored pre-deadline series"
         print(f"  {why} for {today}; rebuilding from runs available at {as_of:%Y-%m-%d %H:%MZ}")
         r, m, _ = run_models(station, today, points, as_of, skip_grib)
-        wxc_verify.save_series(station.icao, today, "submitted", as_of.isoformat(), collect_series(r, m), hindcast=True)
-        sub = wxc_verify.load_series(station.icao, today, "submitted")
+        ser = collect_series(r, m)
+        if ser:      # nothing fetched (offline): don't store an empty rebuild, try again next run
+            wxc_verify.save_series(station.icao, today, "submitted", as_of.isoformat(), ser, hindcast=True)
+            sub = wxc_verify.load_series(station.icao, today, "submitted")
     print("  latest runs for the rest of today:")
     r, m, _ = run_models(station, today, points, None, skip_grib, only=TODAY_LATEST, partial=True)
-    wxc_verify.save_series(station.icao, today, "latest", now.isoformat(), collect_series(r, m))
+    ser = collect_series(r, m)
+    prev = (wxc_verify.load_series(station.icao, today, "latest") or {}).get("models") or {}
+    # a model that failed this time (e.g. offline) keeps its previous latest run
+    ser = {**{k: v for k, v in prev.items() if k in TODAY_LATEST}, **ser}
+    wxc_verify.save_series(station.icao, today, "latest", now.isoformat(), ser)
     lat = wxc_verify.load_series(station.icao, today, "latest")
     raw = None
     if wxc_clouds.CLOUDS_ENABLED:          # same request plus the sky columns (display only)
@@ -793,6 +801,13 @@ def main():
             as_of = datetime(d.year, d.month, d.day, tzinfo=timezone.utc) - timedelta(hours=24 - HINDCAST_HOUR)
             print(f"\nHindcast for {d}: {', '.join(todo)} as available at {as_of:%Y-%m-%d %HZ}")
             _, _, hmodels = run_models(station, d, points, as_of, args.skip_grib, only=todo)
+            # a source that couldn't be reached (offline) doesn't use up a hindcast attempt
+            offline = [k for k, v in hmodels.items() if wxc_carryover.is_network_error(v.get("error"))]
+            if offline:
+                print(f"  not reached (left for the next run): {', '.join(offline)}")
+                hmodels = {k: v for k, v in hmodels.items() if k not in offline}
+                if not hmodels:
+                    continue
             # consensus from everything now known for that day (earlier hindcast + this one)
             known = {k: fc for k, (fc, _, _) in wxc_verify.forecasts_for_day(runs, station.icao, d.isoformat()).items()
                      if k != "CONSENSUS"}
@@ -806,6 +821,16 @@ def main():
 
     # ---- 3. models for the day being forecast ----
     results, mos, models = run_models(station, day, points, None, args.skip_grib)
+    # a model that failed this run (laptop asleep, bad wifi) keeps its last good forecast for the day
+    json_path = DATA / "forecast.json"
+    errors = {k: m.get("error") or "no data" for k, m in models.items() if not wxc_carryover.has_values(m)}
+    carried = wxc_carryover.carry_over(results, mos, models, wxc_carryover.load_previous(json_path, station.icao, day),
+                                       wxc_verify.load_series(station.icao, day, "submitted"), GRIB_ORDER)
+    status = wxc_carryover.run_status(errors, list(carried), now_iso)
+    if carried:
+        print(f"Not refreshed this run, previous forecasts kept: {', '.join(carried)}")
+    if status.get("message"):
+        print(f"Warning: {status['message']}")
 
     # ---- 4. consensus ----
     usable = {k: v for k, v in models.items() if v.get("tmax_f") is not None}
@@ -843,16 +868,29 @@ def main():
             "note": "temperatures in °F, winds in kt, precip in inches",
         },
         "models": models,
+        "run_status": status,
     }
-    json_path = DATA / "forecast.json"
+    # nothing at all came through (e.g. offline just after the target day moved on): leave the
+    # last forecasts up and only flag the failed update
+    usable_any = any(wxc_carryover.has_values(m) for k, m in models.items() if k != "CONSENSUS")
+    if not usable_any and json_path.exists():
+        payload = json.loads(json_path.read_text())
+        payload["run_status"] = status
+        print(f"\nNo forecasts fetched; kept the previous {json_path.name} (flagged as not updated)")
+    else:
+        print(f"\nWrote {json_path}")
     json_path.write_text(wxc_verify.dumps(payload, indent=2))
-    print(f"\nWrote {json_path}")
 
+    # runs.jsonl records what this run actually got (verification falls back to earlier runs itself)
     wxc_verify.append_run(now_iso, station.icao, day,
-                          {k: v for k, v in models.items() if k != "CONSENSUS" or v.get("tmax_f") is not None})
+                          {k: carried.get(k, v) for k, v in models.items()
+                           if k != "CONSENSUS" or v.get("tmax_f") is not None})
     print(f"Appended run to {wxc_verify.RUNS}")
     # hourly series of this (pre-deadline) run, for tomorrow's "today so far" figure
-    wxc_verify.save_series(station.icao, day, "submitted", now_iso, collect_series(results, mos))
+    # (carried-over models have their series back; with nothing fetched the saved one stays)
+    ser = collect_series(results, mos)
+    if ser:
+        wxc_verify.save_series(station.icao, day, "submitted", now_iso, ser)
 
     clouds = None
     if wxc_clouds.CLOUDS_ENABLED:          # display only: after every scored output is written
@@ -864,8 +902,9 @@ def main():
         except Exception as exc:
             print(f"Warning: cloud cover skipped ({type(exc).__name__}: {exc})")
     try:
-        plot_forecast(results, mos, cons, station, day, IMAGES / "latest.png", clouds)
-        print(f"Wrote {IMAGES / 'latest.png'}")
+        if usable_any:       # otherwise the previous figure stays, like forecast.json
+            plot_forecast(results, mos, cons, station, day, IMAGES / "latest.png", clouds)
+            print(f"Wrote {IMAGES / 'latest.png'}")
     except Exception as exc:
         print("Forecast image skipped:", exc)
     try:
