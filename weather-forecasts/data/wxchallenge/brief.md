@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-14**, scored over 2026-10-14T06Z to 2026-10-15T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-14T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-13T16:08:34+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-13T16:30:11+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -33,7 +33,7 @@ Run = day/hour (UTC) of the model initialization.
 | IFS | 13/06Z | 64.2 | 49.4 | 4.5 | 0.00 |
 | GFS | 13/06Z | 61.9 | 49.6 | 3.9 | 0.01 |
 | AIFS | 13/06Z | 64.7 | 50.1 | 4.2 | 0.03 |
-| GFS_MOS | 13/06Z | 64.0 | 46.0 | 4.0 | 0.00 |
+| GFS_MOS | 13/12Z | 65.0 | 45.0 | 4.0 | 0.00 |
 | NBM | 13/12Z | 67.0 | 45.0 | 4.0 | 0.00 |
 | USL | 13/12Z | 63.0 | 48.0 | 7.0 | 0.00 |
 | ENS | 12/18Z | 66.6 | 51.4 | 5.1 | 0.01 |
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | 13/06Z | — | — | — | 0.01 |
 | REFS (precip only) | 13/12Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 13/06Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **65.0** | **44.8** | **7.7** | **0.01** |
+| **CONSENSUS** |  | **65.1** | **44.7** | **7.7** | **0.01** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -105,7 +105,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
-| GFS_MOS | GFS MOS P06 | 14% | 34% | 2% | 9% | 34% to 49% | — |
+| GFS_MOS | GFS MOS P06 | 11% | 18% | 1% | 1% | 18% to 28% | — |
 | NBM | NBS P06 | 11% | 12% | 3% | 0% | 12% to 24% | — |
 | ENS | member fraction | 2% | 18% | 2% | 4% | 18% | — |
 | AIFS_ENS | member fraction | 28% | 43% | 6% | 0% | 65% | — |
