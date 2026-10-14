@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-15**, scored over 2026-10-15T06Z to 2026-10-16T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-15T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-14T19:30:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-14T20:00:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -29,9 +29,9 @@ Run = day/hour (UTC) of the model initialization.
 
 | Model | Run | High °F | Low °F | Wind kt | Precip in |
 | --- | --- | --: | --: | --: | --: |
-| HRRR | 14/12Z | 76.8 | 47.7 | 4.7 | 0.00 |
+| HRRR | 14/18Z | 77.7 | 44.1 | 4.4 | 0.00 |
 | RRFS | 14/12Z | 73.7 | 46.9 | 5.2 | 0.00 |
-| IFS | 14/06Z | 69.6 | 47.4 | 4.6 | 0.00 |
+| IFS | 14/12Z | 69.1 | 47.1 | 4.5 | 0.00 |
 | GFS | 14/12Z | 73.1 | 45.7 | 4.0 | 0.00 |
 | AIFS | 14/12Z | 70.5 | 46.2 | 4.9 | 0.00 |
 | GFS_MOS | 14/12Z | 70.0 | 40.0 | 4.0 | 0.00 |
@@ -43,7 +43,7 @@ Run = day/hour (UTC) of the model initialization.
 | HRRRCAST (precip only) | — | — | — | — | — |
 | REFS (precip only) | 14/12Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 14/12Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **71.9** | **41.7** | **7.9** | **0.00** |
+| **CONSENSUS** |  | **71.9** | **41.3** | **7.9** | **0.00** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -307,25 +307,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
 | 10-13 | 0.00" (dry) | 2/7/9/3 | 7/9/6/3 | 0/2/2/16 | 2/0/0/2 | 0/0/0/10 | 24h 22% | 24h 7% | 0/0/0/0 |
 
-## Today so far (2026-10-14, through 2026-10-14T18:54Z)
+## Today so far (2026-10-14, through 2026-10-14T19:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 62.1 °F, low 53.1 °F, max wind 8.0 kt, precip 0.00" (13 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 63.0 °F, low 53.1 °F, max wind 8.0 kt, precip 0.00" (14 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 13/18Z | -3.4 | 3.4 | 66 (+4) pending | 50 (-4) | +0.6 | 0.00 | +0.00 |
-| RRFS | 13/18Z | -1.7 | 2.3 | 69 (+7) pending | 51 (-2) | -0.4 | 0.00 | +0.00 |
-| IFS | 13/12Z | -2.5 | 2.5 | 66 (+4) pending | 51 (-2) pending | -1.2 | 0.01 | +0.01 |
-| GFS | 13/12Z | -3.3 | 3.3 | 64 (+2) pending | 49 (-4) pending | -1.8 | 0.00 | +0.00 |
-| AIFS | 13/12Z | -3.8 | 3.8 | 66 (+4) pending | 50 (-4) | -2.9 | 0.02 | +0.02 |
-| GFS_MOS | 13/18Z | -7.2 | 7.2 | 67 (+5) pending | 43 (-10) | -2.0 | — | — |
-| NBM | 13/18Z | -5.6 | 5.6 | 66 (+4) pending | 46 (-7) | -1.2 | — | — |
-| USL | 13/22Z | -5.2 | 5.2 | 63 (+1) pending | 48 (-5) pending | +0.2 | 0.00 | +0.00 |
-| ENS | 13/06Z | -3.2 | 3.2 | 66 (+4) pending | 50 (-3) | -0.6 | 0.01 | +0.01 |
-| AIFS_ENS | 13/12Z | -2.7 | 3.0 | 66 (+4) pending | 51 (-2) | -2.4 | 0.02 | +0.02 |
-| GEFS | 13/18Z | -3.7 | 3.7 | 67 (+5) pending | 50 (-3) | -2.3 | 0.01 | +0.01 |
+| HRRR | 13/18Z | -3.2 | 3.2 | 66 (+3) pending | 50 (-4) | +0.8 | 0.00 | +0.00 |
+| RRFS | 13/18Z | -1.4 | 2.3 | 69 (+6) pending | 51 (-2) | -0.4 | 0.00 | +0.00 |
+| IFS | 13/12Z | -2.4 | 2.4 | 66 (+3) pending | 51 (-2) pending | -1.3 | 0.01 | +0.01 |
+| GFS | 13/12Z | -3.2 | 3.2 | 64 (+2) pending | 49 (-4) pending | -1.8 | 0.00 | +0.00 |
+| AIFS | 13/12Z | -3.7 | 3.7 | 66 (+3) pending | 50 (-4) | -2.8 | 0.02 | +0.02 |
+| GFS_MOS | 13/18Z | -6.8 | 6.8 | 67 (+4) pending | 43 (-10) | -1.8 | — | — |
+| NBM | 13/18Z | -5.4 | 5.4 | 66 (+3) pending | 46 (-7) | -1.2 | — | — |
+| USL | 13/22Z | -5.1 | 5.1 | 63 (+0) pending | 48 (-5) pending | +0.3 | 0.00 | +0.00 |
+| ENS | 13/06Z | -2.9 | 3.0 | 66 (+3) pending | 50 (-3) | -0.6 | 0.01 | +0.01 |
+| AIFS_ENS | 13/12Z | -2.6 | 2.8 | 66 (+3) pending | 51 (-2) | -2.3 | 0.02 | +0.02 |
+| GEFS | 13/18Z | -3.4 | 3.5 | 67 (+4) pending | 50 (-3) | -2.2 | 0.01 | +0.01 |
 
 ## Raw data
 

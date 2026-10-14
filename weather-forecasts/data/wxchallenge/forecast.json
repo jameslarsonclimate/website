@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-14T19:30:09+00:00",
+  "generated_at_utc": "2026-10-14T20:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 76.8,
-      "tmin_f": 47.7,
-      "wind_max_kt": 4.7,
+      "tmax_f": 77.7,
+      "tmin_f": 44.1,
+      "wind_max_kt": 4.4,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-14T12",
+      "init_time_utc": "2026-10-14T18",
       "valid_range_utc": [
         "2026-10-15T06",
         "2026-10-16T06"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 69.6,
-      "tmin_f": 47.4,
-      "wind_max_kt": 4.6,
+      "tmax_f": 69.1,
+      "tmin_f": 47.1,
+      "wind_max_kt": 4.5,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-14T06",
+      "init_time_utc": "2026-10-14T12",
       "valid_range_utc": [
         "2026-10-15T06",
         "2026-10-16T06"
@@ -1084,7 +1084,7 @@
     },
     "CONSENSUS": {
       "tmax_f": 71.9,
-      "tmin_f": 41.7,
+      "tmin_f": 41.3,
       "wind_max_kt": 7.9,
       "precip_in": 0.0,
       "method": {
@@ -1217,7 +1217,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-14T19:30:09+00:00",
+    "checked_at_utc": "2026-10-14T20:00:09+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
