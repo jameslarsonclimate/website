@@ -585,9 +585,9 @@ function renderScore(){
       `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${OBS_SRC[src[k]] || src[k] || d.wind_source || '?'}` +
       `${pend.includes(k) ? ', pending' : ''})`).join('\n');
     const co = cloudDay(d.date)?.obs;
-    const ctitle = co ? `\nClouds (METAR, not scored): day ${pct0(co.day_pct)}, night ${pct0(co.night_pct)}` +
+    const ctitle = co ? `\nClouds (METAR, not scored): night ${pct0(co.night_pct)}, day ${pct0(co.day_pct)}` +
       (co.goes_day_pct != null || co.goes_night_pct != null
-        ? `\nGOES satellite: day ${pct0(co.goes_day_pct)}, night ${pct0(co.goes_night_pct)}` : '') : '';
+        ? `\nGOES satellite: night ${pct0(co.goes_night_pct)}, day ${pct0(co.goes_day_pct)}` : '') : '';
     return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}${ctitle}">${txt}${mark}</td>`;
   }).join('') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
@@ -666,8 +666,8 @@ function cloudTip(d, name, m){
   const c = cloudDay(d.date), cm = c?.models?.[name];
   if (!c) return '';
   if (!cm) return name in (c.missing || {}) ? `<br><span style="opacity:.75">clouds: no data for this run</span>` : '';
-  const lines = [cloudLine('Day clouds', cm.day_pct, c.obs.day_pct, cm.day_err),
-                 cloudLine('Night clouds', cm.night_pct, c.obs.night_pct, cm.night_err)].filter(Boolean);
+  const lines = [cloudLine('Night clouds', cm.night_pct, c.obs.night_pct, cm.night_err),
+                 cloudLine('Day clouds', cm.day_pct, c.obs.day_pct, cm.day_err)].filter(Boolean);
   return `<br><span style="opacity:.85">${lines.join('<br>')}</span>` +
     `<br><span style="opacity:.6">clouds: forecast vs METAR, not scored</span>`;
 }
