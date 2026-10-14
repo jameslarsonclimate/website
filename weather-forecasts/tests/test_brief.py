@@ -131,3 +131,33 @@ def test_write_brief_reads_cloud_context(tmp_path):
     assert "## Clouds (context only" in wxc_brief.write_brief(tmp_path).read_text()
     (tmp_path / "cloud_context.json").write_text(json.dumps({"stations": {"KDSM": _clouds()}}))
     assert "## Clouds" not in wxc_brief.write_brief(tmp_path).read_text()   # another station's clouds
+
+
+def _series(precip):
+    t = ["2026-10-07T06:00", "2026-10-07T09:00", "2026-10-07T12:00"]
+    return {"station": "KTPA", "target_date": "2026-10-07", "kind": "submitted",
+            "generated_at_utc": "2026-10-06T22:12:10+00:00",
+            "models": {"HRRR": {"times": t, "temp_f": [75.0, 73.2, 72.0], "wind_kt": [5.0, 4.0, 3.5],
+                                "precip_in": precip},
+                       "GFS_MOS": {"times": t[::2], "temp_f": [76.0, 71.0], "wind_kt": [3.0, 2.0],
+                                   "precip_in": None}}}
+
+
+def test_hourly_guidance_tables():
+    txt = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, series=_series([0.0, 0.12, 0.5]))
+    assert "## Hourly guidance through the target day\n" in txt
+    assert "| UTC | Local (EDT) | HRRR | GFS_MOS |" in txt                 # tz from the station registry
+    assert "| 10-07 06Z | Wed 02:00 | 75.0 | 76.0 |" in txt
+    assert "| 10-07 09Z | Wed 05:00 | 73.2 |  |" in txt                    # MOS has no 09Z value
+    assert "| UTC | Local (EDT) | HRRR |\n" in txt                          # no MOS precip column
+    assert "| 10-07 12Z | Wed 08:00 | 0.50 |" in txt
+    dry = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, series=_series([0.0, 0.0, 0.0]))
+    assert "0.00 in every model (HRRR) all day." in dry
+    assert "## Hourly guidance" not in wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW)
+
+
+def test_write_brief_reads_target_day_series(tmp_path):
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "series").mkdir()
+    (tmp_path / "series" / "KTPA_2026-10-07_submitted.json").write_text(json.dumps(_series([0, 0.1, 0.2])))
+    assert "## Hourly guidance through the target day\n" in wxc_brief.write_brief(tmp_path).read_text()

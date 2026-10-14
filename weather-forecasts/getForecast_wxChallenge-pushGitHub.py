@@ -948,6 +948,7 @@ def main():
             "station": station.icao,
             "wfo": station.wfo,
             "afd_url": station.afd_url,
+            "tz": station.tz,
             "target_date": day.isoformat(),
             "valid_range_utc": [start.strftime("%Y-%m-%dT%H"),
                                 (start + timedelta(days=1)).strftime("%Y-%m-%dT%H")],

@@ -16,6 +16,7 @@ hidden link at the bottom of wxchallenge/index.html point to it.
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "wxchallenge"
@@ -449,13 +450,78 @@ def _links(fc):
     ])
 
 
+def _station_tz(fc):
+    tz = fc.get("meta", {}).get("tz")
+    if not tz:   # forecast.json written before "tz" was added to its meta
+        try:
+            import wxc_stations
+            st = wxc_stations.STATIONS.get(fc["meta"].get("station"))
+            tz = st.tz if st else None
+        except Exception:
+            tz = None
+    try:
+        return ZoneInfo(tz) if tz else None
+    except Exception:
+        return None
+
+
+def _hourly(fc, series, order):
+    """The models' hourly (or 3-/6-hourly) values through the target day, one table per variable:
+    a row per UTC hour, a column per model, blank where a model has no value at that hour."""
+    models = (series or {}).get("models") or {}
+    names = [n for n in order if n in models] + [n for n in models if n not in order]
+    if not names:
+        return ""
+    tz = _station_tz(fc)
+    hours = sorted({t for n in names for t in models[n].get("times") or []})
+    gen = series.get("generated_at_utc")
+    src = "" if gen == fc.get("generated_at_utc") else f" (from the run at {gen})"
+
+    def local(t):
+        if not tz:
+            return ""
+        dt = datetime.fromisoformat(t).replace(tzinfo=timezone.utc).astimezone(tz)
+        return dt.strftime("%a %H:%M")
+
+    out = [f"## Hourly guidance through the target day{src}", "",
+           "Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, USL "
+           "and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, "
+           "AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can "
+           "miss the true high/low between output times; the guidance table's daily values "
+           "(which also use interval max/min fields where available) are what get scored."]
+    specs = [("temp_f", "Temperature (°F)", "t"), ("wind_kt", "Wind speed (kt) at the hour", "w"),
+             ("precip_in", "Precipitation (in), accumulated since the start of the day (06Z)", "precip_in")]
+    for key, title, v in specs:
+        cols = [n for n in names if any(x is not None for x in (models[n].get(key) or []))]
+        if not cols:
+            continue
+        vals = {n: dict(zip(models[n]["times"], models[n][key])) for n in cols}
+        if key == "precip_in" and all((x or 0) < 0.005 for n in cols for x in vals[n].values()):
+            out += ["", f"{title}: 0.00 in every model ({', '.join(cols)}) all day."]
+            continue
+        rows = []
+        for t in hours:
+            cells = [vals[n].get(t) for n in cols]
+            if all(c is None for c in cells):
+                continue
+            rows.append([f"{t[5:10]} {t[11:13]}Z", local(t),
+                         *("" if c is None else _f(c, v) for c in cells)])
+        # zone name as of the target day (DST can change between now and then)
+        zone = datetime.fromisoformat(hours[0]).replace(tzinfo=timezone.utc).astimezone(tz).strftime("%Z") if tz else ""
+        head = ["UTC", f"Local ({zone})" if tz else "Local", *cols]
+        out += ["", f"{title}:", "", _table(head, rows, right_from=2)]
+    return "\n".join(out)
+
+
 def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime | None = None,
-                clouds: dict | None = None) -> str:
-    """clouds: this station's days from cloud_context.json ({date: {...}}), optional."""
+                clouds: dict | None = None, series: dict | None = None) -> str:
+    """clouds: this station's days from cloud_context.json ({date: {...}}), optional.
+    series: the target day's hourly model series (series/<ICAO>_<date>_submitted.json), optional."""
     now = now or datetime.now(timezone.utc)
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
-                _ensembles(fc, order), _pop(fc, verif, order), _track_record(verif),
+                _ensembles(fc, order), _pop(fc, verif, order), _hourly(fc, series, order),
+                _track_record(verif),
                 _daily(verif, order), _clouds(verif, clouds, order), _pop_daily(verif, order),
                 _today(today), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
@@ -477,8 +543,11 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
         today = None
     # cloud context (display only): this station's days, if the file exists
     clouds = ((load("cloud_context.json") or {}).get("stations") or {}).get(fc["meta"].get("station")) or None
+    # hourly series written by this same run for the target day
+    meta = fc["meta"]
+    series = load(f"series/{meta.get('station')}_{meta.get('target_date')}_submitted.json")
     out = Path(out or data_dir / "brief.md")
-    out.write_text(build_brief(fc, verif, today, clouds=clouds), encoding="utf-8")
+    out.write_text(build_brief(fc, verif, today, clouds=clouds, series=series), encoding="utf-8")
     return out
 
 
