@@ -663,6 +663,91 @@ def today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib=Fa
     return out
 
 
+CLOUD_CONTEXT = DATA / "cloud_context.json"
+CONTEXT_ATTEMPTS = 3          # runs that may retry a day with missing pieces before it is frozen
+CONTEXT_BUDGET_S = 240        # per run: older days still to fill are left for the next runs
+
+
+def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDGET_S):
+    """Forecast vs observed cloud (day / night) of every scored run on the scoreboard, in
+    data/wxchallenge/cloud_context.json. DISPLAY ONLY: verification.json, the scores and the
+    consensus never see it. Days are added once and kept (the cloud cache is pruned, this file
+    is not); a day with missing pieces is retried for up to CONTEXT_ATTEMPTS runs."""
+    import time as _time
+    t0 = _time.time()
+    try:
+        store = json.loads(CLOUD_CONTEXT.read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        store = {}
+    store.setdefault("note", "Display only: cloud cover is not scored. Errors are forecast minus "
+                             "observed in percentage points (positive = too cloudy).")
+    days_store = store.setdefault("stations", {}).setdefault(station.icao, {})
+    eligible = set(GRIB_MODELS) | set(wxc_clouds.TEXT_MODELS)
+    todo = []
+    for d in verif.get("days", []):
+        old = days_store.get(d["date"])
+        if old and (old.get("complete") or old.get("attempts", 0) >= CONTEXT_ATTEMPTS):
+            continue
+        todo.append(d)
+    if not todo:
+        print("  cloud context: up to date")
+        return 0
+    todo.sort(key=lambda d: d["date"], reverse=True)        # newest first: what you look at
+    first, last = date.fromisoformat(todo[-1]["date"]), date.fromisoformat(todo[0]["date"])
+    sky = pd.DataFrame(columns=["valid", "sky_pct", "clear"])
+    try:
+        raw = wxc_obs.fetch_metars(station.icao, datetime(first.year, first.month, first.day, 5, tzinfo=timezone.utc),
+                                   datetime(last.year, last.month, last.day, 6, tzinfo=timezone.utc) + timedelta(days=1),
+                                   sky=True)
+        sky = wxc_clouds.sky_series(raw)
+    except Exception as exc:
+        print(f"  warning: METAR sky cover for {first}..{last} failed ({type(exc).__name__}: {exc})")
+    runs = wxc_verify.read_runs()
+    done = 0
+    for d in todo:
+        if _time.time() - t0 > budget_s:
+            print(f"  cloud context: time budget used; {len(todo) - done} older day(s) left for the next run")
+            break
+        day = date.fromisoformat(d["date"])
+        scored = wxc_verify.forecasts_for_day(runs, station.icao, d["date"])
+        models = {}
+        for name in d.get("models", {}):
+            fc = scored.get(name, (None,))[0]
+            init = (fc or {}).get("init_time_utc")
+            if name not in eligible or not init:
+                continue
+            try:
+                models[name] = (init, model_cloud(station, name, init, day, points, fetch_grib))
+            except Exception as exc:
+                print(f"  warning: {d['date']} {name} cloud cover unavailable ({type(exc).__name__}: {str(exc)[:120]})")
+                models[name] = (init, None)
+        goes = {}
+        for h in range(25):
+            t = datetime(day.year, day.month, day.day, 6) + timedelta(hours=h)
+            try:
+                goes[t.strftime("%Y-%m-%dT%H:%M")] = json.loads(wxc_goes._cache_path(station.icao, t).read_text())["cloud_pct"]
+            except (FileNotFoundError, json.JSONDecodeError, KeyError):
+                pass
+        ctx = wxc_clouds.day_context(day, station.lat, station.lon, sky, goes, models)
+        old = days_store.get(d["date"]) or {}
+        # keep what an earlier attempt found if this one could not get it again
+        for name, m in (old.get("models") or {}).items():
+            if name not in ctx["models"]:
+                ctx["models"][name] = m
+                ctx["missing"].pop(name, None)
+        if ctx["obs"]["day_pct"] is None and (old.get("obs") or {}).get("day_pct") is not None:
+            ctx["obs"] = old["obs"]
+        ctx["attempts"] = old.get("attempts", 0) + 1
+        ctx["complete"] = not ctx["missing"] and ctx["obs"]["day_pct"] is not None \
+            and ctx["obs"]["night_pct"] is not None
+        days_store[d["date"]] = ctx
+        done += 1
+    store["generated_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    CLOUD_CONTEXT.write_text(wxc_verify.dumps(store, indent=1))
+    print(f"  cloud context: {done} day(s) updated in {_time.time() - t0:.0f} s -> {CLOUD_CONTEXT.name}")
+    return done
+
+
 def today_figure(station, now, points, skip_grib=False):
     """Observations for the current 06Z-06Z day so far vs. the submitted and latest forecasts."""
     today = (now - timedelta(hours=6)).date()
@@ -917,6 +1002,14 @@ def main():
             today_figure(station, now, points, args.skip_grib)
         except Exception as exc:
             print("Today-so-far figure skipped:", type(exc).__name__, exc)
+
+    # cloud context for the scoreboard (display only; after the today figure saved its GOES hours)
+    if wxc_clouds.CLOUDS_ENABLED:
+        try:
+            print("\nCloud context for the verified days (not scored):")
+            cloud_context(station, verif, points, fetch_grib=not args.skip_grib)
+        except Exception as exc:
+            print(f"Warning: cloud context skipped ({type(exc).__name__}: {exc})")
 
     # forecast-evolution links on the page (station config only; the page builds the run times)
     try:

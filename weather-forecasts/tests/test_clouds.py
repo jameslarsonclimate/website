@@ -301,6 +301,8 @@ def _scored_outputs(work):
     d = work / "data" / "wxchallenge"
     out = {}
     for p in sorted(d.rglob("*.json*")):
+        if p.name == "cloud_context.json":       # the display-only cloud file, checked on its own
+            continue
         text = p.read_text()
         rows = [json.loads(ln) for ln in text.splitlines() if ln.strip()] if p.suffix == ".jsonl" else json.loads(text)
         out[str(p.relative_to(d))] = strip(rows)
@@ -327,5 +329,58 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
     assert any(n.startswith("_cloud_GFS_MOS_") for n in cached)
     assert list((on / "cache" / "KTPA").glob("_goes_acm_*.json"))
     assert not (off / "cache" / "KTPA").exists() or not list((off / "cache" / "KTPA").glob("_cloud_*"))
+    # scoreboard cloud context: its own file, only with clouds on, for the scored runs
+    assert not (off / "data/wxchallenge/cloud_context.json").exists()
+    ctx = json.loads((on / "data/wxchallenge/cloud_context.json").read_text())["stations"]["KTPA"]
+    verified = json.loads((on / "data/wxchallenge/verification.json").read_text())["days"]
+    assert set(ctx) == {d["date"] for d in verified}
+    d = ctx["2025-09-26"]                       # a hindcast day: every grid model has its scored run's cloud
+    assert d["obs"]["day_pct"] is not None and d["obs"]["night_pct"] is not None
+    scored = next(v["models"] for v in verified if v["date"] == "2025-09-26")
+    eligible = {"HRRR", "RRFS", "IFS", "GFS", "AIFS", "GFS_MOS", "NBM", "USL"}
+    assert set(d["models"]) | set(d["missing"]) == eligible & set(scored)     # exactly the scored runs
+    assert {"HRRR", "IFS", "GFS"} <= set(d["models"])
+    assert d["models"]["HRRR"]["day_pct"] == 35.0 and d["models"]["IFS"]["night_pct"] == 40.0
+    assert d["models"]["HRRR"]["day_err"] == round(35.0 - d["obs"]["day_pct"])
+    assert not {"ENS", "AIFS_ENS", "CONSENSUS"} & set(d["models"])
     for w in (off, on):
         assert (w / "images/wxchallenge/latest.png").exists() and (w / "images/wxchallenge/today.png").exists()
+
+
+# ----------------------------------------------------------------- scoreboard cloud context
+def test_day_night_windows():
+    """Sun-up hours for the high, 06Z-to-sunrise hours for the low (Olympia, mid October:
+    sunrise ~14:30Z, sunset ~01:30Z; Tampa, 1 Oct: ~11:27Z and ~23:16Z)."""
+    day_h, night_h = wxc_clouds.day_night_hours(date(2026, 10, 13), 46.97, -122.90)
+    assert (day_h[0].hour, day_h[-1].hour, len(day_h)) == (15, 1, 11)
+    assert (night_h[0].hour, night_h[-1].hour) == (6, 14)
+    day_h, night_h = wxc_clouds.day_night_hours(date(2026, 10, 1), STATIONS["KTPA"].lat, STATIONS["KTPA"].lon)
+    assert (day_h[0].hour, day_h[-1].hour) == (12, 23) and len(night_h) == 6
+    assert wxc_clouds.sun_elevation("2026-06-21 17:00", 27.98, -82.54) > 80      # near-overhead summer noon
+
+
+def test_window_means():
+    hours = [pd.Timestamp("2026-10-13 06:00") + pd.Timedelta(hours=h) for h in range(9)]
+    # a 6-hourly model is interpolated to every hour: 0 at 06Z -> 60 at 12Z -> 60 at 18Z
+    assert wxc_clouds.window_mean(["2026-10-13T06:00", "2026-10-13T12:00", "2026-10-13T18:00"],
+                                  [0, 60, 60], hours) == pytest.approx((sum(range(0, 61, 10)) + 2 * 60) / 9, abs=0.1)
+    assert wxc_clouds.window_mean(["2026-10-13T13:00"], [50], hours) is None          # too little coverage
+    sky = pd.DataFrame({"valid": pd.to_datetime(["2026-10-13 05:53", "2026-10-13 06:53", "2026-10-13 07:20"], utc=True),
+                        "sky_pct": [100.0, 0.0, 44.0], "clear": [False, True, False]})
+    # 06Z <- 05:53 (100), 07Z <- 06:53 (0): two of two hours
+    assert wxc_clouds.obs_window_mean(sky, hours[:2]) == 50.0
+    assert wxc_clouds.obs_window_mean(sky, hours) is None                              # 3 of 9 hours
+    assert wxc_clouds.goes_window_mean({"2026-10-13T06:00": 20.0, "2026-10-13T07:00": 40.0}, hours[:2]) == 30.0
+
+
+def test_day_context_errors():
+    sky = pd.DataFrame({"valid": pd.date_range("2026-10-13 05:53", periods=25, freq="h", tz="UTC"),
+                        "sky_pct": [100.0] * 9 + [25.0] * 16, "clear": False})
+    times = [f"2026-10-13T{h:02d}:00" for h in range(6, 24)] + [f"2026-10-14T{h:02d}:00" for h in range(0, 7)]
+    rec = {"times": times, "cloud_pct": [0.0] * 25}
+    ctx = wxc_clouds.day_context(date(2026, 10, 13), 46.97, -122.90, sky, {},
+                                 {"GFS": ("2026-10-12T12", rec), "IFS": ("2026-10-12T12", None)})
+    assert ctx["obs"]["night_pct"] == 100.0 and ctx["obs"]["day_pct"] == 25.0
+    g = ctx["models"]["GFS"]
+    assert (g["night_err"], g["day_err"]) == (-100, -25)              # too clear, mostly at night
+    assert "IFS" in ctx["missing"] and ctx["night_hours_utc"][0] == "2026-10-13T06:00"

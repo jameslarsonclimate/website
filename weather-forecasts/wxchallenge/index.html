@@ -125,6 +125,7 @@
       #score td.sum span{font-size:0.7rem}
     }
     .star{font-size:0.75em;margin-left:2px}
+    .cloud{font-size:0.75em;margin-left:2px;opacity:0.9}
     .legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:0.6rem;font-size:0.85rem;color:var(--ink-2)}
     .swatches{display:inline-flex;gap:2px}
     .swatches i{display:inline-block;width:22px;height:14px;border-radius:3px}
@@ -498,7 +499,31 @@ function modelRow(key, label, m){
 }
 
 /* ---------- verification scoreboard ---------- */
-let VERIF = null, VIEW = 'points', CONS_W = {};
+let VERIF = null, VIEW = 'points', CONS_W = {}, CLOUD = {};
+
+/* ---------- cloud context (cloud_context.json; display only, never scored) ----------
+   ☁ marks a cell where a big cloud miss points the same way as the temperature miss:
+   too clear by day + high too warm, too cloudy by day + high too cool (day = sun up);
+   too clear at night + low too cold, too cloudy at night + low too warm (06Z to sunrise). */
+const CLOUD_MISS = 40;   // percentage points, forecast minus observed
+const TEMP_MISS = 2;     // °F
+const cloudDay = date => CLOUD[date];
+function cloudCause(date, name, m){
+  const c = cloudDay(date)?.models?.[name];
+  if (!c || !m || !m.error) return {};
+  const out = {}, eh = m.error.tmax_f, el = m.error.tmin_f;
+  if (c.day_err != null && eh != null && Math.abs(c.day_err) >= CLOUD_MISS && Math.abs(eh) >= TEMP_MISS &&
+      Math.sign(c.day_err) === -Math.sign(eh)) out.tmax_f = c.day_err < 0 ? 'too clear by day' : 'too cloudy by day';
+  if (c.night_err != null && el != null && Math.abs(c.night_err) >= CLOUD_MISS && Math.abs(el) >= TEMP_MISS &&
+      Math.sign(c.night_err) === Math.sign(el)) out.tmin_f = c.night_err < 0 ? 'too clear at night' : 'too cloudy at night';
+  return out;
+}
+const pct0 = v => v == null ? '—' : `${Math.round(v)}%`;
+function cloudLine(label, f, o, e){
+  if (f == null && o == null) return '';
+  const how = e == null ? '' : Math.abs(e) < 15 ? ', about right' : e < 0 ? ', too clear' : ', too cloudy';
+  return `${label}: ${pct0(f)} vs ${pct0(o)}${e == null ? '' : ` (${signed(e, 0)}${how})`}`;
+}
 const tip = document.getElementById('tip');
 // the decay weight shown under each date: the variable's own, temperature for the points view
 const weightVar = () => VIEW === 'points' ? 'tmax_f' : VIEW;
@@ -573,7 +598,11 @@ function renderScore(){
     const title = ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k =>
       `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${OBS_SRC[src[k]] || src[k] || d.wind_source || '?'}` +
       `${pend.includes(k) ? ', pending' : ''})`).join('\n');
-    return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}">${txt}${mark}</td>`;
+    const co = cloudDay(d.date)?.obs;
+    const ctitle = co ? `\nClouds (METAR, not scored): day ${pct0(co.day_pct)}, night ${pct0(co.night_pct)}` +
+      (co.goes_day_pct != null || co.goes_night_pct != null
+        ? `\nGOES satellite: day ${pct0(co.goes_day_pct)}, night ${pct0(co.goes_night_pct)}` : '') : '';
+    return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}${ctitle}">${txt}${mark}</td>`;
   }).join('') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
   const rows = models.map(name => {
@@ -583,14 +612,17 @@ function renderScore(){
       const m = d.models[name];
       if (!m) { tr += `<td class="cell small${cls[i]}">—</td>`; return; }
       const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
+      const cc = cloudCause(d.date, name, m);
+      const why = VIEW === 'points' ? Object.values(cc) : cc[VIEW] ? [cc[VIEW]] : [];
+      const cm = why.length ? `<span class="cloud" aria-label="cloud miss: ${why.join(', ')}">☁</span>` : '';
       if (VIEW === 'points') {
         const { lo, hi } = range[i];
         const t = hi > lo ? (m.points - lo) / (hi - lo) : 0;
         const star = m.points === lo ? '<span class="star" aria-label="best">★</span>' : '';
-        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${r}${star}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${r}${star}${cm}</td>`;
       } else {
         const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
-        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}${r}${cm}</td>`;
       }
     });
     const cw = name === 'CONSENSUS' ? null : consWeight(name);
@@ -611,14 +643,15 @@ function renderScore(){
   if (VIEW === 'points') {
     const sw = [0, 0.25, 0.5, 0.75, 1].map(t => `<i style="background:${pointsFill(t)}"></i>`).join('');
     legend.innerHTML = `<span>Best of the day</span><span class="swatches">${sw}</span><span>Worst of the day</span>
-      <span>· models sorted by average points (lower is better)</span>`;
+      <span>· models sorted by average points (lower is better)</span>${cloudLegend()}`;
   } else {
     const b = VARS[VIEW].bins, u = VARS[VIEW].unit, dec = VARS[VIEW].dec;
     const sw = [-3, -2, -1, 0, 1, 2, 3].map(s => `<i style="background:${biasFill(s)}"></i>`).join('');
     legend.innerHTML = `<span>Too ${VIEW === 'precip_in' ? 'dry' : VIEW === 'wind_max_kt' ? 'light' : 'cold'}</span>
       <span class="swatches">${sw}</span>
       <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
-      <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
+      <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>` +
+      (VIEW === 'tmax_f' || VIEW === 'tmin_f' ? cloudLegend() : '');
   }
   const hl = v.half_life_days;
   document.getElementById('decay-note').textContent = hl
@@ -629,6 +662,25 @@ function renderScore(){
     : '';
 }
 
+function cloudTip(d, name, m){
+  const c = cloudDay(d.date), cm = c?.models?.[name];
+  if (!c) return '';
+  if (!cm) return name in (c.missing || {}) ? `<br><span style="opacity:.75">clouds: no data for this run</span>` : '';
+  const lines = [cloudLine('Day clouds', cm.day_pct, c.obs.day_pct, cm.day_err),
+                 cloudLine('Night clouds', cm.night_pct, c.obs.night_pct, cm.night_err)].filter(Boolean);
+  const cc = Object.values(cloudCause(d.date, name, m));
+  return `<br><span style="opacity:.85">${lines.join('<br>')}</span>` +
+    (cc.length ? `<br>☁ ${cc.join('; ')}: likely part of the temperature miss` : '') +
+    `<br><span style="opacity:.6">clouds: forecast vs METAR, not scored</span>`;
+}
+
+function cloudLegend(){
+  if (!Object.keys(CLOUD).length) return '';
+  return `<span>· ☁ = the model's ${VIEW === 'tmin_f' ? 'night' : VIEW === 'tmax_f' ? 'daytime' : 'day or night'} ` +
+    `cloud cover was off by ${CLOUD_MISS}+ points in the direction that explains its ` +
+    `${VIEW === 'points' ? 'temperature' : VARS[VIEW].name.toLowerCase()} miss (clouds are not scored)</span>`;
+}
+
 function showTip(td, ev){
   const d = VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
   const name = td.dataset.model, m = d && d.models[name];
@@ -637,7 +689,7 @@ function showTip(td, ev){
   const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${signed(e[k], VARS[k].dec)})`;
   tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date}</b><br>` +
     ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
-    `<br><b>${m.points.toFixed(1)} points</b>` +
+    `<br><b>${m.points.toFixed(1)} points</b>` + cloudTip(d, name, m) +
     (m.reconstructed
       ? `<br><span style="opacity:.75">reconstructed, not submitted: rebuilt from the models' forecasts with only the earlier days' track record</span>`
       : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${m.hindcast ? ' · hindcast' : ''}</span>` : '') +
@@ -1089,6 +1141,10 @@ function renderToday(tj){
     const res = await fetch('../data/wxchallenge/verification.json' + bust, { cache: 'no-store' });
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     VERIF = await res.json();
+    try {        // optional: the scoreboard works without it
+      const cr = await fetch('../data/wxchallenge/cloud_context.json' + bust, { cache: 'no-store' });
+      if (cr.ok) CLOUD = (await cr.json())?.stations?.[VERIF.station] || {};
+    } catch (e) { CLOUD = {}; }
     if (CONS_W.station && CONS_W.station !== VERIF.station) CONS_W = {};    // forecast is for another city
     const scored = (VERIF.days || []).filter(d => Object.keys(d.models).length);
     const hind = scored.filter(d => d.hindcast).length;
