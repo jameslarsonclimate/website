@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-15**, scored over 2026-10-15T06Z to 2026-10-16T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-15T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-14T17:30:08+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-14T18:00:11+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -36,13 +36,13 @@ Run = day/hour (UTC) of the model initialization.
 | GFS_MOS | 14/12Z | 70.0 | 40.0 | 4.0 | 0.00 |
 | NBM | 14/12Z | 71.0 | 44.0 | 6.0 | 0.00 |
 | USL | 14/12Z | 70.0 | 43.0 | 8.0 | 0.00 |
-| ENS | 13/18Z | 69.8 | 48.4 | 4.6 | 0.00 |
-| AIFS_ENS | 14/00Z | 70.6 | 48.5 | 6.1 | 0.00 |
-| GEFS | 14/06Z | 71.9 | 46.5 | 4.4 | 0.00 |
+| ENS | 14/06Z | 70.3 | 48.4 | 4.7 | 0.00 |
+| AIFS_ENS | 14/06Z | 71.5 | 48.6 | 5.8 | 0.00 |
+| GEFS | 14/12Z | 71.7 | 46.1 | 4.3 | 0.00 |
 | HRRRCAST (precip only) | — | — | — | — | — |
 | REFS (precip only) | 14/12Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 14/06Z | — | — | — | 0.00 |
-| **CONSENSUS** |  | **71.9** | **41.8** | **7.9** | **0.00** |
+| **CONSENSUS** |  | **72.1** | **41.8** | **7.9** | **0.00** |
 
 Notes:
 - AIFS: 6-hourly output: high/low likely underdone
@@ -72,17 +72,17 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 
 | Ensemble | Members | Variable | p10 | p25 | Median | p75 | p90 | Mean |
 | --- | --- | --- | --: | --: | --: | --: | --: | --: |
-| ENS | 51 | High °F | 68.7 | 69.2 | 69.8 | 70.5 | 71.0 | 69.8 |
-| ENS | 51 | Low °F | 47.4 | 48.0 | 48.3 | 49.0 | 49.5 | 48.4 |
-| ENS | 51 | Wind kt | 4.0 | 4.2 | 4.5 | 5.0 | 5.3 | 4.6 |
+| ENS | 51 | High °F | 68.8 | 69.5 | 70.5 | 71.0 | 71.5 | 70.3 |
+| ENS | 51 | Low °F | 47.5 | 47.9 | 48.4 | 48.9 | 49.6 | 48.4 |
+| ENS | 51 | Wind kt | 4.2 | 4.4 | 4.6 | 5.0 | 5.2 | 4.7 |
 | ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
-| AIFS_ENS | 51 | High °F | 67.5 | 69.2 | 70.8 | 72.3 | 73.2 | 70.6 |
-| AIFS_ENS | 51 | Low °F | 45.9 | 47.3 | 48.9 | 49.8 | 51.1 | 48.5 |
-| AIFS_ENS | 51 | Wind kt | 4.7 | 5.3 | 6.0 | 6.6 | 7.7 | 6.1 |
+| AIFS_ENS | 51 | High °F | 68.7 | 70.2 | 71.1 | 72.7 | 73.7 | 71.5 |
+| AIFS_ENS | 51 | Low °F | 46.2 | 47.6 | 48.6 | 50.0 | 50.8 | 48.6 |
+| AIFS_ENS | 51 | Wind kt | 4.6 | 5.0 | 5.8 | 6.6 | 7.2 | 5.8 |
 | AIFS_ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
-| GEFS | 31 | High °F | 69.5 | 71.3 | 72.2 | 72.9 | 73.7 | 71.9 |
-| GEFS | 31 | Low °F | 46.1 | 46.1 | 46.4 | 47.0 | 47.3 | 46.5 |
-| GEFS | 31 | Wind kt | 4.1 | 4.2 | 4.3 | 4.5 | 4.7 | 4.4 |
+| GEFS | 31 | High °F | 69.7 | 70.8 | 71.9 | 72.8 | 73.5 | 71.7 |
+| GEFS | 31 | Low °F | 45.4 | 45.6 | 46.1 | 46.5 | 46.8 | 46.1 |
+| GEFS | 31 | Wind kt | 3.9 | 4.1 | 4.3 | 4.5 | 4.8 | 4.3 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 
@@ -249,25 +249,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
 | 10-13 | 0.00" (dry) | 2/7/9/3 | 7/9/6/3 | 0/2/2/16 | 2/0/0/2 | 0/0/0/10 | 24h 22% | 24h 7% | 0/0/0/0 |
 
-## Today so far (2026-10-14, through 2026-10-14T16:24Z)
+## Today so far (2026-10-14, through 2026-10-14T16:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 57.0 °F, low 54.0 °F, max wind 8.0 kt, precip 0.00" (10 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 57.0 °F, low 54.0 °F, max wind 8.0 kt, precip 0.00" (11 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 13/18Z | -4.2 | 4.2 | 66 (+9) pending | 50 (-4) | -0.6 | 0.00 | +0.00 |
-| RRFS | 13/18Z | -2.6 | 2.6 | 69 (+12) pending | 51 (-3) | -1.4 | 0.00 | +0.00 |
-| IFS | 13/12Z | -3.1 | 3.1 | 66 (+9) pending | 51 (-3) pending | -1.7 | 0.01 | +0.01 |
-| GFS | 13/12Z | -3.7 | 3.7 | 64 (+8) pending | 49 (-5) pending | -2.3 | 0.00 | +0.00 |
-| AIFS | 13/12Z | -4.4 | 4.4 | 66 (+9) pending | 50 (-4) | -3.4 | 0.02 | +0.02 |
-| GFS_MOS | 13/18Z | -8.5 | 8.5 | 67 (+10) pending | 43 (-11) | -3.2 | — | — |
-| NBM | 13/18Z | -6.2 | 6.2 | 66 (+9) pending | 46 (-8) | -1.8 | — | — |
-| USL | 13/22Z | -5.7 | 5.7 | 63 (+6) pending | 48 (-6) pending | -0.6 | 0.00 | +0.00 |
-| ENS | 13/06Z | -4.1 | 4.1 | 66 (+9) pending | 50 (-4) | -1.2 | 0.01 | +0.01 |
-| AIFS_ENS | 13/12Z | -3.3 | 3.6 | 66 (+9) pending | 51 (-3) | -3.0 | 0.02 | +0.02 |
-| GEFS | 13/18Z | -4.5 | 4.5 | 67 (+10) pending | 50 (-4) | -3.0 | 0.01 | +0.01 |
+| HRRR | 13/18Z | -3.9 | 3.9 | 66 (+9) pending | 50 (-4) | +0.1 | 0.00 | +0.00 |
+| RRFS | 13/18Z | -2.4 | 2.4 | 69 (+12) pending | 51 (-3) | -0.8 | 0.00 | +0.00 |
+| IFS | 13/12Z | -2.9 | 2.9 | 66 (+9) pending | 51 (-3) pending | -1.2 | 0.01 | +0.01 |
+| GFS | 13/12Z | -3.5 | 3.5 | 64 (+8) pending | 49 (-5) pending | -1.8 | 0.00 | +0.00 |
+| AIFS | 13/12Z | -4.1 | 4.1 | 66 (+9) pending | 50 (-4) | -3.0 | 0.02 | +0.02 |
+| GFS_MOS | 13/18Z | -8.1 | 8.1 | 67 (+10) pending | 43 (-11) | -2.5 | — | — |
+| NBM | 13/18Z | -5.9 | 5.9 | 66 (+9) pending | 46 (-8) | -1.2 | — | — |
+| USL | 13/22Z | -5.5 | 5.5 | 63 (+6) pending | 48 (-6) pending | +0.0 | 0.00 | +0.00 |
+| ENS | 13/06Z | -3.8 | 3.8 | 66 (+9) pending | 50 (-4) | -0.7 | 0.01 | +0.01 |
+| AIFS_ENS | 13/12Z | -3.0 | 3.3 | 66 (+9) pending | 51 (-3) | -2.5 | 0.02 | +0.02 |
+| GEFS | 13/18Z | -4.2 | 4.2 | 67 (+10) pending | 50 (-4) | -2.4 | 0.01 | +0.01 |
 
 ## Raw data
 
