@@ -543,15 +543,10 @@ function renderScore(){
   }
   const summary = v.summary || {};
   const CV = CLOUD_VIEWS[VIEW];       // set on the two cloud tabs
-  // (cloud tabs: only the models that have a cloud forecast, i.e. not the ensembles / consensus)
+  // the same rows on every tab; on the cloud tabs, models without a cloud forecast
+  // (the ensembles, the consensus) just show dashes
   const models = Object.keys(summary).sort((a, b) =>
-    (a === 'CONSENSUS') - (b === 'CONSENSUS') || summary[a].mean_points - summary[b].mean_points)
-    .filter(n => !CV || days.some(d => cloudDay(d.date)?.models?.[n]));
-  if (CV && !models.length) {
-    table.innerHTML = '<tbody><tr><td>No cloud data for these days yet.</td></tr></tbody>';
-    legend.innerHTML = '';
-    return;
-  }
+    (a === 'CONSENSUS') - (b === 'CONSENSUS') || summary[a].mean_points - summary[b].mean_points);
   // per-column classes: hindcast shading and the divider before city day 1
   const firstCity = days.findIndex(d => !d.hindcast);
   const cls = days.map((d, i) => (d.hindcast ? ' hind' : '') + (i === firstCity && i > 0 ? ' city1' : ''));
