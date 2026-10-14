@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-15**, scored over 2026-10-15T06Z to 2026-10-16T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-15T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-14T20:30:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-14T21:00:03+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -40,7 +40,7 @@ Run = day/hour (UTC) of the model initialization.
 | ENS | 14/06Z | 70.3 | 48.4 | 4.7 | 0.00 |
 | AIFS_ENS | 14/06Z | 71.5 | 48.6 | 5.8 | 0.00 |
 | GEFS | 14/12Z | 71.7 | 46.1 | 4.3 | 0.00 |
-| HRRRCAST (precip only) | — | — | — | — | — |
+| HRRRCAST (precip only) | 14/06Z | — | — | — | 0.00 |
 | REFS (precip only) | 14/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 14/12Z | — | — | — | 0.00 |
 | **CONSENSUS** |  | **71.9** | **41.4** | **7.8** | **0.00** |
@@ -52,7 +52,7 @@ Notes:
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
-- HRRRCAST: failed this run (no complete 00/06/12/18Z HRRRCast cycle covering the day yet)
+- HRRRCAST: median of 18 members (experimental AI model)
 - REFS: median of 14 members, 18Z + 12Z runs (RRFS para)
 - NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
 
@@ -85,6 +85,7 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | GEFS | 31 | Low °F | 45.4 | 45.6 | 46.1 | 46.5 | 46.8 | 46.1 |
 | GEFS | 31 | Wind kt | 3.9 | 4.1 | 4.3 | 4.5 | 4.8 | 4.3 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 |
 | REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 
 Share of members reaching each 24-h precip amount:
@@ -94,6 +95,7 @@ Share of members reaching each 24-h precip amount:
 | ENS | 0% | 0% | 0% | 0% |
 | AIFS_ENS | 0% | 0% | 0% | 0% |
 | GEFS | 0% | 0% | 0% | 0% |
+| HRRRCAST | 28% | 0% | 0% | 0% |
 | REFS | 0% | 0% | 0% | 0% |
 
 NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75 0.00", p90 0.00"
@@ -109,6 +111,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 | ENS | member fraction | 0% | 0% | 0% | 0% | 0% | 0.01 (4) |
 | AIFS_ENS | member fraction | 0% | 0% | 0% | 0% | 0% | 0.00 (4) |
 | GEFS | member fraction | 0% | 0% | 0% | 0% | 0% | 0.00 (4) |
+| HRRRCAST | member fraction | — | — | — | — | 28% | — |
 | REFS | member fraction | — | — | — | — | 0% | — |
 | NBM_QMD | NBM QMD | 0% | 0% | 0% | 0% | 0% | 0.00 (4) |
 
@@ -424,6 +427,28 @@ Temp bias/MAE are over the hourly obs so far. High/low columns show the model's 
 | ENS | 13/06Z | -2.9 | 3.0 | 66 (+3) pending | 50 (-3) | -0.6 | 0.01 | +0.01 |
 | AIFS_ENS | 13/12Z | -2.6 | 2.8 | 66 (+3) pending | 51 (-2) | -2.3 | 0.02 | +0.02 |
 | GEFS | 13/18Z | -3.4 | 3.5 | 67 (+4) pending | 50 (-3) | -2.2 | 0.01 | +0.01 |
+
+## Clouds so far today (2026-10-14, observed vs forecast)
+
+Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fraction within 15 km of the station (GOES-18 Clear Sky Mask, the scan nearest the top of the hour); at night it relies on infrared and often misses low stratus and fog, so trust METAR then. METAR = the station's sky cover (highest layer: FEW 19, SCT 44, BKN 75, OVC 100; automated stations see only up to 12,000 ft), from the report nearest the hour. Model columns are the runs submitted for today (* = averaged over the preceding interval). Context only, not scored.
+
+| UTC | Local (PDT) | GOES | METAR | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 10-14 06Z | Tue 23:00 | 100 |  | 100 | 88 | 100 | 82 | 89 | 100 | 84 | 92 |
+| 10-14 07Z | Wed 00:00 | 100 | 100 | 100 | 67 |  |  |  |  |  | 91 |
+| 10-14 08Z | Wed 01:00 | 100 | 100 | 100 | 36 |  |  |  |  |  | 91 |
+| 10-14 09Z | Wed 02:00 | 100 | 100 | 87 | 49 | 100 | 100 |  | 100 | 83 | 91 |
+| 10-14 10Z | Wed 03:00 | 100 | 100 | 96 | 81 |  |  |  |  |  | 89 |
+| 10-14 11Z | Wed 04:00 | 100 | 100 | 100 | 100 |  |  |  |  |  | 87 |
+| 10-14 12Z | Wed 05:00 | 100 | 100 | 100 | 100 | 100 | 72 | 92 | 100 | 89 | 86 |
+| 10-14 13Z | Wed 06:00 | 100 | 100 | 100 | 78 |  |  |  |  |  | 87 |
+| 10-14 14Z | Wed 07:00 | 100 | 100 | 100 | 57 |  |  |  |  |  | 89 |
+| 10-14 15Z | Wed 08:00 | 18 | 100 | 100 | 64 | 100 | 100 |  | 100 | 90 | 91 |
+| 10-14 16Z | Wed 09:00 | 70 | 100 | 100 | 53 |  |  |  |  |  | 90 |
+| 10-14 17Z | Wed 10:00 | 97 | 100 | 97 | 52 |  |  |  |  |  | 87 |
+| 10-14 18Z | Wed 11:00 | 99 | 100 | 47 | 100 | 86 | 79 | 58 | 100 | 88 | 86 |
+| 10-14 19Z | Wed 12:00 | 100 | 100 | 63 | 57 |  |  |  |  |  | 90 |
+| 10-14 20Z | Wed 13:00 | 98 | 100 | 100 | 56 |  |  |  |  |  | 95 |
 
 ## Raw data
 
