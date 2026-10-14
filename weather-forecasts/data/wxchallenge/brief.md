@@ -12,8 +12,9 @@
 2. Check the track-record table: a model with a large, consistent bias (|bias| close to its MAE) is reliably off in that direction. The consensus already removes most of that bias; lean further only if the last few days (daily verification tables) show the bias growing.
 3. Use the ensemble percentiles for uncertainty. For **precip**, enter roughly the ensemble **median**, not the mean: points are charged per 0.01" of error, and charged most heavily near zero, so the median minimizes expected points. Check the chance-of-rain table: when the calibrated chances (NBM, NBM QMD, MOS) are low, 0.00 is often the best entry.
 4. Use "Today so far" (the day currently in progress, not the target day) to see which models are handling the current pattern; persistent errors there often carry into tomorrow.
-5. Read the latest AFD for the forecaster's view of the pattern; it often explains when a model bias learned earlier in the period won't apply.
-6. Give whole °F for high/low, whole kt for wind, and precip to 0.01". State the reasoning for any departure from the consensus.
+5. Check the clouds section: when a model's low or high misses line up with its cloud misses (too clear at night -> low too cold, too cloudy at night -> low too warm; too clear by day -> high too warm, too cloudy by day -> high too cool), ask whether its cloud forecast for the target day has the same problem before trusting its temperatures.
+6. Read the latest AFD for the forecaster's view of the pattern; it often explains when a model bias learned earlier in the period won't apply.
+7. Give whole °F for high/low, whole kt for wind, and precip to 0.01". State the reasoning for any departure from the consensus.
 
 ## Scoring (error points; lower is better)
 
@@ -241,6 +242,63 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 | 10-12 h | 0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | — | — | — | +0.00 |
 | 10-13 | 0.00 | +0.00 | +0.01 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 |
 
+## Clouds (context only, not scored)
+
+Each scored run's total cloud cover vs the observed cloud cover, in percentage points (forecast - observed: negative = too clear, positive = too cloudy). Night = the dark hours from 06Z to sunrise, which drive the low; day = sun up, which drives the high. Observed = METAR sky cover (highest layer: FEW 19%, SCT 44%, BKN 75%, OVC 100%); automated stations see clouds only up to 12,000 ft. — = no data (e.g. a station outage, or a model without a cloud forecast). Bias / MAE are decay-weighted like the low (night) and high (day).
+
+| Model | Days | Night bias | Night MAE | Day bias | Day MAE |
+| --- | --: | --: | --: | --: | --: |
+| HRRR | 16 | +1 | 25 | +15 | 29 |
+| RRFS | 16 | -5 | 25 | +12 | 27 |
+| IFS | 16 | -1 | 23 | +7 | 20 |
+| GFS | 16 | -1 | 35 | +5 | 23 |
+| AIFS | 16 | +4 | 22 | +8 | 26 |
+| GFS_MOS | 16 | -2 | 33 | +7 | 28 |
+| NBM | 16 | -8 | 26 | +0 | 17 |
+| USL | 3 | -17 | 17 | -8 | 8 |
+
+Night clouds: observed and each model's error (forecast - observed, percentage points):
+
+| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 09-28 h | 0% | +49 | +38 | +49 | +68 | +62 | +11 | +30 | — |
+| 09-29 h | 100% | +0 | -1 | +0 | +0 | -1 | +0 | -17 | — |
+| 09-30 h | 88% | -38 | -47 | -45 | -39 | -12 | +12 | -23 | — |
+| 10-01 h | 0% | +99 | +99 | +89 | +100 | +100 | +88 | +80 | — |
+| 10-02 h | 47% | -24 | -10 | -6 | +31 | +14 | +33 | -23 | — |
+| 10-03 h | 19% | +81 | +76 | +74 | +72 | +68 | +27 | +46 | — |
+| 10-04 h | 49% | -11 | -19 | -37 | -30 | -17 | -47 | -23 | — |
+| 10-05 h | 80% | +1 | -22 | +5 | -55 | -7 | -50 | -32 | — |
+| 10-06 h | 89% | -24 | -20 | -6 | -25 | -17 | -34 | -30 | — |
+| 10-07 h | 69% | +20 | +5 | +10 | -51 | -26 | -69 | -23 | — |
+| 10-08 h | 56% | +11 | -14 | -48 | +32 | -10 | -54 | -21 | — |
+| 10-09 h | — | — | — | — | — | — | — | — | — |
+| 10-10 h | 14% | -14 | -13 | -8 | +28 | +12 | +86 | +17 | — |
+| 10-11 h | 13% | -10 | -10 | -9 | -12 | +0 | -5 | -1 | -6 |
+| 10-12 h | 0% | +0 | +0 | +0 | +0 | +10 | +2 | +7 | +0 |
+| 10-13 | 89% | -40 | -51 | -18 | -41 | -27 | -1 | -50 | -43 |
+
+Day clouds: observed and each model's error (forecast - observed, percentage points):
+
+| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 09-28 h | 34% | +20 | +32 | +41 | +52 | +50 | +46 | +16 | — |
+| 09-29 h | 100% | +0 | -1 | +0 | -4 | -6 | +0 | -17 | — |
+| 09-30 h | 19% | +67 | +50 | +60 | +77 | +62 | +59 | +25 | — |
+| 10-01 h | 2% | +98 | +98 | +93 | +98 | +93 | +69 | +66 | — |
+| 10-02 h | 70% | -6 | -38 | -11 | -4 | -4 | +29 | -22 | — |
+| 10-03 h | 54% | -18 | -11 | -15 | -45 | -31 | -24 | -14 | — |
+| 10-04 h | 56% | +36 | -2 | -38 | -36 | -33 | -53 | -19 | — |
+| 10-05 h | 56% | +44 | +42 | +21 | +16 | +18 | +15 | +14 | — |
+| 10-06 h | 50% | +46 | +46 | +33 | +11 | +33 | -11 | -1 | — |
+| 10-07 h | 52% | -17 | -14 | -1 | -48 | -40 | -52 | -17 | — |
+| 10-08 h | 36% | +55 | +53 | +18 | +6 | +39 | -22 | +15 | — |
+| 10-09 h | 22% | +39 | +31 | +6 | +36 | +36 | +48 | +23 | — |
+| 10-10 h | 52% | -41 | -30 | -31 | +4 | -15 | +32 | -9 | — |
+| 10-11 h | 18% | -15 | -14 | -10 | -18 | -12 | -10 | -5 | -17 |
+| 10-12 h | 0% | +0 | +10 | +1 | +1 | +5 | +10 | +8 | +1 |
+| 10-13 | 90% | +10 | -5 | +9 | +0 | +0 | +10 | -28 | -8 |
+
 ## Daily verification of precip chances
 
 Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, against the observed precip and which blocks were wet.
@@ -274,5 +332,6 @@ Temp bias/MAE are over the hourly obs so far. High/low columns show the model's 
 - Forecast (all models, ensemble members, consensus weights): https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/forecast.json
 - Verification (every day, every model, observations, PoP calibration): https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/verification.json
 - Today so far: https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/today.json
+- Cloud forecast vs observed per scored run (not scored): https://jameslarsonclimate.github.io/website/weather-forecasts/data/wxchallenge/cloud_context.json
 - NWS Area Forecast Discussion (SEW): https://forecast.weather.gov/product.php?site=SEW&issuedby=SEW&product=AFD&format=txt&version=1&glossary=0
 - Human page: https://jameslarsonclimate.github.io/website/weather-forecasts/wxchallenge/

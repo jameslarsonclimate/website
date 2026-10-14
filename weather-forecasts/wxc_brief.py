@@ -5,8 +5,9 @@ The page renders its tables with JavaScript, so a tool that fetches the page wit
 scripts sees only "Loading…". This module condenses forecast.json, verification.json and
 today.json into data/wxchallenge/brief.md (a few KB): the target day's guidance, the
 consensus and its weights, ensemble spread, precip chances, each model's track record this
-period, recent days' errors, and how today is going so far, plus the scoring rules and a
-short method for turning it all into a forecast.
+period, recent days' errors, each scored run's cloud forecast vs the observed clouds
+(cloud_context.json; context only, not scored), and how today is going so far, plus the
+scoring rules and a short method for turning it all into a forecast.
 
 The brief is not linked visibly on the page: llms.txt at the site root and a visually
 hidden link at the bottom of wxchallenge/index.html point to it.
@@ -112,9 +113,13 @@ def _howto():
         "the calibrated chances (NBM, NBM QMD, MOS) are low, 0.00 is often the best entry.",
         "4. Use \"Today so far\" (the day currently in progress, not the target day) to see which "
         "models are handling the current pattern; persistent errors there often carry into tomorrow.",
-        "5. Read the latest AFD for the forecaster's view of the pattern; it often explains when a "
+        "5. Check the clouds section: when a model's low or high misses line up with its cloud "
+        "misses (too clear at night -> low too cold, too cloudy at night -> low too warm; too clear "
+        "by day -> high too warm, too cloudy by day -> high too cool), ask whether its cloud "
+        "forecast for the target day has the same problem before trusting its temperatures.",
+        "6. Read the latest AFD for the forecaster's view of the pattern; it often explains when a "
         "model bias learned earlier in the period won't apply.",
-        "6. Give whole °F for high/low, whole kt for wind, and precip to 0.01\". State the reasoning "
+        "7. Give whole °F for high/low, whole kt for wind, and precip to 0.01\". State the reasoning "
         "for any departure from the consensus.",
     ])
 
@@ -323,6 +328,53 @@ def _daily(verif, order):
     return "\n".join(out)
 
 
+def _clouds(verif, clouds, order):
+    """Each scored run's cloud forecast vs the observed clouds (cloud_context.json), by night and
+    day: context for the high / low misses, never scored."""
+    days = [d for d in verif.get("days", []) if d.get("models")]
+    if not clouds or not days:
+        return ""
+    ctx = {d["date"]: clouds.get(d["date"]) or {} for d in days}
+    err = lambda d, n, k: ((ctx[d["date"]].get("models") or {}).get(n) or {}).get(f"{k}_err")  # noqa: E731
+    names = [n for n in order if any(err(d, n, k) is not None for d in days for k in ("night", "day"))]
+    if not names:
+        return ""
+    label = {d["date"]: d["date"][5:] + (" h" if d.get("hindcast") else "") for d in days}
+
+    rows = []
+    for n in names:
+        cells, n_days = [], 0
+        for k, wv in (("night", "tmin_f"), ("day", "tmax_f")):   # weighted like the low / high
+            pairs = [(err(d, n, k), (d.get("decay_weight") or {}).get(wv, 1.0)) for d in days]
+            pairs = [(e, w) for e, w in pairs if e is not None]
+            n_days = max(n_days, len(pairs))
+            if pairs:
+                sw = sum(w for _, w in pairs)
+                cells += [_s(sum(e * w for e, w in pairs) / sw, None, 0),
+                          f"{sum(abs(e) * w for e, w in pairs) / sw:.0f}"]
+            else:
+                cells += ["—", "—"]
+        rows.append([n, n_days, *cells])
+    out = [
+        "## Clouds (context only, not scored)", "",
+        "Each scored run's total cloud cover vs the observed cloud cover, in percentage points "
+        "(forecast - observed: negative = too clear, positive = too cloudy). Night = the dark hours "
+        "from 06Z to sunrise, which drive the low; day = sun up, which drives the high. Observed = "
+        "METAR sky cover (highest layer: FEW 19%, SCT 44%, BKN 75%, OVC 100%); automated stations "
+        "see clouds only up to 12,000 ft. — = no data (e.g. a station outage, or a model without a "
+        "cloud forecast). Bias / MAE are decay-weighted like the low (night) and high (day).", "",
+        _table(["Model", "Days", "Night bias", "Night MAE", "Day bias", "Day MAE"], rows)]
+    for k, title in (("night", "Night clouds"), ("day", "Day clouds")):
+        rows = []
+        for d in days:
+            ob = (ctx[d["date"]].get("obs") or {}).get(f"{k}_pct")
+            rows.append([label[d["date"]], "—" if ob is None else f"{ob:.0f}%",
+                         *("—" if err(d, n, k) is None else _s(err(d, n, k), None, 0) for n in names)])
+        out += ["", f"{title}: observed and each model's error (forecast - observed, percentage points):", "",
+                _table(["Date", "Obs", *names], rows)]
+    return "\n".join(out)
+
+
 def _pop_daily(verif, order):
     """Each verified day's 6-hour precip chances against what happened."""
     pv = verif.get("pop") or {}
@@ -391,17 +443,21 @@ def _links(fc):
         f"- Forecast (all models, ensemble members, consensus weights): {d}/forecast.json",
         f"- Verification (every day, every model, observations, PoP calibration): {d}/verification.json",
         f"- Today so far: {d}/today.json",
+        f"- Cloud forecast vs observed per scored run (not scored): {d}/cloud_context.json",
         *afd,
         f"- Human page: {SITE}/wxchallenge/",
     ])
 
 
-def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime | None = None) -> str:
+def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime | None = None,
+                clouds: dict | None = None) -> str:
+    """clouds: this station's days from cloud_context.json ({date: {...}}), optional."""
     now = now or datetime.now(timezone.utc)
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
                 _ensembles(fc, order), _pop(fc, verif, order), _track_record(verif),
-                _daily(verif, order), _pop_daily(verif, order), _today(today), _links(fc)]
+                _daily(verif, order), _clouds(verif, clouds, order), _pop_daily(verif, order),
+                _today(today), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
 
 
@@ -419,8 +475,10 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
     # today.json can be left over from another station or an earlier day; only use it when it matches
     if today and today.get("station") not in (None, fc["meta"].get("station")):
         today = None
+    # cloud context (display only): this station's days, if the file exists
+    clouds = ((load("cloud_context.json") or {}).get("stations") or {}).get(fc["meta"].get("station")) or None
     out = Path(out or data_dir / "brief.md")
-    out.write_text(build_brief(fc, verif, today), encoding="utf-8")
+    out.write_text(build_brief(fc, verif, today, clouds=clouds), encoding="utf-8")
     return out
 
 

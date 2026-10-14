@@ -103,3 +103,31 @@ def test_write_brief_ignores_other_stations_today(tmp_path):
     assert out == tmp_path / "brief.md"
     txt = out.read_text()
     assert "## Guidance for the target day" in txt and "## Today so far" not in txt
+
+
+def _clouds():
+    obs = {"night_pct": 89.0, "day_pct": 90.0}
+    return {"2026-10-04": {"obs": {"night_pct": None, "day_pct": 22.0},      # station outage overnight
+                           "models": {"HRRR": {"night_err": None, "day_err": 39}}},
+            "2026-10-05": {"obs": obs, "models": {"HRRR": {"night_err": -40, "day_err": 10}}}}
+
+
+def test_brief_cloud_section():
+    txt = wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW, clouds=_clouds())
+    assert "## Clouds (context only, not scored)" in txt
+    assert txt.index("## Daily verification (all") < txt.index("## Clouds") < txt.index("## Today so far")
+    assert "| HRRR | 2 | -40 | 40 | +24 | 24 |" in txt      # night: 10-05 only; day: mean of +39, +10
+    assert "| 10-04 h | — | — |" in txt and "| 10-05 | 89% | -40 |" in txt     # night table
+    assert "| 10-04 h | 22% | +39 |" in txt and "| 10-05 | 90% | +10 |" in txt  # day table
+    assert "cloud_context.json" in txt and "too clear at night -> low too cold" in txt
+    # no clouds: no section (but the how-to step and the link stay)
+    assert "## Clouds" not in wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW)
+
+
+def test_write_brief_reads_cloud_context(tmp_path):
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "verification.json").write_text(json.dumps(_verif()))
+    (tmp_path / "cloud_context.json").write_text(json.dumps({"stations": {"KTPA": _clouds(), "KOLM": {}}}))
+    assert "## Clouds (context only" in wxc_brief.write_brief(tmp_path).read_text()
+    (tmp_path / "cloud_context.json").write_text(json.dumps({"stations": {"KDSM": _clouds()}}))
+    assert "## Clouds" not in wxc_brief.write_brief(tmp_path).read_text()   # another station's clouds
