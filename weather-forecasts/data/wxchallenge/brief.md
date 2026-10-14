@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-14**, scored over 2026-10-14T06Z to 2026-10-15T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-14T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-13T23:07:46+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-13T23:51:28+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -37,9 +37,9 @@ Run = day/hour (UTC) of the model initialization.
 | NBM | 13/18Z | 66.0 | 46.0 | 5.0 | 0.00 |
 | USL | 13/22Z | 63.0 | 48.0 | 7.0 | 0.00 |
 | ENS | 13/06Z | 66.0 | 50.5 | 5.2 | 0.01 |
-| GEFS | 13/12Z | 66.1 | 49.8 | 3.5 | 0.01 |
 | AIFS_ENS | 13/12Z | 66.2 | 50.8 | 5.0 | 0.02 |
-| HRRRCAST (precip only) | 13/12Z | — | — | — | 0.00 |
+| GEFS | 13/18Z | 67.2 | 50.0 | 3.3 | 0.01 |
+| HRRRCAST (precip only) | 13/18Z | — | — | — | 0.00 |
 | REFS (precip only) | 13/18Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 13/12Z | — | — | — | 0.00 |
 | **CONSENSUS** |  | **66.0** | **44.4** | **7.8** | **0.01** |
@@ -49,8 +49,8 @@ Notes:
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
 - ENS: ensemble mean of 51 members (Open-Meteo)
-- GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
+- GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - HRRRCAST: median of 18 members (experimental AI model)
 - REFS: median of 14 members, 18Z + 12Z runs (RRFS para)
 - NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
@@ -76,15 +76,15 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | ENS | 51 | Low °F | 48.9 | 49.5 | 50.6 | 51.5 | 52.2 | 50.5 |
 | ENS | 51 | Wind kt | 4.1 | 4.8 | 5.2 | 5.6 | 6.1 | 5.2 |
 | ENS | 51 | Precip in | 0.00 | 0.00 | 0.00 | 0.02 | 0.04 | 0.01 |
-| GEFS | 31 | High °F | 62.0 | 64.8 | 66.4 | 68.3 | 69.7 | 66.1 |
-| GEFS | 31 | Low °F | 48.3 | 48.9 | 50.0 | 50.5 | 51.1 | 49.8 |
-| GEFS | 31 | Wind kt | 3.0 | 3.1 | 3.3 | 3.8 | 3.9 | 3.5 |
-| GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.02 | 0.01 |
 | AIFS_ENS | 51 | High °F | 64.1 | 64.8 | 65.7 | 67.7 | 68.5 | 66.2 |
 | AIFS_ENS | 51 | Low °F | 48.7 | 49.5 | 50.8 | 52.2 | 53.2 | 50.8 |
 | AIFS_ENS | 51 | Wind kt | 3.5 | 4.0 | 4.9 | 5.5 | 6.6 | 5.0 |
 | AIFS_ENS | 51 | Precip in | 0.00 | 0.00 | 0.02 | 0.02 | 0.05 | 0.02 |
-| HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 |
+| GEFS | 31 | High °F | 63.5 | 66.0 | 67.5 | 69.7 | 70.2 | 67.2 |
+| GEFS | 31 | Low °F | 47.6 | 49.3 | 50.0 | 50.8 | 51.8 | 50.0 |
+| GEFS | 31 | Wind kt | 2.7 | 3.0 | 3.2 | 3.5 | 4.1 | 3.3 |
+| GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.02 | 0.04 | 0.01 |
+| HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.00 |
 | REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.00 |
 
 Share of members reaching each 24-h precip amount:
@@ -92,9 +92,9 @@ Share of members reaching each 24-h precip amount:
 | Ensemble | ≥0.01" | ≥0.10" | ≥0.25" | ≥0.50" |
 | --- | --: | --: | --: | --: |
 | ENS | 43% | 4% | 0% | 0% |
-| GEFS | 48% | 0% | 0% | 0% |
 | AIFS_ENS | 51% | 0% | 0% | 0% |
-| HRRRCAST | 17% | 0% | 0% | 0% |
+| GEFS | 29% | 0% | 0% | 0% |
+| HRRRCAST | 0% | 0% | 0% | 0% |
 | REFS | 7% | 0% | 0% | 0% |
 
 NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75 0.00", p90 0.01"
@@ -108,9 +108,9 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.00", p50 0.00", p75
 | GFS_MOS | GFS MOS P06 | 9% | 20% | 1% | 2% | 20% to 29% | — |
 | NBM | NBS P06 | 10% | 11% | 3% | 0% | 11% to 22% | — |
 | ENS | member fraction | 6% | 39% | 8% | 0% | 43% | — |
-| GEFS | member fraction | 13% | 42% | 0% | 0% | 48% | — |
 | AIFS_ENS | member fraction | 33% | 26% | 2% | 0% | 51% | — |
-| HRRRCAST | member fraction | — | — | — | — | 17% | — |
+| GEFS | member fraction | 3% | 29% | 0% | 0% | 29% | — |
+| HRRRCAST | member fraction | — | — | — | — | 0% | — |
 | REFS | member fraction | — | — | — | — | 7% | — |
 | NBM_QMD | NBM QMD | 0% | 9% | 0% | 0% | 9% | — |
 
