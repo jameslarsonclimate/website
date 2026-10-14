@@ -620,8 +620,9 @@ function renderScore(){
     const cw = name === 'CONSENSUS' ? null : consWeight(name);
     const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
     if (CV) {
+      // same two-line cell as every other row, so rows keep their height across tabs
       tr += cn ? `<td class="sum"><b>${(cw_abs / cw_sum).toFixed(0)}</b><span>bias ${signed(cw_err / cw_sum, 0)} · ${cn} d</span></td>`
-               : '<td class="sum"></td>';
+               : '<td class="sum"><b>—</b><span>no cloud forecast</span></td>';
     } else if (VIEW === 'points') {
       tr += `<td class="avg"><b>${s.mean_points.toFixed(1)}</b></td>` +
             `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d${wt}</span></td>`;
