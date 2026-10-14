@@ -2,7 +2,7 @@
 "Forecast evolution" link panel on wxchallenge/index.html.
 
 Pure functions, no network: build_config() collects the station's links (Pivotal Weather HRRR
-loops, WPC short-range charts, satellite, CSU) into a JSON-serialisable dict, and update_page()
+loops, NBM 1D viewer, satellite, CSU) into a JSON-serialisable dict, and update_page()
 writes it into the page's <script type="application/json" id="evo-config"> block. The page
 builds the time-dependent Pivotal URLs (run hour, forecast hour) itself, so the links stay
 current overnight when the scheduled job isn't running.
@@ -13,6 +13,7 @@ Values still marked FILL are left out (and logged), so a link is never published
 import json
 import re
 from pathlib import Path
+from urllib.parse import urlencode
 
 FILL = "<FILL>"
 
@@ -30,13 +31,15 @@ TREND_PRODUCT = "ref1km_ptype"   # dProg/dt links
 POST_LAG_H = 2                   # a 00/06/12/18Z HRRR cycle counts as available this long after init
 TREND_VALID_H = [12, 18, 24, 30]  # trend valid times, hours after the 00Z deadline
 
-# WPC short-range fronts + NDFD weather type (public domain). Checked 2026-10-01: with the 12Z
-# issuance, 92/94/96/98fndfd are valid 12/24/36/48 h later (the older *fwbg.gif names now
-# redirect to these).
-WPC_BASE = "https://www.wpc.ncep.noaa.gov/basicwx/"
-WPC_PAGE = WPC_BASE + "basicwx_ndfd.php"
-WPC_IMAGES = [("12 h", "92fndfd.gif"), ("24 h", "94fndfd.gif"),
-              ("36 h", "96fndfd.gif"), ("48 h", "98fndfd.gif")]
+# NOAA GSL NBM 1D viewer (point meteogram of NBM percentiles), opened on the precipitation group;
+# location is the station, everything else as James set it up (2026-10-06)
+NBM_VIEWER_BASE = "https://apps.gsl.noaa.gov/nbmviewer/"
+NBM_VIEWER_PARAMS = [
+    ("col", "2"), ("hgt", "1"), ("obs", "false"), ("fontsize", "1"), ("location", "{icao}"),
+    ("selectedgroup", "Precipitation"), ("darkmode", "on"), ("graph", "fa-chart-bar"),
+    ("probfield", "Tmax"), ("proboperator", ">="), ("probvalue", "40"), ("colorfriendly", "false"),
+    ("whiskers", "true"), ("boxes", "false"), ("median", "true"), ("det", "false"), ("tz", "local"),
+]
 
 SLIDER_DEFAULT = "https://rammb-slider.cira.colostate.edu/"
 CSU_ZOOM_URL = FILL
@@ -55,6 +58,11 @@ def pivotal_region(station):
               f"using '{DEFAULT_PIVOTAL_REGION}'")
         return DEFAULT_PIVOTAL_REGION
     return region
+
+
+def nbm_viewer_url(station):
+    params = [(k, v.format(icao=station.icao.upper())) for k, v in NBM_VIEWER_PARAMS]
+    return NBM_VIEWER_BASE + "?" + urlencode(params)
 
 
 def build_config(station):
@@ -77,8 +85,6 @@ def build_config(station):
     csu = None if is_fill(CSU_ZOOM_URL) else CSU_ZOOM_URL
     if csu is None:
         skipped.append("CSU Zoom URL")
-    wpc = [{"label": label, "url": WPC_BASE + f} for label, f in WPC_IMAGES if not is_fill(f)]
-    skipped += [f"WPC {label}" for label, f in WPC_IMAGES if is_fill(f)]
     if skipped:
         print(f"Forecast evolution: skipped (still {FILL}): {', '.join(skipped)}")
     return {
@@ -87,7 +93,7 @@ def build_config(station):
         "pivotal": {"base": PIVOTAL_BASE, "model": PIVOTAL_MODEL, "region": pivotal_region(station),
                     "products": products, "trend_product": trend,
                     "post_lag_h": POST_LAG_H, "trend_valid_h": TREND_VALID_H},
-        "wpc": {"page": WPC_PAGE, "images": wpc},
+        "nbm_viewer_url": nbm_viewer_url(station),
         "satellite_url": satellite,
         "csu_url": csu,
         "skipped": skipped,
