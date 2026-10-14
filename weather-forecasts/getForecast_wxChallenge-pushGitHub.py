@@ -664,6 +664,7 @@ def today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib=Fa
 
 
 CLOUD_CONTEXT = DATA / "cloud_context.json"
+CLOUD_FORECAST = DATA / "cloud_forecast.json"   # the target day's model cloud cover (wxc_brief.py)
 CONTEXT_ATTEMPTS = 3          # runs that may retry a day with missing pieces before it is frozen
 CONTEXT_BUDGET_S = 240        # per run: older days still to fill are left for the next runs
 
@@ -987,6 +988,10 @@ def main():
             runs.update({k: mos[k].get("init_time_utc") for k in wxc_clouds.TEXT_MODELS
                          if k in mos and not mos[k].get("error")})
             clouds = collect_clouds(station, day, runs, points, fetch_grib=not args.skip_grib)
+            if clouds:       # the target day's cloud forecast, for the AI brief (display only)
+                CLOUD_FORECAST.write_text(wxc_verify.dumps(
+                    {"station": station.icao, "target_date": day.isoformat(),
+                     "generated_at_utc": now_iso, "models": clouds}))
         except Exception as exc:
             print(f"Warning: cloud cover skipped ({type(exc).__name__}: {exc})")
     try:

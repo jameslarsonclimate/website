@@ -161,3 +161,31 @@ def test_write_brief_reads_target_day_series(tmp_path):
     (tmp_path / "series").mkdir()
     (tmp_path / "series" / "KTPA_2026-10-07_submitted.json").write_text(json.dumps(_series([0, 0.1, 0.2])))
     assert "## Hourly guidance through the target day\n" in wxc_brief.write_brief(tmp_path).read_text()
+
+
+def _cloud_series():
+    return {"station": "KTPA", "target_date": "2026-10-07",
+            "generated_at_utc": "2026-10-06T22:12:10+00:00",
+            "models": {"GFS": {"times": ["2026-10-07T06:00", "2026-10-07T09:00"], "cloud_pct": [40.0, 87.6],
+                               "averaged": [False, True]},
+                       "GFS_MOS": {"times": ["2026-10-07T06:00"], "cloud_pct": [19.0], "step": True}}}
+
+
+def test_hourly_cloud_table():
+    txt = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, series=_series([0.0, 0.0, 0.0]),
+                                cloud_series=_cloud_series())
+    i = txt.index("Total cloud cover (%):")
+    assert txt.index("0.00 in every model (HRRR) all day.") < i            # dry line stays in its place
+    assert "| UTC | Local (EDT) | GFS | GFS_MOS |" in txt[i:]
+    assert "| 10-07 06Z | Wed 02:00 | 40 | 19 |" in txt[i:]
+    assert "| 10-07 09Z | Wed 05:00 | 88* |  |" in txt[i:]                 # * = time-averaged step
+    only_clouds = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, cloud_series=_cloud_series())
+    assert "## Hourly guidance" in only_clouds and "Total cloud cover (%):" in only_clouds
+
+
+def test_write_brief_reads_target_day_clouds(tmp_path):
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "cloud_forecast.json").write_text(json.dumps(_cloud_series()))
+    assert "Total cloud cover (%):" in wxc_brief.write_brief(tmp_path).read_text()
+    (tmp_path / "cloud_forecast.json").write_text(json.dumps({**_cloud_series(), "target_date": "2026-10-06"}))
+    assert "Total cloud cover" not in wxc_brief.write_brief(tmp_path).read_text()   # stale day ignored

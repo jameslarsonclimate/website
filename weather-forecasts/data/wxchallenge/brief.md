@@ -118,6 +118,8 @@ For reference, always forecasting the period's observed frequency (0% of 6-h blo
 
 Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, USL and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can miss the true high/low between output times; the guidance table's daily values (which also use interval max/min fields where available) are what get scored.
 
+Cloud cover (context, not scored): total cloud cover from each model's own output; GFS_MOS gives categories (clear 0, few 19, scattered 44, broken 75, overcast 100) and the ensembles none. * = averaged over the preceding interval rather than instantaneous. Clouds overnight hold the low up; clouds by day hold the high down.
+
 Temperature (°F):
 
 | UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL | ENS | AIFS_ENS | GEFS |
@@ -179,6 +181,36 @@ Wind speed (kt) at the hour:
 | 10-16 06Z | Thu 23:00 | 1.4 | 2.2 | 3.5 | 1.9 | 2.6 | 1.0 | 0.0 | 3.0 | 2.8 | 2.9 | 2.4 |
 
 Precipitation (in), accumulated since the start of the day (06Z): 0.00 in every model (HRRR, RRFS, IFS, GFS, AIFS, USL, ENS, AIFS_ENS, GEFS) all day.
+
+Total cloud cover (%):
+
+| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
+| 10-15 06Z | Wed 23:00 | 0 | 0 | 0 | 0 | 2 | 0 | 4 | 1 |
+| 10-15 07Z | Thu 00:00 | 1 | 5 |  |  |  |  |  | 0 |
+| 10-15 08Z | Thu 01:00 | 7 | 13 |  |  |  |  |  | 0 |
+| 10-15 09Z | Thu 02:00 | 19 | 28 | 2 | 5 |  | 0 | 20 | 0 |
+| 10-15 10Z | Thu 03:00 | 100 | 43 |  |  |  |  |  | 0 |
+| 10-15 11Z | Thu 04:00 | 100 | 61 |  |  |  |  |  | 1 |
+| 10-15 12Z | Thu 05:00 | 100 | 68 | 72 | 9 | 57 | 0 | 55 | 2 |
+| 10-15 13Z | Thu 06:00 | 100 | 71 |  |  |  |  |  | 6 |
+| 10-15 14Z | Thu 07:00 | 100 | 79 |  |  |  |  |  | 11 |
+| 10-15 15Z | Thu 08:00 | 100 | 86 | 100 | 17 |  | 19 | 66 | 15 |
+| 10-15 16Z | Thu 09:00 | 100 | 85 |  |  |  |  |  | 14 |
+| 10-15 17Z | Thu 10:00 | 88 | 58 |  |  |  |  |  | 10 |
+| 10-15 18Z | Thu 11:00 | 38 | 18 | 44 | 5 | 22 | 19 | 41 | 8 |
+| 10-15 19Z | Thu 12:00 | 6 | 6 |  |  |  |  |  | 12 |
+| 10-15 20Z | Thu 13:00 | 90 | 32 |  |  |  |  |  | 18 |
+| 10-15 21Z | Thu 14:00 | 45 | 0 | 4 | 86 |  | 0 | 6 | 23 |
+| 10-15 22Z | Thu 15:00 | 0 | 0 |  |  |  |  |  | 24 |
+| 10-15 23Z | Thu 16:00 | 0 | 0 |  |  |  |  |  | 22 |
+| 10-16 00Z | Thu 17:00 | 2 | 0 | 8 | 100 | 2 | 0 | 5 | 23 |
+| 10-16 01Z | Thu 18:00 | 34 | 0 |  |  |  |  |  | 30 |
+| 10-16 02Z | Thu 19:00 | 66 | 0 |  |  |  |  |  | 41 |
+| 10-16 03Z | Thu 20:00 | 63 | 0 | 39 | 100 |  | 0 | 9 | 47 |
+| 10-16 04Z | Thu 21:00 | 72 | 0 |  |  |  |  |  | 47 |
+| 10-16 05Z | Thu 22:00 | 95 | 0 |  |  |  |  |  | 46 |
+| 10-16 06Z | Thu 23:00 | 35 | 0 | 9 | 59 | 25 | 0 | 12 | 44 |
 
 ## Track record this period
 
