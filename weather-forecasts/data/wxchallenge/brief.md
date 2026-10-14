@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-15**, scored over 2026-10-15T06Z to 2026-10-16T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-15T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-14T23:12:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-14T23:24:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -408,7 +408,7 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
 | 10-13 | 0.00" (dry) | 2/7/9/3 | 7/9/6/3 | 0/2/2/16 | 2/0/0/2 | 0/0/0/10 | 24h 22% | 24h 7% | 0/0/0/0 |
 
-## Today so far (2026-10-14, through 2026-10-14T22:54Z)
+## Today so far (2026-10-14, through 2026-10-14T23:10Z)
 
 This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 64.9 °F, low 53.1 °F, max wind 8.0 kt, precip 0.00" (17 hourly obs).
 
@@ -424,7 +424,7 @@ Temp bias/MAE are over the hourly obs so far. High/low columns show the model's 
 | GFS_MOS | 13/18Z | -5.7 | 5.7 | 67 (+2) pending | 43 (-10) | -1.7 | — | — |
 | NBM | 13/18Z | -4.7 | 4.7 | 66 (+1) pending | 46 (-7) | -1.7 | — | — |
 | USL | 13/22Z | -4.7 | 4.7 | 63 (-2) | 48 (-5) pending | +0.1 | 0.00 | +0.00 |
-| ENS | 13/06Z | -2.3 | 2.6 | 66 (+1) pending | 50 (-3) | -0.9 | 0.01 | +0.01 |
+| ENS | 13/06Z | -2.3 | 2.6 | 66 (+1) | 50 (-3) | -0.9 | 0.01 | +0.01 |
 | AIFS_ENS | 13/12Z | -2.2 | 2.5 | 66 (+1) pending | 51 (-2) | -2.3 | 0.02 | +0.02 |
 | GEFS | 13/18Z | -2.6 | 3.1 | 67 (+2) pending | 50 (-3) | -2.3 | 0.01 | +0.01 |
 

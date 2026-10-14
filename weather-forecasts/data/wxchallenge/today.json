@@ -1,6 +1,6 @@
 {
   "date": "2026-10-14",
-  "through_utc": "2026-10-14T22:54",
+  "through_utc": "2026-10-14T23:10",
   "obs": {
     "high": 64.94,
     "low": 53.06,
@@ -166,7 +166,7 @@
       "high_at": "2026-10-14T22:00",
       "high_source": "daily",
       "high_err": 1.1,
-      "high_pending": true,
+      "high_pending": false,
       "low_fcst": 50.5,
       "low_at": "2026-10-14T09:00",
       "low_source": "daily",
@@ -216,5 +216,5 @@
     }
   },
   "station": "KOLM",
-  "generated_at_utc": "2026-10-14T23:12:09+00:00"
+  "generated_at_utc": "2026-10-14T23:24:09+00:00"
 }
