@@ -166,9 +166,14 @@ def _consensus(fc):
     if not c or not c.get("method"):
         return ""
     out = ["## Consensus method", ""]
-    methods = {d.get("method") for d in c["method"].values()}
-    for m in methods:
-        out.append(f"- {m}. Precip is weighted but not bias-corrected.")
+    methods = {}
+    for v in VARS:
+        if c["method"].get(v):
+            methods.setdefault(c["method"][v].get("method"), []).append(VAR_NAMES[v].split()[0])
+    for m, names in methods.items():
+        label = f"{', '.join(names)}: " if len(methods) > 1 else ""
+        out.append(f"- {label}{m}.")
+    out.append("- Precip is weighted but not bias-corrected.")
     out.append("")
     for v in VARS:
         d = c["method"].get(v)
@@ -180,6 +185,11 @@ def _consensus(fc):
             line += f" (outliers excluded: {', '.join(d['excluded_outliers'])})"
         if d.get("not_yet_verified"):
             line += f" (no track record yet: {', '.join(d['not_yet_verified'])})"
+        if d.get("excluded_stale"):
+            line += f" (stale runs excluded: {', '.join(d['excluded_stale'])})"
+        if d.get("proxy_track_record"):
+            line += " (using parent's track record: " + ", ".join(
+                f"{n} from {p}" for n, p in d["proxy_track_record"].items()) + ")"
         out.append(line)
     return "\n".join(out)
 

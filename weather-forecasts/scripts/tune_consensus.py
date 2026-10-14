@@ -32,7 +32,8 @@ import wxc_verify as v  # noqa: E402
 
 def current(var: str) -> tuple:
     off = v.MAE_OFFSET[var] if isinstance(v.MAE_OFFSET, dict) else v.MAE_OFFSET
-    return (v.HALF_LIFE_DAYS.get(var) or 0, v.BIAS_SHRINK_DAYS, off, 0)
+    k = v.BIAS_SHRINK_DAYS[var] if isinstance(v.BIAS_SHRINK_DAYS, dict) else v.BIAS_SHRINK_DAYS
+    return (v.HALF_LIFE_DAYS.get(var) or 0, k, off, 0)
 
 
 def run(segments: list, var: str, combo: tuple, min_prior: int) -> dict:

@@ -42,12 +42,21 @@ MIN_DAYS_FOR_CORRECTION = 2
 HALF_LIFE_DAYS = {"tmax_f": 9.0, "tmin_f": 9.0, "wind_max_kt": 18.0, "precip_in": 12.0}
 # Bias corrections from only a few days are noisy, so only n_eff/(n_eff + BIAS_SHRINK_DAYS) of a
 # model's average error is removed, with n_eff = (sum w)^2 / sum(w^2) the effective number of days
-# (equal weights: 2 days -> 40%, 5 -> 62%, 8 -> 73%, 14 -> 82%; decay lowers n_eff a little).
-BIAS_SHRINK_DAYS = 3
+# (K=3, equal weights: 2 days -> 40%, 5 -> 62%, 8 -> 73%, 14 -> 82%; decay lowers n_eff a little).
+# Lows use K=1 (2 days -> 67%, 14 -> 93%): their model biases tend to be persistent (e.g. warm
+# lows on clear nights at KOLM), so more of the bias is removed sooner. Chosen by judgment: on
+# the 38 stored days (KOLM, KTPA) the backtest can't tell K=1 from K=3 for lows.
+BIAS_SHRINK_DAYS = {"tmax_f": 3, "tmin_f": 1, "wind_max_kt": 3, "precip_in": 3}
 MAE_OFFSET = 0.5   # consensus weight = 1/(MAE + MAE_OFFSET)
 OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from the member median
 # shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble
 NOT_IN_CONSENSUS = {"GEFS"}
+# A member whose run is more than STALE_HOURS older than the newest member's is left out of the
+# consensus (e.g. Open-Meteo's ECMWF ensemble feed stalling while every other model updates).
+STALE_HOURS = 36
+# Ensembles can't be hindcast (Open-Meteo serves only the latest run), so at a new city they
+# have no track record; until they do, they borrow their deterministic parent's bias and MAE.
+PROXY_TRACK_RECORD = {"ENS": "IFS", "AIFS_ENS": "AIFS"}
 PERIOD_DAYS = 14   # a city period is two weeks (Mon-Thu x2, ~8 forecast days)
 HINDCAST_DAYS = 14   # days hindcast before a city's first forecast day, for its track record
 
@@ -467,27 +476,55 @@ def current_period_start(station: str, today: date) -> str:
 # ----------------------------------------------------------------------------
 # consensus
 # ----------------------------------------------------------------------------
+def _init_time(m: dict) -> Optional[datetime]:
+    t = m.get("init_time_utc")
+    try:
+        return datetime.strptime(t[:13], "%Y-%m-%dT%H") if t else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _stale_members(models: dict) -> list:
+    """Members whose run is more than STALE_HOURS older than the newest member's run.
+    Members without an init time (e.g. reconstructed days) are never called stale."""
+    inits = {n: _init_time(m) for n, m in models.items()
+             if n != "CONSENSUS" and n not in NOT_IN_CONSENSUS}
+    known = [t for t in inits.values() if t]
+    if not known:
+        return []
+    newest = max(known)
+    return [n for n, t in inits.items() if t and (newest - t).total_seconds() > STALE_HOURS * 3600]
+
+
 def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None) -> dict:
     """
     Bias-corrected, skill-weighted blend of today's model values.
     Models with >= MIN_DAYS_FOR_CORRECTION verified days are bias-corrected (by the shrunk
-    decay-weighted bias n_eff/(n_eff + BIAS_SHRINK_DAYS) x mean error) and weighted by
-    1/(MAE + MAE_OFFSET); models without that track record join uncorrected at the median
-    weight. With no verified models at all, an equal-weight mean is used.
+    decay-weighted bias n_eff/(n_eff + BIAS_SHRINK_DAYS[var]) x mean error) and weighted by
+    1/(MAE + MAE_OFFSET); a model without that track record uses its PROXY_TRACK_RECORD
+    parent's if that has one, otherwise it joins uncorrected at the median weight.
+    With no verified models at all, an equal-weight mean is used. Members whose run is more
+    than STALE_HOURS older than the newest member's are left out.
     Precip is not bias-corrected (errors are too skewed), only weighted.
     shrink_days / mae_offset override the defaults (a number, or a dict per variable).
     """
     out, detail = {}, {}
+    stale = _stale_members(models)
     for v in VARS:
         K = shrink_days if shrink_days is not None else BIAS_SHRINK_DAYS
         K = K[v] if isinstance(K, dict) else K
         off = mae_offset if mae_offset is not None else MAE_OFFSET
         off = off[v] if isinstance(off, dict) else off
-        vals, wts, used = [], [], []
+        vals, wts, used, proxied = [], [], [], {}
         for name, m in models.items():
-            if name == "CONSENSUS" or name in NOT_IN_CONSENSUS or m.get(v) is None:
+            if name == "CONSENSUS" or name in NOT_IN_CONSENSUS or name in stale or m.get(v) is None:
                 continue
             s = summary.get(name)
+            if not (s and s["n_days"] >= MIN_DAYS_FOR_CORRECTION):
+                p = summary.get(PROXY_TRACK_RECORD.get(name))
+                if p and p["n_days"] >= MIN_DAYS_FOR_CORRECTION:
+                    s = p
+                    proxied[name] = PROXY_TRACK_RECORD[name]
             if s and s["n_days"] >= MIN_DAYS_FOR_CORRECTION:
                 n = s.get("n_eff", {}).get(v, s["n_days"])
                 shrink = n / (n + K)
@@ -529,6 +566,10 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None) ->
                      "weights": {n: round(w / sum(wts), 3) for n, w in zip(used, wts)}}
         if excluded:
             detail[v]["excluded_outliers"] = excluded
+        if stale:
+            detail[v]["excluded_stale"] = [n for n in stale if models[n].get(v) is not None]
+        if any(n in used for n in proxied):
+            detail[v]["proxy_track_record"] = {n: p for n, p in proxied.items() if n in used}
         if known and unverified:
             detail[v]["not_yet_verified"] = [n for n in unverified if n in used]
     out["method"] = detail

@@ -258,6 +258,52 @@ def test_consensus_drops_outliers():
     assert c["method"]["tmax_f"]["excluded_outliers"] == ["GFS"]
 
 
+def test_consensus_lows_remove_more_bias():
+    models = {"A": {"tmax_f": 60, "tmin_f": 40, "wind_max_kt": 10, "precip_in": 0.0}}
+    summary = {"A": {"n_days": 4, "n_eff": {v: 4 for v in wxc_verify.VARS},
+                     "bias": {"tmax_f": 2.0, "tmin_f": 2.0, "wind_max_kt": 0, "precip_in": 0},
+                     "mae": {"tmax_f": 2.0, "tmin_f": 2.0, "wind_max_kt": 1, "precip_in": 0.1}}}
+    c = wxc_verify.consensus(models, summary)
+    assert c["tmax_f"] == pytest.approx(60 - 2 * 4 / 7, abs=0.05)    # K=3
+    assert c["tmin_f"] == pytest.approx(40 - 2 * 4 / 5, abs=0.05)    # K=1
+    assert "n_eff+1)" in c["method"]["tmin_f"]["method"]
+
+
+def test_consensus_drops_stale_runs():
+    fc = lambda t, init: {"tmax_f": t, "tmin_f": 50, "wind_max_kt": 8, "precip_in": 0.0, "init_time_utc": init}
+    models = {"A": fc(60, "2026-10-12T12"), "B": fc(62, "2026-10-12T06"),
+              "ENS": fc(66, "2026-10-10T18"),                  # 42 h older than A: stale
+              "GEFS": fc(80, "2026-10-12T12"),                 # never a member
+              "OLD": fc(61, "2026-10-11T00")}                  # 36 h older: still kept
+    c = wxc_verify.consensus(models, {})
+    assert c["tmax_f"] == pytest.approx(61.0)
+    assert c["method"]["tmax_f"]["excluded_stale"] == ["ENS"]
+    assert "ENS" not in c["method"]["tmax_f"]["members"]
+    # no init times (reconstructed days): nothing is stale
+    c = wxc_verify.consensus({k: {**m, "init_time_utc": None} for k, m in models.items()}, {})
+    assert "excluded_stale" not in c["method"]["tmax_f"] and "ENS" in c["method"]["tmax_f"]["members"]
+
+
+def test_consensus_ensemble_borrows_parent_track_record():
+    models = {"IFS": {"tmax_f": 60, "tmin_f": 44, "wind_max_kt": 10, "precip_in": 0.0},
+              "ENS": {"tmax_f": 60, "tmin_f": 46, "wind_max_kt": 10, "precip_in": 0.0},
+              "NEW": {"tmax_f": 60, "tmin_f": 40, "wind_max_kt": 10, "precip_in": 0.0}}
+    st = lambda n, b: {"n_days": n, "n_eff": {v: n for v in wxc_verify.VARS},
+                       "bias": {"tmax_f": 0, "tmin_f": b, "wind_max_kt": 0, "precip_in": 0},
+                       "mae": {"tmax_f": 1, "tmin_f": 4, "wind_max_kt": 1, "precip_in": 0.1}}
+    summary = {"IFS": st(12, 4.0), "ENS": st(1, 9.0)}       # ENS's own single day is too little
+    c = wxc_verify.consensus(models, summary)
+    corr = 4.0 * 12 / 13                                       # IFS's shrunk bias (K=1), used for both
+    assert c["tmin_f"] == pytest.approx((44 - corr + 46 - corr + 40) / 3, abs=0.05)
+    d = c["method"]["tmin_f"]
+    assert d["proxy_track_record"] == {"ENS": "IFS"} and d["not_yet_verified"] == ["NEW"]
+    # once ENS has its own record it uses it
+    summary["ENS"] = st(3, 6.0)
+    c = wxc_verify.consensus(models, summary)
+    assert "proxy_track_record" not in c["method"]["tmin_f"]
+    assert c["tmin_f"] == pytest.approx((44 - corr + 46 - 6.0 * 3 / 4 + 40) / 3, abs=0.05)
+
+
 def test_decay_weight_and_n_eff():
     assert wxc_verify.decay_weight(0, 9) == 1.0
     assert wxc_verify.decay_weight(9, 9) == pytest.approx(0.5)

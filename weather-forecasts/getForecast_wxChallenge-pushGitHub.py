@@ -924,6 +924,8 @@ def main():
     for v, d in cons.get("method", {}).items():
         if d.get("excluded_outliers"):
             print(f"Consensus {v}: excluded outlier(s) {', '.join(d['excluded_outliers'])}")
+        if d.get("excluded_stale"):
+            print(f"Consensus {v}: excluded stale run(s) {', '.join(d['excluded_stale'])}")
 
     # ---- console table ----
     print(f"\nForecast for {station.label}, {day} 06Z - {day + timedelta(days=1)} 06Z")
