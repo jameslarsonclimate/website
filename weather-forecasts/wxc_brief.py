@@ -362,17 +362,22 @@ def _clouds(verif, clouds, order):
         "(forecast - observed: negative = too clear, positive = too cloudy). Night = the dark hours "
         "from 06Z to sunrise, which drive the low; day = sun up, which drives the high. Observed = "
         "METAR sky cover (highest layer: FEW 19%, SCT 44%, BKN 75%, OVC 100%); automated stations "
-        "see clouds only up to 12,000 ft. — = no data (e.g. a station outage, or a model without a "
+        "see clouds only up to 12,000 ft. GOES = the satellite's cloud fraction within 15 km over "
+        "the same hours (GOES Clear Sky Mask), shown for comparison; the errors are against the "
+        "METAR value. At night the satellite mask relies on infrared and often misses low stratus "
+        "and fog. — = no data (e.g. a station outage, or a model without a "
         "cloud forecast). Bias / MAE are decay-weighted like the low (night) and high (day).", "",
         _table(["Model", "Days", "Night bias", "Night MAE", "Day bias", "Day MAE"], rows)]
     for k, title in (("night", "Night clouds"), ("day", "Day clouds")):
         rows = []
         for d in days:
             ob = (ctx[d["date"]].get("obs") or {}).get(f"{k}_pct")
+            goes = (ctx[d["date"]].get("obs") or {}).get(f"goes_{k}_pct")
             rows.append([label[d["date"]], "—" if ob is None else f"{ob:.0f}%",
+                         "—" if goes is None else f"{goes:.0f}%",
                          *("—" if err(d, n, k) is None else _s(err(d, n, k), None, 0) for n in names)])
         out += ["", f"{title}: observed and each model's error (forecast - observed, percentage points):", "",
-                _table(["Date", "Obs", *names], rows)]
+                _table(["Date", "Obs", "GOES", *names], rows)]
     return "\n".join(out)
 
 
@@ -434,6 +439,39 @@ def _today(today):
                 "Precip so far", "Precip err"], rows, right_from=2)])
 
 
+def _today_clouds(fc, cloud_today, order):
+    """Hourly clouds of the day in progress: GOES and METAR against the runs submitted for it."""
+    if not cloud_today:
+        return ""
+    goes = {r["hour"]: r.get("cloud_pct") for r in cloud_today.get("goes") or [] if r.get("hour")}
+    metar = {r["hour"]: r.get("sky_pct") for r in cloud_today.get("metar") or [] if r.get("hour")}
+    if not goes and not metar:
+        return ""
+    models = cloud_today.get("models") or {}
+    names = [n for n in order if n in models] + [n for n in models if n not in order]
+    cells = {}
+    for n in names:
+        c = models[n]
+        avg = c.get("averaged") or [False] * len(c.get("times") or [])
+        cells[n] = {t: _cloud_cell(x, a) for t, x, a in zip(c.get("times") or [], c.get("cloud_pct") or [], avg)}
+    tz = _station_tz(fc)
+    hours = sorted(set(goes) | set(metar))
+    rows = [[f"{t[5:10]} {t[11:13]}Z", _local(t, tz), _cloud_cell(goes.get(t)), _cloud_cell(metar.get(t)),
+             *(cells[n].get(t, "") for n in names)] for t in hours]
+    sat = next((r.get("satellite") for r in cloud_today.get("goes") or [] if r.get("satellite")), None)
+    return "\n".join([
+        f"## Clouds so far today ({cloud_today.get('date')}, observed vs forecast)", "",
+        f"Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fraction within "
+        f"15 km of the station ({'GOES-' + sat[1:] + ' ' if sat else ''}Clear Sky Mask, the scan nearest "
+        "the top of the hour); at night it relies on infrared and often misses low stratus and fog, so "
+        "trust METAR then. METAR = the station's sky cover (highest layer: FEW 19, SCT 44, BKN 75, "
+        "OVC 100; automated stations see only up to 12,000 ft), from the report nearest the hour. "
+        "Model columns are the runs submitted for today (* = averaged over the preceding interval). "
+        "Context only, not scored.", "",
+        _table(["UTC", f"Local ({_zone(hours[0], tz)})" if tz else "Local", "GOES", "METAR", *names],
+               rows, right_from=2)])
+
+
 def _links(fc):
     d = f"{SITE}/data/wxchallenge"
     meta = fc.get("meta", {})
@@ -465,6 +503,22 @@ def _station_tz(fc):
         return None
 
 
+def _local(t, tz):
+    """'2026-10-15T06:00' (UTC) -> 'Wed 23:00' in the station's zone ('' without one)."""
+    if not tz:
+        return ""
+    return datetime.fromisoformat(t).replace(tzinfo=timezone.utc).astimezone(tz).strftime("%a %H:%M")
+
+
+def _zone(t, tz):
+    """The zone's name at UTC time t (DST can change between now and the target day)."""
+    return datetime.fromisoformat(t).replace(tzinfo=timezone.utc).astimezone(tz).strftime("%Z") if tz else ""
+
+
+def _cloud_cell(x, avg=False):
+    return "" if x is None else f"{x:.0f}" + ("*" if avg else "")
+
+
 def _hourly(fc, series, order, cloud_series=None):
     """The models' hourly (or 3-/6-hourly) values through the target day, one table per variable
     (temperature, wind, accumulated precip, cloud cover): a row per UTC hour, a column per model,
@@ -474,9 +528,6 @@ def _hourly(fc, series, order, cloud_series=None):
 
     def ordered(d):
         return [n for n in order if n in d] + [n for n in d if n not in order]
-
-    def cloud_fmt(x, avg):
-        return f"{x:.0f}" + ("*" if avg else "")
 
     # (title, {model: {time: cell text}}) per table, models in page order
     tables = []
@@ -498,7 +549,7 @@ def _hourly(fc, series, order, cloud_series=None):
         for n in cloud_cols:
             c = clouds[n]
             avg = c.get("averaged") or [False] * len(c["times"])
-            cells[n] = {t: cloud_fmt(x, a) for t, x, a in zip(c["times"], c["cloud_pct"], avg) if x is not None}
+            cells[n] = {t: _cloud_cell(x, a) for t, x, a in zip(c["times"], c["cloud_pct"], avg) if x is not None}
         tables.append(("Total cloud cover (%)", cells))
     if not tables and not dry_note:
         return ""
@@ -506,14 +557,7 @@ def _hourly(fc, series, order, cloud_series=None):
     tz = _station_tz(fc)
     hours = sorted({t for _, cells in tables for d in cells.values() for t in d}
                    | {t for n in models for t in models[n].get("times") or []})
-    # zone name as of the target day (DST can change between now and then)
-    zone = (datetime.fromisoformat(hours[0]).replace(tzinfo=timezone.utc).astimezone(tz).strftime("%Z")
-            if tz and hours else "")
-
-    def local(t):
-        if not tz:
-            return ""
-        return datetime.fromisoformat(t).replace(tzinfo=timezone.utc).astimezone(tz).strftime("%a %H:%M")
+    zone = _zone(hours[0], tz) if hours else ""
 
     gen = (series or cloud_series or {}).get("generated_at_utc")
     src = "" if gen == fc.get("generated_at_utc") else f" (from the run at {gen})"
@@ -537,7 +581,7 @@ def _hourly(fc, series, order, cloud_series=None):
         for t in hours:
             row = [cells[n].get(t, "") for n in cols]
             if any(row):
-                rows.append([f"{t[5:10]} {t[11:13]}Z", local(t), *row])
+                rows.append([f"{t[5:10]} {t[11:13]}Z", _local(t, tz), *row])
         head = ["UTC", f"Local ({zone})" if tz else "Local", *cols]
         out += ["", f"{title}:", "", _table(head, rows, right_from=2)]
     if dry_note and dry_note[0] >= len(tables):
@@ -547,17 +591,18 @@ def _hourly(fc, series, order, cloud_series=None):
 
 def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime | None = None,
                 clouds: dict | None = None, series: dict | None = None,
-                cloud_series: dict | None = None) -> str:
+                cloud_series: dict | None = None, cloud_today: dict | None = None) -> str:
     """clouds: this station's days from cloud_context.json ({date: {...}}), optional.
     series: the target day's hourly model series (series/<ICAO>_<date>_submitted.json), optional.
-    cloud_series: the target day's model cloud cover (cloud_forecast.json), optional."""
+    cloud_series: the target day's model cloud cover (cloud_forecast.json), optional.
+    cloud_today: the day in progress's observed (GOES, METAR) and forecast clouds (cloud_today.json)."""
     now = now or datetime.now(timezone.utc)
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
                 _ensembles(fc, order), _pop(fc, verif, order), _hourly(fc, series, order, cloud_series),
                 _track_record(verif),
                 _daily(verif, order), _clouds(verif, clouds, order), _pop_daily(verif, order),
-                _today(today), _links(fc)]
+                _today(today), _today_clouds(fc, cloud_today, order), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
 
 
@@ -584,9 +629,13 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
     if cloud_series and (cloud_series.get("station"), cloud_series.get("target_date")) != \
             (meta.get("station"), meta.get("target_date")):
         cloud_series = None          # left over from an earlier day or another city
+    cloud_today = load("cloud_today.json")
+    if cloud_today and (cloud_today.get("station") != meta.get("station")
+                        or (today and cloud_today.get("date") != today.get("date"))):
+        cloud_today = None
     out = Path(out or data_dir / "brief.md")
     out.write_text(build_brief(fc, verif, today, clouds=clouds, series=series,
-                                  cloud_series=cloud_series), encoding="utf-8")
+                                  cloud_series=cloud_series, cloud_today=cloud_today), encoding="utf-8")
     return out
 
 

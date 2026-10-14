@@ -301,7 +301,7 @@ def _scored_outputs(work):
     d = work / "data" / "wxchallenge"
     out = {}
     for p in sorted(d.rglob("*.json*")):
-        if p.name in ("cloud_context.json", "cloud_forecast.json"):   # display-only cloud files, checked on their own
+        if p.name in ("cloud_context.json", "cloud_forecast.json", "cloud_today.json"):   # display-only cloud files
             continue
         text = p.read_text()
         rows = [json.loads(ln) for ln in text.splitlines() if ln.strip()] if p.suffix == ".jsonl" else json.loads(text)
@@ -332,6 +332,10 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
     # scoreboard cloud context: its own file, only with clouds on, for the scored runs
     assert not (off / "data/wxchallenge/cloud_context.json").exists()
     assert not (off / "data/wxchallenge/cloud_forecast.json").exists()
+    assert not (off / "data/wxchallenge/cloud_today.json").exists()
+    today_c = json.loads((on / "data/wxchallenge/cloud_today.json").read_text())   # today's GOES/METAR, for the AI brief
+    assert today_c["station"] == "KTPA" and today_c["goes"] and today_c["metar"]
+    assert all(r["hour"].endswith(":00") for r in today_c["metar"])
     fcst = json.loads((on / "data/wxchallenge/cloud_forecast.json").read_text())     # target day, for the AI brief
     assert {"HRRR", "IFS", "GFS"} <= set(fcst["models"]) and fcst["station"] == "KTPA"
     ctx = json.loads((on / "data/wxchallenge/cloud_context.json").read_text())["stations"]["KTPA"]

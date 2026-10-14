@@ -106,7 +106,7 @@ def test_write_brief_ignores_other_stations_today(tmp_path):
 
 
 def _clouds():
-    obs = {"night_pct": 89.0, "day_pct": 90.0}
+    obs = {"night_pct": 89.0, "day_pct": 90.0, "goes_night_pct": 60.0, "goes_day_pct": 95.0}
     return {"2026-10-04": {"obs": {"night_pct": None, "day_pct": 22.0},      # station outage overnight
                            "models": {"HRRR": {"night_err": None, "day_err": 39}}},
             "2026-10-05": {"obs": obs, "models": {"HRRR": {"night_err": -40, "day_err": 10}}}}
@@ -117,8 +117,8 @@ def test_brief_cloud_section():
     assert "## Clouds (context only, not scored)" in txt
     assert txt.index("## Daily verification (all") < txt.index("## Clouds") < txt.index("## Today so far")
     assert "| HRRR | 2 | -40 | 40 | +24 | 24 |" in txt      # night: 10-05 only; day: mean of +39, +10
-    assert "| 10-04 h | — | — |" in txt and "| 10-05 | 89% | -40 |" in txt     # night table
-    assert "| 10-04 h | 22% | +39 |" in txt and "| 10-05 | 90% | +10 |" in txt  # day table
+    assert "| 10-04 h | — | — | — |" in txt and "| 10-05 | 89% | 60% | -40 |" in txt     # night table (+ GOES)
+    assert "| 10-04 h | 22% | — | +39 |" in txt and "| 10-05 | 90% | 95% | +10 |" in txt  # day table
     assert "cloud_context.json" in txt and "too clear at night -> low too cold" in txt
     # no clouds: no section (but the how-to step and the link stay)
     assert "## Clouds" not in wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW)
@@ -189,3 +189,32 @@ def test_write_brief_reads_target_day_clouds(tmp_path):
     assert "Total cloud cover (%):" in wxc_brief.write_brief(tmp_path).read_text()
     (tmp_path / "cloud_forecast.json").write_text(json.dumps({**_cloud_series(), "target_date": "2026-10-06"}))
     assert "Total cloud cover" not in wxc_brief.write_brief(tmp_path).read_text()   # stale day ignored
+
+
+def _cloud_today():
+    return {"station": "KTPA", "date": "2026-10-06", "generated_at_utc": "2026-10-06T22:12:10+00:00",
+            "goes": [{"hour": "2026-10-06T06:00", "cloud_pct": 12.3, "satellite": "G19"},
+                     {"hour": "2026-10-06T07:00", "cloud_pct": 88.0, "satellite": "G19"}],
+            "metar": [{"hour": "2026-10-06T06:00", "sky_pct": 100.0}, {"hour": "2026-10-06T08:00", "sky_pct": 44.0}],
+            "models": {"HRRR": {"times": ["2026-10-06T06:00", "2026-10-06T07:00"], "cloud_pct": [90.0, 75.4]}}}
+
+
+def test_today_clouds_goes_and_metar():
+    txt = wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW, cloud_today=_cloud_today())
+    i = txt.index("## Clouds so far today (2026-10-06, observed vs forecast)")
+    assert txt.index("## Today so far") < i < txt.index("## Raw data")
+    sec = txt[i:]
+    assert "GOES-19 Clear Sky Mask" in sec and "misses low stratus and fog" in sec
+    assert "| UTC | Local (EDT) | GOES | METAR | HRRR |" in sec
+    assert "| 10-06 06Z | Tue 02:00 | 12 | 100 | 90 |" in sec      # GOES too clear under a low overcast
+    assert "| 10-06 07Z | Tue 03:00 | 88 |  | 75 |" in sec
+    assert "| 10-06 08Z | Tue 04:00 |  | 44 |  |" in sec
+
+
+def test_write_brief_today_clouds_must_match(tmp_path):
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "today.json").write_text(json.dumps(_today()))
+    (tmp_path / "cloud_today.json").write_text(json.dumps(_cloud_today()))
+    assert "## Clouds so far today" in wxc_brief.write_brief(tmp_path).read_text()
+    (tmp_path / "cloud_today.json").write_text(json.dumps({**_cloud_today(), "date": "2026-10-05"}))
+    assert "## Clouds so far today" not in wxc_brief.write_brief(tmp_path).read_text()   # yesterday's file

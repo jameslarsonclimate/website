@@ -342,7 +342,7 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 
 ## Clouds (context only, not scored)
 
-Each scored run's total cloud cover vs the observed cloud cover, in percentage points (forecast - observed: negative = too clear, positive = too cloudy). Night = the dark hours from 06Z to sunrise, which drive the low; day = sun up, which drives the high. Observed = METAR sky cover (highest layer: FEW 19%, SCT 44%, BKN 75%, OVC 100%); automated stations see clouds only up to 12,000 ft. — = no data (e.g. a station outage, or a model without a cloud forecast). Bias / MAE are decay-weighted like the low (night) and high (day).
+Each scored run's total cloud cover vs the observed cloud cover, in percentage points (forecast - observed: negative = too clear, positive = too cloudy). Night = the dark hours from 06Z to sunrise, which drive the low; day = sun up, which drives the high. Observed = METAR sky cover (highest layer: FEW 19%, SCT 44%, BKN 75%, OVC 100%); automated stations see clouds only up to 12,000 ft. GOES = the satellite's cloud fraction within 15 km over the same hours (GOES Clear Sky Mask), shown for comparison; the errors are against the METAR value. At night the satellite mask relies on infrared and often misses low stratus and fog. — = no data (e.g. a station outage, or a model without a cloud forecast). Bias / MAE are decay-weighted like the low (night) and high (day).
 
 | Model | Days | Night bias | Night MAE | Day bias | Day MAE |
 | --- | --: | --: | --: | --: | --: |
@@ -357,45 +357,45 @@ Each scored run's total cloud cover vs the observed cloud cover, in percentage p
 
 Night clouds: observed and each model's error (forecast - observed, percentage points):
 
-| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
-| --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 09-28 h | 0% | +49 | +38 | +49 | +68 | +62 | +11 | +30 | — |
-| 09-29 h | 100% | +0 | -1 | +0 | +0 | -1 | +0 | -17 | — |
-| 09-30 h | 88% | -38 | -47 | -45 | -39 | -12 | +12 | -23 | — |
-| 10-01 h | 0% | +99 | +99 | +89 | +100 | +100 | +88 | +80 | — |
-| 10-02 h | 47% | -24 | -10 | -6 | +31 | +14 | +33 | -23 | — |
-| 10-03 h | 19% | +81 | +76 | +74 | +72 | +68 | +27 | +46 | — |
-| 10-04 h | 49% | -11 | -19 | -37 | -30 | -17 | -47 | -23 | — |
-| 10-05 h | 80% | +1 | -22 | +5 | -55 | -7 | -50 | -32 | — |
-| 10-06 h | 89% | -24 | -20 | -6 | -25 | -17 | -34 | -30 | — |
-| 10-07 h | 69% | +20 | +5 | +10 | -51 | -26 | -69 | -23 | — |
-| 10-08 h | 56% | +11 | -14 | -48 | +32 | -10 | -54 | -21 | — |
-| 10-09 h | — | — | — | — | — | — | — | — | — |
-| 10-10 h | 14% | -14 | -13 | -8 | +28 | +12 | +86 | +17 | — |
-| 10-11 h | 13% | -10 | -10 | -9 | -12 | +0 | -5 | -1 | -6 |
-| 10-12 h | 0% | +0 | +0 | +0 | +0 | +10 | +2 | +7 | +0 |
-| 10-13 | 89% | -40 | -51 | -18 | -41 | -27 | -1 | -50 | -43 |
+| Date | Obs | GOES | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 09-28 h | 0% | — | +49 | +38 | +49 | +68 | +62 | +11 | +30 | — |
+| 09-29 h | 100% | — | +0 | -1 | +0 | +0 | -1 | +0 | -17 | — |
+| 09-30 h | 88% | — | -38 | -47 | -45 | -39 | -12 | +12 | -23 | — |
+| 10-01 h | 0% | — | +99 | +99 | +89 | +100 | +100 | +88 | +80 | — |
+| 10-02 h | 47% | — | -24 | -10 | -6 | +31 | +14 | +33 | -23 | — |
+| 10-03 h | 19% | — | +81 | +76 | +74 | +72 | +68 | +27 | +46 | — |
+| 10-04 h | 49% | — | -11 | -19 | -37 | -30 | -17 | -47 | -23 | — |
+| 10-05 h | 80% | — | +1 | -22 | +5 | -55 | -7 | -50 | -32 | — |
+| 10-06 h | 89% | — | -24 | -20 | -6 | -25 | -17 | -34 | -30 | — |
+| 10-07 h | 69% | — | +20 | +5 | +10 | -51 | -26 | -69 | -23 | — |
+| 10-08 h | 56% | — | +11 | -14 | -48 | +32 | -10 | -54 | -21 | — |
+| 10-09 h | — | — | — | — | — | — | — | — | — | — |
+| 10-10 h | 14% | — | -14 | -13 | -8 | +28 | +12 | +86 | +17 | — |
+| 10-11 h | 13% | — | -10 | -10 | -9 | -12 | +0 | -5 | -1 | -6 |
+| 10-12 h | 0% | 3% | +0 | +0 | +0 | +0 | +10 | +2 | +7 | +0 |
+| 10-13 | 89% | 84% | -40 | -51 | -18 | -41 | -27 | -1 | -50 | -43 |
 
 Day clouds: observed and each model's error (forecast - observed, percentage points):
 
-| Date | Obs | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
-| --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 09-28 h | 34% | +20 | +32 | +41 | +52 | +50 | +46 | +16 | — |
-| 09-29 h | 100% | +0 | -1 | +0 | -4 | -6 | +0 | -17 | — |
-| 09-30 h | 19% | +67 | +50 | +60 | +77 | +62 | +59 | +25 | — |
-| 10-01 h | 2% | +98 | +98 | +93 | +98 | +93 | +69 | +66 | — |
-| 10-02 h | 70% | -6 | -38 | -11 | -4 | -4 | +29 | -22 | — |
-| 10-03 h | 54% | -18 | -11 | -15 | -45 | -31 | -24 | -14 | — |
-| 10-04 h | 56% | +36 | -2 | -38 | -36 | -33 | -53 | -19 | — |
-| 10-05 h | 56% | +44 | +42 | +21 | +16 | +18 | +15 | +14 | — |
-| 10-06 h | 50% | +46 | +46 | +33 | +11 | +33 | -11 | -1 | — |
-| 10-07 h | 52% | -17 | -14 | -1 | -48 | -40 | -52 | -17 | — |
-| 10-08 h | 36% | +55 | +53 | +18 | +6 | +39 | -22 | +15 | — |
-| 10-09 h | 22% | +39 | +31 | +6 | +36 | +36 | +48 | +23 | — |
-| 10-10 h | 52% | -41 | -30 | -31 | +4 | -15 | +32 | -9 | — |
-| 10-11 h | 18% | -15 | -14 | -10 | -18 | -12 | -10 | -5 | -17 |
-| 10-12 h | 0% | +0 | +10 | +1 | +1 | +5 | +10 | +8 | +1 |
-| 10-13 | 90% | +10 | -5 | +9 | +0 | +0 | +10 | -28 | -8 |
+| Date | Obs | GOES | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 09-28 h | 34% | — | +20 | +32 | +41 | +52 | +50 | +46 | +16 | — |
+| 09-29 h | 100% | — | +0 | -1 | +0 | -4 | -6 | +0 | -17 | — |
+| 09-30 h | 19% | — | +67 | +50 | +60 | +77 | +62 | +59 | +25 | — |
+| 10-01 h | 2% | — | +98 | +98 | +93 | +98 | +93 | +69 | +66 | — |
+| 10-02 h | 70% | — | -6 | -38 | -11 | -4 | -4 | +29 | -22 | — |
+| 10-03 h | 54% | — | -18 | -11 | -15 | -45 | -31 | -24 | -14 | — |
+| 10-04 h | 56% | — | +36 | -2 | -38 | -36 | -33 | -53 | -19 | — |
+| 10-05 h | 56% | — | +44 | +42 | +21 | +16 | +18 | +15 | +14 | — |
+| 10-06 h | 50% | — | +46 | +46 | +33 | +11 | +33 | -11 | -1 | — |
+| 10-07 h | 52% | — | -17 | -14 | -1 | -48 | -40 | -52 | -17 | — |
+| 10-08 h | 36% | — | +55 | +53 | +18 | +6 | +39 | -22 | +15 | — |
+| 10-09 h | 22% | — | +39 | +31 | +6 | +36 | +36 | +48 | +23 | — |
+| 10-10 h | 52% | — | -41 | -30 | -31 | +4 | -15 | +32 | -9 | — |
+| 10-11 h | 18% | — | -15 | -14 | -10 | -18 | -12 | -10 | -5 | -17 |
+| 10-12 h | 0% | 0% | +0 | +10 | +1 | +1 | +5 | +10 | +8 | +1 |
+| 10-13 | 90% | 94% | +10 | -5 | +9 | +0 | +0 | +10 | -28 | -8 |
 
 ## Daily verification of precip chances
 

@@ -665,6 +665,25 @@ def today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib=Fa
 
 CLOUD_CONTEXT = DATA / "cloud_context.json"
 CLOUD_FORECAST = DATA / "cloud_forecast.json"   # the target day's model cloud cover (wxc_brief.py)
+CLOUD_TODAY = DATA / "cloud_today.json"         # today's GOES / METAR / model clouds (wxc_brief.py)
+
+
+def write_cloud_today(station, today, now, clouds):
+    """Today's observed clouds (GOES hourly, METAR nearest each hour) and the submitted runs'
+    cloud forecasts, for the AI brief. Display only, like cloud_context.json."""
+    metar = []
+    sky = clouds.get("metar")
+    if sky is not None and not sky.empty:
+        s = sky.assign(hour=sky["valid"].dt.round("h"),
+                       dist=(sky["valid"] - sky["valid"].dt.round("h")).abs())
+        s = s.sort_values(["hour", "dist"]).drop_duplicates("hour")
+        metar = [{"hour": h.strftime("%Y-%m-%dT%H:%M"), "sky_pct": round(float(p), 1)}
+                 for h, p in zip(s["hour"], s["sky_pct"])]
+    goes = [{k: r.get(k) for k in ("hour", "cloud_pct", "satellite", "n_pixels")}
+            for r in clouds.get("goes") or []]
+    CLOUD_TODAY.write_text(wxc_verify.dumps(
+        {"station": station.icao, "date": today.isoformat(), "generated_at_utc": now.isoformat(),
+         "goes": goes, "metar": metar, "models": clouds.get("submitted") or {}}))
 CONTEXT_ATTEMPTS = 3          # runs that may retry a day with missing pieces before it is frozen
 CONTEXT_BUDGET_S = 240        # per run: older days still to fill are left for the next runs
 
@@ -792,6 +811,7 @@ def today_figure(station, now, points, skip_grib=False):
     if wxc_clouds.CLOUDS_ENABLED:
         try:
             clouds = today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib)
+            write_cloud_today(station, today, now, clouds)
         except Exception as exc:
             print(f"  warning: cloud cover skipped ({type(exc).__name__}: {exc})")
     wxc_today.plot_today(station, today, now, obs, sub, lat, IMAGES / "today.png", clouds=clouds)
