@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-14T18:30:10+00:00",
+  "generated_at_utc": "2026-10-14T19:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -84,11 +84,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
-      "tmax_f": 70.6,
-      "tmin_f": 46.5,
-      "wind_max_kt": 5.0,
+      "tmax_f": 70.5,
+      "tmin_f": 46.2,
+      "wind_max_kt": 4.9,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-14T06",
+      "init_time_utc": "2026-10-14T12",
       "valid_range_utc": [
         "2026-10-15T06",
         "2026-10-16T06"
@@ -126,7 +126,7 @@
       ]
     },
     "NBM": {
-      "tmax_f": 71.0,
+      "tmax_f": 70.0,
       "tmin_f": 44.0,
       "wind_max_kt": 6.0,
       "precip_in": 0.0,
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-14T12",
+      "init_time_utc": "2026-10-14T18",
       "valid_range_utc": [
         "2026-10-15T06",
         "2026-10-16T06"
@@ -1083,8 +1083,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 72.1,
-      "tmin_f": 41.8,
+      "tmax_f": 71.9,
+      "tmin_f": 41.7,
       "wind_max_kt": 7.9,
       "precip_in": 0.0,
       "method": {
@@ -1217,7 +1217,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-14T18:30:10+00:00",
+    "checked_at_utc": "2026-10-14T19:00:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
