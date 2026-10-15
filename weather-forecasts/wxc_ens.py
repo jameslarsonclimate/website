@@ -19,6 +19,9 @@ Note: Open-Meteo interpolates the 3-hourly (IFS, GEFS) / 6-hourly (AIFS) output 
 hourly values, so highs and lows are only as good as those output times (muted extremes).
 Each model also gets a PoP record (wxc_pop): the share of members with >= 0.01" in the day
 and in each 6-h block (block edges fall on output times, so the block sums are exact).
+If Open-Meteo's feed stalls, its "latest" run can be days old (10/11-10/12: the 10/10 18Z ECMWF
+runs for two days). Such a run (> wxc_verify.MAX_RUN_AGE_HOURS old) is still shown, but flagged
+in its note and the log; the consensus and the scoring leave it out (wxc_verify).
 """
 
 from datetime import date, datetime, timedelta, timezone
@@ -36,7 +39,7 @@ MODELS = {"ENS": "ecmwf_ifs025", "AIFS_ENS": "ecmwf_aifs025", "GEFS": "ncep_gefs
 # meta.json folder per model id (GEFS doesn't follow the "<id>_ensemble" pattern)
 META_PATH = {"ecmwf_ifs025": "ecmwf_ifs025_ensemble", "ecmwf_aifs025": "ecmwf_aifs025_ensemble",
              "ncep_gefs025": "ncep_gefs025"}
-from wxc_verify import NOT_IN_CONSENSUS   # GEFS
+from wxc_verify import NOT_IN_CONSENSUS, MAX_RUN_AGE_HOURS, run_too_old   # GEFS; stale-run limit
 EXTRA_ENABLED = True       # False skips GEFS (ECMWF ensembles unaffected)
 PRECIP_THRESHOLDS = [0.01, 0.10, 0.25, 0.50]
 PCTS = [0, 10, 25, 50, 75, 90, 100]
@@ -147,9 +150,27 @@ def _result(label, init, summ, target_day):
     }
 
 
-def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, only=None) -> dict:
+def flag_stale(label: str, res: dict, now: datetime) -> bool:
+    """Mark res (a result with values) as stale when its run is more than MAX_RUN_AGE_HOURS
+    old at `now`, and say so loudly. Returns True when stale."""
+    if res.get("error") or not res.get("init_time_utc") or not run_too_old(res, now):
+        return False
+    init = datetime.strptime(res["init_time_utc"][:13], "%Y-%m-%dT%H").replace(tzinfo=timezone.utc)
+    age = (now - init).total_seconds() / 3600
+    msg = (f"STALE RUN: Open-Meteo's latest {label} run is {init:%Y-%m-%d %HZ}, {age:.0f} h old "
+           f"(limit {MAX_RUN_AGE_HOURS} h); not scored and left out of the consensus")
+    if "STALE RUN" not in (res.get("note") or ""):
+        res["note"] = f"{res.get('note') or ''}; {msg}".lstrip("; ")
+    print(f"  {'!' * 60}\n  {label}: {msg}\n  {'!' * 60}")
+    return True
+
+
+def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, only=None,
+                  now: Optional[datetime] = None) -> dict:
     """ENS, AIFS_ENS and GEFS for the target day. Live only (Open-Meteo keeps only the
-    latest run), so a hindcast (as_of) gets an error entry."""
+    latest run), so a hindcast (as_of) gets an error entry. A run more than
+    MAX_RUN_AGE_HOURS old at `now` (default: the current time) is flagged (flag_stale)."""
+    now = now or datetime.now(timezone.utc)
     labels = [k for k in MODELS if (only is None or k in only)
               and (EXTRA_ENABLED or k not in NOT_IN_CONSENSUS)]
     out, need = {}, []
@@ -201,6 +222,7 @@ def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, o
                     out[one[0]] = {**fail, "error": f"Open-Meteo request failed: {exc1 if len(need) > 1 else exc}"}
     for label in labels:
         r = out[label]
+        flag_stale(label, r, now)
         print(f"  {label:8s} {r.get('init_time_utc')}: " + (r.get("error") or
               f"mean {r['tmax_f']}/{r['tmin_f']}F {r['wind_max_kt']}kt {r['precip_in']}in, "
               f"P(>=0.01\")={r['ensemble']['stats']['precip_prob']['0.01']:.0%}"))

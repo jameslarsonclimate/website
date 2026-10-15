@@ -54,6 +54,11 @@ NOT_IN_CONSENSUS = {"GEFS"}
 # A member whose run is more than STALE_HOURS older than the newest member's is left out of the
 # consensus (e.g. Open-Meteo's ECMWF ensemble feed stalling while every other model updates).
 STALE_HOURS = 36
+# A forecast from a run more than MAX_RUN_AGE_HOURS old (at the 00Z deadline when scoring, at
+# run time in the consensus) is not scored and left out of the consensus. Normally every model's
+# run is <= 18 h old at the deadline; Open-Meteo's ECMWF ensemble feed stalled on 10/11-10/12 and
+# the pipeline kept submitting the 10/10 18Z ENS and AIFS ENS runs (30-54 h old).
+MAX_RUN_AGE_HOURS = 24
 # Ensembles can't be hindcast (Open-Meteo serves only the latest run), so at a new city they
 # have no track record; until they do, they borrow their deterministic parent's bias and MAE.
 PROXY_TRACK_RECORD = {"ENS": "IFS", "AIFS_ENS": "AIFS"}
@@ -290,18 +295,29 @@ def run_for_day(runs: list, station: str, day: str) -> Optional[dict]:
 RETIRED = {"NAM_MOS", "GEPS"}
 
 
+def run_too_old(fc: dict, ref: datetime) -> bool:
+    """True when fc's run (init_time_utc) is more than MAX_RUN_AGE_HOURS before ref.
+    Forecasts without an init time (e.g. the consensus) are never too old."""
+    t = _init_time(fc)
+    return t is not None and (ref.replace(tzinfo=None) - t).total_seconds() > MAX_RUN_AGE_HOURS * 3600
+
+
 def forecasts_for_day(runs: list, station: str, day: str) -> dict:
     """Per model, the latest pre-deadline forecast that has values (so a model that
     failed in the last run is still scored from the run before). A live forecast is never
     replaced by a hindcast: a hindcast filling a gap (stamped at HINDCAST_HOUR, often after
-    the last live run) must not override what was actually submitted, e.g. the consensus."""
+    the last live run) must not override what was actually submitted, e.g. the consensus.
+    Forecasts from a run more than MAX_RUN_AGE_HOURS old at the deadline are skipped (an
+    earlier run's copy of the same stale run is skipped too, since the age is taken at the
+    deadline)."""
+    deadline = datetime.fromisoformat(day)
     out = {}
     for r in _before_deadline(runs, station, day):
         hind = bool(r.get("hindcast"))
         for name, fc in r["models"].items():
             if name in RETIRED or (hind and name in out and not out[name][2]):
                 continue
-            if all(fc.get(v) is not None for v in VARS):
+            if all(fc.get(v) is not None for v in VARS) and not run_too_old(fc, deadline):
                 out[name] = (fc, r["generated_at_utc"], hind)
     return out
 
@@ -484,19 +500,22 @@ def _init_time(m: dict) -> Optional[datetime]:
         return None
 
 
-def _stale_members(models: dict) -> list:
-    """Members whose run is more than STALE_HOURS older than the newest member's run.
-    Members without an init time (e.g. reconstructed days) are never called stale."""
+def _stale_members(models: dict, now: Optional[datetime] = None) -> list:
+    """Members whose run is more than STALE_HOURS older than the newest member's run, or
+    (given now) more than MAX_RUN_AGE_HOURS old. Members without an init time (e.g.
+    reconstructed days) are never called stale."""
     inits = {n: _init_time(m) for n, m in models.items()
              if n != "CONSENSUS" and n not in NOT_IN_CONSENSUS}
     known = [t for t in inits.values() if t]
     if not known:
         return []
     newest = max(known)
-    return [n for n, t in inits.items() if t and (newest - t).total_seconds() > STALE_HOURS * 3600]
+    return [n for n, t in inits.items() if t and ((newest - t).total_seconds() > STALE_HOURS * 3600
+                                                  or (now is not None and run_too_old(models[n], now)))]
 
 
-def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None) -> dict:
+def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
+              now: Optional[datetime] = None) -> dict:
     """
     Bias-corrected, skill-weighted blend of today's model values.
     Models with >= MIN_DAYS_FOR_CORRECTION verified days are bias-corrected (by the shrunk
@@ -504,12 +523,13 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None) ->
     1/(MAE + MAE_OFFSET); a model without that track record uses its PROXY_TRACK_RECORD
     parent's if that has one, otherwise it joins uncorrected at the median weight.
     With no verified models at all, an equal-weight mean is used. Members whose run is more
-    than STALE_HOURS older than the newest member's are left out.
+    than STALE_HOURS older than the newest member's, or (given now) more than
+    MAX_RUN_AGE_HOURS old, are left out.
     Precip is not bias-corrected (errors are too skewed), only weighted.
     shrink_days / mae_offset override the defaults (a number, or a dict per variable).
     """
     out, detail = {}, {}
-    stale = _stale_members(models)
+    stale = _stale_members(models, now)
     for v in VARS:
         K = shrink_days if shrink_days is not None else BIAS_SHRINK_DAYS
         K = K[v] if isinstance(K, dict) else K
