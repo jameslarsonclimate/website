@@ -170,7 +170,7 @@
     #tl-card th, #tl-card td{border:0;border-top:1px solid var(--line);padding:4px 10px;text-align:right}
     #tl-card th{background:none;color:var(--ink-2);font-weight:600;border-top:0}
     #tl-card td:nth-child(-n+2), #tl-card th:nth-child(-n+2){text-align:left}
-    #tl-card td:first-child{display:flex;align-items:center;gap:6px}
+    #tl-card .tl-m{display:inline-flex;align-items:center;gap:6px}    /* not on the td: a flex cell drops its colspan */
     #tl-card tr.obs td{font-weight:600;background:var(--head)}
     #tl-card tr.avg td{color:var(--ink-2)}
     #tl-card .up{color:var(--w3);font-size:0.78rem}

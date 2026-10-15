@@ -431,7 +431,7 @@
       const x = s ? s.fc : [m.tmax, m.tmin, maxOf(m.wind), lastOf(m.precip)];
       nums[n] = x;
       clouds[n] = cl(n, hv.cloud);
-      rows.push(`<tr><td>${sw(n)} ${label(n)}</td><td>${run(m.init)}</td>` +
+      rows.push(`<tr><td><span class="tl-m">${sw(n)} ${label(n)}</span></td><td>${run(m.init)}</td>` +
                 `<td>${f0(x[0])}${s ? er(s.err[0], 0) : ''}</td><td>${f0(x[1])}${s ? er(s.err[1], 0) : ''}</td>` +
                 `<td>${f0(x[2])}${s ? er(s.err[2], 0) : ''}</td><td>${f2(x[3])}${s ? er(s.err[3], 2) : ''}</td>` +
                 cc(clouds[n]) + (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j])) + '</tr>');
@@ -441,7 +441,7 @@
         const m = d.latest[n];
         if (!m || !st.on.has(n)) continue;
         const hv = hourly(m);
-        rows.push(`<tr class="latest"><td>${sw(n, LATEST_DASH)} ${label(n)} newest</td><td>${run(m.init)}</td>` +
+        rows.push(`<tr class="latest"><td><span class="tl-m">${sw(n, LATEST_DASH)} ${label(n)} newest</span></td><td>${run(m.init)}</td>` +
                   `<td>${f0(m.tmax)}</td><td>${f0(m.tmin)}</td><td>${f0(maxOf(m.wind))}</td><td>${f2(lastOf(m.precip))}</td>` +
                   cc([winMean(hv.cloud, win.night), winMean(hv.cloud, win.day), null, null]) +
                   (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j])) + '</tr>');
@@ -449,7 +449,7 @@
     }
     if (st.avg && ns.length) {
       const a = AV[k];
-      rows.push(`<tr class="avg"><td>${sw('AVG')} Average line</td><td>${a.temp.n} model${a.temp.n === 1 ? '' : 's'}</td>` +
+      rows.push(`<tr class="avg"><td><span class="tl-m">${sw('AVG')} Average line</span></td><td>${a.temp.n} model${a.temp.n === 1 ? '' : 's'}</td>` +
                 `<td>${f0(maxOf(a.temp.vals))}</td><td>${f0(minOf(a.temp.vals))}</td><td>${f0(maxOf(a.wind.vals))}</td>` +
                 `<td>${f2(lastOf(a.precip.vals))}</td>` +
                 cc([winMean(a.cloud.vals, win.night), winMean(a.cloud.vals, win.day), null, null]) +
