@@ -231,7 +231,7 @@ def test_model_cloud_caches_and_fills_gaps(fake_herbie, monkeypatch):
 # ----------------------------------------------------------------- isolation from scoring
 FIXED_NOW = datetime(2025, 9, 28, 20, 0, tzinfo=timezone.utc)
 MODULES = ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations", "wxc_usl", "wxc_ens",
-           "wxc_cam_ens", "wxc_cache", "wxc_clouds", "wxc_goes", "wxc_today",
+           "wxc_cam_ens", "wxc_cache", "wxc_clouds", "wxc_goes", "wxc_today", "wxc_timeline",
            "getForecast_wxChallenge-pushGitHub"]
 
 
@@ -303,6 +303,8 @@ def _scored_outputs(work):
     for p in sorted(d.rglob("*.json*")):
         if p.name in ("cloud_context.json", "cloud_forecast.json", "cloud_today.json"):   # display-only cloud files
             continue
+        if p.name == "timeline.json" or "timeline" in p.relative_to(d).parts:   # the page's timeline (display only)
+            continue
         text = p.read_text()
         rows = [json.loads(ln) for ln in text.splitlines() if ln.strip()] if p.suffix == ".jsonl" else json.loads(text)
         out[str(p.relative_to(d))] = strip(rows)
@@ -352,6 +354,22 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
     assert not {"ENS", "AIFS_ENS", "CONSENSUS"} & set(d["models"])
     for w in (off, on):
         assert (w / "images/wxchallenge/latest.png").exists() and (w / "images/wxchallenge/today.png").exists()
+
+    # the page's timeline: today's reports (plus GOES and METAR sky cover with clouds on) and
+    # the model cloud cover of each day's runs
+    tl = json.loads((on / "data/wxchallenge/timeline.json").read_text())
+    assert tl["station"] == "KTPA" and tl["forecast_day"] == fcst["target_date"]
+    days = {d["date"]: d for d in tl["days"]}
+    td = days[tl["today"]]
+    assert td["obs"]["reports"]["h"] and td["obs"]["goes"]["pct"] and td["obs"]["sky"]["pct"]
+    assert all(0 < h <= 24 for h in td["obs"]["reports"]["h"])
+    assert {"HRRR", "IFS", "GFS"} <= {k for k, m in days[tl["forecast_day"]]["models"].items() if m.get("cloud")}
+    assert {"HRRR", "GFS"} <= {k for k, m in td["models"].items() if m.get("cloud")}
+    assert td["latest"] and "so_far" in td
+    off_days = json.loads((off / "data/wxchallenge/timeline.json").read_text())["days"]
+    assert [d["date"] for d in off_days] == [d["date"] for d in tl["days"]]
+    assert not any(m.get("cloud") for d in off_days for m in d["models"].values())
+    assert not {"goes", "sky"} & set(next(d for d in off_days if d["date"] == tl["today"])["obs"])
 
 
 # ----------------------------------------------------------------- scoreboard cloud context

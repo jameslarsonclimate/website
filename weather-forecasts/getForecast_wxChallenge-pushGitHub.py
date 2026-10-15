@@ -15,7 +15,9 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
      draws images/wxchallenge/latest.png and verification.png, refreshes the page's
      forecast-evolution link config (wxc_links.py) and writes data/wxchallenge/brief.md,
      a plain-text summary for AI assistants (wxc_brief.py; linked only from llms.txt and a
-     visually hidden link on the page). A model that fails this run (e.g. the laptop offline)
+     visually hidden link on the page), and data/wxchallenge/timeline.json for the page's
+     scrollable forecasts-and-observations timeline (wxc_timeline.py, wxchallenge/timeline.js;
+     display only). A model that fails this run (e.g. the laptop offline)
      keeps its last good forecast for the day on the page, flagged as stale (wxc_carryover.py)
   6. commits and pushes the data/images (GitHub Pages), best effort
 
@@ -48,6 +50,7 @@ import wxc_mos
 import wxc_nbm_qmd
 import wxc_obs
 import wxc_pop
+import wxc_timeline
 import wxc_today
 import wxc_usl
 import wxc_verify
@@ -642,6 +645,8 @@ def collect_series(results, mos):
                       "tmax_f": m.get("tmax_f"), "tmin_f": m.get("tmin_f"),
                       "temp_f": s.get("tmp_f"), "wind_kt": s.get("wsp_kt"),
                       "precip_in": s.get("precip_cum_in")}
+            if s.get("tmp_p10") and s.get("tmp_p90"):      # ensembles: members' 10-90% range
+                out[k]["temp_p10"], out[k]["temp_p90"] = s["tmp_p10"], s["tmp_p90"]
     return out
 
 
@@ -686,6 +691,84 @@ def write_cloud_today(station, today, now, clouds):
          "goes": goes, "metar": metar, "models": clouds.get("submitted") or {}}))
 CONTEXT_ATTEMPTS = 3          # runs that may retry a day with missing pieces before it is frozen
 CONTEXT_BUDGET_S = 240        # per run: older days still to fill are left for the next runs
+TIMELINE_BUDGET_S = 180       # per run, for the timeline's catch-up downloads (GOES, old cloud cover)
+
+
+def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMELINE_BUDGET_S):
+    """The page's scrollable timeline (wxc_timeline.py; display only). Fills in what the runs
+    during the day couldn't save: a finished day's last reports (the schedule stops at the 00Z
+    deadline, the day ends at 06Z) with its overnight GOES hours, and the cloud cover of days
+    from before the per-day files existed. Then writes data/wxchallenge/timeline.json."""
+    import time as _time
+    t0 = _time.time()
+    icao = station.icao
+    days = wxc_timeline.timeline_days(DATA, icao)
+    today = (now - timedelta(hours=6)).date()
+
+    # finished days without a complete record of their reports: one METAR request for all
+    todo = [d for d in days if d < today and wxc_timeline.is_final(d, now)]
+    todo = [d for d in todo if not (wxc_timeline.load_day(DATA, icao, d, "obs") or {}).get("complete")]
+    raw = None
+    if todo:
+        first, last = min(todo), max(todo)
+        span = (datetime(first.year, first.month, first.day, 6, tzinfo=timezone.utc),
+                datetime(last.year, last.month, last.day, 6, tzinfo=timezone.utc) + timedelta(days=1))
+        try:
+            raw = (wxc_obs.fetch_metars(icao, *span, specials=True, sky=True) if wxc_clouds.CLOUDS_ENABLED
+                   else wxc_obs.fetch_metars(icao, *span, specials=True))
+        except Exception as exc:
+            print(f"  warning: timeline METARs {first}..{last} failed ({type(exc).__name__}: {exc})")
+    for d in sorted(todo, reverse=True) if raw is not None else []:
+        old = wxc_timeline.load_day(DATA, icao, d, "obs") or {}
+        part = wxc_timeline.day_reports(raw, d)
+        reports = wxc_obs.report_series(part) if not part.empty else None
+        sky = goes = None
+        if wxc_clouds.CLOUDS_ENABLED:
+            try:
+                sky = wxc_clouds.sky_series(part)
+            except Exception as exc:
+                print(f"  warning: timeline sky cover {d} skipped ({type(exc).__name__}: {exc})")
+            if wxc_clouds.GOES_ENABLED and _time.time() - t0 < budget_s:
+                s = datetime(d.year, d.month, d.day, 6, tzinfo=timezone.utc)
+                try:
+                    goes = wxc_goes.hourly_cloud(station, s, s + timedelta(hours=24))
+                except Exception as exc:
+                    print(f"  warning: timeline GOES {d} skipped ({type(exc).__name__}: {exc})")
+        attempts = old.get("attempts", 0) + 1
+        whole = not (wxc_clouds.CLOUDS_ENABLED and wxc_clouds.GOES_ENABLED) or (goes and len(goes) >= 23)
+        rec = wxc_timeline.obs_record(icao, d, reports, sky, goes, now,
+                                      complete=(reports is not None and whole) or attempts >= CONTEXT_ATTEMPTS)
+        rec["attempts"] = attempts
+        wxc_timeline.save_day(DATA, icao, d, "obs", rec)
+        print(f"  timeline obs {d}: {0 if reports is None else len(reports)} reports, "
+              f"{len(goes or [])} GOES hours{'' if rec['complete'] else ' (incomplete, retried next run)'}")
+
+    # cloud cover of the submitted runs of past days (today and the forecast day are written
+    # by today_figure and main); mostly from the cloud cache, else downloaded again
+    if wxc_clouds.CLOUDS_ENABLED:
+        for d in sorted((d for d in days if d < today), reverse=True):
+            old = wxc_timeline.load_day(DATA, icao, d, "clouds") or {}
+            if old.get("submitted") or old.get("attempts", 0) >= CONTEXT_ATTEMPTS:
+                continue
+            if _time.time() - t0 > budget_s:
+                print("  timeline: time budget used; older cloud cover left for the next run")
+                break
+            sub = wxc_timeline.load_series(DATA, icao, d, "submitted") or {}
+            runs = {k: m.get("init_time_utc") for k, m in (sub.get("models") or {}).items()}
+            clouds = collect_clouds(station, d, runs, points, fetch_grib=fetch_grib)
+            rec = wxc_timeline.clouds_record(icao, d, clouds, None, now)
+            rec["attempts"] = old.get("attempts", 0) + 1
+            wxc_timeline.save_day(DATA, icao, d, "clouds", rec)
+
+    try:
+        today_json = json.loads((DATA / "today.json").read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        today_json = None
+    bundle = wxc_timeline.build(DATA, icao, now, verif, today_json, station.label)
+    if bundle:
+        path = wxc_timeline.write(DATA, bundle)
+        print(f"  timeline: {len(bundle['days'])} days ({bundle['days'][0]['date']}..{bundle['days'][-1]['date']}) "
+              f"in {_time.time() - t0:.0f} s -> {path.name}")
 
 
 def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDGET_S):
@@ -814,6 +897,15 @@ def today_figure(station, now, points, skip_grib=False):
             write_cloud_today(station, today, now, clouds)
         except Exception as exc:
             print(f"  warning: cloud cover skipped ({type(exc).__name__}: {exc})")
+    try:          # today's reports and cloud cover for the page's timeline (display only)
+        c = clouds or {}
+        wxc_timeline.save_day(DATA, station.icao, today, "obs", wxc_timeline.obs_record(
+            station.icao, today, obs, c.get("metar"), c.get("goes"), now, complete=False))
+        if c.get("submitted") or c.get("latest"):
+            wxc_timeline.save_day(DATA, station.icao, today, "clouds", wxc_timeline.clouds_record(
+                station.icao, today, c.get("submitted"), c.get("latest"), now))
+    except Exception as exc:
+        print(f"  warning: timeline files for today skipped ({type(exc).__name__}: {exc})")
     wxc_today.plot_today(station, today, now, obs, sub, lat, IMAGES / "today.png", clouds=clouds)
     print(f"Wrote {IMAGES / 'today.png'}")
     bias = wxc_today.today_bias(obs, sub, today, now)
@@ -1012,6 +1104,8 @@ def main():
                 CLOUD_FORECAST.write_text(wxc_verify.dumps(
                     {"station": station.icao, "target_date": day.isoformat(),
                      "generated_at_utc": now_iso, "models": clouds}))
+                wxc_timeline.save_day(DATA, station.icao, day, "clouds",      # and for the page's timeline
+                                      wxc_timeline.clouds_record(station.icao, day, clouds, None, now))
         except Exception as exc:
             print(f"Warning: cloud cover skipped ({type(exc).__name__}: {exc})")
     try:
@@ -1038,6 +1132,13 @@ def main():
             cloud_context(station, verif, points, fetch_grib=not args.skip_grib)
         except Exception as exc:
             print(f"Warning: cloud context skipped ({type(exc).__name__}: {exc})")
+
+    # the page's scrollable timeline (display only; after today.json and the today figure's files)
+    try:
+        print("\nTimeline for the page (not scored):")
+        timeline_update(station, now, points, verif, fetch_grib=not args.skip_grib)
+    except Exception as exc:
+        print(f"Warning: timeline skipped ({type(exc).__name__}: {exc})")
 
     # forecast-evolution links on the page (station config only; the page builds the run times)
     try:

@@ -1,0 +1,532 @@
+/* Forecasts and observations: every 06Z-06Z day of the current city side by side, scrolling
+   back in time from the day being forecast. Each day shows the runs that were out before its
+   00Z deadline (the newest day's keep updating until then), today's newest runs (dotted), an
+   hourly average of the models switched on, and the observations. Hovering a day shows its
+   numbers in the card below the chart; a click pins it.
+   Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
+(function () {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const sec = $('timeline'), ctl = $('tl-controls'), wrap = $('tl-wrap'), sc = $('tl-scroll'),
+        chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card');
+  if (!sec || !chart) return;
+
+  const ORDER = ['HRRR', 'RRFS', 'IFS', 'GFS', 'AIFS', 'GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS'];
+  // the same colours and line styles as the static figures (matplotlib tab10)
+  const COL = { HRRR: '#1f77b4', RRFS: '#bcbd22', IFS: '#ff7f0e', GFS: '#2ca02c', AIFS: '#d62728',
+                GFS_MOS: '#2ca02c', NBM: '#8c564b', USL: '#e377c2', ENS: '#17becf', AIFS_ENS: '#d62728',
+                GEFS: '#9467bd' };
+  const DASHED = new Set(['GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS']);
+  const PRESETS = [['All', null], ['None', []], ['Deterministic', ['HRRR', 'RRFS', 'IFS', 'GFS', 'AIFS']],
+                   ['MOS / statistical', ['GFS_MOS', 'NBM', 'USL']], ['Ensembles', ['ENS', 'AIFS_ENS', 'GEFS']]];
+  const DASH = '5 3', LATEST_DASH = '0.5 3.5', AVG_DASH = '7 4';
+  const PANELS = [
+    { v: 'temp', title: 'Temperature (°F)', h: 200 },
+    { v: 'wind', title: 'Wind (kt)', h: 110 },
+    { v: 'precip', title: 'Precip since 06Z (in)', h: 90 },
+    { v: 'cloud', title: 'Cloud cover (%)', h: 100 },
+  ];
+  const P = Object.fromEntries(PANELS.map(p => [p.v, p]));
+  const TOP = 24, HEAD = 22, BOT = 24, AXW = 40;
+  let yy = TOP;
+  for (const p of PANELS) { yy += HEAD; p.y0 = yy; yy += p.h; }
+  const H = yy + BOT;
+  const H25 = Array.from({ length: 25 }, (_, j) => j);
+
+  const STORE = 'wxc-timeline';
+  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true };
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE) || 'null');
+    if (s) {
+      if (Array.isArray(s.on)) st.on = new Set(s.on);
+      for (const k of ['avg', 'obs', 'latest', 'band']) if (typeof s[k] === 'boolean') st[k] = s[k];
+    }
+  } catch (e) {}
+  const save = () => {
+    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], avg: st.avg, obs: st.obs, latest: st.latest, band: st.band })); }
+    catch (e) {}
+  };
+
+  let T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
+  const SC = {};
+  let curH = null, pinned = null, touched = false;
+
+  /* ---------- helpers ---------- */
+  const pad = n => String(n).padStart(2, '0');
+  const label = n => n.replace('_', ' ');
+  const f0 = v => v == null ? '—' : String(Math.round(v));
+  const f2 = v => v == null ? '—' : Number(v).toFixed(2);
+  const hourLabel = h => `${pad(((Math.round(h) % 24) + 30) % 24)}Z`;       // hours since day-0 06Z
+  const run = iso => { const m = /^\d{4}-(\d{2})-(\d{2})T(\d{2})/.exec(iso || ''); return m ? `${m[3]}Z ${+m[1]}/${+m[2]}` : '—'; };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const finite = a => (a || []).filter(x => x != null && isFinite(x));
+  const maxOf = a => { const f = finite(a); return f.length ? Math.max(...f) : null; };
+  const minOf = a => { const f = finite(a); return f.length ? Math.min(...f) : null; };
+  const lastOf = a => { const f = finite(a); return f.length ? f[f.length - 1] : null; };
+  const mean = a => { const f = finite(a); return f.length ? f.reduce((s, x) => s + x, 0) / f.length : null; };
+  const dayOf = h => Math.max(0, Math.min(ND - 1, Math.floor(h / 24)));
+  const X = h => h / 24 * DW;
+  const Y = (p, v) => { const s = SC[p.v], c = Math.max(s.lo, Math.min(s.hi, v)); return p.y0 + p.h * (1 - (c - s.lo) / (s.hi - s.lo)); };
+
+  function lerp(hs, vs, h) {
+    if (!hs || !vs || !hs.length || h < hs[0] - 1e-6 || h > hs[hs.length - 1] + 1e-6) return null;
+    for (let i = 0; i < hs.length - 1; i++) {
+      if (h <= hs[i + 1] + 1e-6) {
+        const a = vs[i], b = vs[i + 1];
+        if (a == null || b == null) return h - hs[i] < 1e-6 ? a : (hs[i + 1] - h < 1e-6 ? b : null);
+        return a + (h - hs[i]) / (hs[i + 1] - hs[i]) * (b - a);
+      }
+    }
+    return vs[vs.length - 1];
+  }
+  function nearest(hs, vs, h) {        // categorical steps (MOS cloud categories)
+    if (!hs || !hs.length || h < hs[0] - 1.5 || h > hs[hs.length - 1] + 1.5) return null;
+    let best = 0;
+    for (let i = 1; i < hs.length; i++) if (Math.abs(hs[i] - h) < Math.abs(hs[best] - h)) best = i;
+    return vs[best];
+  }
+  function pct(a, q) {
+    const s = finite(a).sort((x, y) => x - y);
+    if (!s.length) return null;
+    const i = (s.length - 1) * q, lo = Math.floor(i), hi = Math.ceil(i);
+    return s[lo] + (s[hi] - s[lo]) * (i - lo);
+  }
+
+  /* ---------- data ---------- */
+  function hourly(m) {
+    const out = {};
+    for (const v of ['temp', 'wind', 'precip']) out[v] = m[v] && m.h && m.h.length ? H25.map(j => lerp(m.h, m[v], j)) : null;
+    const c = m.cloud;
+    out.cloud = c ? H25.map(j => c.step ? nearest(c.h, c.pct, j) : lerp(c.h, c.pct, j)) : null;
+    return out;
+  }
+
+  function prep(data) {
+    T = data;
+    ND = T.days.length;
+    const d0 = T.days[0].date;
+    const t0 = Date.UTC(+d0.slice(0, 4), +d0.slice(5, 7) - 1, +d0.slice(8, 10), 6);
+    NOW_H = (Date.now() - t0) / 36e5;
+    TODAY_K = Math.floor(NOW_H / 24);          // the WxChallenge day (06Z-06Z) the clock is in
+    present = ORDER.filter(n => T.days.some(d => d.models[n] || (d.latest || {})[n]));
+    HI = T.days.map(d => Object.fromEntries(Object.entries(d.models).map(([n, m]) => [n, hourly(m)])));
+    // fixed ranges over the whole period (robust: a bad report can't flatten a panel)
+    const vals = { temp: [], wind: [], precip: [] };
+    for (const d of T.days) {
+      for (const g of [d.models, d.latest || {}]) {
+        for (const m of Object.values(g)) {
+          for (const v of ['temp', 'wind', 'precip']) vals[v].push(...finite(m[v]));
+          vals.temp.push(...finite(m.p10), ...finite(m.p90));
+        }
+      }
+      const r = d.obs && d.obs.reports;
+      if (r) { vals.temp.push(...finite(r.temp)); vals.wind.push(...finite(r.wind), ...finite(r.gust)); vals.precip.push(...finite(r.precip)); }
+    }
+    let lo = pct(vals.temp, 0.005), hi = pct(vals.temp, 0.995);
+    if (lo == null) { lo = 40; hi = 70; }
+    const tstep = hi - lo > 40 ? 10 : 5;
+    lo = Math.floor((lo - 2) / tstep) * tstep;
+    hi = Math.max(Math.ceil((hi + 2) / tstep) * tstep, lo + 3 * tstep);
+    SC.temp = { lo, hi, step: tstep };
+    const wmax = Math.max(10, Math.ceil((pct(vals.wind, 0.995) || 0) / 5) * 5);
+    SC.wind = { lo: 0, hi: wmax, step: wmax > 30 ? 10 : 5 };
+    const pmax = Math.max(0.1, pct(vals.precip, 0.995) || 0);
+    const pstep = [0.05, 0.1, 0.25, 0.5, 1, 2, 5].find(s => pmax / s <= 4) || 10;
+    SC.precip = { lo: 0, hi: Math.ceil(pmax / pstep - 1e-9) * pstep, step: pstep, dec: pstep < 0.1 || pstep === 0.25 ? 2 : pstep < 1 ? 1 : 0 };
+    SC.cloud = { lo: 0, hi: 100, step: 25 };
+  }
+
+  // hourly mean of the models switched on (not the consensus); an hour needs 3 models
+  // (or all of them when fewer are on)
+  function average() {
+    AV = HI.map(day => {
+      const out = {};
+      for (const p of PANELS) {
+        const ns = Object.keys(day).filter(n => st.on.has(n) && day[n][p.v]);
+        const need = Math.min(3, ns.length);
+        const vals = H25.map(j => {
+          let s = 0, c = 0;
+          for (const n of ns) { const x = day[n][p.v][j]; if (x != null) { s += x; c++; } }
+          return c && c >= need ? s / c : null;
+        });
+        out[p.v] = { vals, n: ns.length };
+      }
+      return out;
+    });
+  }
+
+  /* ---------- drawing ---------- */
+  function path(hs, vs, p, off, gap) {
+    let s = '', pen = false, last = null;
+    for (let i = 0; i < hs.length; i++) {
+      const v = vs[i];
+      if (v == null || !isFinite(v)) { pen = false; continue; }
+      const h = hs[i] + off;
+      if (gap && last != null && h - last > gap) pen = false;
+      s += (pen ? 'L' : 'M') + X(h).toFixed(1) + ' ' + Y(p, v).toFixed(1);
+      pen = true; last = h;
+    }
+    return s;
+  }
+  function stepPath(hs, vs, p, off) {           // step at the midpoints (MOS cloud categories)
+    let s = '', pen = false;
+    for (let i = 0; i < hs.length; i++) {
+      const v = vs[i];
+      if (v == null) { pen = false; continue; }
+      const a = i > 0 && vs[i - 1] != null ? (hs[i - 1] + hs[i]) / 2 : hs[i];
+      const b = i < hs.length - 1 && vs[i + 1] != null ? (hs[i] + hs[i + 1]) / 2 : hs[i];
+      const y = Y(p, v).toFixed(1);
+      s += (pen ? 'L' : 'M') + X(a + off).toFixed(1) + ' ' + y + 'L' + X(b + off).toFixed(1) + ' ' + y;
+      pen = true;
+    }
+    return s;
+  }
+  function runningPath(hs, vs, p, off) {        // observed running total: steps up at each report
+    let s = '', prev = null;
+    for (let i = 0; i < hs.length; i++) {
+      const v = vs[i];
+      if (v == null) continue;
+      const x = X(hs[i] + off).toFixed(1);
+      s += prev == null ? `M${X(off).toFixed(1)} ${Y(p, 0).toFixed(1)}L${x} ${Y(p, 0).toFixed(1)}` : `L${x} ${Y(p, prev).toFixed(1)}`;
+      s += `L${x} ${Y(p, v).toFixed(1)}`;
+      prev = v;
+    }
+    return s;
+  }
+  const ln = (d, c, w, dash, op) => d ? `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" ` +
+    `stroke-linejoin="round" stroke-linecap="round"${dash ? ` stroke-dasharray="${dash}"` : ''}${op != null ? ` stroke-opacity="${op}"` : ''}/>` : '';
+  const dot = (x, y, c) => `<circle cx="${x}" cy="${y.toFixed(1)}" r="3.4" fill="${c}" stroke="var(--bg)" stroke-width="1.5"/>`;
+  function sw(kind, dash) {
+    const line = (c, w, d) => `<svg width="20" height="10" aria-hidden="true" style="flex:none"><line x1="2" x2="18" y1="5" y2="5" ` +
+      `stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d ? ` stroke-dasharray="${d}"` : ''}/></svg>`;
+    if (kind === 'AVG') return line('var(--ink-2)', 2.6, '5 3');
+    if (kind === 'OBS') return line('var(--ink)', 3.5);
+    if (kind === 'BAND') return `<svg width="20" height="10" aria-hidden="true" style="flex:none"><rect x="1" y="1" width="18" height="8" rx="2" fill="var(--ink-2)" fill-opacity="0.3"/></svg>`;
+    return line(COL[kind] || 'var(--ink-3)', dash === LATEST_DASH ? 3 : 2.5, dash || (DASHED.has(kind) ? '4 3' : ''));
+  }
+
+  function dayLabel(k) {
+    const d = T.days[k].date;
+    const s = new Date(d + 'T12:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+    if (k === TODAY_K) return `Today · ${s}`;
+    if (k === TODAY_K + 1) return `Tomorrow · ${s} · forecast`;
+    return k > TODAY_K ? `${s} · forecast` : s;
+  }
+
+  function axis() {
+    axisEl.setAttribute('width', AXW);
+    axisEl.setAttribute('height', H);
+    let s = '';
+    for (const p of PANELS) {
+      const c = SC[p.v];
+      for (let v = c.lo; v <= c.hi + 1e-9; v += c.step) {
+        const t = p.v === 'precip' ? v.toFixed(c.dec) : Math.round(v);
+        s += `<text x="${AXW - 5}" y="${(Y(p, v) + 4).toFixed(1)}" font-size="11" text-anchor="end" fill="var(--ink-3)">${t}</text>`;
+      }
+    }
+    axisEl.innerHTML = s;
+  }
+
+  function titles() {
+    wrap.querySelectorAll('.tl-ptitle').forEach(e => e.remove());
+    for (const p of PANELS) {
+      const e = document.createElement('div');
+      e.className = 'tl-ptitle';
+      e.textContent = p.title;
+      e.style.left = (AXW + 4) + 'px';
+      e.style.top = (p.y0 - HEAD + 3) + 'px';
+      wrap.appendChild(e);
+    }
+  }
+
+  function render() {
+    W = Math.round(DW * ND);
+    average();
+    const o = [];
+    const bottom = H - BOT;
+    // the part of the timeline still to come
+    const nowIn = NOW_H > 0 && NOW_H < 24 * ND, nx = X(Math.max(0, Math.min(NOW_H, 24 * ND)));
+    if (NOW_H < 24 * ND) o.push(`<rect x="${nx.toFixed(1)}" y="${TOP}" width="${(W - nx).toFixed(1)}" height="${bottom - TOP}" fill="var(--ink)" fill-opacity="0.035"/>`);
+    for (const p of PANELS) {
+      const c = SC[p.v];
+      for (let v = c.lo; v <= c.hi + 1e-9; v += c.step) {
+        const y = Y(p, v).toFixed(1);
+        o.push(`<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/>`);
+      }
+    }
+    // day boundaries (06Z), day names, hour ticks
+    for (let k = 0; k <= ND; k++) o.push(`<line x1="${k * DW}" x2="${k * DW}" y1="2" y2="${bottom}" stroke="var(--ink-3)" stroke-width="1"/>`);
+    T.days.forEach((d, k) => o.push(`<text x="${k * DW + 6}" y="15" font-size="12" font-weight="600" fill="var(--ink-2)">${esc(dayLabel(k))}</text>`));
+    const every = DW >= 260 ? 6 : 12;
+    for (let h = 0; h <= 24 * ND; h += every) {
+      const x = Math.min(W - 13, Math.max(13, X(h)));
+      o.push(`<text x="${x.toFixed(1)}" y="${H - 7}" font-size="11" text-anchor="middle" fill="var(--ink-3)">${hourLabel(h)}</text>`);
+    }
+
+    const bands = [], lines = [], latest = [], avg = [];
+    T.days.forEach((d, k) => {
+      const off = 24 * k;
+      for (const n of ORDER) {
+        const m = d.models[n];
+        if (!m || !st.on.has(n)) continue;
+        const dash = DASHED.has(n) ? DASH : '';
+        if (st.band && m.p10 && m.p90 && !m.p10.includes(null) && !m.p90.includes(null)) {
+          const up = m.h.map((h, i) => `${X(h + off).toFixed(1)},${Y(P.temp, m.p90[i]).toFixed(1)}`);
+          const dn = m.h.map((h, i) => `${X(h + off).toFixed(1)},${Y(P.temp, m.p10[i]).toFixed(1)}`).reverse();
+          bands.push(`<polygon points="${up.concat(dn).join(' ')}" fill="${COL[n]}" fill-opacity="0.13"/>`);
+        }
+        for (const v of ['temp', 'wind', 'precip']) if (m[v]) lines.push(ln(path(m.h, m[v], P[v], off), COL[n], 1.6, dash, 0.9));
+        if (m.cloud) lines.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 1.5, dash, 0.9));
+      }
+      if (st.latest) {
+        for (const n of ORDER) {
+          const m = (d.latest || {})[n];
+          if (!m || !st.on.has(n)) continue;
+          for (const v of ['temp', 'wind', 'precip']) if (m[v]) latest.push(ln(path(m.h, m[v], P[v], off), COL[n], 2, LATEST_DASH));
+          if (m.cloud) latest.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 2, LATEST_DASH));
+        }
+      }
+      if (st.avg) for (const p of PANELS) avg.push(ln(path(H25, AV[k][p.v].vals, p, off), 'var(--ink-2)', 2.6, AVG_DASH));
+    });
+    o.push(...bands, ...lines, ...latest, ...avg);
+
+    if (st.obs) {
+      // temperature and wind run on across days (broken where reports are missing for 3 h);
+      // the precip total restarts at each 06Z, like the scoring
+      const R = [];
+      T.days.forEach((d, k) => {
+        const r = d.obs && d.obs.reports;
+        if (r) r.h.forEach((h, i) => R.push({ h: 24 * k + h, t: r.temp[i], w: r.wind[i], g: r.gust[i], rt: r.routine[i] }));
+      });
+      const t = R.filter(r => r.t != null), w = R.filter(r => r.w != null);
+      o.push(ln(path(t.map(r => r.h), t.map(r => r.t), P.temp, 0, 3), 'var(--ink)', 3));
+      for (const r of t) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P.temp, r.t).toFixed(1)}" r="2.2" fill="var(--ink)"/>`);
+      o.push(ln(path(w.map(r => r.h), w.map(r => r.w), P.wind, 0, 3), 'var(--ink)', 2.5));
+      for (const r of R) {
+        if (r.g == null) continue;
+        const x = X(r.h), y = Y(P.wind, r.g);
+        o.push(`<path d="M${(x - 3).toFixed(1)} ${(y - 3).toFixed(1)}l6 6m0 -6l-6 6" stroke="var(--ink)" stroke-width="1.6"/>`);
+      }
+      T.days.forEach((d, k) => {
+        const ob = d.obs || {}, r = ob.reports;
+        if (r) o.push(ln(runningPath(r.h, r.precip, P.precip, 24 * k), 'var(--ink)', 3));
+        if (ob.goes) o.push(ln(path(ob.goes.h, ob.goes.pct, P.cloud, 24 * k, 2), 'var(--ink)', 2.6));
+        if (ob.sky) {
+          ob.sky.h.forEach((h, i) => {
+            const v = ob.sky.pct[i];
+            if (v == null) return;
+            const clear = ob.sky.clear && ob.sky.clear[i];
+            o.push(`<circle cx="${X(24 * k + h).toFixed(1)}" cy="${Y(P.cloud, v).toFixed(1)}" r="2.6" ` +
+                   (clear ? 'fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>' : 'fill="var(--ink)"/>'));
+          });
+        }
+      });
+    }
+    if (nowIn) {
+      o.push(`<line x1="${nx.toFixed(1)}" x2="${nx.toFixed(1)}" y1="${TOP}" y2="${bottom}" stroke="var(--ink-2)" stroke-dasharray="2 3"/>`);
+      o.push(`<text x="${(nx + 4).toFixed(1)}" y="${TOP + 14}" font-size="11" fill="var(--ink-2)">now</text>`);
+    }
+    o.push('<g id="tl-xh"></g>');
+    chart.setAttribute('width', W);
+    chart.setAttribute('height', H);
+    chart.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    chart.innerHTML = o.join('');
+    axis();
+    hover();
+  }
+
+  /* ---------- hover: crosshair and day card ---------- */
+  function obsAt(k, j) {
+    const r = T.days[k].obs && T.days[k].obs.reports;
+    if (!r) return null;
+    let best = -1;
+    r.h.forEach((h, i) => { if (Math.abs(h - j) <= 0.75 && (best < 0 || Math.abs(h - j) < Math.abs(r.h[best] - j))) best = i; });
+    return best < 0 ? null : { t: r.temp[best], w: r.wind[best] };
+  }
+  const at = (t, w) => `<td>${t == null ? '—' : Math.round(t) + '°'}${w == null ? '' : ', ' + Math.round(w) + ' kt'}</td>`;
+  function er(e, dec) {
+    if (e == null) return '';
+    if (Math.abs(e) < 0.5 * Math.pow(10, -dec)) return ' <span class="mu">0</span>';
+    return ` <span class="${e > 0 ? 'up' : 'dn'}">${e > 0 ? '+' : '−'}${Math.abs(e).toFixed(dec)}</span>`;
+  }
+
+  function cardHtml(k, h) {
+    const d = T.days[k], j = h == null ? null : h - 24 * k, v = d.verif, vm = (v && v.models) || {};
+    const cols = j == null ? '' : `<th>At ${hourLabel(h)}</th>`;
+    const notes = [];
+    if (d.hindcast) notes.push('Hindcast day: these runs were rebuilt afterwards from what was out at 23Z the day before.');
+    const rows = [];
+    if (v) {
+      const o = v.obs, oa = j == null ? null : obsAt(k, j);
+      rows.push(`<tr class="obs"><td>Observed</td><td>official</td><td>${f0(o[0])}</td><td>${f0(o[1])}</td><td>${f0(o[2])}</td>` +
+                `<td>${f2(o[3])}</td>${j == null ? '' : at(oa && oa.t, oa && oa.w)}</tr>`);
+      notes.push('Errors are forecast minus observed, as on the scoreboard below.');
+      if (v.pending && v.pending.length) notes.push(`Not final yet: ${v.pending.join(', ')}.`);
+    } else if (d.so_far) {
+      const o = d.so_far, oa = j == null ? null : obsAt(k, j);
+      rows.push(`<tr class="obs"><td>Observed</td><td>so far</td><td>${f0(o.high)}</td><td>${f0(o.low)}</td><td>${f0(o.wind)}</td>` +
+                `<td>${f2(o.precip)}</td>${j == null ? '' : at(oa && oa.t, oa && oa.w)}</tr>`);
+      notes.push(`Observed so far through ${o.through ? o.through.slice(11, 16) + 'Z' : 'now'}.` +
+                 (d.latest ? ' Dotted rows are the newest runs.' : ''));
+    } else if (k > TODAY_K || (k === TODAY_K && !d.obs)) {
+      const deadline = Date.UTC(+d.date.slice(0, 4), +d.date.slice(5, 7) - 1, +d.date.slice(8, 10));
+      notes.push(Date.now() < deadline ? 'Forecast only. These runs keep updating until the 00Z deadline.'
+                                       : 'Forecast only: the runs that were out at the 00Z deadline.');
+    } else {
+      notes.push('Official observations not in yet.');
+    }
+    const ns = ORDER.filter(n => st.on.has(n) && d.models[n] && d.models[n].h && d.models[n].h.length);
+    const nums = {};
+    for (const n of ns) {
+      const m = d.models[n], s = vm[n];
+      const x = s ? s.fc : [m.tmax, m.tmin, maxOf(m.wind), lastOf(m.precip)];
+      nums[n] = x;
+      const hv = HI[k][n];
+      rows.push(`<tr><td>${sw(n)} ${label(n)}</td><td>${run(m.init)}</td>` +
+                `<td>${f0(x[0])}${s ? er(s.err[0], 0) : ''}</td><td>${f0(x[1])}${s ? er(s.err[1], 0) : ''}</td>` +
+                `<td>${f0(x[2])}${s ? er(s.err[2], 0) : ''}</td><td>${f2(x[3])}${s ? er(s.err[3], 2) : ''}</td>` +
+                (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j])) + '</tr>');
+    }
+    if (st.latest && d.latest) {
+      for (const n of ORDER) {
+        const m = d.latest[n];
+        if (!m || !st.on.has(n)) continue;
+        rows.push(`<tr class="latest"><td>${sw(n, LATEST_DASH)} ${label(n)} newest</td><td>${run(m.init)}</td>` +
+                  `<td>${f0(m.tmax)}</td><td>${f0(m.tmin)}</td><td>${f0(maxOf(m.wind))}</td><td>${f2(lastOf(m.precip))}</td>` +
+                  (j == null ? '' : at(lerp(m.h, m.temp, j), lerp(m.h, m.wind, j))) + '</tr>');
+      }
+    }
+    if (st.avg && ns.length) {
+      const a = AV[k];
+      rows.push(`<tr class="avg"><td>${sw('AVG')} Average line</td><td>${a.temp.n} model${a.temp.n === 1 ? '' : 's'}</td>` +
+                `<td>${f0(maxOf(a.temp.vals))}</td><td>${f0(minOf(a.temp.vals))}</td><td>${f0(maxOf(a.wind.vals))}</td>` +
+                `<td>${f2(lastOf(a.precip.vals))}</td>${j == null ? '' : at(a.temp.vals[j], a.wind.vals[j])}</tr>`);
+      rows.push(`<tr class="avg"><td colspan="2">Mean of the model numbers</td>` +
+                [0, 1, 2].map(i => `<td>${f0(mean(ns.map(n => nums[n][i])))}</td>`).join('') +
+                `<td>${f2(mean(ns.map(n => nums[n][3])))}</td>${j == null ? '' : '<td></td>'}</tr>`);
+      notes.push('The average line\'s high runs lower (and its low higher) than the mean of the model highs and lows when the models disagree on timing.');
+    }
+    if (!ns.length && !(d.latest && st.latest)) notes.push(Object.keys(d.models).length ? 'No models switched on.' : 'No stored runs for this day.');
+    const hint = pinned === k ? 'Pinned. Click the chart again to unpin' : 'Hover a day for its numbers; click to pin it';
+    return `<div class="tl-head"><b>${esc(dayLabel(k))}</b><span class="small">${hint}</span></div>` +
+      `<p class="small">${notes.map(esc).join(' ')}</p>` +
+      (rows.length ? `<table><thead><tr><th>Model</th><th>Run</th><th>High</th><th>Low</th><th>Wind</th><th>Precip</th>${cols}</tr></thead>` +
+                     `<tbody>${rows.join('')}</tbody></table>` : '');
+  }
+
+  function hover() {
+    const g = $('tl-xh');
+    if (!g || !T) return;
+    const k = curH == null ? null : dayOf(curH);
+    let s = '';
+    if (k != null) {
+      const j = curH - 24 * k, x = X(curH).toFixed(1);
+      s += `<line x1="${x}" x2="${x}" y1="${TOP}" y2="${H - BOT}" stroke="var(--ink-2)" stroke-width="1"/>`;
+      for (const p of PANELS) {
+        for (const n of ORDER) {
+          const hv = HI[k][n] && HI[k][n][p.v];
+          if (hv && st.on.has(n) && hv[j] != null) s += dot(x, Y(p, hv[j]), COL[n]);
+        }
+        const av = AV[k][p.v].vals[j];
+        if (st.avg && av != null) s += dot(x, Y(p, av), 'var(--ink-2)');
+      }
+      s += `<rect x="${(+x - 18).toFixed(1)}" y="${H - BOT + 3}" width="36" height="17" rx="3" fill="var(--ink)"/>` +
+           `<text x="${x}" y="${H - 7}" font-size="11" font-weight="600" text-anchor="middle" fill="var(--bg)">${hourLabel(curH)}</text>`;
+    }
+    g.innerHTML = s;
+    const show = pinned != null ? pinned : k != null ? k : Math.max(0, Math.min(ND - 1, TODAY_K));
+    card.innerHTML = cardHtml(show, curH != null && k === show ? curH : null);
+  }
+
+  const hourAt = ev => {
+    const r = chart.getBoundingClientRect();
+    return Math.max(0, Math.min(24 * ND, Math.round((ev.clientX - r.left) / DW * 24)));
+  };
+  chart.addEventListener('pointermove', ev => { curH = hourAt(ev); hover(); });
+  chart.addEventListener('pointerleave', () => { curH = null; hover(); });
+  chart.addEventListener('click', ev => {
+    curH = hourAt(ev);
+    const k = dayOf(curH);
+    pinned = pinned === k ? null : k;
+    hover();
+  });
+
+  /* ---------- controls ---------- */
+  function controls() {
+    const chip = (attr, on, inner) => `<button type="button" class="tl-btn" ${attr} aria-pressed="${on}">${inner}</button>`;
+    let h = PRESETS.map(([name]) => `<button type="button" class="tl-btn" data-preset="${name}">${name}</button>`).join('');
+    h += '<span class="tl-sep"></span>';
+    h += present.map(n => chip(`data-m="${n}"`, st.on.has(n), sw(n) + label(n))).join('');
+    h += '<span class="tl-sep"></span>';
+    h += chip('data-t="avg"', st.avg, sw('AVG') + 'Average') + chip('data-t="obs"', st.obs, sw('OBS') + 'Observed') +
+         chip('data-t="latest"', st.latest, sw('HRRR', LATEST_DASH) + 'Newest runs (today)') +
+         chip('data-t="band"', st.band, sw('BAND') + 'Ensemble 10–90%');
+    ctl.innerHTML = h;
+  }
+  ctl.addEventListener('click', ev => {
+    const b = ev.target.closest('button');
+    if (!b || !T) return;
+    if (b.dataset.preset) {
+      const list = PRESETS.find(p => p[0] === b.dataset.preset)[1];
+      st.on = new Set(list === null ? present : list.filter(n => present.includes(n)));
+    } else if (b.dataset.m) {
+      const n = b.dataset.m;
+      if (st.on.has(n)) st.on.delete(n); else st.on.add(n);
+    } else if (b.dataset.t) {
+      st[b.dataset.t] = !st[b.dataset.t];
+    } else return;
+    save();
+    controls();
+    render();
+  });
+  $('tl-nav').addEventListener('click', ev => {
+    const b = ev.target.closest('button');
+    if (!b) return;
+    touched = true;
+    const go = b.dataset.go;
+    if (go === 'today') sc.scrollTo({ left: sc.scrollWidth, behavior: 'smooth' });
+    else sc.scrollBy({ left: +go * DW, behavior: 'smooth' });
+  });
+  ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(t => sc.addEventListener(t, () => { touched = true; }, { passive: true }));
+
+  // a day's width: three days across on a wide screen, two on a tablet, one on a phone
+  function dayWidth() {
+    const a = sc.clientWidth || 600;
+    return Math.max(240, Math.floor(a >= 880 ? a / 3 : a >= 540 ? a / 2 : a));
+  }
+  function layout() {
+    const dw = dayWidth();
+    if (dw === DW && W) return;
+    const left = DW ? sc.scrollLeft / DW : 0;
+    DW = dw;
+    render();
+    sc.scrollLeft = touched ? left * DW : sc.scrollWidth;
+  }
+
+  (async function () {
+    try {
+      const res = await fetch('../data/wxchallenge/timeline.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+      const data = await res.json();
+      if (!data.days || !data.days.length) throw new Error('no days');
+      prep(data);
+      axisEl.style.width = AXW + 'px';
+      chart.setAttribute('aria-label', `Forecasts and observations for ${data.station}, ${data.days[0].date} to ` +
+        `${data.days[data.days.length - 1].date}: temperature, wind, precipitation and cloud cover by hour`);
+      sec.hidden = false;      // first, so the scroll box has its width
+      controls();
+      titles();
+      DW = 0;
+      layout();
+      new ResizeObserver(() => layout()).observe(sc);
+    } catch (err) {          // keep the links to the static images
+      for (const e of [ctl, $('tl-nav'), wrap, card]) e.style.display = 'none';
+      const p = document.createElement('p');
+      p.className = 'small';
+      p.textContent = 'The interactive timeline is not available right now.';
+      ctl.before(p);
+      sec.hidden = false;
+      console.error(err);
+    }
+  })();
+})();

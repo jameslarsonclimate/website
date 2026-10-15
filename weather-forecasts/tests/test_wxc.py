@@ -628,7 +628,7 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     work = tmp_path / "wf"
     shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns("tests", "__pycache__", "*.ipynb", "images", "data", "cache"))
     monkeypatch.syspath_prepend(str(work))
-    for name in ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations",
+    for name in ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations", "wxc_timeline",
                  "getForecast_wxChallenge-pushGitHub"]:
         sys.modules.pop(name, None)
     import wxc_obs as o, wxc_mos as mo, wxc_verify as v  # noqa: E401
