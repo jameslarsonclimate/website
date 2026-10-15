@@ -1,10 +1,10 @@
 {
   "date": "2026-10-15",
-  "through_utc": "2026-10-15T13:54",
+  "through_utc": "2026-10-15T14:05",
   "obs": {
     "high": 51.8,
     "low": 39.92,
-    "wind": 6,
+    "wind": 7,
     "precip": 0.0,
     "n_obs": 8
   },
@@ -216,5 +216,5 @@
     }
   },
   "station": "KOLM",
-  "generated_at_utc": "2026-10-15T14:00:07+00:00"
+  "generated_at_utc": "2026-10-15T14:30:08+00:00"
 }

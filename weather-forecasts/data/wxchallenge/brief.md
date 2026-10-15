@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-16**, scored over 2026-10-16T06Z to 2026-10-17T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-16T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-15T14:00:07+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-15T14:30:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -417,9 +417,9 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-13 | 0.00" (dry) | 2/7/9/3 | 7/9/6/3 | 0/2/2/16 | 2/0/0/2 | 0/0/0/10 | 24h 22% | 24h 7% | 0/0/0/0 |
 | 10-14 | 0.00" (dry) | 9/20/1/2 | 10/11/3/0 | 6/39/8/0 | 33/26/2/0 | 3/29/0/0 | 24h 0% | 24h 7% | 0/9/0/0 |
 
-## Today so far (2026-10-15, through 2026-10-15T13:54Z)
+## Today so far (2026-10-15, through 2026-10-15T14:05Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 51.8 °F, low 39.9 °F, max wind 6 kt, precip 0.00" (8 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 51.8 °F, low 39.9 °F, max wind 7 kt, precip 0.00" (8 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
