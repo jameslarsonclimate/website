@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-16**, scored over 2026-10-16T06Z to 2026-10-17T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-16T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-15T19:00:08+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-15T19:30:07+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | GEFS | 15/12Z | 74.5 | 47.0 | 4.7 | 0.00 |
 | HRRRCAST (precip only) | 15/12Z | — | — | — | 0.00 |
 | REFS (precip only) | 15/12Z | — | — | — | 0.00 |
-| NBM_QMD (precip only) | 15/06Z | — | — | — | 0.00 |
+| NBM_QMD (precip only) | 15/12Z | — | — | — | 0.00 |
 | **CONSENSUS** |  | **74.6** | **41.4** | **8.5** | **0.00** |
 
 Notes:
@@ -416,25 +416,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-13 | 0.00" (dry) | 2/7/9/3 | 7/9/6/3 | 0/2/2/16 | 2/0/0/2 | 0/0/0/10 | 24h 22% | 24h 7% | 0/0/0/0 |
 | 10-14 | 0.00" (dry) | 9/20/1/2 | 10/11/3/0 | 6/39/8/0 | 33/26/2/0 | 3/29/0/0 | 24h 0% | 24h 7% | 0/9/0/0 |
 
-## Today so far (2026-10-15, through 2026-10-15T18:01Z)
+## Today so far (2026-10-15, through 2026-10-15T18:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 54.0 °F, low 39.9 °F, max wind 7 kt, precip 0.00" (12 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 55.0 °F, low 39.9 °F, max wind 7 kt, precip 0.00" (13 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 14/18Z | +0.8 | 5.3 | 78 (+24) pending | 44 (+4) | -0.5 | 0.00 | +0.00 |
-| RRFS | 14/18Z | +2.3 | 3.9 | 74 (+20) pending | 48 (+8) | -0.6 | 0.00 | +0.00 |
-| IFS | 14/12Z | +1.6 | 3.5 | 69 (+15) pending | 47 (+7) | +0.6 | 0.00 | +0.00 |
-| GFS | 14/18Z | +1.6 | 4.4 | 74 (+20) pending | 46 (+6) | +0.4 | 0.00 | +0.00 |
-| AIFS | 14/12Z | +2.3 | 3.7 | 70 (+16) pending | 46 (+6) | +1.5 | 0.00 | +0.00 |
-| GFS_MOS | 14/18Z | -1.6 | 4.6 | 71 (+17) pending | 41 (+1) | -2.1 | — | — |
-| NBM | 14/18Z | +0.0 | 4.0 | 70 (+16) pending | 44 (+4) | +1.3 | — | — |
-| USL | 14/22Z | -0.1 | 4.3 | 69 (+15) pending | 45 (+5) | +2.0 | 0.00 | +0.00 |
-| ENS | 14/06Z | +2.9 | 4.2 | 70 (+16) pending | 48 (+8) | +1.0 | 0.00 | +0.00 |
-| AIFS_ENS | 14/12Z | +2.6 | 3.7 | 71 (+17) pending | 47 (+8) | +1.6 | 0.00 | +0.00 |
-| GEFS | 14/18Z | +2.1 | 4.7 | 72 (+18) pending | 47 (+7) | +0.3 | 0.00 | +0.00 |
+| HRRR | 14/18Z | +1.6 | 5.7 | 78 (+23) pending | 44 (+4) | -0.6 | 0.00 | +0.00 |
+| RRFS | 14/18Z | +2.6 | 4.1 | 74 (+19) pending | 48 (+8) | -0.6 | 0.00 | +0.00 |
+| IFS | 14/12Z | +1.8 | 3.5 | 69 (+14) pending | 47 (+7) | +0.4 | 0.00 | +0.00 |
+| GFS | 14/18Z | +2.2 | 4.7 | 74 (+18) pending | 46 (+6) | +0.2 | 0.00 | +0.00 |
+| AIFS | 14/12Z | +2.4 | 3.7 | 70 (+16) pending | 46 (+6) | +1.3 | 0.00 | +0.00 |
+| GFS_MOS | 14/18Z | -1.2 | 4.5 | 71 (+16) pending | 41 (+1) | -2.1 | — | — |
+| NBM | 14/18Z | +0.3 | 3.9 | 70 (+15) pending | 44 (+4) | +1.3 | — | — |
+| USL | 14/22Z | +0.1 | 4.2 | 69 (+14) pending | 45 (+5) | +1.8 | 0.00 | +0.00 |
+| ENS | 14/06Z | +3.2 | 4.4 | 70 (+15) pending | 48 (+8) | +0.8 | 0.00 | +0.00 |
+| AIFS_ENS | 14/12Z | +2.8 | 3.8 | 71 (+16) pending | 47 (+8) | +1.4 | 0.00 | +0.00 |
+| GEFS | 14/18Z | +2.6 | 4.9 | 72 (+17) pending | 47 (+7) | +0.2 | 0.00 | +0.00 |
 
 ## Clouds so far today (2026-10-15, observed vs forecast)
 
@@ -455,6 +455,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-15 16Z | Thu 09:00 | 99 | 100 | 100 | 85 |  |  |  |  |  | 54 |
 | 10-15 17Z | Thu 10:00 | 99 | 100 | 88 | 58 |  |  |  |  |  | 39 |
 | 10-15 18Z | Thu 11:00 | 100 | 100 | 38 | 18 | 44 | 5 | 22 | 0 | 41 | 27 |
+| 10-15 19Z | Thu 12:00 | 97 | 100 | 6 | 6 |  |  |  |  |  | 21 |
 
 ## Raw data
 
