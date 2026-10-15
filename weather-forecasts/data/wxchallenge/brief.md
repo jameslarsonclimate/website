@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-16**, scored over 2026-10-16T06Z to 2026-10-17T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-16T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-15T15:00:06+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-15T15:30:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -452,7 +452,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-15 12Z | Thu 05:00 | 94 | 100 | 100 | 68 | 72 | 10 | 57 | 0 | 55 | 47 |
 | 10-15 13Z | Thu 06:00 | 95 | 100 | 100 | 71 |  |  |  |  |  | 51 |
 | 10-15 14Z | Thu 07:00 | 99 | 100 | 100 | 79 |  |  |  |  |  | 56 |
-| 10-15 15Z | Thu 08:00 |  | 100 | 100 | 86 | 100 | 21 |  | 44 | 66 | 60 |
+| 10-15 15Z | Thu 08:00 | 6 | 100 | 100 | 86 | 100 | 21 |  | 44 | 66 | 60 |
 
 ## Raw data
 
