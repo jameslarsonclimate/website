@@ -26,7 +26,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-MAX_DAYS = 21              # a city is two weeks plus its hindcast days
+MAX_DAYS = 35              # cap: a two-week city plus its 14 hindcast days, with a margin
 FINAL_AFTER = timedelta(hours=1)   # a day's reports are complete this long after its 06Z end
 VERIF_VARS = ("tmax_f", "tmin_f", "wind_max_kt", "precip_in")
 
@@ -147,9 +147,10 @@ def clouds_record(icao: str, day: date, submitted: Optional[dict], latest: Optio
 # ----------------------------------------------------------------------------
 # the bundle
 # ----------------------------------------------------------------------------
-def timeline_days(data_dir: Path, icao: str) -> list:
-    """Every day from the city's first submitted series to the newest one (the day being
-    forecast), at most MAX_DAYS, with no gaps (a day missed while offline is still a day)."""
+def timeline_days(data_dir: Path, icao: str, since: Optional[str] = None) -> list:
+    """Every day from the city's first submitted series (not before `since`, the scoreboard's
+    period start, so an earlier visit to the same station is left out) to the newest one (the
+    day being forecast), at most MAX_DAYS, with no gaps (a day missed offline is still a day)."""
     days = []
     for p in (Path(data_dir) / "series").glob(f"{icao.upper()}_*_submitted.json"):
         try:
@@ -159,7 +160,10 @@ def timeline_days(data_dir: Path, icao: str) -> list:
     if not days:
         return []
     last = max(days)
-    first = min(d for d in days if d > last - timedelta(days=MAX_DAYS))
+    lo = last - timedelta(days=MAX_DAYS)
+    if since:
+        lo = max(lo, date.fromisoformat(since) - timedelta(days=1))
+    first = min((d for d in days if d > lo), default=last)
     return [first + timedelta(days=i) for i in range((last - first).days + 1)]
 
 
@@ -244,10 +248,11 @@ def _verif_day(row: Optional[dict]) -> Optional[dict]:
 
 
 def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict] = None,
-          today_json: Optional[dict] = None, station_label: Optional[str] = None) -> Optional[dict]:
+          today_json: Optional[dict] = None, station_label: Optional[str] = None,
+          since: Optional[str] = None) -> Optional[dict]:
     """The whole timeline for the page, or None without any submitted series."""
     icao = icao.upper()
-    days = timeline_days(data_dir, icao)
+    days = timeline_days(data_dir, icao, since)
     if not days:
         return None
     today = (now - timedelta(hours=6)).date()

@@ -210,7 +210,8 @@
     const s = new Date(d + 'T12:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
     if (k === TODAY_K) return `Today · ${s}`;
     if (k === TODAY_K + 1) return `Tomorrow · ${s} · forecast`;
-    return k > TODAY_K ? `${s} · forecast` : s;
+    if (k > TODAY_K) return `${s} · forecast`;
+    return T.days[k].verif && T.days[k].verif.hindcast ? `${s} · hindcast` : s;
   }
 
   function axis() {
@@ -256,7 +257,12 @@
     }
     // day boundaries (06Z), day names, hour ticks
     for (let k = 0; k <= ND; k++) o.push(`<line x1="${k * DW}" x2="${k * DW}" y1="2" y2="${bottom}" stroke="var(--ink-3)" stroke-width="1"/>`);
-    T.days.forEach((d, k) => o.push(`<text x="${k * DW + 6}" y="15" font-size="12" font-weight="600" fill="var(--ink-2)">${esc(dayLabel(k))}</text>`));
+    // days before the city's first forecast day: tinted like the scoreboard's hindcast columns
+    T.days.forEach((d, k) => {
+      const hind = d.verif && d.verif.hindcast;
+      if (hind) o.push(`<rect x="${k * DW + 1}" y="1" width="${DW - 2}" height="${TOP - 3}" rx="3" fill="var(--hind)"/>`);
+      o.push(`<text x="${k * DW + 6}" y="15" font-size="12" font-weight="600" fill="${hind ? 'var(--hind-ink)' : 'var(--ink-2)'}">${esc(dayLabel(k))}</text>`);
+    });
     const every = DW >= 260 ? 6 : 12;
     for (let h = 0; h <= 24 * ND; h += every) {
       const x = Math.min(W - 13, Math.max(13, X(h)));
@@ -354,7 +360,8 @@
     const d = T.days[k], j = h == null ? null : h - 24 * k, v = d.verif, vm = (v && v.models) || {};
     const cols = j == null ? '' : `<th>At ${hourLabel(h)}</th>`;
     const notes = [];
-    if (d.hindcast) notes.push('Hindcast day: these runs were rebuilt afterwards from what was out at 23Z the day before.');
+    if (d.hindcast) notes.push('These runs were rebuilt afterwards (hindcast) from what was out at 23Z the day before.' +
+      (['ENS', 'AIFS_ENS', 'GEFS'].some(n => d.models[n]) ? '' : ' Ensembles can\'t be rebuilt (only their latest run is served), so they are missing.'));
     const rows = [];
     if (v) {
       const o = v.obs, oa = j == null ? null : obsAt(k, j);

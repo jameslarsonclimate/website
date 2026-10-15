@@ -220,6 +220,44 @@
     <p id="consensus-note" class="muted"></p>
   </section>
 
+  <section id="timeline" hidden>
+    <h2>Forecasts and observations</h2>
+    <p class="small">Each 06Z–06Z day (between the vertical lines) shows the model runs that were out before its
+      00Z deadline; tomorrow's keep updating until then. Scroll or swipe left for earlier days. Black is observed:
+      every METAR (dots: hourly reports, ×: gusts); in the cloud panel the line is the GOES satellite cloud fraction
+      and the dots ASOS sky cover (open: clear; ASOS sees clouds only up to 12,000 ft). Dotted lines are today's newest
+      HRRR, MOS and NBM runs; the dashed grey line is the hourly average of the models switched on (a plain mean,
+      not the consensus). Hover a day for its numbers, click to pin it. Switch models on and off here:</p>
+    <div id="tl-controls" role="group" aria-label="Lines shown on the timeline"></div>
+    <div id="tl-nav">
+      <button type="button" class="tl-btn" data-go="-1">◀ Earlier</button>
+      <button type="button" class="tl-btn" data-go="today">Today</button>
+      <button type="button" class="tl-btn" data-go="1">Later ▶</button>
+    </div>
+    <div id="tl-wrap">
+      <svg id="tl-axis" aria-hidden="true"></svg>
+      <div id="tl-scroll" tabindex="0" aria-label="Timeline: scroll sideways for other days">
+        <svg id="tl-chart" role="img" aria-label="Forecasts and observations by hour"></svg>
+      </div>
+    </div>
+    <div id="tl-card"></div>
+    <p class="small">Static images: <a href="../images/wxchallenge/latest.png">tomorrow's forecast</a>,
+      <a href="../images/wxchallenge/today.png">today so far</a>.</p>
+    <!-- Hidden for now ("How the forecasts are doing so far today"); to bring it back, uncomment this
+         block and the today.json fetch in the script (search "today so far: errors").
+    <h3 style="margin-top:1.2rem">How the forecasts are doing so far today</h3>
+    <p id="today-note" class="small"></p>
+    <div class="scroll">
+      <table id="today-table" aria-label="Forecast errors so far today"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <p class="small">Forecast (runs before the 00Z deadline) minus observed at each hourly METAR so far.
+      Blue = running cold / light / dry, red = warm / strong / wet. "Daily high / low" show each model's
+      forecast high and low (the number in the forecast table, which is what gets scored) and, in brackets, its
+      difference from the observed high or low so far. They stay grey until the time the model expects its high
+      or low has passed (hover for the time), because until then the observed value can still change.</p>
+    -->
+  </section>
+
   <section id="ensembles">
     <h2>Ensembles</h2>
     <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31; shown and scored but not
@@ -252,44 +290,6 @@
     <div id="pop-charts" class="pop-charts"></div>
     <p class="small">Each line holds one source's chance for each 6-hour block (UTC); hover or tap a dot for
       the value. The table above has every number.</p>
-  </section>
-  <section id="timeline" hidden>
-    <h2>Forecasts and observations</h2>
-    <p class="small">Each 06Z–06Z day (between the vertical lines) shows the model runs that were out before its
-      00Z deadline; tomorrow's keep updating until then. Scroll or swipe left for earlier days. Black is observed:
-      every METAR (dots: hourly reports, ×: gusts); in the cloud panel the line is the GOES satellite cloud fraction
-      and the dots ASOS sky cover (open: clear; ASOS sees clouds only up to 12,000 ft). Dotted lines are today's newest
-      HRRR, MOS and NBM runs; the dashed grey line is the hourly average of the models switched on (a plain mean,
-      not the consensus). Hover a day for its numbers, click to pin it. Switch models on and off here:</p>
-    <div id="tl-controls" role="group" aria-label="Lines shown on the timeline"></div>
-    <div id="tl-nav">
-      <button type="button" class="tl-btn" data-go="-1">◀ Earlier</button>
-      <button type="button" class="tl-btn" data-go="today">Today</button>
-      <button type="button" class="tl-btn" data-go="1">Later ▶</button>
-    </div>
-    <div id="tl-wrap">
-      <svg id="tl-axis" aria-hidden="true"></svg>
-      <div id="tl-scroll" tabindex="0" aria-label="Timeline: scroll sideways for other days">
-        <svg id="tl-chart" role="img" aria-label="Forecasts and observations by hour"></svg>
-      </div>
-    </div>
-    <div id="tl-card"></div>
-    <p class="small">The same data as JSON: <a href="../data/wxchallenge/timeline.json">timeline.json</a>.
-      Static images: <a href="../images/wxchallenge/latest.png">tomorrow's forecast</a>,
-      <a href="../images/wxchallenge/today.png">today so far</a>.</p>
-    <!-- Hidden for now ("How the forecasts are doing so far today"); to bring it back, uncomment this
-         block and the today.json fetch in the script (search "today so far: errors").
-    <h3 style="margin-top:1.2rem">How the forecasts are doing so far today</h3>
-    <p id="today-note" class="small"></p>
-    <div class="scroll">
-      <table id="today-table" aria-label="Forecast errors so far today"><tbody><tr><td>Loading…</td></tr></tbody></table>
-    </div>
-    <p class="small">Forecast (runs before the 00Z deadline) minus observed at each hourly METAR so far.
-      Blue = running cold / light / dry, red = warm / strong / wet. "Daily high / low" show each model's
-      forecast high and low (the number in the forecast table, which is what gets scored) and, in brackets, its
-      difference from the observed high or low so far. They stay grey until the time the model expects its high
-      or low has passed (hover for the time), because until then the observed value can still change.</p>
-    -->
   </section>
 
   <section id="evolution" hidden>

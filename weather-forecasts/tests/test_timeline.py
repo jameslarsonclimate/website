@@ -1,7 +1,10 @@
 """The page's scrollable timeline (wxc_timeline.py): per-day files and the bundle."""
+import importlib
 import json
+import types
 from datetime import date, datetime, timezone
 
+import numpy as np
 import pandas as pd
 
 import wxc_timeline as tl
@@ -33,6 +36,41 @@ def test_timeline_days_fill_gaps_and_cap(tmp_path, monkeypatch):
     monkeypatch.setattr(tl, "MAX_DAYS", 3)
     assert tl.timeline_days(tmp_path, "kolm") == [date(2026, 10, 15), date(2026, 10, 16)]   # 14th: no series
     assert tl.timeline_days(tmp_path, "KXXX") == []
+    monkeypatch.setattr(tl, "MAX_DAYS", 35)
+    # the scoreboard's period start cuts off an earlier visit to the same station
+    _series(tmp_path, "2026-09-20", "submitted", {})
+    assert tl.timeline_days(tmp_path, "KOLM")[0] == date(2026, 9, 20)
+    assert tl.timeline_days(tmp_path, "KOLM", since="2026-10-13")[0] == date(2026, 10, 13)
+    assert tl.timeline_days(tmp_path, "KOLM", since="2026-10-01")[0] == date(2026, 10, 12)
+
+
+def test_save_hindcast_series(tmp_path, monkeypatch):
+    """A hindcast's hourly series becomes the day's 'submitted' series (with the ensembles'
+    10-90% range when there is one), merged with an earlier hindcast, never over a live one."""
+    m = importlib.import_module("getForecast_wxChallenge-pushGitHub")
+    monkeypatch.setattr(m.wxc_verify, "SERIES_DIR", tmp_path / "series")
+    st, d = types.SimpleNamespace(icao="KOLM"), date(2026, 10, 1)
+    as_of = datetime(2026, 9, 30, 23, tzinfo=timezone.utc)
+    times = pd.date_range("2026-10-01 06:00", periods=3, freq="12h")
+
+    def grib(init):
+        return {"metrics": {"init_time_utc": init, "tmax_f": 60.0, "tmin_f": 40.0},
+                "series": {"times": times, "temp_f": np.array([40.0, 60.0, 45.0]),
+                           "wind_kt": np.array([1.0, 2.0, 3.0]), "precip_in": np.zeros(3)}}
+    ens = {"init_time_utc": "2026-09-30T12", "tmax_f": 61, "tmin_f": 41,
+           "series": {"times": ["2026-10-01T06:00", "2026-10-01T18:00"], "tmp_f": [41, 61], "wsp_kt": [2, 3],
+                      "precip_cum_in": [0, 0.1], "tmp_p10": [39, 58], "tmp_p90": [43, 64]}}
+    rec = json.loads(m.save_hindcast_series(st, d, as_of, {"HRRR": grib("2026-09-30T18")}, {"ENS": ens}).read_text())
+    assert rec["hindcast"] is True and rec["kind"] == "submitted" and rec["generated_at_utc"] == as_of.isoformat()
+    assert rec["models"]["HRRR"]["temp_f"] == [40.0, 60.0, 45.0] and rec["models"]["HRRR"]["init_time_utc"] == "2026-09-30T18"
+    assert rec["models"]["ENS"]["temp_p10"] == [39, 58] and rec["models"]["ENS"]["temp_p90"] == [43, 64]
+    # a second hindcast of the day (a model that failed the first time) keeps the others
+    rec = json.loads(m.save_hindcast_series(st, d, as_of, {"IFS": grib("2026-09-30T12")}, {}).read_text())
+    assert set(rec["models"]) == {"HRRR", "IFS", "ENS"}
+    assert m.save_hindcast_series(st, d, as_of, {}, {}) is None              # nothing fetched
+    m.wxc_verify.save_series("KOLM", d, "submitted", "2026-09-30T23:50:00+00:00", {"GFS": {}})
+    assert m.save_hindcast_series(st, d, as_of, {"HRRR": grib("2026-09-30T18")}, {}) is None   # live series stays
+    assert set(m.wxc_verify.load_series("KOLM", d, "submitted")["models"]) == {"GFS"}
 
 
 def test_day_reports_and_obs_record():

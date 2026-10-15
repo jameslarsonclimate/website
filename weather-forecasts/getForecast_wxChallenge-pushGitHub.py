@@ -650,6 +650,20 @@ def collect_series(results, mos):
     return out
 
 
+def save_hindcast_series(station, day, as_of, results, mos):
+    """Hourly series of a hindcast (the runs out at 23Z the day before) as the day's
+    'submitted' series, so the page's timeline reaches back over a new city's hindcast days.
+    Never replaces a live pre-deadline series; models from an earlier hindcast of the day stay."""
+    ser = collect_series(results, mos)
+    if not ser:
+        return None
+    old = wxc_verify.load_series(station.icao, day, "submitted")
+    if old is not None and not old.get("hindcast"):
+        return None
+    models = {**((old or {}).get("models") or {}), **ser}
+    return wxc_verify.save_series(station.icao, day, "submitted", as_of.isoformat(), models, hindcast=True)
+
+
 def today_clouds(station, today, start, now, points, sub, lat, raw, skip_grib=False):
     """Cloud cover for the today-so-far figure (display only; each part fails on its own)."""
     out = {}
@@ -692,9 +706,13 @@ def write_cloud_today(station, today, now, clouds):
 CONTEXT_ATTEMPTS = 3          # runs that may retry a day with missing pieces before it is frozen
 CONTEXT_BUDGET_S = 240        # per run: older days still to fill are left for the next runs
 TIMELINE_BUDGET_S = 180       # per run, for the timeline's catch-up downloads (GOES, old cloud cover)
+TIMELINE_GOES_DAYS = 3        # finished days that get their missing GOES hours (~5 MB each); older
+                              # (hindcast) days show METAR sky cover only, unless asked for
+                              # (scripts/backfill_timeline.py --goes)
 
 
-def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMELINE_BUDGET_S):
+def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMELINE_BUDGET_S,
+                    goes_days=TIMELINE_GOES_DAYS):
     """The page's scrollable timeline (wxc_timeline.py; display only). Fills in what the runs
     during the day couldn't save: a finished day's last reports (the schedule stops at the 00Z
     deadline, the day ends at 06Z) with its overnight GOES hours, and the cloud cover of days
@@ -702,8 +720,9 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
     import time as _time
     t0 = _time.time()
     icao = station.icao
-    days = wxc_timeline.timeline_days(DATA, icao)
+    days = wxc_timeline.timeline_days(DATA, icao, since=(verif or {}).get("period_start"))
     today = (now - timedelta(hours=6)).date()
+    goes_from = today - timedelta(days=goes_days) if goes_days is not None else date.min
 
     # finished days without a complete record of their reports: one METAR request for all
     todo = [d for d in days if d < today and wxc_timeline.is_final(d, now)]
@@ -723,19 +742,20 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
         part = wxc_timeline.day_reports(raw, d)
         reports = wxc_obs.report_series(part) if not part.empty else None
         sky = goes = None
+        want_goes = wxc_clouds.CLOUDS_ENABLED and wxc_clouds.GOES_ENABLED and d >= goes_from
         if wxc_clouds.CLOUDS_ENABLED:
             try:
                 sky = wxc_clouds.sky_series(part)
             except Exception as exc:
                 print(f"  warning: timeline sky cover {d} skipped ({type(exc).__name__}: {exc})")
-            if wxc_clouds.GOES_ENABLED and _time.time() - t0 < budget_s:
+            if want_goes and _time.time() - t0 < budget_s:
                 s = datetime(d.year, d.month, d.day, 6, tzinfo=timezone.utc)
                 try:
                     goes = wxc_goes.hourly_cloud(station, s, s + timedelta(hours=24))
                 except Exception as exc:
                     print(f"  warning: timeline GOES {d} skipped ({type(exc).__name__}: {exc})")
         attempts = old.get("attempts", 0) + 1
-        whole = not (wxc_clouds.CLOUDS_ENABLED and wxc_clouds.GOES_ENABLED) or (goes and len(goes) >= 23)
+        whole = not want_goes or bool(goes and len(goes) >= 23)
         rec = wxc_timeline.obs_record(icao, d, reports, sky, goes, now,
                                       complete=(reports is not None and whole) or attempts >= CONTEXT_ATTEMPTS)
         rec["attempts"] = attempts
@@ -764,7 +784,8 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
         today_json = json.loads((DATA / "today.json").read_text())
     except (FileNotFoundError, json.JSONDecodeError):
         today_json = None
-    bundle = wxc_timeline.build(DATA, icao, now, verif, today_json, station.label)
+    bundle = wxc_timeline.build(DATA, icao, now, verif, today_json, station.label,
+                                since=(verif or {}).get("period_start"))
     if bundle:
         path = wxc_timeline.write(DATA, bundle)
         print(f"  timeline: {len(bundle['days'])} days ({bundle['days'][0]['date']}..{bundle['days'][-1]['date']}) "
@@ -998,7 +1019,11 @@ def main():
                 continue
             as_of = datetime(d.year, d.month, d.day, tzinfo=timezone.utc) - timedelta(hours=24 - HINDCAST_HOUR)
             print(f"\nHindcast for {d}: {', '.join(todo)} as available at {as_of:%Y-%m-%d %HZ}")
-            _, _, hmodels = run_models(station, d, points, as_of, args.skip_grib, only=todo)
+            hres, hmos, hmodels = run_models(station, d, points, as_of, args.skip_grib, only=todo)
+            try:          # hourly series for the page's timeline (display only)
+                save_hindcast_series(station, d, as_of, hres, hmos)
+            except Exception as exc:
+                print(f"  warning: hindcast series for {d} not saved ({type(exc).__name__}: {exc})")
             # a source that couldn't be reached (offline) doesn't use up a hindcast attempt
             offline = [k for k, v in hmodels.items() if wxc_carryover.is_network_error(v.get("error"))]
             if offline:
@@ -1032,7 +1057,7 @@ def main():
 
     # ---- 4. consensus ----
     usable = {k: v for k, v in models.items() if v.get("tmax_f") is not None}
-    cons = wxc_verify.consensus(usable, verif["summary"])
+    cons = wxc_verify.consensus(usable, verif["summary"], now=now)
     models["CONSENSUS"] = cons
     for v, d in cons.get("method", {}).items():
         if d.get("excluded_outliers"):
