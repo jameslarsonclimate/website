@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-15T18:00:06+00:00",
+  "generated_at_utc": "2026-10-15T18:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -965,9 +965,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.01,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-15T06",
+      "precip_in": 0.0,
+      "precip_mean_in": 0.0,
+      "init_time_utc": "2026-10-15T12",
       "valid_range_utc": [
         "2026-10-16T06",
         "2026-10-17T06"
@@ -975,7 +975,7 @@
       "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
       "pop": {
-        "p24": 0.222,
+        "p24": 0.111,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -989,18 +989,18 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.006,
-            "std": 0.006,
+            "mean": 0.004,
+            "std": 0.004,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
-            "p50": 0.005,
-            "p75": 0.008,
-            "p90": 0.014,
-            "p100": 0.017
+            "p50": 0.003,
+            "p75": 0.005,
+            "p90": 0.01,
+            "p100": 0.011
           },
           "precip_prob": {
-            "0.01": 0.222,
+            "0.01": 0.111,
             "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
@@ -1028,24 +1028,24 @@
         ],
         "members": {
           "precip_in": [
-            0.006,
-            0.006,
-            0.0,
-            0.002,
+            0.003,
             0.004,
+            0.0,
+            0.0,
+            0.005,
             0.005,
             0.0,
             0.0,
-            0.001,
-            0.007,
+            0.002,
+            0.002,
             0.0,
-            0.013,
-            0.001,
-            0.017,
-            0.017,
+            0.005,
+            0.0,
+            0.011,
+            0.011,
             0.0,
             0.009,
-            0.013
+            0.007
           ]
         }
       }
@@ -1163,9 +1163,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 74.8,
-      "tmin_f": 41.7,
-      "wind_max_kt": 8.3,
+      "tmax_f": 74.6,
+      "tmin_f": 41.4,
+      "wind_max_kt": 8.5,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -1183,16 +1183,19 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.074,
-            "RRFS": 0.07,
-            "IFS": 0.061,
-            "GFS": 0.054,
-            "AIFS": 0.073,
-            "GFS_MOS": 0.065,
-            "NBM": 0.123,
-            "USL": 0.066,
-            "ENS": 0.309,
-            "AIFS_ENS": 0.106
+            "HRRR": 0.098,
+            "RRFS": 0.093,
+            "IFS": 0.081,
+            "GFS": 0.071,
+            "AIFS": 0.097,
+            "GFS_MOS": 0.087,
+            "NBM": 0.163,
+            "USL": 0.087,
+            "ENS": 0.081,
+            "AIFS_ENS": 0.141
+          },
+          "proxy_track_record": {
+            "ENS": "IFS"
           }
         },
         "tmin_f": {
@@ -1210,16 +1213,19 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.096,
-            "RRFS": 0.071,
-            "IFS": 0.073,
-            "GFS": 0.09,
-            "AIFS": 0.084,
-            "GFS_MOS": 0.154,
-            "NBM": 0.133,
-            "USL": 0.112,
-            "ENS": 0.089,
-            "AIFS_ENS": 0.098
+            "HRRR": 0.097,
+            "RRFS": 0.072,
+            "IFS": 0.074,
+            "GFS": 0.092,
+            "AIFS": 0.085,
+            "GFS_MOS": 0.157,
+            "NBM": 0.135,
+            "USL": 0.114,
+            "ENS": 0.074,
+            "AIFS_ENS": 0.099
+          },
+          "proxy_track_record": {
+            "ENS": "IFS"
           }
         },
         "wind_max_kt": {
@@ -1237,16 +1243,19 @@
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.104,
-            "RRFS": 0.114,
-            "IFS": 0.078,
-            "GFS": 0.071,
-            "AIFS": 0.066,
-            "GFS_MOS": 0.089,
-            "NBM": 0.085,
-            "USL": 0.208,
-            "ENS": 0.092,
-            "AIFS_ENS": 0.092
+            "HRRR": 0.106,
+            "RRFS": 0.116,
+            "IFS": 0.079,
+            "GFS": 0.072,
+            "AIFS": 0.067,
+            "GFS_MOS": 0.09,
+            "NBM": 0.086,
+            "USL": 0.211,
+            "ENS": 0.079,
+            "AIFS_ENS": 0.093
+          },
+          "proxy_track_record": {
+            "ENS": "IFS"
           }
         },
         "precip_in": {
@@ -1269,11 +1278,14 @@
             "IFS": 0.099,
             "GFS": 0.1,
             "AIFS": 0.1,
-            "GFS_MOS": 0.1,
+            "GFS_MOS": 0.101,
             "NBM": 0.1,
-            "USL": 0.101,
-            "ENS": 0.1,
-            "AIFS_ENS": 0.099
+            "USL": 0.102,
+            "ENS": 0.099,
+            "AIFS_ENS": 0.1
+          },
+          "proxy_track_record": {
+            "ENS": "IFS"
           }
         }
       }
@@ -1281,7 +1293,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-15T18:00:06+00:00",
+    "checked_at_utc": "2026-10-15T18:30:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
