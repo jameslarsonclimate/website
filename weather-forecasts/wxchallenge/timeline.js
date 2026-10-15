@@ -343,36 +343,76 @@
 
   /* ---------- hover: crosshair and day card ---------- */
   function obsAt(k, j) {
-    const r = T.days[k].obs && T.days[k].obs.reports;
-    if (!r) return null;
-    let best = -1;
-    r.h.forEach((h, i) => { if (Math.abs(h - j) <= 0.75 && (best < 0 || Math.abs(h - j) < Math.abs(r.h[best] - j))) best = i; });
-    return best < 0 ? null : { t: r.temp[best], w: r.wind[best] };
+    const ob = T.days[k].obs || {}, r = ob.reports, out = {};
+    const near = (hs, tol) => {
+      let best = -1;
+      (hs || []).forEach((h, i) => { if (Math.abs(h - j) <= tol && (best < 0 || Math.abs(h - j) < Math.abs(hs[best] - j))) best = i; });
+      return best;
+    };
+    if (r) { const i = near(r.h, 0.75); if (i >= 0) { out.t = r.temp[i]; out.w = r.wind[i]; } }
+    if (ob.sky) { const i = near(ob.sky.h, 0.6); if (i >= 0) out.c = ob.sky.pct[i]; }
+    return out;
   }
-  const at = (t, w) => `<td>${t == null ? '—' : Math.round(t) + '°'}${w == null ? '' : ', ' + Math.round(w) + ' kt'}</td>`;
+  const at = (t, w, c) => {
+    const parts = [t == null ? null : Math.round(t) + '°', w == null ? null : Math.round(w) + ' kt',
+                   c == null ? null : Math.round(c) + '%'].filter(Boolean);
+    return `<td>${parts.length ? parts.join(', ') : '—'}</td>`;
+  };
   function er(e, dec) {
     if (e == null) return '';
     if (Math.abs(e) < 0.5 * Math.pow(10, -dec)) return ' <span class="mu">0</span>';
     return ` <span class="${e > 0 ? 'up' : 'dn'}">${e > 0 ? '+' : '−'}${Math.abs(e).toFixed(dec)}</span>`;
   }
+  // mean of hourly values over a cloud window [first, last] (hours since 06Z), if at least
+  // half its hours have a value (as the scoreboard's cloud numbers)
+  function winMean(vals, w) {
+    if (!vals || !w) return null;
+    const got = [];
+    for (let i = Math.round(w[0]); i <= Math.round(w[1]); i++) if (vals[i] != null) got.push(vals[i]);
+    return got.length && got.length >= 0.5 * (w[1] - w[0] + 1) ? mean(got) : null;
+  }
+  // observed sky cover over a window: per hour the ASOS report nearest the top of the hour
+  // (within 35 min), over the hours already past
+  function obsWin(k, w) {
+    const sky = (T.days[k].obs || {}).sky;
+    if (!sky || !w) return null;
+    const got = [], last = Math.min(Math.round(w[1]), Math.floor(NOW_H - 24 * k));
+    for (let i = Math.round(w[0]); i <= last; i++) {
+      let best = -1;
+      sky.h.forEach((h, n) => { if (Math.abs(h - i) <= 35 / 60 && (best < 0 || Math.abs(h - i) < Math.abs(sky.h[best] - i))) best = n; });
+      if (best >= 0 && sky.pct[best] != null) got.push(sky.pct[best]);
+    }
+    const hours = last - Math.round(w[0]) + 1;
+    return hours > 0 && got.length >= 0.5 * hours ? mean(got) : null;
+  }
 
   function cardHtml(k, h) {
     const d = T.days[k], j = h == null ? null : h - 24 * k, v = d.verif, vm = (v && v.models) || {};
-    const cols = j == null ? '' : `<th>At ${hourLabel(h)}</th>`;
+    const win = d.cloud_win || {}, cs = d.cloud_scores, csm = (cs && cs.models) || {};
+    const hasCloud = !!(d.cloud_win || cs);
+    // cloud cover [night, day, night error, day error]: the scoreboard's numbers on verified
+    // days, else the mean of the hourly values over the windows (no error until verified)
+    const ocl = cs ? cs.obs : [obsWin(k, win.night), obsWin(k, win.day)];
+    const cl = (n, vals) => csm[n] || [winMean(vals, win.night), winMean(vals, win.day), null, null];
+    const cc = c => hasCloud ? `<td>${f0(c[0])}${er(c[2], 0)}</td><td>${f0(c[1])}${er(c[3], 0)}</td>` : '';
+    const cols = (hasCloud ? '<th title="Mean cloud cover (%) from 06Z to sunrise">Night cloud</th>' +
+                             '<th title="Mean cloud cover (%) from sunrise to sunset">Day cloud</th>' : '') +
+                 (j == null ? '' : `<th>At ${hourLabel(h)}</th>`);
     const notes = [];
     if (d.hindcast) notes.push('These runs were rebuilt afterwards (hindcast) from what was out at 23Z the day before.' +
       (['ENS', 'AIFS_ENS', 'GEFS'].some(n => d.models[n]) ? '' : ' Ensembles can\'t be rebuilt (only their latest run is served), so they are missing.'));
     const rows = [];
+    const oa = j == null ? null : obsAt(k, j), oat = j == null ? '' : at(oa.t, oa.w, oa.c);
     if (v) {
-      const o = v.obs, oa = j == null ? null : obsAt(k, j);
+      const o = v.obs;
       rows.push(`<tr class="obs"><td>Observed</td><td>official</td><td>${f0(o[0])}</td><td>${f0(o[1])}</td><td>${f0(o[2])}</td>` +
-                `<td>${f2(o[3])}</td>${j == null ? '' : at(oa && oa.t, oa && oa.w)}</tr>`);
+                `<td>${f2(o[3])}</td>${cc(ocl.concat([null, null]))}${oat}</tr>`);
       notes.push('Errors are forecast minus observed, as on the scoreboard below.');
       if (v.pending && v.pending.length) notes.push(`Not final yet: ${v.pending.join(', ')}.`);
     } else if (d.so_far) {
-      const o = d.so_far, oa = j == null ? null : obsAt(k, j);
+      const o = d.so_far;
       rows.push(`<tr class="obs"><td>Observed</td><td>so far</td><td>${f0(o.high)}</td><td>${f0(o.low)}</td><td>${f0(o.wind)}</td>` +
-                `<td>${f2(o.precip)}</td>${j == null ? '' : at(oa && oa.t, oa && oa.w)}</tr>`);
+                `<td>${f2(o.precip)}</td>${cc(ocl.concat([null, null]))}${oat}</tr>`);
       notes.push(`Observed so far through ${o.through ? o.through.slice(11, 16) + 'Z' : 'now'}.` +
                  (d.latest ? ' Dotted rows are the newest runs.' : ''));
     } else if (k > TODAY_K || (k === TODAY_K && !d.obs)) {
@@ -382,35 +422,43 @@
     } else {
       notes.push('Official observations not in yet.');
     }
+    if (hasCloud) notes.push('Night and day cloud are the mean cover from 06Z to sunrise (drives the low) and from sunrise ' +
+                             'to sunset (drives the high); observed by ASOS, not scored.');
     const ns = ORDER.filter(n => st.on.has(n) && d.models[n] && d.models[n].h && d.models[n].h.length);
-    const nums = {};
+    const nums = {}, clouds = {};
     for (const n of ns) {
-      const m = d.models[n], s = vm[n];
+      const m = d.models[n], s = vm[n], hv = HI[k][n];
       const x = s ? s.fc : [m.tmax, m.tmin, maxOf(m.wind), lastOf(m.precip)];
       nums[n] = x;
-      const hv = HI[k][n];
+      clouds[n] = cl(n, hv.cloud);
       rows.push(`<tr><td>${sw(n)} ${label(n)}</td><td>${run(m.init)}</td>` +
                 `<td>${f0(x[0])}${s ? er(s.err[0], 0) : ''}</td><td>${f0(x[1])}${s ? er(s.err[1], 0) : ''}</td>` +
                 `<td>${f0(x[2])}${s ? er(s.err[2], 0) : ''}</td><td>${f2(x[3])}${s ? er(s.err[3], 2) : ''}</td>` +
-                (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j])) + '</tr>');
+                cc(clouds[n]) + (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j])) + '</tr>');
     }
     if (st.latest && d.latest) {
       for (const n of ORDER) {
         const m = d.latest[n];
         if (!m || !st.on.has(n)) continue;
+        const hv = hourly(m);
         rows.push(`<tr class="latest"><td>${sw(n, LATEST_DASH)} ${label(n)} newest</td><td>${run(m.init)}</td>` +
                   `<td>${f0(m.tmax)}</td><td>${f0(m.tmin)}</td><td>${f0(maxOf(m.wind))}</td><td>${f2(lastOf(m.precip))}</td>` +
-                  (j == null ? '' : at(lerp(m.h, m.temp, j), lerp(m.h, m.wind, j))) + '</tr>');
+                  cc([winMean(hv.cloud, win.night), winMean(hv.cloud, win.day), null, null]) +
+                  (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j])) + '</tr>');
       }
     }
     if (st.avg && ns.length) {
       const a = AV[k];
       rows.push(`<tr class="avg"><td>${sw('AVG')} Average line</td><td>${a.temp.n} model${a.temp.n === 1 ? '' : 's'}</td>` +
                 `<td>${f0(maxOf(a.temp.vals))}</td><td>${f0(minOf(a.temp.vals))}</td><td>${f0(maxOf(a.wind.vals))}</td>` +
-                `<td>${f2(lastOf(a.precip.vals))}</td>${j == null ? '' : at(a.temp.vals[j], a.wind.vals[j])}</tr>`);
+                `<td>${f2(lastOf(a.precip.vals))}</td>` +
+                cc([winMean(a.cloud.vals, win.night), winMean(a.cloud.vals, win.day), null, null]) +
+                (j == null ? '' : at(a.temp.vals[j], a.wind.vals[j], a.cloud.vals[j])) + '</tr>');
       rows.push(`<tr class="avg"><td colspan="2">Mean of the model numbers</td>` +
                 [0, 1, 2].map(i => `<td>${f0(mean(ns.map(n => nums[n][i])))}</td>`).join('') +
-                `<td>${f2(mean(ns.map(n => nums[n][3])))}</td>${j == null ? '' : '<td></td>'}</tr>`);
+                `<td>${f2(mean(ns.map(n => nums[n][3])))}</td>` +
+                cc([mean(ns.map(n => clouds[n][0])), mean(ns.map(n => clouds[n][1])), null, null]) +
+                `${j == null ? '' : '<td></td>'}</tr>`);
       notes.push('The average line\'s high runs lower (and its low higher) than the mean of the model highs and lows when the models disagree on timing.');
     }
     if (!ns.length && !(d.latest && st.latest)) notes.push(Object.keys(d.models).length ? 'No models switched on.' : 'No stored runs for this day.');

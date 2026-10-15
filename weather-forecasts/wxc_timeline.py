@@ -247,10 +247,31 @@ def _verif_day(row: Optional[dict]) -> Optional[dict]:
             "hindcast": bool(row.get("hindcast")), "models": models}
 
 
+def cloud_windows(day: date, lat: float, lon: float) -> dict:
+    """The day's cloud windows as hours since 06Z: night = 06Z to sunrise (drives the low),
+    day = sunrise to sunset (drives the high), as on the scoreboard's cloud tabs."""
+    import wxc_clouds
+    day_h, night_h = wxc_clouds.day_night_hours(day, lat, lon)
+    span = lambda hs: [_hours(hs, day)[0], _hours(hs, day)[-1]] if hs else None   # noqa: E731
+    return {"night": span(night_h), "day": span(day_h)}
+
+
+def _cloud_scores(ctx: Optional[dict]) -> Optional[dict]:
+    """A cloud_context.json day -> observed (ASOS, GOES) and each scored run's night / day
+    cloud cover and error: [night, day] and [night, day, night error, day error]."""
+    if not ctx:
+        return None
+    o = ctx.get("obs") or {}
+    return {"obs": [o.get("night_pct"), o.get("day_pct")], "goes": [o.get("goes_night_pct"), o.get("goes_day_pct")],
+            "models": {n: [m.get("night_pct"), m.get("day_pct"), m.get("night_err"), m.get("day_err")]
+                       for n, m in (ctx.get("models") or {}).items()}}
+
+
 def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict] = None,
           today_json: Optional[dict] = None, station_label: Optional[str] = None,
-          since: Optional[str] = None) -> Optional[dict]:
-    """The whole timeline for the page, or None without any submitted series."""
+          since: Optional[str] = None, lat: Optional[float] = None, lon: Optional[float] = None) -> Optional[dict]:
+    """The whole timeline for the page, or None without any submitted series. lat/lon add
+    each day's cloud windows; the scoreboard's cloud numbers come from cloud_context.json."""
     icao = icao.upper()
     days = timeline_days(data_dir, icao, since)
     if not days:
@@ -259,6 +280,10 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
     vrows = {}
     if verification and verification.get("station") == icao:
         vrows = {d["date"]: d for d in verification.get("days", [])}
+    try:
+        cctx = json.loads((Path(data_dir) / "cloud_context.json").read_text())["stations"].get(icao) or {}
+    except (FileNotFoundError, json.JSONDecodeError, KeyError, AttributeError):
+        cctx = {}
     out_days = []
     for d in days:
         sub = load_series(data_dir, icao, d, "submitted") or {}
@@ -275,9 +300,9 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
             elif cc:          # cloud cover without a stored series (shouldn't happen): still drawn
                 rec["models"][name] = {"init": cc["init"], "tmax": None, "tmin": None, "h": [], "cloud": cc}
         if d == today:
-            lat = load_series(data_dir, icao, d, "latest") or {}
+            newest = load_series(data_dir, icao, d, "latest") or {}
             latest = {}
-            for name, m in (lat.get("models") or {}).items():
+            for name, m in (newest.get("models") or {}).items():
                 mm = _model(m, d)
                 if mm:
                     latest[name] = mm
@@ -299,13 +324,20 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
         v = _verif_day(vrows.get(d.isoformat()))
         if v:
             rec["verif"] = v
+        if lat is not None and lon is not None:
+            rec["cloud_win"] = cloud_windows(d, lat, lon)
+        cs = _cloud_scores(cctx.get(d.isoformat()))
+        if cs:
+            rec["cloud_scores"] = cs
         out_days.append(rec)
     return {"station": icao, "label": station_label, "generated_at_utc": now.isoformat(),
             "now_utc": _iso(now), "today": today.isoformat(), "forecast_day": days[-1].isoformat(),
             "note": "Display only. Hours (h) count from 06Z of each day. Temperatures in °F, wind in kt, "
                     "precip in inches (running total since 06Z), cloud cover in %. Each day's models are "
                     "the runs available before its 00Z deadline; 'latest' are today's newest runs; "
-                    "'verif' holds the official observations and the scored forecasts.",
+                    "'verif' holds the official observations and the scored forecasts; 'cloud_win' the "
+                    "night (06Z to sunrise) and day (sunrise to sunset) hours; 'cloud_scores' the "
+                    "scoreboard's night/day cloud cover (not scored).",
             "days": out_days}
 
 

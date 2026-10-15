@@ -135,7 +135,11 @@ def test_build_bundle(tmp_path):
                                                                         "precip_in": 0.0}, "points": 7.0}}}]}
     today = {"date": "2026-10-15", "through_utc": "2026-10-15T17:53", "obs": {"high": 52.04, "low": 41.0,
                                                                              "wind": 5, "precip": 0.0}}
-    b = tl.build(tmp_path, "KOLM", NOW, verif, today, "Olympia, WA (KOLM)")
+    (tmp_path / "cloud_context.json").write_text(json.dumps({"stations": {"KOLM": {"2026-10-14": {
+        "obs": {"day_pct": 90.4, "night_pct": 88.9, "goes_day_pct": 94.3, "goes_night_pct": None},
+        "models": {"HRRR": {"init_time_utc": "2026-10-13T18", "day_pct": 100.0, "night_pct": 48.6,
+                            "day_err": 10, "night_err": -40}}}}}}))
+    b = tl.build(tmp_path, "KOLM", NOW, verif, today, "Olympia, WA (KOLM)", lat=46.97, lon=-122.90)
     json.dumps(b, allow_nan=False)
     assert b["today"] == "2026-10-15" and b["forecast_day"] == "2026-10-16" and b["now_utc"] == "2026-10-15T18:00"
     days = {d["date"]: d for d in b["days"]}
@@ -145,6 +149,11 @@ def test_build_bundle(tmp_path):
     assert past["hindcast"] is True and "latest" not in past and "so_far" not in past   # latest: today only
     assert past["verif"]["obs"] == [66, 44, 9, 0.0]
     assert past["verif"]["models"]["HRRR"] == {"fc": [66, 50, 7, 0.0], "err": [0, 6, -2, 0.0], "points": 7.0}
+    # the scoreboard's cloud numbers, and every day's night (06Z to sunrise) and day windows
+    assert past["cloud_scores"] == {"obs": [88.9, 90.4], "goes": [None, 94.3],
+                                    "models": {"HRRR": [48.6, 100.0, -40, 10]}}
+    assert past["cloud_win"] == {"night": [0, 8], "day": [9, 19]}
+    assert all("cloud_win" in d for d in b["days"]) and "cloud_scores" not in days["2026-10-15"]
 
     td = days["2026-10-15"]
     h = td["models"]["HRRR"]
@@ -160,7 +169,7 @@ def test_build_bundle(tmp_path):
 
     # verification of another city is ignored
     other = tl.build(tmp_path, "KOLM", NOW, {**verif, "station": "KTPA"}, None)
-    assert all("verif" not in d for d in other["days"])
+    assert all("verif" not in d and "cloud_win" not in d for d in other["days"])     # no lat/lon: no windows
     assert tl.build(tmp_path, "KXXX", NOW) is None
     p = tl.write(tmp_path, b)
     assert json.loads(p.read_text())["station"] == "KOLM"
