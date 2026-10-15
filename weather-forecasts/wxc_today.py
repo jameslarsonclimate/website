@@ -58,7 +58,8 @@ def _draw_clouds(ax, clouds: dict, start, end, now):
     goes = clouds.get("goes") or []
     if goes:
         t = pd.to_datetime([g["hour"] for g in goes], utc=True)
-        ax.plot(t, [g["cloud_pct"] for g in goes], "-", color="0.3", lw=1.6, marker="D", ms=3.5,
+        # black and as thick as the observed lines in the other panels: it is an observation
+        ax.plot(t, [g["cloud_pct"] for g in goes], "-", color="k", lw=3.6, marker="D", ms=4.5,
                 label="GOES", zorder=5)
     # beside the panel, under its legend (inside it would sit on the 100 % lines)
     ax.text(1.012, 0.02, "ASOS sees clouds only up to 12k ft", transform=ax.transAxes,
