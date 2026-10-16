@@ -115,11 +115,8 @@
     #score tr.span th.hind{color:var(--hind-ink)}
     #score td.recon{font-style:italic}
     #score td.recon sup{font-size:0.7em;margin-left:1px}
-    /* today so far: provisional (dashed, italic), not in the totals; grey while the high / low can still change */
-    #score th.today, #score td.today{border-left:1px dashed var(--ink-3)}
+    /* today so far: provisional (italic), not in the totals */
     #score td.cell.today{font-style:italic}
-    #score td.cell.today:not(.small){outline:1px dashed var(--ink-3);outline-offset:-3px}
-    #score td.cell.pending{background:transparent;color:var(--ink-3)}
     #score tr.span th.today{color:var(--ink-2)}
     /* phones: keep the sticky columns narrow so several days stay visible between them */
     @media (max-width:600px){
@@ -287,9 +284,9 @@
       Shaded days come before this city's first forecast day: they are hindcasts (the runs available at 23Z
       the day before), there to give every model a track record from day one. The consensus on those days
       (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
-      the days before it. The last column (<i>so far</i>, dashed) is today: the forecasts scored against the
-      observations so far. It isn't final, so it is left out of the totals, the averages and the consensus's track
-      record; its grey cells are waiting for the time the model expects its high or low.
+      the days before it. The last column (<i>so far</i>) is today: the forecasts scored against the
+      observations so far. It isn't final (the high or low may not have happened yet), so it is left out of the
+      totals, the averages and the consensus's track record.
       <span id="decay-note"></span> Hover or tap a cell for details.</p>
     <!-- Hidden for now: daily and cumulative error points figure; to bring it back, uncomment this
          and the verif-fig lines in the script.
@@ -608,21 +605,19 @@ function todayCell(t, name, CV){
   const m = t.models[name];
   if (!m || CV) return '<td class="cell small today">—</td>';
   const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
-  const shown = VIEW === 'points' ? ['tmax_f', 'tmin_f'] : [VIEW];
-  const pend = shown.some(k => (m.pending || []).includes(k));
-  const at = `class="cell today${rc}${pend ? ' pending' : ''}" data-day="today" data-model="${name}"`;
-  let txt, style = '';
+  const at = `class="cell today${rc}" data-day="today" data-model="${name}"`;
+  let txt, style;
   if (VIEW === 'points') {
     const p = Object.values(t.models).map(x => x.points), lo = Math.min(...p), hi = Math.max(...p);
     const f = hi > lo ? (m.points - lo) / (hi - lo) : 0;
     txt = m.points.toFixed(1);
-    if (!pend) style = `background:${pointsFill(f)};color:${pointsInk(f)}`;
+    style = `background:${pointsFill(f)};color:${pointsInk(f)}`;
   } else {
     const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
     txt = signed(e, VARS[VIEW].dec);
-    if (!pend) style = `background:${biasFill(step)};color:${biasInk(step)}`;
+    style = `background:${biasFill(step)};color:${biasInk(step)}`;
   }
-  return `<td ${at}${style ? ` style="${style}"` : ''}>${txt}${r}</td>`;
+  return `<td ${at} style="${style}">${txt}${r}</td>`;
 }
 
 function renderScore(){
@@ -774,15 +769,12 @@ function showTip(td, ev){
   const name = td.dataset.model, m = d && d.models[name];
   if (!m) return;
   if (now) {
-    const f = m.forecast, o = d.obs, e = m.error, pend = m.pending || [];
-    const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} so far (${signed(e[k], VARS[k].dec)})` +
-      (pend.includes(k) ? ' · still to come' : '');
+    const f = m.forecast, o = d.obs, e = m.error;
+    const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} so far (${signed(e[k], VARS[k].dec)})`;
     tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date} so far</b><br>` +
       ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
       `<br><b>${m.points.toFixed(1)} points so far</b>` +
       `<br><span style="opacity:.75">observations through ${thru(d)}; not final, so not in the totals or the consensus</span>` +
-      (pend.length ? `<br><span style="opacity:.75">"still to come": the model's ${pend.map(k => k === 'tmax_f' ? 'high' : 'low').join(' and ')} ` +
-        `time hasn't passed yet, so the observed value can still change</span>` : '') +
       (m.reconstructed ? `<br><span style="opacity:.75">reconstructed, not submitted</span>`
         : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z</span>` : '');
     tip.style.display = 'block';

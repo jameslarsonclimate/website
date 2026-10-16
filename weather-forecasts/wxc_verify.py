@@ -621,8 +621,7 @@ def today_column(station: str, today_json: dict, days: list, runs: Optional[list
     Today's scores so far (verification.json "today"; DISPLAY ONLY): each model's
     pre-deadline forecast scored against the observed extremes so far (today.json).
     Kept out of "days", so it never enters the summary, the totals or the consensus
-    weights. "pending" lists the variables whose forecast time hasn't passed yet
-    (today.json's high / low pending flags), whose score can still change.
+    weights.
     """
     o = (today_json or {}).get("obs") or {}
     day = (today_json or {}).get("date")
@@ -644,7 +643,6 @@ def today_column(station: str, today_json: dict, days: list, runs: Optional[list
         fcs.pop("CONSENSUS", None)
         if c and all(c.get(v) is not None for v in VARS):
             fcs["CONSENSUS"] = (c, None, True)
-    flags = (today_json or {}).get("models") or {}
     models = {}
     for name, (fc, t, hind) in fcs.items():
         s = score_day(fc, ob)
@@ -655,15 +653,6 @@ def today_column(station: str, today_json: dict, days: list, runs: Optional[list
         elif t:
             s["run"] = t
         models[name] = s
-    timed = [s for name, s in models.items() if name in flags]
-    for name, s in models.items():
-        if name in flags:
-            f = flags[name]
-            s["pending"] = [v for k, v in (("high", "tmax_f"), ("low", "tmin_f")) if f.get(f"{k}_pending")]
-    for name, s in models.items():
-        if name not in flags:     # no hourly curve of its own (the consensus): pending while most models are
-            s["pending"] = [v for v in ("tmax_f", "tmin_f")
-                            if timed and sum(v in x["pending"] for x in timed) * 2 > len(timed)]
     return {"date": day, "through_utc": today_json.get("through_utc"), "n_obs": o.get("n_obs"),
             "provisional": True, "obs": ob, "models": models}
 
