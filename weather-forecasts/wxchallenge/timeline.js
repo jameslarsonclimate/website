@@ -367,8 +367,8 @@
             const v = ob.sky.pct[i];
             if (v == null) return;
             const clear = ob.sky.clear && ob.sky.clear[i];
-            o.push(`<circle cx="${X(24 * k + h).toFixed(1)}" cy="${Y(P.cloud, v).toFixed(1)}" r="2.1" ` +
-                   (clear ? 'fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>' : 'fill="var(--ink)"/>'));
+            o.push(`<circle cx="${X(24 * k + h).toFixed(1)}" cy="${Y(P.cloud, v).toFixed(1)}" r="2.6" ` +
+                   (clear ? 'fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>' : 'fill="var(--ink)"/>'));
           });
         }
       });
