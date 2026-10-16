@@ -124,6 +124,9 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
             "times": [t.strftime("%Y-%m-%dT%H:%M") for t in win["ft"]],
             "tmp_f": [None if pd.isna(v) else float(v) for v in pd.to_numeric(win.get("tmp"), errors="coerce")],
             "wsp_kt": [None if pd.isna(v) else float(v) for v in pd.to_numeric(win.get("wsp"), errors="coerce")],
+            # display only (the page's dewpoint panel)
+            "dpt_f": ([None if pd.isna(v) else float(v) for v in pd.to_numeric(win["dpt"], errors="coerce")]
+                      if "dpt" in win else None),
         },
     }
 

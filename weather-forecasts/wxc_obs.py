@@ -55,7 +55,7 @@ _RE_WIND = re.compile(r"\b(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT\b")
 _RE_TEMP_BODY = re.compile(r"(?<![\w/])(M?\d{2})/(M?\d{2})?(?![\w/])")
 _RE_COR = re.compile(r"\bCOR\b")
 # remark groups, matched against whole tokens (a search would also hit e.g. PK WND 21031/2312)
-_RE_TGROUP = re.compile(r"T([01])(\d{3})(?:[01]\d{3}|////)?")
+_RE_TGROUP = re.compile(r"T([01])(\d{3})(?:([01])(\d{3})|////)?")      # temp, then dewpoint
 _RE_P = re.compile(r"P(\d{4}|////)")
 _RE_6 = re.compile(r"6(\d{4}|////)")
 _RE_MAX6 = re.compile(r"1([01])(\d{3})")
@@ -92,7 +92,8 @@ def _signed_tenths(sign, digits) -> int:
 # ----------------------------------------------------------------------------
 def parse_metar(metar: str) -> dict:
     """Pull out the fields WxChallenge needs from one METAR / SPECI string."""
-    out = {"temp_f": None, "temp_c10": None, "temp_tgroup": False, "wind_kt": None, "gust_kt": None,
+    out = {"temp_f": None, "temp_c10": None, "temp_tgroup": False, "dewpt_f": None, "dewpt_c10": None,
+           "wind_kt": None, "gust_kt": None,
            "precip_1h": None, "precip_1h_missing": False,
            "precip_6grp": None, "precip_6grp_missing": False,
            "max6_f": None, "min6_f": None, "max6_c10": None, "min6_c10": None,
@@ -119,12 +120,19 @@ def parse_metar(metar: str) -> dict:
     if m:
         out["temp_c10"] = _signed_tenths(m.group(1), m.group(2))
         out["temp_tgroup"] = True
-    else:                                    # whole degC from the body (display; see day_values)
+        if m.group(4):
+            out["dewpt_c10"] = _signed_tenths(m.group(3), m.group(4))
+    whole = lambda t: 10 * (-int(t[1:]) if t.startswith("M") else int(t))
+    if out["temp_c10"] is None or out["dewpt_c10"] is None:
+        # whole degC from the body (display; see day_values)
         m = _RE_TEMP_BODY.search(body)
         if m:
-            t = m.group(1)
-            out["temp_c10"] = 10 * (-int(t[1:]) if t.startswith("M") else int(t))
+            if out["temp_c10"] is None:
+                out["temp_c10"] = whole(m.group(1))
+            if out["dewpt_c10"] is None and m.group(2):
+                out["dewpt_c10"] = whole(m.group(2))
     out["temp_f"] = c10_to_f(out["temp_c10"])
+    out["dewpt_f"] = c10_to_f(out["dewpt_c10"])    # display only (the timeline's dewpoint panel)
 
     # Hourly precip (hundredths). P0000 = trace. No P group in a routine ob = no precip.
     m = group(_RE_P)
@@ -212,14 +220,14 @@ def prepare_reports(df: pd.DataFrame) -> pd.DataFrame:
 def report_series(df: pd.DataFrame) -> pd.DataFrame:
     """
     Every report (routine + specials) as a time series for plotting the day so far:
-    temp_f, wind_kt, gust_kt, 6-h max/min marks and a running precip total. Specials'
+    temp_f, dewpt_f, wind_kt, gust_kt, 6-h max/min marks and a running precip total. Specials'
     P groups count precip since the last routine ob, so the running total is
     (sum of routine P groups so far) + (the special's own P group).
     """
     if df.empty:
-        return pd.DataFrame(columns=["valid", "temp_f", "wind_kt", "gust_kt", "max6_f", "min6_f",
+        return pd.DataFrame(columns=["valid", "temp_f", "dewpt_f", "wind_kt", "gust_kt", "max6_f", "min6_f",
                                      "precip_total_in", "routine"])
-    out = prepare_reports(df)[["valid", "temp_f", "wind_kt", "gust_kt", "max6_f", "min6_f",
+    out = prepare_reports(df)[["valid", "temp_f", "dewpt_f", "wind_kt", "gust_kt", "max6_f", "min6_f",
                                "precip_1h", "routine"]]
     total, running = 0.0, []
     for is_routine, p in zip(out["routine"], out["precip_1h"]):

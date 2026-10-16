@@ -32,7 +32,8 @@ def _stamp(t) -> str:
 #   USL v2: fixed hourly times at month changes (page mislabels "01 SEP" for 1 Oct)
 #   ENS, AIFS_ENS, HRRRCAST, REFS v2: PoP record added (HRRRCast/REFS rebuild it from the
 #   point values already stored, so nothing is downloaded again)
-MODEL_VERSIONS = {"USL": 2, "ENS": 2, "AIFS_ENS": 2, "HRRRCAST": 2, "REFS": 2}
+#   USL v3: dewpoint column kept (display only)
+MODEL_VERSIONS = {"USL": 3, "ENS": 2, "AIFS_ENS": 2, "HRRRCAST": 2, "REFS": 2}
 
 
 def path_for(station: str, model: str, init, day, partial: bool = False) -> Path:

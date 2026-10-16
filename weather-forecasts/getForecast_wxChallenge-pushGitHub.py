@@ -158,8 +158,9 @@ def fast_herbie(init, fxx, **kw):
 
 
 def summarize(label, init, times, temp_f, wind_kt, precip_in, tmax_extra=None,
-              tmin_extra=None, truncated=False, notes=None):
-    """Standard result dict: JSON metrics + series for plotting."""
+              tmin_extra=None, truncated=False, notes=None, dewpt_f=None):
+    """Standard result dict: JSON metrics + series for plotting. dewpt_f (display only) is
+    stored even when None, so a run whose dewpoint failed isn't asked for it again."""
     tmax = float(np.nanmax(temp_f))
     tmin = float(np.nanmin(temp_f))
     src = "instantaneous 2 m T"
@@ -185,7 +186,46 @@ def summarize(label, init, times, temp_f, wind_kt, precip_in, tmax_extra=None,
         metrics["note"] = (metrics.get("note", "") + " precip looks unphysical, check units").strip()
     return {"metrics": metrics,
             "series": {"times": pd.to_datetime(times), "temp_f": np.asarray(temp_f, float),
-                       "wind_kt": np.asarray(wind_kt, float), "precip_in": np.asarray(precip_in, float)}}
+                       "wind_kt": np.asarray(wind_kt, float), "precip_in": np.asarray(precip_in, float),
+                       "dewpt_f": None if dewpt_f is None else np.asarray(dewpt_f, float)}}
+
+
+# 2 m dewpoint of each GRIB model (search, cfgrib name). DISPLAY ONLY (the page's dewpoint and
+# RH panels): never in the metrics, the consensus or the scores, and never fails a model.
+DEWPT_SEARCH = {"HRRR": ("DPT:2 m above", "d2m"), "RRFS": ("DPT:2 m above", "d2m"),
+                "GFS": ("DPT:2 m above", "d2m"), "IFS": (":2d:", "d2m"), "AIFS": (":2d:", "d2m")}
+
+
+def grib_dewpoint(label, H, points, n):
+    """2 m dewpoint (degF) at the station from Herbie object H (the run's n forecast steps),
+    or None if it can't be had."""
+    try:
+        search, name = DEWPT_SEARCH[label]
+        vals = np.atleast_1d(np.asarray(k_to_f(pick(H, search, points, name)).values, float))
+        if len(vals) != n:
+            raise ValueError(f"{len(vals)} dewpoint steps for {n} temperature steps")
+        return vals
+    except Exception as exc:
+        print(f"  warning: {label} dewpoint skipped ({type(exc).__name__}: {str(exc)[:150]})")
+        return None
+
+
+def add_dewpoint(label, res, points, station):
+    """Dewpoint for a run saved before dewpoints were kept: downloads that one field for the
+    run's stored steps. Returns True if `res` changed (then it should be saved again)."""
+    s, m = res.get("series"), res.get("metrics") or {}
+    if label not in DEWPT_SEARCH or not s or "dewpt_f" in s or not m.get("init_time_utc"):
+        return False
+    from herbie import FastHerbie
+    init = pd.Timestamp(m["init_time_utc"] + ":00")
+    fxx = [int(round((pd.Timestamp(t) - init).total_seconds() / 3600)) for t in s["times"]]
+    try:
+        H = FastHerbie([init], fxx=fxx, **cloud_grib_setup(label, init, station)[0])
+    except Exception as exc:
+        print(f"  warning: {label} dewpoint skipped ({type(exc).__name__}: {str(exc)[:150]})")
+        H = None
+    s["dewpt_f"] = None if H is None else grib_dewpoint(label, H, points, len(fxx))
+    return True
 
 
 # -------------------------------------------------------------------
@@ -201,7 +241,7 @@ def fetch_hrrr(init, day, points, station, partial=False):
     tp = (tp - tp[0]) * precip_factor(tp, 0.0393701)
     notes = [f"{pd.Timestamp(init):%HZ} HRRR stops at f48: window truncated"] if trunc else None
     return summarize("HRRR", init, times, t2m.values, wind.values, tp.values,
-                     truncated=trunc, notes=notes)
+                     truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("HRRR", H, points, len(times)))
 
 
 def fetch_rrfs(init, day, points, station, partial=False):
@@ -227,7 +267,7 @@ def fetch_rrfs(init, day, points, station, partial=False):
     except Exception as exc:
         notes.append(_extra_failed("TMAX/TMIN", exc))
     return summarize("RRFS", init, times, t2m.values, wind.values, tp.values,
-                     tmax_x, tmin_x, trunc, notes)
+                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("RRFS", H, points, len(times)))
 
 
 def fetch_ifs(init, day, points, station=None, partial=False):
@@ -254,7 +294,7 @@ def fetch_ifs(init, day, points, station=None, partial=False):
     except Exception as exc:
         notes.append(_extra_failed("mx2t3/mn2t3", exc))
     return summarize("IFS", init, times, t2m.values, wind.values, tp.values,
-                     tmax_x, tmin_x, trunc, notes)
+                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("IFS", H, points, len(times)))
 
 
 def fetch_gfs(init, day, points, station=None, partial=False):
@@ -279,7 +319,7 @@ def fetch_gfs(init, day, points, station=None, partial=False):
     except Exception as exc:
         notes.append(_extra_failed("TMAX/TMIN", exc))
     return summarize("GFS", init, times, t2m.values, wind.values, tp.values,
-                     tmax_x, tmin_x, trunc, notes)
+                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("GFS", H, points, len(times)))
 
 
 def fetch_aifs(init, day, points, station=None, partial=False):
@@ -297,7 +337,7 @@ def fetch_aifs(init, day, points, station=None, partial=False):
     if factor != 0.0393701:
         notes.append("AIFS tp reported in metres")
     return summarize("AIFS", init, times, t2m.values, wind.values, tp.values,
-                     truncated=trunc, notes=notes)
+                     truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("AIFS", H, points, len(times)))
 
 
 GRIB_MODELS = {
@@ -317,6 +357,8 @@ def fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of=None, 
         cached = wxc_cache.load(station.icao, label, init, day, partial)
         if cached is not None:
             print(f"Using saved {label} {init:%Y-%m-%d %HZ} (already downloaded)")
+            if add_dewpoint(label, cached, points, station):     # saved before dewpoints were kept
+                wxc_cache.save(station.icao, label, init, day, cached, partial)
             return cached
         try:
             print(f"Fetching {label} {init:%Y-%m-%d %HZ}...")
@@ -635,6 +677,8 @@ def collect_series(results, mos):
                       "temp_f": [round(float(v), 1) for v in s["temp_f"]],
                       "wind_kt": [round(float(v), 1) for v in s["wind_kt"]],
                       "precip_in": [round(float(v), 3) for v in s["precip_in"]]}
+            if s.get("dewpt_f") is not None:            # display only
+                out[k]["dewpt_f"] = [None if not np.isfinite(v) else round(float(v), 1) for v in s["dewpt_f"]]
     for k in MOS_ORDER + ENS_ORDER:
         m = mos.get(k) or {}
         s = m.get("series")
@@ -645,6 +689,8 @@ def collect_series(results, mos):
                       "tmax_f": m.get("tmax_f"), "tmin_f": m.get("tmin_f"),
                       "temp_f": s.get("tmp_f"), "wind_kt": s.get("wsp_kt"),
                       "precip_in": s.get("precip_cum_in")}
+            if s.get("dpt_f"):                           # MOS / NBM dewpoint, display only
+                out[k]["dewpt_f"] = s["dpt_f"]
             if s.get("tmp_p10") and s.get("tmp_p90"):      # ensembles: members' 10-90% range
                 out[k]["temp_p10"], out[k]["temp_p90"] = s["tmp_p10"], s["tmp_p90"]
     return out
@@ -715,8 +761,8 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
                     goes_days=TIMELINE_GOES_DAYS):
     """The page's scrollable timeline (wxc_timeline.py; display only). Fills in what the runs
     during the day couldn't save: a finished day's last reports (the schedule stops at the 00Z
-    deadline, the day ends at 06Z) with its overnight GOES hours, and the cloud cover of days
-    from before the per-day files existed. Then writes data/wxchallenge/timeline.json."""
+    deadline, the day ends at 06Z) with its overnight GOES hours, and the cloud cover and
+    dewpoints of days from before they were saved. Then writes data/wxchallenge/timeline.json."""
     import time as _time
     t0 = _time.time()
     icao = station.icao
@@ -724,9 +770,13 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
     today = (now - timedelta(hours=6)).date()
     goes_from = today - timedelta(days=goes_days) if goes_days is not None else date.min
 
-    # finished days without a complete record of their reports: one METAR request for all
+    # finished days without a complete record of their reports, or saved before dewpoints were
+    # (their GOES hours are kept): one METAR request for all
+    def needs_obs(rec):
+        return not rec.get("complete") or ((rec.get("reports") or {}).get("times") and
+                                           "dewpt_f" not in rec["reports"])
     todo = [d for d in days if d < today and wxc_timeline.is_final(d, now)]
-    todo = [d for d in todo if not (wxc_timeline.load_day(DATA, icao, d, "obs") or {}).get("complete")]
+    todo = [d for d in todo if needs_obs(wxc_timeline.load_day(DATA, icao, d, "obs") or {})]
     raw = None
     if todo:
         first, last = min(todo), max(todo)
@@ -743,6 +793,10 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
         reports = wxc_obs.report_series(part) if not part.empty else None
         sky = goes = None
         want_goes = wxc_clouds.CLOUDS_ENABLED and wxc_clouds.GOES_ENABLED and d >= goes_from
+        if old.get("complete"):            # only the dewpoints were missing: keep its GOES hours
+            g = old.get("goes") or {}
+            goes = [{"hour": t, "cloud_pct": v} for t, v in zip(g.get("times") or [], g.get("pct") or [])]
+            want_goes = False
         if wxc_clouds.CLOUDS_ENABLED:
             try:
                 sky = wxc_clouds.sky_series(part)
@@ -754,7 +808,7 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
                     goes = wxc_goes.hourly_cloud(station, s, s + timedelta(hours=24))
                 except Exception as exc:
                     print(f"  warning: timeline GOES {d} skipped ({type(exc).__name__}: {exc})")
-        attempts = old.get("attempts", 0) + 1
+        attempts = 1 if old.get("complete") else old.get("attempts", 0) + 1
         whole = not want_goes or bool(goes and len(goes) >= 23)
         rec = wxc_timeline.obs_record(icao, d, reports, sky, goes, now,
                                       complete=(reports is not None and whole) or attempts >= CONTEXT_ATTEMPTS)
@@ -780,6 +834,15 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
             rec["attempts"] = old.get("attempts", 0) + 1
             wxc_timeline.save_day(DATA, icao, d, "clouds", rec)
 
+    # dewpoints of series saved before they were kept (display only; newest days first)
+    for d in sorted((d for d in days if d <= today), reverse=True):
+        if _time.time() - t0 > budget_s:
+            print("  timeline: time budget used; older dewpoints left for the next run")
+            break
+        n = series_dewpoints(station, d, points, fetch_grib, deadline=t0 + budget_s)
+        if n:
+            print(f"  timeline dewpoints {d}: {n} model(s)")
+
     try:
         today_json = json.loads((DATA / "today.json").read_text())
     except (FileNotFoundError, json.JSONDecodeError):
@@ -790,6 +853,64 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
         path = wxc_timeline.write(DATA, bundle)
         print(f"  timeline: {len(bundle['days'])} days ({bundle['days'][0]['date']}..{bundle['days'][-1]['date']}) "
               f"in {_time.time() - t0:.0f} s -> {path.name}")
+
+
+def series_dewpoints(station, day, points, fetch_grib=True, deadline=None):
+    """Dewpoints (display only) for a day's submitted series saved before they were kept: GRIB
+    runs from the model cache or downloaded again (that one field), MOS / NBM from IEM by run
+    time, USL from its run page. A model whose dewpoint can't be had gets dewpt_f None, so it isn't asked again.
+    Stops at `deadline` (time.time()); returns the number of models filled."""
+    import time as _time
+    path = wxc_verify.SERIES_DIR / f"{station.icao}_{day.isoformat()}_submitted.json"
+    try:
+        rec = json.loads(path.read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        return 0
+    done = 0
+    for name, m in (rec.get("models") or {}).items():
+        if "dewpt_f" in m or not m.get("times") or not m.get("init_time_utc"):
+            continue
+        if name not in DEWPT_SEARCH and name not in wxc_mos.MOS_PRODUCTS and name != "USL":
+            continue                                  # ensembles: no dewpoint
+        if deadline is not None and _time.time() > deadline:
+            break
+        td = None
+        if name in DEWPT_SEARCH:
+            init = pd.Timestamp(m["init_time_utc"] + ":00")
+            cached = wxc_cache.load(station.icao, name, init, day) or {}
+            cs = cached.get("series") or {}
+            if cs.get("dewpt_f") is not None and len(cs["dewpt_f"]) == len(cs["times"]):
+                by_t = dict(zip(pd.to_datetime(cs["times"]).strftime("%Y-%m-%dT%H:%M"), cs["dewpt_f"]))
+                td = [by_t.get(t) for t in m["times"]]
+            elif fetch_grib:
+                res = {"series": {"times": pd.to_datetime(m["times"])}, "metrics": {"init_time_utc": m["init_time_utc"]}}
+                add_dewpoint(name, res, points, station)
+                td = res["series"].get("dewpt_f")
+            else:
+                continue
+            td = None if td is None else [None if v is None or not np.isfinite(v) else round(float(v), 1) for v in td]
+        elif name == "USL":
+            try:
+                by_t = wxc_usl.run_dewpoints(station.icao, m["init_time_utc"], day) or {}
+                td = [by_t.get(t) for t in m["times"]]
+            except Exception as exc:
+                print(f"  warning: USL dewpoint {day} skipped ({type(exc).__name__}: {str(exc)[:150]})")
+        else:
+            try:
+                rt = datetime.strptime(m["init_time_utc"], "%Y-%m-%dT%H").replace(tzinfo=timezone.utc)
+                ms = wxc_mos.summarize_mos(wxc_mos.fetch_mos(station.icao, wxc_mos.MOS_PRODUCTS[name], rt),
+                                           day, wxc_mos.MOS_PRODUCTS[name]).get("series") or {}
+                by_t = dict(zip(ms.get("times") or [], ms.get("dpt_f") or []))
+                td = [by_t.get(t) for t in m["times"]]
+            except Exception as exc:
+                print(f"  warning: {name} dewpoint {day} skipped ({type(exc).__name__}: {str(exc)[:150]})")
+        m["dewpt_f"] = td if td and any(v is not None for v in td) else None
+        done += 1
+    if done:
+        tmp = path.with_suffix(".tmp")
+        tmp.write_text(wxc_verify.dumps(rec))
+        tmp.replace(path)
+    return done
 
 
 def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDGET_S):

@@ -8,7 +8,7 @@ DISPLAY ONLY, like the cloud files: nothing here feeds the scores or the consens
 
 Per-day files in data/wxchallenge/timeline/ (kept for good: the model cache is pruned and
 IEM / GOES are slow to ask again):
-  <ICAO>_<date>_obs.json     every METAR of the day (temp, wind, gust, precip running total
+  <ICAO>_<date>_obs.json     every METAR of the day (temp, dewpoint, wind, gust, precip running total
                              since 06Z), METAR sky cover and the hourly GOES cloud fraction;
                              "complete" once the day has ended
   <ICAO>_<date>_clouds.json  model cloud cover of the day's submitted runs ("submitted") and,
@@ -114,7 +114,9 @@ def obs_record(icao: str, day: date, reports: Optional[pd.DataFrame], sky: Optio
     if reports is not None and not reports.empty:
         r = reports.sort_values("valid")
         rec["reports"] = {"times": [_iso(t) for t in r["valid"]],
-                          "temp_f": _nums(r["temp_f"], 1), "wind_kt": _nums(r["wind_kt"], 0),
+                          "temp_f": _nums(r["temp_f"], 1),
+                          "dewpt_f": _nums(r["dewpt_f"], 1) if "dewpt_f" in r else None,
+                          "wind_kt": _nums(r["wind_kt"], 0),
                           "gust_kt": _nums(r["gust_kt"], 0), "precip_in": _nums(r["precip_total_in"], 2),
                           "routine": [bool(x) for x in r["routine"]]}
     if sky is not None and not sky.empty:
@@ -180,7 +182,7 @@ def _hours(times, day: date) -> list:
 
 
 def _model(rec: dict, day: date) -> Optional[dict]:
-    """A series model -> {init, tmax, tmin, h, temp, wind, precip, [p10, p90]} inside the day."""
+    """A series model -> {init, tmax, tmin, h, temp, [td], wind, precip, [p10, p90]} inside the day."""
     times = rec.get("times") or []
     if not times:
         return None
@@ -199,6 +201,9 @@ def _model(rec: dict, day: date) -> Optional[dict]:
     out = {"init": rec.get("init_time_utc"), "tmax": _num(rec.get("tmax_f"), 1), "tmin": _num(rec.get("tmin_f"), 1),
            "h": [h[i] for i in order], "temp": pick("temp_f", 1), "wind": pick("wind_kt", 1),
            "precip": pick("precip_in", 3)}
+    td = pick("dewpt_f", 1)
+    if td:
+        out["td"] = td
     p10, p90 = pick("temp_p10", 1), pick("temp_p90", 1)
     if p10 and p90:
         out["p10"], out["p90"] = p10, p90
@@ -222,7 +227,8 @@ def _obs(rec: Optional[dict], day: date) -> Optional[dict]:
     out = {"complete": bool(rec.get("complete"))}
     r = rec.get("reports")
     if r and r.get("times"):
-        out["reports"] = {"h": _hours(r["times"], day), "temp": r.get("temp_f"), "wind": r.get("wind_kt"),
+        out["reports"] = {"h": _hours(r["times"], day), "temp": r.get("temp_f"), "td": r.get("dewpt_f"),
+                          "wind": r.get("wind_kt"),
                           "gust": r.get("gust_kt"), "precip": r.get("precip_in"), "routine": r.get("routine")}
     for key in ("sky", "goes"):
         s = rec.get(key)
@@ -333,7 +339,7 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
     return {"station": icao, "label": station_label, "generated_at_utc": now.isoformat(),
             "now_utc": _iso(now), "today": today.isoformat(), "forecast_day": days[-1].isoformat(),
             "note": "Display only. Hours (h) count from 06Z of each day. Temperatures in °F, wind in kt, "
-                    "precip in inches (running total since 06Z), cloud cover in %. Each day's models are "
+                    "precip in inches (running total since 06Z), cloud cover in %, dewpoint (td) in °F. Each day's models are "
                     "the runs available before its 00Z deadline; 'latest' are today's newest runs; "
                     "'verif' holds the official observations and the scored forecasts; 'cloud_win' the "
                     "night (06Z to sunrise) and day (sunrise to sunset) hours; 'cloud_scores' the "

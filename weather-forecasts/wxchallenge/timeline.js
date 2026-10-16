@@ -3,6 +3,8 @@
    00Z deadline (the newest day's keep updating until then), today's newest runs (dotted), an
    hourly average of the models switched on, and the observations. Hovering a day shows its
    numbers in the card below the chart; a click pins it.
+   The dewpoint and RH panels (below the cloud panel) are off until the "Dewpoint & RH panels"
+   button turns them on; RH is computed here from each temperature and dewpoint.
    Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
 (function () {
   'use strict';
@@ -25,27 +27,38 @@
     { v: 'wind', title: 'Wind (kt)', h: 110 },
     { v: 'precip', title: 'Precip since 06Z (in)', h: 90 },
     { v: 'cloud', title: 'Cloud cover (%)', h: 100 },
+    { v: 'td', title: 'Dewpoint (°F)', h: 120, opt: true },
+    { v: 'rh', title: 'Relative humidity (%)', h: 100, opt: true },
   ];
   const P = Object.fromEntries(PANELS.map(p => [p.v, p]));
+  const LINE_VARS = ['temp', 'wind', 'precip', 'td', 'rh'];   // drawn as plain lines (cloud has steps)
   const TOP = 24, HEAD = 22, BOT = 24, AXW = 40;
-  let yy = TOP;
-  for (const p of PANELS) { yy += HEAD; p.y0 = yy; yy += p.h; }
-  const H = yy + BOT;
   const H25 = Array.from({ length: 25 }, (_, j) => j);
 
   const STORE = 'wxc-timeline';
-  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true };
+  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: false };
   try {
     const s = JSON.parse(localStorage.getItem(STORE) || 'null');
     if (s) {
       if (Array.isArray(s.on)) st.on = new Set(s.on);
-      for (const k of ['avg', 'obs', 'latest', 'band']) if (typeof s[k] === 'boolean') st[k] = s[k];
+      for (const k of ['avg', 'obs', 'latest', 'band', 'hum']) if (typeof s[k] === 'boolean') st[k] = s[k];
     }
   } catch (e) {}
   const save = () => {
-    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], avg: st.avg, obs: st.obs, latest: st.latest, band: st.band })); }
+    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum: st.hum })); }
     catch (e) {}
   };
+
+  // the panels shown (the humidity ones only when switched on), stacked top to bottom
+  let VIS = [], H = 0;
+  function stack() {
+    VIS = PANELS.filter(p => !p.opt || st.hum);
+    let yy = TOP;
+    for (const p of VIS) { yy += HEAD; p.y0 = yy; yy += p.h; }
+    H = yy + BOT;
+  }
+  stack();
+  const shown = v => VIS.includes(P[v]);
 
   let T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
   const SC = {};
@@ -92,10 +105,26 @@
     return s[lo] + (s[hi] - s[lo]) * (i - lo);
   }
 
+  /* ---------- humidity ---------- */
+  // RH (%) from temperature and dewpoint (°F), Magnus formula over water
+  const es = f => { const c = (f - 32) / 1.8; return Math.exp(17.625 * c / (243.04 + c)); };
+  const rhOf = (t, td) => t == null || td == null ? null : Math.min(100, 100 * es(Math.min(td, t)) / es(t));
+
+  // RH of every model run and report with a dewpoint
+  function addRh() {
+    for (const d of T.days) {
+      for (const g of [d.models, d.latest || {}]) {
+        for (const m of Object.values(g)) if (m.td && m.temp) m.rh = m.temp.map((t, i) => rhOf(t, m.td[i]));
+      }
+      const r = d.obs && d.obs.reports;
+      if (r && r.td) r.rh = r.temp.map((t, i) => rhOf(t, r.td[i]));
+    }
+  }
+
   /* ---------- data ---------- */
   function hourly(m) {
     const out = {};
-    for (const v of ['temp', 'wind', 'precip']) out[v] = m[v] && m.h && m.h.length ? H25.map(j => lerp(m.h, m[v], j)) : null;
+    for (const v of LINE_VARS) out[v] = m[v] && m.h && m.h.length ? H25.map(j => lerp(m.h, m[v], j)) : null;
     const c = m.cloud;
     out.cloud = c ? H25.map(j => c.step ? nearest(c.h, c.pct, j) : lerp(c.h, c.pct, j)) : null;
     return out;
@@ -104,6 +133,7 @@
   function prep(data) {
     T = data;
     ND = T.days.length;
+    addRh();
     const d0 = T.days[0].date;
     const t0 = Date.UTC(+d0.slice(0, 4), +d0.slice(5, 7) - 1, +d0.slice(8, 10), 6);
     NOW_H = (Date.now() - t0) / 36e5;
@@ -134,6 +164,19 @@
     const pstep = [0.05, 0.1, 0.25, 0.5, 1, 2, 5].find(s => pmax / s <= 4) || 10;
     SC.precip = { lo: 0, hi: Math.ceil(pmax / pstep - 1e-9) * pstep, step: pstep, dec: pstep < 0.1 || pstep === 0.25 ? 2 : pstep < 1 ? 1 : 0 };
     SC.cloud = { lo: 0, hi: 100, step: 25 };
+    // dewpoint: its own range (it varies less than temperature, so finer ticks)
+    const tds = [];
+    for (const d of T.days) {
+      for (const g of [d.models, d.latest || {}]) for (const m of Object.values(g)) tds.push(...finite(m.td));
+      if (d.obs && d.obs.reports) tds.push(...finite(d.obs.reports.td));
+    }
+    let dlo = pct(tds, 0.005), dhi = pct(tds, 0.995);
+    if (dlo == null) { dlo = 30; dhi = 60; }
+    const dstep = dhi - dlo > 30 ? 10 : 5;
+    dlo = Math.floor((dlo - 2) / dstep) * dstep;
+    dhi = Math.max(Math.ceil((dhi + 2) / dstep) * dstep, dlo + 3 * dstep);
+    SC.td = { lo: dlo, hi: dhi, step: dstep };
+    SC.rh = { lo: 0, hi: 100, step: 25 };
   }
 
   // hourly mean of the models switched on (not the consensus); an hour needs 3 models
@@ -201,6 +244,8 @@
       `stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d ? ` stroke-dasharray="${d}"` : ''}/></svg>`;
     if (kind === 'AVG') return line('var(--ink-2)', 2.6, '5 3');
     if (kind === 'OBS') return line('var(--ink)', 3.5);
+    if (kind === 'HUM') return `<svg width="20" height="12" aria-hidden="true" style="flex:none"><rect x="2" y="1" width="16" height="4" rx="1" ` +
+      `fill="none" stroke="var(--ink-2)"/><rect x="2" y="7" width="16" height="4" rx="1" fill="var(--ink-2)" fill-opacity="0.45" stroke="var(--ink-2)"/></svg>`;
     if (kind === 'BAND') return `<svg width="20" height="10" aria-hidden="true" style="flex:none"><rect x="1" y="1" width="18" height="8" rx="2" fill="var(--ink-2)" fill-opacity="0.3"/></svg>`;
     return line(COL[kind] || 'var(--ink-3)', dash === LATEST_DASH ? 3 : 2.5, dash || (DASHED.has(kind) ? '4 3' : ''));
   }
@@ -218,7 +263,7 @@
     axisEl.setAttribute('width', AXW);
     axisEl.setAttribute('height', H);
     let s = '';
-    for (const p of PANELS) {
+    for (const p of VIS) {
       const c = SC[p.v];
       for (let v = c.lo; v <= c.hi + 1e-9; v += c.step) {
         const t = p.v === 'precip' ? v.toFixed(c.dec) : Math.round(v);
@@ -230,7 +275,7 @@
 
   function titles() {
     wrap.querySelectorAll('.tl-ptitle').forEach(e => e.remove());
-    for (const p of PANELS) {
+    for (const p of VIS) {
       const e = document.createElement('div');
       e.className = 'tl-ptitle';
       e.textContent = p.title;
@@ -248,7 +293,7 @@
     // the part of the timeline still to come
     const nowIn = NOW_H > 0 && NOW_H < 24 * ND, nx = X(Math.max(0, Math.min(NOW_H, 24 * ND)));
     if (NOW_H < 24 * ND) o.push(`<rect x="${nx.toFixed(1)}" y="${TOP}" width="${(W - nx).toFixed(1)}" height="${bottom - TOP}" fill="var(--ink)" fill-opacity="0.035"/>`);
-    for (const p of PANELS) {
+    for (const p of VIS) {
       const c = SC[p.v];
       for (let v = c.lo; v <= c.hi + 1e-9; v += c.step) {
         const y = Y(p, v).toFixed(1);
@@ -281,18 +326,18 @@
           const dn = m.h.map((h, i) => `${X(h + off).toFixed(1)},${Y(P.temp, m.p10[i]).toFixed(1)}`).reverse();
           bands.push(`<polygon points="${up.concat(dn).join(' ')}" fill="${COL[n]}" fill-opacity="0.13"/>`);
         }
-        for (const v of ['temp', 'wind', 'precip']) if (m[v]) lines.push(ln(path(m.h, m[v], P[v], off), COL[n], 1.6, dash, 0.9));
+        for (const v of LINE_VARS) if (m[v] && shown(v)) lines.push(ln(path(m.h, m[v], P[v], off), COL[n], 1.6, dash, 0.9));
         if (m.cloud) lines.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 1.5, dash, 0.9));
       }
       if (st.latest) {
         for (const n of ORDER) {
           const m = (d.latest || {})[n];
           if (!m || !st.on.has(n)) continue;
-          for (const v of ['temp', 'wind', 'precip']) if (m[v]) latest.push(ln(path(m.h, m[v], P[v], off), COL[n], 2, LATEST_DASH));
+          for (const v of LINE_VARS) if (m[v] && shown(v)) latest.push(ln(path(m.h, m[v], P[v], off), COL[n], 2, LATEST_DASH));
           if (m.cloud) latest.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 2, LATEST_DASH));
         }
       }
-      if (st.avg) for (const p of PANELS) avg.push(ln(path(H25, AV[k][p.v].vals, p, off), 'var(--ink-2)', 2.6, AVG_DASH));
+      if (st.avg) for (const p of VIS) avg.push(ln(path(H25, AV[k][p.v].vals, p, off), 'var(--ink-2)', 2.6, AVG_DASH));
     });
     o.push(...bands, ...lines, ...latest, ...avg);
 
@@ -327,6 +372,19 @@
           });
         }
       });
+      // dewpoint and RH: every report, run on across days like temperature (dots: hourly reports)
+      if (st.hum) {
+        const R = [];
+        T.days.forEach((d, k) => {
+          const u = d.obs && d.obs.reports;
+          if (u && u.td) u.h.forEach((h, i) => R.push({ h: 24 * k + h, td: u.td[i], rh: u.rh[i], rt: u.routine[i] }));
+        });
+        for (const [v, w] of [['td', 3], ['rh', 2.5]]) {
+          const s = R.filter(r => r[v] != null);
+          o.push(ln(path(s.map(r => r.h), s.map(r => r[v]), P[v], 0, 3), 'var(--ink)', w));
+          for (const r of s) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P[v], r[v]).toFixed(1)}" r="2.2" fill="var(--ink)"/>`);
+        }
+      }
     }
     if (nowIn) {
       o.push(`<line x1="${nx.toFixed(1)}" x2="${nx.toFixed(1)}" y1="${TOP}" y2="${bottom}" stroke="var(--ink-2)" stroke-dasharray="2 3"/>`);
@@ -349,7 +407,10 @@
       (hs || []).forEach((h, i) => { if (Math.abs(h - j) <= tol && (best < 0 || Math.abs(h - j) < Math.abs(hs[best] - j))) best = i; });
       return best;
     };
-    if (r) { const i = near(r.h, 0.75); if (i >= 0) { out.t = r.temp[i]; out.w = r.wind[i]; } }
+    if (r) {
+      const i = near(r.h, 0.75);
+      if (i >= 0) { out.t = r.temp[i]; out.w = r.wind[i]; if (r.td) { out.td = r.td[i]; out.rh = r.rh[i]; } }
+    }
     if (ob.sky) { const i = near(ob.sky.h, 0.6); if (i >= 0) out.c = ob.sky.pct[i]; }
     return out;
   }
@@ -358,6 +419,8 @@
                    c == null ? null : Math.round(c) + '%'].filter(Boolean);
     return `<td>${parts.length ? parts.join(', ') : '—'}</td>`;
   };
+  // dewpoint and RH at the hovered hour (a column only while the humidity panels are on)
+  const atHum = (td, rh) => st.hum ? `<td>${td == null ? '—' : Math.round(td) + '°'} / ${rh == null ? '—' : Math.round(rh) + '%'}</td>` : '';
   function er(e, dec) {
     if (e == null) return '';
     if (Math.abs(e) < 0.5 * Math.pow(10, -dec)) return ' <span class="mu">0</span>';
@@ -397,12 +460,12 @@
     const cc = c => hasCloud ? `<td>${f0(c[0])}${er(c[2], 0)}</td><td>${f0(c[1])}${er(c[3], 0)}</td>` : '';
     const cols = (hasCloud ? '<th title="Mean cloud cover (%) from 06Z to sunrise">Night cloud</th>' +
                              '<th title="Mean cloud cover (%) from sunrise to sunset">Day cloud</th>' : '') +
-                 (j == null ? '' : `<th>At ${hourLabel(h)}</th>`);
+                 (j == null ? '' : `<th>At ${hourLabel(h)}</th>` + (st.hum ? '<th title="Dewpoint / relative humidity">Td / RH</th>' : ''));
     const notes = [];
     if (d.hindcast) notes.push('These runs were rebuilt afterwards (hindcast) from what was out at 23Z the day before.' +
       (['ENS', 'AIFS_ENS', 'GEFS'].some(n => d.models[n]) ? '' : ' Ensembles can\'t be rebuilt (only their latest run is served), so they are missing.'));
     const rows = [];
-    const oa = j == null ? null : obsAt(k, j), oat = j == null ? '' : at(oa.t, oa.w, oa.c);
+    const oa = j == null ? null : obsAt(k, j), oat = j == null ? '' : at(oa.t, oa.w, oa.c) + atHum(oa.td, oa.rh);
     if (v) {
       const o = v.obs;
       rows.push(`<tr class="obs"><td>Observed</td><td>official</td><td>${f0(o[0])}</td><td>${f0(o[1])}</td><td>${f0(o[2])}</td>` +
@@ -434,7 +497,8 @@
       rows.push(`<tr><td><span class="tl-m">${sw(n)} ${label(n)}</span></td><td>${run(m.init)}</td>` +
                 `<td>${f0(x[0])}${s ? er(s.err[0], 0) : ''}</td><td>${f0(x[1])}${s ? er(s.err[1], 0) : ''}</td>` +
                 `<td>${f0(x[2])}${s ? er(s.err[2], 0) : ''}</td><td>${f2(x[3])}${s ? er(s.err[3], 2) : ''}</td>` +
-                cc(clouds[n]) + (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j])) + '</tr>');
+                cc(clouds[n]) + (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j]) +
+                                 atHum(hv.td && hv.td[j], hv.rh && hv.rh[j])) + '</tr>');
     }
     if (st.latest && d.latest) {
       for (const n of ORDER) {
@@ -444,7 +508,8 @@
         rows.push(`<tr class="latest"><td><span class="tl-m">${sw(n, LATEST_DASH)} ${label(n)} newest</span></td><td>${run(m.init)}</td>` +
                   `<td>${f0(m.tmax)}</td><td>${f0(m.tmin)}</td><td>${f0(maxOf(m.wind))}</td><td>${f2(lastOf(m.precip))}</td>` +
                   cc([winMean(hv.cloud, win.night), winMean(hv.cloud, win.day), null, null]) +
-                  (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j])) + '</tr>');
+                  (j == null ? '' : at(hv.temp && hv.temp[j], hv.wind && hv.wind[j], hv.cloud && hv.cloud[j]) +
+                                   atHum(hv.td && hv.td[j], hv.rh && hv.rh[j])) + '</tr>');
       }
     }
     if (st.avg && ns.length) {
@@ -453,12 +518,12 @@
                 `<td>${f0(maxOf(a.temp.vals))}</td><td>${f0(minOf(a.temp.vals))}</td><td>${f0(maxOf(a.wind.vals))}</td>` +
                 `<td>${f2(lastOf(a.precip.vals))}</td>` +
                 cc([winMean(a.cloud.vals, win.night), winMean(a.cloud.vals, win.day), null, null]) +
-                (j == null ? '' : at(a.temp.vals[j], a.wind.vals[j], a.cloud.vals[j])) + '</tr>');
+                (j == null ? '' : at(a.temp.vals[j], a.wind.vals[j], a.cloud.vals[j]) + atHum(a.td.vals[j], a.rh.vals[j])) + '</tr>');
       rows.push(`<tr class="avg"><td colspan="2">Mean of the model numbers</td>` +
                 [0, 1, 2].map(i => `<td>${f0(mean(ns.map(n => nums[n][i])))}</td>`).join('') +
                 `<td>${f2(mean(ns.map(n => nums[n][3])))}</td>` +
                 cc([mean(ns.map(n => clouds[n][0])), mean(ns.map(n => clouds[n][1])), null, null]) +
-                `${j == null ? '' : '<td></td>'}</tr>`);
+                `${j == null ? '' : '<td></td>' + (st.hum ? '<td></td>' : '')}</tr>`);
       notes.push('The average line\'s high runs lower (and its low higher) than the mean of the model highs and lows when the models disagree on timing.');
     }
     if (!ns.length && !(d.latest && st.latest)) notes.push(Object.keys(d.models).length ? 'No models switched on.' : 'No stored runs for this day.');
@@ -477,7 +542,7 @@
     if (k != null) {
       const j = curH - 24 * k, x = X(curH).toFixed(1);
       s += `<line x1="${x}" x2="${x}" y1="${TOP}" y2="${H - BOT}" stroke="var(--ink-2)" stroke-width="1"/>`;
-      for (const p of PANELS) {
+      for (const p of VIS) {
         for (const n of ORDER) {
           const hv = HI[k][n] && HI[k][n][p.v];
           if (hv && st.on.has(n) && hv[j] != null) s += dot(x, Y(p, hv[j]), COL[n]);
@@ -516,6 +581,9 @@
     h += chip('data-t="avg"', st.avg, sw('AVG') + 'Average') + chip('data-t="obs"', st.obs, sw('OBS') + 'Observed') +
          chip('data-t="latest"', st.latest, sw('HRRR', LATEST_DASH) + 'Newest runs (today)') +
          chip('data-t="band"', st.band, sw('BAND') + 'Ensemble 10–90%');
+    h += '<span class="tl-sep"></span>';
+    h += chip('data-t="hum" title="Show dewpoint and relative humidity panels below the cloud panel"', st.hum,
+              sw('HUM') + 'Dewpoint &amp; RH panels');
     ctl.innerHTML = h;
   }
   ctl.addEventListener('click', ev => {
@@ -529,6 +597,7 @@
       if (st.on.has(n)) st.on.delete(n); else st.on.add(n);
     } else if (b.dataset.t) {
       st[b.dataset.t] = !st[b.dataset.t];
+      if (b.dataset.t === 'hum') { stack(); titles(); }     // the chart grows or shrinks
     } else return;
     save();
     controls();
@@ -567,7 +636,7 @@
       prep(data);
       axisEl.style.width = AXW + 'px';
       chart.setAttribute('aria-label', `Forecasts and observations for ${data.station}, ${data.days[0].date} to ` +
-        `${data.days[data.days.length - 1].date}: temperature, wind, precipitation and cloud cover by hour`);
+        `${data.days[data.days.length - 1].date}: temperature, wind, precipitation, cloud cover, dewpoint and humidity by hour`);
       sec.hidden = false;      // first, so the scroll box has its width
       controls();
       titles();

@@ -86,12 +86,13 @@ def parse_run(html: str) -> dict:
         return next((i for i, h in enumerate(header) if h.startswith(name)), None)
     i_t, i_w, i_p = col("temp"), col("wspd"), col("precip")
     i_s = col("sky")          # "Sky Cover", e.g. "65%" (display only: not part of the summary)
+    i_d = col("dewpt")        # display only (the page's dewpoint panel)
 
     # Times: the page's date labels can't be trusted at a month change (the 20260929_12
     # run labels 1 Oct 00Z as "01 SEP 0000"), so only the first label's date is used,
     # checked against the run time (a D-1 run forecasts 06Z on D), and every later row
     # is placed by its HHMM hour counted forward from there.
-    times, temp, wind, precip, sky = [], [], [], [], []
+    times, temp, wind, precip, sky, dewpt = [], [], [], [], [], []
     for r in rows[1:]:
         label = r[0].upper().split()
         hh = int(label[-1][:2])
@@ -119,13 +120,14 @@ def parse_run(html: str) -> dict:
         wind.append(_num(r[i_w]) if i_w is not None and i_w < len(r) else None)
         precip.append((_num(r[i_p]) or 0.0) if i_p is not None and i_p < len(r) else 0.0)
         sky.append(_num(r[i_s]) if i_s is not None and i_s < len(r) else None)
+        dewpt.append(_num(r[i_d]) if i_d is not None and i_d < len(r) else None)
 
     stats = {}
     srows = p.tables.get("stats", [])
     if len(srows) >= 2:
         stats = {h.lower(): _num(v) for h, v in zip(srows[0], srows[1])}
     return {"runtime": runtime, "times": times, "temp_f": temp, "wind_kt": wind,
-            "precip_in": precip, "sky_pct": sky, "stats": stats}
+            "precip_in": precip, "sky_pct": sky, "dewpt_f": dewpt, "stats": stats}
 
 
 def summarize_run(run: dict, target_day: date) -> dict:
@@ -154,7 +156,8 @@ def summarize_run(run: dict, target_day: date) -> dict:
         "init_time_utc": init,
         "valid_range_utc": [start.strftime("%Y-%m-%dT%H"), (start + timedelta(days=1)).strftime("%Y-%m-%dT%H")],
         "series": {"times": [t.strftime("%Y-%m-%dT%H:%M") for t in run["times"]],
-                   "tmp_f": run["temp_f"], "wsp_kt": run["wind_kt"], "precip_cum_in": cum},
+                   "tmp_f": run["temp_f"], "wsp_kt": run["wind_kt"], "precip_cum_in": cum,
+                   "dpt_f": run["dewpt_f"] if any(v is not None for v in run.get("dewpt_f") or []) else None},
     }
 
 
@@ -166,6 +169,17 @@ def _get(url: str) -> Optional[str]:
     r.raise_for_status()
     r.encoding = r.encoding or "iso-8859-1"
     return r.text
+
+
+def run_dewpoints(icao: str, init_iso: str, target_day: date) -> Optional[dict]:
+    """{time: dewpoint degF} of the run made at `init_iso` ("YYYY-MM-DDTHH", as stored in the
+    series), from its run page; None if the page is gone. Display only."""
+    t = datetime.strptime(init_iso, "%Y-%m-%dT%H")
+    html = _get(BASE.format(icao=icao.upper()) + t.strftime("%Y%m%d_%H") + ".html")
+    if html is None:
+        return None
+    s = summarize_run(parse_run(html), target_day).get("series") or {}
+    return dict(zip(s.get("times") or [], s.get("dpt_f") or []))
 
 
 def get_usl_forecast(icao: str, target_day: date, as_of: Optional[datetime] = None) -> dict:
