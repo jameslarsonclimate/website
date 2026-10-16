@@ -14,6 +14,7 @@ hidden link at the bottom of wxchallenge/index.html point to it.
 """
 
 import json
+import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -44,6 +45,15 @@ def _s(x, v, digits=None):
     d = digits if digits is not None else 2 if v == "precip_in" else 1
     x = round(x, d) + 0.0          # + 0.0 turns -0.0 into 0.0
     return f"{x:+.{d}f}"
+
+
+def _rh(t, td):
+    """Relative humidity (%) from temperature and dewpoint (°F), Magnus formula over water
+    (the same as the page's timeline)."""
+    if t is None or td is None:
+        return None
+    es = lambda f: math.exp(17.625 * ((f - 32) / 1.8) / (243.04 + (f - 32) / 1.8))
+    return min(100.0, 100 * es(min(td, t)) / es(t))
 
 
 def _pct(p):
@@ -117,7 +127,9 @@ def _howto():
         "5. Check the clouds section: when a model's low or high misses line up with its cloud "
         "misses (too clear at night -> low too cold, too cloudy at night -> low too warm; too clear "
         "by day -> high too warm, too cloudy by day -> high too cool), ask whether its cloud "
-        "forecast for the target day has the same problem before trusting its temperatures.",
+        "forecast for the target day has the same problem before trusting its temperatures. Do the "
+        "same with the dewpoint: a model running too moist today (dewpoint bias so far) tends to run "
+        "its low too warm, too dry its low too cold.",
         "6. Read the latest AFD for the forecaster's view of the pattern; it often explains when a "
         "model bias learned earlier in the period won't apply.",
         "7. Give whole °F for high/low, whole kt for wind, and precip to 0.01\". State the reasoning "
@@ -472,6 +484,49 @@ def _today_clouds(fc, cloud_today, order):
                rows, right_from=2)])
 
 
+def _today_humidity(fc, obs, sub, order):
+    """Hourly dewpoint of the day in progress: the METAR nearest each hour (and its RH) against the
+    runs submitted for today, with each model's mean dewpoint error so far."""
+    r = (obs or {}).get("reports") or {}
+    times, td, temp = r.get("times") or [], r.get("dewpt_f") or [], r.get("temp_f") or []
+    if not times or len(td) != len(times):
+        return ""
+    best = {}              # top of the hour -> (minutes away, dewpoint, temperature)
+    for t, d, x in zip(times, td, temp or [None] * len(times)):
+        if d is None:
+            continue
+        ts = datetime.strptime(t, "%Y-%m-%dT%H:%M")
+        hour = (ts + timedelta(minutes=30)).replace(minute=0)
+        away = abs((ts - hour).total_seconds()) / 60
+        key = hour.strftime("%Y-%m-%dT%H:%M")
+        if away <= 35 and (key not in best or away < best[key][0]):
+            best[key] = (away, d, x)
+    if not best:
+        return ""
+    models = (sub or {}).get("models") or {}
+    names = [n for n in order if n in models] + [n for n in models if n not in order]
+    names = [n for n in names if any(v is not None for v in models[n].get("dewpt_f") or [])]
+    fc_td = {n: dict(zip(models[n]["times"], models[n]["dewpt_f"])) for n in names}
+    tz = _station_tz(fc)
+    hours = sorted(best)
+    rows = [[f"{t[5:10]} {t[11:13]}Z", _local(t, tz), _f(best[t][1], "t"),
+             "" if (rh := _rh(best[t][2], best[t][1])) is None else f"{rh:.0f}",
+             *("" if fc_td[n].get(t) is None else _f(fc_td[n][t], "t") for n in names)] for t in hours]
+    bias = []
+    for n in names:
+        errs = [fc_td[n][t] - best[t][1] for t in hours if fc_td[n].get(t) is not None]
+        bias.append(_s(sum(errs) / len(errs), "t") if errs else "—")
+    rows.append(["Bias so far", "", "", "", *bias])
+    return "\n".join([
+        f"## Dewpoint so far today ({(obs or {}).get('date')}, observed vs forecast)", "",
+        "Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the dewpoint of "
+        "the runs submitted for today. Bias so far = forecast - observed over the hours both have "
+        "(positive = too moist). A model running too moist often runs its low too warm, too dry its "
+        "low too cold. Context only, not scored.", "",
+        _table(["UTC", f"Local ({_zone(hours[0], tz)})" if tz else "Local", "Obs Td", "Obs RH", *names],
+               rows, right_from=2)])
+
+
 def _links(fc):
     d = f"{SITE}/data/wxchallenge"
     meta = fc.get("meta", {})
@@ -521,7 +576,7 @@ def _cloud_cell(x, avg=False):
 
 def _hourly(fc, series, order, cloud_series=None):
     """The models' hourly (or 3-/6-hourly) values through the target day, one table per variable
-    (temperature, wind, accumulated precip, cloud cover): a row per UTC hour, a column per model,
+    (temperature, dewpoint, RH, wind, accumulated precip, cloud cover): a row per UTC hour, a column per model,
     blank where a model has no value at that hour."""
     models = (series or {}).get("models") or {}
     clouds = (cloud_series or {}).get("models") or {}
@@ -531,7 +586,8 @@ def _hourly(fc, series, order, cloud_series=None):
 
     # (title, {model: {time: cell text}}) per table, models in page order
     tables = []
-    specs = [("temp_f", "Temperature (°F)", "t"), ("wind_kt", "Wind speed (kt) at the hour", "w"),
+    specs = [("temp_f", "Temperature (°F)", "t"), ("dewpt_f", "Dewpoint (°F)", "t"),
+             ("wind_kt", "Wind speed (kt) at the hour", "w"),
              ("precip_in", "Precipitation (in), accumulated since the start of the day (06Z)", "precip_in")]
     dry_note = None
     for key, title, v in specs:
@@ -543,6 +599,15 @@ def _hourly(fc, series, order, cloud_series=None):
             dry_note = (len(tables), f"{title}: 0.00 in every model ({', '.join(cols)}) all day.")
             continue
         tables.append((title, {n: {t: _f(x, v) for t, x in raw[n].items() if x is not None} for n in cols}))
+        if key == "dewpt_f":            # RH from each model's own temperature and dewpoint
+            rh = {}
+            for n in cols:
+                temp = dict(zip(models[n]["times"], models[n].get("temp_f") or []))
+                cells = {t: f"{r:.0f}" for t, x in raw[n].items() if (r := _rh(temp.get(t), x)) is not None}
+                if cells:
+                    rh[n] = cells
+            if rh:
+                tables.append(("Relative humidity (%), from each model's temperature and dewpoint", rh))
     cloud_cols = [n for n in ordered(clouds) if any(x is not None for x in (clouds[n].get("cloud_pct") or []))]
     if cloud_cols:
         cells = {}
@@ -567,6 +632,11 @@ def _hourly(fc, series, order, cloud_series=None):
            "AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can "
            "miss the true high/low between output times; the guidance table's daily values "
            "(which also use interval max/min fields where available) are what get scored."]
+    if any(title.startswith("Dewpoint") for title, _ in tables):
+        out += ["", "Dewpoint and relative humidity (context, not scored): the models' 2 m dewpoint "
+                "(GFS_MOS, NBM and USL from their own guidance; the ensembles have none). Moist air "
+                "(a high dewpoint) slows the overnight cooling, and the low rarely falls far below the "
+                "evening dewpoint on a calm night; RH near 100% means fog or low cloud is possible."]
     if cloud_cols:
         out += ["", "Cloud cover (context, not scored): total cloud cover from each model's own "
                 "output; GFS_MOS gives categories (clear 0, few 19, scattered 44, broken 75, "
@@ -591,18 +661,22 @@ def _hourly(fc, series, order, cloud_series=None):
 
 def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime | None = None,
                 clouds: dict | None = None, series: dict | None = None,
-                cloud_series: dict | None = None, cloud_today: dict | None = None) -> str:
+                cloud_series: dict | None = None, cloud_today: dict | None = None,
+                obs_today: dict | None = None, series_today: dict | None = None) -> str:
     """clouds: this station's days from cloud_context.json ({date: {...}}), optional.
     series: the target day's hourly model series (series/<ICAO>_<date>_submitted.json), optional.
     cloud_series: the target day's model cloud cover (cloud_forecast.json), optional.
-    cloud_today: the day in progress's observed (GOES, METAR) and forecast clouds (cloud_today.json)."""
+    cloud_today: the day in progress's observed (GOES, METAR) and forecast clouds (cloud_today.json).
+    obs_today / series_today: the day in progress's METARs (timeline/<ICAO>_<date>_obs.json) and
+    submitted runs (series/<ICAO>_<date>_submitted.json), for its dewpoint so far."""
     now = now or datetime.now(timezone.utc)
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
                 _ensembles(fc, order), _pop(fc, verif, order), _hourly(fc, series, order, cloud_series),
                 _track_record(verif),
                 _daily(verif, order), _clouds(verif, clouds, order), _pop_daily(verif, order),
-                _today(today), _today_clouds(fc, cloud_today, order), _links(fc)]
+                _today(today), _today_clouds(fc, cloud_today, order),
+                _today_humidity(fc, obs_today, series_today, order), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
 
 
@@ -633,9 +707,15 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
     if cloud_today and (cloud_today.get("station") != meta.get("station")
                         or (today and cloud_today.get("date") != today.get("date"))):
         cloud_today = None
+    # the day in progress's METARs and submitted runs (its dewpoint so far)
+    obs_today = series_today = None
+    if today and today.get("date"):
+        obs_today = load(f"timeline/{meta.get('station')}_{today['date']}_obs.json")
+        series_today = load(f"series/{meta.get('station')}_{today['date']}_submitted.json")
     out = Path(out or data_dir / "brief.md")
     out.write_text(build_brief(fc, verif, today, clouds=clouds, series=series,
-                                  cloud_series=cloud_series, cloud_today=cloud_today), encoding="utf-8")
+                                  cloud_series=cloud_series, cloud_today=cloud_today,
+                                  obs_today=obs_today, series_today=series_today), encoding="utf-8")
     return out
 
 

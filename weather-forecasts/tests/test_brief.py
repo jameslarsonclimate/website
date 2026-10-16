@@ -218,3 +218,62 @@ def test_write_brief_today_clouds_must_match(tmp_path):
     assert "## Clouds so far today" in wxc_brief.write_brief(tmp_path).read_text()
     (tmp_path / "cloud_today.json").write_text(json.dumps({**_cloud_today(), "date": "2026-10-05"}))
     assert "## Clouds so far today" not in wxc_brief.write_brief(tmp_path).read_text()   # yesterday's file
+
+
+def test_hourly_dewpoint_and_rh_tables():
+    ser = _series([0.0, 0.12, 0.5])
+    ser["models"]["HRRR"]["dewpt_f"] = [70.0, 73.2, None]
+    ser["models"]["GFS_MOS"]["dewpt_f"] = [60.0, 65.0]
+    txt = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, series=ser)
+    t, d, r, w = (txt.index(x) for x in ("Temperature (°F):", "Dewpoint (°F):", "Relative humidity (%)",
+                                         "Wind speed (kt)"))
+    assert t < d < r < w                                                    # right after temperature
+    assert "| 10-07 06Z | Wed 02:00 | 70.0 | 60.0 |" in txt[d:r]
+    assert "| 10-07 09Z | Wed 05:00 | 73.2 |  |" in txt[d:r]
+    assert "| 10-07 06Z | Wed 02:00 | 84 | 58 |" in txt[r:w]                # 75/70 F, 76/60 F
+    assert "| 10-07 09Z | Wed 05:00 | 100 |  |" in txt[r:w]                 # dewpoint = temperature
+    assert "Dewpoint and relative humidity (context, not scored)" in txt
+    assert "Dewpoint (°F):" not in wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW,
+                                                         series=_series([0.0, 0.1, 0.2]))
+
+
+def test_rh():
+    assert wxc_brief._rh(75.0, 75.0) == 100.0 and wxc_brief._rh(70.0, 72.0) == 100.0
+    assert round(wxc_brief._rh(68.0, 50.0)) == 53 and wxc_brief._rh(None, 50.0) is None
+
+
+def _obs_today():
+    return {"station": "KTPA", "date": "2026-10-06",
+            "reports": {"times": ["2026-10-06T05:53", "2026-10-06T06:10", "2026-10-06T06:53", "2026-10-06T08:20"],
+                        "temp_f": [80.0, 79.0, 78.1, 77.0], "dewpt_f": [70.0, 71.1, 72.0, None]}}
+
+
+def _series_today():
+    t = ["2026-10-06T06:00", "2026-10-06T07:00", "2026-10-06T09:00"]
+    return {"models": {"HRRR": {"times": t, "temp_f": [80, 79, 78], "dewpt_f": [71.0, 73.0, 74.0]},
+                       "GFS_MOS": {"times": t[::2], "temp_f": [80, 78], "dewpt_f": [68.0, 70.0]},
+                       "ENS": {"times": t, "temp_f": [80, 79, 78]}}}
+
+
+def test_today_dewpoint_so_far():
+    txt = wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW,
+                                obs_today=_obs_today(), series_today=_series_today())
+    i = txt.index("## Dewpoint so far today (2026-10-06, observed vs forecast)")
+    assert txt.index("## Today so far") < i < txt.index("## Raw data")
+    sec = txt[i:txt.index("## Raw data")]
+    assert "| UTC | Local (EDT) | Obs Td | Obs RH | HRRR | GFS_MOS |" in sec     # ENS: no dewpoint
+    assert "| 10-06 06Z | Tue 02:00 | 70.0 | 72 | 71.0 | 68.0 |" in sec       # 05:53 is nearer than 06:10
+    assert "| 10-06 07Z | Tue 03:00 | 72.0 | 82 | 73.0 |  |" in sec
+    assert "08Z" not in sec                                                 # 08:20 has no dewpoint
+    assert "| Bias so far |  |  |  | +1.0 | -2.0 |" in sec
+    assert "## Dewpoint so far" not in wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW)
+
+
+def test_write_brief_reads_today_dewpoint(tmp_path):
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "today.json").write_text(json.dumps(_today()))
+    (tmp_path / "timeline").mkdir()
+    (tmp_path / "timeline" / "KTPA_2026-10-06_obs.json").write_text(json.dumps(_obs_today()))
+    (tmp_path / "series").mkdir()
+    (tmp_path / "series" / "KTPA_2026-10-06_submitted.json").write_text(json.dumps(_series_today()))
+    assert "## Dewpoint so far today" in wxc_brief.write_brief(tmp_path).read_text()

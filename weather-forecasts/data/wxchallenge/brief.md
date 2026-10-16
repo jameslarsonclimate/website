@@ -12,7 +12,7 @@
 2. Check the track-record table: a model with a large, consistent bias (|bias| close to its MAE) is reliably off in that direction. The consensus already removes most of that bias; lean further only if the last few days (daily verification tables) show the bias growing.
 3. Use the ensemble percentiles for uncertainty. For **precip**, enter roughly the ensemble **median**, not the mean: points are charged per 0.01" of error, and charged most heavily near zero, so the median minimizes expected points. Check the chance-of-rain table: when the calibrated chances (NBM, NBM QMD, MOS) are low, 0.00 is often the best entry.
 4. Use "Today so far" (the day currently in progress, not the target day) to see which models are handling the current pattern; persistent errors there often carry into tomorrow.
-5. Check the clouds section: when a model's low or high misses line up with its cloud misses (too clear at night -> low too cold, too cloudy at night -> low too warm; too clear by day -> high too warm, too cloudy by day -> high too cool), ask whether its cloud forecast for the target day has the same problem before trusting its temperatures.
+5. Check the clouds section: when a model's low or high misses line up with its cloud misses (too clear at night -> low too cold, too cloudy at night -> low too warm; too clear by day -> high too warm, too cloudy by day -> high too cool), ask whether its cloud forecast for the target day has the same problem before trusting its temperatures. Do the same with the dewpoint: a model running too moist today (dewpoint bias so far) tends to run its low too warm, too dry its low too cold.
 6. Read the latest AFD for the forecaster's view of the pattern; it often explains when a model bias learned earlier in the period won't apply.
 7. Give whole °F for high/low, whole kt for wind, and precip to 0.01". State the reasoning for any departure from the consensus.
 
@@ -121,6 +121,8 @@ For reference, always forecasting the period's observed frequency (0% of 6-h blo
 
 Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, USL and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can miss the true high/low between output times; the guidance table's daily values (which also use interval max/min fields where available) are what get scored.
 
+Dewpoint and relative humidity (context, not scored): the models' 2 m dewpoint (GFS_MOS, NBM and USL from their own guidance; the ensembles have none). Moist air (a high dewpoint) slows the overnight cooling, and the low rarely falls far below the evening dewpoint on a calm night; RH near 100% means fog or low cloud is possible.
+
 Cloud cover (context, not scored): total cloud cover from each model's own output; GFS_MOS gives categories (clear 0, few 19, scattered 44, broken 75, overcast 100) and the ensembles none. * = averaged over the preceding interval rather than instantaneous. Clouds overnight hold the low up; clouds by day hold the high down.
 
 Temperature (°F):
@@ -152,6 +154,66 @@ Temperature (°F):
 | 10-18 04Z | Sat 21:00 | 52.6 | 50.9 |  |  |  |  |  | 46.0 | 49.9 | 52.4 | 47.2 |
 | 10-18 05Z | Sat 22:00 | 50.2 | 49.4 |  |  |  |  |  | 45.0 | 48.9 | 49.8 | 45.6 |
 | 10-18 06Z | Sat 23:00 | 48.2 | 47.7 | 46.5 | 46.3 | 46.8 | 42.0 | 44.0 | 45.0 | 48.1 | 47.8 | 44.5 |
+
+Dewpoint (°F):
+
+| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
+| 10-17 06Z | Fri 23:00 | 53.5 | 52.8 | 52.3 | 51.6 | 50.0 | 48.0 | 50.0 | 51.0 |
+| 10-17 07Z | Sat 00:00 | 53.1 | 53.3 |  |  |  |  |  | 51.0 |
+| 10-17 08Z | Sat 01:00 | 52.7 | 54.2 |  |  |  |  |  | 51.0 |
+| 10-17 09Z | Sat 02:00 | 53.1 | 53.9 | 51.9 | 52.0 |  | 48.0 | 50.0 | 51.0 |
+| 10-17 10Z | Sat 03:00 | 54.2 | 53.8 |  |  |  |  |  | 52.0 |
+| 10-17 11Z | Sat 04:00 | 53.6 | 53.9 |  |  |  |  |  | 52.0 |
+| 10-17 12Z | Sat 05:00 | 53.3 | 54.2 | 55.0 | 53.4 | 53.1 | 47.0 | 53.0 | 53.0 |
+| 10-17 13Z | Sat 06:00 | 50.0 | 53.5 |  |  |  |  |  | 53.0 |
+| 10-17 14Z | Sat 07:00 | 46.9 | 53.1 |  |  |  |  |  | 52.0 |
+| 10-17 15Z | Sat 08:00 | 47.1 | 51.9 | 52.9 | 49.8 |  | 48.0 | 54.0 | 52.0 |
+| 10-17 16Z | Sat 09:00 | 48.4 | 48.7 |  |  |  |  |  | 52.0 |
+| 10-17 17Z | Sat 10:00 | 49.0 | 46.6 |  |  |  |  |  | 51.0 |
+| 10-17 18Z | Sat 11:00 | 46.5 | 46.8 | 49.8 | 44.3 | 46.5 | 48.0 | 51.0 | 50.0 |
+| 10-17 19Z | Sat 12:00 | 41.5 | 39.3 |  |  |  |  |  | 48.0 |
+| 10-17 20Z | Sat 13:00 | 40.5 | 40.4 |  |  |  |  |  | 46.0 |
+| 10-17 21Z | Sat 14:00 | 39.8 | 42.6 | 43.0 | 38.2 |  | 44.0 | 43.0 | 45.0 |
+| 10-17 22Z | Sat 15:00 | 39.5 | 36.9 |  |  |  |  |  | 44.0 |
+| 10-17 23Z | Sat 16:00 | 39.7 | 40.3 |  |  |  |  |  | 43.0 |
+| 10-18 00Z | Sat 17:00 | 40.5 | 44.0 | 43.8 | 41.6 | 39.5 | 40.0 | 43.0 | 44.0 |
+| 10-18 01Z | Sat 18:00 | 43.7 | 42.4 |  |  |  |  |  | 44.0 |
+| 10-18 02Z | Sat 19:00 | 46.7 | 42.8 |  |  |  |  |  | 44.0 |
+| 10-18 03Z | Sat 20:00 | 47.7 | 42.7 | 44.9 | 42.5 |  | 41.0 | 44.0 | 43.0 |
+| 10-18 04Z | Sat 21:00 | 47.8 | 45.1 |  |  |  |  |  | 42.0 |
+| 10-18 05Z | Sat 22:00 | 46.5 | 45.3 |  |  |  |  |  | 42.0 |
+| 10-18 06Z | Sat 23:00 | 45.7 | 45.3 | 43.7 | 41.4 | 42.2 | 39.0 | 42.0 | 41.0 |
+
+Relative humidity (%), from each model's temperature and dewpoint:
+
+| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
+| 10-17 06Z | Fri 23:00 | 96 | 91 | 93 | 94 | 90 | 77 | 93 | 96 |
+| 10-17 07Z | Sat 00:00 | 97 | 96 |  |  |  |  |  | 93 |
+| 10-17 08Z | Sat 01:00 | 97 | 95 |  |  |  |  |  | 93 |
+| 10-17 09Z | Sat 02:00 | 92 | 92 | 96 | 90 |  | 80 | 93 | 93 |
+| 10-17 10Z | Sat 03:00 | 97 | 90 |  |  |  |  |  | 93 |
+| 10-17 11Z | Sat 04:00 | 93 | 91 |  |  |  |  |  | 93 |
+| 10-17 12Z | Sat 05:00 | 92 | 94 | 99 | 91 | 92 | 86 | 96 | 96 |
+| 10-17 13Z | Sat 06:00 | 84 | 92 |  |  |  |  |  | 96 |
+| 10-17 14Z | Sat 07:00 | 86 | 93 |  |  |  |  |  | 96 |
+| 10-17 15Z | Sat 08:00 | 91 | 91 | 97 | 89 |  | 89 | 100 | 96 |
+| 10-17 16Z | Sat 09:00 | 86 | 75 |  |  |  |  |  | 93 |
+| 10-17 17Z | Sat 10:00 | 77 | 65 |  |  |  |  |  | 86 |
+| 10-17 18Z | Sat 11:00 | 65 | 61 | 75 | 62 | 63 | 69 | 80 | 80 |
+| 10-17 19Z | Sat 12:00 | 51 | 43 |  |  |  |  |  | 67 |
+| 10-17 20Z | Sat 13:00 | 46 | 43 |  |  |  |  |  | 58 |
+| 10-17 21Z | Sat 14:00 | 44 | 46 | 51 | 39 |  | 52 | 50 | 56 |
+| 10-17 22Z | Sat 15:00 | 43 | 36 |  |  |  |  |  | 52 |
+| 10-17 23Z | Sat 16:00 | 44 | 42 |  |  |  |  |  | 50 |
+| 10-18 00Z | Sat 17:00 | 47 | 53 | 57 | 50 | 44 | 46 | 50 | 55 |
+| 10-18 01Z | Sat 18:00 | 60 | 54 |  |  |  |  |  | 62 |
+| 10-18 02Z | Sat 19:00 | 75 | 63 |  |  |  |  |  | 71 |
+| 10-18 03Z | Sat 20:00 | 79 | 68 | 85 | 81 |  | 69 | 80 | 80 |
+| 10-18 04Z | Sat 21:00 | 84 | 80 |  |  |  |  |  | 86 |
+| 10-18 05Z | Sat 22:00 | 87 | 86 |  |  |  |  |  | 89 |
+| 10-18 06Z | Sat 23:00 | 91 | 91 | 90 | 83 | 84 | 89 | 93 | 86 |
 
 Wind speed (kt) at the hour:
 
@@ -490,6 +552,26 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-16 15Z | Fri 08:00 | 0 | 100 | 84 | 100 | 36 | 100 |  | 100 | 57 | 40 |
 | 10-16 16Z | Fri 09:00 | 98 | 100 | 100 | 92 |  |  |  |  |  | 43 |
 | 10-16 17Z | Fri 10:00 | 99 | 19 | 100 | 100 |  |  |  |  |  | 49 |
+
+## Dewpoint so far today (2026-10-16, observed vs forecast)
+
+Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the dewpoint of the runs submitted for today. Bias so far = forecast - observed over the hours both have (positive = too moist). A model running too moist often runs its low too warm, too dry its low too cold. Context only, not scored.
+
+| UTC | Local (PDT) | Obs Td | Obs RH | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
+| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 10-16 06Z | Thu 23:00 | 44.1 | 97 | 47.6 | 49.7 | 46.5 | 46.6 | 44.4 | 42.0 | 47.0 | 46.0 |
+| 10-16 07Z | Fri 00:00 | 44.1 | 100 | 46.6 | 49.4 |  |  |  |  |  | 45.0 |
+| 10-16 08Z | Fri 01:00 | 42.1 | 100 | 46.3 | 49.1 |  |  |  |  |  | 44.0 |
+| 10-16 09Z | Fri 02:00 | 39.9 | 100 | 45.8 | 48.6 | 43.3 | 46.0 |  | 40.0 | 44.0 | 43.0 |
+| 10-16 10Z | Fri 03:00 | 39.9 | 100 | 45.3 | 48.0 |  |  |  |  |  | 42.0 |
+| 10-16 11Z | Fri 04:00 | 39.9 | 100 | 44.9 | 47.1 |  |  |  |  |  | 41.0 |
+| 10-16 12Z | Fri 05:00 | 39.0 | 100 | 44.2 | 47.0 | 41.9 | 44.8 | 40.2 | 39.0 | 41.0 | 41.0 |
+| 10-16 13Z | Fri 06:00 | 39.9 | 100 | 43.4 | 45.4 |  |  |  |  |  | 40.0 |
+| 10-16 14Z | Fri 07:00 | 39.0 | 100 | 42.3 | 45.6 |  |  |  |  |  | 39.0 |
+| 10-16 15Z | Fri 08:00 | 39.0 | 100 | 41.8 | 43.7 | 41.6 | 39.7 |  | 40.0 | 39.0 | 39.0 |
+| 10-16 16Z | Fri 09:00 | 42.1 | 97 | 43.1 | 44.2 |  |  |  |  |  | 41.0 |
+| 10-16 17Z | Fri 10:00 | 48.0 | 100 | 47.8 | 41.0 |  |  |  |  |  | 44.0 |
+| Bias so far |  |  |  | +3.5 | +5.2 | +2.8 | +3.8 | +0.8 | -0.2 | +2.2 | +0.7 |
 
 ## Raw data
 
