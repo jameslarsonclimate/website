@@ -243,7 +243,7 @@
     const line = (c, w, d) => `<svg width="20" height="10" aria-hidden="true" style="flex:none"><line x1="2" x2="18" y1="5" y2="5" ` +
       `stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d ? ` stroke-dasharray="${d}"` : ''}/></svg>`;
     if (kind === 'AVG') return line('var(--ink-2)', 2.6, '5 3');
-    if (kind === 'OBS') return line('var(--ink)', 3.5);
+    if (kind === 'OBS') return line('var(--ink)', 2.8);
     if (kind === 'HUM') return `<svg width="20" height="12" aria-hidden="true" style="flex:none"><rect x="2" y="1" width="16" height="4" rx="1" ` +
       `fill="none" stroke="var(--ink-2)"/><rect x="2" y="7" width="16" height="4" rx="1" fill="var(--ink-2)" fill-opacity="0.45" stroke="var(--ink-2)"/></svg>`;
     if (kind === 'BAND') return `<svg width="20" height="10" aria-hidden="true" style="flex:none"><rect x="1" y="1" width="18" height="8" rx="2" fill="var(--ink-2)" fill-opacity="0.3"/></svg>`;
@@ -350,25 +350,25 @@
         if (r) r.h.forEach((h, i) => R.push({ h: 24 * k + h, t: r.temp[i], w: r.wind[i], g: r.gust[i], rt: r.routine[i] }));
       });
       const t = R.filter(r => r.t != null), w = R.filter(r => r.w != null);
-      o.push(ln(path(t.map(r => r.h), t.map(r => r.t), P.temp, 0, 3), 'var(--ink)', 3));
-      for (const r of t) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P.temp, r.t).toFixed(1)}" r="2.2" fill="var(--ink)"/>`);
-      o.push(ln(path(w.map(r => r.h), w.map(r => r.w), P.wind, 0, 3), 'var(--ink)', 2.5));
+      o.push(ln(path(t.map(r => r.h), t.map(r => r.t), P.temp, 0, 3), 'var(--ink)', 2.4));
+      for (const r of t) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P.temp, r.t).toFixed(1)}" r="1.8" fill="var(--ink)"/>`);
+      o.push(ln(path(w.map(r => r.h), w.map(r => r.w), P.wind, 0, 3), 'var(--ink)', 2));
       for (const r of R) {
         if (r.g == null) continue;
         const x = X(r.h), y = Y(P.wind, r.g);
-        o.push(`<path d="M${(x - 3).toFixed(1)} ${(y - 3).toFixed(1)}l6 6m0 -6l-6 6" stroke="var(--ink)" stroke-width="1.6"/>`);
+        o.push(`<path d="M${(x - 2.4).toFixed(1)} ${(y - 2.4).toFixed(1)}l4.8 4.8m0 -4.8l-4.8 4.8" stroke="var(--ink)" stroke-width="1.3"/>`);
       }
       T.days.forEach((d, k) => {
         const ob = d.obs || {}, r = ob.reports;
-        if (r) o.push(ln(runningPath(r.h, r.precip, P.precip, 24 * k), 'var(--ink)', 3));
-        if (ob.goes) o.push(ln(path(ob.goes.h, ob.goes.pct, P.cloud, 24 * k, 2), 'var(--ink)', 2.6));
+        if (r) o.push(ln(runningPath(r.h, r.precip, P.precip, 24 * k), 'var(--ink)', 2.4));
+        if (ob.goes) o.push(ln(path(ob.goes.h, ob.goes.pct, P.cloud, 24 * k, 2), 'var(--ink)', 2.1));
         if (ob.sky) {
           ob.sky.h.forEach((h, i) => {
             const v = ob.sky.pct[i];
             if (v == null) return;
             const clear = ob.sky.clear && ob.sky.clear[i];
-            o.push(`<circle cx="${X(24 * k + h).toFixed(1)}" cy="${Y(P.cloud, v).toFixed(1)}" r="2.6" ` +
-                   (clear ? 'fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>' : 'fill="var(--ink)"/>'));
+            o.push(`<circle cx="${X(24 * k + h).toFixed(1)}" cy="${Y(P.cloud, v).toFixed(1)}" r="2.1" ` +
+                   (clear ? 'fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>' : 'fill="var(--ink)"/>'));
           });
         }
       });
@@ -379,10 +379,10 @@
           const u = d.obs && d.obs.reports;
           if (u && u.td) u.h.forEach((h, i) => R.push({ h: 24 * k + h, td: u.td[i], rh: u.rh[i], rt: u.routine[i] }));
         });
-        for (const [v, w] of [['td', 3], ['rh', 2.5]]) {
+        for (const [v, w] of [['td', 2.4], ['rh', 2]]) {
           const s = R.filter(r => r[v] != null);
           o.push(ln(path(s.map(r => r.h), s.map(r => r[v]), P[v], 0, 3), 'var(--ink)', w));
-          for (const r of s) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P[v], r[v]).toFixed(1)}" r="2.2" fill="var(--ink)"/>`);
+          for (const r of s) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P[v], r[v]).toFixed(1)}" r="1.8" fill="var(--ink)"/>`);
         }
       }
     }
