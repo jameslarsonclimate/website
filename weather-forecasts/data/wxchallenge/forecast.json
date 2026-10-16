@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-16T19:11:54+00:00",
+  "generated_at_utc": "2026-10-16T19:32:11+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -1135,8 +1135,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.03,
-      "init_time_utc": "2026-10-16T06",
+      "precip_in": 0.04,
+      "init_time_utc": "2026-10-16T12",
       "valid_range_utc": [
         "2026-10-17T06",
         "2026-10-18T06"
@@ -1144,21 +1144,21 @@
       "note": "calibrated PoP and percentiles (NBM QMD); precip = 50% level",
       "precip_only": true,
       "pop": {
-        "p24": 0.66,
+        "p24": 0.694,
         "blocks": {
-          "06-12": 0.585,
-          "12-18": 0.272,
-          "18-00": 0.0,
-          "00-06": 0.001
+          "06-12": 0.66,
+          "12-18": 0.145,
+          "18-00": 0.003,
+          "00-06": 0.086
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
           "10": 0.0,
           "25": 0.0,
-          "50": 0.029,
-          "75": 0.15,
-          "90": 0.239
+          "50": 0.038,
+          "75": 0.19,
+          "90": 0.271
         }
       }
     },
@@ -1281,7 +1281,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-16T19:11:54+00:00",
+    "checked_at_utc": "2026-10-16T19:32:11+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
