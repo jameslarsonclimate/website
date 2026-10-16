@@ -352,7 +352,6 @@
       });
       const t = R.filter(r => r.t != null), w = R.filter(r => r.w != null);
       o.push(ln(path(t.map(r => r.h), t.map(r => r.t), P.temp, 0, 3), 'var(--ink)', OBS_W));
-      for (const r of t) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P.temp, r.t).toFixed(1)}" r="1.8" fill="var(--ink)"/>`);
       o.push(ln(path(w.map(r => r.h), w.map(r => r.w), P.wind, 0, 3), 'var(--ink)', OBS_W));
       for (const r of R) {
         if (r.g == null) continue;
