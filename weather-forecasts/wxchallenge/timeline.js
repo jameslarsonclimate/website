@@ -348,7 +348,7 @@
       const R = [];
       T.days.forEach((d, k) => {
         const r = d.obs && d.obs.reports;
-        if (r) r.h.forEach((h, i) => R.push({ h: 24 * k + h, t: r.temp[i], w: r.wind[i], g: r.gust[i], rt: r.routine[i] }));
+        if (r) r.h.forEach((h, i) => R.push({ h: 24 * k + h, t: r.temp[i], w: r.wind[i], g: r.gust[i] }));
       });
       const t = R.filter(r => r.t != null), w = R.filter(r => r.w != null);
       o.push(ln(path(t.map(r => r.h), t.map(r => r.t), P.temp, 0, 3), 'var(--ink)', OBS_W));
@@ -372,17 +372,16 @@
           });
         }
       });
-      // dewpoint and RH: every report, run on across days like temperature (dots on dewpoint: hourly reports)
+      // dewpoint and RH: every report, run on across days like temperature
       if (st.hum) {
         const R = [];
         T.days.forEach((d, k) => {
           const u = d.obs && d.obs.reports;
-          if (u && u.td) u.h.forEach((h, i) => R.push({ h: 24 * k + h, td: u.td[i], rh: u.rh[i], rt: u.routine[i] }));
+          if (u && u.td) u.h.forEach((h, i) => R.push({ h: 24 * k + h, td: u.td[i], rh: u.rh[i] }));
         });
         for (const v of ['td', 'rh']) {
           const s = R.filter(r => r[v] != null);
           o.push(ln(path(s.map(r => r.h), s.map(r => r[v]), P[v], 0, 3), 'var(--ink)', OBS_W));
-          if (v === 'td') for (const r of s) if (r.rt) o.push(`<circle cx="${X(r.h).toFixed(1)}" cy="${Y(P[v], r[v]).toFixed(1)}" r="1.8" fill="var(--ink)"/>`);
         }
       }
     }
