@@ -616,6 +616,72 @@ def write_verification(station: str, today: date) -> dict:
     return res
 
 
+def today_column(station: str, today_json: dict, days: list, runs: Optional[list] = None) -> Optional[dict]:
+    """
+    Today's scores so far (verification.json "today"; DISPLAY ONLY): each model's
+    pre-deadline forecast scored against the observed extremes so far (today.json).
+    Kept out of "days", so it never enters the summary, the totals or the consensus
+    weights. "pending" lists the variables whose forecast time hasn't passed yet
+    (today.json's high / low pending flags), whose score can still change.
+    """
+    o = (today_json or {}).get("obs") or {}
+    day = (today_json or {}).get("date")
+    if not day or o.get("high") is None or o.get("low") is None:
+        return None
+    from wxc_obs import round_half_up
+    ob = {"tmax_f": round_half_up(o["high"]), "tmin_f": round_half_up(o["low"]),
+          "wind_max_kt": None if o.get("wind") is None else round_half_up(o["wind"]),
+          "precip_in": round(float(o.get("precip") or 0.0), 2)}
+    if ob["wind_max_kt"] is None:
+        return None
+    runs = read_runs() if runs is None else runs
+    fcs = forecasts_for_day(runs, station, day)
+    stored = fcs.get("CONSENSUS")
+    if not stored or stored[2]:
+        # no submitted consensus: rebuild it from the members and the verified days' record
+        members = {n: fc for n, (fc, _, _) in fcs.items() if n != "CONSENSUS"}
+        c = consensus(members, model_stats(days)) if members else None
+        fcs.pop("CONSENSUS", None)
+        if c and all(c.get(v) is not None for v in VARS):
+            fcs["CONSENSUS"] = (c, None, True)
+    flags = (today_json or {}).get("models") or {}
+    models = {}
+    for name, (fc, t, hind) in fcs.items():
+        s = score_day(fc, ob)
+        if not s:
+            continue
+        if name == "CONSENSUS" and (not stored or stored[2]):
+            s["reconstructed"] = True
+        elif t:
+            s["run"] = t
+        models[name] = s
+    timed = [s for name, s in models.items() if name in flags]
+    for name, s in models.items():
+        if name in flags:
+            f = flags[name]
+            s["pending"] = [v for k, v in (("high", "tmax_f"), ("low", "tmin_f")) if f.get(f"{k}_pending")]
+    for name, s in models.items():
+        if name not in flags:     # no hourly curve of its own (the consensus): pending while most models are
+            s["pending"] = [v for v in ("tmax_f", "tmin_f")
+                            if timed and sum(v in x["pending"] for x in timed) * 2 > len(timed)]
+    return {"date": day, "through_utc": today_json.get("through_utc"), "n_obs": o.get("n_obs"),
+            "provisional": True, "obs": ob, "models": models}
+
+
+def write_today_column(station: str, today_json: dict) -> Optional[dict]:
+    """Add today's provisional column to the verification.json written earlier this run."""
+    res = json.loads(VERIF.read_text())
+    if res.get("station") != station:
+        return None
+    col = today_column(station, today_json, res.get("days") or [])
+    done = {d["date"] for d in res.get("days") or [] if d.get("models")}
+    if col and col["date"] in done:    # already verified (shouldn't happen): no second column
+        col = None
+    res["today"] = col
+    VERIF.write_text(dumps(res, indent=2))
+    return col
+
+
 def print_summary(res: dict):
     s = res["summary"]
     if not s:

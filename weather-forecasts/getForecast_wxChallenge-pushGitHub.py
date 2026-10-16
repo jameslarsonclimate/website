@@ -932,6 +932,10 @@ def today_figure(station, now, points, skip_grib=False):
     bias = wxc_today.today_bias(obs, sub, today, now)
     bias.update({"station": station.icao, "generated_at_utc": now.isoformat()})
     (DATA / "today.json").write_text(wxc_verify.dumps(bias, indent=2))
+    try:          # the scoreboard's provisional "today" column (display only, never in the consensus)
+        wxc_verify.write_today_column(station.icao, bias)
+    except Exception as exc:
+        print(f"  warning: today's verification column skipped ({type(exc).__name__}: {exc})")
     if bias["models"]:
         o = bias["obs"]
         print(f"  So far through {bias['through_utc'][11:16]}Z: obs high {o['high']:.0f} low {o['low']:.0f} "

@@ -238,6 +238,39 @@ def test_consensus_bias_correction():
     assert c["tmax_f"] == pytest.approx(88.0) and "equal-weight" in c["method"]["tmax_f"]["method"]
 
 
+def test_today_column_is_provisional_and_kept_out_of_the_record(tmp_path, monkeypatch):
+    """Today's so-far column scores the submitted forecasts against the observations so far,
+    rounds them like the verifiers, flags pending highs, and never touches days or the summary."""
+    run = lambda gen, models, **kw: {"generated_at_utc": gen, "station": "KXXX", "target_date": "2026-10-15",
+                                     "models": models, **kw}
+    fc = lambda t, n: {"tmax_f": t, "tmin_f": n, "wind_max_kt": 8, "precip_in": 0.0}
+    runs = [run("2026-10-14T23:00:00+00:00", {"A": fc(70.4, 45), "B": fc(66, 41), "CONSENSUS": fc(68, 43)}),
+            run("2026-10-15T01:00:00+00:00", {"A": fc(99, 99)})]          # after the deadline: not scored
+    tj = {"date": "2026-10-15", "through_utc": "2026-10-15T20:54", "obs": {"high": 60.5, "low": 39.92, "wind": 7,
+          "precip": 0.0, "n_obs": 15},
+          "models": {"A": {"high_pending": True, "low_pending": False}, "B": {"high_pending": True}}}
+    col = wxc_verify.today_column("KXXX", tj, [], runs=runs)
+    assert col["provisional"] and col["obs"] == {"tmax_f": 61, "tmin_f": 40, "wind_max_kt": 7, "precip_in": 0.0}
+    a = col["models"]["A"]
+    assert a["forecast"]["tmax_f"] == 70 and a["points"] == 9 + 5 + 0.5
+    assert a["pending"] == ["tmax_f"]
+    assert col["models"]["CONSENSUS"]["pending"] == ["tmax_f"]      # most members still waiting on the high
+    assert "reconstructed" not in col["models"]["CONSENSUS"]
+
+    # written next to the verified days, which (with the summary) stay as they were
+    vf = tmp_path / "verification.json"
+    before = {"station": "KXXX", "days": [{"date": "2026-10-14", "models": {"A": {"points": 3.0}}}],
+              "summary": {"A": {"total_points": 3.0}}}
+    vf.write_text(json.dumps(before))
+    monkeypatch.setattr(wxc_verify, "VERIF", vf)
+    monkeypatch.setattr(wxc_verify, "read_runs", lambda: runs)
+    wxc_verify.write_today_column("KXXX", tj)
+    after = json.loads(vf.read_text())
+    assert after["days"] == before["days"] and after["summary"] == before["summary"]
+    assert after["today"]["date"] == "2026-10-15"
+    assert wxc_verify.write_today_column("KYYY", tj) is None        # verification is for another city
+
+
 def test_consensus_mixed_verified_and_new():
     models = {"A": {"tmax_f": 90, "tmin_f": 70, "wind_max_kt": 10, "precip_in": 0.0},
               "NEW": {"tmax_f": 86, "tmin_f": 70, "wind_max_kt": 10, "precip_in": 0.0}}

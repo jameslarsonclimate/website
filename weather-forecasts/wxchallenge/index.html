@@ -115,6 +115,12 @@
     #score tr.span th.hind{color:var(--hind-ink)}
     #score td.recon{font-style:italic}
     #score td.recon sup{font-size:0.7em;margin-left:1px}
+    /* today so far: provisional (dashed, italic), not in the totals; grey while the high / low can still change */
+    #score th.today, #score td.today{border-left:1px dashed var(--ink-3)}
+    #score td.cell.today{font-style:italic}
+    #score td.cell.today:not(.small){outline:1px dashed var(--ink-3);outline-offset:-3px}
+    #score td.cell.pending{background:transparent;color:var(--ink-3)}
+    #score tr.span th.today{color:var(--ink-2)}
     /* phones: keep the sticky columns narrow so several days stay visible between them */
     @media (max-width:600px){
       #score th, #score td{padding:5px 5px;font-size:0.85rem}
@@ -255,6 +261,39 @@
       forecast high and low (the number in the forecast table, which is what gets scored) and, in brackets, its
       difference from the observed high or low so far. They stay grey until the time the model expects its high
       or low has passed (hover for the time), because until then the observed value can still change.</p>
+    -->
+  </section>
+
+  <section id="verification">
+    <h2>Model verification this period</h2>
+    <p id="verif-period" class="muted">Loading…</p>
+
+    <div class="tabs" role="group" aria-label="Verification view">
+      <button data-view="points" aria-pressed="true">Error points</button>
+      <button data-view="tmax_f" aria-pressed="false">High</button>
+      <button data-view="tmin_f" aria-pressed="false">Low</button>
+      <button data-view="wind_max_kt" aria-pressed="false">Wind</button>
+      <button data-view="precip_in" aria-pressed="false">Precip</button>
+      <button data-view="cloud_night" aria-pressed="false">Night clouds</button>
+      <button data-view="cloud_day" aria-pressed="false">Day clouds</button>
+    </div>
+
+    <div id="score-wrap">
+      <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <div id="legend" class="legend"></div>
+    <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using
+      WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
+      Shaded days come before this city's first forecast day: they are hindcasts (the runs available at 23Z
+      the day before), there to give every model a track record from day one. The consensus on those days
+      (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
+      the days before it. The last column (<i>so far</i>, dashed) is today: the forecasts scored against the
+      observations so far. It isn't final, so it is left out of the totals, the averages and the consensus's track
+      record; its grey cells are waiting for the time the model expects its high or low.
+      <span id="decay-note"></span> Hover or tap a cell for details.</p>
+    <!-- Hidden for now: daily and cumulative error points figure; to bring it back, uncomment this
+         and the verif-fig lines in the script.
+    <img id="verif-fig" alt="Daily and cumulative error points by model"/>
     -->
   </section>
 
@@ -407,37 +446,6 @@
     </script>
   </section>
 
-
-  <section id="verification">
-    <h2>Model verification this period</h2>
-    <p id="verif-period" class="muted">Loading…</p>
-
-    <div class="tabs" role="group" aria-label="Verification view">
-      <button data-view="points" aria-pressed="true">Error points</button>
-      <button data-view="tmax_f" aria-pressed="false">High</button>
-      <button data-view="tmin_f" aria-pressed="false">Low</button>
-      <button data-view="wind_max_kt" aria-pressed="false">Wind</button>
-      <button data-view="precip_in" aria-pressed="false">Precip</button>
-      <button data-view="cloud_night" aria-pressed="false">Night clouds</button>
-      <button data-view="cloud_day" aria-pressed="false">Day clouds</button>
-    </div>
-
-    <div id="score-wrap">
-      <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
-    </div>
-    <div id="legend" class="legend"></div>
-    <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using
-      WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
-      Shaded days come before this city's first forecast day: they are hindcasts (the runs available at 23Z
-      the day before), there to give every model a track record from day one. The consensus on those days
-      (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
-      the days before it. <span id="decay-note"></span> Hover or tap a cell for details.</p>
-    <!-- Hidden for now: daily and cumulative error points figure; to bring it back, uncomment this
-         and the verif-fig lines in the script.
-    <img id="verif-fig" alt="Daily and cumulative error points by model"/>
-    -->
-  </section>
-
   <div id="tip" role="tooltip"></div>
 
 <script>
@@ -577,6 +585,46 @@ function consWeight(name){
   return ks.reduce((a, k) => a + (CONS_W[k]?.[name] ?? 0), 0) / ks.length;
 }
 
+/* today so far (verification.json "today"): each model's submitted forecast scored against the
+   observations so far. Provisional, so it is never in the totals, averages or the consensus. */
+function todayCol(days){
+  const t = VERIF.today, last = days.length ? days[days.length - 1].date : '';
+  return t && t.models && Object.keys(t.models).length && t.date > last ? t : null;
+}
+const thru = t => t.through_utc ? `${t.through_utc.slice(11, 16)}Z` : 'now';
+function todayHead(t){
+  const wd = new Date(t.date + 'T12:00:00Z').toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' });
+  return `<th class="day today" title="Today, observations through ${thru(t)}: not final">${t.date.slice(5)}<span>${wd}</span>` +
+    `<span class="w">so far</span></th>`;
+}
+function todayObsCell(t, CV){
+  const o = t.obs;
+  const txt = CV ? '—' : VIEW === 'points' ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}` : fmt(o[VIEW], VARS[VIEW].dec);
+  const title = `Observed so far through ${thru(t)}${t.n_obs ? ` (${t.n_obs} hourly obs)` : ''}, not final:\n` +
+    ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k => `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit}`).join('\n');
+  return `<td class="cell today${CV ? ' small' : ''}" title="${title}">${txt}</td>`;
+}
+function todayCell(t, name, CV){
+  const m = t.models[name];
+  if (!m || CV) return '<td class="cell small today">—</td>';
+  const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
+  const shown = VIEW === 'points' ? ['tmax_f', 'tmin_f'] : [VIEW];
+  const pend = shown.some(k => (m.pending || []).includes(k));
+  const at = `class="cell today${rc}${pend ? ' pending' : ''}" data-day="today" data-model="${name}"`;
+  let txt, style = '';
+  if (VIEW === 'points') {
+    const p = Object.values(t.models).map(x => x.points), lo = Math.min(...p), hi = Math.max(...p);
+    const f = hi > lo ? (m.points - lo) / (hi - lo) : 0;
+    txt = m.points.toFixed(1);
+    if (!pend) style = `background:${pointsFill(f)};color:${pointsInk(f)}`;
+  } else {
+    const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
+    txt = signed(e, VARS[VIEW].dec);
+    if (!pend) style = `background:${biasFill(step)};color:${biasInk(step)}`;
+  }
+  return `<td ${at}${style ? ` style="${style}"` : ''}>${txt}${r}</td>`;
+}
+
 function renderScore(){
   const v = VERIF, table = document.getElementById('score'), legend = document.getElementById('legend');
   const days = (v.days || []).filter(d => Object.keys(d.models).length);
@@ -595,6 +643,8 @@ function renderScore(){
   const firstCity = days.findIndex(d => !d.hindcast);
   const cls = days.map((d, i) => (d.hindcast ? ' hind' : '') + (i === firstCity && i > 0 ? ' city1' : ''));
   const nHind = firstCity < 0 ? days.length : firstCity;
+  // today so far (provisional): its own last column, never in the totals or the consensus
+  const T = todayCol(days);
 
   // best / worst per day (points view) for the relative colouring and the star
   const range = days.map(d => {
@@ -607,9 +657,10 @@ function renderScore(){
     head += '<tr class="span"><th class="model"></th>' +
       `<th colspan="${nHind}" class="hind">Hindcast (before the city)</th>` +
       (nHind < days.length ? `<th colspan="${days.length - nHind}" class="city1">City forecasts</th>` : '') +
+      (T ? '<th class="today">Today</th>' : '') +
       (VIEW === 'points' ? '<th class="avg"></th>' : '') + '<th class="sum"></th></tr>';
   }
-  head += '<tr><th class="model">Model</th>' + days.map((d, i) => dayHead(d, cls[i])).join('');
+  head += '<tr><th class="model">Model</th>' + days.map((d, i) => dayHead(d, cls[i])).join('') + (T ? todayHead(T) : '');
   head += VIEW === 'points' ? '<th class="avg">Avg<span>per day</span></th><th class="sum">Total<span>points · weight</span></th>'
                             : CV ? '<th class="sum">Error<span>weighted · days</span></th>'
                             : '<th class="sum">Error<span>weighted · weight</span></th>';
@@ -633,7 +684,7 @@ function renderScore(){
       (co.goes_day_pct != null || co.goes_night_pct != null
         ? `\nGOES satellite: night ${pct0(co.goes_night_pct)}, day ${pct0(co.goes_day_pct)}` : '') : '';
     return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}${ctitle}">${txt}${mark}</td>`;
-  }).join('') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
+  }).join('') + (T ? todayObsCell(T, CV) : '') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
   const rows = models.map(name => {
     const s = summary[name];
@@ -661,6 +712,7 @@ function renderScore(){
         tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
       }
     });
+    if (T) tr += todayCell(T, name, CV);
     const cw = name === 'CONSENSUS' ? null : consWeight(name);
     const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
     if (CV) {
@@ -717,9 +769,26 @@ function cloudTip(d, name, m){
 }
 
 function showTip(td, ev){
-  const d = VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
+  const now = td.dataset.day === 'today';
+  const d = now ? VERIF.today : VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
   const name = td.dataset.model, m = d && d.models[name];
   if (!m) return;
+  if (now) {
+    const f = m.forecast, o = d.obs, e = m.error, pend = m.pending || [];
+    const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} so far (${signed(e[k], VARS[k].dec)})` +
+      (pend.includes(k) ? ' · still to come' : '');
+    tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date} so far</b><br>` +
+      ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
+      `<br><b>${m.points.toFixed(1)} points so far</b>` +
+      `<br><span style="opacity:.75">observations through ${thru(d)}; not final, so not in the totals or the consensus</span>` +
+      (pend.length ? `<br><span style="opacity:.75">"still to come": the model's ${pend.map(k => k === 'tmax_f' ? 'high' : 'low').join(' and ')} ` +
+        `time hasn't passed yet, so the observed value can still change</span>` : '') +
+      (m.reconstructed ? `<br><span style="opacity:.75">reconstructed, not submitted</span>`
+        : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z</span>` : '');
+    tip.style.display = 'block';
+    moveTip(ev);
+    return;
+  }
   const f = m.forecast, o = d.obs, e = m.error;
   const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${signed(e[k], VARS[k].dec)})`;
   tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date}</b><br>` +
