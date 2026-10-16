@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-16T19:32:11+00:00",
+  "generated_at_utc": "2026-10-16T20:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -33,11 +33,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 62.3,
-      "tmin_f": 48.2,
-      "wind_max_kt": 8.7,
-      "precip_in": 0.1,
-      "init_time_utc": "2026-10-16T12",
+      "tmax_f": 61.0,
+      "tmin_f": 49.8,
+      "wind_max_kt": 8.6,
+      "precip_in": 0.06,
+      "init_time_utc": "2026-10-16T18",
       "valid_range_utc": [
         "2026-10-17T06",
         "2026-10-18T06"
@@ -59,11 +59,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 61.5,
-      "tmin_f": 45.7,
-      "wind_max_kt": 7.4,
-      "precip_in": 0.07,
-      "init_time_utc": "2026-10-16T06",
+      "tmax_f": 61.4,
+      "tmin_f": 46.0,
+      "wind_max_kt": 7.2,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-10-16T12",
       "valid_range_utc": [
         "2026-10-17T06",
         "2026-10-18T06"
@@ -1163,10 +1163,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 62.7,
-      "tmin_f": 41.7,
-      "wind_max_kt": 11.2,
-      "precip_in": 0.05,
+      "tmax_f": 62.6,
+      "tmin_f": 41.9,
+      "wind_max_kt": 11.1,
+      "precip_in": 0.04,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1281,7 +1281,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-16T19:32:11+00:00",
+    "checked_at_utc": "2026-10-16T20:00:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
