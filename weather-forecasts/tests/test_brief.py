@@ -277,3 +277,48 @@ def test_write_brief_reads_today_dewpoint(tmp_path):
     (tmp_path / "series").mkdir()
     (tmp_path / "series" / "KTPA_2026-10-06_submitted.json").write_text(json.dumps(_series_today()))
     assert "## Dewpoint so far today" in wxc_brief.write_brief(tmp_path).read_text()
+
+
+def _timeline():
+    # night = hours 0-2, day = hours 3-5 (since 06Z); HRRR hourly, GFS 3-hourly
+    return {"station": "KTPA", "days": [
+        {"date": "2026-10-05", "cloud_win": {"night": [0, 2], "day": [3, 5]},
+         "models": {"HRRR": {"h": [0, 1, 2, 3, 4, 5], "td": [61, 61, 61, 60, 60, 60]},
+                    "GFS": {"h": [0, 3, 6], "td": [56, 59, 62]},
+                    "ENS": {"h": [0, 3], "temp": [70, 71]}},
+         "obs": {"reports": {"h": [0.88, 1.9, 2.6, 2.95, 3.9, 4.88, 5.2],
+                             "td": [60, 59, None, 58, 62, 62, 99]}}},
+        {"date": "2026-10-04", "cloud_win": {"night": [0, 2], "day": [3, 5]},
+         "models": {"HRRR": {"h": [0, 1, 2, 3, 4, 5], "td": [50, 50, 50, 50, 50, 50]}},
+         "obs": {"reports": {"h": [1.0], "td": [48.0]}}}]}       # one hour of 3: too few
+
+
+def test_dewpoint_window_means():
+    m = {"h": [0, 3, 6], "td": [56, 59, 62]}
+    assert wxc_brief._model_window(m, [0, 2]) == 57.0                       # 56, 57, 58 interpolated
+    assert wxc_brief._model_window(m, [5, 9]) is None                       # covers 5-6 only: too few
+    r = {"h": [0.88, 1.9, 2.6], "td": [60, 59, None]}
+    assert wxc_brief._obs_window(r, [0, 2]) == 59.5                         # 0Z: none within 35 min
+    assert wxc_brief._obs_window(r, [0, 5]) is None
+
+
+def test_past_days_dewpoint_section():
+    txt = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, timeline=_timeline())
+    i = txt.index("## Dewpoint (context only, not scored)")
+    assert txt.index("## Daily verification (all") < i < txt.index("## Daily verification of precip")
+    sec = txt[i:txt.index("## Daily verification of precip")]
+    # observed, nearest report each hour: night 0Z none, 1Z 60, 2Z 59 -> 59.5; day 3Z 58, 4Z 62, 5Z 62 -> 60.7
+    assert "| HRRR | 1 | +1.5 | 1.5 | -0.7 | 0.7 |" in sec
+    assert "| 10-05 | 59.5 | +1.5 |" in sec and "| 10-05 | 60.7 | -0.7 |" in sec
+    assert "| 10-04 h | — | — |" in sec                                      # too few obs hours
+    assert "ENS" not in sec                                                 # no dewpoint
+    assert "## Dewpoint (context" not in wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW)
+
+
+def test_write_brief_reads_timeline(tmp_path):
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "verification.json").write_text(json.dumps(_verif()))
+    (tmp_path / "timeline.json").write_text(json.dumps(_timeline()))
+    assert "## Dewpoint (context only" in wxc_brief.write_brief(tmp_path).read_text()
+    (tmp_path / "timeline.json").write_text(json.dumps({**_timeline(), "station": "KOLM"}))
+    assert "## Dewpoint (context only" not in wxc_brief.write_brief(tmp_path).read_text()

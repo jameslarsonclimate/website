@@ -128,8 +128,8 @@ def _howto():
         "misses (too clear at night -> low too cold, too cloudy at night -> low too warm; too clear "
         "by day -> high too warm, too cloudy by day -> high too cool), ask whether its cloud "
         "forecast for the target day has the same problem before trusting its temperatures. Do the "
-        "same with the dewpoint: a model running too moist today (dewpoint bias so far) tends to run "
-        "its low too warm, too dry its low too cold.",
+        "same with the dewpoint (the dewpoint section for past days, \"Dewpoint so far today\" for "
+        "today): a model running too moist tends to run its low too warm, too dry its low too cold.",
         "6. Read the latest AFD for the forecaster's view of the pattern; it often explains when a "
         "model bias learned earlier in the period won't apply.",
         "7. Give whole °F for high/low, whole kt for wind, and precip to 0.01\". State the reasoning "
@@ -390,6 +390,105 @@ def _clouds(verif, clouds, order):
                          *("—" if err(d, n, k) is None else _s(err(d, n, k), None, 0) for n in names)])
         out += ["", f"{title}: observed and each model's error (forecast - observed, percentage points):", "",
                 _table(["Date", "Obs", "GOES", *names], rows)]
+    return "\n".join(out)
+
+
+MIN_COVER = 0.5      # a window mean needs at least this share of its hours (as the cloud context)
+
+
+def _lerp(hs, vs, h):
+    """Linear interpolation of a series (hours, values) at hour h; None outside it or at a gap."""
+    for i in range(len(hs) - 1):
+        if hs[i] <= h <= hs[i + 1]:
+            a, b = vs[i], vs[i + 1]
+            if h == hs[i]:
+                return a
+            if h == hs[i + 1]:
+                return b
+            return None if a is None or b is None else a + (h - hs[i]) / (hs[i + 1] - hs[i]) * (b - a)
+    return vs[0] if len(hs) == 1 and hs[0] == h else None
+
+
+def _model_window(m, win):
+    """Mean of a model's dewpoint over the window's whole hours [first, last] (hours since 06Z),
+    interpolated to each hour so 3- and 6-hourly runs count every hour."""
+    hs, vs = m.get("h") or [], m.get("td") or []
+    if not win or len(hs) != len(vs):
+        return None
+    pts = sorted((h, v) for h, v in zip(hs, vs) if v is not None)
+    hours = range(round(win[0]), round(win[1]) + 1)
+    got = [x for x in (_lerp([h for h, _ in pts], [v for _, v in pts], j) for j in hours) if x is not None]
+    return sum(got) / len(got) if got and len(got) >= MIN_COVER * len(hours) else None
+
+
+def _obs_window(reports, win):
+    """Mean observed dewpoint over the window: per hour, the report nearest the top of the hour
+    within 35 minutes."""
+    hs, vs = (reports or {}).get("h") or [], (reports or {}).get("td") or []
+    if not win or len(hs) != len(vs):
+        return None
+    hours = range(round(win[0]), round(win[1]) + 1)
+    got = []
+    for j in hours:
+        near = [(abs(h - j), v) for h, v in zip(hs, vs) if v is not None and abs(h - j) <= 35 / 60]
+        if near:
+            got.append(min(near)[1])
+    return sum(got) / len(got) if got and len(got) >= MIN_COVER * len(hours) else None
+
+
+def _dewpoints(verif, timeline, order):
+    """Each scored run's dewpoint vs the observed dewpoint by night and day (from the page's
+    timeline.json, the same windows as the cloud section): context, never scored."""
+    days = [d for d in verif.get("days", []) if d.get("models")]
+    tl = {d["date"]: d for d in (timeline or {}).get("days") or []}
+    if not days or not tl:
+        return ""
+    obs, err = {}, {}             # (date, night/day) -> observed mean; (date, model, night/day) -> error
+    for d in days:
+        t = tl.get(d["date"]) or {}
+        win = t.get("cloud_win") or {}
+        for k in ("night", "day"):
+            o = _obs_window((t.get("obs") or {}).get("reports"), win.get(k))
+            obs[d["date"], k] = o
+            for n, m in (t.get("models") or {}).items():
+                f = _model_window(m, win.get(k))
+                if o is not None and f is not None:
+                    err[d["date"], n, k] = f - o
+    names = [n for n in order if any((d["date"], n, k) in err for d in days for k in ("night", "day"))]
+    if not names:
+        return ""
+    label = {d["date"]: d["date"][5:] + (" h" if d.get("hindcast") else "") for d in days}
+
+    rows = []
+    for n in names:
+        cells, n_days = [], 0
+        for k, wv in (("night", "tmin_f"), ("day", "tmax_f")):   # weighted like the low / high
+            pairs = [(err[d["date"], n, k], (d.get("decay_weight") or {}).get(wv, 1.0))
+                     for d in days if (d["date"], n, k) in err]
+            n_days = max(n_days, len(pairs))
+            if pairs:
+                sw = sum(w for _, w in pairs)
+                cells += [_s(sum(e * w for e, w in pairs) / sw, "t"),
+                          f"{sum(abs(e) * w for e, w in pairs) / sw:.1f}"]
+            else:
+                cells += ["—", "—"]
+        rows.append([n, n_days, *cells])
+    out = [
+        "## Dewpoint (context only, not scored)", "",
+        "Each scored run's 2 m dewpoint vs the observed dewpoint, in °F (forecast - observed: "
+        "positive = too moist, negative = too dry), averaged over the same night (06Z to sunrise, "
+        "drives the low) and day (sun up, drives the high) hours as the cloud section. Observed = "
+        "the METAR nearest each hour; models are interpolated to every hour. A model that runs too "
+        "moist at night tends to hold its low too warm, too dry to drop it too far. — = no data "
+        "(the ensembles have no dewpoint; USL only from when it started for this city). Bias / MAE "
+        "are decay-weighted like the low (night) and high (day).", "",
+        _table(["Model", "Days", "Night bias", "Night MAE", "Day bias", "Day MAE"], rows)]
+    for k, title in (("night", "Night dewpoint"), ("day", "Day dewpoint")):
+        rows = [[label[d["date"]], _f(obs[d["date"], k], "t"),
+                 *(_s(err[d["date"], n, k], "t") if (d["date"], n, k) in err else "—" for n in names)]
+                for d in days]
+        out += ["", f"{title}: observed mean (°F) and each model's error (forecast - observed, °F):", "",
+                _table(["Date", "Obs", *names], rows)]
     return "\n".join(out)
 
 
@@ -662,19 +761,22 @@ def _hourly(fc, series, order, cloud_series=None):
 def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime | None = None,
                 clouds: dict | None = None, series: dict | None = None,
                 cloud_series: dict | None = None, cloud_today: dict | None = None,
-                obs_today: dict | None = None, series_today: dict | None = None) -> str:
+                obs_today: dict | None = None, series_today: dict | None = None,
+                timeline: dict | None = None) -> str:
     """clouds: this station's days from cloud_context.json ({date: {...}}), optional.
     series: the target day's hourly model series (series/<ICAO>_<date>_submitted.json), optional.
     cloud_series: the target day's model cloud cover (cloud_forecast.json), optional.
     cloud_today: the day in progress's observed (GOES, METAR) and forecast clouds (cloud_today.json).
     obs_today / series_today: the day in progress's METARs (timeline/<ICAO>_<date>_obs.json) and
-    submitted runs (series/<ICAO>_<date>_submitted.json), for its dewpoint so far."""
+    submitted runs (series/<ICAO>_<date>_submitted.json), for its dewpoint so far.
+    timeline: the page's timeline.json (the past days' dewpoints)."""
     now = now or datetime.now(timezone.utc)
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
                 _ensembles(fc, order), _pop(fc, verif, order), _hourly(fc, series, order, cloud_series),
                 _track_record(verif),
-                _daily(verif, order), _clouds(verif, clouds, order), _pop_daily(verif, order),
+                _daily(verif, order), _clouds(verif, clouds, order), _dewpoints(verif, timeline, order),
+                _pop_daily(verif, order),
                 _today(today), _today_clouds(fc, cloud_today, order),
                 _today_humidity(fc, obs_today, series_today, order), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
@@ -712,10 +814,14 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
     if today and today.get("date"):
         obs_today = load(f"timeline/{meta.get('station')}_{today['date']}_obs.json")
         series_today = load(f"series/{meta.get('station')}_{today['date']}_submitted.json")
+    timeline = load("timeline.json")
+    if timeline and timeline.get("station") != meta.get("station"):
+        timeline = None              # another city's
     out = Path(out or data_dir / "brief.md")
     out.write_text(build_brief(fc, verif, today, clouds=clouds, series=series,
                                   cloud_series=cloud_series, cloud_today=cloud_today,
-                                  obs_today=obs_today, series_today=series_today), encoding="utf-8")
+                                  obs_today=obs_today, series_today=series_today,
+                                  timeline=timeline), encoding="utf-8")
     return out
 
 
