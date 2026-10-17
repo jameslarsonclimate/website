@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-18**, scored over 2026-10-18T06Z to 2026-10-19T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-18T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-17T14:40:44+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-17T15:00:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -41,7 +41,7 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS_ENS | 17/06Z | 58.7 | 42.3 | 5.8 | 0.00 |
 | GEFS | 17/06Z | 61.0 | 40.3 | 4.7 | 0.00 |
 | HRRRCAST (precip only) | 17/06Z | — | — | — | 0.01 |
-| REFS (precip only) | 17/06Z | — | — | — | 0.00 |
+| REFS (precip only) | 17/12Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 17/06Z | — | — | — | 0.00 |
 | **CONSENSUS** |  | **59.8** | **34.6** | **9.8** | **0.00** |
 
@@ -49,12 +49,12 @@ Notes:
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-18 available at 2026-10-17 14Z)
+- USL: failed this run (no USL run for 2026-10-18 available at 2026-10-17 15Z)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - HRRRCAST: median of 18 members (experimental AI model)
-- REFS: median of 13 members, 06Z + 00Z runs (RRFS para)
+- REFS: median of 14 members, 12Z + 06Z runs (RRFS para)
 - NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
 
 GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) and NBM QMD are not in the consensus either; they inform the precip choice.
@@ -87,7 +87,7 @@ GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCA
 | GEFS | 31 | Wind kt | 4.0 | 4.3 | 4.7 | 5.0 | 5.7 | 4.7 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.01 | 0.01 | 0.01 | 0.01 |
-| REFS | 13 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 
 Share of members reaching each 24-h precip amount:
 
