@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-17T15:30:04+00:00",
+  "generated_at_utc": "2026-10-17T16:02:51+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -124,7 +124,11 @@
       "valid_range_utc": [
         "2026-10-18T06",
         "2026-10-19T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exceeded with url: /api/1/mos.json?station=KOLM&model=GFS (Caused by NameResolutionError(\"HTTPSConnection(host='mesonet.agron.iastate.edu', port=443): Failed to resolve 'mesonet.agron.iastate.edu' ([Errno 8] nodename nor servname provided, or not known)\"))"
+      }
     },
     "NBM": {
       "tmax_f": 60.0,
@@ -152,7 +156,11 @@
       "valid_range_utc": [
         "2026-10-18T06",
         "2026-10-19T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exceeded with url: /api/1/mos.json?station=KOLM&model=NBS (Caused by NameResolutionError(\"HTTPSConnection(host='mesonet.agron.iastate.edu', port=443): Failed to resolve 'mesonet.agron.iastate.edu' ([Errno 8] nodename nor servname provided, or not known)\"))"
+      }
     },
     "USL": {
       "tmax_f": null,
@@ -161,7 +169,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-10-18 available at 2026-10-17 15Z"
+      "error": "USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max retries exceeded with url: /forecast/KOLM/ (Caused by NameResolutionError(\"HTTPConnection(host='www.microclimates.org', port=80): Failed to resolve 'www.microclimates.org' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     "ENS": {
       "tmax_f": 59.0,
@@ -453,6 +461,10 @@
         },
         "n_members": 51,
         "basis": "member fraction"
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "AIFS_ENS": {
@@ -745,6 +757,10 @@
         },
         "n_members": 51,
         "basis": "member fraction"
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_aifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "GEFS": {
@@ -957,6 +973,10 @@
         },
         "n_members": 31,
         "basis": "member fraction"
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ncep_gefs025/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "HRRRCAST": {
@@ -1046,6 +1066,10 @@
             0.012
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
       }
     },
     "REFS": {
@@ -1127,6 +1151,10 @@
             0.0
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -1158,6 +1186,10 @@
           "75": 0.0,
           "90": 0.0
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-17T15:30:04+00:00",
+        "error": "no NBM QMD cycle covering the day is posted yet"
       }
     },
     "CONSENSUS": {
@@ -1270,12 +1302,30 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-17T15:30:04+00:00",
-    "connectivity": false,
+    "ok": false,
+    "checked_at_utc": "2026-10-17T16:02:51+00:00",
+    "connectivity": true,
     "failed": [
+      "AIFS_ENS",
+      "ENS",
+      "GEFS",
+      "GFS_MOS",
+      "HRRRCAST",
+      "NBM",
+      "NBM_QMD",
+      "REFS",
       "USL"
     ],
-    "carried_over": []
+    "carried_over": [
+      "AIFS_ENS",
+      "ENS",
+      "GEFS",
+      "GFS_MOS",
+      "HRRRCAST",
+      "NBM",
+      "NBM_QMD",
+      "REFS"
+    ],
+    "message": "Connectivity issues: the update at 16:02Z couldn't reach some data sources; latest forecasts not pulled for AIFS_ENS, ENS, GEFS, GFS_MOS, HRRRCAST, NBM, NBM_QMD, REFS, USL. Showing the last good forecasts for AIFS_ENS, ENS, GEFS, GFS_MOS, HRRRCAST, NBM, NBM_QMD, REFS."
   }
 }

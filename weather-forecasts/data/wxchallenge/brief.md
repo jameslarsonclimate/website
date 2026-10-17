@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-18**, scored over 2026-10-18T06Z to 2026-10-19T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-18T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-17T15:30:04+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-17T16:02:51+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -49,7 +49,7 @@ Notes:
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-18 available at 2026-10-17 15Z)
+- USL: failed this run (USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
@@ -158,63 +158,63 @@ Temperature (°F):
 
 Dewpoint (°F):
 
-| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM |
-| --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| 10-18 06Z | Sat 23:00 | 41.2 | 42.6 | 44.0 | 42.6 | 42.5 | 41.0 | 42.0 |
-| 10-18 07Z | Sun 00:00 | 40.8 | 41.5 |  |  |  |  |  |
-| 10-18 08Z | Sun 01:00 | 40.3 | 41.7 |  |  |  |  |  |
-| 10-18 09Z | Sun 02:00 | 39.3 | 41.6 | 41.6 | 40.5 |  | 39.0 | 41.0 |
-| 10-18 10Z | Sun 03:00 | 39.5 | 41.8 |  |  |  |  |  |
-| 10-18 11Z | Sun 04:00 | 39.2 | 41.4 |  |  |  |  |  |
-| 10-18 12Z | Sun 05:00 | 38.6 | 41.2 | 41.1 | 40.5 | 38.7 | 36.0 | 39.0 |
-| 10-18 13Z | Sun 06:00 | 38.1 | 40.9 |  |  |  |  |  |
-| 10-18 14Z | Sun 07:00 | 37.7 | 40.6 |  |  |  |  |  |
-| 10-18 15Z | Sun 08:00 | 37.5 | 40.4 | 41.1 | 38.9 |  | 35.0 | 38.0 |
-| 10-18 16Z | Sun 09:00 | 40.2 | 43.1 |  |  |  |  |  |
-| 10-18 17Z | Sun 10:00 | 43.1 | 44.5 |  |  |  |  |  |
-| 10-18 18Z | Sun 11:00 | 41.2 | 43.5 | 43.9 | 39.4 | 42.0 | 40.0 | 45.0 |
-| 10-18 19Z | Sun 12:00 | 40.3 | 42.9 |  |  |  |  |  |
-| 10-18 20Z | Sun 13:00 | 39.6 | 41.3 |  |  |  |  |  |
-| 10-18 21Z | Sun 14:00 | 38.5 | 39.9 | 43.3 | 37.6 |  | 38.0 | 41.0 |
-| 10-18 22Z | Sun 15:00 | 37.3 | 38.5 |  |  |  |  |  |
-| 10-18 23Z | Sun 16:00 | 37.2 | 37.3 |  |  |  |  |  |
-| 10-19 00Z | Sun 17:00 | 36.9 | 37.5 | 42.1 | 38.0 | 39.1 | 37.0 | 39.0 |
-| 10-19 01Z | Sun 18:00 | 37.6 | 38.9 |  |  |  |  |  |
-| 10-19 02Z | Sun 19:00 | 38.7 | 40.3 |  |  |  |  |  |
-| 10-19 03Z | Sun 20:00 | 39.1 | 42.7 | 41.9 | 39.1 |  | 39.0 | 40.0 |
-| 10-19 04Z | Sun 21:00 | 39.3 | 43.4 |  |  |  |  |  |
-| 10-19 05Z | Sun 22:00 | 39.4 | 43.6 |  |  |  |  |  |
-| 10-19 06Z | Sun 23:00 | 40.0 | 43.7 | 42.3 | 40.0 | 39.0 | 37.0 | 40.0 |
+| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS |
+| --- | --- | --: | --: | --: | --: | --: |
+| 10-18 06Z | Sat 23:00 | 41.2 | 42.6 | 44.0 | 42.6 | 42.5 |
+| 10-18 07Z | Sun 00:00 | 40.8 | 41.5 |  |  |  |
+| 10-18 08Z | Sun 01:00 | 40.3 | 41.7 |  |  |  |
+| 10-18 09Z | Sun 02:00 | 39.3 | 41.6 | 41.6 | 40.5 |  |
+| 10-18 10Z | Sun 03:00 | 39.5 | 41.8 |  |  |  |
+| 10-18 11Z | Sun 04:00 | 39.2 | 41.4 |  |  |  |
+| 10-18 12Z | Sun 05:00 | 38.6 | 41.2 | 41.1 | 40.5 | 38.7 |
+| 10-18 13Z | Sun 06:00 | 38.1 | 40.9 |  |  |  |
+| 10-18 14Z | Sun 07:00 | 37.7 | 40.6 |  |  |  |
+| 10-18 15Z | Sun 08:00 | 37.5 | 40.4 | 41.1 | 38.9 |  |
+| 10-18 16Z | Sun 09:00 | 40.2 | 43.1 |  |  |  |
+| 10-18 17Z | Sun 10:00 | 43.1 | 44.5 |  |  |  |
+| 10-18 18Z | Sun 11:00 | 41.2 | 43.5 | 43.9 | 39.4 | 42.0 |
+| 10-18 19Z | Sun 12:00 | 40.3 | 42.9 |  |  |  |
+| 10-18 20Z | Sun 13:00 | 39.6 | 41.3 |  |  |  |
+| 10-18 21Z | Sun 14:00 | 38.5 | 39.9 | 43.3 | 37.6 |  |
+| 10-18 22Z | Sun 15:00 | 37.3 | 38.5 |  |  |  |
+| 10-18 23Z | Sun 16:00 | 37.2 | 37.3 |  |  |  |
+| 10-19 00Z | Sun 17:00 | 36.9 | 37.5 | 42.1 | 38.0 | 39.1 |
+| 10-19 01Z | Sun 18:00 | 37.6 | 38.9 |  |  |  |
+| 10-19 02Z | Sun 19:00 | 38.7 | 40.3 |  |  |  |
+| 10-19 03Z | Sun 20:00 | 39.1 | 42.7 | 41.9 | 39.1 |  |
+| 10-19 04Z | Sun 21:00 | 39.3 | 43.4 |  |  |  |
+| 10-19 05Z | Sun 22:00 | 39.4 | 43.6 |  |  |  |
+| 10-19 06Z | Sun 23:00 | 40.0 | 43.7 | 42.3 | 40.0 | 39.0 |
 
 Relative humidity (%), from each model's temperature and dewpoint:
 
-| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM |
-| --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| 10-18 06Z | Sat 23:00 | 74 | 81 | 86 | 91 | 84 | 89 | 93 |
-| 10-18 07Z | Sun 00:00 | 78 | 81 |  |  |  |  |  |
-| 10-18 08Z | Sun 01:00 | 81 | 84 |  |  |  |  |  |
-| 10-18 09Z | Sun 02:00 | 83 | 86 | 84 | 89 |  | 96 | 100 |
-| 10-18 10Z | Sun 03:00 | 89 | 90 |  |  |  |  |  |
-| 10-18 11Z | Sun 04:00 | 90 | 92 |  |  |  |  |  |
-| 10-18 12Z | Sun 05:00 | 90 | 94 | 89 | 95 | 93 | 92 | 100 |
-| 10-18 13Z | Sun 06:00 | 91 | 96 |  |  |  |  |  |
-| 10-18 14Z | Sun 07:00 | 93 | 99 |  |  |  |  |  |
-| 10-18 15Z | Sun 08:00 | 95 | 100 | 94 | 94 |  | 92 | 100 |
-| 10-18 16Z | Sun 09:00 | 91 | 98 |  |  |  |  |  |
-| 10-18 17Z | Sun 10:00 | 80 | 83 |  |  |  |  |  |
-| 10-18 18Z | Sun 11:00 | 59 | 66 | 74 | 59 | 69 | 68 | 80 |
-| 10-18 19Z | Sun 12:00 | 54 | 59 |  |  |  |  |  |
-| 10-18 20Z | Sun 13:00 | 49 | 52 |  |  |  |  |  |
-| 10-18 21Z | Sun 14:00 | 45 | 47 | 59 | 43 |  | 47 | 53 |
-| 10-18 22Z | Sun 15:00 | 42 | 43 |  |  |  |  |  |
-| 10-18 23Z | Sun 16:00 | 43 | 41 |  |  |  |  |  |
-| 10-19 00Z | Sun 17:00 | 45 | 43 | 60 | 47 | 47 | 42 | 49 |
-| 10-19 01Z | Sun 18:00 | 53 | 51 |  |  |  |  |  |
-| 10-19 02Z | Sun 19:00 | 62 | 60 |  |  |  |  |  |
-| 10-19 03Z | Sun 20:00 | 69 | 69 | 79 | 72 |  | 68 | 77 |
-| 10-19 04Z | Sun 21:00 | 74 | 73 |  |  |  |  |  |
-| 10-19 05Z | Sun 22:00 | 78 | 76 |  |  |  |  |  |
-| 10-19 06Z | Sun 23:00 | 85 | 76 | 84 | 84 | 75 | 86 | 89 |
+| UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS |
+| --- | --- | --: | --: | --: | --: | --: |
+| 10-18 06Z | Sat 23:00 | 74 | 81 | 86 | 91 | 84 |
+| 10-18 07Z | Sun 00:00 | 78 | 81 |  |  |  |
+| 10-18 08Z | Sun 01:00 | 81 | 84 |  |  |  |
+| 10-18 09Z | Sun 02:00 | 83 | 86 | 84 | 89 |  |
+| 10-18 10Z | Sun 03:00 | 89 | 90 |  |  |  |
+| 10-18 11Z | Sun 04:00 | 90 | 92 |  |  |  |
+| 10-18 12Z | Sun 05:00 | 90 | 94 | 89 | 95 | 93 |
+| 10-18 13Z | Sun 06:00 | 91 | 96 |  |  |  |
+| 10-18 14Z | Sun 07:00 | 93 | 99 |  |  |  |
+| 10-18 15Z | Sun 08:00 | 95 | 100 | 94 | 94 |  |
+| 10-18 16Z | Sun 09:00 | 91 | 98 |  |  |  |
+| 10-18 17Z | Sun 10:00 | 80 | 83 |  |  |  |
+| 10-18 18Z | Sun 11:00 | 59 | 66 | 74 | 59 | 69 |
+| 10-18 19Z | Sun 12:00 | 54 | 59 |  |  |  |
+| 10-18 20Z | Sun 13:00 | 49 | 52 |  |  |  |
+| 10-18 21Z | Sun 14:00 | 45 | 47 | 59 | 43 |  |
+| 10-18 22Z | Sun 15:00 | 42 | 43 |  |  |  |
+| 10-18 23Z | Sun 16:00 | 43 | 41 |  |  |  |
+| 10-19 00Z | Sun 17:00 | 45 | 43 | 60 | 47 | 47 |
+| 10-19 01Z | Sun 18:00 | 53 | 51 |  |  |  |
+| 10-19 02Z | Sun 19:00 | 62 | 60 |  |  |  |
+| 10-19 03Z | Sun 20:00 | 69 | 69 | 79 | 72 |  |
+| 10-19 04Z | Sun 21:00 | 74 | 73 |  |  |  |
+| 10-19 05Z | Sun 22:00 | 78 | 76 |  |  |  |
+| 10-19 06Z | Sun 23:00 | 85 | 76 | 84 | 84 | 75 |
 
 Wind speed (kt) at the hour:
 
@@ -558,25 +558,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-15 | 0.00" (dry) | 0/0/1/1 | 0/0/0/0 | 0/0/0/0 | 0/0/0/0 | 0/0/0/0 | 24h 28% | 24h 0% | 0/0/0/0 |
 | 10-16 | 0.00" (dry) | 0/2/1/5 | 0/1/1/1 | 0/0/0/0 | 0/0/0/0 | 0/0/0/0 | 24h 11% | 24h 0% | 0/0/0/0 |
 
-## Today so far (2026-10-17, through 2026-10-17T14:54Z)
+## Today so far (2026-10-17, through 2026-10-17T15:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 59.0 °F, low 53.1 °F, max wind 8 kt, precip 0.01" (9 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 59.0 °F, low 53.1 °F, max wind 8 kt, precip 0.01" (10 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 16/18Z | -2.4 | 2.6 | 61 (+2) pending | 50 (-3) pending | -0.4 | 0.05 | +0.04 |
-| RRFS | 16/18Z | -0.1 | 1.6 | 64 (+5) pending | 48 (-5) pending | -0.4 | 0.06 | +0.05 |
-| IFS | 16/12Z | -1.9 | 2.0 | 61 (+2) pending | 46 (-7) pending | -0.7 | 0.04 | +0.03 |
-| GFS | 16/18Z | -1.3 | 1.9 | 63 (+4) pending | 44 (-9) pending | -1.9 | 0.02 | +0.01 |
-| AIFS | 16/12Z | -0.9 | 2.1 | 61 (+2) pending | 47 (-6) pending | +0.2 | 0.04 | +0.03 |
-| GFS_MOS | 16/18Z | -2.4 | 2.4 | 67 (+8) pending | 43 (-10) pending | -1.3 | — | — |
-| NBM | 16/18Z | -1.9 | 2.2 | 64 (+5) pending | 44 (-9) pending | +0.9 | — | — |
-| USL | 16/22Z | -2.1 | 2.3 | 63 (+4) pending | 43 (-10) pending | -0.2 | 0.00 | -0.01 |
-| ENS | 16/00Z | -0.5 | 1.7 | 63 (+4) pending | 48 (-5) pending | -0.5 | 0.07 | +0.06 |
-| AIFS_ENS | 16/12Z | +0.1 | 2.8 | 62 (+3) pending | 48 (-5) pending | -0.2 | 0.05 | +0.04 |
-| GEFS | 16/18Z | -1.3 | 2.0 | 64 (+5) pending | 45 (-8) pending | -1.4 | 0.06 | +0.05 |
+| HRRR | 16/18Z | -2.3 | 2.5 | 61 (+2) pending | 50 (-3) pending | -0.6 | 0.05 | +0.04 |
+| RRFS | 16/18Z | +0.1 | 1.6 | 64 (+5) pending | 48 (-5) pending | -0.5 | 0.06 | +0.05 |
+| IFS | 16/12Z | -1.6 | 1.9 | 61 (+2) pending | 46 (-7) pending | -0.8 | 0.04 | +0.03 |
+| GFS | 16/18Z | -1.2 | 1.8 | 63 (+4) pending | 44 (-9) pending | -1.8 | 0.02 | +0.01 |
+| AIFS | 16/12Z | -0.5 | 2.3 | 61 (+2) pending | 47 (-6) pending | +0.1 | 0.05 | +0.04 |
+| GFS_MOS | 16/18Z | -2.1 | 2.2 | 67 (+8) pending | 43 (-10) pending | -1.2 | — | — |
+| NBM | 16/18Z | -1.6 | 2.0 | 64 (+5) pending | 44 (-9) pending | +0.8 | — | — |
+| USL | 16/22Z | -1.9 | 2.1 | 63 (+4) pending | 43 (-10) pending | -0.2 | 0.00 | -0.01 |
+| ENS | 16/00Z | -0.3 | 1.7 | 63 (+4) pending | 48 (-5) pending | -0.6 | 0.07 | +0.06 |
+| AIFS_ENS | 16/12Z | +0.6 | 3.0 | 62 (+3) pending | 48 (-5) pending | -0.2 | 0.05 | +0.04 |
+| GEFS | 16/18Z | -1.2 | 1.9 | 64 (+5) pending | 45 (-8) pending | -1.4 | 0.06 | +0.05 |
 
 ## Clouds so far today (2026-10-17, observed vs forecast)
 
@@ -594,6 +594,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-17 13Z | Sat 06:00 | 100 | 100 | 100 | 100 |  |  |  |  |  | 91 |
 | 10-17 14Z | Sat 07:00 | 100 | 75 | 100 | 100 |  |  |  |  |  | 86 |
 | 10-17 15Z | Sat 08:00 | 100 | 19 | 100 | 100 | 44 | 6 |  | 100 | 91 | 80 |
+| 10-17 16Z | Sat 09:00 |  | 0 | 100 | 25 |  |  |  |  |  | 72 |
 
 ## Dewpoint so far today (2026-10-17, observed vs forecast)
 
@@ -610,7 +611,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-17 13Z | Sat 06:00 | 53.1 | 93 | 51.2 | 53.0 |  |  |  |  |  | 53.0 |
 | 10-17 14Z | Sat 07:00 | 53.1 | 90 | 49.1 | 52.0 |  |  |  |  |  | 52.0 |
 | 10-17 15Z | Sat 08:00 | 52.0 | 96 | 48.4 | 49.9 | 52.8 | 49.4 |  | 49.0 | 54.0 | 51.0 |
-| Bias so far |  |  |  | -0.6 | +0.8 | +0.8 | -0.6 | -0.3 | -4.0 | +0.6 | -0.4 |
+| 10-17 16Z | Sat 09:00 | 52.0 | 93 | 48.5 | 48.7 |  |  |  |  |  | 51.0 |
+| Bias so far |  |  |  | -0.9 | +0.4 | +0.8 | -0.6 | -0.3 | -4.0 | +0.6 | -0.4 |
 
 ## Raw data
 
