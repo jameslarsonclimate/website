@@ -1315,7 +1315,7 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-10-18T14:04:08+00:00",
+    "checked_at_utc": "2026-10-18T19:14:19+00:00",
     "connectivity": true,
     "failed": [
       "AIFS",
@@ -1334,6 +1334,6 @@
       "USL"
     ],
     "carried_over": [],
-    "message": "Connectivity issues: the update at 14:04Z couldn't reach some data sources; latest forecasts not pulled for AIFS, AIFS_ENS, ENS, GEFS, GFS, GFS_MOS, HRRR, HRRRCAST, IFS, NBM, NBM_QMD, REFS, RRFS, USL."
+    "message": "Connectivity issues: the update at 19:14Z couldn't reach some data sources; latest forecasts not pulled for AIFS, AIFS_ENS, ENS, GEFS, GFS, GFS_MOS, HRRR, HRRRCAST, IFS, NBM, NBM_QMD, REFS, RRFS, USL."
   }
 }
