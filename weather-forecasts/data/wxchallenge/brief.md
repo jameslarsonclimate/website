@@ -5,6 +5,7 @@
 - Submission deadline: 2026-10-18T00Z (forecasts for a day are due at 00Z that day)
 - Generated: 2026-10-17T22:52:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
+- **Warning: this brief is 20 h old; the models below may be superseded.**
 
 ## How to use this brief (for AI assistants)
 
