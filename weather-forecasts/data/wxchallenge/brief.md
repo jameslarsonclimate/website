@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-20**, scored over 2026-10-20T06Z to 2026-10-21T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-20T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-19T22:00:07+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-19T22:12:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -577,25 +577,25 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-17 | 0.01" (wet: 06-12) | 65/50/2/1 | 58/26/0/0 | 98/84/0/0 | 72/33/4/2 | 100/36/0/0 | 24h 28% | 24h 64% | 66/14/0/9 |
 | 10-18 | 0.00" (dry) | 2/2/1/1 | 0/0/0/1 | 0/0/0/0 | 0/0/0/0 | 0/0/0/0 | 24h 28% | 24h 0% | 24h 0% |
 
-## Today so far (2026-10-19, through 2026-10-19T20:54Z)
+## Today so far (2026-10-19, through 2026-10-19T21:54Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 62.1 °F, low 35.6 °F, max wind 4 kt, precip 0.00" (15 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 64.0 °F, low 35.6 °F, max wind 4 kt, precip 0.00" (16 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 18/18Z | +1.4 | 1.8 | 63 (+1) pending | 44 (+9) | +2.0 | 0.00 | +0.00 |
-| RRFS | 18/18Z | +3.3 | 3.5 | 63 (+1) pending | 46 (+11) | +2.3 | 0.00 | +0.00 |
-| IFS | 18/12Z | +1.7 | 2.3 | 61 (-2) | 42 (+7) | +0.8 | 0.00 | +0.00 |
-| GFS | 18/12Z | +1.8 | 2.1 | 62 (+0) pending | 43 (+7) | +0.4 | 0.00 | +0.00 |
-| AIFS | 18/12Z | +0.1 | 3.7 | 60 (-2) | 43 (+7) | +0.7 | 0.00 | +0.00 |
-| GFS_MOS | 18/12Z | -2.6 | 3.3 | 62 (+0) | 35 (-1) | +0.7 | — | — |
-| NBM | 18/18Z | -2.4 | 2.8 | 61 (-1) | 35 (-1) | -0.7 | — | — |
-| USL | 18/12Z | -2.1 | 2.8 | 60 (-2) | 40 (+4) | +2.4 | 0.00 | +0.00 |
-| ENS | 18/06Z | +2.3 | 3.0 | 60 (-2) | 45 (+10) | +0.8 | 0.00 | +0.00 |
-| AIFS_ENS | 18/12Z | +1.6 | 3.4 | 61 (-1) | 44 (+8) | +1.1 | 0.00 | +0.00 |
-| GEFS | 18/12Z | +1.3 | 1.6 | 62 (+0) pending | 42 (+6) | +0.5 | 0.00 | +0.00 |
+| HRRR | 18/18Z | +1.3 | 1.8 | 63 (-1) | 44 (+9) | +1.8 | 0.00 | +0.00 |
+| RRFS | 18/18Z | +3.0 | 3.4 | 63 (-1) | 46 (+11) | +2.1 | 0.00 | +0.00 |
+| IFS | 18/12Z | +1.3 | 2.4 | 61 (-3) | 42 (+7) | +0.7 | 0.00 | +0.00 |
+| GFS | 18/12Z | +1.5 | 2.1 | 62 (-2) | 43 (+7) | +0.2 | 0.00 | +0.00 |
+| AIFS | 18/12Z | -0.3 | 3.9 | 60 (-4) | 43 (+7) | +0.6 | 0.00 | +0.00 |
+| GFS_MOS | 18/12Z | -2.8 | 3.4 | 62 (-2) | 35 (-1) | +0.6 | — | — |
+| NBM | 18/18Z | -2.5 | 2.9 | 61 (-3) | 35 (-1) | -0.9 | — | — |
+| USL | 18/12Z | -2.3 | 2.9 | 60 (-4) | 40 (+4) | +2.2 | 0.00 | +0.00 |
+| ENS | 18/06Z | +2.0 | 3.1 | 60 (-4) | 45 (+10) | +0.7 | 0.00 | +0.00 |
+| AIFS_ENS | 18/12Z | +1.2 | 3.4 | 61 (-3) | 44 (+8) | +0.9 | 0.00 | +0.00 |
+| GEFS | 18/12Z | +1.1 | 1.6 | 62 (-2) | 42 (+6) | +0.3 | 0.00 | +0.00 |
 
 ## Clouds so far today (2026-10-19, observed vs forecast)
 
@@ -619,6 +619,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-19 19Z | Mon 12:00 | 0 | 0 | 100 | 100 |  |  |  |  |  | 92 |
 | 10-19 20Z | Mon 13:00 | 7 | 0 | 100 | 100 |  |  |  |  |  | 81 |
 | 10-19 21Z | Mon 14:00 | 0 | 0 | 100 | 100 | 56 | 100 |  | 44 | 63 | 72 |
+| 10-19 22Z | Mon 15:00 | 1 | 0 | 100 | 100 |  |  |  |  |  | 68 |
 
 ## Dewpoint so far today (2026-10-19, observed vs forecast)
 
@@ -641,7 +642,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-19 19Z | Mon 12:00 | 44.1 | 62 | 40.5 | 44.0 |  |  |  |  |  | 44.0 |
 | 10-19 20Z | Mon 13:00 | 44.1 | 54 | 37.9 | 43.2 |  |  |  |  |  | 44.0 |
 | 10-19 21Z | Mon 14:00 | 43.0 | 50 | 35.0 | 42.5 | 41.6 | 38.6 |  | 40.0 | 42.0 | 43.0 |
-| Bias so far |  |  |  | -0.8 | +3.2 | +1.1 | -1.4 | -2.8 | -2.4 | -0.2 | -0.4 |
+| 10-19 22Z | Mon 15:00 | 42.1 | 45 | 34.8 | 42.1 |  |  |  |  |  | 43.0 |
+| Bias so far |  |  |  | -1.2 | +3.0 | +1.1 | -1.4 | -2.8 | -2.4 | -0.2 | -0.4 |
 
 ## Raw data
 
