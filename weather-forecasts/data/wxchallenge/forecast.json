@@ -1317,30 +1317,25 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-10-18T23:44:08+00:00",
+    "checked_at_utc": "2026-10-19T14:00:19+00:00",
     "connectivity": true,
     "failed": [
+      "AIFS",
       "AIFS_ENS",
       "ENS",
       "GEFS",
+      "GFS",
       "GFS_MOS",
+      "HRRR",
       "HRRRCAST",
+      "IFS",
       "NBM",
       "NBM_QMD",
       "REFS",
+      "RRFS",
       "USL"
     ],
-    "carried_over": [
-      "AIFS_ENS",
-      "ENS",
-      "GEFS",
-      "GFS_MOS",
-      "HRRRCAST",
-      "NBM",
-      "NBM_QMD",
-      "REFS",
-      "USL"
-    ],
-    "message": "Connectivity issues: the update at 23:44Z couldn't reach some data sources; latest forecasts not pulled for AIFS_ENS, ENS, GEFS, GFS_MOS, HRRRCAST, NBM, NBM_QMD, REFS, USL. Showing the last good forecasts for AIFS_ENS, ENS, GEFS, GFS_MOS, HRRRCAST, NBM, NBM_QMD, REFS, USL."
+    "carried_over": [],
+    "message": "Connectivity issues: the update at 14:00Z couldn't reach some data sources; latest forecasts not pulled for AIFS, AIFS_ENS, ENS, GEFS, GFS, GFS_MOS, HRRR, HRRRCAST, IFS, NBM, NBM_QMD, REFS, RRFS, USL."
   }
 }
