@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-19T23:00:10+00:00",
+  "generated_at_utc": "2026-10-19T23:12:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -1048,6 +1048,10 @@
             0.011
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-19T23:00:10+00:00",
+        "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
       }
     },
     "REFS": {
@@ -1129,6 +1133,10 @@
             0.0
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-19T23:00:10+00:00",
+        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -1160,6 +1168,10 @@
           "75": 0.0,
           "90": 0.0
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-19T23:00:10+00:00",
+        "error": "no NBM QMD cycle covering the day is posted yet"
       }
     },
     "CONSENSUS": {
@@ -1280,10 +1292,19 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-19T23:00:10+00:00",
+    "ok": false,
+    "checked_at_utc": "2026-10-19T23:12:10+00:00",
     "connectivity": false,
-    "failed": [],
-    "carried_over": []
+    "failed": [
+      "HRRRCAST",
+      "NBM_QMD",
+      "REFS"
+    ],
+    "carried_over": [
+      "HRRRCAST",
+      "NBM_QMD",
+      "REFS"
+    ],
+    "message": "The update at 23:12Z failed for some sources; latest forecasts not pulled for HRRRCAST, NBM_QMD, REFS. Showing the last good forecasts for HRRRCAST, NBM_QMD, REFS."
   }
 }
