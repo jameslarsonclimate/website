@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-19T20:00:08+00:00",
+  "generated_at_utc": "2026-10-19T20:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -46,11 +46,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 63.5,
-      "tmin_f": 44.1,
-      "wind_max_kt": 8.5,
+      "tmax_f": 63.0,
+      "tmin_f": 43.1,
+      "wind_max_kt": 8.9,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-19T12",
+      "init_time_utc": "2026-10-19T18",
       "valid_range_utc": [
         "2026-10-20T06",
         "2026-10-21T06"
@@ -1056,12 +1056,12 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-10-19T12",
+      "init_time_utc": "2026-10-19T18",
       "valid_range_utc": [
         "2026-10-20T06",
         "2026-10-21T06"
       ],
-      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
+      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 0.0,
@@ -1096,20 +1096,20 @@
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
@@ -1164,8 +1164,8 @@
     },
     "CONSENSUS": {
       "tmax_f": 64.2,
-      "tmin_f": 35.9,
-      "wind_max_kt": 10.5,
+      "tmin_f": 35.8,
+      "wind_max_kt": 10.6,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -1281,7 +1281,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-19T20:00:08+00:00",
+    "checked_at_utc": "2026-10-19T20:30:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
