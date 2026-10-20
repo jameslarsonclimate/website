@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-21**, scored over 2026-10-21T06Z to 2026-10-22T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-21T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-20T21:36:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-20T21:48:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -121,9 +121,9 @@ For reference, always forecasting the period's observed frequency (4% of 6-h blo
 
 Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, USL and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can miss the true high/low between output times; the guidance table's daily values (which also use interval max/min fields where available) are what get scored.
 
-Dewpoint and relative humidity (context, not scored): the models' 2 m dewpoint (GFS_MOS, NBM and USL from their own guidance; the ensembles have none). Moist air (a high dewpoint) slows the overnight cooling, and the low rarely falls far below the evening dewpoint on a calm night; RH near 100% means fog or low cloud is possible.
+Dewpoint and relative humidity (context, not scored): the models' 2 m dewpoint (GFS_MOS, NBM and USL from their own guidance; ENS, AIFS_ENS and GEFS the mean of their members). Moist air (a high dewpoint) slows the overnight cooling, and the low rarely falls far below the evening dewpoint on a calm night; RH near 100% means fog or low cloud is possible.
 
-Cloud cover (context, not scored): total cloud cover from each model's own output; GFS_MOS gives categories (clear 0, few 19, scattered 44, broken 75, overcast 100) and the ensembles none. * = averaged over the preceding interval rather than instantaneous. Clouds overnight hold the low up; clouds by day hold the high down.
+Cloud cover (context, not scored): total cloud cover from each model's own output; GFS_MOS gives categories (clear 0, few 19, scattered 44, broken 75, overcast 100) and the ensembles the mean of their members. * = averaged over the preceding interval rather than instantaneous. Clouds overnight hold the low up; clouds by day hold the high down.
 
 Temperature (°F):
 
@@ -185,7 +185,7 @@ Dewpoint (°F):
 | 10-22 05Z | Wed 22:00 | 46.1 | 44.3 |  |  |  |  |  | 43.0 |
 | 10-22 06Z | Wed 23:00 | 45.0 | 45.8 | 43.0 | 40.3 | 44.7 | 41.0 | 44.0 | 42.0 |
 
-Relative humidity (%), from each model's temperature and dewpoint:
+Relative humidity (%), from each model's temperature and dewpoint (ensembles: the mean of their members' RH):
 
 | UTC | Local (PDT) | HRRR | RRFS | IFS | GFS | AIFS | GFS_MOS | NBM | USL |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
@@ -506,7 +506,7 @@ Day clouds: observed and each model's error (forecast - observed, percentage poi
 
 ## Dewpoint (context only, not scored)
 
-Each scored run's 2 m dewpoint vs the observed dewpoint, in °F (forecast - observed: positive = too moist, negative = too dry), averaged over the same night (06Z to sunrise, drives the low) and day (sun up, drives the high) hours as the cloud section. Observed = the METAR nearest each hour; models are interpolated to every hour. A model that runs too moist at night tends to hold its low too warm, too dry to drop it too far. — = no data (the ensembles have no dewpoint; USL only from when it started for this city). Bias / MAE are decay-weighted like the low (night) and high (day).
+Each scored run's 2 m dewpoint vs the observed dewpoint, in °F (forecast - observed: positive = too moist, negative = too dry), averaged over the same night (06Z to sunrise, drives the low) and day (sun up, drives the high) hours as the cloud section. Observed = the METAR nearest each hour; models are interpolated to every hour. A model that runs too moist at night tends to hold its low too warm, too dry to drop it too far. — = no data (the ensembles and USL only from when their dewpoints were kept). Bias / MAE are decay-weighted like the low (night) and high (day).
 
 | Model | Days | Night bias | Night MAE | Day bias | Day MAE |
 | --- | --: | --: | --: | --: | --: |
