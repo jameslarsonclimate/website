@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-20T16:30:09+00:00",
+  "generated_at_utc": "2026-10-20T17:27:17+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -72,11 +72,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS": {
-      "tmax_f": 70.1,
-      "tmin_f": 41.0,
-      "wind_max_kt": 2.6,
+      "tmax_f": 70.2,
+      "tmin_f": 41.2,
+      "wind_max_kt": 2.7,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-20T06",
+      "init_time_utc": "2026-10-20T12",
       "valid_range_utc": [
         "2026-10-21T06",
         "2026-10-22T06"
@@ -152,11 +152,7 @@
       "valid_range_utc": [
         "2026-10-21T06",
         "2026-10-22T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-20T16:00:08+00:00",
-        "error": "('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      ]
     },
     "USL": {
       "tmax_f": 67.0,
@@ -1284,15 +1280,10 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-10-20T16:30:09+00:00",
-    "connectivity": true,
-    "failed": [
-      "NBM"
-    ],
-    "carried_over": [
-      "NBM"
-    ],
-    "message": "Connectivity issues: the update at 16:30Z couldn't reach some data sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
+    "ok": true,
+    "checked_at_utc": "2026-10-20T17:27:17+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   }
 }
