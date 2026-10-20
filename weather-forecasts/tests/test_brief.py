@@ -233,6 +233,12 @@ def test_hourly_dewpoint_and_rh_tables():
     assert "| 10-07 06Z | Wed 02:00 | 84 | 58 |" in txt[r:w]                # 75/70 F, 76/60 F
     assert "| 10-07 09Z | Wed 05:00 | 100 |  |" in txt[r:w]                 # dewpoint = temperature
     assert "Dewpoint and relative humidity (context, not scored)" in txt
+    # an ensemble's RH is its members' mean RH, not RH of the mean temperature and dewpoint
+    ser["models"]["ENS"] = {**ser["models"]["GFS_MOS"], "dewpt_f": [60.0, 65.0], "rh_pct": [55.0, None]}
+    txt = wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW, series=ser)
+    r, w = txt.index("Relative humidity (%)"), txt.index("Wind speed (kt)")
+    assert "| 10-07 06Z | Wed 02:00 | 84 | 55 | 58 |" in txt[r:w]                # HRRR, ENS, GFS_MOS
+    assert "| 10-07 12Z | Wed 08:00 |  | 81 | 81 |" in txt[r:w]                # no own RH: from T and Td
     assert "Dewpoint (°F):" not in wxc_brief.build_brief(_forecast(), _verif(), None, now=NOW,
                                                          series=_series([0.0, 0.1, 0.2]))
 

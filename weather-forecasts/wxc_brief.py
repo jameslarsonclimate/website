@@ -480,7 +480,7 @@ def _dewpoints(verif, timeline, order):
         "drives the low) and day (sun up, drives the high) hours as the cloud section. Observed = "
         "the METAR nearest each hour; models are interpolated to every hour. A model that runs too "
         "moist at night tends to hold its low too warm, too dry to drop it too far. — = no data "
-        "(the ensembles have no dewpoint; USL only from when it started for this city). Bias / MAE "
+        "(the ensembles and USL only from when their dewpoints were kept). Bias / MAE "
         "are decay-weighted like the low (night) and high (day).", "",
         _table(["Model", "Days", "Night bias", "Night MAE", "Day bias", "Day MAE"], rows)]
     for k, title in (("night", "Night dewpoint"), ("day", "Day dewpoint")):
@@ -702,11 +702,14 @@ def _hourly(fc, series, order, cloud_series=None):
             rh = {}
             for n in cols:
                 temp = dict(zip(models[n]["times"], models[n].get("temp_f") or []))
-                cells = {t: f"{r:.0f}" for t, x in raw[n].items() if (r := _rh(temp.get(t), x)) is not None}
+                own = dict(zip(models[n]["times"], models[n].get("rh_pct") or []))   # ensembles: members' mean
+                cells = {t: f"{r:.0f}" for t, x in raw[n].items()
+                         if (r := own[t] if own.get(t) is not None else _rh(temp.get(t), x)) is not None}
                 if cells:
                     rh[n] = cells
             if rh:
-                tables.append(("Relative humidity (%), from each model's temperature and dewpoint", rh))
+                tables.append(("Relative humidity (%), from each model's temperature and dewpoint "
+                               "(ensembles: the mean of their members' RH)", rh))
     cloud_cols = [n for n in ordered(clouds) if any(x is not None for x in (clouds[n].get("cloud_pct") or []))]
     if cloud_cols:
         cells = {}
@@ -733,13 +736,14 @@ def _hourly(fc, series, order, cloud_series=None):
            "(which also use interval max/min fields where available) are what get scored."]
     if any(title.startswith("Dewpoint") for title, _ in tables):
         out += ["", "Dewpoint and relative humidity (context, not scored): the models' 2 m dewpoint "
-                "(GFS_MOS, NBM and USL from their own guidance; the ensembles have none). Moist air "
+                "(GFS_MOS, NBM and USL from their own guidance; ENS, AIFS_ENS and GEFS the mean of "
+                "their members). Moist air "
                 "(a high dewpoint) slows the overnight cooling, and the low rarely falls far below the "
                 "evening dewpoint on a calm night; RH near 100% means fog or low cloud is possible."]
     if cloud_cols:
         out += ["", "Cloud cover (context, not scored): total cloud cover from each model's own "
                 "output; GFS_MOS gives categories (clear 0, few 19, scattered 44, broken 75, "
-                "overcast 100) and the ensembles none. * = averaged over the preceding interval "
+                "overcast 100) and the ensembles the mean of their members. * = averaged over the preceding interval "
                 "rather than instantaneous. Clouds overnight hold the low up; clouds by day hold "
                 "the high down."]
     for i, (title, cells) in enumerate(tables):

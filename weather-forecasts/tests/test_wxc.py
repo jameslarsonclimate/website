@@ -802,7 +802,7 @@ def test_cache_roundtrip_and_reuse(fake_herbie, monkeypatch):
 
 
 # ----------------------------------------------------------------- ensembles
-def _openmeteo(day0="2026-09-29", seed=1):
+def _openmeteo(day0="2026-09-29", seed=1, humid=True):
     rng = np.random.default_rng(seed)
     times = pd.date_range(f"{day0} 00:00", periods=96, freq="h")
     hourly = {"time": [t.strftime("%Y-%m-%dT%H:%M") for t in times]}
@@ -820,6 +820,10 @@ def _openmeteo(day0="2026-09-29", seed=1):
             if wet:
                 p[40:50] = 0.02                          # 16-01Z of the day after day0
             hourly[f"precipitation{tag}{suffix}"] = list(p)
+            if humid:                                    # display-only fields (dewpoint, RH, cloud)
+                hourly[f"dew_point_2m{tag}{suffix}"] = [60.0 + mem % 2] * 96
+                hourly[f"relative_humidity_2m{tag}{suffix}"] = [70.0 + 10 * (mem % 2)] * 96
+                hourly[f"cloud_cover{tag}{suffix}"] = [None] * 3 + [float(mem % 2) * 100] * 93
     return {"hourly": hourly}
 
 
@@ -846,6 +850,19 @@ def test_ensemble_summary(monkeypatch):
                    if k.endswith("_ecmwf_ifs025_ensemble")})
     s1 = wxc_ens.summarize_members(single, "ecmwf_ifs025", date(2026, 9, 30))
     assert s1["n_members"] == 51 and s1["stats"] == summ["stats"]
+    # dewpoint / RH member means over the day, the cloud cover mean over the whole response
+    # (members alternate 60/61 F, 70/80 %, 0/100 %: 26 odd of 51); an hour with no member is None
+    s = summ["series"]
+    assert s["dpt_f"] == [60.5] * 25 and s["rh_pct"] == [75.0] * 25
+    assert len(summ["cloud"]["times"]) == 96 and summ["cloud"]["cloud_pct"][:3] == [None] * 3
+    assert summ["cloud"]["cloud_pct"][3] == pytest.approx(100 * 25 / 51)
+    # a response without them (or a member missing one) still gives the forecast, without them
+    dry = wxc_ens.summarize_members(_openmeteo(humid=False)["hourly"], "ecmwf_ifs025", date(2026, 9, 30))
+    assert dry["stats"] == summ["stats"] and dry["cloud"] is None
+    assert "dpt_f" not in dry["series"] and "rh_pct" not in dry["series"]
+    part = {k: v for k, v in data["hourly"].items() if k != "dew_point_2m_member03_ecmwf_ifs025_ensemble"}
+    p1 = wxc_ens.summarize_members(part, "ecmwf_ifs025", date(2026, 9, 30))
+    assert "dpt_f" not in p1["series"] and p1["series"]["rh_pct"] == [75.0] * 25
     with pytest.raises(ValueError, match="no ecmwf_aifs025 ensemble members"):
         wxc_ens.summarize_members({"time": data["hourly"]["time"]}, "ecmwf_aifs025", date(2026, 9, 30))
 
@@ -857,6 +874,11 @@ def test_ensemble_summary(monkeypatch):
     assert out["GEFS"]["ensemble"]["n_members"] == 31 and out["GEFS"]["pop"]["n_members"] == 31
     assert "GEPS" not in out
     assert "not in the consensus" in out["GEFS"]["note"] and "not in" not in out["ENS"]["note"]
+    assert "dew_point_2m" in calls[0]["hourly"] and "cloud_cover" in calls[0]["hourly"]
+    assert "cloud" not in out["ENS"] and out["ENS"]["series"]["rh_pct"][0] == 75.0
+    import wxc_clouds
+    c = wxc_clouds.load_cloud("KTPA", "GEFS", datetime(2026, 9, 29, 0))   # cloud cover: its own file
+    assert c["model"] == "GEFS" and c["init_time_utc"] == "2026-09-29T00" and len(c["times"]) == 93
     wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30))
     assert len(calls) == 1                                   # second call served from the cache
 

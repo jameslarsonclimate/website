@@ -4,7 +4,8 @@
    hourly average of the models switched on, and the observations. Hovering a day shows its
    numbers in the card below the chart; a click pins it.
    The dewpoint and RH panels (below the cloud panel) are off until the "Dewpoint & RH panels"
-   button turns them on; RH is computed here from each temperature and dewpoint.
+   button turns them on; RH is computed here from each temperature and dewpoint (the ensembles
+   bring their own: the mean of their members' RH).
    Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
 (function () {
   'use strict';
@@ -111,11 +112,11 @@
   const es = f => { const c = (f - 32) / 1.8; return Math.exp(17.625 * c / (243.04 + c)); };
   const rhOf = (t, td) => t == null || td == null ? null : Math.min(100, 100 * es(Math.min(td, t)) / es(t));
 
-  // RH of every model run and report with a dewpoint
+  // RH of every model run and report with a dewpoint (unless the run brings its own)
   function addRh() {
     for (const d of T.days) {
       for (const g of [d.models, d.latest || {}]) {
-        for (const m of Object.values(g)) if (m.td && m.temp) m.rh = m.temp.map((t, i) => rhOf(t, m.td[i]));
+        for (const m of Object.values(g)) if (m.td && m.temp && !m.rh) m.rh = m.temp.map((t, i) => rhOf(t, m.td[i]));
       }
       const r = d.obs && d.obs.reports;
       if (r && r.td) r.rh = r.temp.map((t, i) => rhOf(t, r.td[i]));

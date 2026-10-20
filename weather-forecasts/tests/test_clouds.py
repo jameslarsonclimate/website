@@ -224,8 +224,14 @@ def test_model_cloud_caches_and_fills_gaps(fake_herbie, monkeypatch):
     # a failing model is left out with a warning, the others still come back
     FakeFastHerbie.FIELDS.pop(":tcc:")
     out = m.collect_clouds(st, day, {"HRRR": "2026-09-30T12", "AIFS": "2026-09-30T06",
-                                     "ENS": "2026-09-30T00"}, pts)
-    assert set(out) == {"HRRR"}
+                                     "ENS": "2026-09-30T00", "REFS": "2026-09-30T00"}, pts)
+    assert set(out) == {"HRRR"}           # ENS: no cloud file for that run; REFS: none ever
+    # an ensemble's cloud cover comes from the file wxc_ens wrote with the run, never downloaded
+    times = [f"2026-10-01T{h:02d}:00" for h in range(6, 24)]
+    wxc_clouds.save_cloud("KTPA", "ENS", "2026-09-30T00", {"model": "ENS", "init_time_utc": "2026-09-30T00",
+                                                          "times": times, "cloud_pct": [50.0] * len(times)})
+    out = m.collect_clouds(st, day, {"ENS": "2026-09-30T00"}, pts, fetch_grib=False)
+    assert out["ENS"]["cloud_pct"] == [50.0] * len(times)
 
 
 # ----------------------------------------------------------------- isolation from scoring

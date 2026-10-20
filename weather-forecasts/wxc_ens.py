@@ -17,6 +17,10 @@ precip total. The summary gives the ensemble mean (used as the model's forecast)
 percentiles for box plots and precipitation probabilities.
 Note: Open-Meteo interpolates the 3-hourly (IFS, GEFS) / 6-hourly (AIFS) output to
 hourly values, so highs and lows are only as good as those output times (muted extremes).
+Dewpoint, RH and total cloud cover come in the same request (DISPLAY ONLY, never scored and
+never a reason to fail a model): the hourly member means go into the series (dpt_f, rh_pct;
+RH is the mean of the members' own RH, not RH of the mean temperature and dewpoint), and the
+cloud cover mean into the run's cloud file (wxc_clouds), like the GRIB models' cloud cover.
 Each model also gets a PoP record (wxc_pop): the share of members with >= 0.01" in the day
 and in each 6-h block (block edges fall on output times, so the block sums are exact).
 If Open-Meteo's feed stalls, its "latest" run can be days old (10/11-10/12: the 10/10 18Z ECMWF
@@ -30,6 +34,7 @@ from typing import Optional
 import numpy as np
 
 import wxc_cache
+import wxc_clouds
 import wxc_pop
 
 API = "https://ensemble-api.open-meteo.com/v1/ensemble"
@@ -43,6 +48,7 @@ from wxc_verify import NOT_IN_CONSENSUS, MAX_RUN_AGE_HOURS, run_too_old   # GEFS
 EXTRA_ENABLED = True       # False skips GEFS (ECMWF ensembles unaffected)
 PRECIP_THRESHOLDS = [0.01, 0.10, 0.25, 0.50]
 PCTS = [0, 10, 25, 50, 75, 90, 100]
+HOURLY = "temperature_2m,wind_speed_10m,precipitation,dew_point_2m,relative_humidity_2m,cloud_cover"
 
 
 def _get_json(url, params=None):
@@ -129,8 +135,45 @@ def summarize_members(hourly: dict, model: str, target_day: date) -> dict:
         "wsp_kt": [round(float(x), 1) for x in np.nanmean(ww, 0)],
         "precip_cum_in": [round(float(x), 3) for x in np.nanmean(pp, 0)],
     }
-    return {"n_members": len(ids), "stats": stats, "series": series, "pop": pop,
+    cloud = None
+    try:
+        series.update(_display_means(hourly, model, ids, sel, arr))
+        cloud = _cloud_mean(hourly, model, ids, times, arr)
+    except Exception as exc:              # display only: never costs the model its forecast
+        print(f"  warning: {model} ensemble dewpoint/RH/cloud skipped ({type(exc).__name__}: {exc})")
+    return {"n_members": len(ids), "stats": stats, "series": series, "pop": pop, "cloud": cloud,
             "members": {v: [round(float(x), 2) for x in vals] for v, vals in per.items()}}
+
+
+def _member_mean(d, ids, mask, arr):
+    """Hourly mean over the members (None where every member is missing), or None when a
+    member lacks the variable."""
+    if not d or not set(ids) <= set(d):
+        return None
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)      # an hour with no member values
+        mean = np.nanmean(np.array([arr(d, m, mask) for m in ids]), 0)
+    return [None if not np.isfinite(x) else float(x) for x in mean]
+
+
+def _display_means(hourly, model, ids, sel, arr) -> dict:
+    """Hourly member-mean dewpoint (degF) and RH (%) over the day; display only."""
+    out = {}
+    for key, var, nd in (("dpt_f", "dew_point_2m", 1), ("rh_pct", "relative_humidity_2m", 0)):
+        mean = _member_mean(members(hourly, var, model), ids, sel, arr)
+        if mean and any(x is not None for x in mean):
+            out[key] = [None if x is None else round(x, nd) for x in mean]
+    return out
+
+
+def _cloud_mean(hourly, model, ids, times, arr) -> Optional[dict]:
+    """Member-mean total cloud cover (%) at every hour of the response (a cloud file covers
+    the whole run, as the GRIB models' do); display only."""
+    mean = _member_mean(members(hourly, "cloud_cover", model), ids, np.ones(len(times), bool), arr)
+    if not mean or all(x is None for x in mean):
+        return None
+    return {"times": [str(t)[:16] for t in times], "cloud_pct": mean}
 
 
 def _result(label, init, summ, target_day):
@@ -194,7 +237,7 @@ def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, o
     def request(group):
         return _get_json(API, {
             "latitude": station.lat, "longitude": station.lon,
-            "hourly": "temperature_2m,wind_speed_10m,precipitation",
+            "hourly": HOURLY,
             "models": ",".join(MODELS[l] for l, _ in group),
             "temperature_unit": "fahrenheit", "wind_speed_unit": "kn", "precipitation_unit": "inch",
             "timezone": "GMT", "past_days": 1, "forecast_days": 4,
@@ -203,11 +246,20 @@ def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, o
     def summarize(group, data):
         for label, init in group:
             try:
-                res = _result(label, init, summarize_members(data["hourly"], MODELS[label], target_day), target_day)
+                summ = summarize_members(data["hourly"], MODELS[label], target_day)
+                res = _result(label, init, summ, target_day)
                 wxc_cache.save(station.icao, label, init, target_day, res)
                 out[label] = res
             except Exception as exc:
                 out[label] = {**fail, "init_time_utc": init.strftime("%Y-%m-%dT%H"), "error": str(exc)}
+                continue
+            try:       # cloud cover in its own file, never in the result (display only)
+                if summ.get("cloud") and wxc_clouds.CLOUDS_ENABLED:
+                    wxc_clouds.save_cloud(station.icao, label, init, wxc_clouds.merge(
+                        None, {"model": label, "init_time_utc": init.strftime("%Y-%m-%dT%H"),
+                               "step": False, "source": "Open-Meteo ensemble mean", **summ["cloud"]}))
+            except Exception as exc:
+                print(f"  warning: {label} cloud cover not saved ({type(exc).__name__}: {exc})")
 
     if need:
         try:

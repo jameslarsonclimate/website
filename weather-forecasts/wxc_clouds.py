@@ -10,6 +10,8 @@ older cached forecasts stay valid; a run without a cloud file is extracted separ
 Sources:
   HRRR, RRFS, GFS  TCDC, entire atmosphere (GRIB, see fetch_cloud_grib in the main script)
   IFS, AIFS        tcc (0-1 fraction -> %)
+  ENS, AIFS_ENS,   Open-Meteo ensemble members' mean cloud_cover (%), saved with the run by
+  GEFS             wxc_ens (only from when it was kept: Open-Meteo serves only the latest run)
   NBM              NBS SKY row (%)
   GFS_MOS          MAV CLD categories -> % (drawn as steps)
   USL              the run page's "Sky Cover" column (%)

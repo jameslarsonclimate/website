@@ -452,7 +452,9 @@ def model_cloud(station, label, init_iso, day, points, fetch_grib=True):
     now (GRIB hours the file lacks; text products fetched again by run time) and saved."""
     init = pd.Timestamp(init_iso)
     rec = wxc_clouds.load_cloud(station.icao, label, init)
-    if label in GRIB_MODELS:
+    if label in wxc_ens.MODELS:
+        pass             # written with the run by wxc_ens (Open-Meteo keeps only the latest run)
+    elif label in GRIB_MODELS:
         _, step, max_fxx = cloud_grib_setup(label, init, station)
         start = pd.Timestamp(datetime(day.year, day.month, day.day, 6))
         fxx, _ = forecast_hours_for_day(init, day, step, max_fxx, partial=init >= start)
@@ -475,8 +477,9 @@ def collect_clouds(station, day, runs, points, fetch_grib=True):
     without cloud data is left out with a warning; this never raises."""
     out = {}
     for label, init in runs.items():
-        if not init or (label not in GRIB_MODELS and label not in wxc_clouds.TEXT_MODELS):
-            continue                     # ENS / CAM ensembles: no cloud cover
+        if not init or (label not in GRIB_MODELS and label not in wxc_clouds.TEXT_MODELS
+                        and label not in wxc_ens.MODELS):
+            continue                     # CAM ensembles: no cloud cover
         try:
             rec = model_cloud(station, label, init, day, points, fetch_grib)
         except Exception as exc:
@@ -554,6 +557,8 @@ def plot_forecast(results, mos, cons, station, day, path, clouds=None):
     if clouds is not None:
         try:
             # the same "o-" (grid models) / "s--" alpha 0.8 (text guidance) lines as above
+            # GEFS left out, as in the panels above
+            clouds = {k: v for k, v in clouds.items() if k not in wxc_verify.NOT_IN_CONSENSUS}
             wxc_clouds.draw_models(axes[3], clouds, lambda n: dict(ls="--", marker="s", alpha=0.8)
                                    if n in MOS_ORDER + ENS_ORDER else dict(ls="-", marker="o"))
         except Exception as exc:          # never lose the figure over the cloud panel
@@ -689,8 +694,10 @@ def collect_series(results, mos):
                       "tmax_f": m.get("tmax_f"), "tmin_f": m.get("tmin_f"),
                       "temp_f": s.get("tmp_f"), "wind_kt": s.get("wsp_kt"),
                       "precip_in": s.get("precip_cum_in")}
-            if s.get("dpt_f"):                           # MOS / NBM dewpoint, display only
+            if s.get("dpt_f"):                           # MOS / NBM / ensemble dewpoint, display only
                 out[k]["dewpt_f"] = s["dpt_f"]
+            if s.get("rh_pct"):                          # ensembles: the members' mean RH, display only
+                out[k]["rh_pct"] = s["rh_pct"]
             if s.get("tmp_p10") and s.get("tmp_p90"):      # ensembles: members' 10-90% range
                 out[k]["temp_p10"], out[k]["temp_p90"] = s["tmp_p10"], s["tmp_p90"]
     return out
@@ -871,7 +878,7 @@ def series_dewpoints(station, day, points, fetch_grib=True, deadline=None):
         if "dewpt_f" in m or not m.get("times") or not m.get("init_time_utc"):
             continue
         if name not in DEWPT_SEARCH and name not in wxc_mos.MOS_PRODUCTS and name != "USL":
-            continue                                  # ensembles: no dewpoint
+            continue                     # ensembles: dewpoint only from when it was kept (no rebuild)
         if deadline is not None and _time.time() > deadline:
             break
         td = None
@@ -927,7 +934,7 @@ def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDG
     store.setdefault("note", "Display only: cloud cover is not scored. Errors are forecast minus "
                              "observed in percentage points (positive = too cloudy).")
     days_store = store.setdefault("stations", {}).setdefault(station.icao, {})
-    eligible = set(GRIB_MODELS) | set(wxc_clouds.TEXT_MODELS)
+    eligible = set(GRIB_MODELS) | set(wxc_clouds.TEXT_MODELS) | set(wxc_ens.MODELS)
     todo = []
     for d in verif.get("days", []):
         old = days_store.get(d["date"])
@@ -961,6 +968,8 @@ def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDG
             init = (fc or {}).get("init_time_utc")
             if name not in eligible or not init:
                 continue
+            if name in wxc_ens.MODELS and wxc_clouds.load_cloud(station.icao, name, pd.Timestamp(init)) is None:
+                continue         # a run from before ensemble cloud cover was kept: can't be had
             try:
                 models[name] = (init, model_cloud(station, name, init, day, points, fetch_grib))
             except Exception as exc:
@@ -1247,7 +1256,7 @@ def main():
     if wxc_clouds.CLOUDS_ENABLED:          # display only: after every scored output is written
         try:
             runs = {k: results[k]["metrics"].get("init_time_utc") for k in GRIB_ORDER if k in results}
-            runs.update({k: mos[k].get("init_time_utc") for k in wxc_clouds.TEXT_MODELS
+            runs.update({k: mos[k].get("init_time_utc") for k in [*wxc_clouds.TEXT_MODELS, *ENS_ORDER]
                          if k in mos and not mos[k].get("error")})
             clouds = collect_clouds(station, day, runs, points, fetch_grib=not args.skip_grib)
             if clouds:       # the target day's cloud forecast, for the AI brief (display only)

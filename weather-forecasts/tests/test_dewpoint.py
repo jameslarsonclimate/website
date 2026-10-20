@@ -99,6 +99,12 @@ def test_collect_series_dewpoint(m):
     assert out["HRRR"]["dewpt_f"] == [38.0, None, 41.0]
     assert "dewpt_f" not in out["GFS"]
     assert out["NBM"]["dewpt_f"] == [38.0]
+    ens = {"init_time_utc": "2026-10-13T12", "tmax_f": 50, "tmin_f": 40,
+           "series": {"times": ["2026-10-14T06:00"], "tmp_f": [40.0], "wsp_kt": [3.0], "dpt_f": [38.5],
+                      "rh_pct": [91.0], "tmp_p10": [39.0], "tmp_p90": [41.0]}}
+    out = m.collect_series({}, {"ENS": ens})
+    assert out["ENS"]["dewpt_f"] == [38.5] and out["ENS"]["rh_pct"] == [91.0]
+    assert "rh_pct" not in m.collect_series({}, {"NBM": mos})["NBM"]
 
 
 def test_summarize_keeps_failed_dewpoint_as_none(m):
@@ -184,3 +190,5 @@ def test_timeline_model_dewpoint():
     assert tl._model(rec, DAY)["td"] == [38.0, None]
     assert "td" not in tl._model({**rec, "dewpt_f": None}, DAY)
     assert "td" not in tl._model({**rec, "dewpt_f": [None, None]}, DAY)
+    assert "rh" not in tl._model(rec, DAY)                    # the page works it out from T and Td
+    assert tl._model({**rec, "rh_pct": [91.4, 88.0]}, DAY)["rh"] == [91.0, 88.0]   # ensembles: their own

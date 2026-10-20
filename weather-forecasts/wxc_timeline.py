@@ -182,7 +182,8 @@ def _hours(times, day: date) -> list:
 
 
 def _model(rec: dict, day: date) -> Optional[dict]:
-    """A series model -> {init, tmax, tmin, h, temp, [td], wind, precip, [p10, p90]} inside the day."""
+    """A series model -> {init, tmax, tmin, h, temp, [td], [rh], wind, precip, [p10, p90]} inside
+    the day. rh only for the ensembles (their members' mean RH); the page computes the others'."""
     times = rec.get("times") or []
     if not times:
         return None
@@ -204,6 +205,9 @@ def _model(rec: dict, day: date) -> Optional[dict]:
     td = pick("dewpt_f", 1)
     if td:
         out["td"] = td
+    rh = pick("rh_pct", 0)
+    if rh:
+        out["rh"] = rh
     p10, p90 = pick("temp_p10", 1), pick("temp_p90", 1)
     if p10 and p90:
         out["p10"], out["p90"] = p10, p90
