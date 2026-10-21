@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-21T18:30:09+00:00",
+  "generated_at_utc": "2026-10-21T19:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -85,11 +85,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
-      "tmax_f": 56.4,
-      "tmin_f": 40.5,
-      "wind_max_kt": 4.8,
+      "tmax_f": 56.1,
+      "tmin_f": 39.8,
+      "wind_max_kt": 4.6,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-21T06",
+      "init_time_utc": "2026-10-21T12",
       "valid_range_utc": [
         "2026-10-22T06",
         "2026-10-23T06"
@@ -124,43 +124,35 @@
       "valid_range_utc": [
         "2026-10-22T06",
         "2026-10-23T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-21T18:00:09+00:00",
-        "error": "502 Server Error: Bad Gateway for url: https://mesonet.agron.iastate.edu/api/1/mos.json?station=KOLM&model=GFS"
-      }
+      ]
     },
     "NBM": {
-      "tmax_f": 62.0,
-      "tmin_f": 35.0,
+      "tmax_f": 61.0,
+      "tmin_f": 36.0,
       "wind_max_kt": 4.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 4,
+      "pop06_max_pct": 6,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.02,
-          "12-18": 0.03,
+          "12-18": 0.02,
           "18-00": 0.04,
-          "00-06": 0.02
+          "00-06": 0.06
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.04,
-          0.106
+          0.06,
+          0.133
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-21T12",
+      "init_time_utc": "2026-10-21T18",
       "valid_range_utc": [
         "2026-10-22T06",
         "2026-10-23T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-21T18:00:09+00:00",
-        "error": "502 Server Error: Bad Gateway for url: https://mesonet.agron.iastate.edu/api/1/mos.json?station=KOLM&model=NBS"
-      }
+      ]
     },
     "USL": {
       "tmax_f": 59.0,
@@ -973,9 +965,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.01,
+      "precip_in": 0.0,
       "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-21T06",
+      "init_time_utc": "2026-10-21T12",
       "valid_range_utc": [
         "2026-10-22T06",
         "2026-10-23T06"
@@ -983,7 +975,7 @@
       "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
       "pop": {
-        "p24": 0.278,
+        "p24": 0.167,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -997,18 +989,18 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.006,
-            "std": 0.006,
+            "mean": 0.005,
+            "std": 0.005,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
-            "p50": 0.005,
-            "p75": 0.011,
-            "p90": 0.014,
-            "p100": 0.016
+            "p50": 0.004,
+            "p75": 0.009,
+            "p90": 0.012,
+            "p100": 0.013
           },
           "precip_prob": {
-            "0.01": 0.278,
+            "0.01": 0.167,
             "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
@@ -1036,24 +1028,24 @@
         ],
         "members": {
           "precip_in": [
-            0.005,
-            0.009,
-            0.001,
             0.002,
-            0.006,
-            0.007,
-            0.0,
-            0.0,
             0.005,
+            0.0,
+            0.001,
+            0.01,
             0.006,
             0.0,
+            0.0,
+            0.004,
+            0.004,
+            0.0,
+            0.012,
+            0.0,
+            0.01,
             0.013,
             0.0,
-            0.016,
-            0.015,
-            0.0,
-            0.011,
-            0.013
+            0.012,
+            0.008
           ]
         }
       }
@@ -1171,8 +1163,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 60.7,
-      "tmin_f": 34.6,
+      "tmax_f": 60.5,
+      "tmin_f": 34.7,
       "wind_max_kt": 8.6,
       "precip_in": 0.0,
       "method": {
@@ -1288,17 +1280,10 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-10-21T18:30:09+00:00",
+    "ok": true,
+    "checked_at_utc": "2026-10-21T19:00:08+00:00",
     "connectivity": false,
-    "failed": [
-      "GFS_MOS",
-      "NBM"
-    ],
-    "carried_over": [
-      "GFS_MOS",
-      "NBM"
-    ],
-    "message": "The update at 18:30Z failed for some sources; latest forecasts not pulled for GFS_MOS, NBM. Showing the last good forecasts for GFS_MOS, NBM."
+    "failed": [],
+    "carried_over": []
   }
 }
