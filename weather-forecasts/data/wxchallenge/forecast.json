@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-21T18:00:09+00:00",
+  "generated_at_utc": "2026-10-21T18:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -124,7 +124,11 @@
       "valid_range_utc": [
         "2026-10-22T06",
         "2026-10-23T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-21T18:00:09+00:00",
+        "error": "502 Server Error: Bad Gateway for url: https://mesonet.agron.iastate.edu/api/1/mos.json?station=KOLM&model=GFS"
+      }
     },
     "NBM": {
       "tmax_f": 62.0,
@@ -152,7 +156,11 @@
       "valid_range_utc": [
         "2026-10-22T06",
         "2026-10-23T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-21T18:00:09+00:00",
+        "error": "502 Server Error: Bad Gateway for url: https://mesonet.agron.iastate.edu/api/1/mos.json?station=KOLM&model=NBS"
+      }
     },
     "USL": {
       "tmax_f": 59.0,
@@ -1280,10 +1288,17 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-21T18:00:09+00:00",
+    "ok": false,
+    "checked_at_utc": "2026-10-21T18:30:09+00:00",
     "connectivity": false,
-    "failed": [],
-    "carried_over": []
+    "failed": [
+      "GFS_MOS",
+      "NBM"
+    ],
+    "carried_over": [
+      "GFS_MOS",
+      "NBM"
+    ],
+    "message": "The update at 18:30Z failed for some sources; latest forecasts not pulled for GFS_MOS, NBM. Showing the last good forecasts for GFS_MOS, NBM."
   }
 }
