@@ -49,8 +49,9 @@ HALF_LIFE_DAYS = {"tmax_f": 9.0, "tmin_f": 9.0, "wind_max_kt": 18.0, "precip_in"
 BIAS_SHRINK_DAYS = {"tmax_f": 3, "tmin_f": 1, "wind_max_kt": 3, "precip_in": 3}
 MAE_OFFSET = 0.5   # consensus weight = 1/(MAE + MAE_OFFSET)
 OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from the member median
-# shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble
-NOT_IN_CONSENSUS = {"GEFS"}
+# shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble, and
+# IFS HRES at 9 km (wxc_ifs_hres; added 2026-10-21) until it has a track record of its own
+NOT_IN_CONSENSUS = {"GEFS", "IFS_HRES"}
 # A member whose run is more than STALE_HOURS older than the newest member's is left out of the
 # consensus (e.g. Open-Meteo's ECMWF ensemble feed stalling while every other model updates).
 STALE_HOURS = 36
@@ -687,6 +688,7 @@ def print_summary(res: dict):
 
 # same colours as the forecast figure (latest.png); MOS dashed, consensus black
 STYLE = {"HRRR": ("C0", "-"), "RRFS": ("C8", "-"), "IFS": ("C1", "-"), "GFS": ("C2", "-"), "AIFS": ("C3", "-"),
+         "IFS_HRES": ("#a63603", "-"),       # IFS at 9 km: a darker orange than IFS
          "GFS_MOS": ("C2", "--"), "NBM": ("C5", "--"), "USL": ("C6", "--"),
          "ENS": ("C9", "--"), "AIFS_ENS": ("C3", "--"), "GEFS": ("C4", "--"),
          "CONSENSUS": ("k", "-")}

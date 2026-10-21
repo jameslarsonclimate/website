@@ -23,6 +23,7 @@ import wxc_clouds  # noqa: E402
 import wxc_goes  # noqa: E402
 import wxc_usl  # noqa: E402
 from wxc_stations import STATIONS, default_goes  # noqa: E402
+from test_ifs_hres import single_run  # noqa: E402
 from test_wxc import (CLI_TEXT, KSAV, FakeFastHerbie, _main_module, _mos_rows,  # noqa: E402,F401
                       _openmeteo, fake_herbie)
 
@@ -237,7 +238,7 @@ def test_model_cloud_caches_and_fills_gaps(fake_herbie, monkeypatch):
 # ----------------------------------------------------------------- isolation from scoring
 FIXED_NOW = datetime(2025, 9, 28, 20, 0, tzinfo=timezone.utc)
 MODULES = ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations", "wxc_usl", "wxc_ens",
-           "wxc_cam_ens", "wxc_cache", "wxc_clouds", "wxc_goes", "wxc_today", "wxc_timeline",
+           "wxc_ifs_hres", "wxc_cam_ens", "wxc_cache", "wxc_clouds", "wxc_goes", "wxc_today", "wxc_timeline",
            "getForecast_wxChallenge-pushGitHub"]
 
 
@@ -251,7 +252,7 @@ def _offline_main(tmp_path, monkeypatch, name, clouds_on):
     for mod in MODULES:
         monkeypatch.delitem(sys.modules, mod, raising=False)
     import wxc_cache as ca, wxc_clouds as cl, wxc_goes as go, wxc_obs as o, wxc_mos as mo  # noqa: E401
-    import wxc_usl as us, wxc_ens as en, wxc_cam_ens as ce, wxc_verify as v  # noqa: E401
+    import wxc_usl as us, wxc_ens as en, wxc_cam_ens as ce, wxc_verify as v, wxc_ifs_hres as hr  # noqa: E401
     m = importlib.import_module("getForecast_wxChallenge-pushGitHub")
     assert Path(m.__file__).parent == work
     ca.CACHE_DIR = work / "cache"
@@ -274,6 +275,9 @@ def _offline_main(tmp_path, monkeypatch, name, clouds_on):
     monkeypatch.setattr(us, "_get", lambda url: None)
     monkeypatch.setattr(en, "latest_init", lambda model: datetime(2025, 9, 28, 0, tzinfo=timezone.utc))
     monkeypatch.setattr(en, "_get_json", lambda url, params=None: _openmeteo("2025-09-28"))
+    monkeypatch.setattr(hr, "_get_json", lambda url, params=None: (
+        {"last_run_initialisation_time": int(datetime(2025, 9, 28, 6, tzinfo=timezone.utc).timestamp())}
+        if url == hr.META else single_run(params["run"])))
     cam_init = datetime(2025, 9, 28, 12, tzinfo=timezone.utc)
     monkeypatch.setattr(ce, "get_refs", lambda st, day, now: ce._result(
         "REFS", cam_init, day, ["a", "b", "c"], [0.0, 0.12, 0.4], "test"))
@@ -352,7 +356,7 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
     d = ctx["2025-09-26"]                       # a hindcast day: every grid model has its scored run's cloud
     assert d["obs"]["day_pct"] is not None and d["obs"]["night_pct"] is not None
     scored = next(v["models"] for v in verified if v["date"] == "2025-09-26")
-    eligible = {"HRRR", "RRFS", "IFS", "GFS", "AIFS", "GFS_MOS", "NBM", "USL"}
+    eligible = {"HRRR", "RRFS", "IFS", "IFS_HRES", "GFS", "AIFS", "GFS_MOS", "NBM", "USL"}
     assert set(d["models"]) | set(d["missing"]) == eligible & set(scored)     # exactly the scored runs
     assert {"HRRR", "IFS", "GFS"} <= set(d["models"])
     assert d["models"]["HRRR"]["day_pct"] == 35.0 and d["models"]["IFS"]["night_pct"] == 40.0

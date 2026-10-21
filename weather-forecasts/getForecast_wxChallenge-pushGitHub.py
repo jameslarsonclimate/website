@@ -4,7 +4,8 @@ WxChallenge forecast helper.
 For the current station (see wxc_stations.py, or pass an ICAO id on the command line):
   1. pulls observations for the last few completed days (IEM METARs + NWS CLI wind)
   2. verifies earlier runs against those observations (data/wxchallenge/verification.json)
-  3. fetches HRRR, RRFS, ECMWF IFS, GFS and AIFS grids (Herbie) plus GFS MOS and
+  3. fetches HRRR, RRFS, ECMWF IFS, GFS and AIFS grids (Herbie), ECMWF IFS HRES at 9 km
+     (Open-Meteo single runs, wxc_ifs_hres.py; not in the consensus yet) plus GFS MOS and
      NBM text guidance (IEM), each summarised for the next WxChallenge day (06Z-06Z),
      the ECMWF and GEFS ensembles (Open-Meteo; GEFS not in the consensus), the 3 km
      precip ensembles REFS and HRRRCast (wxc_cam_ens.py) and NBM QMD probabilistic precip
@@ -45,6 +46,7 @@ import wxc_carryover
 import wxc_clouds
 import wxc_ens
 import wxc_goes
+import wxc_ifs_hres
 import wxc_links
 import wxc_mos
 import wxc_nbm_qmd
@@ -68,7 +70,8 @@ HINDCAST_HOUR = 23        # hindcasts use the runs available at 23Z the day befo
                           # deadline, like a real submission: includes the 22Z USL, 18Z GFS and GFS MOS)
 MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't posted yet
 TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
-GRIB_ORDER = ["HRRR", "RRFS", "IFS", "GFS", "AIFS"]
+# grid models: the GRIB_MODELS below plus IFS_HRES (IFS at 9 km, hourly, from Open-Meteo)
+GRIB_ORDER = ["HRRR", "RRFS", "IFS", wxc_ifs_hres.LABEL, "GFS", "AIFS"]
 MOS_ORDER = list(wxc_mos.MOS_PRODUCTS) + ["USL"]   # GFS_MOS, NBM (IEM text) + USL (microclimates.org)
 ENS_ORDER = list(wxc_ens.MODELS)                    # ENS, AIFS_ENS, GEFS (Open-Meteo)
 CAM_ORDER = list(wxc_cam_ens.MODELS)                # HRRRCAST, REFS (3 km precip-only ensembles)
@@ -454,6 +457,9 @@ def model_cloud(station, label, init_iso, day, points, fetch_grib=True):
     rec = wxc_clouds.load_cloud(station.icao, label, init)
     if label in wxc_ens.MODELS:
         pass             # written with the run by wxc_ens (Open-Meteo keeps only the latest run)
+    elif label == wxc_ifs_hres.LABEL:
+        if rec is None and fetch_grib:   # written with the run; every run is archived, so ask again
+            rec = wxc_ifs_hres.fetch_cloud(station, init)
     elif label in GRIB_MODELS:
         _, step, max_fxx = cloud_grib_setup(label, init, station)
         start = pd.Timestamp(datetime(day.year, day.month, day.day, 6))
@@ -477,7 +483,7 @@ def collect_clouds(station, day, runs, points, fetch_grib=True):
     without cloud data is left out with a warning; this never raises."""
     out = {}
     for label, init in runs.items():
-        if not init or (label not in GRIB_MODELS and label not in wxc_clouds.TEXT_MODELS
+        if not init or (label not in GRIB_ORDER and label not in wxc_clouds.TEXT_MODELS
                         and label not in wxc_ens.MODELS):
             continue                     # CAM ensembles: no cloud cover
         try:
@@ -506,7 +512,8 @@ def plot_forecast(results, mos, cons, station, day, path, clouds=None):
     import matplotlib.dates as mdates
     import matplotlib.pyplot as plt
 
-    colors = {"HRRR": "C0", "RRFS": "C8", "IFS": "C1", "GFS": "C2", "AIFS": "C3",
+    colors = {"HRRR": "C0", "RRFS": "C8", "IFS": "C1", "IFS_HRES": wxc_verify.STYLE["IFS_HRES"][0],
+              "GFS": "C2", "AIFS": "C3",
               "GFS_MOS": "C2", "NBM": "C5", "USL": "C6", "ENS": "C9", "AIFS_ENS": "C3",
               "GEFS": "C4"}
     n = 3 if clouds is None else 4
@@ -558,7 +565,7 @@ def plot_forecast(results, mos, cons, station, day, path, clouds=None):
         try:
             # the same "o-" (grid models) / "s--" alpha 0.8 (text guidance) lines as above
             # GEFS left out, as in the panels above
-            clouds = {k: v for k, v in clouds.items() if k not in wxc_verify.NOT_IN_CONSENSUS}
+            clouds = {k: v for k, v in clouds.items() if k not in wxc_verify.NOT_IN_CONSENSUS or k in GRIB_ORDER}
             wxc_clouds.draw_models(axes[3], clouds, lambda n: dict(ls="--", marker="s", alpha=0.8)
                                    if n in MOS_ORDER + ENS_ORDER else dict(ls="-", marker="o"))
         except Exception as exc:          # never lose the figure over the cloud panel
@@ -638,6 +645,9 @@ def run_models(station, day, points, as_of=None, skip_grib=False, only=None, par
             print("Skipping RRFS (station outside RRFS domains)")
             continue
         results[label] = fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of, partial)
+    # IFS HRES 9 km: one small request (so also with skip_grib); every run archived, so hindcast too
+    if not partial and (only is None or wxc_ifs_hres.LABEL in only):
+        results[wxc_ifs_hres.LABEL] = wxc_ifs_hres.get_forecast(station, day, as_of)
     mos = {}
     if only is None or any(k in only for k in MOS_ORDER):
         print("Fetching MOS / NBM text guidance...")
@@ -934,7 +944,7 @@ def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDG
     store.setdefault("note", "Display only: cloud cover is not scored. Errors are forecast minus "
                              "observed in percentage points (positive = too cloudy).")
     days_store = store.setdefault("stations", {}).setdefault(station.icao, {})
-    eligible = set(GRIB_MODELS) | set(wxc_clouds.TEXT_MODELS) | set(wxc_ens.MODELS)
+    eligible = set(GRIB_ORDER) | set(wxc_clouds.TEXT_MODELS) | set(wxc_ens.MODELS)
     todo = []
     for d in verif.get("days", []):
         old = days_store.get(d["date"])

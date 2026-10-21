@@ -174,7 +174,8 @@ def _guidance(fc, order):
            _table(["Model", "Run", *VAR_NAMES.values()], rows, right_from=2)]
     if notes:
         out += ["", "Notes:", *notes]
-    out += ["", "GEFS is shown but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) "
+    out += ["", "GEFS and IFS_HRES (the IFS run at its native 9 km, hourly; IFS is the same run on the 0.25 deg "
+            "open-data grid) are shown and scored but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) "
             "and NBM QMD are not in the consensus either; they inform the precip choice."]
     return "\n".join(out)
 
@@ -729,8 +730,8 @@ def _hourly(fc, series, order, cloud_series=None):
     gen = (series or cloud_series or {}).get("generated_at_utc")
     src = "" if gen == fc.get("generated_at_utc") else f" (from the run at {gen})"
     out = [f"## Hourly guidance through the target day{src}", "",
-           "Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, USL "
-           "and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, "
+           "Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, IFS_HRES, "
+           "USL and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, "
            "AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can "
            "miss the true high/low between output times; the guidance table's daily values "
            "(which also use interval max/min fields where available) are what get scored."]

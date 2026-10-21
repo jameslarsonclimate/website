@@ -14,13 +14,13 @@
         chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card');
   if (!sec || !chart) return;
 
-  const ORDER = ['HRRR', 'RRFS', 'IFS', 'GFS', 'AIFS', 'GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS'];
+  const ORDER = ['HRRR', 'RRFS', 'IFS', 'IFS_HRES', 'GFS', 'AIFS', 'GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS'];
   // the same colours and line styles as the static figures (matplotlib tab10)
-  const COL = { HRRR: '#1f77b4', RRFS: '#bcbd22', IFS: '#ff7f0e', GFS: '#2ca02c', AIFS: '#d62728',
+  const COL = { HRRR: '#1f77b4', RRFS: '#bcbd22', IFS: '#ff7f0e', IFS_HRES: '#a63603', GFS: '#2ca02c', AIFS: '#d62728',
                 GFS_MOS: '#2ca02c', NBM: '#8c564b', USL: '#e377c2', ENS: '#17becf', AIFS_ENS: '#d62728',
                 GEFS: '#9467bd' };
   const DASHED = new Set(['GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS']);
-  const PRESETS = [['All', null], ['None', []], ['Deterministic', ['HRRR', 'RRFS', 'IFS', 'GFS', 'AIFS']],
+  const PRESETS = [['All', null], ['None', []], ['Deterministic', ['HRRR', 'RRFS', 'IFS', 'IFS_HRES', 'GFS', 'AIFS']],
                    ['MOS / statistical', ['GFS_MOS', 'NBM', 'USL']], ['Ensembles', ['ENS', 'AIFS_ENS', 'GEFS']]];
   const DASH = '5 3', LATEST_DASH = '0.5 3.5', AVG_DASH = '7 4';
   const OBS_W = 2.1;            // every observed line, all panels
@@ -42,12 +42,16 @@
   try {
     const s = JSON.parse(localStorage.getItem(STORE) || 'null');
     if (s) {
-      if (Array.isArray(s.on)) st.on = new Set(s.on);
+      if (Array.isArray(s.on)) {
+        // models added since the viewer's choice was saved start switched on (IFS_HRES predates "known")
+        const known = new Set(Array.isArray(s.known) ? s.known : ORDER.filter(n => n !== 'IFS_HRES'));
+        st.on = new Set([...s.on, ...ORDER.filter(n => !known.has(n))]);
+      }
       for (const k of ['avg', 'obs', 'latest', 'band', 'hum']) if (typeof s[k] === 'boolean') st[k] = s[k];
     }
   } catch (e) {}
   const save = () => {
-    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum: st.hum })); }
+    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum: st.hum })); }
     catch (e) {}
   };
 

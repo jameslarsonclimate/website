@@ -681,6 +681,11 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     import wxc_ens as en
     monkeypatch.setattr(en, "latest_init", lambda model: datetime(2025, 9, 28, 0, tzinfo=timezone.utc))
     monkeypatch.setattr(en, "_get_json", lambda url, params=None: _openmeteo("2025-09-28"))
+    from test_ifs_hres import single_run
+    hr = m.wxc_ifs_hres                                  # IFS HRES 9 km (Open-Meteo single runs)
+    monkeypatch.setattr(hr, "_get_json", lambda url, params=None: (
+        {"last_run_initialisation_time": int(datetime(2025, 9, 28, 6, tzinfo=timezone.utc).timestamp())}
+        if url == hr.META else single_run(params["run"])))
     import wxc_cam_ens as ce
     cam_init = datetime(2025, 9, 28, 12, tzinfo=timezone.utc)
     monkeypatch.setattr(ce, "get_refs", lambda st, day, now: ce._result(
@@ -730,6 +735,8 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     assert fc["models"]["HRRRCAST"]["error"] == "not posted"
     assert not {"REFS", "HRRRCAST", "NBM_QMD", "GEFS"} & set(fc["models"]["CONSENSUS"]["method"]["precip_in"]["members"])
     assert fc["models"]["GEFS"]["tmax_f"] is not None                    # shown, just not blended
+    assert fc["models"]["IFS_HRES"]["tmax_f"] == 60.0 and fc["models"]["IFS_HRES"]["init_time_utc"] == "2025-09-28T06"
+    assert all("IFS_HRES" not in d.get("members", []) for d in fc["models"]["CONSENSUS"]["method"].values())
     # PoP: MOS bounds from P06, QMD from the (faked) file values; kept in runs.jsonl for live runs
     assert fc["models"]["NBM"]["pop"]["p24"] is None and fc["models"]["NBM"]["pop"]["p24_range"] == [0.3, pytest.approx(1 - 0.7 ** 4, abs=1e-3)]
     assert fc["models"]["NBM_QMD"]["pop"]["p24"] == 0.62 and fc["models"]["NBM_QMD"]["pop"]["q24_in"]["50"] == 0.05
@@ -745,6 +752,8 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     n_runs = len(runs)
     hind = [r for r in runs if r.get("hindcast")]
     assert {r["target_date"] for r in hind} == {"2025-09-24", "2025-09-25", "2025-09-26", "2025-09-27"}
+    assert all(r["models"]["IFS_HRES"]["init_time_utc"] == f"{date.fromisoformat(r['target_date']) - timedelta(days=1)}T12"
+               for r in hind)                       # hindcast from the archived 12Z run
     fetched = []
     monkeypatch.setattr(o, "fetch_metars",
                         lambda st, a, b, specials=False: (fetched.append((a, b)) or ks_all) if specials else ks)
