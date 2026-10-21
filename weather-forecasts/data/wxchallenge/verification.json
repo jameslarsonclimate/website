@@ -1619,6 +1619,23 @@
           },
           "points": 10.5,
           "reconstructed": true
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 67,
+            "tmin_f": 52,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -1,
+            "tmin_f": 2,
+            "wind_max_kt": -7,
+            "precip_in": 0.0
+          },
+          "points": 6.5,
+          "run": "2026-10-06T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -1781,6 +1798,23 @@
           },
           "points": 4.5,
           "reconstructed": true
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 71,
+            "tmin_f": 48,
+            "wind_max_kt": 5,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -2,
+            "tmin_f": 5,
+            "wind_max_kt": 1,
+            "precip_in": 0.0
+          },
+          "points": 7.5,
+          "run": "2026-10-07T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -1943,6 +1977,23 @@
           },
           "points": 9.1,
           "reconstructed": true
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 60,
+            "tmin_f": 48,
+            "wind_max_kt": 14,
+            "precip_in": 0.03
+          },
+          "error": {
+            "tmax_f": -2,
+            "tmin_f": 8,
+            "wind_max_kt": -5,
+            "precip_in": 0.03
+          },
+          "points": 13.7,
+          "run": "2026-10-08T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -2105,6 +2156,23 @@
           },
           "points": 4.4,
           "reconstructed": true
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 58,
+            "tmin_f": 44,
+            "wind_max_kt": 8,
+            "precip_in": 0.01
+          },
+          "error": {
+            "tmax_f": -1,
+            "tmin_f": 8,
+            "wind_max_kt": -2,
+            "precip_in": 0.01
+          },
+          "points": 10.4,
+          "run": "2026-10-09T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -2284,6 +2352,23 @@
           },
           "points": 6.5,
           "reconstructed": true
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 62,
+            "tmin_f": 42,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 0,
+            "tmin_f": 12,
+            "wind_max_kt": -5,
+            "precip_in": 0.0
+          },
+          "points": 14.5,
+          "run": "2026-10-10T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -2463,6 +2548,23 @@
           },
           "points": 7.0,
           "reconstructed": true
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 62,
+            "tmin_f": 40,
+            "wind_max_kt": 3,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -2,
+            "tmin_f": 12,
+            "wind_max_kt": -2,
+            "precip_in": 0.0
+          },
+          "points": 15.0,
+          "run": "2026-10-11T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -2666,6 +2768,23 @@
           },
           "points": 5.5,
           "run": "2026-10-12T23:54:29+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 61,
+            "tmin_f": 41,
+            "wind_max_kt": 5,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -2,
+            "tmin_f": 2,
+            "wind_max_kt": -2,
+            "precip_in": 0.0
+          },
+          "points": 5.0,
+          "run": "2026-10-12T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -2885,6 +3004,23 @@
           },
           "points": 9.4,
           "run": "2026-10-13T23:51:28+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 66,
+            "tmin_f": 52,
+            "wind_max_kt": 5,
+            "precip_in": 0.01
+          },
+          "error": {
+            "tmax_f": 0,
+            "tmin_f": 8,
+            "wind_max_kt": -4,
+            "precip_in": 0.01
+          },
+          "points": 10.4,
+          "run": "2026-10-13T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -3104,6 +3240,23 @@
           },
           "points": 13.0,
           "run": "2026-10-14T23:48:08+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 70,
+            "tmin_f": 48,
+            "wind_max_kt": 5,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": 3,
+            "tmin_f": 8,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 13.0,
+          "run": "2026-10-14T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -3129,7 +3282,7 @@
         "wind_max_kt": "cli"
       },
       "obs_pending": [],
-      "run": "2026-10-15T22:23:53+00:00",
+      "run": "2026-10-15T23:00:00+00:00",
       "hindcast": false,
       "models": {
         "HRRR": {
@@ -3323,6 +3476,23 @@
           },
           "points": 10.0,
           "run": "2026-10-15T22:00:06+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 74,
+            "tmin_f": 47,
+            "wind_max_kt": 5,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -5,
+            "tmin_f": 10,
+            "wind_max_kt": -7,
+            "precip_in": 0.0
+          },
+          "points": 18.5,
+          "run": "2026-10-15T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -3542,6 +3712,23 @@
           },
           "points": 10.9,
           "run": "2026-10-16T23:48:08+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 62,
+            "tmin_f": 47,
+            "wind_max_kt": 9,
+            "precip_in": 0.03
+          },
+          "error": {
+            "tmax_f": -5,
+            "tmin_f": 2,
+            "wind_max_kt": -2,
+            "precip_in": 0.02
+          },
+          "points": 8.8,
+          "run": "2026-10-16T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -3567,7 +3754,7 @@
         "wind_max_kt": "cli"
       },
       "obs_pending": [],
-      "run": "2026-10-17T22:52:09+00:00",
+      "run": "2026-10-17T23:00:00+00:00",
       "hindcast": false,
       "models": {
         "HRRR": {
@@ -3761,6 +3948,23 @@
           },
           "points": 7.5,
           "run": "2026-10-17T20:30:05+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 59,
+            "tmin_f": 43,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -2,
+            "tmin_f": 12,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 16.0,
+          "run": "2026-10-17T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -3980,6 +4184,23 @@
           },
           "points": 5.0,
           "run": "2026-10-18T23:44:08+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 61,
+            "tmin_f": 44,
+            "wind_max_kt": 5,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -4,
+            "tmin_f": 8,
+            "wind_max_kt": -4,
+            "precip_in": 0.0
+          },
+          "points": 14.0,
+          "run": "2026-10-18T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -4199,6 +4420,23 @@
           },
           "points": 4.5,
           "run": "2026-10-19T23:12:10+00:00"
+        },
+        "IFS_HRES": {
+          "forecast": {
+            "tmax_f": 62,
+            "tmin_f": 46,
+            "wind_max_kt": 7,
+            "precip_in": 0.0
+          },
+          "error": {
+            "tmax_f": -1,
+            "tmin_f": 12,
+            "wind_max_kt": -5,
+            "precip_in": 0.0
+          },
+          "points": 15.5,
+          "run": "2026-10-19T23:00:00+00:00",
+          "hindcast": true
         }
       },
       "decay_weight": {
@@ -4394,6 +4632,29 @@
         "precip_in": 20.13
       }
     },
+    "IFS_HRES": {
+      "n_days": 14,
+      "total_points": 168.8,
+      "mean_points": 12.06,
+      "bias": {
+        "tmax_f": -1.881,
+        "tmin_f": 8.157,
+        "wind_max_kt": -3.77,
+        "precip_in": 0.005
+      },
+      "mae": {
+        "tmax_f": 2.34,
+        "tmin_f": 8.157,
+        "wind_max_kt": 3.884,
+        "precip_in": 0.005
+      },
+      "n_eff": {
+        "tmax_f": 12.79,
+        "tmin_f": 12.79,
+        "wind_max_kt": 13.67,
+        "precip_in": 13.29
+      }
+    },
     "USL": {
       "n_days": 10,
       "total_points": 73.7,
@@ -4488,7 +4749,7 @@
     }
   },
   "period_start": "2026-09-28",
-  "generated_at_utc": "2026-10-21T19:30:09+00:00",
+  "generated_at_utc": "2026-10-21T19:56:50+00:00",
   "observations": [
     {
       "date": "2026-09-28",
