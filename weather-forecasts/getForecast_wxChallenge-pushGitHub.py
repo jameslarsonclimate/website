@@ -13,7 +13,7 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
      probability of precipitation carries a "pop" record (wxc_pop.py; display/verification only)
   4. builds a bias-corrected, skill-weighted CONSENSUS from the verified models
   5. writes data/wxchallenge/forecast.json, appends data/wxchallenge/runs.jsonl,
-     draws images/wxchallenge/latest.png and verification.png, refreshes the page's
+     draws images/wxchallenge/latest.png and verification.png (local only, not pushed), refreshes the page's
      forecast-evolution link config (wxc_links.py) and writes data/wxchallenge/brief.md,
      a plain-text summary for AI assistants (wxc_brief.py; linked only from llms.txt and a
      visually hidden link on the page), and data/wxchallenge/timeline.json for the page's
@@ -29,6 +29,7 @@ Usage:
 
 import argparse
 import json
+import logging
 import subprocess
 import warnings
 from datetime import date, datetime, timedelta, timezone
@@ -60,6 +61,17 @@ from wxc_stations import get_station
 
 warnings.filterwarnings("ignore", message="In*", category=FutureWarning)
 warnings.filterwarnings("ignore", message="Engine 'gini' loading failed.*", category=RuntimeWarning)
+
+
+class _OneLineHerbieErrors(logging.Filter):
+    """FastHerbie logs a full traceback for every forecast hour it can't reach (hundreds of
+    lines per model when offline). Keep its one-line "Exception has occured" message only."""
+    def filter(self, record):
+        msg = str(record.msg)
+        return not (msg.startswith("Traceback") or msg.startswith("Exception details"))
+
+
+logging.getLogger("herbie.fast").addFilter(_OneLineHerbieErrors())
 
 ROOT = Path(__file__).resolve().parent
 (IMAGES := ROOT / "images" / "wxchallenge").mkdir(parents=True, exist_ok=True)
@@ -99,9 +111,67 @@ def _grid_id(ds):
             f"{float(lat.flat[0]):.3f}_{float(lon.flat[0]):.3f}_{float(lat.flat[-1]):.3f}_{float(lon.flat[-1]):.3f}")
 
 
+GRIB_THREADS = 8             # forecast hours downloaded/read at once (Herbie's default is one by one)
+
+
+def _read_grib(H, search):
+    """H.xarray(search) with the forecast hours fetched in parallel. Herbie warns its threaded
+    read "only works sometimes" (cfgrib/xarray races), so such a failure is retried one hour
+    at a time. Network errors and a search with no match (ValueError) fail as before."""
+    import requests
+    import xarray as xr
+    xr.backends.list_engines()      # load xarray's engine plugins once, before the threads race to
+    try:
+        return H.xarray(search, max_threads=GRIB_THREADS, backend_kwargs={"decode_times": False})
+    except (requests.RequestException, ValueError):
+        raise
+    except Exception as exc:
+        print(f"  (parallel read of {search!r} failed: {type(exc).__name__}; retrying one hour at a time)")
+        return H.xarray(search, backend_kwargs={"decode_times": False})
+
+
 def pick(H, search, points, prefer=None):
     """H.xarray(search) at the station point -> 1-D DataArray over forecast steps."""
-    ds = H.xarray(search, backend_kwargs={"decode_times": False})
+    ds = _pick_ds(H, search, points)
+    name = prefer if prefer in ds.data_vars else list(ds.data_vars)[0]
+    da = ds[name]
+    return da.sel(point=0) if "point" in da.dims else da
+
+
+def pick_vars(H, search, points, names):
+    """Like pick, for a search matching several fields of one level type (e.g. 10 m U and V):
+    one download per forecast hour instead of one per field. Returns a DataArray per name."""
+    ds = _pick_ds(H, search, points)
+    missing = [n for n in names if n not in ds.data_vars]
+    if missing:
+        raise ValueError(f"{search!r} gave {list(ds.data_vars)}, not {missing}")
+    return [ds[n].sel(point=0) if "point" in ds[n].dims else ds[n] for n in names]
+
+
+def wind_10m(H, search, points):
+    """10 m wind speed (kt) from U and V, read in one request per forecast hour."""
+    u, v = pick_vars(H, search, points, ["u10", "v10"])
+    return np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
+
+
+def without_first_hour(H):
+    """FastHerbie H minus its first forecast hour, for interval max/min fields (which the first
+    step doesn't have). Shares H's per-hour objects, so the file checks and .idx downloads
+    already done for H aren't repeated (a new FastHerbie would redo both for every hour)."""
+    import copy
+    first = H.fxx[0]
+    H2 = copy.copy(H)
+    H2.fxx = H.fxx[1:]
+    H2.objects = [h for h in H.objects if h.fxx != first]
+    H2.file_exists = [h for h in H.file_exists if h.fxx != first]
+    H2.file_not_exists = [h for h in getattr(H, "file_not_exists", []) if h.fxx != first]
+    H2.tasks = len(H2.objects)
+    return H2
+
+
+def _pick_ds(H, search, points):
+    """The fields matching `search` at the station's nearest grid point (Dataset, 'point' dim)."""
+    ds = _read_grib(H, search)
     try:
         # a named tree is cached by Herbie, so repeat runs skip rebuilding it
         ds = ds.herbie.pick_points(points, method="nearest", tree_name=_grid_id(ds))
@@ -112,9 +182,7 @@ def pick(H, search, points, prefer=None):
         if dist > MAX_POINT_DISTANCE_KM:
             raise ValueError(f"nearest grid point for {search!r} is {dist:.0f} km away "
                              f"(bad grid lookup?)")
-    name = prefer if prefer in ds.data_vars else list(ds.data_vars)[0]
-    da = ds[name]
-    return da.sel(point=0) if "point" in da.dims else da
+    return ds
 
 
 def precip_factor(da, default):
@@ -128,10 +196,12 @@ def precip_factor(da, default):
 
 
 def _extra_failed(fields, exc):
-    """Note for a failed optional max/min download; the full traceback goes to the console."""
+    """Note for a failed optional max/min download; the full traceback goes to the console
+    (not for a connection failure, where it says nothing new)."""
     import traceback
     print(f"  {fields} failed ({type(exc).__name__}): {exc}")
-    traceback.print_exc()
+    if not wxc_carryover.is_network_error(f"{type(exc).__name__}: {exc}"):
+        traceback.print_exc()
     return f"{fields} unavailable ({type(exc).__name__}: {str(exc)[:120]})"
 
 
@@ -234,6 +304,11 @@ def add_dewpoint(label, res, points, station):
 # -------------------------------------------------------------------
 # GRIB models (Herbie)
 # -------------------------------------------------------------------
+# 10 m U and V in one search (one download per forecast hour)
+WIND_10M_NCEP = ":[UV]GRD:10 m above ground:"
+WIND_10M_ECMWF = ":10[uv]:"
+
+
 def fetch_hrrr(init, day, points, station, partial=False):
     fxx, trunc = forecast_hours_for_day(init, day, step=1, max_fxx=48, partial=partial)
     H = fast_herbie(init, fxx, model=station.hrrr_model, product="sfc", priority=HRRR_SOURCES)
@@ -249,22 +324,19 @@ def fetch_hrrr(init, day, points, station, partial=False):
 
 def fetch_rrfs(init, day, points, station, partial=False):
     """RRFS v1 (operational 14 Oct 2026; parallel data on AWS since Aug 2026), 2D fields."""
-    from herbie import FastHerbie
     fxx, trunc = forecast_hours_for_day(init, day, step=1, max_fxx=84, partial=partial)
     kw = dict(model="rrfs", product="2dfld", domain=station.rrfs_domain)
     H = fast_herbie(init, fxx, **kw)
     t2m = k_to_f(pick(H, "TMP:2 m above", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
-    u = pick(H, "UGRD:10 m above ground", points, "u10")
-    v = pick(H, "VGRD:10 m above ground", points, "v10")
-    wind = np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
+    wind = wind_10m(H, WIND_10M_NCEP, points)
     tp = pick(H, ":APCP:surface:0-", points, "tp")        # accumulated from init
     tp = (tp - tp[0]) * precip_factor(tp, 0.0393701)
     # hourly TMAX/TMIN (max/min over the hour ending at each step), first step excluded
     tmax_x = tmin_x = None
     notes = []
     try:
-        H2 = FastHerbie([init], fxx=fxx[1:], **kw)
+        H2 = without_first_hour(H)
         tmax_x = float(k_to_f(pick(H2, ":TMAX:2 m above", points, "tmax")).max())
         tmin_x = float(k_to_f(pick(H2, ":TMIN:2 m above", points, "tmin")).min())
     except Exception as exc:
@@ -274,15 +346,12 @@ def fetch_rrfs(init, day, points, station, partial=False):
 
 
 def fetch_ifs(init, day, points, station=None, partial=False):
-    from herbie import FastHerbie
     max_fxx = 144 if pd.Timestamp(init).hour in (0, 12) else 90
     fxx, trunc = forecast_hours_for_day(init, day, step=3, max_fxx=max_fxx, partial=partial)
     H = fast_herbie(init, fxx, model="ifs", product="oper")
     t2m = k_to_f(pick(H, ":2t:", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
-    u = pick(H, ":10u:", points, "u10")
-    v = pick(H, ":10v:", points, "v10")
-    wind = np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
+    wind = wind_10m(H, WIND_10M_ECMWF, points)
     tp = pick(H, ":tp:", points, "tp")
     tp = (tp - tp[0]) * precip_factor(tp, 39.3701)
 
@@ -291,7 +360,7 @@ def fetch_ifs(init, day, points, station=None, partial=False):
     tmax_x = tmin_x = None
     notes = []
     try:
-        H2 = FastHerbie([init], model="ifs", product="oper", fxx=fxx[1:])
+        H2 = without_first_hour(H)
         tmax_x = float(k_to_f(pick(H2, ":mx2t3:", points, "mx2t3")).max())
         tmin_x = float(k_to_f(pick(H2, ":mn2t3:", points, "mn2t3")).min())
     except Exception as exc:
@@ -301,14 +370,11 @@ def fetch_ifs(init, day, points, station=None, partial=False):
 
 
 def fetch_gfs(init, day, points, station=None, partial=False):
-    from herbie import FastHerbie
     fxx, trunc = forecast_hours_for_day(init, day, step=3, max_fxx=384, partial=partial)
     H = fast_herbie(init, fxx, model="gfs", product="pgrb2.0p25")
     t2m = k_to_f(pick(H, "TMP:2 m above", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
-    u = pick(H, "UGRD:10 m above ground", points, "u10")
-    v = pick(H, "VGRD:10 m above ground", points, "v10")
-    wind = np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
+    wind = wind_10m(H, WIND_10M_NCEP, points)
     tp = pick(H, ":APCP:surface:0-*", points, "tp")
     tp = (tp - tp[0]) * precip_factor(tp, 0.0393701)
 
@@ -316,7 +382,7 @@ def fetch_gfs(init, day, points, station=None, partial=False):
     tmax_x = tmin_x = None
     notes = []
     try:
-        H2 = FastHerbie([init], model="gfs", product="pgrb2.0p25", fxx=fxx[1:])
+        H2 = without_first_hour(H)
         tmax_x = float(k_to_f(pick(H2, ":TMAX:2 m above", points, "tmax")).max())
         tmin_x = float(k_to_f(pick(H2, ":TMIN:2 m above", points, "tmin")).min())
     except Exception as exc:
@@ -330,9 +396,7 @@ def fetch_aifs(init, day, points, station=None, partial=False):
     H = fast_herbie(init, fxx, model="aifs", product="oper")
     t2m = k_to_f(pick(H, ":2t:", points, "t2m"))
     times = convert_time_to_datetime64(t2m.valid_time.values)
-    u = pick(H, ":10u:", points, "u10")
-    v = pick(H, ":10v:", points, "v10")
-    wind = np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
+    wind = wind_10m(H, WIND_10M_ECMWF, points)
     tp = pick(H, ":tp:", points, "tp")
     factor = precip_factor(tp, 0.0393701)
     tp = (tp - tp[0]) * factor
@@ -578,7 +642,7 @@ def plot_forecast(results, mos, cons, station, day, path, clouds=None):
     plt.setp(axes[-1].xaxis.get_majorticklabels(), rotation=30, ha="right")
     fig.suptitle(f"{station.label}: forecast for {day:%a %b %d} (06Z-06Z)", y=0.98)
     fig.tight_layout(rect=[0, 0, 1, 0.96])
-    fig.savefig(path, dpi=150)
+    wxc_verify.save_png(fig, path, dpi=150)
     plt.close(fig)
 
 
@@ -1115,6 +1179,12 @@ def main():
                          "(so biases are available from day one of a new city; days already hindcast "
                          "are skipped, so only the first run of a city is slow); 0 disables")
     args = ap.parse_args()
+
+    # Laptop woke without wifi: every source would fail (and log a traceback each), nothing could
+    # be pushed, and the page already shows the last good forecasts. Skip; the next run catches up.
+    if not wxc_carryover.network_up():
+        print(f"No network (none of {', '.join(wxc_carryover.CHECK_HOSTS)} reachable); skipping this run.")
+        return
 
     station = get_station(args.station)
     n_pruned = wxc_cache.prune()

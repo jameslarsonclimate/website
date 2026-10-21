@@ -32,6 +32,27 @@ def is_network_error(msg) -> bool:
     return bool(msg) and bool(NETWORK_ERROR.search(str(msg)))
 
 
+# a few of the hosts the run needs; reaching any one of them means the network is up
+CHECK_HOSTS = ("noaa-hrrr-bdp-pds.s3.amazonaws.com", "mesonet.agron.iastate.edu", "github.com")
+
+
+def network_up(hosts=CHECK_HOSTS, tries: int = 3, wait_s: float = 10.0, timeout_s: float = 5.0) -> bool:
+    """True once any of `hosts` accepts a connection. A laptop just woken from sleep may need a
+    few seconds to rejoin the wifi, so this tries `tries` times, `wait_s` apart."""
+    import socket
+    import time
+    for attempt in range(tries):
+        for host in hosts:
+            try:
+                socket.create_connection((host, 443), timeout=timeout_s).close()
+                return True
+            except OSError:
+                continue
+        if attempt < tries - 1:
+            time.sleep(wait_s)
+    return False
+
+
 def has_values(m: Optional[dict]) -> bool:
     """A usable forecast (precip-only sources have no high/low)."""
     return bool(m) and not m.get("error") and (m.get("tmax_f") is not None or m.get("precip_in") is not None)

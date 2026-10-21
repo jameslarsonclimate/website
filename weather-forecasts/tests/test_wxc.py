@@ -545,13 +545,19 @@ class FakeFastHerbie:
     def __init__(self, dates, model, product, fxx, **kw):
         self.init, self.model, self.fxx, self.kw = pd.Timestamp(dates[0]), model, list(fxx), kw
         gone = self.MISSING.get(self.init, set())
-        self.file_exists = [SimpleNamespace(fxx=f) for f in self.fxx if f not in gone]
+        self.objects = [SimpleNamespace(fxx=f) for f in self.fxx]
+        self.file_exists = [h for h in self.objects if h.fxx not in gone]
+        self.searches = []                                  # what was read through this object
 
-    def xarray(self, search, backend_kwargs=None):
+    def xarray(self, search, backend_kwargs=None, max_threads=None):
+        self.searches.append(search)
         if search not in self.FIELDS:
             raise ValueError(f"no match for {search!r}")
-        var, fn, units = self.FIELDS[search]
-        return _fake_grid_ds(var, self.fxx, self.init, [fn(f) for f in self.fxx], units)
+        fields = self.FIELDS[search]
+        import xarray as xr
+        return xr.merge([_fake_grid_ds(var, self.fxx, self.init, [fn(f) for f in self.fxx], units)
+                         for var, fn, units in (fields if isinstance(fields, list) else [fields])],
+                        compat="override")
 
 
 @pytest.fixture
@@ -571,6 +577,9 @@ def fake_herbie(monkeypatch):
         ":10u:": ("u10", lambda h: 3.0, "m s**-1"), ":10v:": ("v10", lambda h: 4.0, "m s**-1"),
         "UGRD:10 m above ground": ("u10", lambda h: 3.0, "m s**-1"),
         "VGRD:10 m above ground": ("v10", lambda h: 4.0, "m s**-1"),
+        # one search for both 10 m components (WIND_10M_NCEP / WIND_10M_ECMWF)
+        ":[UV]GRD:10 m above ground:": [("u10", lambda h: 3.0, "m s**-1"), ("v10", lambda h: 4.0, "m s**-1")],
+        ":10[uv]:": [("u10", lambda h: 3.0, "m s**-1"), ("v10", lambda h: 4.0, "m s**-1")],
         ":mx2t3:": ("mx2t3", lambda h: K(87.0), "K"), ":mn2t3:": ("mn2t3", lambda h: K(64.0), "K"),
         ":TMAX:2 m above": ("tmax", lambda h: K(86.0), "K"), ":TMIN:2 m above": ("tmin", lambda h: K(66.0), "K"),
     }
@@ -600,6 +609,33 @@ def test_grib_fetchers(fake_herbie):
     assert rrfs["precip_in"] == pytest.approx(0.5 * 24 * 0.0393701, abs=0.01)
     hrrr = m.fetch_hrrr(pd.Timestamp("2026-09-28 00:00"), day, pts, st)["metrics"]
     assert hrrr["partial_window"] and hrrr["valid_range_utc"][-1] == "2026-09-30T00"
+
+
+def test_grib_fetch_reuses_one_herbie(fake_herbie, monkeypatch):
+    """Max/min fields reuse the run's FastHerbie (no second round of file checks and .idx
+    downloads), and 10 m U and V come in one search."""
+    m = _main_module()
+    made = []
+    real_init = fake_herbie.__init__
+
+    def counting_init(self, *a, **k):
+        made.append(self)
+        real_init(self, *a, **k)
+    monkeypatch.setattr(fake_herbie, "__init__", counting_init)
+    pts = pd.DataFrame({"longitude": [-82.5], "latitude": [28.0]})
+    init = pd.Timestamp("2026-09-28 12:00")
+    for fetch, wind, tmax in ((m.fetch_gfs, m.WIND_10M_NCEP, ":TMAX:2 m above"),
+                              (m.fetch_ifs, m.WIND_10M_ECMWF, ":mx2t3:")):
+        made.clear()
+        res = fetch(init, date(2026, 9, 29), pts)
+        assert len(made) == 1, fetch.__name__
+        assert made[0].searches.count(wind) == 1 and tmax in made[0].searches
+        assert res["metrics"]["wind_max_kt"] == pytest.approx(5 * 1.94384, abs=0.1)
+        assert "note" not in res["metrics"] or "unavailable" not in res["metrics"]["note"]
+    H = fake_herbie([init], "gfs", "x", [0, 3, 6])
+    H2 = m.without_first_hour(H)
+    assert H2.fxx == [3, 6] and [h.fxx for h in H2.file_exists] == [3, 6] and H.fxx == [0, 3, 6]
+    assert H2.file_exists[0] is H.file_exists[1]          # same per-hour objects
 
 
 def test_grid_id_and_distance_guard(fake_herbie):

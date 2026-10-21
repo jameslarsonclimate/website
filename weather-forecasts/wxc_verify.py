@@ -694,6 +694,22 @@ STYLE = {"HRRR": ("C0", "-"), "RRFS": ("C8", "-"), "IFS": ("C1", "-"), "GFS": ("
          "CONSENSUS": ("k", "-")}
 
 
+def save_png(fig, path: Path, dpi: int):
+    """Save a figure as a 256-colour PNG: these plots look the same and the file is ~3x smaller,
+    which is what gets pushed to GitHub every run. Falls back to a plain save without Pillow."""
+    import io
+    try:
+        from PIL import Image
+    except ImportError:
+        fig.savefig(path, dpi=dpi)
+        return
+    buf = io.BytesIO()
+    fig.savefig(buf, dpi=dpi, format="png")
+    buf.seek(0)
+    with Image.open(buf) as im:
+        im.convert("RGB").quantize(256, method=Image.Quantize.MEDIANCUT).save(path, optimize=True)
+
+
 def plot_verification(res: dict, path: Path):
     import matplotlib
     matplotlib.use("Agg")
@@ -721,7 +737,7 @@ def plot_verification(res: dict, path: Path):
     axes[0].legend(ncol=4, fontsize=8)
     fig.suptitle(f"{res['station']}: model verification since {res.get('period_start')}")
     fig.tight_layout()
-    fig.savefig(path, dpi=120)
+    save_png(fig, path, dpi=120)
     plt.close(fig)
     return True
 
