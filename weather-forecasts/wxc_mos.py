@@ -17,6 +17,7 @@ Daily (06Z-06Z) summary for WxChallenge day D:
          verification bias correction will learn how this behaves at each site)
 """
 
+import functools
 from datetime import date, datetime, timedelta, timezone
 from typing import Optional
 
@@ -38,7 +39,10 @@ MOS_PRODUCTS = {
 }
 
 
+@functools.lru_cache(maxsize=32)
 def fetch_mos(station: str, model: str, runtime: Optional[datetime] = None) -> pd.DataFrame:
+    """One run's rows from IEM. Kept for the rest of the script run, so the target day and the
+    today-so-far figure share one request (callers must not modify the frame: summarize_mos copies)."""
     import requests
     params = {"station": station, "model": model}
     if runtime is not None:

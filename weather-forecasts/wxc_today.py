@@ -16,7 +16,7 @@ from pathlib import Path
 import pandas as pd
 
 import wxc_clouds
-from wxc_verify import RETIRED, STYLE
+from wxc_verify import RETIRED, STYLE, save_png
 
 
 def _so_far(obs: pd.DataFrame) -> dict:
@@ -166,7 +166,7 @@ def plot_today(station, day, now, obs: pd.DataFrame, submitted: dict, latest: di
     fig.suptitle(f"{station.label}: {day:%a %b %d} so far (06Z-06Z). Solid = runs before the 00Z "
                  f"deadline, dashed = latest runs", y=0.985, fontsize=12)
     fig.tight_layout(rect=[0, 0, 1, 0.92])
-    fig.savefig(path, dpi=130)
+    save_png(fig, path, dpi=130)
     plt.close(fig)
     return True
 

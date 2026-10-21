@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 .pytest_cache/
 *.tmp
+weather-forecasts/cache/
+# drawn locally only; not shown on the page, so not pushed every run
+weather-forecasts/images/wxchallenge/verification.png
