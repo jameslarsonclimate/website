@@ -331,14 +331,6 @@
     "label": "Total QPF",
     "p": "qpf_acc"
    }
-  ],
-  "trend_product": "ref1km_ptype",
-  "post_lag_h": 2,
-  "trend_valid_h": [
-   12,
-   18,
-   24,
-   30
   ]
  },
  "nbm_viewer_url": "https://apps.gsl.noaa.gov/nbmviewer/?col=2&hgt=1&obs=false&fontsize=1&location=KOLM&selectedgroup=Precipitation&darkmode=on&graph=fa-chart-bar&probfield=Tmax&proboperator=%3E%3D&probvalue=40&colorfriendly=false&whiskers=true&boxes=false&median=true&det=false&tz=local",
@@ -350,41 +342,18 @@
 }
   </script>
     <script>
-    /* Pivotal URLs depend on the clock (newest run, forecast hours), so they're built here and stay
-       right when the scheduled job isn't running. ?now=YYYY-MM-DDTHH:MMZ overrides the clock. */
+    /* builds the link lists from the evo-config block above */
     (function(){
       const sec = document.getElementById('evolution');
       let cfg;
       try { cfg = JSON.parse(document.getElementById('evo-config').textContent); } catch (e) { return; }
       if (!cfg || !cfg.pivotal) return;
-      const H = 3600e3, pad = n => String(n).padStart(2, '0');
-      const q = new URLSearchParams(location.search).get('now');
-      const qm = q && q.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})Z?$/);
-      const now = qm ? new Date(Date.UTC(+qm[1], qm[2] - 1, +qm[3], +qm[4], +qm[5])) : new Date();
       const pv = cfg.pivotal;
-      // newest 00/06/12/18Z cycle with init <= now - POST_LAG_H (these run to 48 h)
-      const t = new Date(now.getTime() - pv.post_lag_h * H);
-      const rh = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDate(), Math.floor(t.getUTCHours() / 6) * 6));
-      const rhs = `${rh.getUTCFullYear()}${pad(rh.getUTCMonth() + 1)}${pad(rh.getUTCDate())}${pad(rh.getUTCHours())}`;
-      const url = (p, extra) => `${pv.base}?m=${pv.model}&p=${encodeURIComponent(p)}${extra}&r=${encodeURIComponent(pv.region)}`;
+      const url = p => `${pv.base}?m=${pv.model}&p=${encodeURIComponent(p)}&fh=loop&r=${encodeURIComponent(pv.region)}`;
       const a = (href, text, title) => `<a href="${href}" target="_blank" rel="noopener"${title ? ` title="${title}"` : ''}>${text}</a>`;
-      const DAY = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const lbl = d => `${DAY[d.getUTCDay()]} ${pad(d.getUTCHours())}Z`;
-      const cyc = `${pad(rh.getUTCHours())}Z`;
       const SEP = ' <span class="evo-sep">–</span> ';
-      const rows = [pv.products.map(pr => a(url(pr.p, '&fh=loop'), pr.label, 'Newest HRRR run on Pivotal Weather')).join(SEP)];
-      // trend (dProg/dt) for the day being forecast: D = next 00Z deadline, scored D+6h..D+30h
-      if (pv.trend_product) {
-        const D = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
-        const links = pv.trend_valid_h.map(v => new Date(D + v * H)).map(vt => {
-          const fh = Math.round((vt - rh) / H);
-          return fh < 0 || fh > 48 ? '' :
-            a(url(pv.trend_product, `&rh=${rhs}&fh=${fh}&dpdt=loop`), lbl(vt), `Earlier runs valid ${lbl(vt)} (${cyc} f${pad(fh)})`);
-        }).filter(Boolean);
-        if (links.length) rows.push(`Trend, ${(pv.products.find(x => x.p === pv.trend_product) || {}).label || pv.trend_product}: ` +
-                                    links.join(SEP));
-      }
-      document.getElementById('evo-hrrr').innerHTML = rows.map(r => `<li>${r}</li>`).join('');
+      document.getElementById('evo-hrrr').innerHTML =
+        `<li>${pv.products.map(pr => a(url(pr.p), pr.label, 'Newest HRRR run on Pivotal Weather')).join(SEP)}</li>`;
 
       const nbm = document.getElementById('evo-nbm');
       if (cfg.nbm_viewer_url) nbm.innerHTML = `<li>${a(cfg.nbm_viewer_url, `NBM 1D viewer for ${cfg.station}: precipitation`)}</li>`;

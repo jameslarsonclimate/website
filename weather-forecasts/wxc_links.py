@@ -3,9 +3,8 @@
 
 Pure functions, no network: build_config() collects the station's links (Pivotal Weather HRRR
 loops, NBM 1D viewer, satellite, CSU) into a JSON-serialisable dict, and update_page()
-writes it into the page's <script type="application/json" id="evo-config"> block. The page
-builds the time-dependent Pivotal URLs (run hour, forecast hour) itself, so the links stay
-current overnight when the scheduled job isn't running.
+writes it into the page's <script type="application/json" id="evo-config"> block, which the
+page turns into links.
 
 Values still marked FILL are left out (and logged), so a link is never published half-made.
 """
@@ -27,9 +26,6 @@ PRODUCTS = [
     ("Simulated IR", "sim_ir"),
     ("Total QPF", "qpf_acc"),
 ]
-TREND_PRODUCT = "ref1km_ptype"   # dProg/dt links
-POST_LAG_H = 2                   # a 00/06/12/18Z HRRR cycle counts as available this long after init
-TREND_VALID_H = [12, 18, 24, 30]  # trend valid times, hours after the 00Z deadline
 
 # NOAA GSL NBM 1D viewer (point meteogram of NBM percentiles), opened on the precipitation group;
 # location is the station, everything else as James set it up (2026-10-06)
@@ -75,9 +71,6 @@ def build_config(station):
             skipped.append(f"product {label}")
         else:
             products.append({"label": label, "p": p})
-    trend = TREND_PRODUCT if not is_fill(TREND_PRODUCT) else None
-    if trend is None:
-        skipped.append("trend product")
     slider = getattr(station, "slider_url", None)
     if slider is not None and is_fill(slider):
         skipped.append("slider_url")
@@ -91,8 +84,7 @@ def build_config(station):
         "station": station.icao, "name": station.name,
         "lat": round(float(station.lat), 4), "lon": round(float(station.lon), 4),
         "pivotal": {"base": PIVOTAL_BASE, "model": PIVOTAL_MODEL, "region": pivotal_region(station),
-                    "products": products, "trend_product": trend,
-                    "post_lag_h": POST_LAG_H, "trend_valid_h": TREND_VALID_H},
+                    "products": products},
         "nbm_viewer_url": nbm_viewer_url(station),
         "satellite_url": satellite,
         "csu_url": csu,
