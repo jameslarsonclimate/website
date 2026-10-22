@@ -147,8 +147,8 @@ SLIDER_KTPA = ("https://slider.cira.colostate.edu/?sat=goes-19&sec=full_disk&x=9
                "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
                "&draw_color=FFD700&draw_width=6")
 
-SLIDER_KOLM = ("https://slider.cira.colostate.edu/?sat=goes-18&sec=full_disk&x=12789&y=2240&z=5"
-               "&angle=0&im=12&ts=1&st=0&et=0&speed=130&motion=loop&maps%5Bborders%5D=white"
+SLIDER_KOLM = ("https://slider.cira.colostate.edu/?sat=goes-18&sec=conus&x=6964&y=2663&z=4"
+               "&angle=0&im=24&ts=1&st=0&et=0&speed=130&motion=loop&maps%5Bborders%5D=white"
                "&mops%5Bborders%5D=0.4&p%5B0%5D=geocolor&opacity%5B0%5D=1&pause=0&slider=-1"
                "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
                "&draw_color=FFD700&draw_width=6")
