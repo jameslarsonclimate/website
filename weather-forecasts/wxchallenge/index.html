@@ -358,7 +358,7 @@
       const nbm = document.getElementById('evo-nbm');
       if (cfg.nbm_viewer_url) nbm.innerHTML = `<li>${a(cfg.nbm_viewer_url, `NBM 1D viewer for ${cfg.station}: precipitation`)}</li>`;
       else { nbm.previousElementSibling.remove(); nbm.remove(); }
-      const more = [[cfg.satellite_url, 'Observed satellite loop (RAMMB/CIRA SLIDER)'],
+      const more = [[cfg.satellite_url, 'Observed GOES satellite loop (RAMMB/CIRA SLIDER)'],
                     ['https://app.weatherfront.com/', 'WeatherFront'], [cfg.csu_url, 'CSU WxChallenge Zoom']];
       // the NWS forecast discussion item is filled in with the forecast table (it comes from latest.json)
       document.getElementById('evo-more').innerHTML = more.filter(([u]) => u).map(([u, t]) => `<li>${a(u, t)}</li>`).join('') +
