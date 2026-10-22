@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-23**, scored over 2026-10-23T06Z to 2026-10-24T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-23T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-22T15:41:38+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-22T16:00:25+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -51,7 +51,7 @@ Notes:
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-23 available at 2026-10-22 15Z)
+- USL: failed this run (no USL run for 2026-10-23 available at 2026-10-22 16Z)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
