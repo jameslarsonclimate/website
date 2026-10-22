@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-23**, scored over 2026-10-23T06Z to 2026-10-24T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-23T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-22T14:10:45+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-22T15:41:38+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -42,7 +42,7 @@ Run = day/hour (UTC) of the model initialization.
 | AIFS_ENS | 22/00Z | 57.9 | 40.5 | 3.8 | 0.00 |
 | GEFS | 22/06Z | 60.7 | 38.2 | 2.6 | 0.00 |
 | HRRRCAST (precip only) | 22/06Z | — | — | — | 0.01 |
-| REFS (precip only) | 22/06Z | — | — | — | 0.00 |
+| REFS (precip only) | 22/12Z | — | — | — | 0.00 |
 | NBM_QMD (precip only) | 22/06Z | — | — | — | 0.00 |
 | **CONSENSUS** |  | **58.8** | **33.7** | **6.8** | **0.00** |
 
@@ -51,12 +51,12 @@ Notes:
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-23 available at 2026-10-22 14Z)
+- USL: failed this run (no USL run for 2026-10-23 available at 2026-10-22 15Z)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
 - HRRRCAST: median of 18 members (experimental AI model)
-- REFS: median of 13 members, 06Z + 00Z runs (RRFS para)
+- REFS: median of 14 members, 12Z + 06Z runs (RRFS para)
 - NBM_QMD: calibrated PoP and percentiles (NBM QMD); precip = 50% level
 
 GEFS and IFS_HRES (the IFS run at its native 9 km, hourly; IFS is the same run on the 0.25 deg open-data grid) are shown and scored but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) and NBM QMD are not in the consensus either; they inform the precip choice.
@@ -89,7 +89,7 @@ GEFS and IFS_HRES (the IFS run at its native 9 km, hourly; IFS is the same run o
 | GEFS | 31 | Wind kt | 2.1 | 2.3 | 2.6 | 2.9 | 3.3 | 2.6 |
 | GEFS | 31 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 | HRRRCAST | 18 | Precip in | 0.00 | 0.00 | 0.01 | 0.01 | 0.02 | 0.01 |
-| REFS | 13 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| REFS | 14 | Precip in | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
 
 Share of members reaching each 24-h precip amount:
 
@@ -617,26 +617,26 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-20 | 0.00" (dry) | 1/3/1/1 | 2/4/3/2 | 0/0/0/0 | 0/0/2/0 | 0/0/0/0 | 24h 28% | 24h 0% | 0/0/0/0 |
 | 10-21 | 0.00" (dry) | 0/0/1/1 | 2/2/2/2 | 0/0/0/0 | 0/0/0/0 | 0/0/0/0 | 24h 17% | 24h 0% | 0/0/0/0 |
 
-## Today so far (2026-10-22, through 2026-10-22T13:54Z)
+## Today so far (2026-10-22, through 2026-10-22T15:27Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 45.0 °F, low 36.0 °F, max wind 3 kt, precip 0.00" (8 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 45.0 °F, low 36.0 °F, max wind 3 kt, precip 0.00" (9 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 21/18Z | +2.5 | 3.1 | 60 (+15) pending | 36 (+0) | +1.4 | 0.00 | +0.00 |
-| RRFS | 21/18Z | +7.8 | 7.8 | 62 (+17) pending | 45 (+9) | +1.6 | 0.00 | +0.00 |
-| IFS | 21/12Z | +2.8 | 3.0 | 58 (+13) pending | 38 (+2) | +1.2 | 0.00 | +0.00 |
-| IFS_HRES | 21/12Z | +3.8 | 4.0 | 57 (+12) pending | 39 (+3) | +0.5 | 0.00 | +0.00 |
-| GFS | 21/18Z | +7.0 | 7.0 | 61 (+16) pending | 43 (+7) | +1.1 | 0.00 | +0.00 |
-| AIFS | 21/12Z | +3.2 | 3.2 | 56 (+11) pending | 40 (+4) | +1.7 | 0.00 | +0.00 |
-| GFS_MOS | 21/18Z | +7.1 | 7.1 | 60 (+15) pending | 42 (+6) | +0.1 | — | — |
-| NBM | 21/18Z | +0.9 | 2.1 | 61 (+16) pending | 36 (+0) | -0.4 | — | — |
-| USL | 21/22Z | +0.6 | 2.0 | 58 (+13) pending | 35 (-1) pending | +2.6 | 0.00 | +0.00 |
-| ENS | 21/12Z | +3.9 | 3.9 | 58 (+14) pending | 40 (+4) | +1.6 | 0.00 | +0.00 |
-| AIFS_ENS | 21/12Z | +2.8 | 2.8 | 56 (+10) pending | 40 (+4) | +2.8 | 0.00 | +0.00 |
-| GEFS | 21/18Z | +7.0 | 7.0 | 62 (+17) pending | 43 (+7) | +0.9 | 0.00 | +0.00 |
+| HRRR | 21/18Z | +1.9 | 3.0 | 60 (+15) pending | 36 (+0) | +1.3 | 0.00 | +0.00 |
+| RRFS | 21/18Z | +7.6 | 7.6 | 62 (+17) pending | 45 (+9) | +1.6 | 0.00 | +0.00 |
+| IFS | 21/12Z | +2.5 | 2.7 | 58 (+13) pending | 38 (+2) | +1.2 | 0.00 | +0.00 |
+| IFS_HRES | 21/12Z | +3.5 | 3.6 | 57 (+12) pending | 39 (+3) | +0.5 | 0.00 | +0.00 |
+| GFS | 21/18Z | +6.7 | 6.7 | 61 (+16) pending | 43 (+7) | +1.2 | 0.00 | +0.00 |
+| AIFS | 21/12Z | +3.3 | 3.3 | 56 (+11) pending | 40 (+4) | +1.7 | 0.00 | +0.00 |
+| GFS_MOS | 21/18Z | +7.0 | 7.0 | 60 (+15) pending | 42 (+6) | +0.2 | — | — |
+| NBM | 21/18Z | +0.5 | 2.2 | 61 (+16) pending | 36 (+0) | -0.3 | — | — |
+| USL | 21/22Z | +0.2 | 2.1 | 58 (+13) pending | 35 (-1) | +2.7 | 0.00 | +0.00 |
+| ENS | 21/12Z | +3.6 | 3.6 | 58 (+14) pending | 40 (+4) | +1.6 | 0.00 | +0.00 |
+| AIFS_ENS | 21/12Z | +3.0 | 3.0 | 56 (+10) pending | 40 (+4) | +2.8 | 0.00 | +0.00 |
+| GEFS | 21/18Z | +6.7 | 6.7 | 62 (+17) pending | 43 (+7) | +1.0 | 0.00 | +0.00 |
 
 ## Clouds so far today (2026-10-22, observed vs forecast)
 
@@ -653,6 +653,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-22 12Z | Thu 05:00 | 72 | 100 | 100 | 75 | 36 | 95 | 100 | 99 | 19 | 64 | 95 | 47 | 88 | 39 |
 | 10-22 13Z | Thu 06:00 | 84 | 100 | 100 | 73 |  | 95 |  |  |  |  | 96 | 53 | 88 | 41 |
 | 10-22 14Z | Thu 07:00 | 80 | 100 | 100 | 100 |  | 100 |  |  |  |  | 95 | 63 | 88 | 44 |
+| 10-22 15Z | Thu 08:00 | 71 | 100 | 100 | 96 | 83 | 98 | 98 |  | 100 | 84 | 94 | 68 | 86 | 47 |
 
 ## Dewpoint so far today (2026-10-22, observed vs forecast)
 
@@ -668,7 +669,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-22 12Z | Thu 05:00 | 37.9 | 96 | 39.8 | 46.5 | 39.3 | 40.9 | 43.3 | 39.6 | 42.0 | 38.0 | 37.0 | 40.6 | 39.8 | 44.0 |
 | 10-22 13Z | Thu 06:00 | 37.9 | 100 | 38.5 | 45.8 |  | 39.8 |  |  |  |  | 37.0 | 40.2 | 40.1 | 43.4 |
 | 10-22 14Z | Thu 07:00 | 39.9 | 100 | 37.2 | 45.1 |  | 39.3 |  |  |  |  | 36.0 | 39.7 | 40.6 | 42.9 |
-| Bias so far |  |  |  | +2.7 | +8.0 | +2.3 | +4.3 | +6.2 | +1.7 | +4.6 | +1.6 | +0.8 | +3.5 | +2.3 | +6.5 |
+| 10-22 15Z | Thu 08:00 | 39.0 | 100 | 36.3 | 44.7 | 38.4 | 39.7 | 42.6 |  | 43.0 | 36.0 | 36.0 | 40.3 | 41.4 | 43.0 |
+| Bias so far |  |  |  | +2.1 | +7.7 | +1.3 | +3.9 | +5.4 | +1.7 | +4.4 | +0.1 | +0.4 | +3.2 | +2.3 | +6.2 |
 
 ## Raw data
 
