@@ -12,7 +12,9 @@ Sources:
   IFS, AIFS        tcc (0-1 fraction -> %)
   ENS, AIFS_ENS,   Open-Meteo ensemble members' mean cloud_cover (%), saved with the run by
   GEFS             wxc_ens (only from when it was kept: Open-Meteo serves only the latest run)
-  NBM              NBS SKY row (%)
+  NBM              NBH SKY row (hourly, 25 h) then NBS SKY (3-hourly), from AWS (wxc_nbm_text),
+                   with SSD (the sky cover's standard deviation) kept as cloud_sd: drawn as a
+                   +/-1 SD band, like the NBM 1D viewer
   GFS_MOS          MAV CLD categories -> % (drawn as steps)
   USL              the run page's "Sky Cover" column (%)
   METAR            highest-coverage layer -> %
@@ -41,7 +43,7 @@ METAR_CLEAR = {"CLR", "SKC"}
 # GFS MOS (MAV) CLD categories -> %
 MOS_CLD_PCT = {"CL": 0, "FW": 19, "SC": 44, "BK": 75, "OV": 100}
 
-TEXT_MODELS = {"GFS_MOS": "GFS", "NBM": "NBS", "USL": None}   # our label -> IEM MOS model
+TEXT_MODELS = {"GFS_MOS": "GFS", "NBM": "NBS", "USL": None}   # our label -> text product
 _RE_SKY = re.compile(r"(?<![\w/])(CLR|SKC|NCD|NSC|FEW|SCT|BKN|OVC|VV)(\d{3}|///)?(?:CB|TCU)?(?![\w])")
 
 
@@ -153,20 +155,29 @@ def save_cloud(station: str, model: str, init, rec: dict):
     tmp.replace(p)
 
 
+SERIES_KEYS = ("times", "cloud_pct", "averaged", "cloud_sd")   # per-time lists of a cloud record
+
+
 def merge(old: Optional[dict], new: dict) -> dict:
     """Union of two cloud records of one run, by valid time (new values win). Only finite
-    values are kept, so hours that failed are tried again next time."""
+    values are kept, so hours that failed are tried again next time. cloud_sd (NBM's SSD)
+    rides along with its hour."""
     rows = {}
     for rec in (old or {}), new:
-        avg = rec.get("averaged") or [False] * len(rec.get("times", []))
-        for t, v, a in zip(rec.get("times", []), rec.get("cloud_pct", []), avg):
+        n = len(rec.get("times", []))
+        avg = rec.get("averaged") or [False] * n
+        sd = rec.get("cloud_sd") or [None] * n
+        for t, v, a, s in zip(rec.get("times", []), rec.get("cloud_pct", []), avg, sd):
             if v is not None and np.isfinite(v):
-                rows[t] = (round(float(min(max(v, 0.0), 100.0)), 1), bool(a))
-    out = {k: v for k, v in {**(old or {}), **new}.items() if k not in ("times", "cloud_pct", "averaged")}
+                s = None if s is None or not np.isfinite(s) else round(float(s), 1)
+                rows[t] = (round(float(min(max(v, 0.0), 100.0)), 1), bool(a), s)
+    out = {k: v for k, v in {**(old or {}), **new}.items() if k not in SERIES_KEYS}
     ts = sorted(rows)
     out.update(times=ts, cloud_pct=[rows[t][0] for t in ts])
     if any(rows[t][1] for t in ts):
         out["averaged"] = [rows[t][1] for t in ts]
+    if any(rows[t][2] is not None for t in ts):
+        out["cloud_sd"] = [rows[t][2] for t in ts]
     return out
 
 
@@ -180,14 +191,14 @@ def for_day(rec: Optional[dict], day: date) -> Optional[dict]:
     if not keep:
         return None
     out = {k: v for k, v in rec.items() if not isinstance(v, list)}
-    for k in ("times", "cloud_pct", "averaged"):
+    for k in SERIES_KEYS:
         if rec.get(k):
             out[k] = [rec[k][i] for i in keep]
     return out
 
 
 # ----------------------------------------------------------------------------
-# text products (MOS / NBM from IEM, USL page)
+# text products (GFS MOS from IEM, NBM from AWS, USL page)
 # ----------------------------------------------------------------------------
 def fetch_text_cloud(icao: str, label: str, init) -> Optional[dict]:
     """Cloud series of one text-guidance run, fetched again by its run time (the scored
@@ -204,6 +215,9 @@ def fetch_text_cloud(icao: str, label: str, init) -> Optional[dict]:
             return None
         return {"init_time_utc": runtime.strftime("%Y-%m-%dT%H"), "times": [_t(t) for t in run["times"]],
                 "cloud_pct": run["sky_pct"], "step": False, "source": "USL Sky Cover"}
+    if label == "NBM":
+        import wxc_nbm_text
+        return wxc_nbm_text.cloud(icao, runtime)
     import wxc_mos
     model = TEXT_MODELS[label]
     rec = mos_cloud(wxc_mos.fetch_mos(icao, model, runtime), model)
@@ -342,8 +356,9 @@ def draw_models(ax, clouds: dict, style, utc: bool = False):
     """Model cloud lines in each model's usual colour. style(name) -> the plot kwargs
     (ls, lw, alpha, marker, ms) the figure uses for that model in its other panels, so the
     cloud lines look exactly like the temperature/wind/precip lines. MOS CLD categories are
-    drawn as steps; time-averaged GFS steps get open markers. Unlabelled: the colours are
-    in the other legends."""
+    drawn as steps; time-averaged GFS steps get open markers; a record with cloud_sd (NBM)
+    gets a shaded +/-1 SD band (clipped to 0-100). Unlabelled: the colours are in the other
+    legends."""
     import matplotlib as mpl
     from wxc_verify import STYLE
     for name, s in (clouds or {}).items():
@@ -353,6 +368,11 @@ def draw_models(ax, clouds: dict, style, utc: bool = False):
         kw = {**style(name), "color": color}
         t = pd.to_datetime(s["times"], utc=utc)
         v = np.array([np.nan if x is None else x for x in s["cloud_pct"]], float)
+        if s.get("cloud_sd") and len(s["cloud_sd"]) == len(v):
+            sd = np.array([np.nan if x is None else x for x in s["cloud_sd"]], float)
+            ok = np.isfinite(v) & np.isfinite(sd)
+            ax.fill_between(t, np.clip(v - sd, 0, 100), np.clip(v + sd, 0, 100), where=ok,
+                            color=color, alpha=0.13 * kw.get("alpha", 1.0), lw=0, zorder=1)
         ax.plot(t, v, drawstyle="steps-mid" if s.get("step") else "default", **kw)
         avg = np.array(s.get("averaged") or [False] * len(v), bool)
         if avg.any():

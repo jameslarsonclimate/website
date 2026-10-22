@@ -73,12 +73,15 @@ def test_fetch_mos_one_request_per_run(monkeypatch):
         def json(self):
             return {"data": [{"ftime": "2026-10-20 00:00", "tmp": 60}]}
     monkeypatch.setattr(requests, "get", lambda *a, **k: calls.append(k["params"]) or R())
+    nbs = []
+    monkeypatch.setattr(wxc_mos.wxc_nbm_text, "newest", lambda st, prod: nbs.append((st, prod)) or pd.DataFrame())
     wxc_mos.fetch_mos.cache_clear()
     try:
         a = wxc_mos.fetch_mos("KXYZ", "GFS")
         b = wxc_mos.fetch_mos("KXYZ", "GFS")
+        wxc_mos.fetch_mos("KXYZ", "NBS")          # NBS: AWS text, not IEM
         wxc_mos.fetch_mos("KXYZ", "NBS")
-        assert len(calls) == 2 and a is b
+        assert len(calls) == 1 and a is b and nbs == [("KXYZ", "nbs")]
     finally:
         wxc_mos.fetch_mos.cache_clear()
 

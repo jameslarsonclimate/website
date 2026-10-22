@@ -217,6 +217,24 @@
     }
     return s;
   }
+  function bandPolys(hs, lo, hi, p, off, fill) {   // shaded lo..hi area, split where a value is missing
+    const out = [];
+    let seg = [];
+    const flush = () => {
+      if (seg.length > 1) {
+        const up = seg.map(i => `${X(hs[i] + off).toFixed(1)},${Y(p, hi[i]).toFixed(1)}`);
+        const dn = seg.map(i => `${X(hs[i] + off).toFixed(1)},${Y(p, lo[i]).toFixed(1)}`).reverse();
+        out.push(`<polygon points="${up.concat(dn).join(' ')}" fill="${fill}" fill-opacity="0.13"/>`);
+      }
+      seg = [];
+    };
+    for (let i = 0; i < hs.length; i++) {
+      if (lo[i] == null || hi[i] == null || !isFinite(lo[i]) || !isFinite(hi[i])) flush();
+      else seg.push(i);
+    }
+    flush();
+    return out;
+  }
   function stepPath(hs, vs, p, off) {           // step at the midpoints (MOS cloud categories)
     let s = '', pen = false;
     for (let i = 0; i < hs.length; i++) {
@@ -331,6 +349,12 @@
           const up = m.h.map((h, i) => `${X(h + off).toFixed(1)},${Y(P.temp, m.p90[i]).toFixed(1)}`);
           const dn = m.h.map((h, i) => `${X(h + off).toFixed(1)},${Y(P.temp, m.p10[i]).toFixed(1)}`).reverse();
           bands.push(`<polygon points="${up.concat(dn).join(' ')}" fill="${COL[n]}" fill-opacity="0.13"/>`);
+        }
+        const c = m.cloud;
+        if (st.band && c && c.sd) {          // NBM sky cover +/- its standard deviation (SSD), clipped to 0-100
+          const lo = c.pct.map((v, i) => c.sd[i] == null ? null : Math.max(0, v - c.sd[i]));
+          const hi = c.pct.map((v, i) => c.sd[i] == null ? null : Math.min(100, v + c.sd[i]));
+          bands.push(...bandPolys(c.h, lo, hi, P.cloud, off, COL[n]));
         }
         for (const v of LINE_VARS) if (m[v] && shown(v)) lines.push(ln(path(m.h, m[v], P[v], off), COL[n], 1.6, dash, 0.9));
         if (m.cloud) lines.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 1.5, dash, 0.9));
@@ -584,7 +608,8 @@
     h += '<span class="tl-sep"></span>';
     h += chip('data-t="avg"', st.avg, sw('AVG') + 'Average') + chip('data-t="obs"', st.obs, sw('OBS') + 'Observed') +
          chip('data-t="latest"', st.latest, sw('HRRR', LATEST_DASH) + 'Newest runs (today)') +
-         chip('data-t="band"', st.band, sw('BAND') + 'Ensemble 10–90%');
+         chip('data-t="band" title="Shaded spread: ensemble 10th–90th percentile temperature, NBM cloud cover ± 1 standard deviation"',
+              st.band, sw('BAND') + 'Spread bands');
     h += '<span class="tl-sep"></span>';
     h += chip('data-t="hum" title="Show dewpoint and relative humidity panels below the cloud panel"', st.hum,
               sw('HUM') + 'Dewpoint &amp; RH panels');

@@ -138,6 +138,8 @@ def clouds_record(icao: str, day: date, submitted: Optional[dict], latest: Optio
             if r and r.get("times"):
                 out[name] = {"init_time_utc": r.get("init_time_utc"), "times": list(r["times"]),
                              "cloud_pct": _nums(r.get("cloud_pct"), 0), "step": bool(r.get("step"))}
+                if r.get("cloud_sd") and len(r["cloud_sd"]) == len(r["times"]):
+                    out[name]["cloud_sd"] = _nums(r["cloud_sd"], 0)       # NBM's SSD
         return out
     rec = {"station": icao.upper(), "date": day.isoformat(), "generated_at_utc": now.isoformat(),
            "submitted": slim(submitted)}
@@ -221,8 +223,12 @@ def _cloud(rec: dict, day: date) -> Optional[dict]:
     keep = [i for i, x in enumerate(h) if -0.01 <= x <= 24.01 and rec["cloud_pct"][i] is not None]
     if not keep:
         return None
-    return {"init": rec.get("init_time_utc"), "h": [h[i] for i in keep],
-            "pct": [rec["cloud_pct"][i] for i in keep], "step": bool(rec.get("step"))}
+    out = {"init": rec.get("init_time_utc"), "h": [h[i] for i in keep],
+           "pct": [rec["cloud_pct"][i] for i in keep], "step": bool(rec.get("step"))}
+    sd = rec.get("cloud_sd")
+    if sd and len(sd) == len(rec["times"]) and any(sd[i] is not None for i in keep):
+        out["sd"] = [sd[i] for i in keep]
+    return out
 
 
 def _obs(rec: Optional[dict], day: date) -> Optional[dict]:

@@ -497,7 +497,12 @@ def test_upsert_keeps_final_wind(tmp_path, monkeypatch):
 def test_mos_candidate_runtimes():
     t = datetime(2026, 9, 27, 21, tzinfo=timezone.utc)
     assert [x.hour for x in wxc_mos.candidate_runtimes("GFS", t)] == [12, 6, 0]
-    assert [x.hour for x in wxc_mos.candidate_runtimes("NBS", t)] == [18, 12, 6]
+    # NBS: every hourly cycle once its text is out (~1 h; 00/01/07/12/13/19Z ~1.7 h)
+    assert [x.hour for x in wxc_mos.candidate_runtimes("NBS", t)] == [20, 19, 18]
+    t = datetime(2026, 9, 27, 21, 50, tzinfo=timezone.utc)
+    assert [x.hour for x in wxc_mos.candidate_runtimes("NBS", t, 2)] == [20, 19]
+    t = datetime(2026, 9, 27, 21, 58, tzinfo=timezone.utc)
+    assert [x.hour for x in wxc_mos.candidate_runtimes("NBS", t, 2)] == [21, 20]
 
 
 # ----------------------------------------------------------------- timing
@@ -711,6 +716,7 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     monkeypatch.setattr(mo, "fetch_mos", lambda st, model, runtime=None: _mos_rows(model).assign(
         runtime="2025-09-28 12:00",
         ftime=lambda d: (pd.to_datetime(d["ftime"]) - pd.Timedelta(days=365)).dt.strftime("%Y-%m-%d %H:%M")))
+    monkeypatch.setattr(mo.wxc_nbm_text, "fetch", lambda icao, prod, init: pd.DataFrame())   # no NBM cloud here
     fixed = datetime(2025, 9, 28, 20, 0, tzinfo=timezone.utc)
     import wxc_usl as us
     monkeypatch.setattr(us, "_get", lambda url: None)     # no USL page for this fake period

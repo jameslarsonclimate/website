@@ -239,6 +239,7 @@ def test_model_cloud_caches_and_fills_gaps(fake_herbie, monkeypatch):
 FIXED_NOW = datetime(2025, 9, 28, 20, 0, tzinfo=timezone.utc)
 MODULES = ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations", "wxc_usl", "wxc_ens",
            "wxc_ifs_hres", "wxc_cam_ens", "wxc_cache", "wxc_clouds", "wxc_goes", "wxc_today", "wxc_timeline",
+           "wxc_nbm_text",
            "getForecast_wxChallenge-pushGitHub"]
 
 
@@ -272,6 +273,9 @@ def _offline_main(tmp_path, monkeypatch, name, clouds_on):
         return df.assign(cld=["SC", "BK", "OV"] * (len(df) // 3) + ["CL"] * (len(df) % 3),
                          sky=np.linspace(10, 90, len(df)))
     monkeypatch.setattr(mo, "fetch_mos", fake_mos)
+    # NBM cloud: NBH/NBS SKY + SSD from AWS (same fake rows for both products)
+    monkeypatch.setattr(mo.wxc_nbm_text, "fetch", lambda icao, prod, init: fake_mos(icao, "NBS").assign(
+        ssd=lambda d: np.linspace(5, 25, len(d))))
     monkeypatch.setattr(us, "_get", lambda url: None)
     monkeypatch.setattr(en, "latest_init", lambda model: datetime(2025, 9, 28, 0, tzinfo=timezone.utc))
     monkeypatch.setattr(en, "_get_json", lambda url, params=None: _openmeteo("2025-09-28"))
@@ -339,6 +343,8 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
     cached = sorted(p.name for p in (on / "cache" / "KTPA").glob("_cloud_*"))
     assert {n.split("_")[2] for n in cached} >= {"HRRR", "RRFS", "IFS", "GFS", "AIFS", "NBM"}
     assert any(n.startswith("_cloud_GFS_MOS_") for n in cached)
+    nbm = json.loads(next((on / "cache" / "KTPA").glob("_cloud_NBM_*")).read_text())      # SKY with its SSD
+    assert nbm["cloud_sd"] and len(nbm["cloud_sd"]) == len(nbm["times"]) and not nbm["step"]
     assert list((on / "cache" / "KTPA").glob("_goes_acm_*.json"))
     assert not (off / "cache" / "KTPA").exists() or not list((off / "cache" / "KTPA").glob("_cloud_*"))
     # scoreboard cloud context: its own file, only with clouds on, for the scored runs
@@ -374,6 +380,8 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
     assert td["obs"]["reports"]["h"] and td["obs"]["goes"]["pct"] and td["obs"]["sky"]["pct"]
     assert all(0 < h <= 24 for h in td["obs"]["reports"]["h"])
     assert {"HRRR", "IFS", "GFS"} <= {k for k, m in days[tl["forecast_day"]]["models"].items() if m.get("cloud")}
+    nc = days[tl["forecast_day"]]["models"]["NBM"]["cloud"]          # NBM's +/-SD band rides along
+    assert len(nc["sd"]) == len(nc["pct"]) == len(nc["h"])
     assert {"HRRR", "GFS"} <= {k for k, m in td["models"].items() if m.get("cloud")}
     assert td["latest"] and "so_far" in td
     off_days = json.loads((off / "data/wxchallenge/timeline.json").read_text())["days"]

@@ -6,7 +6,7 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
   2. verifies earlier runs against those observations (data/wxchallenge/verification.json)
   3. fetches HRRR, RRFS, ECMWF IFS, GFS and AIFS grids (Herbie), ECMWF IFS HRES at 9 km
      (Open-Meteo single runs, wxc_ifs_hres.py; not in the consensus yet) plus GFS MOS and
-     NBM text guidance (IEM), each summarised for the next WxChallenge day (06Z-06Z),
+     NBM text guidance (AWS, every hourly cycle), each summarised for the next WxChallenge day (06Z-06Z),
      the ECMWF and GEFS ensembles (Open-Meteo; GEFS not in the consensus), the 3 km
      precip ensembles REFS and HRRRCast (wxc_cam_ens.py) and NBM QMD probabilistic precip
      (wxc_nbm_qmd.py); precip-only sources are not part of the consensus. Every source with a
@@ -84,7 +84,7 @@ MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't 
 TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
 # grid models: the GRIB_MODELS below plus IFS_HRES (IFS at 9 km, hourly, from Open-Meteo)
 GRIB_ORDER = ["HRRR", "RRFS", "IFS", wxc_ifs_hres.LABEL, "GFS", "AIFS"]
-MOS_ORDER = list(wxc_mos.MOS_PRODUCTS) + ["USL"]   # GFS_MOS, NBM (IEM text) + USL (microclimates.org)
+MOS_ORDER = list(wxc_mos.MOS_PRODUCTS) + ["USL"]   # GFS_MOS (IEM), NBM (AWS NBS text) + USL (microclimates.org)
 ENS_ORDER = list(wxc_ens.MODELS)                    # ENS, AIFS_ENS, GEFS (Open-Meteo)
 CAM_ORDER = list(wxc_cam_ens.MODELS)                # HRRRCAST, REFS (3 km precip-only ensembles)
 # Herbie sources for HRRR. Azure's URL-signing API answers without an "href" for files that
@@ -938,8 +938,8 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
 
 def series_dewpoints(station, day, points, fetch_grib=True, deadline=None):
     """Dewpoints (display only) for a day's submitted series saved before they were kept: GRIB
-    runs from the model cache or downloaded again (that one field), MOS / NBM from IEM by run
-    time, USL from its run page. A model whose dewpoint can't be had gets dewpt_f None, so it isn't asked again.
+    runs from the model cache or downloaded again (that one field), GFS MOS (IEM) / NBM (AWS) by
+    run time, USL from its run page. A model whose dewpoint can't be had gets dewpt_f None, so it isn't asked again.
     Stops at `deadline` (time.time()); returns the number of models filled."""
     import time as _time
     path = wxc_verify.SERIES_DIR / f"{station.icao}_{day.isoformat()}_submitted.json"

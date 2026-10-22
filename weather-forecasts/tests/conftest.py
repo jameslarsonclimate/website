@@ -13,6 +13,19 @@ def _isolated_cache(tmp_path, monkeypatch):
     monkeypatch.setattr(wxc_cache, "CACHE_DIR", tmp_path / "cache")
 
 
+@pytest.fixture(autouse=True)
+def _no_nbm_network(monkeypatch):
+    """NBM text comes from AWS (wxc_nbm_text): a test that reaches it without a fake fails."""
+    import wxc_nbm_text
+
+    class NoNetwork:
+        @staticmethod
+        def get(url, *a, **k):
+            pytest.fail(f"network call in an offline test: {url}")
+    monkeypatch.setattr(wxc_nbm_text, "_session", lambda: NoNetwork)
+    wxc_nbm_text.station_block.cache_clear()
+
+
 def pytest_configure(config):
     config.addinivalue_line("markers", "real_network_check: keep wxc_carryover.network_up (no stub)")
 

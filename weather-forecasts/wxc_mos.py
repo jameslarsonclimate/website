@@ -1,11 +1,10 @@
 """
-MOS / NBM text guidance from the Iowa State Mesonet MOS API.
+MOS / NBM text guidance.
 
-    https://mesonet.agron.iastate.edu/api/1/mos.json?station=KTPA&model=GFS
-
-Models used here:
-  GFS  -> GFS MOS (MAV), 00/06/12/18Z, 3-hourly
-  NBS  -> National Blend of Models short-range text (NBS), hourly runs, 3-hourly rows
+  GFS  -> GFS MOS (MAV), 00/06/12/18Z, 3-hourly, from the Iowa State Mesonet MOS API
+              https://mesonet.agron.iastate.edu/api/1/mos.json?station=KTPA&model=GFS
+  NBS  -> National Blend of Models short-range text (NBS), every hourly cycle, 3-hourly rows,
+          read from the NBM bucket on AWS (wxc_nbm_text.py; IEM keeps only 00/06/12/18Z)
 
 Daily (06Z-06Z) summary for WxChallenge day D:
   tmax  = max(X from the D+1 00Z row, hourly-ish TMP in the window)
@@ -24,6 +23,7 @@ from typing import Optional
 import pandas as pd
 
 import wxc_cache
+import wxc_nbm_text
 import wxc_pop
 
 IEM_MOS = "https://mesonet.agron.iastate.edu/api/1/mos.json"
@@ -41,8 +41,12 @@ MOS_PRODUCTS = {
 
 @functools.lru_cache(maxsize=32)
 def fetch_mos(station: str, model: str, runtime: Optional[datetime] = None) -> pd.DataFrame:
-    """One run's rows from IEM. Kept for the rest of the script run, so the target day and the
-    today-so-far figure share one request (callers must not modify the frame: summarize_mos copies)."""
+    """One run's rows (runtime None: the newest). Kept for the rest of the script run, so the target
+    day and the today-so-far figure share one request (callers must not modify the frame:
+    summarize_mos copies). NBS comes from AWS in the same shape as IEM's rows."""
+    if model == "NBS":
+        return (wxc_nbm_text.newest(station, "nbs") if runtime is None
+                else wxc_nbm_text.fetch(station, "nbs", runtime))
     import requests
     params = {"station": station, "model": model}
     if runtime is not None:
@@ -135,13 +139,15 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
     }
 
 
-# cycle hours and typical availability delay (hours) of each text product
-# (IEM archives NBS at the synoptic hours only: an hourly runtime such as 19Z returns 404)
-MOS_CYCLES = {"GFS": ([0, 6, 12, 18], 4.5), "NBS": ([0, 6, 12, 18], 1.5)}   # (NAM MOS removed: retired Oct 2026)
+# cycle hours and typical availability delay (hours) of each IEM text product
+# (NBS: every hourly cycle from AWS, see wxc_nbm_text.candidate_runtimes)
+MOS_CYCLES = {"GFS": ([0, 6, 12, 18], 4.5)}   # (NAM MOS removed: retired Oct 2026)
 
 
 def candidate_runtimes(model: str, as_of: datetime, n: int = 3) -> list:
     """The n newest runs of `model` that were available at `as_of` (newest first)."""
+    if model == "NBS":
+        return wxc_nbm_text.candidate_runtimes(as_of, n)
     hours, delay = MOS_CYCLES[model]
     t = pd.Timestamp(as_of).tz_convert("UTC") if pd.Timestamp(as_of).tzinfo else pd.Timestamp(as_of, tz="UTC")
     t = (t - pd.Timedelta(hours=delay)).floor("h")
