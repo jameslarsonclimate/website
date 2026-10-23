@@ -1803,8 +1803,114 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-10-22": {
+    "date": "2026-10-22",
+    "day_hours_utc": [
+     "2026-10-22T15:00",
+     "2026-10-23T01:00"
+    ],
+    "night_hours_utc": [
+     "2026-10-22T06:00",
+     "2026-10-22T14:00"
+    ],
+    "obs": {
+     "day_pct": 77.3,
+     "night_pct": 68.8,
+     "goes_day_pct": 56.2,
+     "goes_night_pct": 42.4
+    },
+    "models": {
+     "HRRR": {
+      "init_time_utc": "2026-10-21T18",
+      "day_pct": 51.7,
+      "night_pct": 86.7,
+      "day_err": -26,
+      "night_err": 18
+     },
+     "RRFS": {
+      "init_time_utc": "2026-10-21T18",
+      "day_pct": 43.4,
+      "night_pct": 69.2,
+      "day_err": -34,
+      "night_err": 0
+     },
+     "IFS": {
+      "init_time_utc": "2026-10-21T12",
+      "day_pct": 68.0,
+      "night_pct": 61.3,
+      "day_err": -9,
+      "night_err": -8
+     },
+     "GFS": {
+      "init_time_utc": "2026-10-21T18",
+      "day_pct": 98.6,
+      "night_pct": 96.5,
+      "day_err": 21,
+      "night_err": 28
+     },
+     "AIFS": {
+      "init_time_utc": "2026-10-21T12",
+      "day_pct": 75.7,
+      "night_pct": 80.9,
+      "day_err": -2,
+      "night_err": 12
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-10-21T18",
+      "day_pct": 91.5,
+      "night_pct": 17.4,
+      "day_err": 14,
+      "night_err": -51
+     },
+     "NBM": {
+      "init_time_utc": "2026-10-21T18",
+      "day_pct": 61.2,
+      "night_pct": 56.7,
+      "day_err": -16,
+      "night_err": -12
+     },
+     "ENS": {
+      "init_time_utc": "2026-10-21T12",
+      "day_pct": 66.9,
+      "night_pct": 51.3,
+      "day_err": -10,
+      "night_err": -18
+     },
+     "AIFS_ENS": {
+      "init_time_utc": "2026-10-21T12",
+      "day_pct": 79.2,
+      "night_pct": 75.8,
+      "day_err": 2,
+      "night_err": 7
+     },
+     "GEFS": {
+      "init_time_utc": "2026-10-21T18",
+      "day_pct": 72.3,
+      "night_pct": 49.7,
+      "day_err": -5,
+      "night_err": -19
+     },
+     "USL": {
+      "init_time_utc": "2026-10-21T22",
+      "day_pct": 97.4,
+      "night_pct": 75.8,
+      "day_err": 20,
+      "night_err": 7
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-10-21T12",
+      "day_pct": 74.2,
+      "night_pct": 93.9,
+      "day_err": -3,
+      "night_err": 25
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-10-22T15:08:42+00:00"
+ "generated_at_utc": "2026-10-23T14:03:50+00:00"
 }
