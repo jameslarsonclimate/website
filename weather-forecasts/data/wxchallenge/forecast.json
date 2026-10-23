@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-23T22:12:37+00:00",
+  "generated_at_utc": "2026-10-23T22:34:52+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -118,24 +118,24 @@
       "tmin_f": 34.0,
       "wind_max_kt": 3.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 2,
+      "pop06_max_pct": 3,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.02,
-          "12-18": 0.02,
-          "18-00": 0.01,
-          "00-06": 0.01
+          "12-18": 0.0,
+          "18-00": 0.03,
+          "00-06": 0.03
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.02,
-          0.059
+          0.03,
+          0.078
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-23T12",
+      "init_time_utc": "2026-10-23T18",
       "valid_range_utc": [
         "2026-10-24T06",
         "2026-10-25T06"
@@ -172,9 +172,9 @@
     "USL": {
       "tmax_f": 56.0,
       "tmin_f": 32.0,
-      "wind_max_kt": 5.0,
+      "wind_max_kt": 6.0,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-23T12",
+      "init_time_utc": "2026-10-23T22",
       "valid_range_utc": [
         "2026-10-24T06",
         "2026-10-25T06"
@@ -1180,7 +1180,7 @@
     "CONSENSUS": {
       "tmax_f": 58.0,
       "tmin_f": 31.0,
-      "wind_max_kt": 6.3,
+      "wind_max_kt": 6.4,
       "precip_in": 0.01,
       "method": {
         "tmax_f": {
@@ -1296,7 +1296,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-23T22:12:37+00:00",
+    "checked_at_utc": "2026-10-23T22:34:52+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
