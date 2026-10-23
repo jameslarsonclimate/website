@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-23T18:30:08+00:00",
+  "generated_at_utc": "2026-10-23T19:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -100,11 +100,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
-      "tmax_f": 53.0,
-      "tmin_f": 36.3,
-      "wind_max_kt": 2.6,
+      "tmax_f": 53.1,
+      "tmin_f": 36.5,
+      "wind_max_kt": 1.8,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-23T06",
+      "init_time_utc": "2026-10-23T12",
       "valid_range_utc": [
         "2026-10-24T06",
         "2026-10-25T06"
@@ -146,24 +146,24 @@
       "tmin_f": 29.0,
       "wind_max_kt": 0.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 5,
+      "pop06_max_pct": 8,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.03,
           "12-18": 0.04,
           "18-00": 0.04,
-          "00-06": 0.05
+          "00-06": 0.08
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.05,
-          0.151
+          0.08,
+          0.178
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-23T17",
+      "init_time_utc": "2026-10-23T18",
       "valid_range_utc": [
         "2026-10-24T06",
         "2026-10-25T06"
@@ -982,7 +982,7 @@
       "wind_max_kt": null,
       "precip_in": 0.01,
       "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-23T06",
+      "init_time_utc": "2026-10-23T12",
       "valid_range_utc": [
         "2026-10-24T06",
         "2026-10-25T06"
@@ -990,7 +990,7 @@
       "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
       "pop": {
-        "p24": 0.278,
+        "p24": 0.167,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -1004,18 +1004,18 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.007,
-            "std": 0.006,
+            "mean": 0.006,
+            "std": 0.005,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.002,
-            "p50": 0.008,
-            "p75": 0.01,
-            "p90": 0.014,
-            "p100": 0.018
+            "p50": 0.006,
+            "p75": 0.009,
+            "p90": 0.013,
+            "p100": 0.013
           },
           "precip_prob": {
-            "0.01": 0.278,
+            "0.01": 0.167,
             "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
@@ -1043,24 +1043,24 @@
         ],
         "members": {
           "precip_in": [
+            0.005,
             0.006,
+            0.0,
+            0.002,
             0.009,
+            0.007,
             0.0,
-            0.004,
-            0.01,
+            0.0,
+            0.006,
+            0.006,
+            0.002,
             0.009,
+            0.002,
+            0.013,
+            0.013,
             0.0,
-            0.0,
-            0.004,
-            0.009,
-            0.001,
-            0.01,
-            0.003,
-            0.015,
-            0.018,
-            0.0,
-            0.014,
-            0.013
+            0.013,
+            0.01
           ]
         }
       }
@@ -1179,8 +1179,8 @@
     },
     "CONSENSUS": {
       "tmax_f": 57.8,
-      "tmin_f": 30.9,
-      "wind_max_kt": 6.4,
+      "tmin_f": 31.0,
+      "wind_max_kt": 6.3,
       "precip_in": 0.01,
       "method": {
         "tmax_f": {
@@ -1296,7 +1296,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-23T18:30:08+00:00",
+    "checked_at_utc": "2026-10-23T19:00:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
