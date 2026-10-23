@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-24**, scored over 2026-10-24T06Z to 2026-10-25T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-24T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-23T14:00:06+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-23T14:30:06+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -657,7 +657,7 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-21 | 0.00" (dry) | 0/0/1/1 | 2/2/2/2 | 0/0/0/0 | 0/0/0/0 | 0/0/0/0 | 24h 17% | 24h 0% | 0/0/0/0 |
 | 10-22 | 0.01" (wet: 00-06) | 3/4/1/5 | 2/2/4/6 | 0/0/8/12 | 0/2/14/14 | 0/0/3/0 | 24h 17% | 24h 7% | 0/0/0/7 |
 
-## Today so far (2026-10-23, through 2026-10-23T13:54Z)
+## Today so far (2026-10-23, through 2026-10-23T14:07Z)
 
 This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 48.0 °F, low 37.0 °F, max wind 3 kt, precip 0.00" (8 hourly obs).
 
@@ -692,7 +692,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-23 11Z | Fri 04:00 | 91 | 100 | 1 | 11 |  | 49 |  |  |  | 33 | 63 | 70 | 49 | 70 |
 | 10-23 12Z | Fri 05:00 | 47 | 75 | 2 | 22 | 52 | 58 | 30 | 44 | 100 | 35 | 62 | 70 | 48 | 60 |
 | 10-23 13Z | Fri 06:00 | 37 | 0 | 0 | 27 |  | 42 |  |  |  | 43 | 60 | 71 | 47 | 50 |
-| 10-23 14Z | Fri 07:00 |  | 75 | 0 | 45 |  | 30 |  |  |  | 47 | 57 | 72 | 44 | 40 |
+| 10-23 14Z | Fri 07:00 | 52 | 100 | 0 | 45 |  | 30 |  |  |  | 47 | 57 | 72 | 44 | 40 |
 
 ## Dewpoint so far today (2026-10-23, observed vs forecast)
 
@@ -707,7 +707,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-23 11Z | Fri 04:00 | 43.0 | 100 | 41.3 | 42.3 |  | 43.9 |  |  |  |  | 39.0 | 42.3 | 40.0 | 40.2 |
 | 10-23 12Z | Fri 05:00 | 42.1 | 93 | 38.8 | 41.3 | 41.4 | 43.7 | 39.6 | 38.2 | 37.0 | 37.0 | 38.0 | 42.1 | 39.8 | 40.0 |
 | 10-23 13Z | Fri 06:00 | 39.0 | 100 | 37.5 | 40.7 |  | 43.6 |  |  |  |  | 38.0 | 41.8 | 40.1 | 39.6 |
-| 10-23 14Z | Fri 07:00 | 37.0 | 100 | 36.9 | 39.7 |  | 44.2 |  |  |  |  | 38.0 | 41.6 | 40.8 | 39.2 |
+| 10-23 14Z | Fri 07:00 | 37.0 | 97 | 36.9 | 39.7 |  | 44.2 |  |  |  |  | 38.0 | 41.6 | 40.8 | 39.2 |
 | Bias so far |  |  |  | +0.9 | +1.9 | -0.8 | +3.0 | -2.6 | -3.9 | -4.6 | -4.1 | -2.1 | +1.4 | -0.6 | -1.4 |
 
 ## Raw data
