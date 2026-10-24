@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-25**, scored over 2026-10-25T06Z to 2026-10-26T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-25T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-24T23:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-24T23:36:01+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
