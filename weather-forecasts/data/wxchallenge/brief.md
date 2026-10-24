@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-25**, scored over 2026-10-25T06Z to 2026-10-26T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-25T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-24T19:00:13+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-24T19:30:19+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -43,7 +43,7 @@ Run = day/hour (UTC) of the model initialization.
 | GEFS | 24/12Z | 49.6 | 44.1 | 5.5 | 0.74 |
 | HRRRCAST (precip only) | 24/12Z | — | — | — | 0.59 |
 | REFS (precip only) | 24/12Z | — | — | — | 0.83 |
-| NBM_QMD (precip only) | 24/06Z | — | — | — | 0.86 |
+| NBM_QMD (precip only) | 24/12Z | — | — | — | 1.11 |
 | **CONSENSUS** |  | **53.7** | **36.2** | **10.4** | **0.70** |
 
 Notes:
@@ -100,7 +100,7 @@ Share of members reaching each 24-h precip amount:
 | HRRRCAST | 100% | 100% | 100% | 67% |
 | REFS | 93% | 93% | 93% | 79% |
 
-NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.32", p50 0.86", p75 1.33", p90 1.57"
+NBM QMD calibrated 24-h precip percentiles: p10 0.58", p25 0.89", p50 1.11", p75 1.42", p90 1.53"
 
 ## Chance of measurable precip (≥0.01") on the target day
 
@@ -115,7 +115,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.00", p25 0.32", p50 0.86", p75
 | GEFS | member fraction | 87% | 100% | 87% | 74% | 100% | 0.03 (44) |
 | HRRRCAST | member fraction | — | — | — | — | 100% | — |
 | REFS | member fraction | — | — | — | — | 93% | — |
-| NBM_QMD | NBM QMD | 33% | 73% | 56% | 42% | 82% | 0.03 (40) |
+| NBM_QMD | NBM QMD | 40% | 93% | 67% | 57% | 97% | 0.03 (40) |
 
 For reference, always forecasting the period's observed frequency (4% of 6-h blocks wet) scores Brier 0.04.
 
@@ -706,7 +706,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-24 16Z | Sat 09:00 | 100 | 0 | 100 | 100 |  | 88 |  |  |  | 71 | 91 | 92 | 98 | 97 |
 | 10-24 17Z | Sat 10:00 | 100 | 0 | 100 | 100 |  | 92 |  |  |  | 89 | 79 | 95 | 99 | 95 |
 | 10-24 18Z | Sat 11:00 | 100 | 0 | 100 | 100 | 100 | 98 | 100 | 100 | 100 | 71 | 74 | 96 | 99 | 94 |
-| 10-24 19Z | Sat 12:00 |  | 19 | 100 | 100 |  | 100 |  |  |  | 68 | 75 | 97 | 99 | 95 |
+| 10-24 19Z | Sat 12:00 | 100 | 19 | 100 | 100 |  | 100 |  |  |  | 68 | 75 | 97 | 99 | 95 |
 
 ## Dewpoint so far today (2026-10-24, observed vs forecast)
 
