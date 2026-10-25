@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T20:00:22+00:00",
+  "generated_at_utc": "2026-10-25T20:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -47,11 +47,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 56.0,
-      "tmin_f": 46.3,
-      "wind_max_kt": 4.9,
-      "precip_in": 0.16,
-      "init_time_utc": "2026-10-25T12",
+      "tmax_f": 57.2,
+      "tmin_f": 47.3,
+      "wind_max_kt": 4.7,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-10-25T18",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -1070,13 +1070,13 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.05,
-      "precip_mean_in": 0.07,
-      "init_time_utc": "2026-10-25T12",
+      "precip_mean_in": 0.06,
+      "init_time_utc": "2026-10-25T18",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
       ],
-      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
+      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -1093,55 +1093,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.075,
-            "std": 0.056,
-            "p0": 0.017,
-            "p10": 0.027,
-            "p25": 0.036,
-            "p50": 0.049,
-            "p75": 0.106,
-            "p90": 0.166,
-            "p100": 0.185
+            "mean": 0.062,
+            "std": 0.041,
+            "p0": 0.025,
+            "p10": 0.025,
+            "p25": 0.031,
+            "p50": 0.047,
+            "p75": 0.078,
+            "p90": 0.115,
+            "p100": 0.162
           },
           "precip_prob": {
             "0.01": 1.0,
-            "0.10": 0.286,
+            "0.10": 0.214,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.113,
+            0.057,
+            0.076,
+            0.034,
+            0.03,
+            0.025,
+            0.026,
             0.162,
             0.049,
             0.079,
             0.116,
             0.025,
             0.044,
-            0.034,
-            0.185,
-            0.054,
-            0.049,
-            0.039,
-            0.167,
-            0.017,
-            0.032
+            0.034
           ]
         }
       }
@@ -1178,9 +1178,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 55.6,
-      "tmin_f": 39.9,
-      "wind_max_kt": 8.2,
+      "tmax_f": 55.8,
+      "tmin_f": 40.0,
+      "wind_max_kt": 8.1,
       "precip_in": 0.15,
       "method": {
         "tmax_f": {
@@ -1296,7 +1296,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-25T20:00:22+00:00",
+    "checked_at_utc": "2026-10-25T20:30:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
