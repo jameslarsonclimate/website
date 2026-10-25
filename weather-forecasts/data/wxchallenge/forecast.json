@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T22:12:09+00:00",
+  "generated_at_utc": "2026-10-25T22:28:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -139,7 +139,11 @@
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-25T22:12:09+00:00",
+        "error": "('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      }
     },
     "NBM": {
       "tmax_f": 57.0,
@@ -172,9 +176,9 @@
     "USL": {
       "tmax_f": 55.0,
       "tmin_f": 42.0,
-      "wind_max_kt": 8.0,
-      "precip_in": 0.08,
-      "init_time_utc": "2026-10-25T12",
+      "wind_max_kt": 10.0,
+      "precip_in": 0.15,
+      "init_time_utc": "2026-10-25T22",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -1180,7 +1184,7 @@
     "CONSENSUS": {
       "tmax_f": 55.6,
       "tmin_f": 40.0,
-      "wind_max_kt": 8.2,
+      "wind_max_kt": 8.5,
       "precip_in": 0.16,
       "method": {
         "tmax_f": {
@@ -1295,10 +1299,15 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-25T22:12:09+00:00",
-    "connectivity": false,
-    "failed": [],
-    "carried_over": []
+    "ok": false,
+    "checked_at_utc": "2026-10-25T22:28:06+00:00",
+    "connectivity": true,
+    "failed": [
+      "GFS_MOS"
+    ],
+    "carried_over": [
+      "GFS_MOS"
+    ],
+    "message": "Connectivity issues: the update at 22:28Z couldn't reach some data sources; latest forecasts not pulled for GFS_MOS. Showing the last good forecasts for GFS_MOS."
   }
 }
