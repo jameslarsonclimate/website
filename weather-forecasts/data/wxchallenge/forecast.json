@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T17:42:51+00:00",
+  "generated_at_utc": "2026-10-25T18:11:46+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -139,7 +139,11 @@
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-25T17:42:51+00:00",
+        "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Read timed out. (read timeout=60)"
+      }
     },
     "NBM": {
       "tmax_f": 58.0,
@@ -152,18 +156,18 @@
         "blocks": {
           "06-12": 0.59,
           "12-18": 0.54,
-          "18-00": 0.13,
+          "18-00": 0.12,
           "00-06": 0.08
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
           0.59,
-          0.849
+          0.847
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-25T16",
+      "init_time_utc": "2026-10-25T17",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -980,9 +984,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.01,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-25T06",
+      "precip_in": 0.03,
+      "precip_mean_in": 0.04,
+      "init_time_utc": "2026-10-25T12",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -990,7 +994,7 @@
       "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
       "pop": {
-        "p24": 0.222,
+        "p24": 0.833,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -1004,19 +1008,19 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.007,
-            "std": 0.005,
-            "p0": 0.0,
-            "p10": 0.0,
-            "p25": 0.004,
-            "p50": 0.007,
-            "p75": 0.01,
-            "p90": 0.014,
-            "p100": 0.015
+            "mean": 0.039,
+            "std": 0.034,
+            "p0": 0.004,
+            "p10": 0.007,
+            "p25": 0.013,
+            "p50": 0.027,
+            "p75": 0.056,
+            "p90": 0.094,
+            "p100": 0.114
           },
           "precip_prob": {
-            "0.01": 0.222,
-            "0.10": 0.0,
+            "0.01": 0.833,
+            "0.10": 0.056,
             "0.25": 0.0,
             "0.50": 0.0
           }
@@ -1043,24 +1047,24 @@
         ],
         "members": {
           "precip_in": [
-            0.011,
+            0.033,
+            0.015,
+            0.083,
             0.007,
-            0.0,
-            0.002,
-            0.007,
-            0.009,
-            0.009,
-            0.0,
-            0.007,
-            0.004,
-            0.0,
-            0.013,
+            0.028,
+            0.027,
             0.006,
-            0.01,
-            0.015,
+            0.063,
+            0.114,
+            0.026,
+            0.026,
+            0.034,
             0.004,
-            0.015,
-            0.007
+            0.012,
+            0.092,
+            0.016,
+            0.098,
+            0.013
           ]
         }
       }
@@ -1295,10 +1299,15 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-25T17:42:51+00:00",
-    "connectivity": false,
-    "failed": [],
-    "carried_over": []
+    "ok": false,
+    "checked_at_utc": "2026-10-25T18:11:46+00:00",
+    "connectivity": true,
+    "failed": [
+      "GFS_MOS"
+    ],
+    "carried_over": [
+      "GFS_MOS"
+    ],
+    "message": "Connectivity issues: the update at 18:11Z couldn't reach some data sources; latest forecasts not pulled for GFS_MOS. Showing the last good forecasts for GFS_MOS."
   }
 }
