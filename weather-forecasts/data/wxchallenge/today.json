@@ -1,6 +1,6 @@
 {
   "date": "2026-10-25",
-  "through_utc": "2026-10-25T21:10",
+  "through_utc": "2026-10-25T21:33",
   "obs": {
     "high": 53.96,
     "low": 44.06,
@@ -173,8 +173,8 @@
       "low_err": -6.1,
       "low_pending": false,
       "wind_bias": 2.7,
-      "precip_so_far": 0.79,
-      "precip_err": 0.24
+      "precip_so_far": 0.81,
+      "precip_err": 0.26
     },
     "ENS": {
       "init_time_utc": "2026-10-24T06",
@@ -211,7 +211,7 @@
       "low_err": 0.4,
       "low_pending": false,
       "wind_bias": 2.7,
-      "precip_so_far": 0.75,
+      "precip_so_far": 0.76,
       "precip_err": 0.2
     },
     "GEFS": {
@@ -230,10 +230,10 @@
       "low_err": 0.0,
       "low_pending": false,
       "wind_bias": 1.6,
-      "precip_so_far": 0.64,
-      "precip_err": 0.09
+      "precip_so_far": 0.65,
+      "precip_err": 0.1
     }
   },
   "station": "KOLM",
-  "generated_at_utc": "2026-10-25T21:26:49+00:00"
+  "generated_at_utc": "2026-10-25T21:45:37+00:00"
 }
