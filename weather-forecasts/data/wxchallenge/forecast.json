@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T22:28:06+00:00",
+  "generated_at_utc": "2026-10-25T22:52:32+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -114,36 +114,32 @@
       "note": "6-hourly output: high/low likely underdone"
     },
     "GFS_MOS": {
-      "tmax_f": 52.0,
-      "tmin_f": 46.0,
+      "tmax_f": 53.0,
+      "tmin_f": 47.0,
       "wind_max_kt": 4.0,
-      "precip_in": 0.1,
-      "pop06_max_pct": 63,
+      "precip_in": 0.15,
+      "pop06_max_pct": 61,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.63,
-          "12-18": 0.54,
-          "18-00": 0.41,
-          "00-06": 0.37
+          "06-12": 0.61,
+          "12-18": 0.57,
+          "18-00": 0.31,
+          "00-06": 0.48
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.63,
-          0.937
+          0.61,
+          0.94
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 1, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-25T12",
+      "precip_note": "MOS Q06 categories [1, 1, 0, 1] -> midpoints",
+      "init_time_utc": "2026-10-25T18",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-25T22:12:09+00:00",
-        "error": "('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      ]
     },
     "NBM": {
       "tmax_f": 57.0,
@@ -1182,10 +1178,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 55.6,
-      "tmin_f": 40.0,
+      "tmax_f": 55.7,
+      "tmin_f": 40.2,
       "wind_max_kt": 8.5,
-      "precip_in": 0.16,
+      "precip_in": 0.17,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1299,15 +1295,10 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-10-25T22:28:06+00:00",
-    "connectivity": true,
-    "failed": [
-      "GFS_MOS"
-    ],
-    "carried_over": [
-      "GFS_MOS"
-    ],
-    "message": "Connectivity issues: the update at 22:28Z couldn't reach some data sources; latest forecasts not pulled for GFS_MOS. Showing the last good forecasts for GFS_MOS."
+    "ok": true,
+    "checked_at_utc": "2026-10-25T22:52:32+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   }
 }
