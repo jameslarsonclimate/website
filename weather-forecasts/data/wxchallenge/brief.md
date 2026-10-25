@@ -3,7 +3,7 @@
 - Station: **KOLM**
 - Target day: **2026-10-26**, scored over 2026-10-26T06Z to 2026-10-27T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-26T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-25T22:01:56+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-25T22:12:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -719,7 +719,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-25 19Z | Sun 12:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 91 | 98 | 87 | 93 | 97 |
 | 10-25 20Z | Sun 13:00 | 100 | 100 | 100 | 100 |  | 93 |  |  |  | 91 | 95 | 78 | 91 | 98 |
 | 10-25 21Z | Sun 14:00 | 100 | 100 | 100 | 100 | 69 | 88 | 58 |  | 100 | 82 | 92 | 73 | 89 | 99 |
-| 10-25 22Z | Sun 15:00 |  | 100 | 100 | 93 |  | 100 |  |  |  | 75 | 85 | 74 | 88 | 99 |
+| 10-25 22Z | Sun 15:00 | 100 | 100 | 100 | 93 |  | 100 |  |  |  | 75 | 85 | 74 | 88 | 99 |
 
 ## Dewpoint so far today (2026-10-25, observed vs forecast)
 
