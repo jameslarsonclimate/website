@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T20:30:09+00:00",
+  "generated_at_utc": "2026-10-25T21:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -142,28 +142,28 @@
       ]
     },
     "NBM": {
-      "tmax_f": 58.0,
+      "tmax_f": 57.0,
       "tmin_f": 38.0,
       "wind_max_kt": 3.0,
-      "precip_in": 0.02,
-      "pop06_max_pct": 59,
+      "precip_in": 0.03,
+      "pop06_max_pct": 65,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.59,
-          "12-18": 0.54,
-          "18-00": 0.14,
-          "00-06": 0.1
+          "06-12": 0.55,
+          "12-18": 0.65,
+          "18-00": 0.17,
+          "00-06": 0.12
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.59,
-          0.854
+          0.65,
+          0.885
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-25T18",
+      "init_time_utc": "2026-10-25T20",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -1178,7 +1178,7 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 55.8,
+      "tmax_f": 55.6,
       "tmin_f": 40.0,
       "wind_max_kt": 8.1,
       "precip_in": 0.15,
@@ -1296,7 +1296,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-25T20:30:09+00:00",
+    "checked_at_utc": "2026-10-25T21:00:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
