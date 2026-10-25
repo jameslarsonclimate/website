@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T19:00:05+00:00",
+  "generated_at_utc": "2026-10-25T19:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Olympia, WA (KOLM)",
@@ -73,11 +73,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 57.5,
-      "tmin_f": 43.6,
-      "wind_max_kt": 4.9,
-      "precip_in": 0.17,
-      "init_time_utc": "2026-10-25T06",
+      "tmax_f": 57.0,
+      "tmin_f": 45.7,
+      "wind_max_kt": 6.6,
+      "precip_in": 0.33,
+      "init_time_utc": "2026-10-25T12",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -1150,8 +1150,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.1,
-      "init_time_utc": "2026-10-25T06",
+      "precip_in": 0.17,
+      "init_time_utc": "2026-10-25T12",
       "valid_range_utc": [
         "2026-10-26T06",
         "2026-10-27T06"
@@ -1159,21 +1159,21 @@
       "note": "calibrated PoP and percentiles (NBM QMD); precip = 50% level",
       "precip_only": true,
       "pop": {
-        "p24": 0.776,
+        "p24": 0.9,
         "blocks": {
-          "06-12": 0.568,
-          "12-18": 0.506,
-          "18-00": 0.086,
-          "00-06": 0.084
+          "06-12": 0.563,
+          "12-18": 0.645,
+          "18-00": 0.154,
+          "00-06": 0.13
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
           "10": 0.0,
-          "25": 0.0,
-          "50": 0.101,
-          "75": 0.204,
-          "90": 0.375
+          "25": 0.065,
+          "50": 0.172,
+          "75": 0.262,
+          "90": 0.36
         }
       }
     },
@@ -1296,7 +1296,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-25T19:00:05+00:00",
+    "checked_at_utc": "2026-10-25T19:30:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
