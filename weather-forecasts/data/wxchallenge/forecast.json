@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-26T15:30:06+00:00",
+  "generated_at_utc": "2026-10-26T16:09:35+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -163,20 +163,22 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-26T14",
+      "init_time_utc": "2026-10-26T15",
       "valid_range_utc": [
         "2026-10-27T06",
         "2026-10-28T06"
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-10-27 available at 2026-10-26 15Z"
+      "tmax_f": 59.0,
+      "tmin_f": 44.0,
+      "wind_max_kt": 17.0,
+      "precip_in": 0.25,
+      "init_time_utc": "2026-10-26T12",
+      "valid_range_utc": [
+        "2026-10-27T06",
+        "2026-10-28T06"
+      ]
     },
     "ENS": {
       "tmax_f": 60.5,
@@ -1176,9 +1178,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 56.7,
+      "tmax_f": 56.9,
       "tmin_f": 43.9,
-      "wind_max_kt": 15.6,
+      "wind_max_kt": 15.8,
       "precip_in": 0.26,
       "method": {
         "tmax_f": {
@@ -1191,24 +1193,29 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.137,
-            "RRFS": 0.18,
-            "IFS": 0.079,
-            "GFS": 0.133,
-            "AIFS": 0.093,
-            "GFS_MOS": 0.108,
-            "NBM": 0.098,
-            "ENS": 0.079,
-            "AIFS_ENS": 0.093
+            "HRRR": 0.125,
+            "RRFS": 0.163,
+            "IFS": 0.072,
+            "GFS": 0.122,
+            "AIFS": 0.085,
+            "GFS_MOS": 0.098,
+            "NBM": 0.09,
+            "USL": 0.09,
+            "ENS": 0.072,
+            "AIFS_ENS": 0.085
           },
           "proxy_track_record": {
             "ENS": "IFS",
             "AIFS_ENS": "AIFS"
-          }
+          },
+          "not_yet_verified": [
+            "USL"
+          ]
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1220,24 +1227,29 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.095,
-            "RRFS": 0.086,
-            "IFS": 0.148,
-            "GFS": 0.074,
-            "AIFS": 0.098,
-            "GFS_MOS": 0.091,
-            "NBM": 0.162,
-            "ENS": 0.148,
-            "AIFS_ENS": 0.098
+            "HRRR": 0.087,
+            "RRFS": 0.078,
+            "IFS": 0.135,
+            "GFS": 0.068,
+            "AIFS": 0.089,
+            "GFS_MOS": 0.083,
+            "NBM": 0.148,
+            "USL": 0.089,
+            "ENS": 0.135,
+            "AIFS_ENS": 0.089
           },
           "proxy_track_record": {
             "ENS": "IFS",
             "AIFS_ENS": "AIFS"
-          }
+          },
+          "not_yet_verified": [
+            "USL"
+          ]
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1249,24 +1261,29 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.12,
-            "RRFS": 0.109,
-            "IFS": 0.093,
-            "GFS": 0.103,
-            "AIFS": 0.099,
-            "GFS_MOS": 0.145,
-            "NBM": 0.139,
-            "ENS": 0.093,
-            "AIFS_ENS": 0.099
+            "HRRR": 0.109,
+            "RRFS": 0.099,
+            "IFS": 0.084,
+            "GFS": 0.093,
+            "AIFS": 0.09,
+            "GFS_MOS": 0.131,
+            "NBM": 0.126,
+            "USL": 0.093,
+            "ENS": 0.084,
+            "AIFS_ENS": 0.09
           },
           "proxy_track_record": {
             "ENS": "IFS",
             "AIFS_ENS": "AIFS"
-          }
+          },
+          "not_yet_verified": [
+            "USL"
+          ]
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1278,35 +1295,38 @@
             "AIFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS",
             "AIFS_ENS"
           ],
           "weights": {
-            "HRRR": 0.11,
-            "RRFS": 0.113,
-            "IFS": 0.106,
-            "GFS": 0.11,
-            "AIFS": 0.111,
-            "GFS_MOS": 0.118,
-            "NBM": 0.115,
-            "ENS": 0.106,
-            "AIFS_ENS": 0.111
+            "HRRR": 0.099,
+            "RRFS": 0.101,
+            "IFS": 0.095,
+            "GFS": 0.099,
+            "AIFS": 0.1,
+            "GFS_MOS": 0.106,
+            "NBM": 0.104,
+            "USL": 0.1,
+            "ENS": 0.095,
+            "AIFS_ENS": 0.1
           },
           "proxy_track_record": {
             "ENS": "IFS",
             "AIFS_ENS": "AIFS"
-          }
+          },
+          "not_yet_verified": [
+            "USL"
+          ]
         }
       }
     }
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-26T15:30:06+00:00",
+    "checked_at_utc": "2026-10-26T16:09:35+00:00",
     "connectivity": false,
-    "failed": [
-      "USL"
-    ],
+    "failed": [],
     "carried_over": []
   }
 }
