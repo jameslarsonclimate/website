@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-27**, scored over 2026-10-27T06Z to 2026-10-28T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-27T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-26T23:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-26T23:12:06+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -526,22 +526,22 @@ Day dewpoint: observed mean (°F) and each model's error (forecast - observed, �
 | 10-24 h | 49.8 | -1.3 | +0.4 | +3.2 | +2.9 | +0.1 | -0.7 | +0.8 | -0.7 |
 | 10-25 h | 32.0 | +3.3 | +1.7 | -0.7 | -2.8 | -2.7 | +2.2 | +5.6 | +0.8 |
 
-## Today so far (2026-10-26, through 2026-10-26T21:53Z)
+## Today so far (2026-10-26, through 2026-10-26T22:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 48.9 °F, low 42.1 °F, max wind 11 kt, precip 0.26" (16 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 48.9 °F, low 42.1 °F, max wind 11 kt, precip 0.30" (17 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 25/18Z | +1.0 | 1.0 | 50 (+1) | 43 (+0) | -0.3 | 0.19 | -0.07 |
-| RRFS | 25/18Z | +1.8 | 1.8 | 50 (+1) | 44 (+2) | -0.1 | 0.21 | -0.05 |
-| IFS | 25/12Z | +1.9 | 1.9 | 49 (+0) | 44 (+2) | -1.6 | 0.18 | -0.08 |
-| IFS_HRES | 25/12Z | +2.3 | 2.3 | 50 (+2) | 45 (+3) | -1.8 | 0.19 | -0.07 |
-| GFS | 25/18Z | +0.6 | 1.1 | 48 (-1) | 42 (+0) pending | -1.3 | 0.14 | -0.12 |
-| AIFS | 25/12Z | -0.7 | 1.1 | 46 (-3) | 42 (+0) | -0.9 | 0.25 | -0.01 |
-| GFS_MOS | 25/18Z | -1.2 | 2.5 | 48 (-1) | 39 (-3) | +0.8 | — | — |
-| NBM | 25/23Z | +2.0 | 2.2 | 49 (+0) | 43 (+1) | +0.6 | — | — |
+| HRRR | 25/18Z | +0.9 | 0.9 | 50 (+1) | 43 (+0) | -0.4 | 0.25 | -0.05 |
+| RRFS | 25/18Z | +1.9 | 1.9 | 50 (+1) | 44 (+2) | -0.3 | 0.26 | -0.04 |
+| IFS | 25/12Z | +1.9 | 1.9 | 49 (+0) | 44 (+2) | -1.6 | 0.21 | -0.09 |
+| IFS_HRES | 25/12Z | +2.3 | 2.3 | 50 (+2) | 45 (+3) | -1.8 | 0.22 | -0.08 |
+| GFS | 25/18Z | +0.5 | 1.1 | 48 (-1) | 42 (+0) pending | -1.3 | 0.19 | -0.11 |
+| AIFS | 25/12Z | -0.7 | 1.1 | 46 (-3) | 42 (+0) | -1.0 | 0.28 | -0.02 |
+| GFS_MOS | 25/18Z | -1.1 | 2.5 | 48 (-1) | 39 (-3) | +0.7 | — | — |
+| NBM | 25/23Z | +2.1 | 2.3 | 49 (+0) | 43 (+1) | +0.6 | — | — |
 
 ## Clouds so far today (2026-10-26, observed vs forecast)
 
@@ -566,6 +566,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-26 20Z | Mon 15:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 90 |
 | 10-26 21Z | Mon 16:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 |  | 100 | 92 |
 | 10-26 22Z | Mon 17:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 90 |
+| 10-26 23Z | Mon 18:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 90 |
 
 ## Dewpoint so far today (2026-10-26, observed vs forecast)
 
@@ -589,7 +590,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-26 20Z | Mon 15:00 | 39.9 | 89 | 40.4 | 42.3 |  | 43.1 |  |  |  |  |
 | 10-26 21Z | Mon 16:00 | 39.9 | 89 | 41.1 | 42.2 | 43.3 | 43.7 | 35.1 |  | 37.0 | 36.0 |
 | 10-26 22Z | Mon 17:00 | 39.0 | 86 | 41.1 | 42.3 |  | 43.5 |  |  |  |  |
-| Bias so far |  |  |  | -1.7 | -0.8 | +0.6 | +1.2 | -5.3 | -0.8 | -3.0 | -1.8 |
+| 10-26 23Z | Mon 18:00 | 39.9 | 89 | 41.2 | 42.2 |  | 43.4 |  |  |  |  |
+| Bias so far |  |  |  | -1.5 | -0.6 | +0.6 | +1.3 | -5.3 | -0.8 | -3.0 | -1.8 |
 
 ## Raw data
 

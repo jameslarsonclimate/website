@@ -2725,7 +2725,7 @@
     }
   },
   "period_start": "2026-10-12",
-  "generated_at_utc": "2026-10-26T23:00:09+00:00",
+  "generated_at_utc": "2026-10-26T23:12:06+00:00",
   "observations": [
     {
       "date": "2026-10-12",
@@ -4407,14 +4407,14 @@
   },
   "today": {
     "date": "2026-10-26",
-    "through_utc": "2026-10-26T21:53",
-    "n_obs": 16,
+    "through_utc": "2026-10-26T22:53",
+    "n_obs": 17,
     "provisional": true,
     "obs": {
       "tmax_f": 49,
       "tmin_f": 42,
       "wind_max_kt": 11,
-      "precip_in": 0.26
+      "precip_in": 0.3
     },
     "models": {}
   }
