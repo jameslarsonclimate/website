@@ -16,10 +16,10 @@ import sys
 from dataclasses import dataclass
 from typing import Optional
 
-CURRENT_STATION = "KOLM"
+CURRENT_STATION = "KMSP"
 
-AFD_URL = ("https://forecast.weather.gov/product.php?site={wfo}&issuedby={wfo}&product=AFD"
-           "&format=txt&version=1&glossary=0")
+AFD_URL = ("https://forecast.weather.gov/product.php?site={wfo}&issuedby={wfo}&product=afd"
+           "&format=ci&version=1&glossary=1")
 
 
 @dataclass
@@ -85,7 +85,7 @@ class Station:
     @property
     def afd_url(self) -> Optional[str]:
         """Latest NWS Area Forecast Discussion from the station's WFO (None when wfo is unset)."""
-        return AFD_URL.format(wfo=self.wfo.upper()) if self.wfo else None
+        return AFD_URL.format(wfo=self.wfo.lower()) if self.wfo else None
 
 
 def default_rrfs_domain(icao: str) -> Optional[str]:
@@ -153,6 +153,12 @@ SLIDER_KOLM = ("https://slider.cira.colostate.edu/?sat=goes-18&sec=conus&x=6964&
                "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
                "&draw_color=FFD700&draw_width=6")
 
+SLIDER_KMSP = ("https://slider.cira.colostate.edu/?sat=goes-19&sec=conus&x=4508&y=2984&z=3"
+               "&angle=0&im=24&ts=1&st=0&et=0&speed=130&motion=loop&maps%5Bborders%5D=white"
+               "&mops%5Bborders%5D=0.4&p%5B0%5D=geocolor&opacity%5B0%5D=1&pause=0&slider=-1"
+               "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
+               "&draw_color=FFD700&draw_width=6")
+
 # Past and present WxChallenge sites (coordinates of the ASOS sensor).
 STATIONS = {
     s.icao: s for s in [
@@ -167,6 +173,8 @@ STATIONS = {
         Station("KSAV", "Savannah, GA", 32.1314, -81.2023, tz="America/New_York", wfo="CHS"),
         Station("KOLM", "Olympia, WA", 46.973445, -122.898031, pivotal_region="us_nw",
                 slider_url=SLIDER_KOLM, tz="America/Los_Angeles", wfo="SEW"),
+        Station("KMSP", "Minneapolis, MN", 44.883962, -93.220580, pivotal_region="us_mw",
+                slider_url=SLIDER_KMSP, tz="America/Chicago", wfo="MPX"),
     ]
 }
 

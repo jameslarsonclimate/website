@@ -521,8 +521,11 @@ def test_station_registry():
     assert STATIONS["KFNL"].cli_pil == "" and default_hrrr_model("PHNL") is None
     assert STATIONS["PAJN"].rrfs_domain == "ak" and STATIONS["KTPA"].rrfs_domain == "conus"
     assert STATIONS["KTPA"].wfo == "TBW" and STATIONS["KTPA"].afd_url == (
-        "https://forecast.weather.gov/product.php?site=TBW&issuedby=TBW&product=AFD"
-        "&format=txt&version=1&glossary=0")
+        "https://forecast.weather.gov/product.php?site=tbw&issuedby=tbw&product=afd"
+        "&format=ci&version=1&glossary=1")
+    assert STATIONS["KMSP"].afd_url == (
+        "https://forecast.weather.gov/product.php?site=mpx&issuedby=mpx&product=afd"
+        "&format=ci&version=1&glossary=1")
     assert Station("KXYZ", "Nowhere", 40.0, -100.0, tz="America/Chicago").afd_url is None
 
 
