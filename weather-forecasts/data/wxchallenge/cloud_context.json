@@ -2121,8 +2121,114 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-10-25": {
+    "date": "2026-10-25",
+    "day_hours_utc": [
+     "2026-10-25T15:00",
+     "2026-10-26T01:00"
+    ],
+    "night_hours_utc": [
+     "2026-10-25T06:00",
+     "2026-10-25T14:00"
+    ],
+    "obs": {
+     "day_pct": 100.0,
+     "night_pct": 100.0,
+     "goes_day_pct": 99.0,
+     "goes_night_pct": 100.0
+    },
+    "models": {
+     "HRRR": {
+      "init_time_utc": "2026-10-24T18",
+      "day_pct": 100.0,
+      "night_pct": 82.7,
+      "day_err": 0,
+      "night_err": -17
+     },
+     "RRFS": {
+      "init_time_utc": "2026-10-24T18",
+      "day_pct": 95.0,
+      "night_pct": 97.3,
+      "day_err": -5,
+      "night_err": -3
+     },
+     "IFS": {
+      "init_time_utc": "2026-10-24T12",
+      "day_pct": 83.5,
+      "night_pct": 100.0,
+      "day_err": -16,
+      "night_err": 0
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-10-24T12",
+      "day_pct": 95.9,
+      "night_pct": 99.6,
+      "day_err": -4,
+      "night_err": 0
+     },
+     "GFS": {
+      "init_time_utc": "2026-10-24T18",
+      "day_pct": 88.7,
+      "night_pct": 100.0,
+      "day_err": -11,
+      "night_err": 0
+     },
+     "AIFS": {
+      "init_time_utc": "2026-10-24T12",
+      "day_pct": 91.0,
+      "night_pct": 95.3,
+      "day_err": -9,
+      "night_err": -5
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-10-24T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "NBM": {
+      "init_time_utc": "2026-10-24T22",
+      "day_pct": 83.7,
+      "night_pct": 86.6,
+      "day_err": -16,
+      "night_err": -13
+     },
+     "AIFS_ENS": {
+      "init_time_utc": "2026-10-24T12",
+      "day_pct": 91.0,
+      "night_pct": 96.3,
+      "day_err": -9,
+      "night_err": -4
+     },
+     "GEFS": {
+      "init_time_utc": "2026-10-24T12",
+      "day_pct": 98.2,
+      "night_pct": 99.1,
+      "day_err": -2,
+      "night_err": -1
+     },
+     "ENS": {
+      "init_time_utc": "2026-10-24T06",
+      "day_pct": 84.4,
+      "night_pct": 98.7,
+      "day_err": -16,
+      "night_err": -1
+     },
+     "USL": {
+      "init_time_utc": "2026-10-24T22",
+      "day_pct": 89.9,
+      "night_pct": 99.4,
+      "day_err": -10,
+      "night_err": -1
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-10-25T16:29:15+00:00"
+ "generated_at_utc": "2026-10-26T14:19:37+00:00"
 }
