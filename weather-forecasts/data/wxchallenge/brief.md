@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-27**, scored over 2026-10-27T06Z to 2026-10-28T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-27T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-26T18:00:10+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-26T18:30:10+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -526,22 +526,22 @@ Day dewpoint: observed mean (°F) and each model's error (forecast - observed, �
 | 10-24 h | 49.8 | -1.3 | +0.4 | +3.2 | +2.9 | +0.1 | -0.7 | +0.8 | -0.7 |
 | 10-25 h | 32.0 | +3.3 | +1.7 | -0.7 | -2.8 | -2.7 | +2.2 | +5.6 | +0.8 |
 
-## Today so far (2026-10-26, through 2026-10-26T16:53Z)
+## Today so far (2026-10-26, through 2026-10-26T17:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 48.9 °F, low 43.0 °F, max wind 11 kt, precip 0.08" (11 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 48.9 °F, low 42.1 °F, max wind 11 kt, precip 0.13" (12 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 25/18Z | +1.2 | 1.2 | 50 (+1) | 43 (+0) pending | +0.0 | 0.02 | -0.06 |
-| RRFS | 25/18Z | +1.2 | 1.2 | 50 (+1) | 44 (+1) | -0.1 | 0.10 | +0.02 |
-| IFS | 25/12Z | +1.4 | 1.5 | 49 (+0) | 44 (+1) | -1.2 | 0.02 | -0.06 |
-| IFS_HRES | 25/12Z | +1.9 | 1.9 | 50 (+2) | 45 (+2) | -1.4 | 0.01 | -0.07 |
-| GFS | 25/18Z | +0.8 | 1.4 | 48 (-1) | 42 (-1) pending | -1.3 | 0.05 | -0.03 |
-| AIFS | 25/12Z | -1.3 | 1.4 | 46 (-3) | 42 (-1) | -0.8 | 0.12 | +0.04 |
-| GFS_MOS | 25/18Z | -2.6 | 2.8 | 48 (-1) | 39 (-4) | +1.1 | — | — |
-| NBM | 25/23Z | +1.1 | 1.4 | 49 (+0) | 43 (+0) | +0.4 | — | — |
+| HRRR | 25/18Z | +1.2 | 1.2 | 50 (+1) | 43 (+0) | -0.1 | 0.05 | -0.08 |
+| RRFS | 25/18Z | +1.3 | 1.3 | 50 (+1) | 44 (+2) | -0.1 | 0.14 | +0.01 |
+| IFS | 25/12Z | +1.6 | 1.7 | 49 (+0) | 44 (+2) | -1.3 | 0.02 | -0.11 |
+| IFS_HRES | 25/12Z | +2.0 | 2.0 | 50 (+2) | 45 (+3) | -1.5 | 0.02 | -0.11 |
+| GFS | 25/18Z | +0.8 | 1.4 | 48 (-1) | 42 (+0) pending | -1.2 | 0.07 | -0.06 |
+| AIFS | 25/12Z | -1.1 | 1.4 | 46 (-3) | 42 (+0) | -0.8 | 0.13 | +0.00 |
+| GFS_MOS | 25/18Z | -2.3 | 2.7 | 48 (-1) | 39 (-3) | +1.1 | — | — |
+| NBM | 25/23Z | +1.3 | 1.6 | 49 (+0) | 43 (+1) | +0.5 | — | — |
 
 ## Clouds so far today (2026-10-26, observed vs forecast)
 
@@ -561,6 +561,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-26 15Z | Mon 10:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 |  | 100 | 88 |
 | 10-26 16Z | Mon 11:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 90 |
 | 10-26 17Z | Mon 12:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 91 |
+| 10-26 18Z | Mon 13:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 91 |
 
 ## Dewpoint so far today (2026-10-26, observed vs forecast)
 
@@ -579,7 +580,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-26 15Z | Mon 10:00 | 35.1 | 70 | 35.5 | 36.0 | 35.0 | 36.1 | 28.6 |  | 33.0 | 36.0 |
 | 10-26 16Z | Mon 11:00 | 37.0 | 76 | 35.4 | 37.5 |  | 36.1 |  |  |  |  |
 | 10-26 17Z | Mon 12:00 | 39.0 | 86 | 37.9 | 39.7 |  | 36.6 |  |  |  |  |
-| Bias so far |  |  |  | -2.7 | -2.1 | +0.7 | +0.8 | -5.2 | +0.4 | -2.4 | -0.4 |
+| 10-26 18Z | Mon 13:00 | 39.9 | 89 | 39.0 | 41.1 | 37.5 | 38.4 | 33.7 | 37.9 | 35.0 | 36.0 |
+| Bias so far |  |  |  | -2.5 | -1.9 | -0.1 | +0.6 | -5.5 | -0.8 | -3.0 | -1.3 |
 
 ## Raw data
 
