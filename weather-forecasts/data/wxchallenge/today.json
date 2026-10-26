@@ -1,19 +1,19 @@
 {
   "date": "2026-10-26",
-  "through_utc": "2026-10-26T18:53",
+  "through_utc": "2026-10-26T19:53",
   "obs": {
     "high": 48.92,
     "low": 42.08,
     "wind": 11,
-    "precip": 0.16,
-    "n_obs": 13
+    "precip": 0.21,
+    "n_obs": 14
   },
   "models": {
     "HRRR": {
       "init_time_utc": "2026-10-25T18",
-      "n": 13,
-      "temp_bias": 1.2,
-      "temp_mae": 1.2,
+      "n": 14,
+      "temp_bias": 1.1,
+      "temp_mae": 1.1,
       "high_fcst": 49.5,
       "high_at": "2026-10-26T06:00",
       "high_source": "daily",
@@ -24,15 +24,15 @@
       "low_source": "daily",
       "low_err": 0.5,
       "low_pending": false,
-      "wind_bias": -0.1,
-      "precip_so_far": 0.08,
+      "wind_bias": -0.0,
+      "precip_so_far": 0.13,
       "precip_err": -0.08
     },
     "RRFS": {
       "init_time_utc": "2026-10-25T18",
-      "n": 13,
-      "temp_bias": 1.5,
-      "temp_mae": 1.5,
+      "n": 14,
+      "temp_bias": 1.6,
+      "temp_mae": 1.6,
       "high_fcst": 50.2,
       "high_at": "2026-10-26T06:00",
       "high_source": "daily",
@@ -43,15 +43,15 @@
       "low_source": "daily",
       "low_err": 2.2,
       "low_pending": false,
-      "wind_bias": -0.1,
-      "precip_so_far": 0.15,
-      "precip_err": -0.01
+      "wind_bias": 0.2,
+      "precip_so_far": 0.18,
+      "precip_err": -0.03
     },
     "IFS": {
       "init_time_utc": "2026-10-25T12",
-      "n": 13,
-      "temp_bias": 1.7,
-      "temp_mae": 1.8,
+      "n": 14,
+      "temp_bias": 1.8,
+      "temp_mae": 1.9,
       "high_fcst": 49.2,
       "high_at": "2026-10-26T06:00",
       "high_source": "daily",
@@ -62,13 +62,13 @@
       "low_source": "daily",
       "low_err": 2.3,
       "low_pending": false,
-      "wind_bias": -1.4,
-      "precip_so_far": 0.06,
-      "precip_err": -0.1
+      "wind_bias": -1.3,
+      "precip_so_far": 0.1,
+      "precip_err": -0.11
     },
     "IFS_HRES": {
       "init_time_utc": "2026-10-25T12",
-      "n": 13,
+      "n": 14,
       "temp_bias": 2.2,
       "temp_mae": 2.2,
       "high_fcst": 50.5,
@@ -82,13 +82,13 @@
       "low_err": 2.7,
       "low_pending": false,
       "wind_bias": -1.5,
-      "precip_so_far": 0.04,
+      "precip_so_far": 0.09,
       "precip_err": -0.12
     },
     "GFS": {
       "init_time_utc": "2026-10-25T18",
-      "n": 13,
-      "temp_bias": 0.8,
+      "n": 14,
+      "temp_bias": 0.7,
       "temp_mae": 1.3,
       "high_fcst": 47.8,
       "high_at": "2026-10-26T06:00",
@@ -100,14 +100,14 @@
       "low_source": "daily",
       "low_err": -0.5,
       "low_pending": true,
-      "wind_bias": -1.1,
-      "precip_so_far": 0.08,
-      "precip_err": -0.08
+      "wind_bias": -1.0,
+      "precip_so_far": 0.09,
+      "precip_err": -0.12
     },
     "AIFS": {
       "init_time_utc": "2026-10-25T12",
-      "n": 13,
-      "temp_bias": -1.0,
+      "n": 14,
+      "temp_bias": -0.9,
       "temp_mae": 1.3,
       "high_fcst": 46.2,
       "high_at": "2026-10-26T06:00",
@@ -119,15 +119,15 @@
       "low_source": "daily",
       "low_err": 0.3,
       "low_pending": false,
-      "wind_bias": -0.8,
-      "precip_so_far": 0.16,
-      "precip_err": -0.0
+      "wind_bias": -0.7,
+      "precip_so_far": 0.19,
+      "precip_err": -0.02
     },
     "GFS_MOS": {
       "init_time_utc": "2026-10-25T18",
-      "n": 13,
-      "temp_bias": -1.9,
-      "temp_mae": 2.7,
+      "n": 14,
+      "temp_bias": -1.7,
+      "temp_mae": 2.6,
       "high_fcst": 48.0,
       "high_at": "2026-10-26T06:00",
       "high_source": "daily",
@@ -142,9 +142,9 @@
     },
     "NBM": {
       "init_time_utc": "2026-10-25T23",
-      "n": 13,
-      "temp_bias": 1.5,
-      "temp_mae": 1.8,
+      "n": 14,
+      "temp_bias": 1.7,
+      "temp_mae": 2.0,
       "high_fcst": 49.0,
       "high_at": "2026-10-26T06:00",
       "high_source": "daily",
@@ -155,9 +155,9 @@
       "low_source": "daily",
       "low_err": 0.9,
       "low_pending": false,
-      "wind_bias": 0.6
+      "wind_bias": 0.7
     }
   },
   "station": "KMSP",
-  "generated_at_utc": "2026-10-26T20:00:08+00:00"
+  "generated_at_utc": "2026-10-26T20:30:09+00:00"
 }
