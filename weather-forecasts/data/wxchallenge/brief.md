@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-27**, scored over 2026-10-27T06Z to 2026-10-28T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-27T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-26T21:24:06+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-26T21:36:07+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -526,7 +526,7 @@ Day dewpoint: observed mean (°F) and each model's error (forecast - observed, �
 | 10-24 h | 49.8 | -1.3 | +0.4 | +3.2 | +2.9 | +0.1 | -0.7 | +0.8 | -0.7 |
 | 10-25 h | 32.0 | +3.3 | +1.7 | -0.7 | -2.8 | -2.7 | +2.2 | +5.6 | +0.8 |
 
-## Today so far (2026-10-26, through 2026-10-26T21:03Z)
+## Today so far (2026-10-26, through 2026-10-26T21:27Z)
 
 This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 48.9 °F, low 42.1 °F, max wind 11 kt, precip 0.26" (15 hourly obs).
 
@@ -534,12 +534,12 @@ Temp bias/MAE are over the hourly obs so far. High/low columns show the model's 
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 25/18Z | +1.0 | 1.0 | 50 (+1) | 43 (+0) | -0.2 | 0.17 | -0.09 |
+| HRRR | 25/18Z | +1.0 | 1.0 | 50 (+1) | 43 (+0) | -0.2 | 0.18 | -0.08 |
 | RRFS | 25/18Z | +1.8 | 1.8 | 50 (+1) | 44 (+2) | +0.0 | 0.21 | -0.05 |
-| IFS | 25/12Z | +1.8 | 1.9 | 49 (+0) | 44 (+2) | -1.5 | 0.16 | -0.10 |
-| IFS_HRES | 25/12Z | +2.3 | 2.3 | 50 (+2) | 45 (+3) | -1.7 | 0.16 | -0.10 |
-| GFS | 25/18Z | +0.7 | 1.2 | 48 (-1) | 42 (+0) pending | -1.2 | 0.11 | -0.15 |
-| AIFS | 25/12Z | -0.8 | 1.2 | 46 (-3) | 42 (+0) | -0.8 | 0.22 | -0.04 |
+| IFS | 25/12Z | +1.8 | 1.9 | 49 (+0) | 44 (+2) | -1.5 | 0.17 | -0.09 |
+| IFS_HRES | 25/12Z | +2.3 | 2.3 | 50 (+2) | 45 (+3) | -1.7 | 0.18 | -0.08 |
+| GFS | 25/18Z | +0.7 | 1.2 | 48 (-1) | 42 (+0) pending | -1.2 | 0.12 | -0.14 |
+| AIFS | 25/12Z | -0.8 | 1.2 | 46 (-3) | 42 (+0) | -0.8 | 0.23 | -0.03 |
 | GFS_MOS | 25/18Z | -1.4 | 2.6 | 48 (-1) | 39 (-3) | +0.9 | — | — |
 | NBM | 25/23Z | +1.9 | 2.1 | 49 (+0) | 43 (+1) | +0.7 | — | — |
 
