@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-28**, scored over 2026-10-28T06Z to 2026-10-29T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-28T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-27T19:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-27T19:30:10+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -43,7 +43,7 @@ Run = day/hour (UTC) of the model initialization.
 | GEFS | 27/12Z | 68.3 | 52.7 | 11.9 | 0.25 |
 | HRRRCAST (precip only) | 27/06Z | — | — | — | 0.08 |
 | REFS (precip only) | 27/12Z | — | — | — | 0.18 |
-| NBM_QMD (precip only) | 27/06Z | — | — | — | 0.45 |
+| NBM_QMD (precip only) | 27/12Z | — | — | — | 0.51 |
 | **CONSENSUS** |  | **67.5** | **50.5** | **15.6** | **0.31** |
 
 Notes:
@@ -100,7 +100,7 @@ Share of members reaching each 24-h precip amount:
 | HRRRCAST | 89% | 39% | 11% | 0% |
 | REFS | 100% | 86% | 36% | 21% |
 
-NBM QMD calibrated 24-h precip percentiles: p10 0.22", p25 0.26", p50 0.45", p75 0.73", p90 0.96"
+NBM QMD calibrated 24-h precip percentiles: p10 0.14", p25 0.29", p50 0.51", p75 0.69", p90 0.89"
 
 ## Chance of measurable precip (≥0.01") on the target day
 
@@ -115,7 +115,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.22", p25 0.26", p50 0.45", p75
 | GEFS | member fraction | 0% | 23% | 100% | 100% | 100% | — |
 | HRRRCAST | member fraction | — | — | — | — | 89% | — |
 | REFS | member fraction | — | — | — | — | 100% | — |
-| NBM_QMD | NBM QMD | 21% | 27% | 86% | 76% | 100% | — |
+| NBM_QMD | NBM QMD | 8% | 16% | 79% | 78% | 100% | — |
 
 ## Hourly guidance through the target day
 
@@ -535,26 +535,26 @@ Day dewpoint: observed mean (°F) and each model's error (forecast - observed, �
 | 10-25 h | 32.0 | +3.3 | +1.7 | -0.7 | -2.8 | -2.7 | +2.2 | +5.6 | +0.8 |
 | 10-26 h | 38.1 | -0.1 | +1.5 | +0.7 | +1.5 | -5.5 | +0.1 | -3.1 | -2.1 |
 
-## Today so far (2026-10-27, through 2026-10-27T17:53Z)
+## Today so far (2026-10-27, through 2026-10-27T18:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 52.0 °F, low 44.1 °F, max wind 14 kt, precip 0.14" (12 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 54.0 °F, low 44.1 °F, max wind 14 kt, precip 0.14" (13 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 26/18Z | -0.4 | 0.6 | 53 (+1) pending | 44 (+0) | -1.8 | 0.25 | +0.11 |
-| RRFS | 26/18Z | +0.4 | 1.1 | 55 (+3) pending | 44 (+0) | -2.2 | 0.12 | -0.02 |
-| IFS | 26/12Z | +2.1 | 2.1 | 59 (+7) pending | 44 (+0) | -1.7 | 0.34 | +0.20 |
-| IFS_HRES | 26/12Z | +2.1 | 2.1 | 59 (+7) pending | 45 (+1) | -2.0 | 0.45 | +0.31 |
-| GFS | 26/18Z | -0.5 | 1.1 | 56 (+4) pending | 43 (-1) | -2.1 | 0.24 | +0.10 |
-| AIFS | 26/12Z | -0.2 | 0.8 | 54 (+2) pending | 42 (-2) | -2.4 | 0.26 | +0.12 |
-| GFS_MOS | 26/18Z | -1.4 | 1.7 | 58 (+6) pending | 41 (-3) | -0.8 | — | — |
-| NBM | 26/22Z | +1.9 | 1.9 | 62 (+10) pending | 43 (-1) | +1.4 | — | — |
-| USL | 26/22Z | +1.1 | 1.1 | 59 (+7) pending | 44 (+0) | -0.6 | 0.22 | +0.08 |
-| ENS | 26/00Z | +1.5 | 1.5 | 60 (+8) pending | 45 (+1) | -0.7 | 0.31 | +0.17 |
-| AIFS_ENS | 26/12Z | +0.5 | 1.3 | 55 (+3) pending | 43 (-1) | -2.0 | 0.29 | +0.15 |
-| GEFS | 26/18Z | -0.4 | 0.7 | 58 (+6) pending | 44 (+0) | -1.0 | 0.24 | +0.10 |
+| HRRR | 26/18Z | -0.5 | 0.6 | 53 (-1) | 44 (+0) | -1.7 | 0.25 | +0.11 |
+| RRFS | 26/18Z | +0.3 | 1.0 | 55 (+1) pending | 44 (+0) | -2.1 | 0.12 | -0.02 |
+| IFS | 26/12Z | +2.3 | 2.3 | 59 (+5) pending | 44 (+0) | -1.6 | 0.35 | +0.21 |
+| IFS_HRES | 26/12Z | +2.2 | 2.2 | 59 (+5) pending | 45 (+1) | -2.0 | 0.46 | +0.32 |
+| GFS | 26/18Z | -0.6 | 1.2 | 56 (+2) pending | 43 (-1) | -2.1 | 0.24 | +0.10 |
+| AIFS | 26/12Z | -0.2 | 0.8 | 54 (+0) | 42 (-2) | -2.3 | 0.26 | +0.12 |
+| GFS_MOS | 26/18Z | -1.2 | 1.6 | 58 (+4) pending | 41 (-3) | -0.7 | — | — |
+| NBM | 26/22Z | +2.3 | 2.3 | 62 (+8) pending | 43 (-1) | +1.5 | — | — |
+| USL | 26/22Z | +1.1 | 1.2 | 59 (+5) pending | 44 (+0) | -0.7 | 0.22 | +0.08 |
+| ENS | 26/00Z | +1.7 | 1.7 | 60 (+6) pending | 45 (+1) | -0.7 | 0.31 | +0.17 |
+| AIFS_ENS | 26/12Z | +0.5 | 1.3 | 55 (+1) pending | 43 (-1) | -1.8 | 0.29 | +0.15 |
+| GEFS | 26/18Z | -0.4 | 0.7 | 58 (+4) pending | 44 (+0) | -1.0 | 0.24 | +0.10 |
 
 ## Clouds so far today (2026-10-27, observed vs forecast)
 
@@ -575,6 +575,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-27 16Z | Tue 11:00 | 100 | 100 | 100 | 100 |  | 99 |  |  |  | 85 | 100 | 98 | 95 | 99 |
 | 10-27 17Z | Tue 12:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 85 | 100 | 96 | 97 | 99 |
 | 10-27 18Z | Tue 13:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 83 | 100 | 93 | 98 | 99 |
+| 10-27 19Z | Tue 14:00 | 100 | 100 | 100 | 100 |  | 100 |  |  |  | 89 | 100 | 80 | 96 | 98 |
 
 ## Dewpoint so far today (2026-10-27, observed vs forecast)
 
@@ -595,7 +596,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-27 16Z | Tue 11:00 | 46.0 | 83 | 47.5 | 46.8 |  | 51.3 |  |  |  |  | 46.0 | 48.6 | 48.8 | 43.1 |
 | 10-27 17Z | Tue 12:00 | 48.0 | 86 | 49.5 | 48.1 |  | 53.8 |  |  |  |  | 48.0 | 50.2 | 49.9 | 44.5 |
 | 10-27 18Z | Tue 13:00 | 48.9 | 89 | 51.4 | 49.8 | 54.7 | 55.9 | 48.5 | 49.9 | 46.0 | 50.0 | 49.0 | 51.4 | 50.6 | 45.9 |
-| Bias so far |  |  |  | +1.0 | +0.2 | +3.3 | +3.9 | -1.6 | +0.4 | -2.2 | +1.2 | +0.2 | +2.6 | +1.6 | -3.4 |
+| 10-27 19Z | Tue 14:00 | 50.0 | 86 | 50.6 | 51.6 |  | 55.9 |  |  |  |  | 49.0 | 51.7 | 50.9 | 47.4 |
+| Bias so far |  |  |  | +0.9 | +0.3 | +3.3 | +4.0 | -1.6 | +0.4 | -2.2 | +1.2 | +0.1 | +2.6 | +1.6 | -3.3 |
 
 ## Raw data
 
