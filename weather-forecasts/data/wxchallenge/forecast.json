@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T18:37:14+00:00",
+  "generated_at_utc": "2026-10-27T19:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -73,11 +73,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 67.7,
-      "tmin_f": 51.6,
-      "wind_max_kt": 8.3,
-      "precip_in": 0.73,
-      "init_time_utc": "2026-10-27T06",
+      "tmax_f": 68.0,
+      "tmin_f": 49.6,
+      "wind_max_kt": 8.0,
+      "precip_in": 0.87,
+      "init_time_utc": "2026-10-27T12",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -100,11 +100,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "AIFS": {
-      "tmax_f": 62.4,
-      "tmin_f": 49.9,
-      "wind_max_kt": 8.0,
+      "tmax_f": 62.2,
+      "tmin_f": 48.8,
+      "wind_max_kt": 8.3,
       "precip_in": 0.53,
-      "init_time_utc": "2026-10-27T06",
+      "init_time_utc": "2026-10-27T12",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -163,7 +163,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-27T17",
+      "init_time_utc": "2026-10-27T18",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -1179,8 +1179,8 @@
     },
     "CONSENSUS": {
       "tmax_f": 67.5,
-      "tmin_f": 50.6,
-      "wind_max_kt": 15.5,
+      "tmin_f": 50.5,
+      "wind_max_kt": 15.6,
       "precip_in": 0.31,
       "method": {
         "tmax_f": {
@@ -1324,7 +1324,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-27T18:37:14+00:00",
+    "checked_at_utc": "2026-10-27T19:00:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
