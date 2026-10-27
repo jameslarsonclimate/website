@@ -592,14 +592,19 @@ function renderScore(){
   const CV = CLOUD_VIEWS[VIEW];       // set on the two cloud tabs
   // the same rows on every tab; on the cloud tabs, models without a cloud forecast
   // (the ensembles, the consensus) just show dashes
-  const models = Object.keys(summary).sort((a, b) =>
-    (a === 'CONSENSUS') - (b === 'CONSENSUS') || summary[a].mean_points - summary[b].mean_points);
   // per-column classes: hindcast shading and the divider before city day 1
   const firstCity = days.findIndex(d => !d.hindcast);
   const cls = days.map((d, i) => (d.hindcast ? ' hind' : '') + (i === firstCity && i > 0 ? ' city1' : ''));
   const nHind = firstCity < 0 ? days.length : firstCity;
   // today so far (provisional): its own last column, never in the totals or the consensus
   const T = todayCol(days);
+  // models with only a provisional today score (e.g. USL on a new city's first day) go after the
+  // scored ones, by today's points, with dashes for the past days; the consensus stays last
+  const fresh = T ? Object.keys(T.models).filter(n => !summary[n])
+    .sort((a, b) => T.models[a].points - T.models[b].points) : [];
+  const models = Object.keys(summary).filter(n => n !== 'CONSENSUS')
+    .sort((a, b) => summary[a].mean_points - summary[b].mean_points)
+    .concat(fresh, summary.CONSENSUS ? ['CONSENSUS'] : []);
 
   // best / worst per day (points view) for the relative colouring and the star
   const range = days.map(d => {
@@ -670,7 +675,11 @@ function renderScore(){
     if (T) tr += todayCell(T, name, CV);
     const cw = name === 'CONSENSUS' ? null : consWeight(name);
     const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
-    if (CV) {
+    if (!s) {
+      // nothing scored yet: same two-line cell, so rows keep their height
+      tr += (VIEW === 'points' ? '<td class="avg"><b>—</b></td>' : '') +
+            `<td class="sum"><b>—</b><span>0 d${CV ? '' : wt}</span></td>`;
+    } else if (CV) {
       // same two-line cell as every other row, so rows keep their height across tabs
       tr += cn ? `<td class="sum"><b>${(cw_abs / cw_sum).toFixed(0)}</b><span>bias ${signed(cw_err / cw_sum, 0)} · ${cn} d</span></td>`
                : '<td class="sum"><b>—</b><span>no cloud forecast</span></td>';
