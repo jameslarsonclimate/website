@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T20:00:06+00:00",
+  "generated_at_utc": "2026-10-27T20:30:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -47,11 +47,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 66.6,
-      "tmin_f": 50.5,
-      "wind_max_kt": 13.2,
-      "precip_in": 0.3,
-      "init_time_utc": "2026-10-27T12",
+      "tmax_f": 66.9,
+      "tmin_f": 50.4,
+      "wind_max_kt": 9.6,
+      "precip_in": 0.46,
+      "init_time_utc": "2026-10-27T18",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -980,9 +980,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.08,
-      "precip_mean_in": 0.12,
-      "init_time_utc": "2026-10-27T06",
+      "precip_in": 0.14,
+      "precip_mean_in": 0.15,
+      "init_time_utc": "2026-10-27T12",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -990,7 +990,7 @@
       "note": "median of 18 members (experimental AI model)",
       "precip_only": true,
       "pop": {
-        "p24": 0.889,
+        "p24": 1.0,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -1004,20 +1004,20 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.125,
-            "std": 0.125,
-            "p0": 0.004,
-            "p10": 0.02,
-            "p25": 0.064,
-            "p50": 0.077,
-            "p75": 0.142,
-            "p90": 0.285,
-            "p100": 0.473
+            "mean": 0.149,
+            "std": 0.118,
+            "p0": 0.011,
+            "p10": 0.024,
+            "p25": 0.036,
+            "p50": 0.144,
+            "p75": 0.206,
+            "p90": 0.311,
+            "p100": 0.409
           },
           "precip_prob": {
-            "0.01": 0.889,
-            "0.10": 0.389,
-            "0.25": 0.111,
+            "0.01": 1.0,
+            "0.10": 0.556,
+            "0.25": 0.167,
             "0.50": 0.0
           }
         },
@@ -1043,24 +1043,24 @@
         ],
         "members": {
           "precip_in": [
-            0.227,
-            0.004,
-            0.067,
-            0.42,
-            0.473,
-            0.148,
-            0.063,
-            0.074,
-            0.026,
-            0.079,
-            0.068,
-            0.155,
-            0.067,
-            0.008,
-            0.124,
-            0.085,
-            0.057,
-            0.106
+            0.143,
+            0.047,
+            0.025,
+            0.146,
+            0.409,
+            0.378,
+            0.182,
+            0.192,
+            0.032,
+            0.226,
+            0.09,
+            0.021,
+            0.032,
+            0.011,
+            0.07,
+            0.282,
+            0.181,
+            0.211
           ]
         }
       }
@@ -1069,14 +1069,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.18,
-      "precip_mean_in": 0.28,
-      "init_time_utc": "2026-10-27T12",
+      "precip_in": 0.21,
+      "precip_mean_in": 0.29,
+      "init_time_utc": "2026-10-27T18",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
       ],
-      "note": "median of 14 members, 12Z + 06Z runs (RRFS para)",
+      "note": "median of 14 members, 18Z + 12Z runs (RRFS para)",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -1093,55 +1093,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.282,
-            "std": 0.268,
+            "mean": 0.291,
+            "std": 0.26,
             "p0": 0.057,
-            "p10": 0.078,
-            "p25": 0.113,
-            "p50": 0.182,
+            "p10": 0.082,
+            "p25": 0.148,
+            "p50": 0.209,
             "p75": 0.296,
-            "p90": 0.574,
+            "p90": 0.561,
             "p100": 1.068
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 0.857,
             "0.25": 0.357,
-            "0.50": 0.214
+            "0.50": 0.143
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.463,
+            0.066,
+            0.244,
+            0.175,
+            0.148,
+            0.057,
+            0.15,
             0.303,
             0.153,
             1.068,
             0.603,
             0.246,
             0.118,
-            0.276,
-            0.106,
-            0.066,
-            0.128,
-            0.212,
-            0.111,
-            0.057,
-            0.506
+            0.276
           ]
         }
       }
@@ -1178,10 +1178,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 67.9,
+      "tmax_f": 68.0,
       "tmin_f": 50.2,
-      "wind_max_kt": 15.5,
-      "precip_in": 0.31,
+      "wind_max_kt": 15.1,
+      "precip_in": 0.33,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1324,7 +1324,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-27T20:00:06+00:00",
+    "checked_at_utc": "2026-10-27T20:30:06+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
