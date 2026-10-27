@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T21:48:09+00:00",
+  "generated_at_utc": "2026-10-27T22:00:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -150,8 +150,8 @@
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.09,
-          "12-18": 0.16,
+          "06-12": 0.08,
+          "12-18": 0.2,
           "18-00": 0.79,
           "00-06": 0.78
         },
@@ -159,11 +159,11 @@
         "basis": "NBS P06",
         "p24_range": [
           0.79,
-          0.965
+          0.966
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-27T20",
+      "init_time_utc": "2026-10-27T21",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -1324,7 +1324,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-27T21:48:09+00:00",
+    "checked_at_utc": "2026-10-27T22:00:05+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
