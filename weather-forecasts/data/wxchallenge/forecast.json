@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T22:12:09+00:00",
+  "generated_at_utc": "2026-10-27T22:24:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -114,28 +114,28 @@
       "note": "6-hourly output: high/low likely underdone"
     },
     "GFS_MOS": {
-      "tmax_f": 69.0,
+      "tmax_f": 68.0,
       "tmin_f": 52.0,
-      "wind_max_kt": 14.0,
-      "precip_in": 0.1,
-      "pop06_max_pct": 63,
+      "wind_max_kt": 13.0,
+      "precip_in": 0.34,
+      "pop06_max_pct": 87,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.03,
-          "12-18": 0.06,
-          "18-00": 0.63,
-          "00-06": 0.46
+          "06-12": 0.0,
+          "12-18": 0.09,
+          "18-00": 0.87,
+          "00-06": 0.63
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.63,
-          0.818
+          0.87,
+          0.956
         ]
       },
-      "precip_note": "MOS Q06 categories [0, 0, 1, 1] -> midpoints",
-      "init_time_utc": "2026-10-27T12",
+      "precip_note": "MOS Q06 categories [0, 0, 2, 2] -> midpoints",
+      "init_time_utc": "2026-10-27T18",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -1178,10 +1178,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 68.0,
+      "tmax_f": 67.9,
       "tmin_f": 50.1,
-      "wind_max_kt": 15.1,
-      "precip_in": 0.33,
+      "wind_max_kt": 15.0,
+      "precip_in": 0.36,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -1324,7 +1324,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-27T22:12:09+00:00",
+    "checked_at_utc": "2026-10-27T22:24:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
