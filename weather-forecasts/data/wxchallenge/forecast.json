@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T19:30:10+00:00",
+  "generated_at_utc": "2026-10-27T20:00:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -34,11 +34,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 62.7,
-      "tmin_f": 50.9,
-      "wind_max_kt": 13.0,
-      "precip_in": 0.28,
-      "init_time_utc": "2026-10-27T12",
+      "tmax_f": 65.8,
+      "tmin_f": 50.3,
+      "wind_max_kt": 12.0,
+      "precip_in": 0.15,
+      "init_time_utc": "2026-10-27T18",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -60,11 +60,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 67.4,
-      "tmin_f": 49.6,
-      "wind_max_kt": 7.7,
-      "precip_in": 0.4,
-      "init_time_utc": "2026-10-27T06",
+      "tmax_f": 67.9,
+      "tmin_f": 48.0,
+      "wind_max_kt": 8.0,
+      "precip_in": 0.61,
+      "init_time_utc": "2026-10-27T12",
       "valid_range_utc": [
         "2026-10-28T06",
         "2026-10-29T06"
@@ -1178,9 +1178,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 67.5,
-      "tmin_f": 50.5,
-      "wind_max_kt": 15.6,
+      "tmax_f": 67.9,
+      "tmin_f": 50.2,
+      "wind_max_kt": 15.5,
       "precip_in": 0.31,
       "method": {
         "tmax_f": {
@@ -1324,7 +1324,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-27T19:30:10+00:00",
+    "checked_at_utc": "2026-10-27T20:00:06+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
