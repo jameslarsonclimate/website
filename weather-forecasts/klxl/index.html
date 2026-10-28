@@ -4,6 +4,16 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>KLXL Pilot Weather</title>
+  <!-- home-screen app (Safari: Share > Add to Home Screen); sw.js keeps the last good copy for no signal -->
+  <link rel="manifest" href="manifest.webmanifest"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"/>
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="KLXL"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)"/>
+  <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)"/>
   <style>
     :root{
       --bg:#fcfcfb; --card:#ffffff; --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;

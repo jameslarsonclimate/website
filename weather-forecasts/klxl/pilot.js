@@ -436,12 +436,25 @@
     if (compact !== lastCompact) { lastCompact = compact; renderTimeline(); }
   });
 
-  (async function () {
+  // As a home-screen app iOS keeps the page suspended and has no reload button, so the data is
+  // fetched again whenever the page comes back to the front after a few minutes away.
+  let loadedAt = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && (!D || Date.now() - loadedAt > 5 * 60e3)) load();
+  });
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('service worker:', err));
+  }
+
+  try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.zoom) zoom = s.zoom; } catch (e) {}
+  load();
+
+  async function load() {
     try {
-      try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.zoom) zoom = s.zoom; } catch (e) {}
       const res = await fetch('../data/klxl/pilot.json?t=' + Date.now(), { cache: 'no-store' });
       if (!res.ok) throw new Error('Fetch failed: ' + res.status);
       D = await res.json();
+      loadedAt = Date.now();
       compact = lastCompact = window.innerWidth < 700;
       $('updated').textContent = 'Updated ' + D.updated;
       status();
@@ -458,5 +471,5 @@
       el.textContent = 'The weather data did not load (' + err.message + '). Try reloading the page.';
       el.hidden = false;
     }
-  })();
+  }
 })();
