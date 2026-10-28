@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-28T16:45:09+00:00",
+  "generated_at_utc": "2026-10-28T17:15:07+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -87,11 +87,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 51.5,
-      "tmin_f": 38.7,
-      "wind_max_kt": 10.7,
+      "tmax_f": 51.6,
+      "tmin_f": 38.5,
+      "wind_max_kt": 11.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-28T06",
+      "init_time_utc": "2026-10-28T12",
       "valid_range_utc": [
         "2026-10-29 05:00:00",
         "2026-10-30 05:00:00"
@@ -146,24 +146,24 @@
       "tmin_f": 34.0,
       "wind_max_kt": 7.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 1,
+      "pop06_max_pct": 2,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.0,
           "12-18": 0.0,
-          "18-00": 0.01,
+          "18-00": 0.02,
           "00-06": 0.0
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.01,
-          0.01
+          0.02,
+          0.02
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-28T15",
+      "init_time_utc": "2026-10-28T16",
       "valid_range_utc": [
         "2026-10-29T05",
         "2026-10-30T05"
@@ -763,7 +763,7 @@
         "2026-10-29T05",
         "2026-10-30T05"
       ],
-      "note": "ensemble mean of 31 members (Open-Meteo); not in the consensus",
+      "note": "ensemble mean of 31 members; not in the consensus",
       "ensemble": {
         "n_members": 31,
         "stats": {
@@ -1146,9 +1146,9 @@
       "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
-      "tmax_f": 49.4,
+      "tmax_f": 49.5,
       "tmin_f": 33.4,
-      "wind_max_kt": 9.1,
+      "wind_max_kt": 9.2,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -1272,7 +1272,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-28T16:45:09+00:00",
+    "checked_at_utc": "2026-10-28T17:15:07+00:00",
     "connectivity": false,
     "failed": [
       "NBM_QMD"
