@@ -3,7 +3,7 @@ Global ensembles from the Open-Meteo ensemble API: one small point request inste
 gigabytes of global GRIB.
 
   ENS       ECMWF IFS ENS 0.25 deg, 51 members      (in the consensus)
-  AIFS_ENS  ECMWF AIFS ENS, 51 members              (in the consensus)
+  AIFS_ENS  ECMWF AIFS ENS, 51 members              (left out for now: 6-hourly output)
   GEFS      NCEP GEFS 0.25 deg, 31 members          (shown and scored, NOT in the consensus)
 
   https://ensemble-api.open-meteo.com/v1/ensemble?models=ecmwf_ifs025,ecmwf_aifs025,ncep_gefs025&...
@@ -41,7 +41,11 @@ import wxc_site
 API = "https://ensemble-api.open-meteo.com/v1/ensemble"
 META = "https://ensemble-api.open-meteo.com/data/{path}/static/meta.json"
 # our label -> Open-Meteo model id (checked against the API on 2026-10-02)
-MODELS = {"ENS": "ecmwf_ifs025", "AIFS_ENS": "ecmwf_aifs025", "GEFS": "ncep_gefs025"}
+# AIFS_ENS is left out for now (2026-10-28): the AIFS is 6-hourly, so its highs and lows run low.
+# To bring it back, restore this line and take AIFS_ENS out of wxc_verify.RETIRED (see GRIB_ORDER
+# in the pipeline for the deterministic AIFS).
+MODELS = {"ENS": "ecmwf_ifs025", "GEFS": "ncep_gefs025"}
+# MODELS = {"ENS": "ecmwf_ifs025", "AIFS_ENS": "ecmwf_aifs025", "GEFS": "ncep_gefs025"}
 # meta.json folder per model id (GEFS doesn't follow the "<id>_ensemble" pattern)
 META_PATH = {"ecmwf_ifs025": "ecmwf_ifs025_ensemble", "ecmwf_aifs025": "ecmwf_aifs025_ensemble",
              "ncep_gefs025": "ncep_gefs025"}

@@ -22,21 +22,21 @@ def test_stale_run_not_scored_even_from_an_earlier_run():
     # KOLM 2026-10-13 as recorded: ENS stuck on 10/10 18Z (54 h old at the deadline)
     runs = [run("2026-10-12T17:00:00+00:00", {"ENS": fc("2026-10-10T18"), "IFS": fc("2026-10-12T06")}),
             run("2026-10-12T23:54:29+00:00", {"ENS": fc("2026-10-10T18", tmax_f=70),
-                                              "AIFS_ENS": fc("2026-10-12T12"), "IFS": fc("2026-10-12T12"),
+                                              "GEFS": fc("2026-10-12T12"), "IFS": fc("2026-10-12T12"),
                                               "CONSENSUS": dict(OK)})]
     f = wxc_verify.forecasts_for_day(runs, "KOLM", "2026-10-13")
     assert "ENS" not in f                                   # neither the last run nor the 17Z copy
     assert f["IFS"][0]["init_time_utc"] == "2026-10-12T12"
-    assert "AIFS_ENS" in f and "CONSENSUS" in f             # no init time: never too old
+    assert "GEFS" in f and "CONSENSUS" in f             # no init time: never too old
 
 
 def test_run_age_limit_is_taken_at_the_deadline():
     day = "2026-10-06"
     runs = [run("2026-10-05T23:39:46+00:00", {"ENS": fc("2026-10-04T18"),        # 30 h: stale
-                                              "AIFS_ENS": fc("2026-10-05T00"),   # 24 h: allowed
+                                              "GEFS": fc("2026-10-05T00"),       # 24 h: allowed
                                               "GFS": fc("2026-10-05T18")}, day=day, station="KTPA")]
     f = wxc_verify.forecasts_for_day(runs, "KTPA", day)
-    assert set(f) == {"AIFS_ENS", "GFS"}
+    assert set(f) == {"GEFS", "GFS"}
 
 
 def test_consensus_drops_runs_too_old_at_run_time():

@@ -64,7 +64,9 @@ STALE_HOURS = 36
 MAX_RUN_AGE_HOURS = 24
 # Ensembles can't be hindcast (Open-Meteo serves only the latest run), so at a new city they
 # have no track record; until they do, they borrow their deterministic parent's bias and MAE.
-PROXY_TRACK_RECORD = {"ENS": "IFS", "AIFS_ENS": "AIFS"}
+# AIFS_ENS -> AIFS is off while both AIFS models are retired (below)
+PROXY_TRACK_RECORD = {"ENS": "IFS"}
+# PROXY_TRACK_RECORD = {"ENS": "IFS", "AIFS_ENS": "AIFS"}
 PERIOD_DAYS = 14   # a city period is two weeks (Mon-Thu x2, ~8 forecast days)
 HINDCAST_DAYS = 14   # days hindcast before a city's first forecast day, for its track record
 
@@ -295,7 +297,9 @@ def run_for_day(runs: list, station: str, day: str) -> Optional[dict]:
 
 
 # models no longer used: kept in runs.jsonl but left out of scoring, the page and the consensus
-RETIRED = {"NAM_MOS", "GEPS"}
+# (AIFS and AIFS_ENS since 2026-10-28: 6-hourly output; see GRIB_ORDER in the pipeline and
+# wxc_ens.MODELS to bring them back)
+RETIRED = {"NAM_MOS", "GEPS", "AIFS", "AIFS_ENS"}
 
 
 def run_too_old(fc: dict, ref: datetime) -> bool:

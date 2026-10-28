@@ -16,14 +16,15 @@
         chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card');
   if (!sec || !chart) return;
 
-  const ORDER = ['HRRR', 'RRFS', 'IFS', 'IFS_HRES', 'GFS', 'AIFS', 'GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS'];
+  // AIFS and AIFS_ENS left out for now (6-hourly), see GRIB_ORDER in the pipeline
+  const ORDER = ['HRRR', 'RRFS', 'IFS', 'IFS_HRES', 'GFS', /* 'AIFS', */ 'GFS_MOS', 'NBM', 'USL', 'ENS', /* 'AIFS_ENS', */ 'GEFS'];
   // the same colours and line styles as the static figures (matplotlib tab10)
   const COL = { HRRR: '#1f77b4', RRFS: '#bcbd22', IFS: '#ff7f0e', IFS_HRES: '#a63603', GFS: '#2ca02c', AIFS: '#d62728',
                 GFS_MOS: '#2ca02c', NBM: '#8c564b', USL: '#e377c2', ENS: '#17becf', AIFS_ENS: '#d62728',
                 GEFS: '#9467bd' };
   const DASHED = new Set(['GFS_MOS', 'NBM', 'USL', 'ENS', 'AIFS_ENS', 'GEFS']);
-  const PRESETS = [['All', null], ['None', []], ['Deterministic', ['HRRR', 'RRFS', 'IFS', 'IFS_HRES', 'GFS', 'AIFS']],
-                   ['MOS / statistical', ['GFS_MOS', 'NBM', 'USL']], ['Ensembles', ['ENS', 'AIFS_ENS', 'GEFS']]];
+  const PRESETS = [['All', null], ['None', []], ['Deterministic', ['HRRR', 'RRFS', 'IFS', 'IFS_HRES', 'GFS' /* , 'AIFS' */]],
+                   ['MOS / statistical', ['GFS_MOS', 'NBM', 'USL']], ['Ensembles', ['ENS', /* 'AIFS_ENS', */ 'GEFS']]];
   const DASH = '5 3', LATEST_DASH = '0.5 3.5', AVG_DASH = '7 4';
   const OBS_W = 2.1;            // every observed line, all panels
   const PANELS = [

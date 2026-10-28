@@ -21,7 +21,7 @@ WxChallenge forecast helper.
 For the current station (see wxc_stations.py, or pass an ICAO id on the command line):
   1. pulls observations for the last few completed days (IEM METARs + NWS CLI wind)
   2. verifies earlier runs against those observations (data/wxchallenge/verification.json)
-  3. fetches HRRR, RRFS, ECMWF IFS, GFS and AIFS grids (Herbie), ECMWF IFS HRES at 9 km
+  3. fetches HRRR, RRFS, ECMWF IFS and GFS grids (Herbie; AIFS left out for now), ECMWF IFS HRES at 9 km
      (Open-Meteo single runs, wxc_ifs_hres.py; not in the consensus yet) plus GFS MOS and
      NBM text guidance (AWS, every hourly cycle), each summarised for the next WxChallenge day (06Z-06Z),
      the ECMWF and GEFS ensembles (Open-Meteo; GEFS not in the consensus), the 3 km
@@ -139,7 +139,12 @@ HINDCAST_HOUR = 23        # hindcasts use the runs available at 23Z the day befo
 MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't posted yet
 TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
 # grid models: the GRIB_MODELS below plus IFS_HRES (IFS at 9 km, hourly, from Open-Meteo)
-GRIB_ORDER = ["HRRR", "RRFS", "IFS", wxc_ifs_hres.LABEL, "GFS", "AIFS"]
+# AIFS is left out for now (2026-10-28): its open data is 6-hourly, so its highs and lows run
+# low. ECMWF may make it hourly. To bring it back, uncomment it here and in GRIB_MODELS, take it
+# out of wxc_verify.RETIRED (and restore PROXY_TRACK_RECORD) and uncomment it in the page's
+# GROUPS and timeline.js ORDER / PRESETS.
+GRIB_ORDER = ["HRRR", "RRFS", "IFS", wxc_ifs_hres.LABEL, "GFS"]
+# GRIB_ORDER = ["HRRR", "RRFS", "IFS", wxc_ifs_hres.LABEL, "GFS", "AIFS"]
 MOS_ORDER = list(wxc_mos.MOS_PRODUCTS)   # GFS_MOS (IEM), NBM (AWS NBS text); no USL for KLXL (WxChallenge sites only)
 ENS_ORDER = list(wxc_ens.MODELS)                    # ENS, AIFS_ENS, GEFS (Open-Meteo)
 CAM_ORDER = list(wxc_cam_ens.MODELS)                # HRRRCAST, REFS (3 km precip-only ensembles)
@@ -459,6 +464,7 @@ def fetch_gfs(init, day, points, station=None, partial=False):
                      tmax_x, tmin_x, trunc, notes, grib_dewpoint("GFS", H, points, len(times)), day=day)
 
 
+# unused while AIFS is left out (see GRIB_ORDER)
 def fetch_aifs(init, day, points, station=None, partial=False):
     fxx, trunc = forecast_hours_for_day(init, day, step=6, max_fxx=360, partial=partial)
     H = fast_herbie(init, fxx, model="aifs", product="oper")
@@ -480,7 +486,7 @@ GRIB_MODELS = {
     "HRRR": ("HRRR", fetch_hrrr),
     "IFS": ("IFS", fetch_ifs),
     "GFS": ("GFS", fetch_gfs),
-    "AIFS": ("AIFS", fetch_aifs),
+    # "AIFS": ("AIFS", fetch_aifs),     # left out for now, see GRIB_ORDER
     "RRFS": ("RRFS", fetch_rrfs),
 }
 

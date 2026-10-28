@@ -341,7 +341,7 @@ def test_clouds_never_change_scoring(tmp_path, monkeypatch, fake_herbie):
 
     # the "on" run really produced cloud data (in its own cache files) and both figures
     cached = sorted(p.name for p in (on / "cache" / "KTPA").glob("_cloud_*"))
-    assert {n.split("_")[2] for n in cached} >= {"HRRR", "RRFS", "IFS", "GFS", "AIFS", "NBM"}
+    assert {n.split("_")[2] for n in cached} >= {"HRRR", "RRFS", "IFS", "GFS", "NBM"}
     assert any(n.startswith("_cloud_GFS_MOS_") for n in cached)
     nbm = json.loads(next((on / "cache" / "KTPA").glob("_cloud_NBM_*")).read_text())      # SKY with its SSD
     assert nbm["cloud_sd"] and len(nbm["cloud_sd"]) == len(nbm["times"]) and not nbm["step"]

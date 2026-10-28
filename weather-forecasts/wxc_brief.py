@@ -726,13 +726,13 @@ def _hourly(fc, series, order, cloud_series=None):
     src = "" if gen == fc.get("generated_at_utc") else f" (from the run at {gen})"
     out = [f"## Hourly guidance through the target day{src}", "",
            "Each model's values at each valid time (UTC; local time alongside). HRRR, RRFS, IFS_HRES, "
-           "USL and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly, AIFS 6-hourly; ENS, "
-           "AIFS_ENS and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can "
+           "USL and the ensembles are hourly, IFS, GFS, GFS_MOS and NBM 3-hourly; ENS "
+           "and GEFS are ensemble means. Blank = no value at that hour. Hourly temperatures can "
            "miss the true high/low between output times; the guidance table's daily values "
            "(which also use interval max/min fields where available) are what get scored."]
     if any(title.startswith("Dewpoint") for title, _ in tables):
         out += ["", "Dewpoint and relative humidity (context, not scored): the models' 2 m dewpoint "
-                "(GFS_MOS, NBM and USL from their own guidance; ENS, AIFS_ENS and GEFS the mean of "
+                "(GFS_MOS, NBM and USL from their own guidance; ENS and GEFS the mean of "
                 "their members). Moist air "
                 "(a high dewpoint) slows the overnight cooling, and the low rarely falls far below the "
                 "evening dewpoint on a calm night; RH near 100% means fog or low cloud is possible."]

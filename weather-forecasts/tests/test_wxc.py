@@ -759,7 +759,8 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
 
     fc = json.loads((work / "data/wxchallenge/forecast.json").read_text())
     assert fc["meta"]["target_date"] == "2025-09-29" and fc["meta"]["station"] == "KTPA"
-    for k in ["HRRR", "RRFS", "IFS", "GFS", "AIFS", "GFS_MOS", "NBM", "ENS", "AIFS_ENS", "CONSENSUS"]:
+    assert "AIFS" not in fc["models"] and "AIFS_ENS" not in fc["models"]   # left out for now
+    for k in ["HRRR", "RRFS", "IFS", "GFS", "GFS_MOS", "NBM", "ENS", "CONSENSUS"]:
         assert "NAM_MOS" not in fc["models"]
         assert fc["models"][k].get("tmax_f") is not None, k
     ver = json.loads((work / "data/wxchallenge/verification.json").read_text())
@@ -789,7 +790,7 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     assert all("pop" not in mm for r in runs if r.get("hindcast") for mm in r["models"].values())
     sub = v.load_series("KTPA", date(2025, 9, 28), "submitted")
     lat = v.load_series("KTPA", date(2025, 9, 28), "latest")
-    assert sub["hindcast"] and {"HRRR", "RRFS", "IFS", "GFS", "AIFS"} <= set(sub["models"])
+    assert sub["hindcast"] and {"HRRR", "RRFS", "IFS", "GFS"} <= set(sub["models"])
     assert set(lat["models"]) <= set(m.TODAY_LATEST) and "HRRR" in lat["models"]
     assert v.load_series("KTPA", date(2025, 9, 29), "submitted")["models"]["IFS"]["times"][0] == "2025-09-29T06:00"
 
@@ -924,7 +925,7 @@ def test_ensemble_summary(monkeypatch):
     monkeypatch.setattr(wxc_ens, "latest_init", lambda model: datetime(2026, 9, 29, 0, tzinfo=timezone.utc))
     monkeypatch.setattr(wxc_ens, "_get_json", lambda url, params=None: calls.append(params) or data)
     out = wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30))
-    assert out["ENS"]["init_time_utc"] == "2026-09-29T00" and "ensemble" in out["AIFS_ENS"]
+    assert out["ENS"]["init_time_utc"] == "2026-09-29T00" and "AIFS_ENS" not in out   # left out for now
     assert out["GEFS"]["ensemble"]["n_members"] == 31 and out["GEFS"]["pop"]["n_members"] == 31
     assert "GEPS" not in out
     assert "not in the consensus" in out["GEFS"]["note"] and "not in" not in out["ENS"]["note"]
@@ -945,7 +946,7 @@ def test_ensemble_summary(monkeypatch):
         return data
     monkeypatch.setattr(wxc_ens, "_get_json", flaky)
     out = wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30))
-    assert "ensemble" in out["ENS"] and "ensemble" in out["AIFS_ENS"] and "400 bad model" in out["GEFS"]["error"]
+    assert "ensemble" in out["ENS"] and "AIFS_ENS" not in out and "400 bad model" in out["GEFS"]["error"]
     assert "no hindcast" in wxc_ens.get_ensembles(STATIONS["KTPA"], date(2026, 9, 30),
                                                   as_of=datetime(2026, 9, 29, 21, tzinfo=timezone.utc))["ENS"]["error"]
 
