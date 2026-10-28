@@ -85,6 +85,9 @@
                  background:var(--bg);color:var(--ink);cursor:pointer}
     .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #score{margin-top:0.5rem}
+    /* the scoreboard and its legend keep the light-mode scales in dark mode (not inverted) */
+    #score, #legend{--e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
+      --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c}
     #score th, #score td{padding:7px 9px;border:0;border-bottom:1px solid var(--line)}
     #ens-table td{white-space:normal;vertical-align:top}
     #ens-table .ens-stats{line-height:1.5}
@@ -486,7 +489,7 @@ function pointsFill(t){
     ? `color-mix(in oklab, var(--e1) ${Math.round(t * 200)}%, var(--e0))`
     : `color-mix(in oklab, var(--e2) ${Math.round((t - 0.5) * 200)}%, var(--e1))`;
 }
-function pointsInk(t){ return isDark() ? (t > 0.6 ? '#1a1a19' : '#ffffff') : (t > 0.45 ? '#ffffff' : '#0b0b0b'); }
+function pointsInk(t, light){ return isDark() && !light ? (t > 0.6 ? '#1a1a19' : '#ffffff') : (t > 0.45 ? '#ffffff' : '#0b0b0b'); }
 // signed error: diverging, 3 steps per arm + neutral
 function biasStep(err, bins){
   const a = Math.abs(err);
@@ -497,9 +500,9 @@ function biasFill(step){
   if (step === 0) return 'var(--neu)';
   return `var(--${step < 0 ? 'c' : 'w'}${Math.abs(step)})`;
 }
-function biasInk(step){
+function biasInk(step, light){     // light: the scoreboard's fixed (light-mode) scale
   const a = Math.abs(step);
-  if (isDark()) return a === 3 ? '#1a1a19' : '#ffffff';
+  if (isDark() && !light) return a === 3 ? '#1a1a19' : '#ffffff';
   return a >= 2 ? '#ffffff' : '#0b0b0b';
 }
 
@@ -605,11 +608,11 @@ function todayCell(t, name, CV){
     const p = Object.values(t.models).map(x => x.points), lo = Math.min(...p), hi = Math.max(...p);
     const f = hi > lo ? (m.points - lo) / (hi - lo) : 0;
     txt = m.points.toFixed(1);
-    style = `background:${pointsFill(f)};color:${pointsInk(f)}`;
+    style = `background:${pointsFill(f)};color:${pointsInk(f, true)}`;
   } else {
     const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
     txt = signed(e, VARS[VIEW].dec);
-    style = `background:${biasFill(step)};color:${biasInk(step)}`;
+    style = `background:${biasFill(step)};color:${biasInk(step, true)}`;
   }
   return `<td ${at} style="${style}">${txt}${r}</td>`;
 }
@@ -693,17 +696,17 @@ function renderScore(){
         if (e === null || e === undefined) { tr += `<td class="cell small${cls[i]}" data-day="${i}" data-model="${name}">—</td>`; return; }
         const step = biasStep(e, CLOUD_BINS), w = d.decay_weight?.[CV.w] ?? 1;
         cw_sum += w; cw_abs += w * Math.abs(e); cw_err += w * e; cn += 1;
-        tr += `<td class="cell${cls[i]}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, 0)}</td>`;
+        tr += `<td class="cell${cls[i]}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, 0)}</td>`;
         return;
       }
       if (VIEW === 'points') {
         const { lo, hi } = range[i];
         const t = hi > lo ? (m.points - lo) / (hi - lo) : 0;
         const star = m.points === lo ? '<span class="star" aria-label="best">★</span>' : '';
-        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${r}${star}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t, true)}">${m.points.toFixed(1)}${r}${star}</td>`;
       } else {
         const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
-        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
       }
     });
     if (T) tr += todayCell(T, name, CV);
