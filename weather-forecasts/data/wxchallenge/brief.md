@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-29**, scored over 2026-10-29T06Z to 2026-10-30T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-29T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-28T19:00:03+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-28T19:30:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -41,7 +41,7 @@ Run = day/hour (UTC) of the model initialization.
 | GEFS | 28/12Z | 55.8 | 46.5 | 9.2 | 0.00 |
 | HRRRCAST (precip only) | 28/06Z | — | — | — | 0.00 |
 | REFS (precip only) | 28/12Z | — | — | — | 0.00 |
-| NBM_QMD (precip only) | 28/06Z | — | — | — | 0.00 |
+| NBM_QMD (precip only) | 28/12Z | — | — | — | 0.00 |
 | **CONSENSUS** |  | **55.9** | **42.9** | **12.8** | **0.00** |
 
 Notes:
@@ -521,24 +521,24 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
 | 10-27 | 0.14" (wet: 06-12) | 73/46/3/1 | 87/52/5/5 | 100/94/24/14 | 97/90/6/6 | 24h 100% | 24h 100% | 83/52/3/4 |
 
-## Today so far (2026-10-28, through 2026-10-28T17:53Z)
+## Today so far (2026-10-28, through 2026-10-28T18:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 66.0 °F, low 53.1 °F, max wind 8 kt, precip 0.00" (12 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 68.0 °F, low 53.1 °F, max wind 9 kt, precip 0.00" (13 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 27/18Z | -3.3 | 3.3 | 66 (+0) | 50 (-3) pending | -0.4 | 0.04 | +0.04 |
-| RRFS | 27/18Z | -3.6 | 3.6 | 67 (+1) pending | 50 (-3) | -0.8 | 0.01 | +0.01 |
-| IFS | 27/12Z | -3.3 | 3.3 | 68 (+2) pending | 48 (-5) | -0.7 | 0.00 | +0.00 |
-| IFS_HRES | 27/12Z | -2.3 | 2.6 | 68 (+2) pending | 50 (-4) | -0.8 | 0.00 | +0.00 |
-| GFS | 27/18Z | -2.3 | 2.3 | 69 (+3) pending | 51 (-2) | -0.7 | 0.01 | +0.01 |
-| GFS_MOS | 27/18Z | -0.3 | 0.5 | 68 (+2) pending | 52 (-1) | +0.6 | — | — |
-| NBM | 27/22Z | -1.7 | 1.7 | 70 (+4) pending | 51 (-2) | +0.8 | — | — |
-| USL | 27/22Z | -1.9 | 1.9 | 70 (+4) pending | 51 (-2) | +0.3 | 0.00 | +0.00 |
-| ENS | 27/06Z | -2.8 | 2.8 | 67 (+1) pending | 49 (-4) | -0.3 | 0.01 | +0.01 |
-| GEFS | 27/18Z | -1.4 | 1.4 | 67 (+1) pending | 52 (-1) | +0.1 | 0.01 | +0.01 |
+| HRRR | 27/18Z | -3.5 | 3.5 | 66 (-2) | 50 (-3) pending | -0.4 | 0.05 | +0.05 |
+| RRFS | 27/18Z | -3.6 | 3.6 | 67 (-1) | 50 (-3) | -0.7 | 0.02 | +0.02 |
+| IFS | 27/12Z | -3.2 | 3.2 | 68 (+0) | 48 (-5) | -0.9 | 0.00 | +0.00 |
+| IFS_HRES | 27/12Z | -2.2 | 2.5 | 68 (+0) pending | 50 (-4) | -0.8 | 0.00 | +0.00 |
+| GFS | 27/18Z | -2.6 | 2.6 | 69 (+1) pending | 51 (-2) | -0.7 | 0.02 | +0.02 |
+| GFS_MOS | 27/18Z | -0.5 | 0.7 | 68 (+0) pending | 52 (-1) | +0.8 | — | — |
+| NBM | 27/22Z | -1.7 | 1.7 | 70 (+2) pending | 51 (-2) | +0.9 | — | — |
+| USL | 27/22Z | -1.8 | 1.8 | 70 (+2) pending | 51 (-2) | +0.3 | 0.00 | +0.00 |
+| ENS | 27/06Z | -2.7 | 2.7 | 67 (-1) | 49 (-4) | -0.4 | 0.02 | +0.02 |
+| GEFS | 27/18Z | -1.5 | 1.5 | 67 (-1) | 52 (-1) | +0.2 | 0.03 | +0.03 |
 
 ## Clouds so far today (2026-10-28, observed vs forecast)
 
@@ -559,6 +559,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-28 16Z | Wed 11:00 | 49 | 44 | 49 | 70 |  | 21 |  |  | 62 | 75 | 48 | 47 |
 | 10-28 17Z | Wed 12:00 | 80 | 75 | 100 | 46 |  | 49 |  |  | 70 | 62 | 52 | 54 |
 | 10-28 18Z | Wed 13:00 | 77 | 75 | 97 | 38 | 56 | 48 | 86 | 100 | 59 | 51 | 55 | 60 |
+| 10-28 19Z | Wed 14:00 | 26 | 75 | 80 | 50 |  | 48 |  |  | 62 | 41 | 58 | 65 |
 
 ## Dewpoint so far today (2026-10-28, observed vs forecast)
 
@@ -578,7 +579,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-28 16Z | Wed 11:00 | 54.0 | 78 | 54.7 | 53.2 |  | 57.4 |  |  |  | 54.0 | 56.0 | 52.4 |  | 53.4 |
 | 10-28 17Z | Wed 12:00 | 54.0 | 72 | 55.6 | 55.6 |  | 57.2 |  |  |  | 55.0 | 56.8 | 52.0 |  | 54.8 |
 | 10-28 18Z | Wed 13:00 | 54.0 | 65 | 56.3 | 56.5 | 57.3 | 56.7 | 52.8 | 55.0 | 56.0 | 56.0 | 57.3 | 51.9 | 56.1 | 55.9 |
-| Bias so far |  |  |  | -0.5 | -1.7 | -0.8 | -0.4 | -1.7 | -0.8 | -0.1 | -0.8 | -0.5 | -1.8 | -1.6 | -2.6 |
+| 10-28 19Z | Wed 14:00 | 55.9 | 65 | 58.0 | 57.5 |  | 56.2 |  |  |  | 57.0 | 57.9 | 52.7 |  | 56.9 |
+| Bias so far |  |  |  | -0.3 | -1.5 | -0.8 | -0.3 | -1.7 | -0.8 | -0.1 | -0.6 | -0.3 | -1.9 | -1.6 | -2.3 |
 
 ## Raw data
 

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-28T19:00:03+00:00",
+  "generated_at_utc": "2026-10-28T19:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -843,7 +843,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-28T06",
+      "init_time_utc": "2026-10-28T12",
       "valid_range_utc": [
         "2026-10-29T06",
         "2026-10-30T06"
@@ -851,7 +851,7 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.0,
+        "p24": 0.001,
         "blocks": {
           "06-12": 0.0,
           "12-18": 0.0,
@@ -996,7 +996,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-28T19:00:03+00:00",
+    "checked_at_utc": "2026-10-28T19:30:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
