@@ -112,23 +112,6 @@
           "run": "2026-10-12T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 52,
-            "tmin_f": 45,
-            "wind_max_kt": 8,
-            "precip_in": 0.02
-          },
-          "error": {
-            "tmax_f": 0,
-            "tmin_f": -1,
-            "wind_max_kt": -1,
-            "precip_in": 0.02
-          },
-          "points": 2.3,
-          "run": "2026-10-12T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 55,
@@ -165,18 +148,18 @@
         },
         "CONSENSUS": {
           "forecast": {
-            "tmax_f": 54,
+            "tmax_f": 55,
             "tmin_f": 46,
             "wind_max_kt": 9,
             "precip_in": 0.04
           },
           "error": {
-            "tmax_f": 2,
+            "tmax_f": 3,
             "tmin_f": 0,
             "wind_max_kt": 0,
             "precip_in": 0.04
           },
-          "points": 3.6,
+          "points": 4.6,
           "reconstructed": true
         }
       },
@@ -291,23 +274,6 @@
           "run": "2026-10-13T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 50,
-            "tmin_f": 44,
-            "wind_max_kt": 7,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": 4,
-            "tmin_f": 10,
-            "wind_max_kt": 0,
-            "precip_in": 0.0
-          },
-          "points": 14.0,
-          "run": "2026-10-13T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 57,
@@ -344,18 +310,18 @@
         },
         "CONSENSUS": {
           "forecast": {
-            "tmax_f": 53,
+            "tmax_f": 54,
             "tmin_f": 41,
             "wind_max_kt": 6,
             "precip_in": 0.0
           },
           "error": {
-            "tmax_f": 7,
+            "tmax_f": 8,
             "tmin_f": 7,
             "wind_max_kt": -1,
             "precip_in": 0.0
           },
-          "points": 14.5,
+          "points": 15.5,
           "reconstructed": true
         }
       },
@@ -470,23 +436,6 @@
           "run": "2026-10-14T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 50,
-            "tmin_f": 44,
-            "wind_max_kt": 11,
-            "precip_in": 0.24
-          },
-          "error": {
-            "tmax_f": 0,
-            "tmin_f": 10,
-            "wind_max_kt": -3,
-            "precip_in": 0.21
-          },
-          "points": 18.5,
-          "run": "2026-10-14T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 51,
@@ -523,18 +472,18 @@
         },
         "CONSENSUS": {
           "forecast": {
-            "tmax_f": 51,
-            "tmin_f": 39,
-            "wind_max_kt": 13,
-            "precip_in": 0.08
-          },
-          "error": {
-            "tmax_f": 1,
-            "tmin_f": 5,
-            "wind_max_kt": -1,
+            "tmax_f": 52,
+            "tmin_f": 38,
+            "wind_max_kt": 14,
             "precip_in": 0.05
           },
-          "points": 8.5,
+          "error": {
+            "tmax_f": 2,
+            "tmin_f": 4,
+            "wind_max_kt": 0,
+            "precip_in": 0.02
+          },
+          "points": 6.8,
           "reconstructed": true
         }
       },
@@ -649,23 +598,6 @@
           "run": "2026-10-15T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 47,
-            "tmin_f": 34,
-            "wind_max_kt": 14,
-            "precip_in": 0.07
-          },
-          "error": {
-            "tmax_f": -5,
-            "tmin_f": 4,
-            "wind_max_kt": -1,
-            "precip_in": 0.07
-          },
-          "points": 12.3,
-          "run": "2026-10-15T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 49,
@@ -705,15 +637,15 @@
             "tmax_f": 46,
             "tmin_f": 31,
             "wind_max_kt": 18,
-            "precip_in": 0.04
+            "precip_in": 0.03
           },
           "error": {
             "tmax_f": -6,
             "tmin_f": 1,
             "wind_max_kt": 3,
-            "precip_in": 0.04
+            "precip_in": 0.03
           },
-          "points": 10.1,
+          "points": 9.7,
           "reconstructed": true
         }
       },
@@ -828,23 +760,6 @@
           "run": "2026-10-16T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 56,
-            "tmin_f": 33,
-            "wind_max_kt": 12,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": -5,
-            "tmin_f": 3,
-            "wind_max_kt": -4,
-            "precip_in": 0.0
-          },
-          "points": 10.0,
-          "run": "2026-10-16T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 61,
@@ -881,18 +796,18 @@
         },
         "CONSENSUS": {
           "forecast": {
-            "tmax_f": 58,
+            "tmax_f": 59,
             "tmin_f": 28,
             "wind_max_kt": 14,
             "precip_in": 0.0
           },
           "error": {
-            "tmax_f": -3,
+            "tmax_f": -2,
             "tmin_f": -2,
             "wind_max_kt": -2,
             "precip_in": 0.0
           },
-          "points": 6.0,
+          "points": 5.0,
           "reconstructed": true
         }
       },
@@ -1004,23 +919,6 @@
             "precip_in": 0.0
           },
           "points": 12.5,
-          "run": "2026-10-17T23:00:00+00:00",
-          "hindcast": true
-        },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 62,
-            "tmin_f": 44,
-            "wind_max_kt": 12,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": -2,
-            "tmin_f": 7,
-            "wind_max_kt": 2,
-            "precip_in": 0.0
-          },
-          "points": 10.0,
           "run": "2026-10-17T23:00:00+00:00",
           "hindcast": true
         },
@@ -1186,23 +1084,6 @@
           "run": "2026-10-18T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 61,
-            "tmin_f": 38,
-            "wind_max_kt": 6,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": -5,
-            "tmin_f": 8,
-            "wind_max_kt": -2,
-            "precip_in": 0.0
-          },
-          "points": 14.0,
-          "run": "2026-10-18T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 62,
@@ -1362,23 +1243,6 @@
             "precip_in": 0.0
           },
           "points": 8.5,
-          "run": "2026-10-19T23:00:00+00:00",
-          "hindcast": true
-        },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 65,
-            "tmin_f": 40,
-            "wind_max_kt": 9,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": -3,
-            "tmin_f": 4,
-            "wind_max_kt": -4,
-            "precip_in": 0.0
-          },
-          "points": 9.0,
           "run": "2026-10-19T23:00:00+00:00",
           "hindcast": true
         },
@@ -1544,23 +1408,6 @@
           "run": "2026-10-20T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 68,
-            "tmin_f": 48,
-            "wind_max_kt": 7,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": -4,
-            "tmin_f": 7,
-            "wind_max_kt": 2,
-            "precip_in": 0.0
-          },
-          "points": 12.0,
-          "run": "2026-10-20T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 69,
@@ -1720,23 +1567,6 @@
             "precip_in": 0.0
           },
           "points": 13.5,
-          "run": "2026-10-21T23:00:00+00:00",
-          "hindcast": true
-        },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 68,
-            "tmin_f": 41,
-            "wind_max_kt": 6,
-            "precip_in": 0.0
-          },
-          "error": {
-            "tmax_f": -5,
-            "tmin_f": 5,
-            "wind_max_kt": -1,
-            "precip_in": 0.0
-          },
-          "points": 10.5,
           "run": "2026-10-21T23:00:00+00:00",
           "hindcast": true
         },
@@ -1902,23 +1732,6 @@
           "run": "2026-10-22T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 71,
-            "tmin_f": 56,
-            "wind_max_kt": 13,
-            "precip_in": 0.06
-          },
-          "error": {
-            "tmax_f": -1,
-            "tmin_f": 2,
-            "wind_max_kt": -2,
-            "precip_in": 0.06
-          },
-          "points": 6.4,
-          "run": "2026-10-22T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 68,
@@ -1957,16 +1770,16 @@
           "forecast": {
             "tmax_f": 71,
             "tmin_f": 48,
-            "wind_max_kt": 15,
-            "precip_in": 0.12
+            "wind_max_kt": 16,
+            "precip_in": 0.14
           },
           "error": {
             "tmax_f": -1,
             "tmin_f": -6,
-            "wind_max_kt": 0,
-            "precip_in": 0.12
+            "wind_max_kt": 1,
+            "precip_in": 0.14
           },
-          "points": 11.6,
+          "points": 12.7,
           "reconstructed": true
         }
       },
@@ -2081,23 +1894,6 @@
           "run": "2026-10-23T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 65,
-            "tmin_f": 44,
-            "wind_max_kt": 14,
-            "precip_in": 0.18
-          },
-          "error": {
-            "tmax_f": -3,
-            "tmin_f": 1,
-            "wind_max_kt": 0,
-            "precip_in": 0.09
-          },
-          "points": 6.8,
-          "run": "2026-10-23T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 65,
@@ -2137,15 +1933,15 @@
             "tmax_f": 66,
             "tmin_f": 41,
             "wind_max_kt": 14,
-            "precip_in": 0.06
+            "precip_in": 0.04
           },
           "error": {
             "tmax_f": -2,
             "tmin_f": -2,
             "wind_max_kt": 0,
-            "precip_in": -0.03
+            "precip_in": -0.05
           },
-          "points": 5.2,
+          "points": 6.0,
           "reconstructed": true
         }
       },
@@ -2260,23 +2056,6 @@
           "run": "2026-10-24T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 51,
-            "tmin_f": 36,
-            "wind_max_kt": 6,
-            "precip_in": 0.02
-          },
-          "error": {
-            "tmax_f": 1,
-            "tmin_f": 4,
-            "wind_max_kt": 2,
-            "precip_in": -0.03
-          },
-          "points": 7.2,
-          "run": "2026-10-24T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 54,
@@ -2316,15 +2095,15 @@
             "tmax_f": 55,
             "tmin_f": 33,
             "wind_max_kt": 6,
-            "precip_in": 0.04
+            "precip_in": 0.05
           },
           "error": {
             "tmax_f": 5,
             "tmin_f": 1,
             "wind_max_kt": 2,
-            "precip_in": -0.01
+            "precip_in": 0.0
           },
-          "points": 7.4,
+          "points": 7.0,
           "reconstructed": true
         }
       },
@@ -2439,23 +2218,6 @@
           "run": "2026-10-25T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 41,
-            "tmin_f": 37,
-            "wind_max_kt": 8,
-            "precip_in": 0.32
-          },
-          "error": {
-            "tmax_f": 0,
-            "tmin_f": 0,
-            "wind_max_kt": 1,
-            "precip_in": 0.28
-          },
-          "points": 8.8,
-          "run": "2026-10-25T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 42,
@@ -2495,15 +2257,15 @@
             "tmax_f": 44,
             "tmin_f": 32,
             "wind_max_kt": 9,
-            "precip_in": 0.32
+            "precip_in": 0.33
           },
           "error": {
             "tmax_f": 3,
             "tmin_f": -5,
             "wind_max_kt": 2,
-            "precip_in": 0.28
+            "precip_in": 0.29
           },
-          "points": 17.3,
+          "points": 17.5,
           "reconstructed": true
         }
       },
@@ -2618,23 +2380,6 @@
           "run": "2026-10-26T23:00:00+00:00",
           "hindcast": true
         },
-        "AIFS": {
-          "forecast": {
-            "tmax_f": 46,
-            "tmin_f": 37,
-            "wind_max_kt": 9,
-            "precip_in": 0.3
-          },
-          "error": {
-            "tmax_f": 0,
-            "tmin_f": 0,
-            "wind_max_kt": 0,
-            "precip_in": -0.18
-          },
-          "points": 3.6,
-          "run": "2026-10-26T23:00:00+00:00",
-          "hindcast": true
-        },
         "GFS_MOS": {
           "forecast": {
             "tmax_f": 48,
@@ -2674,15 +2419,15 @@
             "tmax_f": 49,
             "tmin_f": 34,
             "wind_max_kt": 10,
-            "precip_in": 0.43
+            "precip_in": 0.45
           },
           "error": {
             "tmax_f": 3,
             "tmin_f": -3,
             "wind_max_kt": 1,
-            "precip_in": -0.05
+            "precip_in": -0.03
           },
-          "points": 7.5,
+          "points": 7.1,
           "reconstructed": true
         }
       },
@@ -2810,29 +2555,6 @@
         "precip_in": 14.13
       }
     },
-    "AIFS": {
-      "n_days": 15,
-      "total_points": 145.4,
-      "mean_points": 9.69,
-      "bias": {
-        "tmax_f": -1.798,
-        "tmin_f": 3.686,
-        "wind_max_kt": -0.611,
-        "precip_in": 0.032
-      },
-      "mae": {
-        "tmax_f": 2.302,
-        "tmin_f": 3.76,
-        "wind_max_kt": 1.612,
-        "precip_in": 0.072
-      },
-      "n_eff": {
-        "tmax_f": 13.53,
-        "tmin_f": 13.53,
-        "wind_max_kt": 14.6,
-        "precip_in": 14.13
-      }
-    },
     "GFS_MOS": {
       "n_days": 15,
       "total_points": 136.9,
@@ -2881,19 +2603,19 @@
     },
     "CONSENSUS": {
       "n_days": 15,
-      "total_points": 119.7,
-      "mean_points": 7.98,
+      "total_points": 119.9,
+      "mean_points": 7.99,
       "bias": {
-        "tmax_f": -0.083,
-        "tmin_f": -0.19,
-        "wind_max_kt": 0.354,
-        "precip_in": 0.033
+        "tmax_f": 0.086,
+        "tmin_f": -0.233,
+        "wind_max_kt": 0.482,
+        "precip_in": 0.035
       },
       "mae": {
-        "tmax_f": 3.051,
-        "tmin_f": 2.959,
-        "wind_max_kt": 1.065,
-        "precip_in": 0.049
+        "tmax_f": 3.121,
+        "tmin_f": 2.916,
+        "wind_max_kt": 1.084,
+        "precip_in": 0.048
       },
       "n_eff": {
         "tmax_f": 13.53,
@@ -2904,7 +2626,7 @@
     }
   },
   "period_start": "2026-10-13",
-  "generated_at_utc": "2026-10-28T17:15:07+00:00",
+  "generated_at_utc": "2026-10-28T17:41:05+00:00",
   "observations": [
     {
       "date": "2026-10-13",
@@ -3604,7 +3326,7 @@
   },
   "today": {
     "date": "2026-10-28",
-    "through_utc": "2026-10-28T16:55",
+    "through_utc": "2026-10-28T17:15",
     "n_obs": 12,
     "provisional": true,
     "obs": {
