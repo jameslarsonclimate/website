@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-29**, scored over 2026-10-29T06Z to 2026-10-30T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-29T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-28T15:30:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-28T16:01:42+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -36,7 +36,7 @@ Run = day/hour (UTC) of the model initialization.
 | GFS | 28/06Z | 56.6 | 45.3 | 8.6 | 0.00 |
 | AIFS | 28/06Z | 52.4 | 41.5 | 6.5 | 0.00 |
 | GFS_MOS | 28/06Z | 57.0 | 45.0 | 11.0 | 0.00 |
-| NBM | 28/14Z | 56.0 | 42.0 | 8.0 | 0.01 |
+| NBM | 28/15Z | 56.0 | 42.0 | 8.0 | 0.01 |
 | USL | — | — | — | — | — |
 | ENS | 28/00Z | 55.1 | 43.4 | 7.5 | 0.00 |
 | AIFS_ENS | 28/06Z | 53.2 | 39.8 | 7.7 | 0.00 |
@@ -51,7 +51,7 @@ Notes:
 - AIFS: 6-hourly output: high/low likely underdone
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-10-29 available at 2026-10-28 15Z)
+- USL: failed this run (no USL run for 2026-10-29 available at 2026-10-28 16Z)
 - ENS: ensemble mean of 51 members (Open-Meteo)
 - AIFS_ENS: ensemble mean of 51 members (Open-Meteo)
 - GEFS: ensemble mean of 31 members (Open-Meteo); not in the consensus
@@ -256,29 +256,29 @@ Total cloud cover (%):
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
 | 10-29 06Z | Thu 01:00 | 0 | 0 | 0 | 0 | 0 | 1 | 19 | 5 | 2 | 3 | 5 |
 | 10-29 07Z | Thu 02:00 | 0 | 0 |  | 0 |  |  |  | 6 | 2 | 2 | 2 |
-| 10-29 08Z | Thu 03:00 | 0 | 0 |  | 0 |  |  |  | 11 | 1 | 2 | 0 |
-| 10-29 09Z | Thu 04:00 | 0 | 0 | 0 | 0 | 0 |  | 0 | 10 | 0 | 2 | 0 |
-| 10-29 10Z | Thu 05:00 | 0 | 0 |  | 0 |  |  |  | 29 | 0 | 2 | 0 |
-| 10-29 11Z | Thu 06:00 | 0 | 0 |  | 0 |  |  |  | 22 | 1 | 3 | 0 |
-| 10-29 12Z | Thu 07:00 | 1 | 0 | 0 | 0 | 0 | 2 | 0 | 27 | 1 | 3 | 0 |
+| 10-29 08Z | Thu 03:00 | 0 | 0 |  | 0 |  |  |  | 12 | 1 | 2 | 0 |
+| 10-29 09Z | Thu 04:00 | 0 | 0 | 0 | 0 | 0 |  | 0 | 11 | 0 | 2 | 0 |
+| 10-29 10Z | Thu 05:00 | 0 | 0 |  | 0 |  |  |  | 24 | 0 | 2 | 0 |
+| 10-29 11Z | Thu 06:00 | 0 | 0 |  | 0 |  |  |  | 20 | 1 | 3 | 0 |
+| 10-29 12Z | Thu 07:00 | 1 | 0 | 0 | 0 | 0 | 2 | 0 | 24 | 1 | 3 | 0 |
 | 10-29 13Z | Thu 08:00 | 0 | 0 |  | 0 |  |  |  | 23 | 1 | 3 | 0 |
-| 10-29 14Z | Thu 09:00 | 0 | 0 |  | 0 |  |  |  | 22 | 0 | 2 | 1 |
-| 10-29 15Z | Thu 10:00 | 4 | 2 | 0 | 0 | 0 |  | 0 | 24 | 0 | 2 | 1 |
-| 10-29 16Z | Thu 11:00 | 10 | 2 |  | 0 |  |  |  |  | 0 | 1 | 2 |
+| 10-29 14Z | Thu 09:00 | 0 | 0 |  | 0 |  |  |  | 18 | 0 | 2 | 1 |
+| 10-29 15Z | Thu 10:00 | 4 | 2 | 0 | 0 | 0 |  | 0 | 9 | 0 | 2 | 1 |
+| 10-29 16Z | Thu 11:00 | 10 | 2 |  | 0 |  |  |  | 3 | 0 | 1 | 2 |
 | 10-29 17Z | Thu 12:00 | 11 | 1 |  | 0 |  |  |  |  | 0 | 1 | 2 |
-| 10-29 18Z | Thu 13:00 | 22 | 0 | 0 | 0 | 0 | 3 | 0 | 18 | 0 | 0 | 3 |
+| 10-29 18Z | Thu 13:00 | 22 | 0 | 0 | 0 | 0 | 3 | 0 | 1 | 0 | 0 | 3 |
 | 10-29 19Z | Thu 14:00 | 32 | 0 |  | 0 |  |  |  |  | 1 | 3 | 2 |
 | 10-29 20Z | Thu 15:00 | 25 | 0 |  | 0 |  |  |  |  | 1 | 6 | 1 |
-| 10-29 21Z | Thu 16:00 | 14 | 0 | 0 | 0 | 0 |  | 0 | 3 | 2 | 10 | 0 |
+| 10-29 21Z | Thu 16:00 | 14 | 0 | 0 | 0 | 0 |  | 0 | 2 | 2 | 10 | 0 |
 | 10-29 22Z | Thu 17:00 | 12 | 0 |  | 0 |  |  |  |  | 4 | 14 | 4 |
 | 10-29 23Z | Thu 18:00 | 7 | 0 |  | 1 |  |  |  |  | 7 | 18 | 8 |
-| 10-30 00Z | Thu 19:00 | 3 | 15 | 5 | 2 | 5 | 22 | 19 | 7 | 12 | 20 | 12 |
+| 10-30 00Z | Thu 19:00 | 3 | 15 | 5 | 2 | 5 | 22 | 19 | 9 | 12 | 20 | 12 |
 | 10-30 01Z | Thu 20:00 | 15 | 95 |  | 19 |  |  |  |  | 28 | 24 | 17 |
 | 10-30 02Z | Thu 21:00 | 7 | 79 |  | 48 |  |  |  |  | 49 | 29 | 22 |
-| 10-30 03Z | Thu 22:00 | 3 | 71 | 94 | 66 | 63 |  | 0 | 29 | 65 | 34 | 26 |
+| 10-30 03Z | Thu 22:00 | 3 | 71 | 94 | 66 | 63 |  | 0 | 27 | 65 | 34 | 26 |
 | 10-30 04Z | Thu 23:00 | 4 | 81 |  | 39 |  |  |  |  | 72 | 39 | 30 |
 | 10-30 05Z | Fri 00:00 | 5 | 70 |  | 85 |  |  |  |  | 76 | 43 | 34 |
-| 10-30 06Z | Fri 01:00 | 6 | 68 | 73 | 62 | 97 | 56 | 0 | 55 | 75 | 48 | 36 |
+| 10-30 06Z | Fri 01:00 | 6 | 68 | 73 | 62 | 97 | 56 | 0 | 40 | 75 | 48 | 36 |
 
 ## Track record this period
 
@@ -539,26 +539,26 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: |
 | 10-27 | 0.14" (wet: 06-12) | 73/46/3/1 | 87/52/5/5 | 100/94/24/14 | 100/88/55/29 | 97/90/6/6 | 24h 100% | 24h 100% | 83/52/3/4 |
 
-## Today so far (2026-10-28, through 2026-10-28T14:53Z)
+## Today so far (2026-10-28, through 2026-10-28T15:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 57.9 °F, low 53.1 °F, max wind 7 kt, precip 0.00" (9 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 61.0 °F, low 53.1 °F, max wind 7 kt, precip 0.00" (10 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 27/18Z | -3.0 | 3.0 | 66 (+8) pending | 50 (-3) pending | -1.2 | 0.01 | +0.01 |
-| RRFS | 27/18Z | -3.3 | 3.3 | 67 (+9) pending | 50 (-3) | -1.3 | 0.00 | +0.00 |
-| IFS | 27/12Z | -4.0 | 4.0 | 68 (+10) pending | 48 (-5) | -1.0 | 0.00 | +0.00 |
-| IFS_HRES | 27/12Z | -3.2 | 3.2 | 68 (+10) pending | 50 (-4) | -1.0 | 0.00 | +0.00 |
-| GFS | 27/18Z | -1.8 | 1.8 | 69 (+11) pending | 51 (-2) | -1.1 | 0.00 | +0.00 |
-| AIFS | 27/12Z | -3.9 | 3.9 | 62 (+4) pending | 49 (-4) | -0.5 | 0.03 | +0.03 |
-| GFS_MOS | 27/18Z | -0.2 | 0.4 | 68 (+10) pending | 52 (-1) | -0.3 | — | — |
-| NBM | 27/22Z | -1.8 | 1.8 | 70 (+12) pending | 51 (-2) | +0.0 | — | — |
-| USL | 27/22Z | -1.9 | 1.9 | 70 (+12) pending | 51 (-2) | -0.1 | 0.00 | +0.00 |
-| ENS | 27/06Z | -3.3 | 3.3 | 67 (+9) pending | 49 (-4) | -0.4 | 0.00 | +0.00 |
-| AIFS_ENS | 27/12Z | -4.5 | 4.5 | 65 (+7) pending | 47 (-6) | -0.6 | 0.02 | +0.02 |
-| GEFS | 27/18Z | -1.2 | 1.2 | 67 (+9) pending | 52 (-1) | -0.6 | 0.00 | +0.00 |
+| HRRR | 27/18Z | -3.1 | 3.1 | 66 (+5) pending | 50 (-3) pending | -1.1 | 0.01 | +0.01 |
+| RRFS | 27/18Z | -3.5 | 3.5 | 67 (+6) pending | 50 (-3) | -1.3 | 0.01 | +0.01 |
+| IFS | 27/12Z | -3.8 | 3.8 | 68 (+7) pending | 48 (-5) | -1.0 | 0.00 | +0.00 |
+| IFS_HRES | 27/12Z | -3.0 | 3.0 | 68 (+7) pending | 50 (-4) | -1.1 | 0.00 | +0.00 |
+| GFS | 27/18Z | -1.9 | 1.9 | 69 (+8) pending | 51 (-2) | -1.1 | 0.00 | +0.00 |
+| AIFS | 27/12Z | -3.8 | 3.8 | 62 (+1) pending | 49 (-4) | -0.5 | 0.04 | +0.04 |
+| GFS_MOS | 27/18Z | -0.2 | 0.5 | 68 (+7) pending | 52 (-1) | -0.2 | — | — |
+| NBM | 27/22Z | -1.8 | 1.8 | 70 (+9) pending | 51 (-2) | +0.1 | — | — |
+| USL | 27/22Z | -2.0 | 2.0 | 70 (+9) pending | 51 (-2) | -0.1 | 0.00 | +0.00 |
+| ENS | 27/06Z | -3.1 | 3.1 | 67 (+6) pending | 49 (-4) | -0.5 | 0.00 | +0.00 |
+| AIFS_ENS | 27/12Z | -4.2 | 4.2 | 65 (+4) pending | 47 (-6) | -0.4 | 0.03 | +0.03 |
+| GEFS | 27/18Z | -1.3 | 1.3 | 67 (+6) pending | 52 (-1) | -0.4 | 0.00 | +0.00 |
 
 ## Clouds so far today (2026-10-28, observed vs forecast)
 
@@ -576,6 +576,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-28 13Z | Wed 08:00 | 76 | 100 | 100 | 100 |  | 36 |  |  |  | 77 | 77 | 28 | 58 | 43 |
 | 10-28 14Z | Wed 09:00 | 93 | 75 | 100 | 84 |  | 28 |  |  |  | 76 | 79 | 36 | 62 | 41 |
 | 10-28 15Z | Wed 10:00 | 81 | 75 | 100 | 94 | 28 | 57 | 46 |  | 100 | 73 | 81 | 43 | 66 | 42 |
+| 10-28 16Z | Wed 11:00 |  | 44 | 49 | 70 |  | 21 |  |  |  | 62 | 75 | 48 | 70 | 47 |
 
 ## Dewpoint so far today (2026-10-28, observed vs forecast)
 
@@ -592,7 +593,8 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 10-28 13Z | Wed 08:00 | 54.0 | 93 | 51.0 | 50.0 |  | 49.8 |  |  |  |  | 51.0 | 50.5 | 48.8 | 51.3 |
 | 10-28 14Z | Wed 09:00 | 54.0 | 90 | 51.7 | 50.6 |  | 52.7 |  |  |  |  | 52.0 | 52.7 | 50.3 | 51.9 |
 | 10-28 15Z | Wed 10:00 | 54.0 | 87 | 53.3 | 51.8 | 55.7 | 56.3 | 53.4 |  | 53.0 | 54.0 | 53.0 | 54.7 | 51.9 | 52.3 |
-| Bias so far |  |  |  | -1.2 | -2.7 | -2.2 | -1.5 | -1.8 | -5.3 | -1.4 | -0.7 | -1.4 | -1.6 | -3.7 | -1.8 |
+| 10-28 16Z | Wed 11:00 | 54.0 | 78 | 54.7 | 53.2 |  | 57.4 |  |  |  |  | 54.0 | 56.0 | 53.4 | 52.4 |
+| Bias so far |  |  |  | -1.0 | -2.5 | -2.2 | -1.0 | -1.8 | -5.3 | -1.4 | -0.7 | -1.2 | -1.2 | -3.4 | -1.8 |
 
 ## Raw data
 
