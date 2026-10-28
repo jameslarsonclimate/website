@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KLXL Model Forecasts</title>
+  <style>
+    :root{
+      --bg:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;
+      --line:#e4e3df; --head:#f5f4f1; --group:#eef2f7; --group-ink:#3d4250;
+      --hl:#fff7d6; --note:#8a5a00; --link:#1c5cab;
+      /* error-points ramp (orange, best -> worst) */
+      --e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
+      /* diverging bias: cold (under) <- neutral -> warm (over) */
+      --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c;
+      --tip:#1f1f1e; --tip-ink:#ffffff;
+      --hind:#e6ebf2; --hind-ink:#3d4250;
+      /* categorical series (PoP chart): fixed slot order, light steps */
+      --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --bg:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#a09f97;
+        --line:#343431; --head:#242422; --group:#232830; --group-ink:#c9d1e0;
+        --hl:#3a3420; --note:#f0b35c; --link:#86b6ef;
+        --e0:#3a2419; --e1:#d95926; --e2:#f3a57e;
+        --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
+        --tip:#f5f4f1; --tip-ink:#0b0b0b;
+        --hind:#262c36; --hind-ink:#c9d1e0;
+        --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"]{
+      --bg:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#a09f97;
+      --line:#343431; --head:#242422; --group:#232830; --group-ink:#c9d1e0;
+      --hl:#3a3420; --note:#f0b35c; --link:#86b6ef;
+      --e0:#3a2419; --e1:#d95926; --e2:#f3a57e;
+      --neu:#383835; --c1:#184f95; --c2:#2a78d6; --c3:#86b6ef; --w1:#a82c2c; --w2:#e34948; --w3:#f09a99;
+      --tip:#f5f4f1; --tip-ink:#0b0b0b;
+      --hind:#262c36; --hind-ink:#c9d1e0;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+      color-scheme: dark;
+    }
+    /* switch between the two KLXL pages (same control on the pilot page) */
+    .site-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;
+                 background:var(--head);margin:0 0 1rem}
+    .site-toggle a{padding:6px 14px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;
+                   font-size:0.92rem}
+    .site-toggle a:hover{color:var(--ink)}
+    .site-toggle a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:1040px;margin:2rem auto;padding:0 16px;
+         background:var(--bg);color:var(--ink)}
+    a{color:var(--link)}
+    header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    table{width:100%;border-collapse:collapse;margin-top:0.5rem}
+    th,td{border:1px solid var(--line);padding:8px;text-align:left;white-space:nowrap}
+    th{background:var(--head);font-weight:600}
+    td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+    tr.group td{background:var(--group);font-weight:600;font-size:0.9rem;color:var(--group-ink)}
+    tr.consensus td{font-weight:700;background:var(--hl)}
+    .muted{color:var(--ink-2);font-size:0.95rem}
+    .small{font-size:0.85rem;color:var(--ink-3)}
+    .note{color:var(--note);font-size:0.85rem;white-space:normal}
+    /* keep the Model column narrow: notes wrap under the name instead of widening the table */
+    #models-table td:first-child, #models-table th:first-child{width:12rem;max-width:12rem;white-space:normal}
+    #models-table .note{font-size:0.8rem;line-height:1.25}
+    /* last update couldn't reach some sources (wxc_carryover.py): the older forecasts stay up */
+    #run-status{margin:0.8rem 0 0;padding:0.6rem 0.8rem;border-radius:6px;background:var(--hl);
+                color:var(--note);border:1px solid var(--note);line-height:1.4}
+    tr.stale td.num{opacity:0.7}
+    /* size the table to its content instead of stretching to the page width */
+    #models-table{width:auto;margin-left:auto;margin-right:auto}
+    #consensus-note{max-width:44rem;margin:0.6rem auto 0;line-height:1.45}
+    #models-table td.num, #models-table th.num{padding:8px 14px;min-width:4.5rem}
+    .back{margin-bottom:1rem;display:inline-block}
+    img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
+    h2{margin-top:2.2rem}
+
+    /* verification scoreboard */
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0.75rem 0 0.25rem}
+    .tabs button{font:inherit;font-size:0.9rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+                 background:var(--bg);color:var(--ink);cursor:pointer}
+    .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+    #score{margin-top:0.5rem}
+    #score th, #score td{padding:7px 9px;border:0;border-bottom:1px solid var(--line)}
+    #ens-table td{white-space:normal;vertical-align:top}
+    #ens-table .ens-stats{line-height:1.5}
+    #ens-table .ens-stats span{white-space:nowrap;margin-right:0.6em}
+    .k-med,.k-mean{display:inline-block;vertical-align:-1px;margin-right:4px}
+    .k-med{width:3px;height:11px;background:var(--ink)}
+    .k-mean{width:7px;height:7px;background:var(--e1);transform:rotate(45deg);margin:0 5px 1px 2px}
+    #today-table td.cell, #ens-prob td.cell, #pop-table td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:4px}
+    #today-table td.pending{color:var(--ink-3);background:transparent;border:1px dashed var(--line);font-style:italic}
+    #today-table td.sum{text-align:right;font-variant-numeric:tabular-nums}
+    #score td.cell{text-align:center;font-variant-numeric:tabular-nums;border:2px solid var(--bg);border-radius:6px;min-width:3.2rem}
+    /* the wrapper scrolls sideways, never the page; model names stick left, the summary right.
+       Sticky cells need solid (opaque) token backgrounds so scrolled cells don't show through. */
+    #score-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    #score{width:auto;min-width:100%;border-collapse:separate;border-spacing:0}
+    #score .model{position:sticky;left:0;background:var(--bg);z-index:2;font-weight:600;box-shadow:inset -1px 0 var(--line)}
+    #score .sum{position:sticky;right:0;background:var(--bg);z-index:2;font-variant-numeric:tabular-nums;
+                text-align:right;box-shadow:inset 1px 0 var(--line)}
+    #score .avg{position:sticky;right:var(--sum-w, 0);background:var(--bg);z-index:2;font-variant-numeric:tabular-nums;
+                text-align:right;box-shadow:inset 1px 0 var(--line)}
+    #score thead .model, #score thead .sum, #score thead .avg{background:var(--head);z-index:3}
+    #score tr.consensus .model, #score tr.consensus .sum, #score tr.consensus .avg{background:var(--hl)}
+    #score tr.obs td{background:var(--head);font-weight:600}
+    #score td.sum b, #score td.avg b{font-weight:650}
+    #score td.sum span, #score th.sum span, #score th.avg span{display:block;font-weight:400;font-size:0.78rem;color:var(--ink-2)}
+    #score th.day{text-align:center;line-height:1.2}
+    #score th.day span{display:block;font-weight:400;font-size:0.8rem;color:var(--ink-2)}
+    #score th.day span.w{font-size:0.72rem;color:var(--ink-3)}
+    /* hindcast days: tinted column (cell gaps and header), divider before city day 1 */
+    #score th.hind, #score tr.obs td.hind{background:var(--hind);color:var(--hind-ink)}
+    #score td.cell.hind{border-color:var(--hind)}
+    #score td.cell.hind.small{background:var(--hind)}
+    #score th.city1, #score td.city1{box-shadow:inset 3px 0 var(--ink-2)}
+    #score tr.span th{font-size:0.78rem;font-weight:600;padding:4px 9px;text-align:left}
+    #score tr.span th.hind{color:var(--hind-ink)}
+    #score td.recon{font-style:italic}
+    #score td.recon sup{font-size:0.7em;margin-left:1px}
+    /* today so far: provisional (italic), not in the totals */
+    #score td.cell.today{font-style:italic}
+    #score tr.span th.today{color:var(--ink-2)}
+    /* phones: keep the sticky columns narrow so several days stay visible between them */
+    @media (max-width:600px){
+      #score th, #score td{padding:5px 5px;font-size:0.85rem}
+      #score td.cell{min-width:2.5rem}
+      #score .model{white-space:normal;max-width:4.6rem;line-height:1.15}
+      #score th.sum span, #score th.avg span{display:none}
+      #score .avg{position:static}      /* only the total sticks on phones; avg is in view on load */
+      #score td.sum span{font-size:0.7rem}
+    }
+    .star{font-size:0.75em;margin-left:2px}
+    .legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:0.6rem;font-size:0.85rem;color:var(--ink-2)}
+    .swatches{display:inline-flex;gap:2px}
+    .swatches i{display:inline-block;width:22px;height:14px;border-radius:3px}
+    #tip{position:fixed;pointer-events:none;background:var(--tip);color:var(--tip-ink);padding:8px 10px;border-radius:6px;
+         font-size:0.82rem;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none;z-index:10;max-width:280px}
+    #tip b{font-weight:650}
+    /* forecast evolution: Pivotal links */
+    .evo-links{padding-left:1.2rem;line-height:1.7}
+    #evo-hrrr a{white-space:nowrap}
+    .evo-sep{color:var(--ink-3);margin:0 0.15em}
+    /* chance of precipitation: table, small-multiple charts, reliability */
+    #pop-table{width:auto}
+    #pop-table td.cell{min-width:3.4rem}
+    #pop-table td.range{background:var(--neu);color:var(--ink);white-space:nowrap}
+    #pop-table td.basis{white-space:normal;font-size:0.85rem;color:var(--ink-2)}
+    .pop-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:1rem}
+    .pop-chart h4{margin:0 0 4px;font-size:0.95rem}
+    .pop-chart .lg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:0.8rem;color:var(--ink-2);margin-bottom:2px}
+    .pop-chart .lg i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:3px;margin-right:4px}
+    .pop-chart svg{width:100%;height:auto;display:block;overflow:visible}
+    .pop-chart circle.hit{fill:transparent;cursor:default}
+    /* forecasts and observations timeline (timeline.js) */
+    #tl-controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0.7rem 0 0.4rem}
+    .tl-sep{width:1px;align-self:stretch;background:var(--line);margin:0 4px}
+    .tl-btn{font:inherit;font-size:0.82rem;padding:4px 10px;border-radius:999px;border:1px solid var(--line);
+            background:var(--bg);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+    .tl-btn:hover{border-color:var(--ink-3)}
+    .tl-btn[aria-pressed="false"]{color:var(--ink-3)}
+    .tl-btn[aria-pressed="false"] svg{opacity:0.3}
+    #tl-nav{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;margin-bottom:0.3rem}
+    #tl-wrap{position:relative;display:flex}
+    #tl-axis{flex:none;display:block}
+    #tl-scroll{overflow-x:auto;flex:1;min-width:0;-webkit-overflow-scrolling:touch;border-radius:4px}
+    #tl-scroll:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+    #tl-chart{display:block;cursor:crosshair}
+    .tl-ptitle{position:absolute;font-size:0.78rem;font-weight:600;color:var(--ink-2);background:var(--bg);
+               padding:0 4px;border-radius:3px;pointer-events:none;white-space:nowrap}
+    #tl-card{margin-top:0.8rem;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto}
+    #tl-card .tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
+    #tl-card p{margin:0.3rem 0 0.2rem}
+    #tl-card table{width:auto;border-collapse:collapse;font-size:0.85rem;font-variant-numeric:tabular-nums}
+    #tl-card th, #tl-card td{border:0;border-top:1px solid var(--line);padding:4px 10px;text-align:right}
+    #tl-card th{background:none;color:var(--ink-2);font-weight:600;border-top:0}
+    #tl-card td:nth-child(-n+2), #tl-card th:nth-child(-n+2){text-align:left}
+    #tl-card .tl-m{display:inline-flex;align-items:center;gap:6px}    /* not on the td: a flex cell drops its colspan */
+    #tl-card tr.obs td{font-weight:600;background:var(--head)}
+    #tl-card tr.avg td{color:var(--ink-2)}
+    #tl-card .up{color:var(--w3);font-size:0.78rem}
+    #tl-card .dn{color:var(--c3);font-size:0.78rem}
+    #tl-card .mu{color:var(--ink-3);font-size:0.78rem}
+    @media (max-width:600px){ #tl-card th, #tl-card td{padding:4px 6px;font-size:0.8rem} }
+    /* in the page text (for screen readers and tools that read the HTML) but not drawn */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+             clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+  </style>
+</head>
+
+<body>
+  <nav class="site-toggle" aria-label="KLXL pages">
+    <a href="../">Pilot weather</a>
+    <a href="./" aria-current="page">Model forecasts</a>
+  </nav>
+
+  <header>
+    <h1>Little Falls (KLXL) Model Forecasts</h1>
+    <div id="updated" class="muted">Loading…</div>
+  </header>
+  <p id="run-status" role="status" hidden></p>
+
+  <p class="small" style="margin-top:0.5rem">Each day runs midnight to midnight Little Falls time. Forecasts are
+    the model runs out before 00Z the evening before (about 7 pm CDT / 6 pm CST), scored WxChallenge-style against
+    KLXL's automated (AWOS) reports. <a href="#verification">How the models have done lately</a></p>
+
+  <h2 id="forecast-for">Forecasting for —</h2>
+  <h3 id="valid-range" class="muted">Valid: —</h3>
+  <p id="afd-link" class="small" hidden></p>
+
+  <section class="scroll">
+    <table id="models-table" aria-label="Model comparison table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="num">High (°F)</th>
+          <th class="num">Low (°F)</th>
+          <th class="num">Wind (kt)</th>
+          <th class="num">Precip (in)</th>
+          <th>Init (UTC)</th>
+        </tr>
+      </thead>
+      <tbody><tr><td colspan="6">Loading…</td></tr></tbody>
+    </table>
+    <p id="consensus-note" class="muted"></p>
+  </section>
+
+  <section id="timeline" hidden>
+    <h2>Forecasts and observations</h2>
+    <p class="small">Each day (midnight to midnight local time, between the vertical lines) shows the model runs that
+      were out before 00Z the evening before; tomorrow's keep updating until then. Hours are local time. Scroll or swipe left for earlier days. Black is observed:
+      every KLXL report (×: gusts); in the cloud panel the line is the GOES satellite cloud fraction
+      and the dots the AWOS sky cover (open: clear; it sees clouds only up to 12,000 ft). Dotted lines are today's newest
+      HRRR, MOS and NBM runs; the dashed grey line is the hourly average of the models switched on (a plain mean,
+      not the consensus). Hover a day for its numbers, click to pin it. The <i>Dewpoint &amp; RH panels</i> button
+      adds dewpoint and relative humidity below the cloud panel (RH worked out from each temperature and dewpoint;
+      for the ensembles, the mean of their members' RH). Switch models on and off here:</p>
+    <div id="tl-controls" role="group" aria-label="Lines shown on the timeline"></div>
+    <div id="tl-nav">
+      <button type="button" class="tl-btn" data-go="-1">◀ Earlier</button>
+      <button type="button" class="tl-btn" data-go="today">Today</button>
+      <button type="button" class="tl-btn" data-go="1">Later ▶</button>
+    </div>
+    <div id="tl-wrap">
+      <svg id="tl-axis" aria-hidden="true"></svg>
+      <div id="tl-scroll" tabindex="0" aria-label="Timeline: scroll sideways for other days">
+        <svg id="tl-chart" role="img" aria-label="Forecasts and observations by hour"></svg>
+      </div>
+    </div>
+    <div id="tl-card"></div>
+    <p class="small">Static images: <a href="../../images/klxl/latest.png">tomorrow's forecast</a>,
+      <a href="../../images/klxl/today.png">today so far</a>.</p>
+    <!-- Hidden for now ("How the forecasts are doing so far today"); to bring it back, uncomment this
+         block and the today.json fetch in the script (search "today so far: errors").
+    <h3 style="margin-top:1.2rem">How the forecasts are doing so far today</h3>
+    <p id="today-note" class="small"></p>
+    <div class="scroll">
+      <table id="today-table" aria-label="Forecast errors so far today"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <p class="small">Forecast (runs before the 00Z deadline) minus observed at each hourly METAR so far.
+      Blue = running cold / light / dry, red = warm / strong / wet. "Daily high / low" show each model's
+      forecast high and low (the number in the forecast table, which is what gets scored) and, in brackets, its
+      difference from the observed high or low so far. They stay grey until the time the model expects its high
+      or low has passed (hover for the time), because until then the observed value can still change.</p>
+    -->
+  </section>
+
+  <section id="verification">
+    <h2>Model verification, last few weeks</h2>
+    <p id="verif-period" class="muted">Loading…</p>
+
+    <div class="tabs" role="group" aria-label="Verification view">
+      <button data-view="points" aria-pressed="true">Error points</button>
+      <button data-view="tmax_f" aria-pressed="false">High</button>
+      <button data-view="tmin_f" aria-pressed="false">Low</button>
+      <button data-view="wind_max_kt" aria-pressed="false">Wind</button>
+      <button data-view="precip_in" aria-pressed="false">Precip</button>
+      <button data-view="cloud_night" aria-pressed="false">Night clouds</button>
+      <button data-view="cloud_day" aria-pressed="false">Day clouds</button>
+    </div>
+
+    <div id="score-wrap">
+      <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <div id="legend" class="legend"></div>
+    <p class="small">Each local day is scored with the model's last forecast before 00Z the evening before, using
+      WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
+      Observed values are from KLXL's AWOS: the high and low from every report (whole °C, so they can be
+      about 1 °F off), the wind from every report's sustained wind, precip from the hourly totals. There is no NWS
+      climate report for Little Falls. Shaded days come before this page started: they are hindcasts (the runs
+      available at 23Z the day before), there to give every model a track record from day one. The consensus on those days
+      (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
+      the days before it. The last column (<i>so far</i>) is today: the forecasts scored against the
+      observations so far. It isn't final (the high or low may not have happened yet), so it is left out of the
+      totals, the averages and the consensus's track record.
+      <span id="decay-note"></span> Hover or tap a cell for details.</p>
+    <!-- Hidden for now: daily and cumulative error points figure; to bring it back, uncomment this
+         and the verif-fig lines in the script.
+    <img id="verif-fig" alt="Daily and cumulative error points by model"/>
+    -->
+  </section>
+
+  <section id="evolution" hidden>
+    <h2>Model loops, viewers &amp; links</h2>
+    <h3>HRRR loops</h3>
+    <ul id="evo-hrrr" class="evo-links"></ul>
+    <h3>NBM 1D viewer</h3>
+    <ul id="evo-nbm" class="evo-links"></ul>
+    <h3>More</h3>
+    <ul id="evo-more" class="evo-links"></ul>
+    <!-- written by wxc_links.py on every pipeline run -->
+    <script type="application/json" id="evo-config">
+{
+ "station": "KLXL",
+ "name": "Little Falls, MN",
+ "lat": 45.9491,
+ "lon": -94.347,
+ "pivotal": {
+  "base": "https://www.pivotalweather.com/model.php",
+  "model": "hrrr",
+  "region": "us_mw",
+  "products": [
+   {
+    "label": "Radar + precip type",
+    "p": "ref1km_ptype"
+   },
+   {
+    "label": "MSLP + 10 m wind",
+    "p": "sfcwind_mslp"
+   },
+   {
+    "label": "Simulated IR",
+    "p": "sim_ir"
+   },
+   {
+    "label": "Total QPF",
+    "p": "qpf_acc"
+   }
+  ]
+ },
+ "nbm_viewer_url": "https://apps.gsl.noaa.gov/nbmviewer/?col=2&hgt=1&obs=false&fontsize=1&location=KLXL&selectedgroup=Precipitation&darkmode=on&graph=fa-chart-bar&probfield=Tmax&proboperator=%3E%3D&probvalue=40&colorfriendly=false&whiskers=true&boxes=false&median=true&det=false&tz=local",
+ "satellite_url": "https://rammb-slider.cira.colostate.edu/",
+ "csu_url": null,
+ "skipped": [
+  "CSU Zoom URL"
+ ]
+}
+  </script>
+    <script>
+    /* builds the link lists from the evo-config block above */
+    (function(){
+      const sec = document.getElementById('evolution');
+      let cfg;
+      try { cfg = JSON.parse(document.getElementById('evo-config').textContent); } catch (e) { return; }
+      if (!cfg || !cfg.pivotal) return;
+      const pv = cfg.pivotal;
+      const url = p => `${pv.base}?m=${pv.model}&p=${encodeURIComponent(p)}&fh=loop&r=${encodeURIComponent(pv.region)}`;
+      const a = (href, text, title) => `<a href="${href}" target="_blank" rel="noopener"${title ? ` title="${title}"` : ''}>${text}</a>`;
+      const SEP = ' <span class="evo-sep">–</span> ';
+      document.getElementById('evo-hrrr').innerHTML =
+        `<li>${pv.products.map(pr => a(url(pr.p), pr.label, 'Newest HRRR run on Pivotal Weather')).join(SEP)}</li>`;
+
+      const nbm = document.getElementById('evo-nbm');
+      if (cfg.nbm_viewer_url) nbm.innerHTML = `<li>${a(cfg.nbm_viewer_url, `NBM 1D viewer for ${cfg.station}: precipitation`)}</li>`;
+      else { nbm.previousElementSibling.remove(); nbm.remove(); }
+      const more = [[cfg.satellite_url, 'Observed GOES satellite loop (RAMMB/CIRA SLIDER)'],
+                    ['https://app.weatherfront.com/', 'WeatherFront'], [cfg.csu_url, 'CSU WxChallenge Zoom']];
+      // the NWS forecast discussion item is filled in with the forecast table (it comes from latest.json)
+      document.getElementById('evo-more').innerHTML = more.filter(([u]) => u).map(([u, t]) => `<li>${a(u, t)}</li>`).join('') +
+        '<li id="evo-afd" hidden></li>';
+      sec.hidden = false;
+    })();
+    </script>
+  </section>
+
+  <section id="ensembles">
+    <h2>Ensembles</h2>
+    <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31; shown and scored but not
+      part of the consensus), all via Open-Meteo, plus two 3 km precipitation
+      ensembles: REFS (NOAA's new operational short-range ensemble: RRFS, RRFS ensemble and HRRR members from the
+      latest two cycles) and HRRRCast (NOAA GSL's experimental AI emulator of the HRRR, 18 members), for the same
+      local day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the dark bar
+      <b class="k-med"></b>is the median and the orange diamond <b class="k-mean"></b>the mean; ▼ marks the consensus. The precip axis is square-root
+      scaled so light amounts aren't squeezed by a few wet members. Probabilities are the share of members reaching each
+      amount. Because of how precip is scored, the members' median is the best single precip value to enter.</p>
+    <div class="scroll">
+      <table id="ens-table" aria-label="Ensemble spread"><tbody><tr><td>Loading…</td></tr></tbody></table>
+    </div>
+    <div class="scroll">
+      <table id="ens-prob" aria-label="Ensemble precipitation probabilities"><tbody></tbody></table>
+    </div>
+  </section>
+
+  <section id="pop" hidden>
+    <h2>Chance of precipitation</h2>
+    <p class="small">Chance of at least 0.01" (a trace counts as dry) in each 6-hour block (UTC periods
+      06Z–06Z, the closest the 6-hour guidance comes to the local day) and over the whole day. MOS and NBM text guidance (P06) and NBM QMD are calibrated probabilities; the ensembles
+      are the raw share of their members (uncalibrated, and coarse for small ensembles: note the member counts).
+      MOS has 6-hour chances only, so its 24-hour chance is shown as a range: at least the largest block chance,
+      at most the chance if the blocks were independent. None of this goes into the consensus.</p>
+    <div class="scroll">
+      <table id="pop-table" aria-label="Chance of precipitation by source"><tbody></tbody></table>
+    </div>
+    <p id="pop-qmd" class="small"></p>
+    <div id="pop-charts" class="pop-charts"></div>
+    <p class="small">Each line holds one source's chance for each 6-hour block (UTC); hover or tap a dot for
+      the value. The table above has every number.</p>
+  </section>
+
+  <div id="tip" role="tooltip"></div>
+
+<script>
+function fmt(v, d){
+  if (v === null || v === undefined) return '—';
+  return (typeof v === 'number' && d !== undefined) ? v.toFixed(d) : v;
+}
+/* "2026-09-29T12" -> "09/29 12Z" (the year is just noise in the tables) */
+function runLabel(iso){
+  if (!iso) return '—';
+  const m = String(iso).match(/^\d{4}-(\d{2})-(\d{2})T(\d{2})/);
+  return m ? `${m[1]}/${m[2]} ${m[3]}Z` : iso;
+}
+function signed(v, d){
+  if (v === null || v === undefined) return '—';
+  const s = Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v;
+  return (s > 0 ? '+' : s < 0 ? '−' : '') + Math.abs(s).toFixed(d);
+}
+function isDark(){
+  const t = document.documentElement.dataset.theme;
+  return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+const GROUPS = [
+  { title: 'Grid models', rows: [['HRRR','HRRR'],['RRFS','RRFS'],['IFS','ECMWF IFS'],['GFS','GFS'],['AIFS','ECMWF AIFS']] },
+  { title: 'Statistical / point guidance', rows: [['GFS_MOS','GFS MOS'],['NBM','NBM'],['USL','USL']] },
+  { title: 'Ensembles (mean)', rows: [['ENS','ECMWF ENS'],['AIFS_ENS','AIFS ENS']] },
+  { title: 'More ensembles (mean; not in consensus)', rows: [['GEFS','GEFS']] },
+  { title: 'More grid models (not in consensus)', rows: [['IFS_HRES','ECMWF IFS 9 km']] },
+  { title: 'Precip only (median; not in consensus)', rows: [['REFS','REFS'],['HRRRCAST','HRRRCast (AI)'],['NBM_QMD','NBM QMD (50% level)']] },
+  { title: 'Blend', rows: [['CONSENSUS','Consensus']] },
+];
+const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
+const OBS_SRC = {'6h_group': '6-h METAR group', hourly: 'KLXL AWOS reports', cli: 'NWS CLI',
+  metar_override: 'METAR above the CLI', metar: 'KLXL AWOS reports', cli_backup: 'CLI backup (METAR missing)',
+  pending: 'waiting for the final CLI'};
+const VARS = {
+  tmax_f:      { name: 'High', unit: '°F', dec: 0, bins: [1, 3, 5] },
+  tmin_f:      { name: 'Low',  unit: '°F', dec: 0, bins: [1, 3, 5] },
+  wind_max_kt: { name: 'Wind', unit: 'kt', dec: 0, bins: [1, 3, 6] },
+  precip_in:   { name: 'Precip', unit: 'in', dec: 2, bins: [0.02, 0.10, 0.25] },
+};
+
+/* ---------- colour scales (tokens only; see the CSS custom properties) ---------- */
+// error points: continuous one-hue ramp, t=0 best of the day -> t=1 worst
+function pointsFill(t){
+  return t <= 0.5
+    ? `color-mix(in oklab, var(--e1) ${Math.round(t * 200)}%, var(--e0))`
+    : `color-mix(in oklab, var(--e2) ${Math.round((t - 0.5) * 200)}%, var(--e1))`;
+}
+function pointsInk(t){ return isDark() ? (t > 0.6 ? '#1a1a19' : '#ffffff') : (t > 0.45 ? '#ffffff' : '#0b0b0b'); }
+// signed error: diverging, 3 steps per arm + neutral
+function biasStep(err, bins){
+  const a = Math.abs(err);
+  const step = a <= bins[0] ? 0 : a <= bins[1] ? 1 : a <= bins[2] ? 2 : 3;
+  return err < 0 ? -step : step;
+}
+function biasFill(step){
+  if (step === 0) return 'var(--neu)';
+  return `var(--${step < 0 ? 'c' : 'w'}${Math.abs(step)})`;
+}
+function biasInk(step){
+  const a = Math.abs(step);
+  if (isDark()) return a === 3 ? '#1a1a19' : '#ffffff';
+  return a >= 2 ? '#ffffff' : '#0b0b0b';
+}
+
+/* ---------- forecast table ---------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
+const localTime = iso => new Date(iso).toLocaleString([], {month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'});
+// connection-level failures (same idea as wxc_carryover.NETWORK_ERROR): show a plain message, details on hover
+const NET_ERR = /max retries exceeded|connection(error| refused| reset| aborted)|name ?resolution|failed to resolve|nodename nor servname|network is unreachable|no route to host|timed out|timeout|remotedisconnected/i;
+function modelRow(key, label, m){
+  let cls = key === 'CONSENSUS' ? ' class="consensus"' : '';
+  const none = v => v === null || v === undefined;
+  if (!m || (none(m.tmax_f) && none(m.precip_in))) {
+    let why = 'no data';
+    if (m && m.error) why = NET_ERR.test(m.error)
+      ? `<span class="note" title="${esc(m.error)}">Couldn't reach the data source (connectivity issue); not pulled this update</span>`
+      : `<span class="note">${esc(m.error.slice(0,120))}</span>`;
+    return `<tr${cls}><td>${label}</td><td colspan="5">${why}</td></tr>`;
+  }
+  let note = m.note ? `<div class="note">${m.note}</div>` : '';
+  if (m.stale) {        // the latest update failed for this model: its previous forecast is shown
+    cls = ' class="stale"';
+    const when = m.stale.fetched_at_utc ? `; pulled ${localTime(m.stale.fetched_at_utc)}` : '';
+    note += `<div class="note" title="${esc(m.stale.error || '')}">⚠ Not refreshed (latest update failed${when})</div>`;
+  }
+  return `<tr${cls}><td>${label}${note}</td>
+    <td class="num">${fmt(m.tmax_f,1)}</td><td class="num">${fmt(m.tmin_f,1)}</td>
+    <td class="num">${fmt(m.wind_max_kt,1)}</td><td class="num">${fmt(m.precip_in,2)}</td>
+    <td>${runLabel(m.init_time_utc)}</td></tr>`;
+}
+
+/* ---------- verification scoreboard ---------- */
+let VERIF = null, VIEW = 'points', CONS_W = {}, CLOUD = {};
+
+/* ---------- cloud context (cloud_context.json; display only, never scored) ----------
+   Two tabs show each scored run's cloud forecast minus the observed (METAR) cloud cover,
+   in percentage points: daytime (sun up), which drives the high, and night (midnight to
+   sunrise), which drives the low. */
+const CLOUD_VIEWS = {
+  cloud_day:   { label: 'Day clouds', obs: 'day_pct', err: 'day_err', w: 'tmax_f',
+                 when: 'daytime (sun up), which drives the high' },
+  cloud_night: { label: 'Night clouds', obs: 'night_pct', err: 'night_err', w: 'tmin_f',
+                 when: 'night (midnight to sunrise), which drives the low' },
+};
+const CLOUD_BINS = [15, 30, 50];     // percentage points: grey within ±15
+const cloudDay = date => CLOUD[date];
+const pct0 = v => v == null ? '—' : `${Math.round(v)}%`;
+function cloudLine(label, f, o, e){
+  if (f == null && o == null) return '';
+  const how = e == null ? '' : Math.abs(e) < 15 ? ', about right' : e < 0 ? ', too clear' : ', too cloudy';
+  return `${label}: ${pct0(f)} vs ${pct0(o)}${e == null ? '' : ` (${signed(e, 0)}${how})`}`;
+}
+const tip = document.getElementById('tip');
+// the decay weight shown under each date: the variable's own, temperature for the points view
+const weightVar = () => VIEW === 'points' ? 'tmax_f' : CLOUD_VIEWS[VIEW]?.w || VIEW;
+
+function dayHead(d, cls){
+  const dt = new Date(d.date + 'T12:00:00Z');
+  const wd = dt.toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' });
+  const w = d.decay_weight?.[weightVar()];
+  return `<th class="day${cls}">${d.date.slice(5)}<span>${wd}</span>` +
+    (w !== undefined ? `<span class="w" title="weight of this day in the models' bias and error">w=${w.toFixed(2)}</span>` : '') + '</th>';
+}
+
+// the Avg column sticks just left of the summary column, so it needs that column's width
+function pinAvg(){
+  const t = document.getElementById('score'), sum = t.querySelector('.sum');
+  if (sum) t.style.setProperty('--sum-w', sum.getBoundingClientRect().width + 'px');
+}
+
+// a model's share of today's consensus: the current variable's, or the average over the four
+function consWeight(name){
+  const ks = VIEW === 'points' ? Object.keys(VARS) : [VIEW];
+  if (!ks.some(k => CONS_W[k])) return null;
+  return ks.reduce((a, k) => a + (CONS_W[k]?.[name] ?? 0), 0) / ks.length;
+}
+
+/* today so far (verification.json "today"): each model's submitted forecast scored against the
+   observations so far. Provisional, so it is never in the totals, averages or the consensus. */
+function todayCol(days){
+  const t = VERIF.today, last = days.length ? days[days.length - 1].date : '';
+  return t && t.models && Object.keys(t.models).length && t.date > last ? t : null;
+}
+const thru = t => t.through_utc ? `${t.through_utc.slice(11, 16)}Z` : 'now';
+function todayHead(t){
+  const wd = new Date(t.date + 'T12:00:00Z').toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' });
+  return `<th class="day today" title="Today, observations through ${thru(t)}: not final">${t.date.slice(5)}<span>${wd}</span>` +
+    `<span class="w">so far</span></th>`;
+}
+function todayObsCell(t, CV){
+  const o = t.obs;
+  const txt = CV ? '—' : VIEW === 'points' ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}` : fmt(o[VIEW], VARS[VIEW].dec);
+  const title = `Observed so far through ${thru(t)}${t.n_obs ? ` (${t.n_obs} hourly obs)` : ''}, not final:\n` +
+    ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k => `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit}`).join('\n');
+  return `<td class="cell today${CV ? ' small' : ''}" title="${title}">${txt}</td>`;
+}
+function todayCell(t, name, CV){
+  const m = t.models[name];
+  if (!m || CV) return '<td class="cell small today">—</td>';
+  const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
+  const at = `class="cell today${rc}" data-day="today" data-model="${name}"`;
+  let txt, style;
+  if (VIEW === 'points') {
+    const p = Object.values(t.models).map(x => x.points), lo = Math.min(...p), hi = Math.max(...p);
+    const f = hi > lo ? (m.points - lo) / (hi - lo) : 0;
+    txt = m.points.toFixed(1);
+    style = `background:${pointsFill(f)};color:${pointsInk(f)}`;
+  } else {
+    const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
+    txt = signed(e, VARS[VIEW].dec);
+    style = `background:${biasFill(step)};color:${biasInk(step)}`;
+  }
+  return `<td ${at} style="${style}">${txt}${r}</td>`;
+}
+
+function renderScore(){
+  const v = VERIF, table = document.getElementById('score'), legend = document.getElementById('legend');
+  const days = (v.days || []).filter(d => Object.keys(d.models).length);
+  if (!days.length) {
+    table.innerHTML = '<tbody><tr><td>No verified days yet: scores appear once a forecast day has ended.</td></tr></tbody>';
+    legend.innerHTML = '';
+    return;
+  }
+  const summary = v.summary || {};
+  const CV = CLOUD_VIEWS[VIEW];       // set on the two cloud tabs
+  // the same rows on every tab; on the cloud tabs, models without a cloud forecast
+  // (the ensembles, the consensus) just show dashes
+  // per-column classes: hindcast shading and the divider before city day 1
+  const firstCity = days.findIndex(d => !d.hindcast);
+  const cls = days.map((d, i) => (d.hindcast ? ' hind' : '') + (i === firstCity && i > 0 ? ' city1' : ''));
+  const nHind = firstCity < 0 ? days.length : firstCity;
+  // today so far (provisional): its own last column, never in the totals or the consensus
+  const T = todayCol(days);
+  // models with only a provisional today score (e.g. USL on a new city's first day) go after the
+  // scored ones, by today's points, with dashes for the past days; the consensus stays last
+  const fresh = T ? Object.keys(T.models).filter(n => !summary[n])
+    .sort((a, b) => T.models[a].points - T.models[b].points) : [];
+  const models = Object.keys(summary).filter(n => n !== 'CONSENSUS')
+    .sort((a, b) => summary[a].mean_points - summary[b].mean_points)
+    .concat(fresh, summary.CONSENSUS ? ['CONSENSUS'] : []);
+
+  // best / worst per day (points view) for the relative colouring and the star
+  const range = days.map(d => {
+    const p = Object.values(d.models).map(m => m.points);
+    return { lo: Math.min(...p), hi: Math.max(...p) };
+  });
+
+  let head = '<thead>';
+  if (nHind) {
+    head += '<tr class="span"><th class="model"></th>' +
+      `<th colspan="${nHind}" class="hind">Hindcasts (before this page)</th>` +
+      (nHind < days.length ? `<th colspan="${days.length - nHind}" class="city1">Live forecasts</th>` : '') +
+      (T ? '<th class="today">Today</th>' : '') +
+      (VIEW === 'points' ? '<th class="avg"></th>' : '') + '<th class="sum"></th></tr>';
+  }
+  head += '<tr><th class="model">Model</th>' + days.map((d, i) => dayHead(d, cls[i])).join('') + (T ? todayHead(T) : '');
+  head += VIEW === 'points' ? '<th class="avg">Avg<span>per day</span></th><th class="sum">Total<span>points · weight</span></th>'
+                            : CV ? '<th class="sum">Error<span>weighted · days</span></th>'
+                            : '<th class="sum">Error<span>weighted · weight</span></th>';
+  head += '</tr></thead>';
+
+  // observed row
+  let obs = '<tr class="obs"><td class="model">Observed</td>';
+  obs += days.map((d, i) => {
+    const o = d.obs, src = d.obs_source || {}, pend = d.obs_pending || [];
+    const shown = VIEW === 'points' ? ['tmax_f', 'tmin_f'] : CV ? [] : [VIEW];
+    const mark = shown.some(k => pend.includes(k)) ? '<sup aria-label="pending">p</sup>' : '';
+    const txt = VIEW === 'points' ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}`
+      : CV ? pct0(cloudDay(d.date)?.obs?.[CV.obs])
+      : fmt(o[VIEW], VARS[VIEW].dec);
+    // where each observed value came from (wxc_obs "source"); p = still waiting for the final CLI
+    const title = ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k =>
+      `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${OBS_SRC[src[k]] || src[k] || d.wind_source || '?'}` +
+      `${pend.includes(k) ? ', pending' : ''})`).join('\n');
+    const co = cloudDay(d.date)?.obs;
+    const ctitle = co ? `\nClouds (METAR, not scored): night ${pct0(co.night_pct)}, day ${pct0(co.day_pct)}` +
+      (co.goes_day_pct != null || co.goes_night_pct != null
+        ? `\nGOES satellite: night ${pct0(co.goes_night_pct)}, day ${pct0(co.goes_day_pct)}` : '') : '';
+    return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}${ctitle}">${txt}${mark}</td>`;
+  }).join('') + (T ? todayObsCell(T, CV) : '') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
+
+  const rows = models.map(name => {
+    const s = summary[name];
+    let tr = `<tr${name === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[name] || name}</td>`;
+    let cw_sum = 0, cw_abs = 0, cw_err = 0, cn = 0;      // cloud tabs: weighted error and bias
+    days.forEach((d, i) => {
+      const m = d.models[name];
+      if (!m) { tr += `<td class="cell small${cls[i]}">—</td>`; return; }
+      const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
+      if (CV) {
+        const e = cloudDay(d.date)?.models?.[name]?.[CV.err];
+        if (e === null || e === undefined) { tr += `<td class="cell small${cls[i]}" data-day="${i}" data-model="${name}">—</td>`; return; }
+        const step = biasStep(e, CLOUD_BINS), w = d.decay_weight?.[CV.w] ?? 1;
+        cw_sum += w; cw_abs += w * Math.abs(e); cw_err += w * e; cn += 1;
+        tr += `<td class="cell${cls[i]}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, 0)}</td>`;
+        return;
+      }
+      if (VIEW === 'points') {
+        const { lo, hi } = range[i];
+        const t = hi > lo ? (m.points - lo) / (hi - lo) : 0;
+        const star = m.points === lo ? '<span class="star" aria-label="best">★</span>' : '';
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t)}">${m.points.toFixed(1)}${r}${star}</td>`;
+      } else {
+        const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
+      }
+    });
+    if (T) tr += todayCell(T, name, CV);
+    const cw = name === 'CONSENSUS' ? null : consWeight(name);
+    const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
+    if (!s) {
+      // nothing scored yet: same two-line cell, so rows keep their height
+      tr += (VIEW === 'points' ? '<td class="avg"><b>—</b></td>' : '') +
+            `<td class="sum"><b>—</b><span>0 d${CV ? '' : wt}</span></td>`;
+    } else if (CV) {
+      // same two-line cell as every other row, so rows keep their height across tabs
+      tr += cn ? `<td class="sum"><b>${(cw_abs / cw_sum).toFixed(0)}</b><span>bias ${signed(cw_err / cw_sum, 0)} · ${cn} d</span></td>`
+               : '<td class="sum"><b>—</b><span>no cloud forecast</span></td>';
+    } else if (VIEW === 'points') {
+      tr += `<td class="avg"><b>${s.mean_points.toFixed(1)}</b></td>` +
+            `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d${wt}</span></td>`;
+    } else {
+      const dec = VARS[VIEW].dec === 0 ? 1 : 2;
+      tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}${wt}</span></td>`;
+    }
+    return tr + '</tr>';
+  });
+  table.innerHTML = head + '<tbody>' + obs + rows.join('') + '</tbody>';
+  pinAvg();
+
+  // legend
+  if (VIEW === 'points') {
+    const sw = [0, 0.25, 0.5, 0.75, 1].map(t => `<i style="background:${pointsFill(t)}"></i>`).join('');
+    legend.innerHTML = `<span>Best of the day</span><span class="swatches">${sw}</span><span>Worst of the day</span>
+      <span>· models sorted by average points (lower is better)</span>`;
+  } else if (CV) {
+    const sw = [-3, -2, -1, 0, 1, 2, 3].map(s => `<i style="background:${biasFill(s)}"></i>`).join('');
+    legend.innerHTML = `<span>Too clear</span><span class="swatches">${sw}</span><span>Too cloudy</span>
+      <span>· forecast minus observed (METAR) cloud cover over the ${CV.when}, in percentage points;
+      within ±${CLOUD_BINS[0]} is grey, steps at ${CLOUD_BINS[1]} and ${CLOUD_BINS[2]} · not scored</span>`;
+  } else {
+    const b = VARS[VIEW].bins, u = VARS[VIEW].unit, dec = VARS[VIEW].dec;
+    const sw = [-3, -2, -1, 0, 1, 2, 3].map(s => `<i style="background:${biasFill(s)}"></i>`).join('');
+    legend.innerHTML = `<span>Too ${VIEW === 'precip_in' ? 'dry' : VIEW === 'wind_max_kt' ? 'light' : 'cold'}</span>
+      <span class="swatches">${sw}</span>
+      <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
+      <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
+  }
+  const hl = v.half_life_days;
+  document.getElementById('decay-note').textContent = hl
+    ? `Recent days count more in each model's bias and error: a day's weight (w, under the date) halves every ` +
+      `${hl.tmax_f} days for temperature, ${hl.wind_max_kt} for wind and ${hl.precip_in} for precip. The right ` +
+      `columns give each model's average points per day (fair for models with fewer scored days, like USL) and total, ` +
+      `or on the other tabs its weighted average error and bias, and its share of today's consensus.`
+    : '';
+}
+
+function cloudTip(d, name, m){
+  const c = cloudDay(d.date), cm = c?.models?.[name];
+  if (!c) return '';
+  if (!cm) return name in (c.missing || {}) ? `<br><span style="opacity:.75">clouds: no data for this run</span>` : '';
+  const lines = [cloudLine('Night clouds', cm.night_pct, c.obs.night_pct, cm.night_err),
+                 cloudLine('Day clouds', cm.day_pct, c.obs.day_pct, cm.day_err)].filter(Boolean);
+  return `<br><span style="opacity:.85">${lines.join('<br>')}</span>` +
+    `<br><span style="opacity:.6">clouds: forecast vs METAR, not scored</span>`;
+}
+
+function showTip(td, ev){
+  const now = td.dataset.day === 'today';
+  const d = now ? VERIF.today : VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
+  const name = td.dataset.model, m = d && d.models[name];
+  if (!m) return;
+  if (now) {
+    const f = m.forecast, o = d.obs, e = m.error;
+    const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} so far (${signed(e[k], VARS[k].dec)})`;
+    tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date} so far</b><br>` +
+      ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
+      `<br><b>${m.points.toFixed(1)} points so far</b>` +
+      `<br><span style="opacity:.75">observations through ${thru(d)}; not final, so not in the totals or the consensus</span>` +
+      (m.reconstructed ? `<br><span style="opacity:.75">reconstructed, not submitted</span>`
+        : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z</span>` : '');
+    tip.style.display = 'block';
+    moveTip(ev);
+    return;
+  }
+  const f = m.forecast, o = d.obs, e = m.error;
+  const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${signed(e[k], VARS[k].dec)})`;
+  tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date}</b><br>` +
+    ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
+    `<br><b>${m.points.toFixed(1)} points</b>` + cloudTip(d, name, m) +
+    (m.reconstructed
+      ? `<br><span style="opacity:.75">reconstructed, not submitted: rebuilt from the models' forecasts with only the earlier days' track record</span>`
+      : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${m.hindcast ? ' · hindcast' : ''}</span>` : '') +
+    (d.decay_weight ? `<br><span style="opacity:.75">day weight ${d.decay_weight[weightVar()].toFixed(2)}</span>` : '');
+  tip.style.display = 'block';
+  moveTip(ev);
+}
+function moveTip(ev){
+  const x = Math.min(ev.clientX + 14, innerWidth - tip.offsetWidth - 8);
+  const y = ev.clientY + 16 + tip.offsetHeight > innerHeight ? ev.clientY - tip.offsetHeight - 12 : ev.clientY + 16;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const score = document.getElementById('score');
+score.addEventListener('pointerover', ev => {
+  const td = ev.target.closest('td[data-model]'); if (td) showTip(td, ev);
+});
+score.addEventListener('pointermove', ev => { if (tip.style.display === 'block') moveTip(ev); });
+score.addEventListener('pointerout', ev => { if (ev.target.closest('td[data-model]')) tip.style.display = 'none'; });
+document.addEventListener('scroll', () => { tip.style.display = 'none'; }, { passive: true });
+
+document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('click', () => {
+  VIEW = btn.dataset.view;
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-pressed', b === btn));
+  try { localStorage.setItem('klxl-view', VIEW); } catch (e) {}
+  if (VERIF) renderScore();
+}));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (VERIF) renderScore();
+  if (Object.keys(POP_DATA).length) renderPop({ models: POP_DATA });
+});
+
+
+/* ---------- ensembles ---------- */
+const ENS_KEYS = [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS'],
+                  ['REFS','REFS'], ['HRRRCAST','HRRRCast (AI)']];
+// round-number tick spacing giving roughly n intervals across `range`
+function niceStep(range, n = 3){
+  const raw = (range > 0 ? range : 1) / n, p = 10 ** Math.floor(Math.log10(raw)), f = raw / p;
+  return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p;
+}
+// precip is right-skewed (a few wet members stretch the axis), so it gets a square-root axis
+const PRECIP_TICKS = [0, 0.1, 0.25, 0.5, 1, 1.5, 2, 3, 4, 5];
+function boxSvg(st, [lo, hi, step], cons, dec, sqrt = false){
+  const W = 200, H = 48, pad = 12, f = sqrt ? Math.sqrt : (v => v);
+  const x = v => pad + (W - 2 * pad) * (hi > lo ? (f(Math.max(lo, v)) - f(lo)) / (f(hi) - f(lo)) : 0.5);
+  const y = 10, bh = 14, cy = y + bh / 2, ay = 31;           // box top/height, box centre, axis line
+  const tdec = step >= 1 ? 0 : step >= 0.1 ? 1 : 2;
+  const tv = [];
+  if (sqrt) tv.push(...PRECIP_TICKS.filter(t => t >= lo && t <= hi + 1e-9));
+  else for (let t = lo; t <= hi + step / 1e3; t += step) tv.push(t);
+  let ticks = '';
+  for (const t of tv)
+    ticks += `<line x1="${x(t)}" x2="${x(t)}" y1="${ay}" y2="${ay + 3}" stroke="var(--ink-3)"/>
+      <text x="${x(t)}" y="${H - 3}" font-size="10" fill="var(--ink-3)" text-anchor="middle">${sqrt ? String(t) : t.toFixed(tdec)}</text>`;
+  const tri = cons === null || cons === undefined ? '' :
+    `<path d="M${x(cons) - 4.5},0 L${x(cons) + 4.5},0 L${x(cons)},7 Z" fill="var(--ink)"/>`;
+  const m = x(st.mean), r = 4.5;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="min ${st.p0}, 25% ${st.p25}, median ${st.p50}, mean ${st.mean}, 75% ${st.p75}, max ${st.p100}">
+    <line x1="${pad}" x2="${W - pad}" y1="${ay}" y2="${ay}" stroke="var(--line)"/>
+    ${ticks}
+    <line x1="${x(st.p0)}" x2="${x(st.p100)}" y1="${cy}" y2="${cy}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <line x1="${x(st.p0)}" x2="${x(st.p0)}" y1="${y + 3}" y2="${y + bh - 3}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <line x1="${x(st.p100)}" x2="${x(st.p100)}" y1="${y + 3}" y2="${y + bh - 3}" stroke="var(--ink-2)" stroke-width="1.5"/>
+    <rect x="${x(st.p25)}" y="${y}" width="${Math.max(2, x(st.p75) - x(st.p25))}" height="${bh}" rx="2"
+      fill="var(--c1)" stroke="var(--c3)" stroke-width="1"/>
+    <line x1="${x(st.p50)}" x2="${x(st.p50)}" y1="${y - 2}" y2="${y + bh + 2}" stroke="var(--ink)" stroke-width="3"/>
+    <path d="M${m},${cy - r} L${m + r},${cy} L${m},${cy + r} L${m - r},${cy} Z" fill="var(--e1)" stroke="var(--bg)" stroke-width="1.2"/>
+    ${tri}
+  </svg>`;
+}
+function renderEnsembles(data){
+  const ens = ENS_KEYS.map(([k, l]) => [k, l, data?.models?.[k]]).filter(([, , m]) => m && m.ensemble);
+  const t = document.getElementById('ens-table'), pt = document.getElementById('ens-prob');
+  if (!ens.length) { document.getElementById('ensembles').remove(); return; }
+  const cons = data?.models?.CONSENSUS || {};
+  const vars = [['tmax_f', 'High (°F)', 0], ['tmin_f', 'Low (°F)', 0], ['wind_max_kt', 'Max wind (kt)', 0], ['precip_in', 'Precip (in)', 2]];
+  // shared scale per variable so the ensembles line up (precip-only ensembles have no temps/winds)
+  const scale = {};
+  for (const [v] of vars) {
+    const has = ens.filter(([, , m]) => m.ensemble.stats[v]);
+    const lo = Math.min(...has.map(([, , m]) => m.ensemble.stats[v].p0), cons[v] ?? Infinity);
+    const hi = Math.max(...has.map(([, , m]) => m.ensemble.stats[v].p100), cons[v] ?? -Infinity);
+    const step = v === 'precip_in' ? 0.5 : niceStep(hi - lo);
+    scale[v] = [Math.max(v === 'precip_in' || v === 'wind_max_kt' ? 0 : -1e9, Math.floor(lo / step) * step),
+                Math.ceil(hi / step) * step, step];
+  }
+  let h = '<thead><tr><th>Ensemble</th>' + vars.map(([, n]) => `<th>${n}</th>`).join('') + '</tr></thead><tbody>';
+  for (const [k, l, m] of ens) {
+    const st = m.ensemble.stats;
+    const lag = m.precip_only && k === 'REFS' ? ' + 6 h older' : '';
+    h += `<tr><td>${l}<div class="small">${m.ensemble.n_members} members<br>${runLabel(m.init_time_utc)} run${lag}</div></td>`;
+    for (const [v, , dec] of vars) {
+      const s = st[v];
+      if (!s) { h += '<td class="small muted">precip only</td>'; continue; }
+      h += `<td>${boxSvg(s, scale[v], cons[v], dec, v === 'precip_in')}
+        <div class="small ens-stats"><span><b class="k-med"></b>median ${s.p50.toFixed(dec)}</span>
+          <span><b class="k-mean"></b>mean ${s.mean.toFixed(dec)}</span><br>10–90%: ${s.p10.toFixed(dec)}–${s.p90.toFixed(dec)}</div></td>`;
+    }
+    h += '</tr>';
+  }
+  t.innerHTML = h + '</tbody>';
+  const th = Object.keys(ens[0][2].ensemble.stats.precip_prob);
+  let p = '<thead><tr><th>Chance of precip</th>' + th.map(x => `<th class="num">≥ ${x}"</th>`).join('') +
+    '<th class="num">Median</th></tr></thead><tbody>';
+  for (const [k, l, m] of ens) {
+    p += `<tr><td>${l}</td>` + th.map(x => {
+      const v = m.ensemble.stats.precip_prob[x];
+      const ink = isDark() ? (v > 0.6 ? '#1a1a19' : '#ffffff') : (v > 0.55 ? '#ffffff' : '#0b0b0b');
+      const fill = v <= 0 ? 'var(--neu)' : `color-mix(in oklab, var(--c3) ${Math.round(v * 100)}%, var(--c1))`;
+      return `<td class="cell num" style="background:${v <= 0 ? 'var(--bg)' : fill};color:${v <= 0 ? 'var(--ink-3)' : ink};text-align:center">${Math.round(v * 100)}%</td>`;
+    }).join('') + `<td class="num">${m.ensemble.stats.precip_in.p50.toFixed(2)}"</td></tr>`;
+  }
+  pt.innerHTML = p + '</tbody>';
+}
+
+/* ---------- chance of precipitation (PoP; display only, never in the consensus) ---------- */
+const POP_BLOCKS = ['06-12', '12-18', '18-00', '00-06'];
+const POP_FAMILIES = [
+  { title: 'Statistical guidance', rows: [['NBM_QMD','NBM QMD'], ['NBM','NBM text'], ['GFS_MOS','GFS MOS']] },
+  { title: 'Global ensembles', rows: [['ENS','ECMWF ENS'], ['AIFS_ENS','AIFS ENS'], ['GEFS','GEFS']] },
+  { title: '3 km ensembles', rows: [['HRRRCAST','HRRRCast (AI)'], ['REFS','REFS']] },
+];
+const POP_LABEL = Object.fromEntries(POP_FAMILIES.flatMap(f => f.rows));
+const pct = p => `${Math.round(p * 100)}%`;
+const blockLabel = b => b.replace('-', '–') + 'Z';
+function popFill(v){
+  return v <= 0 ? 'var(--bg)' : `color-mix(in oklab, var(--c3) ${Math.round(v * 100)}%, var(--c1))`;
+}
+function popInk(v){
+  if (v <= 0) return 'var(--ink-3)';
+  return isDark() ? (v > 0.6 ? '#1a1a19' : '#ffffff') : (v > 0.55 ? '#ffffff' : '#0b0b0b');
+}
+function popCell(v, title){
+  if (v === null || v === undefined) return '<td class="cell small">—</td>';
+  return `<td class="cell num" style="background:${popFill(v)};color:${popInk(v)}"${title ? ` title="${title}"` : ''}>${pct(v)}</td>`;
+}
+function popBasis(p){
+  if (p.n_members) return `${p.n_members} members (raw share)`;
+  return p.basis === 'NBM QMD' ? 'calibrated (NBM QMD)' : `calibrated (${p.basis || 'MOS'})`;
+}
+let POP_DATA = {};
+function renderPop(data){
+  const sec = document.getElementById('pop'), models = data?.models || {};
+  POP_DATA = models;
+  const fams = POP_FAMILIES.map(f => ({ ...f, rows: f.rows.filter(([k]) => models[k]?.pop) })).filter(f => f.rows.length);
+  if (!fams.length) { sec.hidden = true; return; }
+  let h = '<thead><tr><th>Source</th>' + POP_BLOCKS.map(b => `<th class="num">${blockLabel(b)}</th>`).join('') +
+    '<th class="num">24 h</th><th>Basis</th></tr></thead><tbody>';
+  for (const f of fams) {
+    h += `<tr class="group"><td colspan="7">${f.title}</td></tr>`;
+    for (const [k, l] of f.rows) {
+      const m = models[k], p = m.pop;
+      h += `<tr><td>${l}<div class="small">${runLabel(m.init_time_utc)} run</div></td>` +
+        POP_BLOCKS.map(b => popCell(p.blocks?.[b])).join('');
+      if (p.p24 !== null && p.p24 !== undefined) h += popCell(p.p24);
+      else if (p.p24_range) h += `<td class="cell num range" title="Only 6-hour chances exist: the day's chance is at least the largest block and at most the independent-blocks value">${pct(p.p24_range[0])}–${pct(p.p24_range[1])}</td>`;
+      else h += '<td class="cell small">—</td>';
+      h += `<td class="basis">${popBasis(p)}</td></tr>`;
+    }
+  }
+  document.getElementById('pop-table').innerHTML = h + '</tbody>';
+  const q = models.NBM_QMD?.pop?.q24_in;
+  document.getElementById('pop-qmd').textContent = q
+    ? `NBM QMD 24-hour precip percentiles (dry outcomes included): ` +
+      Object.entries(q).map(([k, v]) => `${k}% ${v.toFixed(2)}"`).join(' · ') +
+      `. The 50% level is the amount that minimises the expected WxChallenge precip points.` : '';
+  document.getElementById('pop-charts').innerHTML = fams.map(popChart).join('');
+  sec.hidden = false;
+}
+// one small multiple per family: a step line per source over the four 6-h blocks
+function popChart(f){
+  const rows = f.rows.filter(([k]) => POP_BLOCKS.some(b => POP_DATA[k].pop.blocks?.[b] !== null && POP_DATA[k].pop.blocks?.[b] !== undefined));
+  const dayOnly = f.rows.filter(r => !rows.includes(r)).map(([, l]) => l);
+  const W = 340, H = 170, L = 34, R = 74, T = 8, B = 22, pw = W - L - R, ph = H - T - B;
+  const x = i => L + pw * i / 4, y = v => T + ph * (1 - v);
+  let g = '';
+  for (const v of [0, 0.25, 0.5, 0.75, 1])
+    g += `<line x1="${L}" x2="${L + pw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/>` +
+         `<text x="${L - 6}" y="${y(v) + 3.5}" font-size="10" fill="var(--ink-3)" text-anchor="end">${v * 100}%</text>`;
+  ['06Z', '12Z', '18Z', '00Z', '06Z'].forEach((t, i) =>
+    g += `<text x="${x(i)}" y="${H - 6}" font-size="10" fill="var(--ink-3)" text-anchor="middle">${t}</text>`);
+  let lines = '', dots = '', hits = '';
+  const ends = [];
+  rows.forEach(([k, l], si) => {
+    const col = `var(--s${si + 1})`, bl = POP_DATA[k].pop.blocks;
+    let d = '';
+    POP_BLOCKS.forEach((b, i) => {
+      const v = bl[b];
+      if (v === null || v === undefined) return;
+      const prev = i > 0 ? bl[POP_BLOCKS[i - 1]] : null;
+      d += (prev === null || prev === undefined ? `M${x(i)},${y(v)}` : `L${x(i)},${y(v)}`) + ` L${x(i + 1)},${y(v)} `;
+      const cx = (x(i) + x(i + 1)) / 2;
+      dots += `<circle cx="${cx}" cy="${y(v)}" r="4" fill="${col}" stroke="var(--bg)" stroke-width="2"/>`;
+      hits += `<circle class="hit" cx="${cx}" cy="${y(v)}" r="11" data-pop-src="${k}" data-pop-b="${b}"/>`;
+    });
+    lines += `<path d="${d}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"/>`;
+    const last = [...POP_BLOCKS].reverse().find(b => bl[b] !== null && bl[b] !== undefined);
+    if (last) ends.push({ l, col, y: y(bl[last]) });
+  });
+  // direct labels at the right edge, nudged apart so they never overlap
+  ends.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 12);
+  const over = ends.length ? Math.max(0, ends[ends.length - 1].y - (T + ph + 4)) : 0;
+  ends.forEach(e => e.y -= over);
+  const labels = ends.map(e => `<text x="${L + pw + 6}" y="${e.y + 3.5}" font-size="10.5" fill="var(--ink-2)">${e.l}</text>`).join('');
+  const legend = rows.map(([k, l], si) => {
+    const n = POP_DATA[k].pop.n_members;
+    return `<span><i style="background:var(--s${si + 1})"></i>${l}${n ? ` (${n})` : ''}</span>`;
+  }).join('') + (dayOnly.length ? `<span>${dayOnly.join(', ')}: 24 h only (table)</span>` : '');
+  return `<figure class="pop-chart" style="margin:0"><h4>${f.title}</h4><div class="lg">${legend}</div>` +
+    (rows.length ? `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${f.title}: chance of precipitation per 6-hour block">${g}${lines}${dots}${labels}${hits}</svg>` : '') +
+    '</figure>';
+}
+document.getElementById('pop-charts').addEventListener('pointerover', ev => {
+  const c = ev.target.closest('circle[data-pop-src]');
+  if (!c) return;
+  const k = c.dataset.popSrc, b = c.dataset.popB, p = POP_DATA[k]?.pop;
+  if (!p) return;
+  tip.innerHTML = `<b>${POP_LABEL[k] || k} · ${blockLabel(b)}</b><br>${pct(p.blocks[b])} chance of ≥ 0.01"` +
+    `<br><span style="opacity:.75">${popBasis(p)} · ${runLabel(POP_DATA[k].init_time_utc)} run</span>`;
+  tip.style.display = 'block';
+  moveTip(ev);
+});
+document.getElementById('pop-charts').addEventListener('pointermove', ev => { if (tip.style.display === 'block') moveTip(ev); });
+document.getElementById('pop-charts').addEventListener('pointerout', ev => { if (ev.target.closest('circle[data-pop-src]')) tip.style.display = 'none'; });
+
+/* ---------- today so far: errors ---------- */
+function renderToday(tj){
+  const tb = document.getElementById('today-table');
+  const rows = Object.entries(tj.models || {}).sort((a, b) => a[1].temp_mae - b[1].temp_mae);
+  if (!rows.length) { tb.innerHTML = '<tbody><tr><td>No forecasts to compare yet today.</td></tr></tbody>'; return; }
+  const o = tj.obs || {};
+  document.getElementById('today-note').textContent =
+    `${tj.date}, through ${tj.through_utc?.slice(11, 16)}Z (${o.n_obs} hourly obs): observed high so far ${fmt(o.high, 0)}°F, ` +
+    `low ${fmt(o.low, 0)}°F, max wind ${fmt(o.wind, 0)} kt, precip ${fmt(o.precip, 2)}".`;
+  const cell = (v, bins, dec, txt) => {
+    if (v === null || v === undefined) return '<td class="cell small">—</td>';
+    const step = biasStep(v, bins);
+    return `<td class="cell" style="background:${biasFill(step)};color:${biasInk(step)}">${txt ?? signed(v, dec)}</td>`;
+  };
+  // daily high / low: the model's scored value vs the observed extreme so far;
+  // grey until the time the model has its high (low) has passed
+  const extreme = (r, key) => {
+    const fc = r[key + '_fcst'] ?? r[key + '_so_far'], err = r[key + '_err'];
+    if (fc === undefined || fc === null) return '<td class="cell small">—</td>';
+    const txt = `${fc.toFixed(0)} (${err === null || err === undefined ? '—' : signed(err, 0)})`;
+    if (r[key + '_pending']) {
+      const at = r[key + '_at'] ? ` expected around ${r[key + '_at'].slice(11, 13)}Z` : '';
+      return `<td class="cell pending" title="Forecast ${key}${at}; not settled yet">${txt}</td>`;
+    }
+    return cell(err, [1, 3, 5], 0, txt);
+  };
+  let h = `<thead><tr><th>Model</th><th>Temp bias</th><th class="num">Temp error</th><th>Daily high</th>
+    <th>Daily low</th><th>Wind bias</th><th>Precip so far</th></tr></thead><tbody>`;
+  for (const [k, r] of rows) {
+    h += `<tr${k === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[k] || k}<div class="small">${r.init_time_utc ? r.init_time_utc.slice(11) + 'Z run' : ''}</div></td>` +
+      cell(r.temp_bias, [1, 3, 5], 1, signed(r.temp_bias, 1) + '°') +
+      `<td class="sum">${r.temp_mae.toFixed(1)}°</td>` +
+      extreme(r, 'high') + extreme(r, 'low') +
+      cell(r.wind_bias, [1, 3, 6], 1) +
+      cell(r.precip_err, [0.02, 0.10, 0.25], 2, r.precip_so_far === undefined ? null : `${r.precip_so_far.toFixed(2)} (${signed(r.precip_err, 2)})`) +
+      '</tr>';
+  }
+  tb.innerHTML = h + '</tbody>';
+}
+
+(async function(){
+  const bust = '?t=' + Date.now();
+  try {
+    const res = await fetch('../../data/klxl/forecast.json' + bust, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+    const data = await res.json();
+    document.getElementById('updated').textContent = data.generated_at_utc
+      ? 'Last updated: ' + new Date(data.generated_at_utc).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'}) : 'Last updated: —';
+    const rs = data.run_status, rsEl = document.getElementById('run-status');
+    if (rs && rs.ok === false) {
+      const when = rs.checked_at_utc ? ` at ${localTime(rs.checked_at_utc)}` : '';
+      const names = ks => ks.map(k => LABEL[k] || k).join(', ');
+      const kept = rs.carried_over || [];
+      const lost = (rs.failed || []).filter(k => !kept.includes(k));
+      const whole = data.generated_at_utc && rs.checked_at_utc && rs.checked_at_utc !== data.generated_at_utc;
+      rsEl.textContent = (rs.connectivity
+          ? `⚠ Connectivity issues: the most recent update${when} couldn't reach some data sources, so the latest forecasts weren't pulled.`
+          : `⚠ The most recent update${when} failed for some models.`) +
+        (whole ? ` Everything below is from the last successful update (${localTime(data.generated_at_utc)}).`
+               : (kept.length ? ` Showing the previous forecasts for ${names(kept)} (marked "not refreshed").` : '') +
+                 (lost.length ? ` Not available: ${names(lost)}.` : ''));
+      rsEl.hidden = false;
+    }
+    const site = data?.meta?.site ?? '—';
+    document.getElementById('forecast-for').textContent = `Forecasting for ${site}`;
+    const vr = data?.meta?.valid_range_utc
+      ?? Object.values(data.models || {}).map(m => m.valid_range_utc).find(Boolean);
+    // the local day (e.g. "Wed Oct 28, midnight to midnight CDT"), with its UTC window
+    const td = data?.meta?.target_date;
+    const dayName = td ? new Date(td + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' }) : '';
+    const win = (data?.meta?.day_window || '').replace('midnight-midnight', 'midnight to midnight');
+    document.getElementById('valid-range').textContent = vr
+      ? `Valid: ${dayName}${win ? ', ' + win : ''} (${vr[0].slice(11)}Z – ${vr[1].slice(5, 10)} ${vr[1].slice(11)}Z)` : 'Valid: —';
+    const afd = document.getElementById('afd-link'), wfo = data?.meta?.wfo, afdUrl = data?.meta?.afd_url;
+    if (wfo && afdUrl) {
+      afd.innerHTML = '<a target="_blank" rel="noopener"></a>';
+      afd.firstChild.href = afdUrl;
+      afd.firstChild.textContent = `NWS forecast discussion (${wfo})`;
+      afd.hidden = false;
+      const evoAfd = document.getElementById('evo-afd');
+      if (evoAfd) { evoAfd.innerHTML = afd.innerHTML; evoAfd.hidden = false; }
+    }
+    const rows = [];
+    for (const g of GROUPS) {
+      rows.push(`<tr class="group"><td colspan="6">${g.title}</td></tr>`);
+      for (const [key, label] of g.rows) rows.push(modelRow(key, label, data?.models?.[key]));
+    }
+    document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
+    CONS_W = Object.fromEntries(Object.entries(data?.models?.CONSENSUS?.method || {})
+      .filter(([, d]) => d.weights).map(([k, d]) => [k, d.weights]));
+    CONS_W.station = data?.meta?.station;
+    const cm = data?.models?.CONSENSUS?.method?.tmax_f;
+    if (cm) {
+      const names = ks => ks.map(k => LABEL[k] || k).join(', ');
+      const scored = !/equal-weight/.test(cm.method);
+      let txt = scored
+        ? 'Consensus: a skill-weighted average of the models above. Each model\'s typical error this ' +
+          'period is partly taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%; ' +
+          'lows, whose errors tend to persist, faster: 2 days 67%, 14 days 93%), ' +
+          'and models that have been closer to the observations count more. Recent days count somewhat ' +
+          'more than older ones, so the blend adapts without a few bad days undoing weeks of record.'
+        : 'Consensus: a plain average of the models above (no scored days yet).';
+      txt += ' Models far from the rest (over 8 °F or 10 kt from the middle) are left out.';
+      if (cm.not_yet_verified?.length) txt += ` Not scored yet, so used as-is: ${names(cm.not_yet_verified)}.`;
+      if (cm.excluded_outliers?.length) txt += ` Left out today: ${names(cm.excluded_outliers)}.`;
+      if (cm.excluded_stale?.length) txt += ` Left out as out of date (run over 36 h older than the newest): ${names(cm.excluded_stale)}.`;
+      const px = Object.entries(cm.proxy_track_record || {});
+      if (px.length) txt += ` Not scored yet, so using their parent model's record: ${px.map(([k, p]) => `${LABEL[k] || k} (${LABEL[p] || p})`).join(', ')}.`;
+      document.getElementById('consensus-note').textContent = txt;
+    }
+    renderEnsembles(data);
+    try { renderPop(data); } catch (e) { document.getElementById('pop').hidden = true; console.error(e); }
+  } catch (err) {
+    document.querySelector('#models-table tbody').innerHTML = '<tr><td colspan="6">Failed to load forecast data.</td></tr>';
+    console.error(err);
+  }
+
+  /* today so far: errors (hidden for now, see the commented-out block in the "today" section)
+  try {
+    const res = await fetch('../../data/klxl/today.json' + bust, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+    renderToday(await res.json());
+  } catch (err) {
+    document.getElementById('today-table').innerHTML = '<tbody><tr><td>Not available yet.</td></tr></tbody>';
+    console.error(err);
+  }
+  */
+
+  try {
+    const res = await fetch('../../data/klxl/verification.json' + bust, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+    VERIF = await res.json();
+    try {        // optional: the scoreboard works without it
+      const cr = await fetch('../../data/klxl/cloud_context.json' + bust, { cache: 'no-store' });
+      if (cr.ok) CLOUD = (await cr.json())?.stations?.[VERIF.station] || {};
+    } catch (e) { CLOUD = {}; }
+    if (CONS_W.station && CONS_W.station !== VERIF.station) CONS_W = {};    // forecast is for another city
+    const scored = (VERIF.days || []).filter(d => Object.keys(d.models).length);
+    const hind = scored.filter(d => d.hindcast).length;
+    document.getElementById('verif-period').textContent =
+      `${VERIF.station} since ${VERIF.period_start}: ${scored.length} scored day${scored.length === 1 ? '' : 's'}` +
+      (hind ? ` (${hind} hindcast day${hind === 1 ? '' : 's'} before the first forecast day` +
+              `${VERIF.city_start ? ', ' + VERIF.city_start.slice(5) : ''})` : '');
+    try {
+      const saved = localStorage.getItem('klxl-view');
+      if (saved && document.querySelector(`.tabs button[data-view="${saved}"]`)) {
+        document.querySelector(`.tabs button[data-view="${saved}"]`).click();
+      }
+    } catch (e) {}
+    renderScore();
+    // newest days in view: scroll to the right end, and keep it there while the layout settles
+    // (fonts, viewport changes) until the reader scrolls the table themselves
+    const wrap = document.getElementById('score-wrap');
+    wrap.scrollLeft = wrap.scrollWidth;
+    let touched = false;
+    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(t =>
+      wrap.addEventListener(t, () => { touched = true; }, { passive: true, once: true }));
+    new ResizeObserver(() => { pinAvg(); if (!touched) wrap.scrollLeft = wrap.scrollWidth; }).observe(wrap);
+    // error-points figure hidden for now (see the commented-out verif-fig image)
+    // if (scored.length) document.getElementById('verif-fig').src = `../images/wxchallenge/verification.png${bust}`;
+    // else document.getElementById('verif-fig').remove();
+  } catch (err) {
+    document.getElementById('verif-period').textContent = 'Verification not available yet.';
+    document.getElementById('score').innerHTML = '';
+    // document.getElementById('verif-fig').remove();   // figure hidden for now
+    console.error(err);
+  }
+})();
+</script>
+<script src="timeline.js" defer></script>
+
+</body>
+</html>

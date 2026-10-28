@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KLXL Pilot Weather</title>
+  <style>
+    :root{
+      --bg:#fcfcfb; --card:#ffffff; --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;
+      --line:#e4e3df; --head:#f5f4f1; --seg:#efeee9; --grid:#dddcd6; --link:#1c5cab;
+      --note:#8a5a00; --warn-bg:#fff7d6; --warn-ink:#6e4600; --bad:#8f2222;
+      --vfr:#1f8a3f; --mvfr:#1f5fd1; --ifr:#d12f2f; --lifr:#a21caf; --unk:#a9a8a1;
+      --fc:#2a78d6; --obs:#0b0b0b; --temp:#d95926; --dew:#199e70; --fzl:#7b5cd6; --xw:#d95926;
+      --night:rgba(28,38,72,.085); --civil:rgba(28,38,72,.04); --past:rgba(11,11,11,.025);
+      --cloud:82,81,78; --arrow:#3d4250; --spread:#c98500;
+      --good-bg:#dff2e5; --good-ink:#17602d; --fair-bg:#fcefcf; --fair-ink:#6e4600; --poor-bg:#f6dfdf; --poor-ink:#8f2222;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --bg:#1a1a19; --card:#222220; --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#a09f97;
+        --line:#343431; --head:#2a2a28; --seg:#2a2a28; --grid:#3a3a37; --link:#86b6ef;
+        --note:#f0b35c; --warn-bg:#3a3420; --warn-ink:#f0d48a; --bad:#f09a99;
+        --vfr:#2e9e50; --mvfr:#3a78e0; --ifr:#e04848; --lifr:#c048d0; --unk:#6a6964;
+        --fc:#6aa8f0; --obs:#ffffff; --temp:#f08a5a; --dew:#3cc191; --fzl:#a68cf0; --xw:#f08a5a;
+        --night:rgba(150,170,230,.10); --civil:rgba(150,170,230,.05); --past:rgba(255,255,255,.03);
+        --cloud:200,199,190; --arrow:#c9d1e0; --spread:#e0a020;
+        --good-bg:#1f3a27; --good-ink:#9fe0b0; --fair-bg:#3a3020; --fair-ink:#f0d48a; --poor-bg:#3a2222; --poor-ink:#f5b0b0;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"]{
+      --bg:#1a1a19; --card:#222220; --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#a09f97;
+      --line:#343431; --head:#2a2a28; --seg:#2a2a28; --grid:#3a3a37; --link:#86b6ef;
+      --note:#f0b35c; --warn-bg:#3a3420; --warn-ink:#f0d48a; --bad:#f09a99;
+      --vfr:#2e9e50; --mvfr:#3a78e0; --ifr:#e04848; --lifr:#c048d0; --unk:#6a6964;
+      --fc:#6aa8f0; --obs:#ffffff; --temp:#f08a5a; --dew:#3cc191; --fzl:#a68cf0; --xw:#f08a5a;
+      --night:rgba(150,170,230,.10); --civil:rgba(150,170,230,.05); --past:rgba(255,255,255,.03);
+      --cloud:200,199,190; --arrow:#c9d1e0; --spread:#e0a020;
+      --good-bg:#1f3a27; --good-ink:#9fe0b0; --fair-bg:#3a3020; --fair-ink:#f0d48a; --poor-bg:#3a2222; --poor-ink:#f5b0b0;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+    a{color:var(--link)}
+    .wrap{max-width:1240px;margin:0 auto;padding:20px 16px 48px;display:flex;flex-direction:column;gap:22px}
+    h1,h2{margin:0}
+    .muted{color:var(--ink-2)} .small{font-size:13px;color:var(--ink-3)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .card{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px;min-width:0}
+
+    /* switch between the two KLXL pages (same control on the models page) */
+    .site-toggle{display:inline-flex;align-self:flex-start;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;background:var(--head)}
+    .site-toggle a{padding:6px 14px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:14px}
+    .site-toggle a:hover{color:var(--ink)}
+    .site-toggle a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+
+    header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 20px;border-bottom:1px solid var(--line);padding-bottom:14px}
+    header h1{font-size:32px;letter-spacing:-.01em}
+    .badge{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--warn-bg);color:var(--warn-ink)}
+    #status{margin:0;padding:10px 12px;border-radius:8px;background:var(--warn-bg);color:var(--warn-ink);font-size:14px}
+
+    .top{display:flex;flex-wrap:wrap;gap:16px}
+    .now{flex:999 1 620px;display:flex;flex-direction:column;gap:16px}
+    .now-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .catbox{width:92px;height:92px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;flex:none}
+    .catbox b{font-size:30px;font-weight:800;letter-spacing:.02em} .catbox span{font-size:11px;opacity:.9}
+    .metar{font-size:13.5px;background:var(--head);border-radius:8px;padding:8px 10px;overflow-wrap:anywhere}
+    .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px}
+    .tile{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-radius:10px;background:var(--head);min-width:0}
+    .k{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+    .tile .v{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+    .tile .n{font-size:12px;color:var(--ink-3)} .tile .n.warn{color:var(--note);font-weight:600}
+    .tafs{flex:1 1 340px;display:flex;flex-direction:column;gap:14px}
+    .tafbar{position:relative;height:22px;border-radius:5px;background:var(--head);overflow:hidden}
+    .tafbar div{position:absolute;top:0;height:22px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10.5px;font-weight:700;border-right:1px solid var(--card)}
+    .tafbar .tempo{top:auto;bottom:0;height:6px;outline:1px solid var(--card)}
+    .tafraw{margin:0;font-size:12px;line-height:1.45;white-space:pre-wrap;color:var(--ink-2);background:var(--head);border-radius:8px;padding:8px 10px}
+    .row3{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3)}
+
+    /* timeline */
+    .tl-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+    .seg{display:flex;gap:2px;padding:3px;background:var(--seg);border-radius:10px}
+    .seg button{min-height:36px;padding:0 14px;border:0;border-radius:8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--ink-2)}
+    .seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+    .btn{min-height:36px;padding:0 14px;border:1px solid var(--line);border-radius:9px;background:var(--card);font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+    .tl-box{display:flex;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+    #tl-gutter{flex:none;background:var(--head);border-right:1px solid var(--line)}
+    #tl-scroll{flex:1 1 auto;min-width:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain}
+    #tl-svg{display:block;cursor:crosshair;touch-action:pan-x}
+    .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2)}
+    .legend span{display:inline-flex;align-items:center;gap:6px}
+    .sw{display:inline-block;width:18px;height:2px}
+    .readout{display:flex;flex-direction:column;gap:10px;padding:12px 14px}
+    .ro-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+    .pill{color:#fff;font-weight:700;padding:3px 9px;border-radius:6px;font-size:13px}
+    .ro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 16px}
+    .ro-grid .v{font-size:14px;font-variant-numeric:tabular-nums}
+
+    /* daily outlook */
+    .days{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
+    .day{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--line);
+         font:inherit;color:var(--ink);text-align:left;cursor:pointer}
+    .day[aria-pressed="true"]{border:2px solid var(--ink);padding:13px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+    .day .top1{display:flex;align-items:baseline;gap:6px;width:100%}
+    .outlook{margin-left:auto;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
+    .o-Good{background:var(--good-bg);color:var(--good-ink)} .o-Fair{background:var(--fair-bg);color:var(--fair-ink)} .o-Poor{background:var(--poor-bg);color:var(--poor-ink)}
+    .strip{display:flex;height:14px;border-radius:4px;overflow:hidden;gap:1px}
+    .strip span{flex:1 1 0}
+    .hatch{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.45) 0 3px,transparent 3px 7px)}
+    .stats{display:grid;gap:7px 10px}
+    .stats .v{font-size:13.5px;font-variant-numeric:tabular-nums} .stats .v.bad{color:var(--bad);font-weight:600}
+
+    footer{display:flex;flex-wrap:wrap;gap:16px;border-top:1px solid var(--line);padding-top:18px}
+    footer > div{flex:1 1 280px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--ink-2);line-height:1.5}
+    footer h2{font-size:15px;color:var(--ink)}
+    .catkey{width:46px;text-align:center;padding:2px 0;border-radius:4px;color:#fff;font-size:11px;font-weight:700;display:inline-block;margin-right:8px}
+    @media (max-width:700px){
+      header h1{font-size:26px}
+      .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .catbox{width:72px;height:72px} .catbox b{font-size:22px}
+      .ro-grid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr))}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="site-toggle" aria-label="KLXL pages">
+    <a href="./" aria-current="page">Pilot weather</a>
+    <a href="models/">Model forecasts</a>
+  </nav>
+
+  <header>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+        <h1>KLXL</h1>
+        <span class="muted" style="font-size:16px">Little Falls / Morrison County – Lindbergh Field</span>
+      </div>
+      <span class="small">Elev 1,122 ft · Rwy 13/31 4,010 × 75 · Rwy 18/36 2,858 × 60 · CTAF, no tower</span>
+    </div>
+    <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <span id="updated" class="muted" style="font-size:13px">Loading…</span>
+      <span class="badge">Planning aid, not an official weather briefing</span>
+    </div>
+  </header>
+  <p id="status" role="status" hidden></p>
+
+  <section class="top">
+    <div class="card now" id="now"><span class="small">Loading conditions…</span></div>
+    <div class="card tafs" id="tafs">
+      <div><h2 style="font-size:18px">Nearby TAFs</h2>
+        <span class="small">KLXL has no TAF. Closest terminal forecasts:</span></div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+      <h2 style="font-size:22px">Observations and forecast</h2>
+      <span class="muted" style="font-size:13px">Past 24 h observed, next 7 days forecast. Click a day below to jump to it.</span>
+    </div>
+    <div class="tl-bar">
+      <div class="seg" role="group" aria-label="Time span" id="zooms"></div>
+      <button type="button" class="btn" id="go-now">Now</button>
+      <span class="small">Scroll sideways for up to 7 days. Hover or tap for details.</span>
+    </div>
+    <div class="tl-box">
+      <svg id="tl-gutter" aria-hidden="true"></svg>
+      <div id="tl-scroll" tabindex="0" aria-label="Timeline: scroll sideways for other hours">
+        <svg id="tl-svg" role="img" aria-label="Observed and forecast flight conditions by hour"></svg>
+      </div>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div class="card readout" id="readout" aria-live="polite"></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2 style="font-size:22px">Daily flight outlook</h2>
+      <span class="muted" id="outlook-rule" style="font-size:13px;max-width:860px;line-height:1.45"></span>
+    </div>
+    <div class="days" id="days"></div>
+  </section>
+
+  <footer>
+    <div>
+      <h2>Before you fly</h2>
+      <a href="https://www.1800wxbrief.com">1800wxbrief.com: official briefing</a>
+      <a href="https://aviationweather.gov/gfa/">Graphical Forecasts for Aviation</a>
+      <a href="https://aviationweather.gov/gairmet/">G-AIRMETs and SIGMETs</a>
+      <a href="https://notams.aim.faa.gov/notamSearch/">NOTAM search</a>
+      <a href="https://forecast.weather.gov/product.php?site=MPX&amp;issuedby=MPX&amp;product=AFD">NWS Twin Cities discussion (aviation section)</a>
+      <a href="https://www.airnav.com/airport/KLXL">KLXL on AirNav</a>
+    </div>
+    <div>
+      <h2>Flight categories</h2>
+      <span><span class="catkey" style="background:var(--vfr)">VFR</span>Ceiling above 3,000 ft and vis above 5 SM</span>
+      <span><span class="catkey" style="background:var(--mvfr)">MVFR</span>Ceiling 1,000–3,000 ft or vis 3–5 SM</span>
+      <span><span class="catkey" style="background:var(--ifr)">IFR</span>Ceiling 500–999 ft or vis 1–3 SM</span>
+      <span><span class="catkey" style="background:var(--lifr)">LIFR</span>Ceiling below 500 ft or vis below 1 SM</span>
+      <span><span class="catkey hatch" style="background-color:var(--unk)">—</span>No ceiling / visibility forecast (past ~3 days)</span>
+      <span>Night: lights sunset to sunrise · logging night from end of evening civil twilight · night-currency
+        landings from 1 h after sunset to 1 h before sunrise (14 CFR 61.57(b)).</span>
+    </div>
+    <div>
+      <h2>About this page</h2>
+      <span id="about">Observations: KLXL METAR (AWOS). Ceiling and visibility: NBM text guidance, hourly to 25 h and
+        3-hourly to about 72 h; NBM has no ceiling or visibility past that, so those days have no flight category and
+        their outlook uses NBM sky cover (under 70% counted as likely VFR). Surface wind, gusts, temperature, sky cover
+        and precipitation: NBM (via Open-Meteo). Cloud layers, freezing level, winds aloft and density altitude: GFS
+        (via Open-Meteo). Crosswind uses the runway with the least crosswind.</span>
+      <span>A supplement for planning only: always get an official briefing. Updated about every 30 minutes.</span>
+    </div>
+  </footer>
+</div>
+<script src="pilot.js" defer></script>
+</body>
+</html>
