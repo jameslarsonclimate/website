@@ -186,15 +186,21 @@ def for_day(rec: Optional[dict], day: date) -> Optional[dict]:
     """The part of a cloud record inside the forecast day (06Z-06Z, or the site's local day)."""
     if not rec or not rec.get("times"):
         return None
-    start, end = pd.Timestamp(wxc_site.day_start(day)), pd.Timestamp(wxc_site.day_end(day))
-    t = pd.to_datetime(rec["times"])
-    keep = [i for i in range(len(t)) if start <= t[i] <= end]
-    if not keep:
+    # 3/6-hourly times don't fall on a CDT midnight: the times just outside the day give
+    # values at both midnights (interpolated, or held for a stepped series; wxc_site.clip_to_day)
+    order = sorted(range(len(rec["times"])), key=lambda i: rec["times"][i])
+    nums = {k: [rec[k][i] for i in order] if rec.get(k) else None for k in ("cloud_pct", "cloud_sd")}
+    nums["averaged"] = [float(bool(rec["averaged"][i])) for i in order] if rec.get("averaged") else None
+    t, v = wxc_site.clip_to_day([rec["times"][i] for i in order], nums, day, stepwise=bool(rec.get("step")))
+    if not len(t):
         return None
     out = {k: v for k, v in rec.items() if not isinstance(v, list)}
-    for k in SERIES_KEYS:
-        if rec.get(k):
-            out[k] = [rec[k][i] for i in keep]
+    out["times"] = [x.strftime("%Y-%m-%dT%H:%M") for x in t]
+    for k in ("cloud_pct", "cloud_sd"):
+        if v[k] is not None:
+            out[k] = [None if pd.isna(x) else round(float(x), 1) for x in v[k]]
+    if v["averaged"] is not None:
+        out["averaged"] = [bool(x >= 0.5) for x in v["averaged"]]
     return out
 
 

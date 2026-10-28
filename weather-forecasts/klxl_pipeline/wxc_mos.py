@@ -63,6 +63,13 @@ def _ts(col):
     return t.dt.tz_localize("UTC") if t.dt.tz is None else t.dt.tz_convert("UTC")
 
 
+def _vals(a, n):
+    """Clipped values as JSON numbers (None for missing; all None if the column is absent)."""
+    if a is None:
+        return [None] * n
+    return [None if pd.isna(v) else round(float(v), 1) for v in a]
+
+
 def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
     """Summarize one MOS run (rows from the IEM API) for WxChallenge day `target_day`."""
     empty = {"tmax_f": None, "tmin_f": None, "wind_max_kt": None, "precip_in": None,
@@ -96,13 +103,19 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
             return None
         return float(row[col].iloc[0])
 
-    tmp = pd.to_numeric(win.get("tmp"), errors="coerce").dropna()
+    # 3-hourly rows (06, 09, ... 03Z) don't fall on a CDT midnight (05Z): the rows just outside
+    # the day give values interpolated at both midnights (wxc_site.clip_to_day)
+    df = df.sort_values("ft")
+    num = lambda c: (pd.to_numeric(df[c], errors="coerce").tolist() if c in df else None)
+    ct, cv = wxc_site.clip_to_day(df["ft"], {"tmp": num("tmp"), "wsp": num("wsp"), "dpt": num("dpt")},
+                                  target_day)
+    tmp = pd.Series(cv["tmp"]).dropna() if cv["tmp"] is not None else pd.Series(dtype=float)
     x = val_at(e6 - pd.Timedelta(hours=6), xn_col)         # D+1 00Z row: daytime max
     n = val_at(s6 + pd.Timedelta(hours=6), xn_col)         # D 12Z row: overnight min
     tmax_cands = [v for v in [x, tmp.max() if not tmp.empty else None] if v is not None]
     tmin_cands = [v for v in [n, tmp.min() if not tmp.empty else None] if v is not None]
 
-    wsp = pd.to_numeric(win.get("wsp"), errors="coerce").dropna()
+    wsp = pd.Series(cv["wsp"]).dropna() if cv["wsp"] is not None else pd.Series(dtype=float)
 
     q = df[(df["ft"] > s6) & (df["ft"] <= e6) & df["ft"].dt.hour.isin([0, 6, 12, 18])]
     q06 = pd.to_numeric(q["q06"], errors="coerce").dropna() if "q06" in q else pd.Series(dtype=float)
@@ -135,12 +148,11 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
         "init_time_utc": runtime.strftime("%Y-%m-%dT%H"),
         "valid_range_utc": [start.strftime("%Y-%m-%dT%H"), end.strftime("%Y-%m-%dT%H")],
         "series": {
-            "times": [t.strftime("%Y-%m-%dT%H:%M") for t in win["ft"]],
-            "tmp_f": [None if pd.isna(v) else float(v) for v in pd.to_numeric(win.get("tmp"), errors="coerce")],
-            "wsp_kt": [None if pd.isna(v) else float(v) for v in pd.to_numeric(win.get("wsp"), errors="coerce")],
+            "times": [t.strftime("%Y-%m-%dT%H:%M") for t in ct],
+            "tmp_f": _vals(cv["tmp"], len(ct)),
+            "wsp_kt": _vals(cv["wsp"], len(ct)),
             # display only (the page's dewpoint panel)
-            "dpt_f": ([None if pd.isna(v) else float(v) for v in pd.to_numeric(win["dpt"], errors="coerce")]
-                      if "dpt" in win else None),
+            "dpt_f": None if cv["dpt"] is None else _vals(cv["dpt"], len(ct)),
         },
     }
 

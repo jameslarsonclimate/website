@@ -94,7 +94,10 @@ def forecast_hours_for_day(init, target_day, step, max_fxx, partial=False):
     """functions.forecast_hours_for_day for the local day (wxc_site): forecast hours from `init`
     covering `target_day` at the model's output interval `step`. Returns (fxx_list, truncated).
     partial=True allows a run that starts inside the window; it then begins at f001 or later,
-    because f000 files carry no accumulated precip."""
+    because f000 files carry no accumulated precip.
+    For 3/6-hourly output a CDT day (05Z-05Z) starts and ends between output times, so the
+    output time just before the start and the one just after the end are included too:
+    wxc_site.clip_to_day (in summarize) then interpolates the values at both midnights."""
     init = pd.Timestamp(init).tz_localize(None) if pd.Timestamp(init).tzinfo else pd.Timestamp(init)
     start = pd.Timestamp(wxc_site.day_start(target_day))
     f0 = int((start - init) / pd.Timedelta(hours=1))
@@ -102,10 +105,12 @@ def forecast_hours_for_day(init, target_day, step, max_fxx, partial=False):
     if f0 < 0 and not partial:
         raise ValueError(f"init {init} is after the start of the {target_day} window")
     lo = max(f0, 1) if partial else f0
-    first = lo if lo % step == 0 else lo + (step - lo % step)
-    fxx = list(range(first, end + 1, step))
-    truncated = fxx[-1] > max_fxx
-    fxx = [f for f in fxx if f <= max_fxx]
+    first = lo - lo % step                       # at or just before the start
+    if first == 0 and lo > 0:                    # not back to f000 (no accumulated precip)
+        first = step
+    last = end + (-end % step)                   # at or just after the end
+    truncated = end - end % step > max_fxx       # the day itself runs past the model's range
+    fxx = [f for f in range(first, last + 1, step) if f <= max_fxx]
     if not fxx:
         raise ValueError(f"init {init} does not reach the {target_day} window (max f{max_fxx})")
     return fxx, truncated
@@ -205,17 +210,22 @@ def wind_10m(H, search, points):
     return np.sqrt(u ** 2 + v ** 2) * MS_TO_KT
 
 
-def without_first_hour(H):
-    """FastHerbie H minus its first forecast hour, for interval max/min fields (which the first
-    step doesn't have). Shares H's per-hour objects, so the file checks and .idx downloads
-    already done for H aren't repeated (a new FastHerbie would redo both for every hour)."""
+def interval_steps(H, init, day, step):
+    """FastHerbie H cut to the steps whose interval max/min fields (the `step` hours ending at
+    each step) are mostly inside `day` (wxc_site.bucket_inside); never f000, which has none.
+    Shares H's per-hour objects, so the file checks and .idx downloads already done for H
+    aren't repeated (a new FastHerbie would redo both for every hour)."""
     import copy
-    first = H.fxx[0]
+    init = pd.Timestamp(init).tz_localize(None) if pd.Timestamp(init).tzinfo else pd.Timestamp(init)
+    keep = {f for f in H.fxx
+            if f > 0 and wxc_site.bucket_inside(init + pd.Timedelta(hours=f), step, day)}
+    if not keep:
+        raise ValueError("no interval max/min steps inside the day")
     H2 = copy.copy(H)
-    H2.fxx = H.fxx[1:]
-    H2.objects = [h for h in H.objects if h.fxx != first]
-    H2.file_exists = [h for h in H.file_exists if h.fxx != first]
-    H2.file_not_exists = [h for h in getattr(H, "file_not_exists", []) if h.fxx != first]
+    H2.fxx = [f for f in H.fxx if f in keep]
+    H2.objects = [h for h in H.objects if h.fxx in keep]
+    H2.file_exists = [h for h in H.file_exists if h.fxx in keep]
+    H2.file_not_exists = [h for h in getattr(H, "file_not_exists", []) if h.fxx in keep]
     H2.tasks = len(H2.objects)
     return H2
 
@@ -282,9 +292,16 @@ def fast_herbie(init, fxx, **kw):
 
 
 def summarize(label, init, times, temp_f, wind_kt, precip_in, tmax_extra=None,
-              tmin_extra=None, truncated=False, notes=None, dewpt_f=None):
+              tmin_extra=None, truncated=False, notes=None, dewpt_f=None, day=None):
     """Standard result dict: JSON metrics + series for plotting. dewpt_f (display only) is
-    stored even when None, so a run whose dewpoint failed isn't asked for it again."""
+    stored even when None, so a run whose dewpoint failed isn't asked for it again.
+    With `day`, the steps are first cut to that local day, interpolated at both midnights
+    (wxc_site.clip_to_day), so 3/6-hourly models cover the whole day and precip is the
+    day's own (precip_in is a running total)."""
+    if day is not None:
+        times, c = wxc_site.clip_to_day(
+            times, {"t": temp_f, "w": wind_kt, "p": precip_in, "d": dewpt_f}, day, accumulated=("p",))
+        temp_f, wind_kt, precip_in, dewpt_f = c["t"], c["w"], c["p"], c["d"]
     tmax = float(np.nanmax(temp_f))
     tmin = float(np.nanmin(temp_f))
     src = "instantaneous 2 m T"
@@ -370,7 +387,7 @@ def fetch_hrrr(init, day, points, station, partial=False):
     tp = (tp - tp[0]) * precip_factor(tp, 0.0393701)
     notes = [f"{pd.Timestamp(init):%HZ} HRRR stops at f48: window truncated"] if trunc else None
     return summarize("HRRR", init, times, t2m.values, wind.values, tp.values,
-                     truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("HRRR", H, points, len(times)))
+                     truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("HRRR", H, points, len(times)), day=day)
 
 
 def fetch_rrfs(init, day, points, station, partial=False):
@@ -387,13 +404,13 @@ def fetch_rrfs(init, day, points, station, partial=False):
     tmax_x = tmin_x = None
     notes = []
     try:
-        H2 = without_first_hour(H)
+        H2 = interval_steps(H, init, day, 1)
         tmax_x = float(k_to_f(pick(H2, ":TMAX:2 m above", points, "tmax")).max())
         tmin_x = float(k_to_f(pick(H2, ":TMIN:2 m above", points, "tmin")).min())
     except Exception as exc:
         notes.append(_extra_failed("TMAX/TMIN", exc))
     return summarize("RRFS", init, times, t2m.values, wind.values, tp.values,
-                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("RRFS", H, points, len(times)))
+                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("RRFS", H, points, len(times)), day=day)
 
 
 def fetch_ifs(init, day, points, station=None, partial=False):
@@ -411,13 +428,13 @@ def fetch_ifs(init, day, points, station=None, partial=False):
     tmax_x = tmin_x = None
     notes = []
     try:
-        H2 = without_first_hour(H)
+        H2 = interval_steps(H, init, day, 3)
         tmax_x = float(k_to_f(pick(H2, ":mx2t3:", points, "mx2t3")).max())
         tmin_x = float(k_to_f(pick(H2, ":mn2t3:", points, "mn2t3")).min())
     except Exception as exc:
         notes.append(_extra_failed("mx2t3/mn2t3", exc))
     return summarize("IFS", init, times, t2m.values, wind.values, tp.values,
-                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("IFS", H, points, len(times)))
+                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("IFS", H, points, len(times)), day=day)
 
 
 def fetch_gfs(init, day, points, station=None, partial=False):
@@ -433,13 +450,13 @@ def fetch_gfs(init, day, points, station=None, partial=False):
     tmax_x = tmin_x = None
     notes = []
     try:
-        H2 = without_first_hour(H)
+        H2 = interval_steps(H, init, day, 3)
         tmax_x = float(k_to_f(pick(H2, ":TMAX:2 m above", points, "tmax")).max())
         tmin_x = float(k_to_f(pick(H2, ":TMIN:2 m above", points, "tmin")).min())
     except Exception as exc:
         notes.append(_extra_failed("TMAX/TMIN", exc))
     return summarize("GFS", init, times, t2m.values, wind.values, tp.values,
-                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("GFS", H, points, len(times)))
+                     tmax_x, tmin_x, trunc, notes, grib_dewpoint("GFS", H, points, len(times)), day=day)
 
 
 def fetch_aifs(init, day, points, station=None, partial=False):
@@ -455,7 +472,7 @@ def fetch_aifs(init, day, points, station=None, partial=False):
     if factor != 0.0393701:
         notes.append("AIFS tp reported in metres")
     return summarize("AIFS", init, times, t2m.values, wind.values, tp.values,
-                     truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("AIFS", H, points, len(times)))
+                     truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("AIFS", H, points, len(times)), day=day)
 
 
 GRIB_MODELS = {

@@ -79,3 +79,71 @@ def window_label(day: Optional[date] = None) -> str:
 def start_label() -> str:
     """How the day's start is named in text."""
     return "midnight"
+
+
+def clip_to_day(times, cols: dict, day: date, accumulated=(), stepwise=False):
+    """A model series cut to day `day`, ending exactly at both midnights.
+
+    3- and 6-hourly output (GFS, IFS, AIFS, MOS, NBM) falls on 00/03/06...Z, which a CDT day
+    (05Z-05Z) doesn't start or end on. Fetch the output times just outside the day, then call
+    this: a midnight between two of them gets a value interpolated in time (or, stepwise, the
+    earlier one's), and everything outside the day is dropped. Keys in `accumulated` are
+    running totals and start from 0 at midnight. A midnight with no output on one side is
+    left out (no extrapolation).
+
+    times: naive UTC (anything pandas reads); cols: {key: per-time values or None}.
+    Returns (times as a DatetimeIndex, {key: float array, or None where it was None}).
+    """
+    import numpy as np
+    import pandas as pd
+
+    t = pd.DatetimeIndex(pd.to_datetime(times))
+    if t.tz is not None:
+        t = t.tz_convert("UTC").tz_localize(None)
+    vals = {k: (None if v is None else np.array([np.nan if x is None else x for x in v], float))
+            for k, v in cols.items()}
+    start, end = pd.Timestamp(day_start(day)), pd.Timestamp(day_end(day))
+
+    def at(edge):
+        """Values at `edge` from the output times on either side, or None."""
+        after = np.searchsorted(t.values, edge.to_datetime64())
+        if after == 0 or after >= len(t):
+            return None
+        a, b = after - 1, after
+        w = 0.0 if stepwise else (edge - t[a]) / (t[b] - t[a])
+        return {k: None if v is None else v[a] + w * (v[b] - v[a]) for k, v in vals.items()}
+
+    inside = (t >= start) & (t <= end)
+    new_t = list(t[inside])
+    new_v = {k: (None if v is None else list(v[inside])) for k, v in vals.items()}
+    for edge, front in ((start, True), (end, False)):
+        if edge in t:
+            continue
+        got = at(edge)
+        if got is None:
+            continue
+        if front:
+            new_t.insert(0, edge)
+        else:
+            new_t.append(edge)
+        for k, x in got.items():
+            if new_v[k] is not None:
+                new_v[k].insert(0, x) if front else new_v[k].append(x)
+    out = {k: (None if v is None else np.array(v, float)) for k, v in new_v.items()}
+    if new_t and new_t[0] == start:
+        for k in accumulated:
+            if out.get(k) is not None and len(out[k]) and np.isfinite(out[k][0]):
+                out[k] = out[k] - out[k][0]
+    return pd.DatetimeIndex(new_t), out
+
+
+def bucket_inside(valid, step_h: int, day: date) -> bool:
+    """Whether the `step_h`-hour interval ending at `valid` (naive UTC) is mostly inside day
+    `day`: for interval max/min fields (GFS TMAX, IFS mx2t3, ...), so the bucket that ends
+    just after midnight but mostly covers the evening before is left out, and the one that
+    ends just after the next midnight is kept."""
+    import pandas as pd
+    v = pd.Timestamp(valid)
+    s, e = pd.Timestamp(day_start(day)), pd.Timestamp(day_end(day))
+    overlap = (min(v, e) - max(v - pd.Timedelta(hours=step_h), s)) / pd.Timedelta(hours=1)
+    return overlap * 2 > step_h
