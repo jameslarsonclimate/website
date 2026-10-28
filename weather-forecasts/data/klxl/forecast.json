@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-28T19:19:36+00:00",
+  "generated_at_utc": "2026-10-28T19:45:05+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,14 +32,14 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 46.6,
-      "tmin_f": 36.2,
-      "wind_max_kt": 11.3,
+      "tmax_f": 47.0,
+      "tmin_f": 36.5,
+      "wind_max_kt": 11.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-28T12",
+      "init_time_utc": "2026-10-28T18",
       "valid_range_utc": [
-        "2026-10-29T05",
-        "2026-10-30T05"
+        "2026-10-29 05:00:00",
+        "2026-10-30 05:00:00"
       ],
       "n_steps": 25,
       "temp_source": "instantaneous 2 m T"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 52.4,
-      "tmin_f": 36.6,
+      "tmax_f": 51.1,
+      "tmin_f": 37.9,
       "wind_max_kt": 8.7,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-28T06",
+      "init_time_utc": "2026-10-28T12",
       "valid_range_utc": [
         "2026-10-29 05:00:00",
         "2026-10-30 05:00:00"
@@ -839,8 +839,8 @@
     },
     "CONSENSUS": {
       "tmax_f": 49.4,
-      "tmin_f": 33.5,
-      "wind_max_kt": 9.4,
+      "tmin_f": 33.7,
+      "wind_max_kt": 9.3,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -944,7 +944,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-28T19:19:36+00:00",
+    "checked_at_utc": "2026-10-28T19:45:05+00:00",
     "connectivity": false,
     "failed": [
       "NBM_QMD"
