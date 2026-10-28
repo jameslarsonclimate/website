@@ -1,10 +1,10 @@
 {
   "date": "2026-10-28",
-  "through_utc": "2026-10-28T15:55",
+  "through_utc": "2026-10-28T16:35",
   "obs": {
     "high": 51.8,
     "low": 44.6,
-    "wind": 7,
+    "wind": 9,
     "precip": 0.0,
     "n_obs": 11
   },
@@ -159,5 +159,5 @@
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-10-28T16:15:06+00:00"
+  "generated_at_utc": "2026-10-28T16:45:09+00:00"
 }
