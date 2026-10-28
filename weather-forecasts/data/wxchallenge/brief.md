@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-29**, scored over 2026-10-29T06Z to 2026-10-30T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-29T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-28T17:41:05+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-28T18:00:06+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,7 +35,7 @@ Run = day/hour (UTC) of the model initialization.
 | IFS_HRES | 28/06Z | 55.6 | 43.3 | 6.7 | 0.00 |
 | GFS | 28/12Z | 56.7 | 45.1 | 8.7 | 0.00 |
 | GFS_MOS | 28/12Z | 57.0 | 46.0 | 11.0 | 0.00 |
-| NBM | 28/16Z | 56.0 | 42.0 | 8.0 | 0.01 |
+| NBM | 28/17Z | 56.0 | 42.0 | 8.0 | 0.01 |
 | USL | 28/12Z | 58.0 | 43.0 | 12.0 | 0.00 |
 | ENS | 28/06Z | 54.9 | 43.2 | 7.6 | 0.00 |
 | GEFS | 28/12Z | 55.8 | 46.5 | 9.2 | 0.00 |
@@ -242,18 +242,18 @@ Total cloud cover (%):
 
 | UTC | Local (CDT) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS | GEFS |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 10-29 06Z | Thu 01:00 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 24 | 0 | 8 |
+| 10-29 06Z | Thu 01:00 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 24 | 0 | 8 |
 | 10-29 07Z | Thu 02:00 | 0 | 0 |  | 0 |  |  | 4 | 22 | 0 | 3 |
 | 10-29 08Z | Thu 03:00 | 0 | 0 |  | 0 |  |  | 7 | 26 | 0 | 1 |
 | 10-29 09Z | Thu 04:00 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 28 | 0 | 0 |
 | 10-29 10Z | Thu 05:00 | 0 | 0 |  | 0 |  |  | 9 | 32 | 0 | 0 |
 | 10-29 11Z | Thu 06:00 | 0 | 0 |  | 0 |  |  | 10 | 40 | 0 | 0 |
-| 10-29 12Z | Thu 07:00 | 1 | 0 | 0 | 0 | 3 | 0 | 13 | 45 | 0 | 0 |
+| 10-29 12Z | Thu 07:00 | 1 | 0 | 0 | 0 | 3 | 0 | 12 | 45 | 0 | 0 |
 | 10-29 13Z | Thu 08:00 | 0 | 0 |  | 0 |  |  | 14 | 43 | 1 | 0 |
 | 10-29 14Z | Thu 09:00 | 0 | 0 |  | 0 |  |  | 10 | 37 | 1 | 0 |
 | 10-29 15Z | Thu 10:00 | 4 | 2 | 0 | 0 | 0 | 0 | 4 | 30 | 1 | 0 |
-| 10-29 16Z | Thu 11:00 | 10 | 2 |  | 0 |  |  | 7 | 20 | 1 | 0 |
-| 10-29 17Z | Thu 12:00 | 11 | 1 |  | 0 |  |  | 4 | 9 | 1 | 1 |
+| 10-29 16Z | Thu 11:00 | 10 | 2 |  | 0 |  |  | 2 | 20 | 1 | 0 |
+| 10-29 17Z | Thu 12:00 | 11 | 1 |  | 0 |  |  | 3 | 9 | 1 | 1 |
 | 10-29 18Z | Thu 13:00 | 22 | 0 | 0 | 0 | 0 | 19 | 3 | 1 | 1 | 1 |
 | 10-29 19Z | Thu 14:00 | 32 | 0 |  | 0 |  |  |  | 0 | 1 | 1 |
 | 10-29 20Z | Thu 15:00 | 25 | 0 |  | 0 |  |  |  | 0 | 1 | 1 |
