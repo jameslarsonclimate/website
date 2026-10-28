@@ -28,6 +28,7 @@ import json
 import math
 import re
 import sys
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -156,10 +157,21 @@ def sun_for_local_day(ld):
 # ----------------------------------------------------------------------------
 # fetching
 # ----------------------------------------------------------------------------
-def get_json(url, params):
-    r = requests.get(url, params=params, headers=UA, timeout=60)
-    r.raise_for_status()
-    return r.json()
+def get_json(url, params, tries=3):
+    """GET a JSON API, retrying server errors, rate limits and dropped connections (the AWC API
+    returns the odd 5xx; one at 16:35Z on 2026-10-28 blanked the METARs for a whole run)."""
+    for i in range(tries):
+        try:
+            r = requests.get(url, params=params, headers=UA, timeout=60)
+            if r.status_code < 500 and r.status_code != 429:
+                r.raise_for_status()
+                return r.json()
+            err = requests.HTTPError(f"HTTP {r.status_code}", response=r)
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            err = exc
+        if i < tries - 1:
+            time.sleep(10 * (i + 1))
+    raise err
 
 
 def open_meteo(model, hourly):
@@ -206,7 +218,7 @@ def build(now):
     try:
         metars = get_json(f"{AWC}/metar", {"ids": ICAO, "hours": PAST_H + 2, "format": "json"}) or []
     except Exception as exc:
-        notes.append(f"METARs unavailable ({type(exc).__name__})")
+        notes.append(f"METARs unavailable ({type(exc).__name__}{': ' + str(exc)[:40] if str(exc) else ''})")
     for m in sorted(metars, key=lambda m: m["obsTime"]):
         t = datetime.fromtimestamp(m["obsTime"], timezone.utc)
         ceil = None
@@ -445,7 +457,7 @@ def build(now):
         raw_tafs = get_json(f"{AWC}/taf", {"ids": TAF_SITES, "format": "json"}) or []
     except Exception as exc:
         raw_tafs = []
-        notes.append(f"TAFs unavailable ({type(exc).__name__})")
+        notes.append(f"TAFs unavailable ({type(exc).__name__}{': ' + str(exc)[:40] if str(exc) else ''})")
     for tf in sorted(raw_tafs, key=lambda x: TAF_SITES.split(",").index(x["icaoId"])
                      if x["icaoId"] in TAF_SITES else 9):
         nm, dr = dist_nm(tf["lat"], tf["lon"])
