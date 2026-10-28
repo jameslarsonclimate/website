@@ -104,25 +104,6 @@
       "precip_so_far": 0.01,
       "precip_err": 0.01
     },
-    "AIFS": {
-      "init_time_utc": "2026-10-27T12",
-      "n": 11,
-      "temp_bias": -3.8,
-      "temp_mae": 3.8,
-      "high_fcst": 62.2,
-      "high_at": "2026-10-28T18:00",
-      "high_source": "daily",
-      "high_err": -0.8,
-      "high_pending": false,
-      "low_fcst": 48.8,
-      "low_at": "2026-10-28T12:00",
-      "low_source": "daily",
-      "low_err": -4.3,
-      "low_pending": false,
-      "wind_bias": -0.2,
-      "precip_so_far": 0.05,
-      "precip_err": 0.05
-    },
     "GFS_MOS": {
       "init_time_utc": "2026-10-27T18",
       "n": 11,
@@ -195,25 +176,6 @@
       "precip_so_far": 0.01,
       "precip_err": 0.01
     },
-    "AIFS_ENS": {
-      "init_time_utc": "2026-10-27T12",
-      "n": 11,
-      "temp_bias": -4.0,
-      "temp_mae": 4.0,
-      "high_fcst": 65.0,
-      "high_at": "2026-10-28T20:00",
-      "high_source": "daily",
-      "high_err": 2.0,
-      "high_pending": true,
-      "low_fcst": 47.0,
-      "low_at": "2026-10-28T10:00",
-      "low_source": "daily",
-      "low_err": -6.1,
-      "low_pending": false,
-      "wind_bias": 0.0,
-      "precip_so_far": 0.04,
-      "precip_err": 0.04
-    },
     "GEFS": {
       "init_time_utc": "2026-10-27T18",
       "n": 11,
@@ -235,5 +197,5 @@
     }
   },
   "station": "KMSP",
-  "generated_at_utc": "2026-10-28T17:30:08+00:00"
+  "generated_at_utc": "2026-10-28T17:41:05+00:00"
 }
