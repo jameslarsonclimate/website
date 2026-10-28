@@ -368,7 +368,7 @@ def get_hrrrcast(station, day: date, now: datetime) -> dict:
     if len(vals) < 5:
         return _fail(f"only {len(vals)} HRRRCast members: " + "; ".join(f"{k} {v}" for k, v in errors.items())[:300], init)
     names = sorted(vals)
-    note = f"median of {len(vals)} members (experimental AI model)"
+    note = f"median of {len(vals)} members"
     if errors:
         note += f"; {len(errors)} member(s) failed"
     res = _result("HRRRCAST", init, day, names, [vals[m] for m in names], note, blocks)
@@ -464,7 +464,7 @@ def get_refs(station, day: date, now: datetime) -> dict:
     if len(vals) < 6:
         return _fail(f"only {len(vals)} REFS members: " + "; ".join(f"{k} {v}" for k, v in errors.items())[:300], init)
     names = [n for n, _, _ in members if n in vals]
-    note = f"median of {len(vals)} members, {init:%H}Z + {lag:%H}Z runs (RRFS {stage})"
+    note = f"median of {len(vals)} members"
     if errors:
         note += "; missing: " + ", ".join(sorted(errors))
     res = _result("REFS", init, day, names, [vals[n] for n in names], note)

@@ -189,6 +189,9 @@
     /* in the page text (for screen readers and tools that read the HTML) but not drawn */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
              clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+    /* explainers at the bottom of the page */
+    #about h3{font-size:1rem;margin:1.2rem 0 0.3rem}
+    #about p{max-width:46rem;line-height:1.45;margin:0}
   </style>
 </head>
 
@@ -204,20 +207,11 @@
   </header>
   <p id="run-status" role="status" hidden></p>
 
-  <p class="small" style="margin-top:0.5rem">Each day runs midnight to midnight Little Falls time. Forecasts are
-    the model runs out before 00Z the evening before (about 7 pm CDT / 6 pm CST), scored WxChallenge-style against
-    KLXL's automated (AWOS) reports. <a href="#verification">How the models have done lately</a></p>
+  <p class="small" style="margin-top:0.5rem">Days run midnight to midnight local time. <a href="#verification">How the models have done lately</a></p>
 
   <section id="timeline" hidden>
     <h2>Forecasts and observations</h2>
-    <p class="small">Each day (midnight to midnight local time, between the vertical lines) shows the model runs that
-      were out before 00Z the evening before; tomorrow's keep updating until then. Hours are local time. Scroll or swipe left for earlier days. Black is observed:
-      every KLXL report (×: gusts); in the cloud panel the line is the GOES satellite cloud fraction
-      and the dots the AWOS sky cover (open: clear; it sees clouds only up to 12,000 ft). Dotted lines are today's newest
-      HRRR, MOS and NBM runs; the dashed grey line is the hourly average of the models switched on (a plain mean,
-      not the consensus). Hover a day for its numbers, click to pin it. The <i>Dewpoint &amp; RH panels</i> button
-      hides or shows dewpoint and relative humidity below the cloud panel (RH worked out from each temperature and dewpoint;
-      for the ensembles, the mean of their members' RH). Switch models on and off here:</p>
+    <p class="small">Hover a day for its numbers, click to pin it (<a href="#about-timeline">how to read it</a>). Switch models on and off here:</p>
     <div id="tl-controls" role="group" aria-label="Lines shown on the timeline"></div>
     <div id="tl-nav">
       <button type="button" class="tl-btn" data-go="-1">◀ Earlier</button>
@@ -287,17 +281,7 @@
       <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
     </div>
     <div id="legend" class="legend"></div>
-    <p class="small">Each local day is scored with the model's last forecast before 00Z the evening before, using
-      WxChallenge-style points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day.
-      Observed values are from KLXL's AWOS: the high and low from every report (whole °C, so they can be
-      about 1 °F off), the wind from every report's sustained wind, precip from the hourly totals. There is no NWS
-      climate report for Little Falls. Shaded days come before this page started: they are hindcasts (the runs
-      available at 23Z the day before), there to give every model a track record from day one. The consensus on those days
-      (<i>italic</i>, <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only
-      the days before it. The last column (<i>so far</i>) is today: the forecasts scored against the
-      observations so far. It isn't final (the high or low may not have happened yet), so it is left out of the
-      totals, the averages and the consensus's track record.
-      <span id="decay-note"></span> Hover or tap a cell for details.</p>
+    <p class="small">WxChallenge-style error points; ★ = best model that day. Hover or tap a cell for details (<a href="#about-verification">how it's scored</a>).</p>
     <!-- Hidden for now: daily and cumulative error points figure; to bring it back, uncomment this
          and the verif-fig lines in the script.
     <img id="verif-fig" alt="Daily and cumulative error points by model"/>
@@ -379,14 +363,8 @@
 
   <section id="ensembles">
     <h2>Ensembles</h2>
-    <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31; shown and scored but not
-      part of the consensus), all via Open-Meteo, plus two 3 km precipitation
-      ensembles: REFS (NOAA's new operational short-range ensemble: RRFS, RRFS ensemble and HRRR members from the
-      latest two cycles) and HRRRCast (NOAA GSL's experimental AI emulator of the HRRR, 18 members), for the same
-      local day. Boxes span the middle half of the members (25th–75th percentile), whiskers the full range, the dark bar
-      <b class="k-med"></b>is the median and the orange diamond <b class="k-mean"></b>the mean; ▼ marks the consensus. The precip axis is square-root
-      scaled so light amounts aren't squeezed by a few wet members. Probabilities are the share of members reaching each
-      amount. Because of how precip is scored, the members' median is the best single precip value to enter.</p>
+    <p class="small">Boxes: middle half of the members; whiskers: full range; <b class="k-med"></b>median; <b class="k-mean"></b>mean; ▼ consensus.
+      The members' median is the best single precip value to enter (<a href="#about-ensembles">more</a>).</p>
     <div class="scroll">
       <table id="ens-table" aria-label="Ensemble spread"><tbody><tr><td>Loading…</td></tr></tbody></table>
     </div>
@@ -397,18 +375,65 @@
 
   <section id="pop" hidden>
     <h2>Chance of precipitation</h2>
-    <p class="small">Chance of at least 0.01" (a trace counts as dry) in each 6-hour block (UTC periods
-      06Z–06Z, the closest the 6-hour guidance comes to the local day) and over the whole day. MOS and NBM text guidance (P06) and NBM QMD are calibrated probabilities; the ensembles
-      are the raw share of their members (uncalibrated, and coarse for small ensembles: note the member counts).
-      MOS has 6-hour chances only, so its 24-hour chance is shown as a range: at least the largest block chance,
-      at most the chance if the blocks were independent. None of this goes into the consensus.</p>
+    <p class="small">Chance of at least 0.01" in each 6-hour block (UTC) and over the whole day (<a href="#about-pop">sources</a>).</p>
     <div class="scroll">
       <table id="pop-table" aria-label="Chance of precipitation by source"><tbody></tbody></table>
     </div>
     <p id="pop-qmd" class="small"></p>
     <div id="pop-charts" class="pop-charts"></div>
-    <p class="small">Each line holds one source's chance for each 6-hour block (UTC); hover or tap a dot for
-      the value. The table above has every number.</p>
+    <p class="small">Hover or tap a dot for the value.</p>
+  </section>
+
+  <section id="about">
+    <h2>How to read this page</h2>
+    <p class="small">Each day runs midnight to midnight Little Falls time. Forecasts are the model runs out before 00Z the evening
+      before (about 7 pm CDT / 6 pm CST), scored WxChallenge-style against KLXL's automated (AWOS) reports.</p>
+    <h3 id="about-consensus">Consensus</h3>
+    <p class="small">A skill-weighted average of the models in the forecast table. Each model's typical error this period is partly
+      taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%; lows, whose errors tend to
+      persist, faster: 2 days 67%, 14 days 93%), and models that have been closer to the observations count
+      more. Recent days count somewhat more than older ones, so the blend adapts without a few bad days undoing
+      weeks of record. With no scored days yet it is a plain average. Models far from the rest (over 8 °F or 10
+      kt from the middle) are left out, and so are runs over 36 h older than the newest; the line under the
+      table names them each day, along with models not scored yet (used as they are, or with their parent
+      model's record).</p>
+    <h3 id="about-timeline">Forecasts and observations</h3>
+    <p class="small">Each day (midnight to midnight local time, between the vertical lines) shows the model runs that were out before
+      00Z the evening before; tomorrow's keep updating until then. Hours are local time. Scroll or swipe left
+      for earlier days. Black is observed: every KLXL report (×: gusts); in the cloud panel the line is the GOES
+      satellite cloud fraction and the dots the AWOS sky cover (open: clear; it sees clouds only up to 12,000
+      ft). Dotted lines are today's newest HRRR, MOS and NBM runs; the dashed grey line is the hourly average of
+      the models switched on (a plain mean, not the consensus). The <i>Dewpoint &amp; RH panels</i> button hides
+      or shows dewpoint and relative humidity below the cloud panel (RH worked out from each temperature and
+      dewpoint; for the ensembles, the mean of their members' RH).</p>
+    <h3 id="about-verification">Model verification</h3>
+    <p class="small">Each local day is scored with the model's last forecast before 00Z the evening before, using WxChallenge-style
+      points (1 per °F, 0.5 per kt, tiered precip). ★ = best model that day. Observed values are from KLXL's
+      AWOS: the high and low from every report (whole °C, so they can be about 1 °F off), the wind from every
+      report's sustained wind, precip from the hourly totals. There is no NWS climate report for Little Falls.
+      Shaded days come before this page started: they are hindcasts (the runs available at 23Z the day before),
+      there to give every model a track record from day one. The consensus on those days (<i>italic</i>,
+      <sup>r</sup>) was not submitted: it is reconstructed the way the consensus works now, using only the days
+      before it. The last column (<i>so far</i>) is today: the forecasts scored against the observations so far.
+      It isn't final (the high or low may not have happened yet), so it is left out of the totals, the averages
+      and the consensus's track record. <span id="decay-note"></span></p>
+    <h3 id="about-ensembles">Ensembles</h3>
+    <p class="small">ECMWF IFS and AIFS ensembles (51 members each), NCEP GEFS (31; shown and scored but not part of the consensus),
+      all via Open-Meteo, plus two 3 km precipitation ensembles: REFS (NOAA's new operational short-range
+      ensemble: RRFS, RRFS ensemble and HRRR members from the latest two cycles) and HRRRCast (NOAA GSL's
+      experimental AI emulator of the HRRR, 18 members), for the same local day. The precip axis is square-root
+      scaled so light amounts aren't squeezed by a few wet members. Probabilities are the share of members
+      reaching each amount. Because of how precip is scored, the members' median is the best single precip value
+      to enter.</p>
+    <h3 id="about-pop">Chance of precipitation</h3>
+    <p class="small">Chance of at least 0.01" (a trace counts as dry) in each 6-hour block (UTC periods 06Z–06Z, the closest the
+      6-hour guidance comes to the local day) and over the whole day. MOS and NBM text guidance (P06) and NBM
+      QMD are calibrated probabilities; the ensembles are the raw share of their members (uncalibrated, and
+      coarse for small ensembles: note the member counts). MOS has 6-hour chances only, so its 24-hour chance is
+      shown as a range: at least the largest block chance, at most the chance if the blocks were independent.
+      None of this goes into the consensus. In the charts, each line holds one source's chance for each 6-hour
+      block (UTC). The table has every number. The NBM QMD 50% level is the amount that minimises the expected
+      WxChallenge precip points.</p>
   </section>
 
   <div id="tip" role="tooltip"></div>
@@ -930,7 +955,7 @@ function renderPop(data){
   document.getElementById('pop-qmd').textContent = q
     ? `NBM QMD 24-hour precip percentiles (dry outcomes included): ` +
       Object.entries(q).map(([k, v]) => `${k}% ${v.toFixed(2)}"`).join(' · ') +
-      `. The 50% level is the amount that minimises the expected WxChallenge precip points.` : '';
+      `. Enter the 50% level.` : '';
   document.getElementById('pop-charts').innerHTML = fams.map(popChart).join('');
   sec.hidden = false;
 }
@@ -1087,19 +1112,14 @@ function renderToday(tj){
       const names = ks => ks.map(k => LABEL[k] || k).join(', ');
       const scored = !/equal-weight/.test(cm.method);
       let txt = scored
-        ? 'Consensus: a skill-weighted average of the models above. Each model\'s typical error this ' +
-          'period is partly taken out (more as scored days add up: 2 days 40%, 5 days 62%, 14 days 82%; ' +
-          'lows, whose errors tend to persist, faster: 2 days 67%, 14 days 93%), ' +
-          'and models that have been closer to the observations count more. Recent days count somewhat ' +
-          'more than older ones, so the blend adapts without a few bad days undoing weeks of record.'
+        ? 'Consensus: a skill-weighted average of the models above.'
         : 'Consensus: a plain average of the models above (no scored days yet).';
-      txt += ' Models far from the rest (over 8 °F or 10 kt from the middle) are left out.';
       if (cm.not_yet_verified?.length) txt += ` Not scored yet, so used as-is: ${names(cm.not_yet_verified)}.`;
       if (cm.excluded_outliers?.length) txt += ` Left out today: ${names(cm.excluded_outliers)}.`;
       if (cm.excluded_stale?.length) txt += ` Left out as out of date (run over 36 h older than the newest): ${names(cm.excluded_stale)}.`;
       const px = Object.entries(cm.proxy_track_record || {});
       if (px.length) txt += ` Not scored yet, so using their parent model's record: ${px.map(([k, p]) => `${LABEL[k] || k} (${LABEL[p] || p})`).join(', ')}.`;
-      document.getElementById('consensus-note').textContent = txt;
+      document.getElementById('consensus-note').innerHTML = esc(txt) + ' <a href="#about-consensus">How it works</a>';
     }
     renderEnsembles(data);
     try { renderPop(data); } catch (e) { document.getElementById('pop').hidden = true; console.error(e); }

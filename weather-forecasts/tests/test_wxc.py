@@ -1114,7 +1114,7 @@ def test_refs_members_and_precip(monkeypatch):
     assert res["ensemble"]["n_members"] == 14 and res["init_time_utc"] == "2026-09-30T12"
     want = sorted((0.5 + 0.1 * i) * 24 / 25.4 for i in range(14))
     assert sorted(res["ensemble"]["members"]["precip_in"]) == pytest.approx(want, abs=1e-3)
-    assert "12Z + 06Z runs" in res["note"]
+    assert res["note"] == "median of 14 members"
 
 
 def test_cam_ens_outside_grid(monkeypatch):

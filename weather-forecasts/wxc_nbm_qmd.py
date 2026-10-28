@@ -137,9 +137,7 @@ def get_qmd(station, day: date, now: Optional[datetime] = None) -> dict:
         return _fail("NBM QMD 24-h PoP unavailable: " + "; ".join(f"{k} {v}" for k, v in errors.items())[:300], init)
     start, end = cam.window(day)
     med = (pop.get("q24_in") or {}).get("50")
-    note = "calibrated PoP and percentiles (NBM QMD); precip = 50% level"
-    if errors:
-        note += f"; {len(errors)} value(s) missing"
+    note = f"{len(errors)} value(s) missing" if errors else None
     res = {"tmax_f": None, "tmin_f": None, "wind_max_kt": None,
            "precip_in": None if med is None else round(med, 2),
            "init_time_utc": init.strftime("%Y-%m-%dT%H"),

@@ -185,7 +185,7 @@ def _result(label, init, summ, target_day):
         "wind_max_kt": round(s["wind_max_kt"]["mean"], 1), "precip_in": round(s["precip_in"]["mean"], 2),
         "init_time_utc": init.strftime("%Y-%m-%dT%H"),
         "valid_range_utc": [start.strftime("%Y-%m-%dT%H"), (start + timedelta(days=1)).strftime("%Y-%m-%dT%H")],
-        "note": f"ensemble mean of {summ['n_members']} members (Open-Meteo)"
+        "note": f"ensemble mean of {summ['n_members']} members"
                 + ("; not in the consensus" if label in NOT_IN_CONSENSUS else ""),
         "ensemble": {"n_members": summ["n_members"], "stats": s, "members": summ["members"]},
         "series": summ["series"],
