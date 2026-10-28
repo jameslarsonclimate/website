@@ -3,8 +3,8 @@
    00Z deadline (the newest day's keep updating until then), today's newest runs (dotted), an
    hourly average of the models switched on, and the observations. Hovering a day shows its
    numbers in the card below the chart; a click pins it.
-   The dewpoint and RH panels (below the cloud panel) are off until the "Dewpoint & RH panels"
-   button turns them on; RH is computed here from each temperature and dewpoint (the ensembles
+   The dewpoint and RH panels (below the cloud panel) are on unless the "Dewpoint & RH panels"
+   button turns them off; RH is computed here from each temperature and dewpoint (the ensembles
    bring their own: the mean of their members' RH).
    Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
 (function () {
@@ -38,7 +38,7 @@
   const H25 = Array.from({ length: 25 }, (_, j) => j);
 
   const STORE = 'wxc-timeline';
-  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: false };
+  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: true };
   try {
     const s = JSON.parse(localStorage.getItem(STORE) || 'null');
     if (s) {
@@ -47,15 +47,16 @@
         const known = new Set(Array.isArray(s.known) ? s.known : ORDER.filter(n => n !== 'IFS_HRES'));
         st.on = new Set([...s.on, ...ORDER.filter(n => !known.has(n))]);
       }
-      for (const k of ['avg', 'obs', 'latest', 'band', 'hum']) if (typeof s[k] === 'boolean') st[k] = s[k];
+      for (const k of ['avg', 'obs', 'latest', 'band']) if (typeof s[k] === 'boolean') st[k] = s[k];
+      if (typeof s.hum2 === 'boolean') st.hum = s.hum2;   // not 'hum': before they were on by default, every save wrote hum: false
     }
   } catch (e) {}
   const save = () => {
-    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum: st.hum })); }
+    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum2: st.hum })); }
     catch (e) {}
   };
 
-  // the panels shown (the humidity ones only when switched on), stacked top to bottom
+  // the panels shown (the humidity ones unless switched off), stacked top to bottom
   let VIS = [], H = 0;
   function stack() {
     VIS = PANELS.filter(p => !p.opt || st.hum);
