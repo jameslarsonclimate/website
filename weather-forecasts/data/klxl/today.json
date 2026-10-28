@@ -1,6 +1,6 @@
 {
   "date": "2026-10-28",
-  "through_utc": "2026-10-28T17:55",
+  "through_utc": "2026-10-28T18:35",
   "obs": {
     "high": 55.4,
     "low": 44.6,
@@ -63,8 +63,8 @@
       "low_err": -4.7,
       "low_pending": false,
       "wind_bias": 1.6,
-      "precip_so_far": 0.0,
-      "precip_err": 0.0
+      "precip_so_far": 0.02,
+      "precip_err": 0.02
     },
     "IFS_HRES": {
       "init_time_utc": "2026-10-27T12",
@@ -101,8 +101,8 @@
       "low_err": -1.9,
       "low_pending": false,
       "wind_bias": 3.3,
-      "precip_so_far": 0.0,
-      "precip_err": 0.0
+      "precip_so_far": 0.01,
+      "precip_err": 0.01
     },
     "GFS_MOS": {
       "init_time_utc": "2026-10-27T18",
@@ -140,5 +140,5 @@
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-10-28T18:15:08+00:00"
+  "generated_at_utc": "2026-10-28T18:45:09+00:00"
 }
