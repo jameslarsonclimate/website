@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T19:15:09+00:00",
+  "generated_at_utc": "2026-10-29T19:45:10+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 45.3,
-      "tmin_f": 34.8,
-      "wind_max_kt": 5.6,
+      "tmax_f": 47.8,
+      "tmin_f": 38.7,
+      "wind_max_kt": 6.8,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-29T12",
+      "init_time_utc": "2026-10-29T18",
       "valid_range_utc": [
         "2026-10-30 05:00:00",
         "2026-10-31 05:00:00"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 53.0,
-      "tmin_f": 38.7,
-      "wind_max_kt": 4.9,
+      "tmax_f": 53.8,
+      "tmin_f": 38.9,
+      "wind_max_kt": 5.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-29T06",
+      "init_time_utc": "2026-10-29T12",
       "valid_range_utc": [
         "2026-10-30 05:00:00",
         "2026-10-31 05:00:00"
@@ -838,9 +838,9 @@
       "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
-      "tmax_f": 49.7,
-      "tmin_f": 32.1,
-      "wind_max_kt": 5.1,
+      "tmax_f": 50.2,
+      "tmin_f": 32.8,
+      "wind_max_kt": 5.2,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -944,7 +944,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-29T19:15:09+00:00",
+    "checked_at_utc": "2026-10-29T19:45:10+00:00",
     "connectivity": false,
     "failed": [
       "NBM_QMD"
