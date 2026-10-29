@@ -92,31 +92,33 @@
 
   function renderTimeline() {
     const h = D.h, N = D.N, px = pxFor(curZoom()), W = N * px;
-    const cx = i => i * px + px / 2;
+    // hour i is the column [i*px, (i+1)*px] and its time is the column's centre, so every time on
+    // the chart (hour labels, day lines, night shading, now) is drawn at (hours + 0.5) * px
+    const cx = i => i * px + px / 2, tx = hrs => (hrs + 0.5) * px;
     const spec = compact
-      ? [['axis', 34], ['cat', 22], ['ceil', 92], ['vis', 56], ['wind', 112], ['temp', 72], ['precip', 48], ['aloft', 72]]
-      : [['axis', 38], ['cat', 26], ['ceil', 124], ['vis', 72], ['wind', 136], ['temp', 92], ['clouds', 62], ['precip', 62], ['fzl', 72], ['aloft', 84]];
+      ? [['axis', 36], ['cat', 22], ['ceil', 120], ['vis', 84], ['wind', 116], ['temp', 84], ['precip', 56], ['aloft', 84]]
+      : [['axis', 38], ['cat', 26], ['ceil', 138], ['vis', 96], ['wind', 140], ['temp', 104], ['clouds', 76], ['precip', 70], ['fzl', 84], ['aloft', 100]];
     const titles = compact
       ? { cat: 'Category', ceil: 'Ceiling', vis: 'Vis SM', wind: 'Wind kt', temp: 'T / Td °C', precip: 'Precip', aloft: 'Aloft ft' }
       : { cat: 'Category', ceil: 'Ceiling ft AGL', vis: 'Visibility SM', wind: 'Wind kt', temp: 'Temp / dew °C', clouds: 'Cloud cover', precip: 'Precip chance', fzl: 'Freezing lvl MSL', aloft: 'Winds aloft MSL' };
-    const gap = compact ? 8 : 10, gw = compact ? 58 : 104;
+    const gap = compact ? 8 : 10, gw = compact ? 58 : 112;
     const P = {};
     let y = 0;
     spec.forEach(([k, ht]) => { P[k] = { top: y, h: ht }; y += ht + gap; });
-    const H = y - gap, fs = compact ? 10 : 12, ts = compact ? 9.5 : 11;
-    G = { px, N, H };
+    const H = y - gap, fs = compact ? 10 : 12, ts = compact ? 10 : 11;
+    const hd = compact ? 17 : 20;     // title band at the top of each panel: no tick labels in it
+    G = { px, N, H, W };
 
     const g = [], o = [];          // gutter svg, chart svg
     spec.forEach(([k], n) => {
-      if (titles[k]) {
-        const words = titles[k].split(' ');
-        const lines = compact || titles[k].length < 13 ? [titles[k]] : [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')];
-        lines.forEach((t, j) => g.push(`<text x="6" y="${P[k].top + 13 + j * 14}" font-size="${fs}" font-weight="600" fill="var(--ink)">${esc(t)}</text>`));
+      if (titles[k]) {                // the category strip is one row, so its title is centred on it
+        const ty = k === 'cat' ? P.cat.top + P.cat.h / 2 + fs * 0.36 : P[k].top + fs + 1;
+        g.push(`<text x="6" y="${ty.toFixed(1)}" font-size="${fs}" font-weight="600" fill="var(--ink)">${esc(titles[k])}</text>`);
       }
       if (n > 0) o.push(`<rect x="0" y="${P[k].top - gap / 2}" width="${W}" height="1" fill="var(--line)"/>`);
     });
     const tick = (k, top, text, grid) => {
-      if (top - P[k].top >= 22) g.push(`<text x="${gw - 6}" y="${top + 4}" font-size="${ts}" text-anchor="end" fill="var(--ink-3)">${esc(text)}</text>`);
+      if (top - P[k].top >= hd - 1) g.push(`<text x="${gw - 6}" y="${top + 4}" font-size="${ts}" text-anchor="end" fill="var(--ink-3)">${esc(text)}</text>`);
       if (grid) o.push(`<line x1="0" x2="${W}" y1="${top}" y2="${top}" stroke="var(--grid)" stroke-dasharray="4 3"/>`);
     };
     const band = (a, b, fill) => o.unshift(`<rect x="0" y="${a}" width="${W}" height="${Math.max(0, b - a)}" fill="${fill}"/>`);
@@ -139,19 +141,20 @@
       (txt ? `<text x="16" y="11" font-size="10.5" fill="var(--arrow)">${txt}</text>` : '') + '</g>';
 
     // night / civil twilight shading and the observed past
-    const nowX = D.nowIdx * px;
-    const shades = D.shade.map(z => `<rect x="${z.a * px}" y="${P.cat.top}" width="${(z.b - z.a) * px}" height="${H - P.cat.top}" fill="${z.k === 'night' ? 'var(--night)' : 'var(--civil)'}"/>`).join('');
+    const nowX = tx(D.nowIdx);
+    const shades = D.shade.map(z => { const a = Math.max(0, tx(z.a)), b = Math.min(W, tx(z.b)); return b <= a ? '' :
+      `<rect x="${a.toFixed(1)}" y="${P.cat.top}" width="${(b - a).toFixed(1)}" height="${H - P.cat.top}" fill="${z.k === 'night' ? 'var(--night)' : 'var(--civil)'}"/>`; }).join('');
 
     // ceiling (log scale; no ceiling drawn at the top)
     const lg = v => Math.log(1 + v / 250), LM = lg(12000);
-    const yC = v => P.ceil.top + P.ceil.h - 4 - (P.ceil.h - 10) * lg(Math.min(v, 12000)) / LM;
+    const yC = v => P.ceil.top + P.ceil.h - 4 - (P.ceil.h - hd - 6) * lg(Math.min(v, 12000)) / LM;
     band(yC(3000), yC(1000), 'rgba(31,95,209,.09)');
     band(yC(1000), yC(500), 'rgba(209,47,47,.10)');
     band(yC(500), yC(0), 'rgba(162,28,175,.11)');
-    [[500, '500'], [1000, '1,000'], [3000, '3,000'], [12000, compact ? 'none' : 'none / 12k+']].forEach(([v, t]) => tick('ceil', yC(v), t, true));
+    [[500, '500'], [1000, '1,000'], [3000, '3,000'], [12000, compact ? 'None' : 'None / 12k+']].forEach(([v, t]) => tick('ceil', yC(v), t, true));
 
     // visibility
-    const yV = v => P.vis.top + P.vis.h - 3 - (P.vis.h - 8) * Math.min(v, 10) / 10;
+    const yV = v => P.vis.top + P.vis.h - 3 - (P.vis.h - hd - 5) * Math.min(v, 10) / 10;
     band(yV(5), yV(3), 'rgba(31,95,209,.09)');
     band(yV(3), yV(1), 'rgba(209,47,47,.10)');
     band(yV(1), yV(0), 'rgba(162,28,175,.11)');
@@ -160,7 +163,7 @@
     // wind, gusts, crosswind
     const gmax = Math.max(...h.wgst.map(v => v || 0), ...h.wspd.map(v => v || 0));
     const wmax = Math.max(25, Math.ceil((gmax + 3) / 5) * 5);
-    const yW = v => P.wind.top + P.wind.h - 3 - (P.wind.h - 24) * Math.min(v, wmax) / wmax;
+    const yW = v => P.wind.top + P.wind.h - 3 - (P.wind.h - hd - 10) * Math.min(v, wmax) / wmax;
     for (let v = 10; v <= wmax; v += 10) tick('wind', yW(v), String(v), true);
     let gust = '';
     const r = Math.max(2, Math.min(5, px * 0.35));
@@ -176,7 +179,7 @@
     // temperature / dewpoint, with the small-spread marks
     const tv = h.tc.concat(h.dc).filter(v => v != null);
     const tmin = Math.floor(Math.min(...tv)) - 1, tmax = Math.ceil(Math.max(...tv)) + 1;
-    const yT = v => P.temp.top + P.temp.h - 9 - (P.temp.h - 14) * (v - tmin) / (tmax - tmin);
+    const yT = v => P.temp.top + P.temp.h - 9 - (P.temp.h - hd - 12) * (v - tmin) / (tmax - tmin);
     for (let v = Math.ceil(tmin / 5) * 5; v <= tmax; v += 5) tick('temp', yT(v), String(v), v !== 0);
     if (tmin < 0 && tmax > 0) o.push(`<line x1="0" x2="${W}" y1="${yT(0)}" y2="${yT(0)}" stroke="#86b6ef"/>`);
     let s0 = -1;
@@ -188,10 +191,10 @@
 
     // cloud cover rows (GFS low / mid / high)
     if (P.clouds) {
-      const rowH = (P.clouds.h - 4) / 3;
+      const rowH = (P.clouds.h - hd - 2) / 3;
       [['ch', 0, 'High'], ['cm', 1, 'Mid'], ['cl', 2, 'Low']].forEach(([k, row, lbl]) => {
-        const top = P.clouds.top + 2 + row * rowH;
-        g.push(`<text x="${gw - 6}" y="${top + rowH / 2 + 4 + (row === 0 ? 8 : 0)}" font-size="${ts}" text-anchor="end" fill="var(--ink-3)">${lbl}</text>`);
+        const top = P.clouds.top + hd + row * rowH;
+        g.push(`<text x="${gw - 6}" y="${(top + (rowH - 2) / 2 + ts * 0.36).toFixed(1)}" font-size="${ts}" text-anchor="end" fill="var(--ink-3)">${lbl}</text>`);
         const q = v => Math.round((v || 0) / 10);
         let s = 0;
         for (let i = 1; i <= N; i++) {
@@ -208,26 +211,26 @@
     const pad = px > 6 ? 1 : 0;
     h.pop.forEach((v, i) => {
       if (v >= 5) {
-        const hh = (P.precip.h - 4) * v / 100;
+        const hh = (P.precip.h - hd - 2) * v / 100;
         o.push(`<rect x="${i * px + pad}" y="${P.precip.top + P.precip.h - hh}" width="${Math.max(1, px - 2 * pad)}" height="${hh}" rx="1.5" fill="${PT[h.pt[i]] || PT['']}"/>`);
       }
     });
-    tick('precip', P.precip.top + P.precip.h - (P.precip.h - 4) * 0.5, '50%', true);
+    tick('precip', P.precip.top + P.precip.h - (P.precip.h - hd - 2) * 0.5, '50%', true);
 
     // freezing level
     let fLine = '';
     if (P.fzl) {
-      const yF = v => P.fzl.top + P.fzl.h - 4 - (P.fzl.h - 8) * Math.min(v, 14000) / 14000;
-      [[3000, '3k'], [6000, '6k'], [9000, '9k'], [12000, '12k']].forEach(([v, t]) => tick('fzl', yF(v), t, true));
+      const yF = v => P.fzl.top + P.fzl.h - 4 - (P.fzl.h - hd - 6) * Math.min(v, 14000) / 14000;
+      [[4000, '4k'], [8000, '8k'], [12000, '12k']].forEach(([v, t]) => tick('fzl', yF(v), t, true));
       fLine = path(h.fzl, yF, 'all', () => 'all');
     }
 
     // winds aloft (highest level on top)
-    const rowA = (P.aloft.h - 6) / 3;
+    const rowA = (P.aloft.h - hd - 2) / 3;
     const kB = [1, 2, 3, 6, 12].find(k => k * px >= (compact ? 36 : 42)) || 12;
     [['a3', 2], ['a2', 1], ['a1', 0]].forEach(([k, lev], row) => {
-      const top = P.aloft.top + 4 + row * rowA;
-      if (D.levFt[lev]) g.push(`<text x="${gw - 6}" y="${top + rowA / 2 + 4 + (row === 0 ? 10 : 0)}" font-size="${ts}" text-anchor="end" fill="var(--ink-3)">${D.levFt[lev] / 1000}k</text>`);
+      const top = P.aloft.top + hd + row * rowA;
+      if (D.levFt[lev]) g.push(`<text x="${gw - 6}" y="${(top + rowA / 2 + ts * 0.36).toFixed(1)}" font-size="${ts}" text-anchor="end" fill="var(--ink-3)">${D.levFt[lev] / 1000}k</text>`);
       for (let i = 0; i < N; i += kB) if (h[k + 'd'][i] != null) arrows.push(arrow(cx(i), top + (rowA - 14) / 2, h[k + 'd'][i] + 180, String(h[k + 's'][i])));
     });
 
@@ -250,13 +253,18 @@
     // axis: day lines and names, hour labels
     const lh = t => (parseInt(t, 10) % 12) + (t.endsWith('p') ? 12 : 0);
     const kH = [1, 2, 3, 6, 12].find(k => k * px >= (compact ? 28 : 32)) || 12;
+    const dayName = i => { const n = h.t[i].split(',')[0]; return compact ? n.replace(/^(\w+) \w+ /, '$1 ') : n; };
+    const days = [];                 // [x, name] of each midnight, for stickyDay()
     h.dayStart.forEach((ds, i) => {
-      if (ds || i === 0) {
-        const name = h.t[i].split(',')[0];
-        o.push(`<text x="${i * px + 5}" y="15" font-size="12" font-weight="700" fill="var(--ink)">${esc(compact ? name.replace(/^(\w+) \w+ /, '$1 ') : name)}</text>`);
-        if (ds) o.push(`<rect x="${i * px}" y="0" width="1" height="${H}" fill="var(--ink-3)" fill-opacity="0.45"/>`);
+      if (ds) {
+        days.push([cx(i), dayName(i)]);
+        if (W - cx(i) > (compact ? 50 : 80))      // not one too close to the right edge to fit
+          o.push(`<text x="${cx(i) + 5}" y="15" font-size="12" font-weight="700" fill="var(--ink)">${esc(dayName(i))}</text>`);
+        o.push(`<rect x="${cx(i)}" y="0" width="1" height="${H}" fill="var(--ink-3)" fill-opacity="0.45"/>`);
       }
-      if (lh(h.lbl[i]) % kH === 0 && !(ds && px < 20)) o.push(`<text x="${i * px}" y="${P.axis.h - 4}" font-size="10.5" text-anchor="middle" fill="var(--ink-3)">${ds ? '12a' : h.lbl[i]}</text>`);
+      const x = cx(i);
+      if (lh(h.lbl[i]) % kH === 0 && x >= 10 && x <= W - 10 && Math.abs(x - nowX) > 34)
+        o.push(`<text x="${x}" y="${P.axis.h - 6}" font-size="10.5" text-anchor="middle" fill="var(--ink-3)">${ds ? '12a' : h.lbl[i]}</text>`);
     });
 
     const lines = [
@@ -278,16 +286,36 @@
       '<rect width="3" height="7" fill="rgba(255,255,255,.45)"/></pattern></defs>' +
       `<rect x="0" y="0" width="${nowX}" height="${H}" fill="var(--past)"/>` + shades + o.join('') + lines + arrows.join('') +
       `<rect x="${nowX - 1}" y="0" width="2" height="${H}" fill="var(--ink)"/>` +
-      `<g><rect x="${nowX + 4}" y="${H - 16}" width="34" height="14" rx="4" fill="var(--ink)"/>` +
-      `<text x="${nowX + 21}" y="${H - 5.5}" font-size="10" font-weight="700" text-anchor="middle" fill="var(--bg)">NOW</text></g>` +
+      `<g><rect x="${nowX - 17}" y="${P.axis.h - 18}" width="34" height="15" rx="4" fill="var(--ink)"/>` +
+      `<text x="${nowX}" y="${P.axis.h - 7}" font-size="10" font-weight="700" text-anchor="middle" fill="var(--bg)">NOW</text></g>` +
+      `<g id="tl-day"><rect x="0" y="1" height="19" fill="var(--card)"/><text x="5" y="15" font-size="12" font-weight="700" fill="var(--ink)"></text></g>` +
       '<g id="tl-hover"></g>';
     gut.setAttribute('width', gw);
     gut.setAttribute('height', H);
     gut.style.width = gw + 'px';
     gut.innerHTML = g.join('');
+    G.days = days;
+    G.firstDay = dayName(0);
+    stickyDay();
     $('zooms').innerHTML = zoomTable().map(([id, label]) => `<button type="button" data-z="${id}" aria-pressed="${id === curZoom()}">${label}</button>`).join('');
     renderHover();
   }
+
+  // the day at the left edge of the view (its own name has scrolled out of sight)
+  function stickyDay() {
+    const el = svg.querySelector('#tl-day');
+    if (!el || !G) return;
+    const left = scroller.scrollLeft, txt = el.querySelector('text'), bg = el.querySelector('rect');
+    let name = G.firstDay, next = null;
+    for (const [x, n] of G.days) { if (x <= left + 1) name = n; else { next = x; break; } }
+    txt.textContent = name;
+    el.style.display = '';                           // measurable again
+    const w = txt.getComputedTextLength() + 10;
+    el.setAttribute('transform', `translate(${left.toFixed(1)} 0)`);
+    bg.setAttribute('width', w);
+    el.style.display = next != null && next - left < w + 4 ? 'none' : '';   // the next day's name is about to take over
+  }
+  scroller.addEventListener('scroll', stickyDay, { passive: true });
 
   function selIndex() {
     const nowI = Math.min(D.N - 1, Math.floor(D.nowIdx));
@@ -385,9 +413,13 @@
       ['<span class="sw" style="background:var(--fc)"></span>', 'Forecast'],
       ['<span class="sw" style="width:14px;height:10px;background:var(--xw);opacity:.35"></span>', 'Crosswind, best runway'],
       ['<span class="sw" style="height:0;border-top:2px dashed var(--xw)"></span>', `Crosswind limit ${D.xwLimit} kt`],
+      ['<span class="sw" style="width:10px;height:2px;border-radius:1px;background:var(--ink-3)"></span>', 'Gusts'],
       ['<span class="sw" style="height:2px;background:var(--temp)"></span>', 'Temperature'],
       ['<span class="sw" style="height:2px;background:var(--dew)"></span>', 'Dewpoint'],
       ['<span class="sw" style="width:14px;height:5px;border-radius:3px;background:var(--spread)"></span>', 'Temp-dew spread 2 °C or less'],
+      ...(compact ? [] : [['<span class="sw" style="height:2px;background:var(--fzl)"></span>', 'Freezing level']]),
+      ['<span style="gap:2px">' + ['RA', 'SN', 'FZ', 'TS'].map(k => `<span class="sw" style="width:6px;height:10px;border-radius:1.5px;background:${PT[k]}"></span>`).join('') + '</span>',
+       'Precip: rain, snow, freezing, thunder'],
       ['<span class="sw" style="width:14px;height:10px;background:var(--night);outline:1px solid var(--line)"></span>', 'Night / civil twilight'],
     ].map(([sw, t]) => `<span>${sw}${esc(t)}</span>`).join('');
   }
