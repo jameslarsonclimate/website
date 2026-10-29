@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T19:45:10+00:00",
+  "generated_at_utc": "2026-10-29T20:15:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -123,7 +123,11 @@
       "valid_range_utc": [
         "2026-10-30T05",
         "2026-10-31T05"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-29T19:45:10+00:00",
+        "error": "('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      }
     },
     "NBM": {
       "tmax_f": 49.0,
@@ -943,12 +947,16 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-29T19:45:10+00:00",
-    "connectivity": false,
+    "ok": false,
+    "checked_at_utc": "2026-10-29T20:15:09+00:00",
+    "connectivity": true,
     "failed": [
+      "GFS_MOS",
       "NBM_QMD"
     ],
-    "carried_over": []
+    "carried_over": [
+      "GFS_MOS"
+    ],
+    "message": "Connectivity issues: the update at 20:15Z couldn't reach some data sources; latest forecasts not pulled for GFS_MOS, NBM_QMD. Showing the last good forecasts for GFS_MOS."
   }
 }
