@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T20:15:09+00:00",
+  "generated_at_utc": "2026-10-29T20:45:08+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 49.8,
-      "tmin_f": 36.8,
-      "wind_max_kt": 5.0,
+      "tmax_f": 50.8,
+      "tmin_f": 35.8,
+      "wind_max_kt": 6.2,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-29T12",
+      "init_time_utc": "2026-10-29T18",
       "valid_range_utc": [
         "2026-10-30 05:00:00",
         "2026-10-31 05:00:00"
@@ -123,11 +123,7 @@
       "valid_range_utc": [
         "2026-10-30T05",
         "2026-10-31T05"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-29T19:45:10+00:00",
-        "error": "('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      ]
     },
     "NBM": {
       "tmax_f": 49.0,
@@ -151,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-29T18",
+      "init_time_utc": "2026-10-29T19",
       "valid_range_utc": [
         "2026-10-30T05",
         "2026-10-31T05"
@@ -756,7 +752,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-10-29T12",
+      "init_time_utc": "2026-10-29T18",
       "valid_range_utc": [
         "2026-10-30T05",
         "2026-10-31T05"
@@ -786,7 +782,7 @@
             "p50": 0.0,
             "p75": 0.0,
             "p90": 0.0,
-            "p100": 0.0
+            "p100": 0.001
           },
           "precip_prob": {
             "0.01": 0.0,
@@ -796,20 +792,20 @@
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
@@ -819,7 +815,7 @@
             0.0,
             0.0,
             0.0,
-            0.0,
+            0.001,
             0.0,
             0.0,
             0.0,
@@ -842,9 +838,9 @@
       "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
-      "tmax_f": 50.2,
-      "tmin_f": 32.8,
-      "wind_max_kt": 5.2,
+      "tmax_f": 50.4,
+      "tmin_f": 32.6,
+      "wind_max_kt": 5.4,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -947,16 +943,12 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-10-29T20:15:09+00:00",
-    "connectivity": true,
+    "ok": true,
+    "checked_at_utc": "2026-10-29T20:45:08+00:00",
+    "connectivity": false,
     "failed": [
-      "GFS_MOS",
       "NBM_QMD"
     ],
-    "carried_over": [
-      "GFS_MOS"
-    ],
-    "message": "Connectivity issues: the update at 20:15Z couldn't reach some data sources; latest forecasts not pulled for GFS_MOS, NBM_QMD. Showing the last good forecasts for GFS_MOS."
+    "carried_over": []
   }
 }
