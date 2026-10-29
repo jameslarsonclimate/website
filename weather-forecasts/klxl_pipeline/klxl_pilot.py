@@ -187,7 +187,15 @@ def open_meteo(model, hourly):
 
 def nbm_text(prod):
     """{valid time (UTC): row} of the newest posted NBM text cycle, and its init time."""
-    df = wxc_nbm_text.newest(ICAO, prod)
+    for i in range(2):                         # an S3 read timeout once failed a whole run
+        try:
+            df = wxc_nbm_text.newest(ICAO, prod)
+            break
+        except requests.RequestException as exc:
+            print(f"  NBM {prod.upper()} text: {type(exc).__name__}" + (", retrying" if i == 0 else ""))
+            if i:
+                return {}, None
+            time.sleep(15)
     if df.empty:
         return {}, None
     rows = {pd.Timestamp(t).to_pydatetime(): r for t, r in zip(df["ftime"], df.to_dict("records"))}
@@ -214,7 +222,7 @@ def build(now):
     notes = []
 
     # ---- observations ----
-    obs, metars = {}, []
+    obs, metars, last = {}, [], None
     try:
         metars = get_json(f"{AWC}/metar", {"ids": ICAO, "hours": PAST_H + 2, "format": "json"}) or []
     except Exception as exc:
@@ -231,16 +239,24 @@ def build(now):
         v = m.get("visib")
         vis = 10.0 if v in ("10+", "6+", None) else float(str(v).rstrip("+"))
         wdir = m.get("wdir") if isinstance(m.get("wdir"), (int, float)) else None
-        obs[t.replace(minute=0, second=0, microsecond=0)] = dict(   # the hour's last report
+        # each hour gets the report nearest its top (KLXL reports at :15/:35/:55, so 4a shows the
+        # 3:55 report, the usual hourly-ob convention); filing reports under the hour they fall in
+        # left the current hour empty until its :15 report came in
+        last = dict(
             ceil=ceil, vis=min(vis, 10), wdir=wdir, wspd=m.get("wspd"), wgst=m.get("wgst"),
             tc=m.get("temp"), dc=m.get("dewp"), cat=m.get("fltCat") or cat_of(ceil, vis),
             raw=m["rawOb"], altim=m.get("altim"), t=t)
+        key = (t + timedelta(minutes=30)).replace(minute=0, second=0, microsecond=0)
+        if key not in obs or abs(t - key) < abs(obs[key]["t"] - key):
+            obs[key] = last
 
     # ---- NBM text: ceiling and visibility (hundreds of ft, -88 = none; tenths of a mile) ----
     nbh, nbh_init = nbm_text("nbh")
     nbs, nbs_init = nbm_text("nbs")
     if not nbh:
         notes.append("NBM hourly text unavailable")
+    if not nbs:
+        notes.append("NBM 3-hourly text unavailable")
     ceilvis = {}
 
     def cv(r):
@@ -301,7 +317,7 @@ def build(now):
             ceil, vis, src, cat = o["ceil"], o["vis"], "obs", o["cat"]
             wdir, wspd, wgst, tc, dc = o["wdir"], o["wspd"], o["wgst"], o["tc"], o["dc"]
         else:
-            if t > hour0 and t in ceilvis:
+            if t >= hour0 and t in ceilvis:          # the current hour too, until it has a report
                 ceil, vis, src = ceilvis[t]
                 cat = cat_of(ceil, vis)
             else:
@@ -461,13 +477,18 @@ def build(now):
     for tf in sorted(raw_tafs, key=lambda x: TAF_SITES.split(",").index(x["icaoId"])
                      if x["icaoId"] in TAF_SITES else 9):
         nm, dr = dist_nm(tf["lat"], tf["lon"])
-        groups = []
+        groups, prev_vis = [], 10
         for g in tf.get("fcsts") or []:
             ceil = next((c["base"] for c in g.get("clouds") or [] if c.get("cover") in ("BKN", "OVC", "OVX")), None)
             if g.get("vertVis"):
                 ceil = g["vertVis"]
             v = g.get("visib")
-            vis = 10 if v in ("6+", None) else float(str(v).rstrip("+"))
+            if v in (None, ""):                # TEMPO/BECMG/PROB without one: the prevailing visibility holds
+                vis = prev_vis if g.get("fcstChange") in ("TEMPO", "BECMG", "PROB") else 10
+            else:
+                vis = 10 if v == "6+" else float(str(v).rstrip("+"))
+            if g.get("fcstChange") not in ("TEMPO", "PROB"):
+                prev_vis = vis
             a = datetime.fromtimestamp(g["timeFrom"], timezone.utc)
             b = datetime.fromtimestamp(g["timeTo"], timezone.utc)
             groups.append(dict(kind=g.get("fcstChange") or "BASE", a=round(hidx(a), 2), b=round(hidx(b), 2),
@@ -481,7 +502,7 @@ def build(now):
     if metars:
         lm = max(metars, key=lambda m: m["obsTime"])
         mt = datetime.fromtimestamp(lm["obsTime"], timezone.utc)
-        lo = obs[mt.replace(minute=0, second=0, microsecond=0)]
+        lo = last                                    # the newest report, parsed above
         rwy, xw, xwg, head = crosswind(lo["wdir"], lo["wspd"], lo["wgst"])
         altin = round(lo["altim"] * 0.02953, 2) if lo.get("altim") else None
         da = None
