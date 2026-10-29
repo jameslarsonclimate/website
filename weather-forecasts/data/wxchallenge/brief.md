@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-10-30**, scored over 2026-10-30T06Z to 2026-10-31T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-10-30T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-10-29T15:00:16+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-10-29T15:30:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -566,7 +566,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 10-29 12Z | Thu 07:00 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 13 | 0 | 0 |
 | 10-29 13Z | Thu 08:00 | 0 | 0 | 1 | 0 |  | 0 |  |  | 2 | 11 | 1 | 0 |
 | 10-29 14Z | Thu 09:00 | 0 | 0 | 0 | 0 |  | 0 |  |  | 1 | 10 | 1 | 0 |
-| 10-29 15Z | Thu 10:00 |  | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 1 | 0 |
+| 10-29 15Z | Thu 10:00 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 1 | 0 |
 
 ## Dewpoint so far today (2026-10-29, observed vs forecast)
 
