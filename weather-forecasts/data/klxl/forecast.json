@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T14:45:08+00:00",
+  "generated_at_utc": "2026-10-29T15:25:12+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-29T13",
+      "init_time_utc": "2026-10-29T14",
       "valid_range_utc": [
         "2026-10-30T05",
         "2026-10-31T05"
@@ -752,12 +752,12 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-10-29T06",
+      "init_time_utc": "2026-10-29T12",
       "valid_range_utc": [
         "2026-10-30T05",
         "2026-10-31T05"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
         "p24": 0.0,
@@ -767,11 +767,11 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
             "mean": 0.0,
@@ -792,22 +792,24 @@
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.0,
             0.0,
             0.0,
             0.0,
@@ -942,7 +944,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-29T14:45:08+00:00",
+    "checked_at_utc": "2026-10-29T15:25:12+00:00",
     "connectivity": false,
     "failed": [
       "NBM_QMD"
