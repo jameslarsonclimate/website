@@ -3304,7 +3304,7 @@
     }
   },
   "period_start": "2026-10-12",
-  "generated_at_utc": "2026-10-30T18:00:09+00:00",
+  "generated_at_utc": "2026-10-30T18:30:08+00:00",
   "observations": [
     {
       "date": "2026-10-12",
@@ -5497,8 +5497,8 @@
   },
   "today": {
     "date": "2026-10-30",
-    "through_utc": "2026-10-30T16:53",
-    "n_obs": 11,
+    "through_utc": "2026-10-30T17:53",
+    "n_obs": 12,
     "provisional": true,
     "obs": {
       "tmax_f": 53,
