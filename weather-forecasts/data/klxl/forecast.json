@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T19:45:24+00:00",
+  "generated_at_utc": "2026-10-30T20:45:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 52.5,
-      "tmin_f": 39.9,
-      "wind_max_kt": 9.4,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-10-30T12",
+      "tmax_f": 51.7,
+      "tmin_f": 40.0,
+      "wind_max_kt": 10.0,
+      "precip_in": 0.24,
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31 05:00:00",
         "2026-11-01 05:00:00"
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 51.9,
-      "tmin_f": 38.6,
-      "wind_max_kt": 8.5,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-30T12",
+      "tmax_f": 53.4,
+      "tmin_f": 39.0,
+      "wind_max_kt": 7.3,
+      "precip_in": 0.03,
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31 05:00:00",
         "2026-11-01 05:00:00"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 55.3,
-      "tmin_f": 38.3,
-      "wind_max_kt": 6.3,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-30T06",
+      "tmax_f": 54.7,
+      "tmin_f": 40.8,
+      "wind_max_kt": 6.6,
+      "precip_in": 0.11,
+      "init_time_utc": "2026-10-30T12",
       "valid_range_utc": [
         "2026-10-31 05:00:00",
         "2026-11-01 05:00:00"
@@ -82,11 +82,7 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='single-runs-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='single-runs-api.open-meteo.com', port=443): Failed to resolve 'single-runs-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
       "tmax_f": 55.6,
@@ -127,43 +123,35 @@
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
-        "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exceeded with url: /api/1/mos.json?station=KLXL&model=GFS (Caused by NameResolutionError(\"HTTPSConnection(host='mesonet.agron.iastate.edu', port=443): Failed to resolve 'mesonet.agron.iastate.edu' ([Errno 8] nodename nor servname provided, or not known)\"))"
-      }
+      ]
     },
     "NBM": {
       "tmax_f": 53.0,
       "tmin_f": 36.0,
       "wind_max_kt": 6.0,
-      "precip_in": 0.03,
-      "pop06_max_pct": 45,
+      "precip_in": 0.02,
+      "pop06_max_pct": 27,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.14,
-          "12-18": 0.32,
-          "18-00": 0.45,
-          "00-06": 0.29
+          "06-12": 0.27,
+          "12-18": 0.27,
+          "18-00": 0.25,
+          "00-06": 0.09
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.45,
-          0.772
+          0.27,
+          0.636
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T17",
+      "init_time_utc": "2026-10-30T19",
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
-        "error": "HTTPSConnectionPool(host='noaa-nbm-grib2-pds.s3.amazonaws.com', port=443): Max retries exceeded with url: /blend.20261030/18/text/blend_nbstx.t18z (Caused by NameResolutionError(\"HTTPSConnection(host='noaa-nbm-grib2-pds.s3.amazonaws.com', port=443): Failed to resolve 'noaa-nbm-grib2-pds.s3.amazonaws.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
-      }
+      ]
     },
     "ENS": {
       "tmax_f": 55.7,
@@ -455,10 +443,6 @@
         },
         "n_members": 51,
         "basis": "member fraction"
-      },
-      "stale": {
-        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "GEFS": {
@@ -671,10 +655,6 @@
         },
         "n_members": 31,
         "basis": "member fraction"
-      },
-      "stale": {
-        "fetched_at_utc": "2026-10-30T18:24:47+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ncep_gefs025/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "HRRRCAST": {
@@ -692,8 +672,8 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.01,
-      "precip_mean_in": 0.02,
-      "init_time_utc": "2026-10-30T12",
+      "precip_mean_in": 0.03,
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
@@ -715,15 +695,15 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.022,
-            "std": 0.04,
-            "p0": 0.002,
+            "mean": 0.032,
+            "std": 0.061,
+            "p0": 0.0,
             "p10": 0.002,
-            "p25": 0.003,
+            "p25": 0.002,
             "p50": 0.012,
-            "p75": 0.018,
-            "p90": 0.027,
-            "p100": 0.163
+            "p75": 0.027,
+            "p90": 0.058,
+            "p100": 0.243
           },
           "precip_prob": {
             "0.01": 0.571,
@@ -733,43 +713,39 @@
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
-            0.002,
-            0.002,
-            0.002,
-            0.002,
-            0.012,
-            0.012,
-            0.013,
-            0.02,
-            0.005,
-            0.015,
             0.03,
-            0.007,
+            0.0,
+            0.002,
             0.02,
-            0.163
+            0.064,
+            0.044,
+            0.243,
+            0.002,
+            0.002,
+            0.002,
+            0.002,
+            0.012,
+            0.012,
+            0.013
           ]
         }
-      },
-      "stale": {
-        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
-        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -783,10 +759,10 @@
       "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
-      "tmax_f": 52.8,
-      "tmin_f": 36.5,
-      "wind_max_kt": 7.1,
-      "precip_in": 0.01,
+      "tmax_f": 52.9,
+      "tmin_f": 36.9,
+      "wind_max_kt": 7.0,
+      "precip_in": 0.06,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -888,27 +864,13 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-10-30T19:45:24+00:00",
-    "connectivity": true,
+    "ok": true,
+    "checked_at_utc": "2026-10-30T20:45:09+00:00",
+    "connectivity": false,
     "failed": [
-      "ENS",
-      "GEFS",
-      "GFS_MOS",
       "HRRRCAST",
-      "IFS_HRES",
-      "NBM",
-      "NBM_QMD",
-      "REFS"
+      "NBM_QMD"
     ],
-    "carried_over": [
-      "ENS",
-      "GEFS",
-      "GFS_MOS",
-      "IFS_HRES",
-      "NBM",
-      "REFS"
-    ],
-    "message": "Connectivity issues: the update at 19:45Z couldn't reach some data sources; latest forecasts not pulled for ENS, GEFS, GFS_MOS, HRRRCAST, IFS_HRES, NBM, NBM_QMD, REFS. Showing the last good forecasts for ENS, GEFS, GFS_MOS, IFS_HRES, NBM, REFS."
+    "carried_over": []
   }
 }
