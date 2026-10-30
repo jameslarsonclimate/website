@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:45:09+00:00",
+  "generated_at_utc": "2026-10-30T21:15:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T19",
+      "init_time_utc": "2026-10-30T20",
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
@@ -865,7 +865,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-30T20:45:09+00:00",
+    "checked_at_utc": "2026-10-30T21:15:09+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST",
