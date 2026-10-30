@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T21:45:06+00:00",
+  "generated_at_utc": "2026-10-30T22:17:46+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -100,26 +100,26 @@
     "GFS_MOS": {
       "tmax_f": 53.0,
       "tmin_f": 40.0,
-      "wind_max_kt": 5.0,
+      "wind_max_kt": 4.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 10,
+      "pop06_max_pct": 21,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.0,
-          "12-18": 0.1,
-          "18-00": 0.06,
-          "00-06": 0.03
+          "06-12": 0.01,
+          "12-18": 0.09,
+          "18-00": 0.1,
+          "00-06": 0.21
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.1,
-          0.179
+          0.21,
+          0.359
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-30T12",
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T20",
+      "init_time_utc": "2026-10-30T21",
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
@@ -661,11 +661,90 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
+      "precip_in": 0.0,
+      "precip_mean_in": 0.0,
+      "init_time_utc": "2026-10-30T06",
+      "valid_range_utc": [
+        "2026-10-31T05",
+        "2026-11-01T05"
+      ],
+      "note": "median of 18 members",
       "precip_only": true,
-      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
+      "pop": {
+        "p24": 0.0,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 18,
+        "basis": "member fraction"
+      },
+      "ensemble": {
+        "n_members": 18,
+        "stats": {
+          "precip_in": {
+            "mean": 0.003,
+            "std": 0.003,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "p50": 0.002,
+            "p75": 0.006,
+            "p90": 0.007,
+            "p100": 0.009
+          },
+          "precip_prob": {
+            "0.01": 0.0,
+            "0.10": 0.0,
+            "0.25": 0.0,
+            "0.50": 0.0
+          }
+        },
+        "member_names": [
+          "m00",
+          "m01",
+          "m02",
+          "m03",
+          "m04",
+          "m05",
+          "m06",
+          "m07",
+          "m08",
+          "m09",
+          "m10",
+          "m11",
+          "m12",
+          "m13",
+          "m14",
+          "m15",
+          "m16",
+          "m17"
+        ],
+        "members": {
+          "precip_in": [
+            0.0,
+            0.002,
+            0.002,
+            0.001,
+            0.007,
+            0.005,
+            0.0,
+            0.007,
+            0.006,
+            0.002,
+            0.0,
+            0.006,
+            0.009,
+            0.006,
+            0.0,
+            0.0,
+            0.008,
+            0.0
+          ]
+        }
+      }
     },
     "REFS": {
       "tmax_f": null,
@@ -761,7 +840,7 @@
     "CONSENSUS": {
       "tmax_f": 52.9,
       "tmin_f": 36.9,
-      "wind_max_kt": 7.0,
+      "wind_max_kt": 6.9,
       "precip_in": 0.06,
       "method": {
         "tmax_f": {
@@ -865,10 +944,9 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-30T21:45:06+00:00",
+    "checked_at_utc": "2026-10-30T22:17:46+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST",
       "NBM_QMD"
     ],
     "carried_over": []
