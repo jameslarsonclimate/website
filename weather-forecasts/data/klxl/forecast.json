@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T22:17:46+00:00",
+  "generated_at_utc": "2026-10-30T23:09:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -85,11 +85,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 55.6,
-      "tmin_f": 41.4,
-      "wind_max_kt": 7.9,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-10-30T12",
+      "tmax_f": 53.4,
+      "tmin_f": 41.3,
+      "wind_max_kt": 6.9,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31 05:00:00",
         "2026-11-01 05:00:00"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T21",
+      "init_time_utc": "2026-10-30T22",
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
@@ -838,9 +838,9 @@
       "error": "no NBM QMD cycle covering the day is posted yet"
     },
     "CONSENSUS": {
-      "tmax_f": 52.9,
+      "tmax_f": 52.6,
       "tmin_f": 36.9,
-      "wind_max_kt": 6.9,
+      "wind_max_kt": 6.7,
       "precip_in": 0.06,
       "method": {
         "tmax_f": {
@@ -944,7 +944,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-30T22:17:46+00:00",
+    "checked_at_utc": "2026-10-30T23:09:09+00:00",
     "connectivity": false,
     "failed": [
       "NBM_QMD"
