@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T21:48:09+00:00",
+  "generated_at_utc": "2026-10-30T22:08:20+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -134,7 +134,7 @@
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.17,
+          "06-12": 0.18,
           "12-18": 0.52,
           "18-00": 0.15,
           "00-06": 0.09
@@ -143,11 +143,11 @@
         "basis": "NBS P06",
         "p24_range": [
           0.52,
-          0.692
+          0.696
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T20",
+      "init_time_utc": "2026-10-30T21",
       "valid_range_utc": [
         "2026-10-31T06",
         "2026-11-01T06"
@@ -672,11 +672,90 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
+      "precip_in": 0.0,
+      "precip_mean_in": 0.01,
+      "init_time_utc": "2026-10-30T06",
+      "valid_range_utc": [
+        "2026-10-31T06",
+        "2026-11-01T06"
+      ],
+      "note": "median of 18 members",
       "precip_only": true,
-      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
+      "pop": {
+        "p24": 0.389,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 18,
+        "basis": "member fraction"
+      },
+      "ensemble": {
+        "n_members": 18,
+        "stats": {
+          "precip_in": {
+            "mean": 0.008,
+            "std": 0.009,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "p50": 0.004,
+            "p75": 0.012,
+            "p90": 0.018,
+            "p100": 0.035
+          },
+          "precip_prob": {
+            "0.01": 0.389,
+            "0.10": 0.0,
+            "0.25": 0.0,
+            "0.50": 0.0
+          }
+        },
+        "member_names": [
+          "m00",
+          "m01",
+          "m02",
+          "m03",
+          "m04",
+          "m05",
+          "m06",
+          "m07",
+          "m08",
+          "m09",
+          "m10",
+          "m11",
+          "m12",
+          "m13",
+          "m14",
+          "m15",
+          "m16",
+          "m17"
+        ],
+        "members": {
+          "precip_in": [
+            0.016,
+            0.006,
+            0.0,
+            0.009,
+            0.0,
+            0.011,
+            0.0,
+            0.002,
+            0.001,
+            0.02,
+            0.035,
+            0.012,
+            0.0,
+            0.017,
+            0.0,
+            0.0,
+            0.0,
+            0.012
+          ]
+        }
+      }
     },
     "REFS": {
       "tmax_f": null,
@@ -893,11 +972,9 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-30T21:48:09+00:00",
+    "checked_at_utc": "2026-10-30T22:08:20+00:00",
     "connectivity": false,
-    "failed": [
-      "HRRRCAST"
-    ],
+    "failed": [],
     "carried_over": []
   }
 }
