@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T18:50:24+00:00",
+  "generated_at_utc": "2026-10-30T19:45:24+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -82,7 +82,11 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus"
+      "note": "not in the consensus",
+      "stale": {
+        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='single-runs-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='single-runs-api.open-meteo.com', port=443): Failed to resolve 'single-runs-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
+      }
     },
     "GFS": {
       "tmax_f": 55.6,
@@ -123,7 +127,11 @@
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
+        "error": "HTTPSConnectionPool(host='mesonet.agron.iastate.edu', port=443): Max retries exceeded with url: /api/1/mos.json?station=KLXL&model=GFS (Caused by NameResolutionError(\"HTTPSConnection(host='mesonet.agron.iastate.edu', port=443): Failed to resolve 'mesonet.agron.iastate.edu' ([Errno 8] nodename nor servname provided, or not known)\"))"
+      }
     },
     "NBM": {
       "tmax_f": 53.0,
@@ -151,7 +159,11 @@
       "valid_range_utc": [
         "2026-10-31T05",
         "2026-11-01T05"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
+        "error": "HTTPSConnectionPool(host='noaa-nbm-grib2-pds.s3.amazonaws.com', port=443): Max retries exceeded with url: /blend.20261030/18/text/blend_nbstx.t18z (Caused by NameResolutionError(\"HTTPSConnection(host='noaa-nbm-grib2-pds.s3.amazonaws.com', port=443): Failed to resolve 'noaa-nbm-grib2-pds.s3.amazonaws.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
+      }
     },
     "ENS": {
       "tmax_f": 55.7,
@@ -443,6 +455,10 @@
         },
         "n_members": 51,
         "basis": "member fraction"
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "GEFS": {
@@ -658,7 +674,7 @@
       },
       "stale": {
         "fetched_at_utc": "2026-10-30T18:24:47+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Read timed out. (read timeout=45)"
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ncep_gefs025/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "HRRRCAST": {
@@ -750,6 +766,10 @@
             0.163
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-10-30T18:50:24+00:00",
+        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -869,16 +889,26 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-10-30T18:50:24+00:00",
+    "checked_at_utc": "2026-10-30T19:45:24+00:00",
     "connectivity": true,
     "failed": [
+      "ENS",
       "GEFS",
+      "GFS_MOS",
       "HRRRCAST",
-      "NBM_QMD"
+      "IFS_HRES",
+      "NBM",
+      "NBM_QMD",
+      "REFS"
     ],
     "carried_over": [
-      "GEFS"
+      "ENS",
+      "GEFS",
+      "GFS_MOS",
+      "IFS_HRES",
+      "NBM",
+      "REFS"
     ],
-    "message": "Connectivity issues: the update at 18:50Z couldn't reach some data sources; latest forecasts not pulled for GEFS, HRRRCAST, NBM_QMD. Showing the last good forecasts for GEFS."
+    "message": "Connectivity issues: the update at 19:45Z couldn't reach some data sources; latest forecasts not pulled for ENS, GEFS, GFS_MOS, HRRRCAST, IFS_HRES, NBM, NBM_QMD, REFS. Showing the last good forecasts for ENS, GEFS, GFS_MOS, IFS_HRES, NBM, REFS."
   }
 }
