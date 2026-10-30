@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:00:13+00:00",
+  "generated_at_utc": "2026-10-30T21:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 58.8,
-      "tmin_f": 48.1,
-      "wind_max_kt": 5.8,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-10-30T12",
+      "tmax_f": 60.0,
+      "tmin_f": 49.6,
+      "wind_max_kt": 6.5,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31T06",
         "2026-11-01T06"
@@ -126,28 +126,28 @@
       ]
     },
     "NBM": {
-      "tmax_f": 58.0,
+      "tmax_f": 59.0,
       "tmin_f": 46.0,
       "wind_max_kt": 9.0,
-      "precip_in": 0.04,
-      "pop06_max_pct": 59,
+      "precip_in": 0.03,
+      "pop06_max_pct": 52,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.26,
-          "12-18": 0.59,
-          "18-00": 0.17,
-          "00-06": 0.11
+          "06-12": 0.17,
+          "12-18": 0.52,
+          "18-00": 0.15,
+          "00-06": 0.09
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.59,
-          0.776
+          0.52,
+          0.692
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T18",
+      "init_time_utc": "2026-10-30T20",
       "valid_range_utc": [
         "2026-10-31T06",
         "2026-11-01T06"
@@ -682,9 +682,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.01,
-      "precip_mean_in": 0.03,
-      "init_time_utc": "2026-10-30T12",
+      "precip_in": 0.02,
+      "precip_mean_in": 0.06,
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31T06",
         "2026-11-01T06"
@@ -692,7 +692,7 @@
       "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.5,
+        "p24": 0.571,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -706,55 +706,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.027,
-            "std": 0.035,
+            "mean": 0.06,
+            "std": 0.143,
             "p0": 0.0,
-            "p10": 0.001,
-            "p25": 0.002,
-            "p50": 0.011,
-            "p75": 0.038,
-            "p90": 0.085,
-            "p100": 0.104
+            "p10": 0.003,
+            "p25": 0.005,
+            "p50": 0.018,
+            "p75": 0.032,
+            "p90": 0.071,
+            "p100": 0.571
           },
           "precip_prob": {
-            "0.01": 0.5,
+            "0.01": 0.571,
             "0.10": 0.071,
-            "0.25": 0.0,
-            "0.50": 0.0
+            "0.25": 0.071,
+            "0.50": 0.071
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.025,
+            0.005,
+            0.025,
+            0.034,
+            0.571,
+            0.025,
+            0.004,
             0.012,
             0.002,
             0.005,
             0.01,
             0.0,
             0.044,
-            0.083,
-            0.017,
-            0.0,
-            0.012,
-            0.002,
-            0.002,
-            0.086,
-            0.104
+            0.083
           ]
         }
       }
@@ -791,8 +791,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 59.8,
-      "tmin_f": 47.5,
+      "tmax_f": 60.0,
+      "tmin_f": 47.6,
       "wind_max_kt": 12.2,
       "precip_in": 0.01,
       "method": {
@@ -893,7 +893,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-10-30T20:00:13+00:00",
+    "checked_at_utc": "2026-10-30T21:00:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
