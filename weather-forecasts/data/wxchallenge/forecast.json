@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T18:30:08+00:00",
+  "generated_at_utc": "2026-10-30T19:12:56+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -82,7 +82,11 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus"
+      "note": "not in the consensus",
+      "stale": {
+        "fetched_at_utc": "2026-10-30T18:30:08+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='single-runs-api.open-meteo.com', port=443): Read timed out. (read timeout=45)"
+      }
     },
     "GFS": {
       "tmax_f": 58.6,
@@ -147,7 +151,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-30T17",
+      "init_time_utc": "2026-10-30T18",
       "valid_range_utc": [
         "2026-10-31T06",
         "2026-11-01T06"
@@ -764,7 +768,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.08,
-      "init_time_utc": "2026-10-30T06",
+      "init_time_utc": "2026-10-30T12",
       "valid_range_utc": [
         "2026-10-31T06",
         "2026-11-01T06"
@@ -772,21 +776,21 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.757,
+        "p24": 0.678,
         "blocks": {
-          "06-12": 0.259,
-          "12-18": 0.586,
-          "18-00": 0.172,
-          "00-06": 0.111
+          "06-12": 0.168,
+          "12-18": 0.519,
+          "18-00": 0.149,
+          "00-06": 0.038
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
           "10": 0.0,
           "25": 0.0,
-          "50": 0.084,
-          "75": 0.199,
-          "90": 0.276
+          "50": 0.081,
+          "75": 0.153,
+          "90": 0.189
         }
       }
     },
@@ -892,12 +896,16 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-10-30T18:30:08+00:00",
-    "connectivity": false,
+    "ok": false,
+    "checked_at_utc": "2026-10-30T19:12:56+00:00",
+    "connectivity": true,
     "failed": [
-      "HRRRCAST"
+      "HRRRCAST",
+      "IFS_HRES"
     ],
-    "carried_over": []
+    "carried_over": [
+      "IFS_HRES"
+    ],
+    "message": "Connectivity issues: the update at 19:12Z couldn't reach some data sources; latest forecasts not pulled for HRRRCAST, IFS_HRES. Showing the last good forecasts for IFS_HRES."
   }
 }
