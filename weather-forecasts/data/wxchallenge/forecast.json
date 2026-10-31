@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-31T16:34:15+00:00",
+  "generated_at_utc": "2026-10-31T20:43:31+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -52,14 +52,18 @@
       ],
       "n_steps": 25,
       "temp_source": "2 m T + interval max/min fields",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))); newest cycle unavailable, used previous"
+      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))); newest cycle unavailable, used previous",
+      "stale": {
+        "fetched_at_utc": "2026-10-31T16:34:15+00:00",
+        "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      }
     },
     "IFS": {
-      "tmax_f": 66.9,
-      "tmin_f": 53.1,
-      "wind_max_kt": 7.0,
+      "tmax_f": 67.7,
+      "tmin_f": 52.6,
+      "wind_max_kt": 7.3,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-31T06",
+      "init_time_utc": "2026-10-31T12",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
@@ -95,28 +99,28 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
-      "tmax_f": 67.0,
-      "tmin_f": 53.0,
-      "wind_max_kt": 10.0,
+      "tmax_f": 68.0,
+      "tmin_f": 52.0,
+      "wind_max_kt": 11.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 26,
+      "pop06_max_pct": 8,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.26,
-          "12-18": 0.1,
+          "06-12": 0.02,
+          "12-18": 0.08,
           "18-00": 0.02,
           "00-06": 0.0
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.26,
-          0.347
+          0.08,
+          0.116
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-10-31T12",
+      "init_time_utc": "2026-10-31T18",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
@@ -124,38 +128,38 @@
     },
     "NBM": {
       "tmax_f": 68.0,
-      "tmin_f": 54.0,
+      "tmin_f": 53.0,
       "wind_max_kt": 9.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 17,
+      "pop06_max_pct": 8,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.17,
-          "12-18": 0.07,
-          "18-00": 0.05,
-          "00-06": 0.0
+          "06-12": 0.07,
+          "12-18": 0.08,
+          "18-00": 0.04,
+          "00-06": 0.07
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.17,
-          0.267
+          0.08,
+          0.236
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-10-31T17",
+      "init_time_utc": "2026-10-31T22",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
       ]
     },
     "USL": {
-      "tmax_f": 67.0,
+      "tmax_f": 68.0,
       "tmin_f": 54.0,
-      "wind_max_kt": 13.0,
+      "wind_max_kt": 14.0,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-31T12",
+      "init_time_utc": "2026-10-31T22",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
@@ -671,7 +675,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.01,
-      "init_time_utc": "2026-10-31T06",
+      "init_time_utc": "2026-10-31T12",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
@@ -698,10 +702,10 @@
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
-            "p50": 0.001,
+            "p50": 0.002,
             "p75": 0.011,
-            "p90": 0.014,
-            "p100": 0.02
+            "p90": 0.013,
+            "p100": 0.017
           },
           "precip_prob": {
             "0.01": 0.278,
@@ -732,24 +736,24 @@
         ],
         "members": {
           "precip_in": [
-            0.02,
-            0.004,
+            0.017,
+            0.006,
             0.0,
-            0.011,
-            0.002,
-            0.008,
-            0.0,
-            0.001,
-            0.003,
-            0.001,
-            0.013,
             0.012,
+            0.003,
+            0.006,
+            0.0,
+            0.001,
+            0.002,
+            0.0,
+            0.012,
+            0.013,
+            0.0,
+            0.002,
+            0.002,
             0.0,
             0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.014
+            0.015
           ]
         }
       }
@@ -760,7 +764,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-10-31T12",
+      "init_time_utc": "2026-10-31T18",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
@@ -768,7 +772,7 @@
       "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.143,
+        "p24": 0.071,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -782,55 +786,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.004,
-            "std": 0.009,
+            "mean": 0.002,
+            "std": 0.004,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
             "p50": 0.0,
-            "p75": 0.004,
-            "p90": 0.011,
-            "p100": 0.033
+            "p75": 0.0,
+            "p90": 0.007,
+            "p100": 0.012
           },
           "precip_prob": {
-            "0.01": 0.143,
+            "0.01": 0.071,
             "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
             0.0,
             0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.009,
+            0.0,
+            0.0,
             0.002,
             0.0,
             0.0,
             0.0,
-            0.012,
-            0.007,
-            0.005,
-            0.002,
-            0.0,
-            0.0,
-            0.0,
-            0.033
+            0.012
           ]
         }
       }
@@ -840,7 +844,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-10-31T06",
+      "init_time_utc": "2026-10-31T12",
       "valid_range_utc": [
         "2026-11-01T06",
         "2026-11-02T06"
@@ -848,11 +852,11 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.143,
+        "p24": 0.101,
         "blocks": {
-          "06-12": 0.169,
-          "12-18": 0.028,
-          "18-00": 0.003,
+          "06-12": 0.029,
+          "12-18": 0.01,
+          "18-00": 0.0,
           "00-06": 0.0
         },
         "n_members": null,
@@ -862,14 +866,14 @@
           "25": 0.0,
           "50": 0.0,
           "75": 0.0,
-          "90": 0.024
+          "90": 0.013
         }
       }
     },
     "CONSENSUS": {
-      "tmax_f": 68.3,
-      "tmin_f": 53.8,
-      "wind_max_kt": 13.7,
+      "tmax_f": 68.8,
+      "tmin_f": 53.6,
+      "wind_max_kt": 14.1,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -961,12 +965,15 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-10-31T16:34:15+00:00",
+    "checked_at_utc": "2026-10-31T20:43:31+00:00",
     "connectivity": true,
     "failed": [
-      "HRRR"
+      "HRRR",
+      "RRFS"
     ],
-    "carried_over": [],
-    "message": "Connectivity issues: the update at 16:34Z couldn't reach some data sources; latest forecasts not pulled for HRRR."
+    "carried_over": [
+      "RRFS"
+    ],
+    "message": "Connectivity issues: the update at 20:43Z couldn't reach some data sources; latest forecasts not pulled for HRRR, RRFS. Showing the last good forecasts for RRFS."
   }
 }
