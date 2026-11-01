@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-01T15:02:49+00:00",
+  "generated_at_utc": "2026-11-01T21:40:54+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -32,29 +32,38 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 62.3,
+      "tmin_f": 57.1,
+      "wind_max_kt": 14.1,
+      "precip_in": 0.71,
+      "init_time_utc": "2026-11-01T18",
+      "valid_range_utc": [
+        "2026-11-02T06",
+        "2026-11-03T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: HTTPSConnectionPool(host='noaa-rrfs-ops-pds.s3.amazonaws.com', port=443): Read timed out."
+      "tmax_f": 63.7,
+      "tmin_f": 56.9,
+      "wind_max_kt": 15.5,
+      "precip_in": 0.86,
+      "init_time_utc": "2026-11-01T18",
+      "valid_range_utc": [
+        "2026-11-02T06",
+        "2026-11-03T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "instantaneous 2 m T",
+      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, )"
     },
     "IFS": {
-      "tmax_f": 64.5,
-      "tmin_f": 56.6,
-      "wind_max_kt": 14.2,
-      "precip_in": 0.78,
-      "init_time_utc": "2026-11-01T06",
+      "tmax_f": 63.8,
+      "tmin_f": 56.7,
+      "wind_max_kt": 14.3,
+      "precip_in": 0.56,
+      "init_time_utc": "2026-11-01T12",
       "valid_range_utc": [
         "2026-11-02T06",
         "2026-11-03T06"
@@ -87,8 +96,7 @@
         "2026-11-03T06"
       ],
       "n_steps": 9,
-      "temp_source": "instantaneous 2 m T",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, )"
+      "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
       "tmax_f": 64.0,
@@ -121,16 +129,16 @@
     "NBM": {
       "tmax_f": 65.0,
       "tmin_f": 55.0,
-      "wind_max_kt": 17.0,
-      "precip_in": 0.73,
+      "wind_max_kt": 18.0,
+      "precip_in": 0.67,
       "pop06_max_pct": 100,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.12,
+          "06-12": 0.11,
           "12-18": 1.0,
           "18-00": 1.0,
-          "00-06": 0.82
+          "00-06": 0.78
         },
         "n_members": null,
         "basis": "NBS P06",
@@ -140,7 +148,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-01T18",
+      "init_time_utc": "2026-11-01T21",
       "valid_range_utc": [
         "2026-11-02T06",
         "2026-11-03T06"
@@ -863,14 +871,16 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 65.1,
-      "tmin_f": 55.5,
-      "wind_max_kt": 22.3,
-      "precip_in": 0.94,
+      "tmax_f": 65.0,
+      "tmin_f": 56.0,
+      "wind_max_kt": 21.9,
+      "precip_in": 0.87,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
@@ -879,17 +889,21 @@
             "ENS"
           ],
           "weights": {
-            "IFS": 0.116,
-            "GFS": 0.177,
-            "GFS_MOS": 0.159,
-            "NBM": 0.147,
-            "USL": 0.248,
-            "ENS": 0.153
+            "HRRR": 0.088,
+            "RRFS": 0.114,
+            "IFS": 0.093,
+            "GFS": 0.141,
+            "GFS_MOS": 0.127,
+            "NBM": 0.117,
+            "USL": 0.198,
+            "ENS": 0.122
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
@@ -898,17 +912,21 @@
             "ENS"
           ],
           "weights": {
-            "IFS": 0.138,
-            "GFS": 0.076,
-            "GFS_MOS": 0.089,
-            "NBM": 0.165,
-            "USL": 0.372,
-            "ENS": 0.16
+            "HRRR": 0.083,
+            "RRFS": 0.08,
+            "IFS": 0.115,
+            "GFS": 0.063,
+            "GFS_MOS": 0.075,
+            "NBM": 0.138,
+            "USL": 0.311,
+            "ENS": 0.134
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
@@ -917,17 +935,21 @@
             "ENS"
           ],
           "weights": {
-            "IFS": 0.115,
-            "GFS": 0.128,
-            "GFS_MOS": 0.174,
-            "NBM": 0.166,
-            "USL": 0.313,
-            "ENS": 0.104
+            "HRRR": 0.113,
+            "RRFS": 0.107,
+            "IFS": 0.09,
+            "GFS": 0.1,
+            "GFS_MOS": 0.136,
+            "NBM": 0.13,
+            "USL": 0.244,
+            "ENS": 0.081
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
+            "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
@@ -936,26 +958,24 @@
             "ENS"
           ],
           "weights": {
-            "IFS": 0.16,
-            "GFS": 0.172,
-            "GFS_MOS": 0.178,
-            "NBM": 0.176,
-            "USL": 0.159,
-            "ENS": 0.155
+            "HRRR": 0.127,
+            "RRFS": 0.126,
+            "IFS": 0.119,
+            "GFS": 0.129,
+            "GFS_MOS": 0.133,
+            "NBM": 0.131,
+            "USL": 0.119,
+            "ENS": 0.116
           }
         }
       }
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-01T15:02:49+00:00",
-    "connectivity": true,
-    "failed": [
-      "HRRR",
-      "RRFS"
-    ],
-    "carried_over": [],
-    "message": "Connectivity issues: the update at 15:02Z couldn't reach some data sources; latest forecasts not pulled for HRRR, RRFS."
+    "ok": true,
+    "checked_at_utc": "2026-11-01T21:40:54+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   }
 }
