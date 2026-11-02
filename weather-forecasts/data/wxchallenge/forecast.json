@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-02T20:30:09+00:00",
+  "generated_at_utc": "2026-11-02T21:00:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -126,28 +126,28 @@
       ]
     },
     "NBM": {
-      "tmax_f": 63,
-      "tmin_f": 54,
+      "tmax_f": 64,
+      "tmin_f": 53,
       "wind_max_kt": 11.0,
-      "precip_in": 0.58,
-      "pop06_max_pct": 76,
+      "precip_in": 0.17,
+      "pop06_max_pct": 64,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.5,
-          "12-18": 0.76,
-          "18-00": 0.74,
-          "00-06": 0.69
+          "06-12": 0.28,
+          "12-18": 0.48,
+          "18-00": 0.64,
+          "00-06": 0.62
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.76,
-          0.99
+          0.64,
+          0.949
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-02T18",
+      "init_time_utc": "2026-11-02T20",
       "valid_range_utc": [
         "2026-11-03T06",
         "2026-11-04T06"
@@ -870,10 +870,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 65.4,
-      "tmin_f": 53.3,
+      "tmax_f": 65.5,
+      "tmin_f": 53.2,
       "wind_max_kt": 16.2,
-      "precip_in": 0.4,
+      "precip_in": 0.35,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-02T20:30:09+00:00",
+    "checked_at_utc": "2026-11-02T21:00:10+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
