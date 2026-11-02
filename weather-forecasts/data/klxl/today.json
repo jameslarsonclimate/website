@@ -1,11 +1,11 @@
 {
   "date": "2026-11-02",
-  "through_utc": "2026-11-02T19:55",
+  "through_utc": "2026-11-02T20:35",
   "obs": {
     "high": 59.0,
     "low": 53.6,
     "wind": 16,
-    "precip": 0.69,
+    "precip": 0.7,
     "n_obs": 14
   },
   "models": {
@@ -26,7 +26,7 @@
       "low_pending": false,
       "wind_bias": -0.1,
       "precip_so_far": 0.01,
-      "precip_err": -0.68
+      "precip_err": -0.69
     },
     "RRFS": {
       "init_time_utc": "2026-11-01T06",
@@ -44,8 +44,8 @@
       "low_err": 1.7,
       "low_pending": false,
       "wind_bias": 2.6,
-      "precip_so_far": 0.52,
-      "precip_err": -0.17
+      "precip_so_far": 0.57,
+      "precip_err": -0.13
     },
     "IFS": {
       "init_time_utc": "2026-11-01T00",
@@ -63,8 +63,8 @@
       "low_err": 0.9,
       "low_pending": false,
       "wind_bias": 1.8,
-      "precip_so_far": 0.96,
-      "precip_err": 0.27
+      "precip_so_far": 1.04,
+      "precip_err": 0.34
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-01T12",
@@ -82,8 +82,8 @@
       "low_err": 2.2,
       "low_pending": false,
       "wind_bias": 2.1,
-      "precip_so_far": 0.65,
-      "precip_err": -0.04
+      "precip_so_far": 0.69,
+      "precip_err": -0.01
     },
     "GFS": {
       "init_time_utc": "2026-11-01T06",
@@ -101,8 +101,8 @@
       "low_err": -0.6,
       "low_pending": false,
       "wind_bias": 4.1,
-      "precip_so_far": 0.67,
-      "precip_err": -0.02
+      "precip_so_far": 0.72,
+      "precip_err": 0.02
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-01T12",
@@ -154,8 +154,8 @@
       "low_err": 1.4,
       "low_pending": false,
       "wind_bias": 2.1,
-      "precip_so_far": 0.9,
-      "precip_err": 0.21
+      "precip_so_far": 0.97,
+      "precip_err": 0.27
     },
     "GEFS": {
       "init_time_utc": "2026-11-01T12",
@@ -173,10 +173,10 @@
       "low_err": 0.6,
       "low_pending": false,
       "wind_bias": 4.8,
-      "precip_so_far": 0.4,
-      "precip_err": -0.29
+      "precip_so_far": 0.44,
+      "precip_err": -0.26
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-11-02T20:15:09+00:00"
+  "generated_at_utc": "2026-11-02T20:45:09+00:00"
 }
