@@ -1,6 +1,6 @@
 {
   "date": "2026-11-02",
-  "through_utc": "2026-11-02T20:53",
+  "through_utc": "2026-11-02T21:33",
   "obs": {
     "high": 60.08,
     "low": 57.02,
@@ -25,8 +25,8 @@
       "low_err": 0.1,
       "low_pending": false,
       "wind_bias": -3.1,
-      "precip_so_far": 0.41,
-      "precip_err": -0.11
+      "precip_so_far": 0.51,
+      "precip_err": -0.01
     },
     "RRFS": {
       "init_time_utc": "2026-11-01T18",
@@ -63,8 +63,8 @@
       "low_err": -0.3,
       "low_pending": false,
       "wind_bias": -1.6,
-      "precip_so_far": 0.43,
-      "precip_err": -0.09
+      "precip_so_far": 0.44,
+      "precip_err": -0.08
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-01T18",
@@ -82,8 +82,8 @@
       "low_err": 0.3,
       "low_pending": false,
       "wind_bias": -1.8,
-      "precip_so_far": 0.54,
-      "precip_err": 0.02
+      "precip_so_far": 0.56,
+      "precip_err": 0.04
     },
     "GFS": {
       "init_time_utc": "2026-11-01T18",
@@ -101,8 +101,8 @@
       "low_err": -0.1,
       "low_pending": false,
       "wind_bias": -0.4,
-      "precip_so_far": 0.69,
-      "precip_err": 0.17
+      "precip_so_far": 0.7,
+      "precip_err": 0.18
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-01T18",
@@ -154,8 +154,8 @@
       "low_err": -0.0,
       "low_pending": false,
       "wind_bias": 0.3,
-      "precip_so_far": 0.5,
-      "precip_err": -0.02
+      "precip_so_far": 0.54,
+      "precip_err": 0.02
     },
     "ENS": {
       "init_time_utc": "2026-11-01T12",
@@ -173,8 +173,8 @@
       "low_err": -0.2,
       "low_pending": false,
       "wind_bias": -1.9,
-      "precip_so_far": 0.6,
-      "precip_err": 0.08
+      "precip_so_far": 0.62,
+      "precip_err": 0.1
     },
     "GEFS": {
       "init_time_utc": "2026-11-01T18",
@@ -192,10 +192,10 @@
       "low_err": 0.3,
       "low_pending": false,
       "wind_bias": 0.3,
-      "precip_so_far": 0.41,
-      "precip_err": -0.11
+      "precip_so_far": 0.42,
+      "precip_err": -0.1
     }
   },
   "station": "KMSP",
-  "generated_at_utc": "2026-11-02T21:30:04+00:00"
+  "generated_at_utc": "2026-11-02T22:00:09+00:00"
 }
