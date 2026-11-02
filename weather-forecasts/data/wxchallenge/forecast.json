@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-02T19:00:08+00:00",
+  "generated_at_utc": "2026-11-02T19:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -71,11 +71,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 63.2,
+      "tmax_f": 64.1,
       "tmin_f": 51.7,
-      "wind_max_kt": 8.3,
-      "precip_in": 0.03,
-      "init_time_utc": "2026-11-02T06",
+      "wind_max_kt": 10.1,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-11-02T12",
       "valid_range_utc": [
         "2026-11-03T06",
         "2026-11-04T06"
@@ -842,8 +842,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.94,
-      "init_time_utc": "2026-11-02T06",
+      "precip_in": 0.26,
+      "init_time_utc": "2026-11-02T12",
       "valid_range_utc": [
         "2026-11-03T06",
         "2026-11-04T06"
@@ -853,19 +853,19 @@
       "pop": {
         "p24": 0.958,
         "blocks": {
-          "06-12": 0.495,
-          "12-18": 0.755,
-          "18-00": 0.739,
-          "00-06": 0.686
+          "06-12": 0.283,
+          "12-18": 0.483,
+          "18-00": 0.637,
+          "00-06": 0.619
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
-          "10": 0.1,
-          "25": 0.342,
-          "50": 0.935,
-          "75": 1.591,
-          "90": 2.14
+          "10": 0.073,
+          "25": 0.138,
+          "50": 0.264,
+          "75": 0.533,
+          "90": 1.038
         }
       }
     },
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-02T19:00:08+00:00",
+    "checked_at_utc": "2026-11-02T19:30:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
