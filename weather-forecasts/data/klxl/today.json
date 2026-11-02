@@ -1,12 +1,12 @@
 {
   "date": "2026-11-02",
-  "through_utc": "2026-11-02T17:35",
+  "through_utc": "2026-11-02T17:55",
   "obs": {
     "high": 59.0,
     "low": 53.6,
     "wind": 16,
-    "precip": 0.5,
-    "n_obs": 11
+    "precip": 0.52,
+    "n_obs": 12
   },
   "models": {
     "HRRR": {
@@ -26,11 +26,11 @@
       "low_pending": false,
       "wind_bias": -0.1,
       "precip_so_far": 0.01,
-      "precip_err": -0.49
+      "precip_err": -0.51
     },
     "RRFS": {
       "init_time_utc": "2026-11-01T06",
-      "n": 11,
+      "n": 12,
       "temp_bias": 0.7,
       "temp_mae": 1.4,
       "high_fcst": 61.4,
@@ -43,15 +43,15 @@
       "low_source": "daily",
       "low_err": 1.7,
       "low_pending": false,
-      "wind_bias": 1.8,
-      "precip_so_far": 0.14,
-      "precip_err": -0.36
+      "wind_bias": 2.0,
+      "precip_so_far": 0.17,
+      "precip_err": -0.35
     },
     "IFS": {
       "init_time_utc": "2026-11-01T00",
-      "n": 11,
+      "n": 12,
       "temp_bias": 0.3,
-      "temp_mae": 1.2,
+      "temp_mae": 1.1,
       "high_fcst": 61.3,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -62,14 +62,14 @@
       "low_source": "daily",
       "low_err": 0.9,
       "low_pending": false,
-      "wind_bias": 1.4,
-      "precip_so_far": 0.64,
-      "precip_err": 0.14
+      "wind_bias": 1.5,
+      "precip_so_far": 0.7,
+      "precip_err": 0.18
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-01T12",
-      "n": 11,
-      "temp_bias": 0.6,
+      "n": 12,
+      "temp_bias": 0.7,
       "temp_mae": 1.1,
       "high_fcst": 61.7,
       "high_at": "2026-11-03T04:00",
@@ -81,14 +81,14 @@
       "low_source": "daily",
       "low_err": 2.2,
       "low_pending": false,
-      "wind_bias": 1.8,
-      "precip_so_far": 0.4,
-      "precip_err": -0.1
+      "wind_bias": 1.7,
+      "precip_so_far": 0.45,
+      "precip_err": -0.07
     },
     "GFS": {
       "init_time_utc": "2026-11-01T06",
-      "n": 11,
-      "temp_bias": -1.7,
+      "n": 12,
+      "temp_bias": -1.6,
       "temp_mae": 1.8,
       "high_fcst": 60.8,
       "high_at": "2026-11-03T06:00",
@@ -100,15 +100,15 @@
       "low_source": "daily",
       "low_err": -0.6,
       "low_pending": false,
-      "wind_bias": 3.9,
-      "precip_so_far": 0.48,
-      "precip_err": -0.02
+      "wind_bias": 4.0,
+      "precip_so_far": 0.52,
+      "precip_err": -0.0
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-01T12",
-      "n": 11,
-      "temp_bias": -1.1,
-      "temp_mae": 1.3,
+      "n": 12,
+      "temp_bias": -1.0,
+      "temp_mae": 1.2,
       "high_fcst": 60.0,
       "high_at": "2026-11-03T03:00",
       "high_source": "daily",
@@ -123,9 +123,9 @@
     },
     "NBM": {
       "init_time_utc": "2026-11-01T18",
-      "n": 11,
+      "n": 12,
       "temp_bias": -0.7,
-      "temp_mae": 1.0,
+      "temp_mae": 0.9,
       "high_fcst": 59.0,
       "high_at": "2026-11-03T00:00",
       "high_source": "daily",
@@ -136,13 +136,13 @@
       "low_source": "daily",
       "low_err": -1.6,
       "low_pending": false,
-      "wind_bias": -1.2
+      "wind_bias": -1.1
     },
     "ENS": {
       "init_time_utc": "2026-11-01T06",
-      "n": 11,
+      "n": 12,
       "temp_bias": 0.2,
-      "temp_mae": 1.0,
+      "temp_mae": 0.9,
       "high_fcst": 60.7,
       "high_at": "2026-11-03T03:00",
       "high_source": "daily",
@@ -153,14 +153,14 @@
       "low_source": "daily",
       "low_err": 1.4,
       "low_pending": false,
-      "wind_bias": 1.8,
-      "precip_so_far": 0.62,
-      "precip_err": 0.12
+      "wind_bias": 1.9,
+      "precip_so_far": 0.67,
+      "precip_err": 0.15
     },
     "GEFS": {
       "init_time_utc": "2026-11-01T12",
-      "n": 11,
-      "temp_bias": -0.5,
+      "n": 12,
+      "temp_bias": -0.4,
       "temp_mae": 0.8,
       "high_fcst": 61.7,
       "high_at": "2026-11-03T04:00",
@@ -172,11 +172,11 @@
       "low_source": "daily",
       "low_err": 0.6,
       "low_pending": false,
-      "wind_bias": 4.4,
-      "precip_so_far": 0.27,
-      "precip_err": -0.23
+      "wind_bias": 4.5,
+      "precip_so_far": 0.3,
+      "precip_err": -0.22
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-11-02T17:45:08+00:00"
+  "generated_at_utc": "2026-11-02T18:15:03+00:00"
 }
