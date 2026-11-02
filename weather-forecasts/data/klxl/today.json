@@ -1,11 +1,11 @@
 {
   "date": "2026-11-02",
-  "through_utc": "2026-11-02T18:55",
+  "through_utc": "2026-11-02T19:35",
   "obs": {
     "high": 59.0,
     "low": 53.6,
     "wind": 16,
-    "precip": 0.63,
+    "precip": 0.67,
     "n_obs": 13
   },
   "models": {
@@ -26,7 +26,7 @@
       "low_pending": false,
       "wind_bias": -0.1,
       "precip_so_far": 0.01,
-      "precip_err": -0.62
+      "precip_err": -0.66
     },
     "RRFS": {
       "init_time_utc": "2026-11-01T06",
@@ -44,8 +44,8 @@
       "low_err": 1.7,
       "low_pending": false,
       "wind_bias": 2.3,
-      "precip_so_far": 0.39,
-      "precip_err": -0.24
+      "precip_so_far": 0.48,
+      "precip_err": -0.19
     },
     "IFS": {
       "init_time_utc": "2026-11-01T00",
@@ -63,8 +63,8 @@
       "low_err": 0.9,
       "low_pending": false,
       "wind_bias": 1.7,
-      "precip_so_far": 0.83,
-      "precip_err": 0.2
+      "precip_so_far": 0.91,
+      "precip_err": 0.24
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-01T12",
@@ -82,8 +82,8 @@
       "low_err": 2.2,
       "low_pending": false,
       "wind_bias": 1.9,
-      "precip_so_far": 0.56,
-      "precip_err": -0.07
+      "precip_so_far": 0.62,
+      "precip_err": -0.05
     },
     "GFS": {
       "init_time_utc": "2026-11-01T06",
@@ -101,7 +101,7 @@
       "low_err": -0.6,
       "low_pending": false,
       "wind_bias": 4.0,
-      "precip_so_far": 0.6,
+      "precip_so_far": 0.64,
       "precip_err": -0.03
     },
     "GFS_MOS": {
@@ -154,8 +154,8 @@
       "low_err": 1.4,
       "low_pending": false,
       "wind_bias": 2.0,
-      "precip_so_far": 0.79,
-      "precip_err": 0.16
+      "precip_so_far": 0.86,
+      "precip_err": 0.19
     },
     "GEFS": {
       "init_time_utc": "2026-11-01T12",
@@ -173,10 +173,10 @@
       "low_err": 0.6,
       "low_pending": false,
       "wind_bias": 4.6,
-      "precip_so_far": 0.35,
+      "precip_so_far": 0.39,
       "precip_err": -0.28
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-11-02T19:15:09+00:00"
+  "generated_at_utc": "2026-11-02T19:45:08+00:00"
 }

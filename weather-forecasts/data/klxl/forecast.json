@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-02T19:15:09+00:00",
+  "generated_at_utc": "2026-11-02T19:45:08+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 59.0,
-      "tmin_f": 51.0,
-      "wind_max_kt": 14.4,
-      "precip_in": 0.27,
-      "init_time_utc": "2026-11-02T12",
+      "tmax_f": 58.9,
+      "tmin_f": 50.5,
+      "wind_max_kt": 11.5,
+      "precip_in": 0.15,
+      "init_time_utc": "2026-11-02T18",
       "valid_range_utc": [
         "2026-11-03 06:00:00",
         "2026-11-04 06:00:00"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 59.6,
-      "tmin_f": 52.1,
-      "wind_max_kt": 11.4,
-      "precip_in": 0.28,
-      "init_time_utc": "2026-11-02T06",
+      "tmax_f": 59.4,
+      "tmin_f": 51.3,
+      "wind_max_kt": 11.6,
+      "precip_in": 0.22,
+      "init_time_utc": "2026-11-02T12",
       "valid_range_utc": [
         "2026-11-03 06:00:00",
         "2026-11-04 06:00:00"
@@ -831,8 +831,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.74,
-      "init_time_utc": "2026-11-02T06",
+      "precip_in": 0.46,
+      "init_time_utc": "2026-11-02T12",
       "valid_range_utc": [
         "2026-11-03T06",
         "2026-11-04T06"
@@ -840,29 +840,29 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.928,
+        "p24": 0.924,
         "blocks": {
-          "06-12": 0.101,
-          "12-18": 0.444,
-          "18-00": 0.804,
-          "00-06": 0.771
+          "06-12": 0.262,
+          "12-18": 0.395,
+          "18-00": 0.65,
+          "00-06": 0.743
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
-          "10": 0.032,
-          "25": 0.262,
-          "50": 0.741,
-          "75": 0.994,
-          "90": 1.895
+          "10": 0.023,
+          "25": 0.097,
+          "50": 0.462,
+          "75": 0.797,
+          "90": 1.549
         }
       }
     },
     "CONSENSUS": {
       "tmax_f": 59.1,
-      "tmin_f": 48.2,
-      "wind_max_kt": 12.4,
-      "precip_in": 0.37,
+      "tmin_f": 48.1,
+      "wind_max_kt": 12.1,
+      "precip_in": 0.34,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-02T19:15:09+00:00",
+    "checked_at_utc": "2026-11-02T19:45:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
