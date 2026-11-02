@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-02T21:45:09+00:00",
+  "generated_at_utc": "2026-11-02T22:15:10+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -98,28 +98,28 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
-      "tmax_f": 60.0,
-      "tmin_f": 48.0,
-      "wind_max_kt": 9.0,
-      "precip_in": 0.52,
-      "pop06_max_pct": 84,
+      "tmax_f": 55.0,
+      "tmin_f": 51.0,
+      "wind_max_kt": 7.0,
+      "precip_in": 0.34,
+      "pop06_max_pct": 74,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.52,
-          "12-18": 0.39,
-          "18-00": 0.45,
-          "00-06": 0.84
+          "06-12": 0.37,
+          "12-18": 0.34,
+          "18-00": 0.73,
+          "00-06": 0.74
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.84,
-          0.974
+          0.74,
+          0.971
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 1, 1, 3] -> midpoints",
-      "init_time_utc": "2026-11-02T12",
+      "precip_note": "MOS Q06 categories [0, 0, 2, 2] -> midpoints",
+      "init_time_utc": "2026-11-02T18",
       "valid_range_utc": [
         "2026-11-03T06",
         "2026-11-04T06"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-02T20",
+      "init_time_utc": "2026-11-02T21",
       "valid_range_utc": [
         "2026-11-03T06",
         "2026-11-04T06"
@@ -859,10 +859,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 59.4,
-      "tmin_f": 48.7,
-      "wind_max_kt": 12.3,
-      "precip_in": 0.41,
+      "tmax_f": 58.7,
+      "tmin_f": 49.2,
+      "wind_max_kt": 12.0,
+      "precip_in": 0.38,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-02T21:45:09+00:00",
+    "checked_at_utc": "2026-11-02T22:15:10+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
