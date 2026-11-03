@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T18:47:15+00:00",
+  "generated_at_utc": "2026-11-03T19:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -976,7 +976,7 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-11-03T18:47:15+00:00",
+    "checked_at_utc": "2026-11-03T19:00:08+00:00",
     "connectivity": false,
     "failed": [
       "NBM"
@@ -984,6 +984,6 @@
     "carried_over": [
       "NBM"
     ],
-    "message": "The update at 18:47Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
+    "message": "The update at 19:00Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
   }
 }
