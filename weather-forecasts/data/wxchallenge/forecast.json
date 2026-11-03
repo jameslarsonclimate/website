@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T19:00:08+00:00",
+  "generated_at_utc": "2026-11-03T19:09:00+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -126,36 +126,32 @@
       ]
     },
     "NBM": {
-      "tmax_f": 55.0,
-      "tmin_f": 49,
-      "wind_max_kt": 10.0,
-      "precip_in": 0.45,
-      "pop06_max_pct": 87,
+      "tmax_f": 56.0,
+      "tmin_f": 50,
+      "wind_max_kt": 12.0,
+      "precip_in": 0.74,
+      "pop06_max_pct": 93,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.87,
-          "12-18": 0.86,
-          "18-00": 0.8,
-          "00-06": 0.79
+          "06-12": 0.93,
+          "12-18": 0.77,
+          "18-00": 0.83,
+          "00-06": 0.88
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.87,
-          0.999
+          0.93,
+          1.0
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-03T11",
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-11-03T15:30:08+00:00",
-        "error": "no MOS rows"
-      }
+      ]
     },
     "USL": {
       "tmax_f": 55.0,
@@ -874,10 +870,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 57.4,
-      "tmin_f": 49.4,
-      "wind_max_kt": 16.2,
-      "precip_in": 0.64,
+      "tmax_f": 57.6,
+      "tmin_f": 49.5,
+      "wind_max_kt": 16.5,
+      "precip_in": 0.68,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -975,15 +971,10 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-03T19:00:08+00:00",
+    "ok": true,
+    "checked_at_utc": "2026-11-03T19:09:00+00:00",
     "connectivity": false,
-    "failed": [
-      "NBM"
-    ],
-    "carried_over": [
-      "NBM"
-    ],
-    "message": "The update at 19:00Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
+    "failed": [],
+    "carried_over": []
   }
 }
