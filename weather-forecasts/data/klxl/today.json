@@ -1,19 +1,19 @@
 {
   "date": "2026-11-03",
-  "through_utc": "2026-11-03T15:35",
+  "through_utc": "2026-11-03T15:55",
   "obs": {
     "high": 60.8,
     "low": 53.6,
     "wind": 14,
     "precip": 0.01,
-    "n_obs": 9
+    "n_obs": 10
   },
   "models": {
     "HRRR": {
       "init_time_utc": "2026-11-02T18",
-      "n": 9,
-      "temp_bias": 1.4,
-      "temp_mae": 2.0,
+      "n": 10,
+      "temp_bias": 1.3,
+      "temp_mae": 1.9,
       "high_fcst": 58.9,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -24,15 +24,15 @@
       "low_source": "daily",
       "low_err": -3.1,
       "low_pending": true,
-      "wind_bias": 1.9,
+      "wind_bias": 1.8,
       "precip_so_far": 0.03,
       "precip_err": 0.02
     },
     "RRFS": {
       "init_time_utc": "2026-11-02T18",
-      "n": 9,
-      "temp_bias": 1.3,
-      "temp_mae": 1.8,
+      "n": 10,
+      "temp_bias": 1.2,
+      "temp_mae": 1.7,
       "high_fcst": 59.6,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -43,15 +43,15 @@
       "low_source": "daily",
       "low_err": -0.9,
       "low_pending": true,
-      "wind_bias": 3.6,
+      "wind_bias": 3.5,
       "precip_so_far": 0.01,
       "precip_err": 0.0
     },
     "IFS": {
       "init_time_utc": "2026-11-02T12",
-      "n": 9,
-      "temp_bias": 0.3,
-      "temp_mae": 1.3,
+      "n": 10,
+      "temp_bias": 0.2,
+      "temp_mae": 1.2,
       "high_fcst": 59.4,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -62,14 +62,14 @@
       "low_source": "daily",
       "low_err": -2.3,
       "low_pending": true,
-      "wind_bias": 3.2,
+      "wind_bias": 3.0,
       "precip_so_far": 0.04,
       "precip_err": 0.03
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-02T12",
-      "n": 9,
-      "temp_bias": 0.2,
+      "n": 10,
+      "temp_bias": 0.1,
       "temp_mae": 1.3,
       "high_fcst": 59.0,
       "high_at": "2026-11-03T06:00",
@@ -87,9 +87,9 @@
     },
     "GFS": {
       "init_time_utc": "2026-11-02T18",
-      "n": 9,
-      "temp_bias": 1.8,
-      "temp_mae": 1.9,
+      "n": 10,
+      "temp_bias": 1.6,
+      "temp_mae": 1.7,
       "high_fcst": 62.1,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -106,9 +106,9 @@
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-02T18",
-      "n": 9,
+      "n": 10,
       "temp_bias": -0.1,
-      "temp_mae": 1.2,
+      "temp_mae": 1.1,
       "high_fcst": 55.0,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -119,12 +119,12 @@
       "low_source": "daily",
       "low_err": -2.6,
       "low_pending": true,
-      "wind_bias": -0.4
+      "wind_bias": -0.8
     },
     "NBM": {
       "init_time_utc": "2026-11-02T22",
-      "n": 9,
-      "temp_bias": 0.5,
+      "n": 10,
+      "temp_bias": 0.3,
       "temp_mae": 1.2,
       "high_fcst": 59.0,
       "high_at": "2026-11-03T06:00",
@@ -136,13 +136,13 @@
       "low_source": "daily",
       "low_err": -4.6,
       "low_pending": true,
-      "wind_bias": 0.7
+      "wind_bias": 0.6
     },
     "ENS": {
       "init_time_utc": "2026-11-02T12",
-      "n": 9,
-      "temp_bias": 0.5,
-      "temp_mae": 1.2,
+      "n": 10,
+      "temp_bias": 0.4,
+      "temp_mae": 1.1,
       "high_fcst": 59.5,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -153,15 +153,15 @@
       "low_source": "daily",
       "low_err": -3.2,
       "low_pending": true,
-      "wind_bias": 2.4,
+      "wind_bias": 2.2,
       "precip_so_far": 0.03,
       "precip_err": 0.02
     },
     "GEFS": {
       "init_time_utc": "2026-11-02T18",
-      "n": 9,
+      "n": 10,
       "temp_bias": 2.3,
-      "temp_mae": 2.6,
+      "temp_mae": 2.5,
       "high_fcst": 60.6,
       "high_at": "2026-11-03T06:00",
       "high_source": "daily",
@@ -172,11 +172,11 @@
       "low_source": "daily",
       "low_err": -1.8,
       "low_pending": true,
-      "wind_bias": 2.9,
+      "wind_bias": 2.8,
       "precip_so_far": 0.03,
       "precip_err": 0.02
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-11-03T15:45:08+00:00"
+  "generated_at_utc": "2026-11-03T16:15:09+00:00"
 }
