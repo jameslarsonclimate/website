@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T19:15:09+00:00",
+  "generated_at_utc": "2026-11-03T19:45:10+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 51.3,
-      "tmin_f": 47.1,
-      "wind_max_kt": 17.4,
-      "precip_in": 0.73,
-      "init_time_utc": "2026-11-03T12",
+      "tmax_f": 49.0,
+      "tmin_f": 46.6,
+      "wind_max_kt": 15.6,
+      "precip_in": 0.83,
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04 06:00:00",
         "2026-11-05 06:00:00"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 52.9,
-      "tmin_f": 47.8,
-      "wind_max_kt": 14.0,
-      "precip_in": 0.47,
-      "init_time_utc": "2026-11-03T06",
+      "tmax_f": 50.4,
+      "tmin_f": 46.8,
+      "wind_max_kt": 13.4,
+      "precip_in": 0.33,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04 06:00:00",
         "2026-11-05 06:00:00"
@@ -71,11 +71,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 53.2,
-      "tmin_f": 47.9,
-      "wind_max_kt": 13.8,
-      "precip_in": 0.43,
-      "init_time_utc": "2026-11-03T06",
+      "tmax_f": 50.5,
+      "tmin_f": 46.9,
+      "wind_max_kt": 13.6,
+      "precip_in": 0.33,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -831,8 +831,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 1.39,
-      "init_time_utc": "2026-11-03T06",
+      "precip_in": 1.21,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -840,29 +840,29 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.982,
+        "p24": 0.928,
         "blocks": {
-          "06-12": 0.896,
-          "12-18": 0.938,
-          "18-00": 0.928,
-          "00-06": 0.775
+          "06-12": 0.708,
+          "12-18": 0.913,
+          "18-00": 0.907,
+          "00-06": 0.738
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
-          "10": 0.518,
-          "25": 0.829,
-          "50": 1.391,
-          "75": 1.793,
-          "90": 2.24
+          "10": 0.498,
+          "25": 0.909,
+          "50": 1.213,
+          "75": 1.665,
+          "90": 1.934
         }
       }
     },
     "CONSENSUS": {
-      "tmax_f": 50.6,
-      "tmin_f": 45.4,
-      "wind_max_kt": 13.7,
-      "precip_in": 0.71,
+      "tmax_f": 50.0,
+      "tmin_f": 45.2,
+      "wind_max_kt": 13.4,
+      "precip_in": 0.7,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T19:15:09+00:00",
+    "checked_at_utc": "2026-11-03T19:45:10+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
