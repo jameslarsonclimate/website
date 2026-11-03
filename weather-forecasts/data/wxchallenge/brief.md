@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-11-04**, scored over 2026-11-04T06Z to 2026-11-05T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-04T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-03T14:44:05+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-03T15:00:06+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -40,7 +40,7 @@ Run = day/hour (UTC) of the model initialization.
 | ENS | 03/00Z | 56.1 | 49.0 | 11.2 | 0.71 |
 | GEFS | 03/06Z | 56.7 | 51.6 | 12.4 | 0.61 |
 | HRRRCAST (precip only) | 03/06Z | — | — | — | 0.32 |
-| REFS (precip only) | 03/06Z | — | — | — | — |
+| REFS (precip only) | 03/12Z | — | — | — | 0.64 |
 | NBM_QMD (precip only) | 03/06Z | — | — | — | 1.00 |
 | **CONSENSUS** |  | **57.5** | **49.3** | **16.0** | **0.70** |
 
@@ -48,11 +48,11 @@ Notes:
 - IFS_HRES: not in the consensus
 - GFS_MOS: MOS Q06 categories [3, 2, 2, 2] -> midpoints
 - NBM: NBS Q06 amounts
-- USL: failed this run (no USL run for 2026-11-04 available at 2026-11-03 14Z)
+- USL: failed this run (no USL run for 2026-11-04 available at 2026-11-03 15Z)
 - ENS: ensemble mean of 51 members
 - GEFS: ensemble mean of 31 members; not in the consensus
 - HRRRCAST: median of 18 members
-- REFS: failed this run (only 2 REFS members: RRFS m003 06Z KeyValueNotFoundError: Key/value not found; R)
+- REFS: median of 13 members; missing: RRFS m002 12Z
 
 GEFS and IFS_HRES (the IFS run at its native 9 km, hourly; IFS is the same run on the 0.25 deg open-data grid) are shown and scored but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) and NBM QMD are not in the consensus either; they inform the precip choice.
 
@@ -80,6 +80,7 @@ GEFS and IFS_HRES (the IFS run at its native 9 km, hourly; IFS is the same run o
 | GEFS | 31 | Wind kt | 10.2 | 11.5 | 12.4 | 13.1 | 14.3 | 12.4 |
 | GEFS | 31 | Precip in | 0.25 | 0.32 | 0.58 | 0.79 | 1.05 | 0.61 |
 | HRRRCAST | 18 | Precip in | 0.24 | 0.27 | 0.32 | 0.43 | 0.59 | 0.37 |
+| REFS | 13 | Precip in | 0.45 | 0.53 | 0.64 | 0.92 | 1.27 | 0.77 |
 
 Share of members reaching each 24-h precip amount:
 
@@ -88,6 +89,7 @@ Share of members reaching each 24-h precip amount:
 | ENS | 100% | 100% | 98% | 80% |
 | GEFS | 100% | 97% | 87% | 55% |
 | HRRRCAST | 100% | 100% | 78% | 17% |
+| REFS | 100% | 100% | 100% | 77% |
 
 NBM QMD calibrated 24-h precip percentiles: p10 0.48", p25 0.69", p50 1.00", p75 1.43", p90 1.93"
 
@@ -102,6 +104,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.48", p25 0.69", p50 1.00", p75
 | ENS | member fraction | 98% | 98% | 96% | 98% | 100% | 0.08 (28) |
 | GEFS | member fraction | 100% | 90% | 94% | 94% | 100% | 0.07 (28) |
 | HRRRCAST | member fraction | — | — | — | — | 100% | — |
+| REFS | member fraction | — | — | — | — | 100% | — |
 | NBM_QMD | NBM QMD | 93% | 77% | 83% | 88% | 100% | 0.06 (28) |
 
 For reference, always forecasting the period's observed frequency (25% of 6-h blocks wet) scores Brier 0.19.
@@ -272,7 +275,7 @@ Total cloud cover (%):
 | 11-04 07Z | Wed 01:00 | 100 | 99 |  | 95 |  |  | 91 | 99 | 96 |
 | 11-04 08Z | Wed 02:00 | 100 | 100 |  | 100 |  |  | 79 | 98 | 97 |
 | 11-04 09Z | Wed 03:00 | 100 | 100* | 100 | 100 | 100 | 100 | 85 | 97 | 98 |
-| 11-04 10Z | Wed 04:00 | 100 |  |  | 100 |  |  | 89 | 97 | 98 |
+| 11-04 10Z | Wed 04:00 | 100 | 100 |  | 100 |  |  | 89 | 97 | 98 |
 | 11-04 11Z | Wed 05:00 | 100 | 99 |  | 97 |  |  | 87 | 98 | 97 |
 | 11-04 12Z | Wed 06:00 | 100 | 99 | 97 | 97 | 100 | 100 | 87 | 99 | 97 |
 | 11-04 13Z | Wed 07:00 | 100 | 100 |  | 90 |  |  |  | 99 | 97 |
@@ -282,10 +285,10 @@ Total cloud cover (%):
 | 11-04 17Z | Wed 11:00 | 100 | 100* |  | 100 |  |  |  | 99 | 98 |
 | 11-04 18Z | Wed 12:00 | 100 | 100 | 100 | 100 | 100 | 100 | 92 | 100 | 99 |
 | 11-04 19Z | Wed 13:00 | 100 | 100 |  | 100 |  |  |  | 100 | 99 |
-| 11-04 20Z | Wed 14:00 | 100 |  |  | 100 |  |  |  | 100 | 100 |
+| 11-04 20Z | Wed 14:00 | 100 | 100 |  | 100 |  |  |  | 100 | 100 |
 | 11-04 21Z | Wed 15:00 | 100 | 100* | 100 | 100 | 100 | 100 | 92 | 100 | 100 |
 | 11-04 22Z | Wed 16:00 | 100 | 100* |  | 100 |  |  |  | 100 | 100 |
-| 11-04 23Z | Wed 17:00 | 100 |  |  | 100 |  |  |  | 100 | 100 |
+| 11-04 23Z | Wed 17:00 | 100 | 100 |  | 100 |  |  |  | 100 | 100 |
 | 11-05 00Z | Wed 18:00 | 100 | 100 | 100 | 100 | 100 | 100 | 91 | 100 | 100 |
 | 11-05 01Z | Wed 19:00 | 100 | 100* |  | 100 |  |  |  | 100 | 100 |
 | 11-05 02Z | Wed 20:00 | 100 | 100 |  | 100 |  |  |  | 100 | 100 |

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T14:44:05+00:00",
+  "generated_at_utc": "2026-11-03T15:00:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -160,7 +160,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-11-04 available at 2026-11-03 14Z"
+      "error": "no USL run for 2026-11-04 available at 2026-11-03 15Z"
     },
     "ENS": {
       "tmax_f": 56.1,
@@ -759,11 +759,80 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": "2026-11-03T06",
-      "valid_range_utc": null,
+      "precip_in": 0.64,
+      "precip_mean_in": 0.77,
+      "init_time_utc": "2026-11-03T12",
+      "valid_range_utc": [
+        "2026-11-04T06",
+        "2026-11-05T06"
+      ],
+      "note": "median of 13 members; missing: RRFS m002 12Z",
       "precip_only": true,
-      "error": "only 2 REFS members: RRFS m003 06Z KeyValueNotFoundError: Key/value not found; RRFS 06Z IndexError: list index out of range; RRFS m001 06Z KeyValueNotFoundError: Key/value not found; RRFS m004 06Z KeyValueNotFoundError: Key/value not found; RRFS m005 06Z KeyValueNotFoundError: Key/value not found; RRFS 00Z IndexError: l"
+      "pop": {
+        "p24": 1.0,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 13,
+        "basis": "member fraction"
+      },
+      "ensemble": {
+        "n_members": 13,
+        "stats": {
+          "precip_in": {
+            "mean": 0.772,
+            "std": 0.314,
+            "p0": 0.443,
+            "p10": 0.452,
+            "p25": 0.527,
+            "p50": 0.637,
+            "p75": 0.915,
+            "p90": 1.266,
+            "p100": 1.422
+          },
+          "precip_prob": {
+            "0.01": 1.0,
+            "0.10": 1.0,
+            "0.25": 1.0,
+            "0.50": 0.769
+          }
+        },
+        "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
+          "RRFS 06Z",
+          "RRFS m001 06Z",
+          "RRFS m002 06Z",
+          "RRFS m003 06Z",
+          "RRFS m004 06Z",
+          "RRFS m005 06Z",
+          "HRRR 06Z"
+        ],
+        "members": {
+          "precip_in": [
+            0.979,
+            0.608,
+            0.48,
+            0.915,
+            0.445,
+            0.637,
+            0.527,
+            0.551,
+            0.785,
+            0.443,
+            1.422,
+            0.913,
+            1.337
+          ]
+        }
+      }
     },
     "NBM_QMD": {
       "tmax_f": null,
@@ -891,10 +960,9 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T14:44:05+00:00",
+    "checked_at_utc": "2026-11-03T15:00:06+00:00",
     "connectivity": false,
     "failed": [
-      "REFS",
       "USL"
     ],
     "carried_over": []
