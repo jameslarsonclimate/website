@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T20:15:09+00:00",
+  "generated_at_utc": "2026-11-03T20:45:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 50.9,
-      "tmin_f": 48.0,
-      "wind_max_kt": 14.9,
-      "precip_in": 0.64,
-      "init_time_utc": "2026-11-03T12",
+      "tmax_f": 48.8,
+      "tmin_f": 46.3,
+      "wind_max_kt": 14.1,
+      "precip_in": 0.73,
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04 06:00:00",
         "2026-11-05 06:00:00"
@@ -126,28 +126,28 @@
       ]
     },
     "NBM": {
-      "tmax_f": 50.0,
-      "tmin_f": 45.0,
+      "tmax_f": 49.0,
+      "tmin_f": 44.0,
       "wind_max_kt": 11.0,
-      "precip_in": 0.76,
-      "pop06_max_pct": 94,
+      "precip_in": 0.57,
+      "pop06_max_pct": 92,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.9,
-          "12-18": 0.94,
-          "18-00": 0.93,
+          "06-12": 0.71,
+          "12-18": 0.92,
+          "18-00": 0.91,
           "00-06": 0.87
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.94,
+          0.92,
           1.0
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-03T18",
+      "init_time_utc": "2026-11-03T19",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -750,9 +750,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.69,
-      "precip_mean_in": 0.66,
-      "init_time_utc": "2026-11-03T12",
+      "precip_in": 0.59,
+      "precip_mean_in": 0.55,
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -760,7 +760,7 @@
       "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.929,
+        "p24": 1.0,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -774,55 +774,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.66,
-            "std": 0.335,
-            "p0": 0.01,
-            "p10": 0.167,
-            "p25": 0.543,
-            "p50": 0.688,
-            "p75": 0.738,
-            "p90": 1.119,
-            "p100": 1.2
+            "mean": 0.553,
+            "std": 0.264,
+            "p0": 0.012,
+            "p10": 0.163,
+            "p25": 0.462,
+            "p50": 0.588,
+            "p75": 0.728,
+            "p90": 0.802,
+            "p100": 1.014
           },
           "precip_prob": {
-            "0.01": 0.929,
-            "0.10": 0.857,
+            "0.01": 1.0,
+            "0.10": 0.929,
             "0.25": 0.857,
-            "0.50": 0.857
+            "0.50": 0.643
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.728,
+            0.458,
+            0.308,
+            0.475,
+            0.101,
+            0.647,
+            0.831,
             0.64,
             0.536,
             0.527,
             0.736,
             0.012,
             1.014,
-            0.728,
-            0.561,
-            0.664,
-            0.711,
-            0.738,
-            0.01,
-            1.164,
-            1.2
+            0.728
           ]
         }
       }
@@ -859,10 +859,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 50.0,
-      "tmin_f": 45.2,
-      "wind_max_kt": 13.4,
-      "precip_in": 0.7,
+      "tmax_f": 49.6,
+      "tmin_f": 44.8,
+      "wind_max_kt": 13.3,
+      "precip_in": 0.69,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T20:15:09+00:00",
+    "checked_at_utc": "2026-11-03T20:45:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
