@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T21:45:06+00:00",
+  "generated_at_utc": "2026-11-03T22:45:08+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -98,28 +98,28 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
-      "tmax_f": 52.0,
+      "tmax_f": 50.0,
       "tmin_f": 46.0,
       "wind_max_kt": 9.0,
-      "precip_in": 0.76,
-      "pop06_max_pct": 95,
+      "precip_in": 0.96,
+      "pop06_max_pct": 98,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.85,
-          "12-18": 0.95,
-          "18-00": 0.82,
-          "00-06": 0.49
+          "06-12": 0.98,
+          "12-18": 0.88,
+          "18-00": 0.77,
+          "00-06": 0.65
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.95,
-          0.999
+          0.98,
+          1.0
         ]
       },
-      "precip_note": "MOS Q06 categories [2, 3, 2, 1] -> midpoints",
-      "init_time_utc": "2026-11-03T12",
+      "precip_note": "MOS Q06 categories [3, 3, 2, 1] -> midpoints",
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -130,24 +130,24 @@
       "tmin_f": 44.0,
       "wind_max_kt": 11.0,
       "precip_in": 0.57,
-      "pop06_max_pct": 94,
+      "pop06_max_pct": 91,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.71,
-          "12-18": 0.94,
+          "12-18": 0.91,
           "18-00": 0.91,
           "00-06": 0.74
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.94,
-          1.0
+          0.91,
+          0.999
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-03T20",
+      "init_time_utc": "2026-11-03T21",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -859,10 +859,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 49.6,
+      "tmax_f": 49.3,
       "tmin_f": 44.8,
       "wind_max_kt": 13.3,
-      "precip_in": 0.69,
+      "precip_in": 0.72,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T21:45:06+00:00",
+    "checked_at_utc": "2026-11-03T22:45:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
