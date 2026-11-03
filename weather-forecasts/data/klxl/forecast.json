@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T14:21:25+00:00",
+  "generated_at_utc": "2026-11-03T14:45:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -661,11 +661,90 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
+      "precip_in": 0.68,
+      "precip_mean_in": 0.71,
+      "init_time_utc": "2026-11-03T06",
+      "valid_range_utc": [
+        "2026-11-04T06",
+        "2026-11-05T06"
+      ],
+      "note": "median of 18 members",
       "precip_only": true,
-      "error": "no complete 00/06/12/18Z HRRRCast cycle covering the day yet"
+      "pop": {
+        "p24": 1.0,
+        "blocks": {
+          "06-12": null,
+          "12-18": null,
+          "18-00": null,
+          "00-06": null
+        },
+        "n_members": 18,
+        "basis": "member fraction"
+      },
+      "ensemble": {
+        "n_members": 18,
+        "stats": {
+          "precip_in": {
+            "mean": 0.712,
+            "std": 0.299,
+            "p0": 0.235,
+            "p10": 0.381,
+            "p25": 0.545,
+            "p50": 0.683,
+            "p75": 0.831,
+            "p90": 0.992,
+            "p100": 1.583
+          },
+          "precip_prob": {
+            "0.01": 1.0,
+            "0.10": 1.0,
+            "0.25": 0.944,
+            "0.50": 0.778
+          }
+        },
+        "member_names": [
+          "m00",
+          "m01",
+          "m02",
+          "m03",
+          "m04",
+          "m05",
+          "m06",
+          "m07",
+          "m08",
+          "m09",
+          "m10",
+          "m11",
+          "m12",
+          "m13",
+          "m14",
+          "m15",
+          "m16",
+          "m17"
+        ],
+        "members": {
+          "precip_in": [
+            0.984,
+            1.01,
+            0.676,
+            0.435,
+            0.843,
+            0.781,
+            0.513,
+            1.583,
+            0.881,
+            0.235,
+            0.659,
+            0.686,
+            0.68,
+            0.642,
+            0.253,
+            0.796,
+            0.464,
+            0.696
+          ]
+        }
+      }
     },
     "REFS": {
       "tmax_f": null,
@@ -744,6 +823,10 @@
             1.201
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-11-03T14:21:25+00:00",
+        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -871,12 +954,15 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-11-03T14:21:25+00:00",
+    "ok": false,
+    "checked_at_utc": "2026-11-03T14:45:09+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST"
+      "REFS"
     ],
-    "carried_over": []
+    "carried_over": [
+      "REFS"
+    ],
+    "message": "The update at 14:45Z failed for some sources; latest forecasts not pulled for REFS. Showing the last good forecasts for REFS."
   }
 }
