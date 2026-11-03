@@ -1582,8 +1582,93 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-11-02": {
+    "date": "2026-11-02",
+    "day_hours_utc": [
+     "2026-11-02T14:00",
+     "2026-11-02T22:00"
+    ],
+    "night_hours_utc": [
+     "2026-11-02T06:00",
+     "2026-11-02T13:00"
+    ],
+    "obs": {
+     "day_pct": 100.0,
+     "night_pct": 100.0,
+     "goes_day_pct": 100.0,
+     "goes_night_pct": 100.0
+    },
+    "models": {
+     "NBM": {
+      "init_time_utc": "2026-11-01T18",
+      "day_pct": 92.0,
+      "night_pct": 90.9,
+      "day_err": -8,
+      "night_err": -9
+     },
+     "RRFS": {
+      "init_time_utc": "2026-11-01T06",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "IFS": {
+      "init_time_utc": "2026-11-01T00",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-11-01T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "GFS": {
+      "init_time_utc": "2026-11-01T06",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-11-01T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "ENS": {
+      "init_time_utc": "2026-11-01T06",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "GEFS": {
+      "init_time_utc": "2026-11-01T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "HRRR": {
+      "init_time_utc": "2026-11-01T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-11-02T17:35:52+00:00"
+ "generated_at_utc": "2026-11-03T14:25:48+00:00"
 }
