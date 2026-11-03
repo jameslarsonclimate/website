@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T22:00:59+00:00",
+  "generated_at_utc": "2026-11-03T22:36:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -100,26 +100,26 @@
     "GFS_MOS": {
       "tmax_f": 57.0,
       "tmin_f": 50,
-      "wind_max_kt": 14.0,
-      "precip_in": 0.52,
-      "pop06_max_pct": 93,
+      "wind_max_kt": 12.0,
+      "precip_in": 0.32,
+      "pop06_max_pct": 73,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.93,
-          "12-18": 0.64,
-          "18-00": 0.63,
-          "00-06": 0.69
+          "06-12": 0.73,
+          "12-18": 0.51,
+          "18-00": 0.66,
+          "00-06": 0.68
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.93,
-          0.997
+          0.73,
+          0.986
         ]
       },
-      "precip_note": "MOS Q06 categories [3, 1, 1, 1] -> midpoints",
-      "init_time_utc": "2026-11-03T12",
+      "precip_note": "MOS Q06 categories [2, 1, 1, 1] -> midpoints",
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -157,8 +157,8 @@
       "tmax_f": 55.0,
       "tmin_f": 49.0,
       "wind_max_kt": 15.0,
-      "precip_in": 0.57,
-      "init_time_utc": "2026-11-03T12",
+      "precip_in": 0.45,
+      "init_time_utc": "2026-11-03T22",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -872,8 +872,8 @@
     "CONSENSUS": {
       "tmax_f": 56.4,
       "tmin_f": 49.4,
-      "wind_max_kt": 16.5,
-      "precip_in": 0.62,
+      "wind_max_kt": 16.2,
+      "precip_in": 0.57,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T22:00:59+00:00",
+    "checked_at_utc": "2026-11-03T22:36:10+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
