@@ -1,6 +1,6 @@
 {
   "date": "2026-11-03",
-  "through_utc": "2026-11-03T17:55",
+  "through_utc": "2026-11-03T18:35",
   "obs": {
     "high": 60.8,
     "low": 53.6,
@@ -44,8 +44,8 @@
       "low_err": -0.9,
       "low_pending": true,
       "wind_bias": 3.9,
-      "precip_so_far": 0.03,
-      "precip_err": 0.02
+      "precip_so_far": 0.04,
+      "precip_err": 0.03
     },
     "IFS": {
       "init_time_utc": "2026-11-02T12",
@@ -178,5 +178,5 @@
     }
   },
   "station": "KLXL",
-  "generated_at_utc": "2026-11-03T18:15:09+00:00"
+  "generated_at_utc": "2026-11-03T18:45:09+00:00"
 }
