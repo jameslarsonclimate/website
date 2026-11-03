@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T15:00:06+00:00",
+  "generated_at_utc": "2026-11-03T15:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -759,14 +759,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.64,
-      "precip_mean_in": 0.77,
+      "precip_in": 0.62,
+      "precip_mean_in": 0.73,
       "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
       ],
-      "note": "median of 13 members; missing: RRFS m002 12Z",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -776,33 +776,34 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.772,
-            "std": 0.314,
-            "p0": 0.443,
-            "p10": 0.452,
-            "p25": 0.527,
-            "p50": 0.637,
+            "mean": 0.733,
+            "std": 0.335,
+            "p0": 0.214,
+            "p10": 0.444,
+            "p25": 0.492,
+            "p50": 0.622,
             "p75": 0.915,
-            "p90": 1.266,
+            "p90": 1.23,
             "p100": 1.422
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
-            "0.25": 1.0,
-            "0.50": 0.769
+            "0.25": 0.929,
+            "0.50": 0.714
           }
         },
         "member_names": [
           "RRFS 12Z",
           "RRFS m001 12Z",
+          "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
@@ -819,6 +820,7 @@
           "precip_in": [
             0.979,
             0.608,
+            0.214,
             0.48,
             0.915,
             0.445,
@@ -960,7 +962,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T15:00:06+00:00",
+    "checked_at_utc": "2026-11-03T15:30:08+00:00",
     "connectivity": false,
     "failed": [
       "USL"
