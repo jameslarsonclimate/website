@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T14:45:09+00:00",
+  "generated_at_utc": "2026-11-03T15:15:11+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 51.0,
-      "tmin_f": 47.2,
-      "wind_max_kt": 16.1,
-      "precip_in": 0.56,
-      "init_time_utc": "2026-11-03T06",
+      "tmax_f": 50.9,
+      "tmin_f": 48.0,
+      "wind_max_kt": 14.9,
+      "precip_in": 0.64,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04 06:00:00",
         "2026-11-05 06:00:00"
@@ -750,83 +750,81 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.71,
-      "precip_mean_in": 0.73,
-      "init_time_utc": "2026-11-03T06",
+      "precip_in": 0.69,
+      "precip_mean_in": 0.66,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.923,
+        "p24": 0.929,
         "blocks": {
           "06-12": null,
           "12-18": null,
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.735,
-            "std": 0.408,
+            "mean": 0.66,
+            "std": 0.335,
             "p0": 0.01,
-            "p10": 0.229,
-            "p25": 0.509,
-            "p50": 0.711,
-            "p75": 1.164,
-            "p90": 1.201,
-            "p100": 1.388
+            "p10": 0.167,
+            "p25": 0.543,
+            "p50": 0.688,
+            "p75": 0.738,
+            "p90": 1.119,
+            "p100": 1.2
           },
           "precip_prob": {
-            "0.01": 0.923,
-            "0.10": 0.923,
-            "0.25": 0.846,
-            "0.50": 0.769
+            "0.01": 0.929,
+            "0.10": 0.857,
+            "0.25": 0.857,
+            "0.50": 0.857
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.64,
+            0.536,
+            0.527,
+            0.736,
+            0.012,
+            1.014,
+            0.728,
             0.561,
             0.664,
             0.711,
             0.738,
             0.01,
             1.164,
-            1.2,
-            0.918,
-            1.388,
-            0.278,
-            0.217,
-            0.509,
-            1.201
+            1.2
           ]
         }
-      },
-      "stale": {
-        "fetched_at_utc": "2026-11-03T14:21:25+00:00",
-        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -861,10 +859,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 50.5,
-      "tmin_f": 45.2,
-      "wind_max_kt": 13.7,
-      "precip_in": 0.68,
+      "tmax_f": 50.4,
+      "tmin_f": 45.3,
+      "wind_max_kt": 13.6,
+      "precip_in": 0.69,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -954,15 +952,10 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-03T14:45:09+00:00",
+    "ok": true,
+    "checked_at_utc": "2026-11-03T15:15:11+00:00",
     "connectivity": false,
-    "failed": [
-      "REFS"
-    ],
-    "carried_over": [
-      "REFS"
-    ],
-    "message": "The update at 14:45Z failed for some sources; latest forecasts not pulled for REFS. Showing the last good forecasts for REFS."
+    "failed": [],
+    "carried_over": []
   }
 }
