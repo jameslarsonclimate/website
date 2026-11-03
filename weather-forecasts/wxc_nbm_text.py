@@ -43,7 +43,8 @@ BLOCK_MAX = 16 * 1024                     # ... plus room for the block itself (
 STREAM_CHUNK = 1 << 20
 TIMEOUT = 60
 
-_HEADER = re.compile(r"^ ?(\S+)\s+NBM V\S+ (NB[A-Z]) GUIDANCE\s+(\d\d)/(\d\d)/(\d{4})\s+(\d\d)00 UTC", re.M)
+# the version token ("NBM V5.0 NBS") was dropped from the 13Z 3 Nov 2026 cycle on ("NBM  NBS")
+_HEADER = re.compile(r"^ ?(\S+)\s+NBM(?: V\S+)?\s+(NB[A-Z]) GUIDANCE\s+(\d\d)/(\d\d)/(\d{4})\s+(\d\d)00 UTC", re.M)
 
 
 class NotPosted(RuntimeError):
@@ -111,7 +112,7 @@ def _stream(url: str, icao: str) -> tuple:
         if r.status_code in (403, 404):
             raise NotPosted(url)
         r.raise_for_status()
-        mine = re.compile(rf"^ ?{re.escape(icao.upper())}\s+NBM V", re.M)
+        mine = re.compile(rf"^ ?{re.escape(icao.upper())}\s+NBM\b", re.M)
         buf, base = "", 0
         for chunk in r.iter_content(STREAM_CHUNK):
             buf += chunk.decode("latin-1")

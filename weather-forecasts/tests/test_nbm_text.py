@@ -53,6 +53,18 @@ def test_parse_nbh_hourly_times_and_negative_cells():
     assert df["ftime"][df["p06"].notna()].dt.hour.tolist() == [6, 12, 18]   # sparse rows stay on their hours
 
 
+def test_header_without_version():
+    """From 13Z 3 Nov 2026 the headers read "NBM  NBS GUIDANCE" (no "V5.0")."""
+    old = NBS.splitlines(keepends=True)
+    new = old[0].replace("NBM V5.0 NBS", "NBM  NBS")
+    assert new != old[0]
+    block = new + "".join(old[1:])
+    text = _other("KTOI").replace("NBM V5.0", "NBM ") + block + _other("KTPF").replace("NBM V5.0", "NBM ")
+    found, i = nt.find_block(text, "KTPA")
+    assert found == block and text[i:].startswith(" KTPA")
+    assert nt.parse_block(block).equals(nt.parse_block(NBS))
+
+
 def test_find_block_needs_the_next_header():
     text = _other("KTOI") + NBS + _other("KTPF")
     block, i = nt.find_block(text, "KTPA")
