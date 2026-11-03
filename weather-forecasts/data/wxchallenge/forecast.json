@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T20:13:44+00:00",
+  "generated_at_utc": "2026-11-03T20:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 54.9,
-      "tmin_f": 50.6,
-      "wind_max_kt": 11.2,
-      "precip_in": 0.98,
-      "init_time_utc": "2026-11-03T12",
+      "tmax_f": 53.5,
+      "tmin_f": 49.1,
+      "wind_max_kt": 10.6,
+      "precip_in": 0.73,
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -761,9 +761,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.62,
-      "precip_mean_in": 0.73,
-      "init_time_utc": "2026-11-03T12",
+      "precip_in": 0.63,
+      "precip_mean_in": 0.69,
+      "init_time_utc": "2026-11-03T18",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -785,55 +785,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.733,
-            "std": 0.335,
+            "mean": 0.693,
+            "std": 0.267,
             "p0": 0.214,
-            "p10": 0.444,
-            "p25": 0.492,
-            "p50": 0.622,
-            "p75": 0.915,
-            "p90": 1.23,
-            "p100": 1.422
+            "p10": 0.45,
+            "p25": 0.482,
+            "p50": 0.634,
+            "p75": 0.907,
+            "p90": 0.99,
+            "p100": 1.238
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
             "0.25": 0.929,
-            "0.50": 0.714
+            "0.50": 0.643
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.728,
+            0.46,
+            0.994,
+            0.632,
+            0.881,
+            1.238,
+            0.489,
             0.979,
             0.608,
             0.214,
             0.48,
             0.915,
             0.445,
-            0.637,
-            0.527,
-            0.551,
-            0.785,
-            0.443,
-            1.422,
-            0.913,
-            1.337
+            0.637
           ]
         }
       }
@@ -870,10 +870,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 56.7,
-      "tmin_f": 49.5,
+      "tmax_f": 56.5,
+      "tmin_f": 49.4,
       "wind_max_kt": 16.4,
-      "precip_in": 0.65,
+      "precip_in": 0.62,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-03T20:13:44+00:00",
+    "checked_at_utc": "2026-11-03T20:30:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
