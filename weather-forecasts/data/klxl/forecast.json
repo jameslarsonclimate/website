@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T16:45:08+00:00",
+  "generated_at_utc": "2026-11-03T17:15:10+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -86,10 +86,10 @@
     },
     "GFS": {
       "tmax_f": 49.2,
-      "tmin_f": 47.1,
-      "wind_max_kt": 14.5,
-      "precip_in": 0.75,
-      "init_time_utc": "2026-11-03T06",
+      "tmin_f": 45.8,
+      "wind_max_kt": 14.2,
+      "precip_in": 0.82,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04 06:00:00",
         "2026-11-05 06:00:00"
@@ -864,9 +864,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 50.6,
-      "tmin_f": 45.5,
+      "tmin_f": 45.3,
       "wind_max_kt": 13.4,
-      "precip_in": 0.67,
+      "precip_in": 0.68,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -957,7 +957,7 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-11-03T16:45:08+00:00",
+    "checked_at_utc": "2026-11-03T17:15:10+00:00",
     "connectivity": false,
     "failed": [
       "NBM"
@@ -965,6 +965,6 @@
     "carried_over": [
       "NBM"
     ],
-    "message": "The update at 16:45Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
+    "message": "The update at 17:15Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
   }
 }
