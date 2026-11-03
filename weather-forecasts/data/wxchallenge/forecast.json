@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T16:30:09+00:00",
+  "generated_at_utc": "2026-11-03T17:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -85,11 +85,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 54.0,
-      "tmin_f": 49.4,
-      "wind_max_kt": 8.8,
-      "precip_in": 0.51,
-      "init_time_utc": "2026-11-03T06",
+      "tmax_f": 53.9,
+      "tmin_f": 50.3,
+      "wind_max_kt": 10.1,
+      "precip_in": 0.73,
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -875,9 +875,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 57.3,
-      "tmin_f": 49.2,
-      "wind_max_kt": 16.0,
-      "precip_in": 0.63,
+      "tmin_f": 49.3,
+      "wind_max_kt": 16.2,
+      "precip_in": 0.66,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -976,7 +976,7 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-11-03T16:30:09+00:00",
+    "checked_at_utc": "2026-11-03T17:00:09+00:00",
     "connectivity": false,
     "failed": [
       "NBM"
@@ -984,6 +984,6 @@
     "carried_over": [
       "NBM"
     ],
-    "message": "The update at 16:30Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
+    "message": "The update at 17:00Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
   }
 }
