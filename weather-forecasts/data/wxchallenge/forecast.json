@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T16:00:08+00:00",
+  "generated_at_utc": "2026-11-03T16:30:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -99,27 +99,27 @@
     },
     "GFS_MOS": {
       "tmax_f": 57.0,
-      "tmin_f": 49,
-      "wind_max_kt": 13.0,
-      "precip_in": 0.88,
-      "pop06_max_pct": 90,
+      "tmin_f": 50,
+      "wind_max_kt": 14.0,
+      "precip_in": 0.52,
+      "pop06_max_pct": 93,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.9,
-          "12-18": 0.72,
-          "18-00": 0.76,
-          "00-06": 0.72
+          "06-12": 0.93,
+          "12-18": 0.64,
+          "18-00": 0.63,
+          "00-06": 0.69
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.9,
-          0.998
+          0.93,
+          0.997
         ]
       },
-      "precip_note": "MOS Q06 categories [3, 2, 2, 2] -> midpoints",
-      "init_time_utc": "2026-11-03T06",
+      "precip_note": "MOS Q06 categories [3, 1, 1, 1] -> midpoints",
+      "init_time_utc": "2026-11-03T12",
       "valid_range_utc": [
         "2026-11-04T06",
         "2026-11-05T06"
@@ -158,13 +158,15 @@
       }
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-11-04 available at 2026-11-03 16Z"
+      "tmax_f": 55.0,
+      "tmin_f": 49.0,
+      "wind_max_kt": 15.0,
+      "precip_in": 0.57,
+      "init_time_utc": "2026-11-03T12",
+      "valid_range_utc": [
+        "2026-11-04T06",
+        "2026-11-05T06"
+      ]
     },
     "ENS": {
       "tmax_f": 56.1,
@@ -872,10 +874,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 57.5,
-      "tmin_f": 49.3,
+      "tmax_f": 57.3,
+      "tmin_f": 49.2,
       "wind_max_kt": 16.0,
-      "precip_in": 0.7,
+      "precip_in": 0.63,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -886,16 +888,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.104,
-            "RRFS": 0.146,
-            "IFS": 0.119,
-            "GFS": 0.181,
-            "GFS_MOS": 0.161,
-            "NBM": 0.15,
-            "ENS": 0.139
+            "HRRR": 0.088,
+            "RRFS": 0.124,
+            "IFS": 0.101,
+            "GFS": 0.154,
+            "GFS_MOS": 0.136,
+            "NBM": 0.127,
+            "USL": 0.152,
+            "ENS": 0.118
           }
         },
         "tmin_f": {
@@ -907,16 +911,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.117,
-            "RRFS": 0.113,
-            "IFS": 0.171,
-            "GFS": 0.089,
-            "GFS_MOS": 0.102,
-            "NBM": 0.18,
-            "ENS": 0.228
+            "HRRR": 0.086,
+            "RRFS": 0.083,
+            "IFS": 0.126,
+            "GFS": 0.065,
+            "GFS_MOS": 0.075,
+            "NBM": 0.132,
+            "USL": 0.264,
+            "ENS": 0.168
           }
         },
         "wind_max_kt": {
@@ -928,16 +934,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.145,
-            "RRFS": 0.139,
-            "IFS": 0.117,
-            "GFS": 0.133,
-            "GFS_MOS": 0.183,
-            "NBM": 0.172,
-            "ENS": 0.111
+            "HRRR": 0.115,
+            "RRFS": 0.11,
+            "IFS": 0.093,
+            "GFS": 0.106,
+            "GFS_MOS": 0.145,
+            "NBM": 0.136,
+            "USL": 0.206,
+            "ENS": 0.088
           }
         },
         "precip_in": {
@@ -949,16 +957,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.144,
-            "RRFS": 0.14,
-            "IFS": 0.139,
-            "GFS": 0.145,
-            "GFS_MOS": 0.149,
-            "NBM": 0.149,
-            "ENS": 0.134
+            "HRRR": 0.127,
+            "RRFS": 0.123,
+            "IFS": 0.122,
+            "GFS": 0.127,
+            "GFS_MOS": 0.13,
+            "NBM": 0.131,
+            "USL": 0.122,
+            "ENS": 0.118
           }
         }
       }
@@ -966,15 +976,14 @@
   },
   "run_status": {
     "ok": false,
-    "checked_at_utc": "2026-11-03T16:00:08+00:00",
+    "checked_at_utc": "2026-11-03T16:30:09+00:00",
     "connectivity": false,
     "failed": [
-      "NBM",
-      "USL"
+      "NBM"
     ],
     "carried_over": [
       "NBM"
     ],
-    "message": "The update at 16:00Z failed for some sources; latest forecasts not pulled for NBM, USL. Showing the last good forecasts for NBM."
+    "message": "The update at 16:30Z failed for some sources; latest forecasts not pulled for NBM. Showing the last good forecasts for NBM."
   }
 }
