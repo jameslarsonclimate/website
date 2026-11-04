@@ -1,6 +1,6 @@
 {
   "date": "2026-11-04",
-  "through_utc": "2026-11-04T14:53",
+  "through_utc": "2026-11-04T15:13",
   "obs": {
     "high": 53.06,
     "low": 50.0,
@@ -173,8 +173,8 @@
       "low_err": -0.4,
       "low_pending": true,
       "wind_bias": 0.5,
-      "precip_so_far": 0.33,
-      "precip_err": 0.03
+      "precip_so_far": 0.34,
+      "precip_err": 0.04
     },
     "GEFS": {
       "init_time_utc": "2026-11-03T12",
@@ -192,10 +192,10 @@
       "low_err": 1.5,
       "low_pending": false,
       "wind_bias": 1.1,
-      "precip_so_far": 0.27,
-      "precip_err": -0.03
+      "precip_so_far": 0.28,
+      "precip_err": -0.02
     }
   },
   "station": "KMSP",
-  "generated_at_utc": "2026-11-04T15:02:14+00:00"
+  "generated_at_utc": "2026-11-04T15:45:47+00:00"
 }
