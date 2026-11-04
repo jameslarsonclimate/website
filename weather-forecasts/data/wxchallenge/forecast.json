@@ -971,10 +971,25 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-11-03T23:36:16+00:00",
-    "connectivity": false,
-    "failed": [],
-    "carried_over": []
+    "ok": false,
+    "checked_at_utc": "2026-11-04T15:02:14+00:00",
+    "connectivity": true,
+    "failed": [
+      "ENS",
+      "GEFS",
+      "GFS",
+      "GFS_MOS",
+      "HRRR",
+      "HRRRCAST",
+      "IFS",
+      "IFS_HRES",
+      "NBM",
+      "NBM_QMD",
+      "REFS",
+      "RRFS",
+      "USL"
+    ],
+    "carried_over": [],
+    "message": "Connectivity issues: the update at 15:02Z couldn't reach some data sources; latest forecasts not pulled for ENS, GEFS, GFS, GFS_MOS, HRRR, HRRRCAST, IFS, IFS_HRES, NBM, NBM_QMD, REFS, RRFS, USL."
   }
 }

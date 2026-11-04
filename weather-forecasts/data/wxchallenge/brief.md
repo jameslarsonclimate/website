@@ -5,6 +5,7 @@
 - Submission deadline: 2026-11-04T00Z (forecasts for a day are due at 00Z that day)
 - Generated: 2026-11-03T23:36:16+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
+- **Warning: this brief is 16 h old; the models below may be superseded.**
 
 ## How to use this brief (for AI assistants)
 
@@ -98,15 +99,15 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.37", p25 0.64", p50 1.00", p75
 
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
-| GFS_MOS | GFS MOS P06 | 73% | 51% | 66% | 68% | 73% to 99% | 0.07 (28) |
-| NBM | NBS P06 | 96% | 80% | 81% | 95% | 96% to 100% | 0.05 (28) |
-| ENS | member fraction | 100% | 96% | 96% | 98% | 100% | 0.08 (28) |
-| GEFS | member fraction | 90% | 94% | 94% | 100% | 100% | 0.07 (28) |
+| GFS_MOS | GFS MOS P06 | 73% | 51% | 66% | 68% | 73% to 99% | 0.10 (32) |
+| NBM | NBS P06 | 96% | 80% | 81% | 95% | 96% to 100% | 0.08 (32) |
+| ENS | member fraction | 100% | 96% | 96% | 98% | 100% | 0.10 (32) |
+| GEFS | member fraction | 90% | 94% | 94% | 100% | 100% | 0.09 (32) |
 | HRRRCAST | member fraction | — | — | — | — | 100% | — |
 | REFS | member fraction | — | — | — | — | 100% | — |
-| NBM_QMD | NBM QMD | 96% | 80% | 79% | 95% | 100% | 0.06 (28) |
+| NBM_QMD | NBM QMD | 96% | 80% | 79% | 95% | 100% | 0.08 (32) |
 
-For reference, always forecasting the period's observed frequency (25% of 6-h blocks wet) scores Brier 0.19.
+For reference, always forecasting the period's observed frequency (34% of 6-h blocks wet) scores Brier 0.23.
 
 ## Hourly guidance through the target day
 
@@ -302,19 +303,19 @@ Since 2026-10-12 at KMSP (forecast - observed, so negative bias = too cold / too
 
 | Model | Days | Pts/day | Bias high | Bias low | Bias wind | Bias precip | MAE high | MAE low | MAE wind | MAE precip |
 | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| CONSENSUS | 22 | 6.3 | -1.2 | +0.1 | -2.1 | +0.03 | 1.9 | 0.9 | 2.8 | 0.09 |
-| USL | 7 | 6.4 | -1.8 | +0.3 | -0.9 | +0.04 | 1.8 | 0.3 | 3.1 | 0.11 |
-| NBM | 22 | 7.8 | -1.3 | -0.3 | -4.8 | +0.00 | 2.2 | 1.1 | 4.9 | 0.07 |
-| GFS_MOS | 22 | 8.4 | -1.1 | -0.1 | -4.2 | +0.01 | 2.1 | 2.4 | 4.5 | 0.07 |
-| RRFS | 22 | 9.5 | -1.5 | -0.6 | -6.1 | +0.03 | 2.3 | 2.1 | 6.1 | 0.10 |
-| HRRR | 22 | 9.9 | -3.3 | -0.9 | -5.9 | +0.02 | 3.5 | 2.0 | 5.9 | 0.09 |
-| GFS | 22 | 10.0 | -1.0 | +2.7 | -6.4 | +0.03 | 1.8 | 2.8 | 6.4 | 0.09 |
-| ENS | 7 | 10.5 | -2.1 | +0.3 | -7.8 | +0.07 | 2.4 | 0.8 | 7.8 | 0.13 |
-| IFS | 22 | 11.0 | -1.7 | +0.2 | -7.4 | +0.04 | 2.9 | 1.2 | 7.4 | 0.11 |
-| GEFS | 7 | 11.1 | -2.2 | +2.3 | -6.2 | +0.00 | 2.5 | 2.3 | 6.2 | 0.10 |
-| IFS_HRES | 22 | 11.2 | -1.4 | +0.8 | -7.1 | +0.06 | 3.1 | 1.4 | 7.1 | 0.13 |
+| CONSENSUS | 23 | 6.5 | -1.0 | +0.2 | -1.9 | -0.01 | 1.8 | 0.9 | 2.7 | 0.12 |
+| USL | 8 | 6.8 | -1.3 | +0.4 | -0.5 | -0.03 | 1.7 | 0.4 | 2.9 | 0.16 |
+| NBM | 23 | 8.0 | -1.2 | -0.2 | -4.7 | -0.04 | 2.0 | 1.0 | 4.8 | 0.11 |
+| GFS_MOS | 23 | 8.7 | -1.0 | +0.2 | -4.3 | -0.03 | 1.9 | 2.4 | 4.6 | 0.11 |
+| RRFS | 23 | 9.4 | -1.4 | -0.1 | -5.9 | +0.03 | 2.1 | 2.4 | 5.9 | 0.10 |
+| HRRR | 23 | 10.0 | -3.0 | -0.8 | -5.7 | -0.03 | 3.2 | 1.8 | 5.7 | 0.13 |
+| GFS | 23 | 10.2 | -0.9 | +2.6 | -6.4 | -0.01 | 1.6 | 2.7 | 6.4 | 0.12 |
+| ENS | 8 | 11.0 | -2.0 | +0.4 | -7.4 | -0.03 | 2.2 | 0.8 | 7.4 | 0.20 |
+| IFS | 23 | 11.3 | -1.5 | +0.0 | -7.2 | -0.02 | 2.7 | 1.3 | 7.2 | 0.15 |
+| IFS_HRES | 23 | 11.5 | -1.3 | +0.6 | -7.0 | +0.00 | 2.8 | 1.4 | 7.0 | 0.17 |
+| GEFS | 8 | 11.5 | -1.7 | +2.4 | -5.9 | -0.08 | 2.2 | 2.4 | 5.9 | 0.17 |
 
-## Daily verification (all 22 days this period)
+## Daily verification (all 23 days this period)
 
 One row per day; "h" = hindcast day (before the first forecast day for this city). On hindcast days the CONSENSUS is reconstructed: what the current method would have submitted using only the earlier days' track record.
 
@@ -344,6 +345,7 @@ Error points (lower is better):
 | 10-31 | 17.1 | 15.3 | 15.6 | 17.1 | 14.7 | 14.6 | 10.9 | 9.6 | 10.9 | 16.2 | 10.4 | USL |
 | 11-01 | 11.4 | 9.0 | 8.0 | 8.0 | 9.0 | 7.0 | 7.0 | 5.5 | 8.9 | 9.5 | 4.5 | CONSENSUS |
 | 11-02 | 8.0 | 6.5 | 4.5 | 5.8 | 4.4 | 5.8 | 4.6 | 7.3 | 6.5 | 2.8 | 5.1 | GEFS |
+| 11-03 | 12.4 | 6.5 | 17.6 | 17.8 | 14.2 | 14.4 | 11.8 | 9.6 | 14.3 | 14.9 | 9.9 | RRFS |
 
 High °F: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
@@ -371,6 +373,7 @@ High °F: observed (~ = still preliminary) and each model's error (forecast - ob
 | 10-31 | 59 | -2 | +1 | +2 | +3 | +0 | +1 | +0 | -1 | +1 | +1 | +1 |
 | 11-01 | 71 | -5 | -2 | -3 | -3 | -2 | -3 | -3 | -3 | -4 | -4 | -2 |
 | 11-02 | 66 | -4 | -2 | -2 | -2 | -1 | -1 | -1 | -3 | -2 | -1 | -1 |
+| 11-03 | 64 | +0 | +0 | +0 | +0 | +0 | +0 | +0 | +1 | -1 | +1 | +1 |
 
 Low °F: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
@@ -398,6 +401,7 @@ Low °F: observed (~ = still preliminary) and each model's error (forecast - obs
 | 10-31 | 47 | +3 | +3 | +1 | +2 | +5 | -2 | -1 | +1 | +1 | +4 | +1 |
 | 11-01 | 53 | +2 | +2 | +0 | +0 | +3 | -1 | +0 | +1 | +0 | +2 | +1 |
 | 11-02 | 57 | +0 | +0 | +0 | +0 | +0 | -2 | -2 | +0 | +0 | +0 | -1 |
+| 11-03 | 53 | +0 | +5 | -2 | -1 | +2 | +3 | +0 | +1 | +1 | +3 | +1 |
 
 Wind kt: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
@@ -425,6 +429,7 @@ Wind kt: observed (~ = still preliminary) and each model's error (forecast - obs
 | 10-31 | 13 | -6 | -6 | -7 | -6 | -6 | -5 | -4 | -1 | -6 | -5 | -1 |
 | 11-01 | 17 | -8 | -10 | -10 | -10 | -8 | -6 | -8 | -3 | -9 | -7 | -3 |
 | 11-02 | 19 | -5 | -3 | -5 | -4 | -3 | +1 | -1 | +6 | -5 | -2 | +3 |
+| 11-03 | 15 | -4 | -3 | -5 | -5 | -6 | -5 | -4 | +2 | -5 | -4 | +1 |
 
 Precip in: observed (~ = still preliminary) and each model's error (forecast - observed, as submitted):
 
@@ -452,6 +457,7 @@ Precip in: observed (~ = still preliminary) and each model's error (forecast - o
 | 10-31 | 0.28 | -0.28 | -0.26 | -0.28 | -0.28 | -0.22 | -0.28 | -0.25 | -0.23 | -0.20 | -0.27 | -0.25 |
 | 11-01 | 0.00 | +0.01 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.00 | +0.01 | +0.00 | +0.00 |
 | 11-02 | 0.56 | +0.15 | +0.30 | +0.00 | +0.18 | +0.19 | +0.23 | +0.11 | +0.13 | +0.20 | -0.07 | +0.16 |
+| 11-03 | 0.74 | -0.59 | +0.00 | -0.67 | -0.70 | -0.55 | -0.54 | -0.57 | -0.45 | -0.57 | -0.54 | -0.49 |
 
 ## Clouds (context only, not scored)
 
@@ -459,16 +465,16 @@ Each scored run's total cloud cover vs the observed cloud cover, in percentage p
 
 | Model | Days | Night bias | Night MAE | Day bias | Day MAE |
 | --- | --: | --: | --: | --: | --: |
-| HRRR | 21 | +12 | 13 | +7 | 7 |
-| RRFS | 22 | +4 | 7 | +4 | 11 |
-| IFS | 22 | +0 | 16 | -1 | 7 |
-| IFS_HRES | 22 | +0 | 17 | -1 | 6 |
-| GFS | 22 | +4 | 17 | +3 | 9 |
-| GFS_MOS | 22 | -2 | 5 | +3 | 11 |
-| NBM | 22 | -4 | 13 | -9 | 12 |
-| USL | 7 | +7 | 18 | +3 | 7 |
-| ENS | 7 | -5 | 18 | -7 | 8 |
-| GEFS | 7 | -3 | 16 | +0 | 7 |
+| HRRR | 22 | +11 | 12 | +6 | 6 |
+| RRFS | 23 | +4 | 7 | +4 | 10 |
+| IFS | 23 | +0 | 15 | +0 | 6 |
+| IFS_HRES | 23 | +0 | 15 | -1 | 6 |
+| GFS | 23 | +4 | 15 | +2 | 8 |
+| GFS_MOS | 23 | -2 | 4 | +3 | 10 |
+| NBM | 23 | -4 | 13 | -9 | 12 |
+| USL | 8 | +6 | 15 | +2 | 6 |
+| ENS | 8 | -4 | 16 | -6 | 7 |
+| GEFS | 8 | -3 | 14 | +0 | 6 |
 
 Night clouds: observed and each model's error (forecast - observed, percentage points):
 
@@ -496,6 +502,7 @@ Night clouds: observed and each model's error (forecast - observed, percentage p
 | 10-31 | 100% | 100% | +0 | -1 | -3 | -2 | +0 | +0 | -13 | -6 | -4 | -6 |
 | 11-01 | 88% | 99% | — | +10 | +12 | +8 | +12 | +12 | -7 | +12 | +8 | +11 |
 | 11-02 | 100% | 100% | +0 | -1 | +0 | +0 | +0 | +0 | -13 | +0 | +0 | +0 |
+| 11-03 | 100% | 100% | +0 | -1 | +0 | +0 | +0 | +0 | -12 | +0 | -2 | -6 |
 
 Day clouds: observed and each model's error (forecast - observed, percentage points):
 
@@ -523,6 +530,7 @@ Day clouds: observed and each model's error (forecast - observed, percentage poi
 | 10-31 | 100% | 100% | +0 | -4 | -3 | -4 | +0 | +0 | -16 | +0 | -3 | -5 |
 | 11-01 | 70% | 73% | — | -22 | +4 | +2 | +20 | +23 | -18 | +20 | +4 | +11 |
 | 11-02 | 100% | 100% | +0 | -1 | +0 | +0 | +0 | +0 | -11 | +0 | +0 | +0 |
+| 11-03 | 100% | 100% | +0 | +0 | +0 | +0 | -1 | +0 | -11 | +0 | -1 | -2 |
 
 ## Dewpoint (context only, not scored)
 
@@ -530,16 +538,16 @@ Each scored run's 2 m dewpoint vs the observed dewpoint, in °F (forecast - obse
 
 | Model | Days | Night bias | Night MAE | Day bias | Day MAE |
 | --- | --: | --: | --: | --: | --: |
-| HRRR | 21 | +1.1 | 2.1 | +1.8 | 2.1 |
-| RRFS | 22 | +0.6 | 1.7 | +1.1 | 1.3 |
-| IFS | 22 | +1.0 | 1.8 | +1.6 | 1.9 |
-| IFS_HRES | 21 | +1.3 | 1.9 | +1.7 | 2.1 |
-| GFS | 22 | -2.4 | 3.0 | -2.9 | 3.0 |
-| GFS_MOS | 22 | -0.6 | 1.9 | -0.7 | 1.9 |
-| NBM | 22 | +0.4 | 0.9 | -0.1 | 1.0 |
-| USL | 7 | +0.1 | 0.7 | -0.4 | 0.7 |
-| ENS | 7 | +0.6 | 1.2 | +1.3 | 1.3 |
-| GEFS | 7 | -3.8 | 3.8 | -3.2 | 3.2 |
+| HRRR | 22 | +1.2 | 2.1 | +1.7 | 2.0 |
+| RRFS | 23 | +0.6 | 1.6 | +1.1 | 1.2 |
+| IFS | 23 | +0.8 | 1.8 | +1.2 | 1.9 |
+| IFS_HRES | 22 | +1.1 | 1.8 | +1.3 | 2.2 |
+| GFS | 23 | -2.1 | 2.8 | -2.8 | 2.9 |
+| GFS_MOS | 23 | -0.6 | 1.7 | -0.5 | 1.8 |
+| NBM | 23 | +0.4 | 0.8 | -0.2 | 1.1 |
+| USL | 8 | +0.2 | 0.7 | -0.2 | 0.7 |
+| ENS | 8 | +0.4 | 1.1 | +0.7 | 1.4 |
+| GEFS | 8 | -3.2 | 3.2 | -2.9 | 2.9 |
 
 Night dewpoint: observed mean (°F) and each model's error (forecast - observed, °F):
 
@@ -567,6 +575,7 @@ Night dewpoint: observed mean (°F) and each model's error (forecast - observed,
 | 10-31 | 41.4 | +5.3 | +1.3 | -1.0 | -0.9 | -8.9 | -1.2 | -0.7 | -0.2 | -0.4 | -7.7 |
 | 11-01 | 53.6 | — | +1.4 | -0.7 | +0.1 | -1.6 | -3.6 | +0.1 | -0.9 | -0.5 | -1.9 |
 | 11-02 | 53.9 | +1.5 | +0.8 | +0.7 | +0.8 | -1.2 | -0.2 | +0.1 | +0.4 | +0.7 | -2.0 |
+| 11-03 | 58.7 | +1.8 | +0.7 | -1.1 | -0.6 | +0.7 | -0.7 | +0.3 | +0.8 | -0.7 | -0.1 |
 
 Day dewpoint: observed mean (°F) and each model's error (forecast - observed, °F):
 
@@ -594,6 +603,7 @@ Day dewpoint: observed mean (°F) and each model's error (forecast - observed, �
 | 10-31 | 48.2 | +2.6 | +1.5 | +0.2 | +0.6 | -3.1 | -2.1 | +1.2 | +0.4 | +1.1 | -3.6 |
 | 11-01 | 54.0 | — | +1.3 | +0.2 | +0.0 | -5.3 | -2.5 | -1.3 | -1.5 | +0.3 | -4.5 |
 | 11-02 | 56.1 | +0.8 | +0.3 | +0.2 | +0.3 | -1.0 | +0.1 | -1.0 | -0.6 | +0.3 | -1.3 |
+| 11-03 | 55.4 | +1.2 | +0.4 | -2.8 | -2.6 | -1.8 | +1.3 | -1.1 | +0.4 | -2.2 | -0.9 |
 
 ## Daily verification of precip chances
 
@@ -608,75 +618,60 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 10-31 | 0.28" (wet: 06-12) | 10/18/21/33 | 17/52/15/12 | 49/61/18/20 | 16/6/6/29 | 24h 39% | 24h 57% | 17/52/15/4 |
 | 11-01 | 0.00" (dry) | 2/8/2/0 | 7/8/4/7 | 10/10/4/8 | 3/0/3/3 | 24h 11% | 24h 7% | 3/1/0/0 |
 | 11-02 | 0.56" (wet: 12-18, 18-00, 00-06) | 16/84/91/39 | 8/100/100/78 | 72/100/100/96 | 32/100/100/97 | 24h 100% | 24h 100% | 6/100/97/61 |
+| 11-03 | 0.74" (wet: 06-12, 12-18, 18-00, 00-06) | 41/47/43/44 | 35/48/64/62 | 49/41/80/69 | 45/32/74/94 | 24h 100% | 24h 93% | 28/48/64/62 |
 
-## Today so far (2026-11-03, through 2026-11-03T23:06Z)
+## Today so far (2026-11-04, through 2026-11-04T14:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 64.4 °F, low 55.4 °F, max wind 11 kt, precip 0.55" (17 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 53.1 °F, low 50.0 °F, max wind 9 kt, precip 0.30" (9 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 02/18Z | +0.9 | 0.9 | 64 (+0) | 53 (-2) pending | -1.9 | 0.14 | -0.41 |
-| RRFS | 02/18Z | +1.3 | 1.4 | 64 (+0) | 58 (+3) | -2.3 | 0.21 | -0.34 |
-| IFS | 02/12Z | -0.1 | 0.9 | 64 (+0) | 51 (-4) pending | -2.4 | 0.05 | -0.50 |
-| IFS_HRES | 02/12Z | +0.4 | 1.0 | 64 (+0) | 52 (-4) pending | -2.3 | 0.03 | -0.52 |
-| GFS | 02/18Z | +1.4 | 1.4 | 64 (-1) | 54 (-1) pending | -2.7 | 0.06 | -0.49 |
-| GFS_MOS | 02/18Z | +2.2 | 2.3 | 64 (+0) | 56 (+1) | -1.4 | — | — |
-| NBM | 02/22Z | +0.8 | 1.0 | 64 (+0) | 53 (-2) pending | +0.4 | — | — |
-| USL | 02/22Z | +1.6 | 1.8 | 65 (+1) | 54 (-1) pending | +0.3 | 0.16 | -0.39 |
-| ENS | 02/12Z | -0.1 | 0.9 | 63 (-1) | 54 (-2) pending | -1.4 | 0.11 | -0.44 |
-| GEFS | 02/18Z | +2.2 | 2.3 | 64 (+0) | 56 (+0) | -0.4 | 0.11 | -0.44 |
+| HRRR | 03/18Z | +2.1 | 2.1 | 54 (+1) pending | 49 (-1) pending | +0.8 | 0.12 | -0.18 |
+| RRFS | 03/18Z | +1.0 | 1.0 | 54 (+0) | 49 (-1) pending | +2.3 | 0.38 | +0.08 |
+| IFS | 03/12Z | +1.4 | 1.4 | 55 (+2) pending | 50 (+0) pending | +1.6 | 0.27 | -0.03 |
+| IFS_HRES | 03/12Z | +1.6 | 1.6 | 55 (+2) pending | 50 (+0) | +1.0 | 0.41 | +0.11 |
+| GFS | 03/18Z | +1.8 | 1.8 | 53 (+0) | 50 (+0) | -1.6 | 0.32 | +0.02 |
+| GFS_MOS | 03/18Z | +2.3 | 2.3 | 57 (+4) | 50 (+0) pending | +1.0 | — | — |
+| NBM | 03/22Z | +2.1 | 2.1 | 55 (+2) pending | 50 (+0) pending | +1.8 | — | — |
+| USL | 03/22Z | +2.0 | 2.0 | 55 (+2) | 49 (-1) pending | +0.7 | 0.34 | +0.04 |
+| ENS | 03/12Z | +2.1 | 2.1 | 56 (+3) pending | 50 (+0) pending | +0.5 | 0.33 | +0.03 |
+| GEFS | 03/12Z | +3.6 | 3.6 | 56 (+2) | 52 (+2) | +1.1 | 0.27 | -0.03 |
 
-## Clouds so far today (2026-11-03, observed vs forecast)
+## Clouds so far today (2026-11-04, observed vs forecast)
 
 Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fraction within 15 km of the station (GOES-19 Clear Sky Mask, the scan nearest the top of the hour); at night it relies on infrared and often misses low stratus and fog, so trust METAR then. METAR = the station's sky cover (highest layer: FEW 19, SCT 44, BKN 75, OVC 100; automated stations see only up to 12,000 ft), from the report nearest the hour. Model columns are the runs submitted for today (* = averaged over the preceding interval). Context only, not scored.
 
 | UTC | Local (CST) | GOES | METAR | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS | GEFS |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-03 06Z | Tue 00:00 | 100 |  | 100 | 100 | 100 | 100 | 100 | 100 | 89 | 100 | 100 | 89 |
-| 11-03 07Z | Tue 01:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 88 | 100 | 99 | 90 |
-| 11-03 08Z | Tue 02:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 87 | 100 | 97 | 94 |
-| 11-03 09Z | Tue 03:00 | 100 | 100 | 100 | 95 | 100 | 100 | 100 | 100 | 91 | 100 | 96 | 97 |
-| 11-03 10Z | Tue 04:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 88 | 100 | 97 | 97 |
-| 11-03 11Z | Tue 05:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 85 | 100 | 98 | 97 |
-| 11-03 12Z | Tue 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 88 | 100 | 99 | 97 |
-| 11-03 13Z | Tue 07:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 89 | 100 | 100 | 97 |
-| 11-03 14Z | Tue 08:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 80 | 100 | 100 | 98 |
-| 11-03 15Z | Tue 09:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 87 | 100 | 100 | 99 |
-| 11-03 16Z | Tue 10:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 87 | 100 | 100 | 98 |
-| 11-03 17Z | Tue 11:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 91 | 100 | 100 | 98 |
-| 11-03 18Z | Tue 12:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 91 | 100 | 100 | 98 |
-| 11-03 19Z | Tue 13:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 91 | 100 | 99 | 98 |
-| 11-03 20Z | Tue 14:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 90 | 100 | 99 | 98 |
-| 11-03 21Z | Tue 15:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 90 | 100 | 99 | 98 |
-| 11-03 22Z | Tue 16:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 91 | 100 | 98 | 97 |
-| 11-03 23Z | Tue 17:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 90 | 100 | 98 | 96 |
+| 11-04 06Z | Wed 00:00 | 100 |  | 100 | 100 | 100 | 100 | 100 | 100 | 93 | 100 | 100 | 99 |
+| 11-04 07Z | Wed 01:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 88 | 100 | 100 | 100 |
+| 11-04 08Z | Wed 02:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 89 | 100 | 100 | 100 |
+| 11-04 09Z | Wed 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 89 | 100 | 100 | 100 |
+| 11-04 10Z | Wed 04:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 86 | 100 | 100 | 100 |
+| 11-04 11Z | Wed 05:00 | 82 | 100 | 100 | 100 |  | 100 |  |  | 85 | 100 | 99 | 99 |
+| 11-04 12Z | Wed 06:00 | 75 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 85 | 100 | 99 | 99 |
+| 11-04 13Z | Wed 07:00 | 54 | 100 | 100 | 100 |  | 100 |  |  | 85 | 100 | 99 | 99 |
+| 11-04 14Z | Wed 08:00 | 82 | 100 | 100 | 100 |  | 100 |  |  | 85 | 100 | 100 | 99 |
+| 11-04 15Z | Wed 09:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 85 | 100 | 100 | 99 |
 
-## Dewpoint so far today (2026-11-03, observed vs forecast)
+## Dewpoint so far today (2026-11-04, observed vs forecast)
 
 Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the dewpoint of the runs submitted for today. Bias so far = forecast - observed over the hours both have (positive = too moist). A model running too moist often runs its low too warm, too dry its low too cold. Context only, not scored.
 
 | UTC | Local (CST) | Obs Td | Obs RH | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS | GEFS |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-03 07Z | Tue 01:00 | 61.0 | 90 | 63.0 | 60.7 |  | 61.5 |  |  |  | 60.0 | 60.7 | 60.5 |
-| 11-03 08Z | Tue 02:00 | 61.0 | 96 | 62.6 | 60.8 |  | 59.8 |  |  |  | 60.0 | 59.2 | 59.7 |
-| 11-03 09Z | Tue 03:00 | 60.1 | 93 | 61.2 | 59.5 | 57.1 | 57.3 | 61.2 | 58.0 | 59.0 | 60.0 | 57.7 | 58.7 |
-| 11-03 10Z | Tue 04:00 | 57.0 | 93 | 60.2 | 58.7 |  | 56.3 |  |  |  | 59.0 | 56.5 | 57.7 |
-| 11-03 11Z | Tue 05:00 | 57.0 | 97 | 57.6 | 56.9 |  | 55.4 |  |  |  | 58.0 | 55.5 | 56.6 |
-| 11-03 12Z | Tue 06:00 | 55.9 | 93 | 56.2 | 56.9 | 54.4 | 54.7 | 55.6 | 57.0 | 57.0 | 58.0 | 54.6 | 55.8 |
-| 11-03 13Z | Tue 07:00 | 55.9 | 93 | 55.9 | 56.8 |  | 54.0 |  |  |  | 57.0 | 53.9 | 55.3 |
-| 11-03 14Z | Tue 08:00 | 55.9 | 96 | 55.6 | 56.1 |  | 53.9 |  |  |  | 57.0 | 53.4 | 55.0 |
-| 11-03 15Z | Tue 09:00 | 55.9 | 96 | 55.8 | 55.5 | 52.7 | 52.8 | 53.6 | 57.0 | 54.0 | 56.0 | 53.0 | 54.7 |
-| 11-03 16Z | Tue 10:00 | 55.9 | 96 | 56.1 | 55.4 |  | 52.3 |  |  |  | 56.0 | 52.9 | 54.5 |
-| 11-03 17Z | Tue 11:00 | 55.0 | 90 | 56.7 | 55.3 |  | 52.3 |  |  |  | 56.0 | 52.9 | 54.3 |
-| 11-03 18Z | Tue 12:00 | 55.0 | 90 | 57.0 | 55.2 | 52.3 | 52.2 | 53.0 | 57.0 | 54.0 | 56.0 | 52.9 | 54.1 |
-| 11-03 19Z | Tue 13:00 | 55.0 | 93 | 57.1 | 55.3 |  | 52.2 |  |  |  | 55.0 | 53.0 | 54.1 |
-| 11-03 20Z | Tue 14:00 | 55.0 | 93 | 57.2 | 55.4 |  | 52.0 |  |  |  | 55.0 | 53.1 | 54.1 |
-| 11-03 21Z | Tue 15:00 | 55.0 | 93 | 57.2 | 55.9 | 51.9 | 51.9 | 53.5 | 56.0 | 54.0 | 55.0 | 53.2 | 54.1 |
-| 11-03 22Z | Tue 16:00 | 55.0 | 97 | 56.8 | 56.6 |  | 53.5 |  |  |  | 55.0 | 53.4 | 53.9 |
-| 11-03 23Z | Tue 17:00 | 54.0 | 93 | 56.3 | 57.3 |  | 54.4 |  |  |  | 54.0 | 53.6 | 53.7 |
-| Bias so far |  |  |  | +1.3 | +0.5 | -2.7 | -1.9 | -1.0 | +0.6 | -0.8 | +0.4 | -1.8 | -0.8 |
+| 11-04 07Z | Wed 01:00 | 52.0 | 96 | 52.6 | 51.2 |  | 52.5 |  |  |  | 53.0 | 52.5 | 51.6 |
+| 11-04 08Z | Wed 02:00 | 51.1 | 97 | 52.5 | 50.7 |  | 52.3 |  |  |  | 53.0 | 52.5 | 51.8 |
+| 11-04 09Z | Wed 03:00 | 51.1 | 97 | 52.6 | 50.5 | 51.8 | 52.0 | 51.5 | 52.0 | 53.0 | 53.0 | 52.5 | 51.9 |
+| 11-04 10Z | Wed 04:00 | 50.0 | 96 | 52.7 | 50.4 |  | 51.8 |  |  |  | 53.0 | 52.5 | 52.0 |
+| 11-04 11Z | Wed 05:00 | 50.0 | 96 | 52.7 | 50.5 |  | 51.8 |  |  |  | 52.0 | 52.6 | 51.9 |
+| 11-04 12Z | Wed 06:00 | 50.0 | 96 | 52.6 | 50.5 | 51.2 | 51.7 | 51.2 | 52.0 | 53.0 | 52.0 | 52.7 | 51.8 |
+| 11-04 13Z | Wed 07:00 | 48.9 | 92 | 52.5 | 50.3 |  | 51.7 |  |  |  | 52.0 | 52.8 | 51.6 |
+| 11-04 14Z | Wed 08:00 | 48.9 | 96 | 52.4 | 50.1 |  | 51.8 |  |  |  | 51.0 | 52.9 | 51.4 |
+| 11-04 15Z | Wed 09:00 | 48.9 | 96 | 52.3 | 49.9 | 51.8 | 52.3 | 50.2 | 51.0 | 52.0 | 51.0 | 53.0 | 51.1 |
+| Bias so far |  |  |  | +2.4 | +0.4 | +1.6 | +1.9 | +1.0 | +1.7 | +2.7 | +2.1 | +2.6 | +1.6 |
 
 ## Raw data
 
