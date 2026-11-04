@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-11-05**, scored over 2026-11-05T06Z to 2026-11-06T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-05T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-04T23:33:16+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-04T23:36:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
