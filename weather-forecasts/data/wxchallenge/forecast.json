@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-04T22:12:09+00:00",
+  "generated_at_utc": "2026-11-04T22:24:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -98,28 +98,28 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
-      "tmax_f": 50.0,
-      "tmin_f": 38,
+      "tmax_f": 49.0,
+      "tmin_f": 37,
       "wind_max_kt": 16.0,
-      "precip_in": 0.05,
-      "pop06_max_pct": 40,
+      "precip_in": 0.0,
+      "pop06_max_pct": 33,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.4,
-          "12-18": 0.09,
+          "06-12": 0.33,
+          "12-18": 0.11,
           "18-00": 0.02,
           "00-06": 0.02
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.4,
-          0.476
+          0.33,
+          0.427
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-04T12",
+      "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
+      "init_time_utc": "2026-11-04T18",
       "valid_range_utc": [
         "2026-11-05T06",
         "2026-11-06T06"
@@ -870,8 +870,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 51.0,
-      "tmin_f": 37.4,
+      "tmax_f": 50.9,
+      "tmin_f": 37.3,
       "wind_max_kt": 18.3,
       "precip_in": 0.03,
       "method": {
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-04T22:12:09+00:00",
+    "checked_at_utc": "2026-11-04T22:24:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
