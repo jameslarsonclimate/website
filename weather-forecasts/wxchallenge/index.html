@@ -177,6 +177,11 @@
     #tl-scroll{overflow-x:auto;flex:1;min-width:0;-webkit-overflow-scrolling:touch;border-radius:4px}
     #tl-scroll:focus-visible{outline:2px solid var(--link);outline-offset:2px}
     #tl-chart{display:block;cursor:crosshair}
+    #tl-chart.tl-zooming{cursor:none;touch-action:none}   /* while magnifying, a drag moves the lens instead of scrolling */
+    #tl-lens{position:absolute;width:200px;height:200px;border-radius:50%;overflow:hidden;pointer-events:none;z-index:3;
+             background:var(--bg);border:2px solid var(--ink-2);box-shadow:0 4px 18px rgba(0,0,0,0.28)}
+    #tl-lens svg{display:block}
+    #tl-lens[hidden]{display:none}
     .tl-ptitle{position:absolute;font-size:0.78rem;font-weight:600;color:var(--ink-2);background:var(--bg);
                padding:0 4px;border-radius:3px;pointer-events:none;white-space:nowrap}
     #tl-card{margin-top:0.8rem;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto}
@@ -245,6 +250,7 @@
     <p class="small">Hover a day for its numbers, click to pin it (<a href="#about-timeline">how to read it</a>). Switch models on and off here:</p>
     <div id="tl-controls" role="group" aria-label="Lines shown on the timeline"></div>
     <div id="tl-nav">
+      <button type="button" class="tl-btn" id="tl-zoom" aria-pressed="false" title="Magnify the chart under the pointer (Esc to turn off)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" style="flex:none;opacity:1"><circle cx="5.8" cy="5.8" r="4.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 9l3.8 3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Magnifier</button>
       <button type="button" class="tl-btn" data-go="-1">◀ Earlier</button>
       <button type="button" class="tl-btn" data-go="today">Today</button>
       <button type="button" class="tl-btn" data-go="1">Later ▶</button>
@@ -254,6 +260,7 @@
       <div id="tl-scroll" tabindex="0" aria-label="Timeline: scroll sideways for other days">
         <svg id="tl-chart" role="img" aria-label="Forecasts and observations by hour"></svg>
       </div>
+      <div id="tl-lens" hidden aria-hidden="true"><svg id="tl-lens-svg"></svg></div>
     </div>
     <div id="tl-card"></div>
     <p class="small">Static images: <a href="../images/wxchallenge/latest.png">tomorrow's forecast</a>,

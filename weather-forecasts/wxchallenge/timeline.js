@@ -6,12 +6,15 @@
    The dewpoint and RH panels (below the cloud panel) are on unless the "Dewpoint & RH panels"
    button turns them off; RH is computed here from each temperature and dewpoint (the ensembles
    bring their own: the mean of their members' RH).
+   The "Magnifier" button turns on a round lens that follows the pointer and shows the chart
+   under it enlarged (a <use> of the chart, so it tracks the crosshair too); Esc turns it off.
    Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
   const sec = $('timeline'), ctl = $('tl-controls'), wrap = $('tl-wrap'), sc = $('tl-scroll'),
-        chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card');
+        chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card'),
+        lens = $('tl-lens'), lensSvg = $('tl-lens-svg'), zoomBtn = $('tl-zoom');
   if (!sec || !chart) return;
 
   // AIFS and AIFS_ENS left out for now (6-hourly), see GRIB_ORDER in the pipeline
@@ -71,6 +74,8 @@
   let T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
   const SC = {};
   let curH = null, pinned = null, touched = false;
+  const LENS = 200, ZOOM = 2.5;   // lens diameter (px) and magnification
+  let zoomOn = false;
 
   /* ---------- helpers ---------- */
   const pad = n => String(n).padStart(2, '0');
@@ -424,7 +429,7 @@
     chart.setAttribute('width', W);
     chart.setAttribute('height', H);
     chart.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    chart.innerHTML = o.join('');
+    chart.innerHTML = `<g id="tl-root">${o.join('')}</g>`;
     axis();
     hover();
   }
@@ -592,8 +597,35 @@
     const r = chart.getBoundingClientRect();
     return Math.max(0, Math.min(24 * ND, Math.round((ev.clientX - r.left) / DW * 24)));
   };
-  chart.addEventListener('pointermove', ev => { curH = hourAt(ev); hover(); });
-  chart.addEventListener('pointerleave', () => { curH = null; hover(); });
+  /* ---------- magnifier ---------- */
+  function lensAt(ev) {
+    if (!zoomOn || !lensSvg) return;
+    const r = chart.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+    const cx = ev.clientX - r.left, cy = ev.clientY - r.top;          // chart coordinates (1:1 with the viewBox)
+    // on a touch screen, hold the lens above the finger so the finger doesn't cover it
+    const lift = ev.pointerType === 'touch' ? LENS / 2 + 24 : 0;
+    lens.style.left = (ev.clientX - wr.left - LENS / 2 - 2) + 'px';   // 2: the lens border
+    lens.style.top = (ev.clientY - wr.top - LENS / 2 - 2 - lift) + 'px';
+    lensSvg.firstChild.setAttribute('transform',
+      `translate(${(LENS / 2 - ZOOM * cx).toFixed(1)} ${(LENS / 2 - ZOOM * cy).toFixed(1)}) scale(${ZOOM})`);
+    lens.hidden = false;
+  }
+  function setZoom(on) {
+    zoomOn = on;
+    if (zoomBtn) zoomBtn.setAttribute('aria-pressed', String(on));
+    chart.classList.toggle('tl-zooming', on);
+    if (!on && lens) lens.hidden = true;
+  }
+  if (zoomBtn && lens) {
+    lensSvg.setAttribute('width', LENS);
+    lensSvg.setAttribute('height', LENS);
+    lensSvg.innerHTML = '<use href="#tl-root"/>';
+    zoomBtn.addEventListener('click', () => setZoom(!zoomOn));
+    document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && zoomOn) setZoom(false); });
+  }
+
+  chart.addEventListener('pointermove', ev => { curH = hourAt(ev); hover(); lensAt(ev); });
+  chart.addEventListener('pointerleave', () => { curH = null; hover(); if (lens) lens.hidden = true; });
   chart.addEventListener('click', ev => {
     curH = hourAt(ev);
     const k = dayOf(curH);
