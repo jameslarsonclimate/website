@@ -74,7 +74,7 @@
   let T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
   const SC = {};
   let curH = null, pinned = null, touched = false;
-  const LENS = 200, ZOOM = 2.5;   // lens diameter (px) and magnification
+  const LENS = 250, ZOOM = 2;     // lens diameter (px) and magnification
   let zoomOn = false;
 
   /* ---------- helpers ---------- */
