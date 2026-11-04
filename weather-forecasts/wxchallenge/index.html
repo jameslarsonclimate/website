@@ -178,6 +178,8 @@
     #tl-scroll:focus-visible{outline:2px solid var(--link);outline-offset:2px}
     #tl-chart{display:block;cursor:crosshair}
     #tl-chart.tl-zooming{cursor:none;touch-action:none}   /* while magnifying, a drag moves the lens instead of scrolling */
+    #tl-zoom[aria-pressed="false"]{color:var(--ink)}   /* off is a mode, not a hidden line: no grey */
+    #tl-zoom[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #tl-lens{position:absolute;width:200px;height:200px;border-radius:50%;overflow:hidden;pointer-events:none;z-index:3;
              background:var(--bg);border:2px solid var(--ink-2);box-shadow:0 4px 18px rgba(0,0,0,0.28)}
     #tl-lens svg{display:block}
@@ -1187,7 +1189,8 @@ function renderToday(tj){
   }
 })();
 </script>
-<script src="timeline.js" defer></script>
+<!-- ?v=: bump it whenever timeline.js changes, so a browser never pairs this page with a cached older script -->
+<script src="timeline.js?v=2026-11-04b" defer></script>
 <!-- Not drawn on screen. This page fills its tables with JavaScript, so tools that fetch it
      without running scripts see only "Loading…"; this points them to the same data as text. -->
 <p class="sr-only">

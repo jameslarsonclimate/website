@@ -21,7 +21,8 @@ self.addEventListener('fetch', e => {
   e.respondWith((async () => {
     const key = url.origin + url.pathname;          // the data is fetched with ?t=...
     try {
-      const res = await fetch(e.request);
+      // revalidate with the server (GitHub Pages lets browsers reuse files for 10 min otherwise)
+      const res = await fetch(e.request.mode === 'navigate' ? e.request : new Request(e.request, { cache: 'no-cache' }));
       if (res.ok) (await caches.open(CACHE)).put(key, res.clone());
       return res;
     } catch (err) {
