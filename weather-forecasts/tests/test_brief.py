@@ -328,3 +328,61 @@ def test_write_brief_reads_timeline(tmp_path):
     assert "## Dewpoint (context only" in wxc_brief.write_brief(tmp_path).read_text()
     (tmp_path / "timeline.json").write_text(json.dumps({**_timeline(), "station": "KOLM"}))
     assert "## Dewpoint (context only" not in wxc_brief.write_brief(tmp_path).read_text()
+
+
+def _latest_fixtures():
+    """The runs out since the deadline (HRRR 18Z from 19Z, NBM 19Z only after the last report)."""
+    obs = {"station": "KTPA", "date": "2026-10-06",
+           "reports": {"times": ["2026-10-06T18:53", "2026-10-06T19:53", "2026-10-06T20:53"],
+                       "temp_f": [80.0, 79.0, 78.0], "dewpt_f": [70.0, 70.0, 70.0],
+                       "wind_kt": [5, 6, 7], "precip_in": [0.10, 0.20, 0.30]}}
+    h = [f"2026-10-06T{x}:00" for x in (19, 20, 21, 22, 23)]
+    latest = {"station": "KTPA", "target_date": "2026-10-06", "kind": "latest",
+              "generated_at_utc": "2026-10-06T21:10:00+00:00",
+              "models": {"HRRR": {"init_time_utc": "2026-10-06T18", "times": h,
+                                  "temp_f": [80, 80, 79, 77, 74], "dewpt_f": [71, 71, 71, 70, 70],
+                                  "wind_kt": [5, 5, 5, 4, 3], "precip_in": [0.0, 0.05, 0.10, 0.15, 0.15]},
+                         "NBM": {"init_time_utc": "2026-10-06T19",
+                                 "times": ["2026-10-07T00:00", "2026-10-07T03:00"],
+                                 "temp_f": [73, 72], "wind_kt": [4, 3]}}}
+    sub = {"models": {"HRRR": {"times": h[:3], "temp_f": [82, 82, 81]}}}
+    clouds = {"HRRR": {"times": h[:3], "cloud_pct": [60, 85, 90]}}
+    cloud_today = {"metar": [{"hour": h[0], "sky_pct": 44}, {"hour": h[1], "sky_pct": 75}]}
+    return obs, latest, sub, clouds, cloud_today
+
+
+def test_today_newest_runs_vs_obs():
+    obs, latest, sub, clouds, cloud_today = _latest_fixtures()
+    txt = wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW, obs_today=obs,
+                                series_today=sub, latest_today=latest, latest_clouds=clouds,
+                                cloud_today=cloud_today)
+    i = txt.index("## Newest runs vs obs so far today (2026-10-06)")
+    assert txt.index("## Today so far") < i < txt.index("## Raw data")
+    sec = txt[i:txt.index("## Raw data")]
+    assert "(HRRR, NBM; fetched 2026-10-06 21:10Z)" in sec
+    # 19-21Z compared (20:53 is the last report); submitted HRRR over the same hours ran +2.7
+    assert "| HRRR | 06/18Z | 19Z | 3 | +0.7 | 0.7 | +2.7 | +1.0 | -1.0 | +13 | 0.10 / 0.20 |" in sec
+    assert "| NBM | 06/19Z | 00Z | 0 | — | — | — | — | — | — | — |" in sec
+    # rest of the day combined with the observed high 79.0 / low 75.9 so far
+    assert "| HRRR | 06/18Z | 2 | 77.0 | 74.0 | 4.0 | 79.0 | 74.0 |" in sec
+    assert "| NBM | 06/19Z | 2 | 73.0 | 72.0 | 4.0 | 79.0 | 72.0 |" in sec
+    assert "| UTC | Local (EDT) | Obs T | Obs Td | Obs wind | HRRR T | HRRR Td | HRRR wind | NBM T | NBM Td | NBM wind |" in sec
+    assert "| 10-06 21Z | Tue 17:00 | 78.0 | 70.0 | 7 | 79.0 | 71.0 | 5 |  |  |  |" in sec
+    assert "| 10-07 00Z | Tue 20:00 |  |  |  |  |  |  | 73.0 |  | 4 |" in sec
+    assert "## Newest runs" not in wxc_brief.build_brief(_forecast(), _verif(), _today(), now=NOW,
+                                                          obs_today=obs, series_today=sub)
+
+
+def test_write_brief_reads_newest_runs(tmp_path):
+    obs, latest, sub, clouds, _ = _latest_fixtures()
+    (tmp_path / "forecast.json").write_text(json.dumps(_forecast()))
+    (tmp_path / "today.json").write_text(json.dumps(_today()))
+    (tmp_path / "timeline").mkdir()
+    (tmp_path / "series").mkdir()
+    (tmp_path / "timeline" / "KTPA_2026-10-06_obs.json").write_text(json.dumps(obs))
+    (tmp_path / "timeline" / "KTPA_2026-10-06_clouds.json").write_text(json.dumps({"latest": clouds}))
+    (tmp_path / "series" / "KTPA_2026-10-06_submitted.json").write_text(json.dumps(sub))
+    (tmp_path / "series" / "KTPA_2026-10-06_latest.json").write_text(json.dumps(latest))
+    sec = wxc_brief.write_brief(tmp_path).read_text().split("## Newest runs vs obs so far today")[1]
+    # no cloud_today.json here, so no METAR sky cover to score the clouds against
+    assert "| HRRR | 06/18Z | 19Z | 3 | +0.7 | 0.7 | +2.7 | +1.0 | -1.0 | — | 0.10 / 0.20 |" in sec

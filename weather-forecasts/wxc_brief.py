@@ -6,7 +6,8 @@ scripts sees only "Loading…". This module condenses forecast.json, verificatio
 today.json into data/wxchallenge/brief.md (a few KB): the target day's guidance, the
 consensus and its weights, ensemble spread, precip chances, each model's track record this
 period, recent days' errors, each scored run's cloud forecast vs the observed clouds
-(cloud_context.json; context only, not scored), and how today is going so far, plus the
+(cloud_context.json; context only, not scored), and how today is going so far (the submitted
+runs and the newest runs against the METARs), plus the
 scoring rules and a short method for turning it all into a forecast.
 
 The brief is not linked visibly on the page: llms.txt at the site root and a visually
@@ -121,7 +122,9 @@ def _howto():
         "0.00 is often the best entry.",
         "4. Use \"Today so far\" (the day currently in progress, not the target day) to see which "
         "models are handling the current pattern; persistent errors there often carry into the "
-        "target day.",
+        "target day. \"Newest runs vs obs so far today\" does the same for the runs out since the "
+        "deadline (e.g. the latest HRRR): check whether they have today right before leaning on "
+        "their changes for the target day.",
         "5. Think about what might be missing from the data or what would be helpful to know. Start "
         "with the cloud and dewpoint sections (too clear at night -> low too cold; too moist -> low "
         "too warm). If anything of note, suggest what to look for on the GOES or model spatial maps "
@@ -579,6 +582,22 @@ def _today_clouds(fc, cloud_today, order):
                rows, right_from=2)])
 
 
+def _nearest_hour(times, *cols, need=0):
+    """{top of the hour: (minutes away, *values)} from the report nearest each hour (within 35
+    min) among those whose column `need` is present."""
+    best = {}
+    for t, *vals in zip(times, *cols):
+        if vals[need] is None:
+            continue
+        ts = datetime.strptime(t, "%Y-%m-%dT%H:%M")
+        hour = (ts + timedelta(minutes=30)).replace(minute=0)
+        away = abs((ts - hour).total_seconds()) / 60
+        key = hour.strftime("%Y-%m-%dT%H:%M")
+        if away <= 35 and (key not in best or away < best[key][0]):
+            best[key] = (away, *vals)
+    return best
+
+
 def _today_humidity(fc, obs, sub, order):
     """Hourly dewpoint of the day in progress: the METAR nearest each hour (and its RH) against the
     runs submitted for today, with each model's mean dewpoint error so far."""
@@ -586,16 +605,8 @@ def _today_humidity(fc, obs, sub, order):
     times, td, temp = r.get("times") or [], r.get("dewpt_f") or [], r.get("temp_f") or []
     if not times or len(td) != len(times):
         return ""
-    best = {}              # top of the hour -> (minutes away, dewpoint, temperature)
-    for t, d, x in zip(times, td, temp or [None] * len(times)):
-        if d is None:
-            continue
-        ts = datetime.strptime(t, "%Y-%m-%dT%H:%M")
-        hour = (ts + timedelta(minutes=30)).replace(minute=0)
-        away = abs((ts - hour).total_seconds()) / 60
-        key = hour.strftime("%Y-%m-%dT%H:%M")
-        if away <= 35 and (key not in best or away < best[key][0]):
-            best[key] = (away, d, x)
+    # top of the hour -> (minutes away, dewpoint, temperature)
+    best = _nearest_hour(times, td, temp or [None] * len(times))
     if not best:
         return ""
     models = (sub or {}).get("models") or {}
@@ -620,6 +631,121 @@ def _today_humidity(fc, obs, sub, order):
         "low too cold. Context only, not scored.", "",
         _table(["UTC", f"Local ({_zone(hours[0], tz)})" if tz else "Local", "Obs Td", "Obs RH", *names],
                rows, right_from=2)])
+
+
+def _mean(xs):
+    return sum(xs) / len(xs) if xs else None
+
+
+def _today_latest(fc, today, obs, latest, sub, latest_clouds=None, cloud_today=None, order=()):
+    """The runs out since today's deadline (series/<ICAO>_<date>_latest.json) against the METARs
+    since each run's first valid time: how each is doing so far (next to the submitted run of
+    the same model over the same hours), what it has for the rest of the day, and hour by hour."""
+    models = {n: m for n, m in ((latest or {}).get("models") or {}).items() if m and m.get("times")}
+    if not models or not today or not today.get("date"):
+        return ""
+    names = [n for n in order if n in models] + [n for n in models if n not in order]
+    r = (obs or {}).get("reports") or {}
+    times = r.get("times") or []
+    col = lambda k: r.get(k) if r.get(k) and len(r[k]) == len(times) else [None] * len(times)
+    best = _nearest_hour(times, col("temp_f"), col("dewpt_f"), col("wind_kt")) if times else {}
+    ob = {h: dict(zip(("temp_f", "dewpt_f", "wind_kt"), v[1:])) for h, v in best.items()}
+    last_ob = times[-1] if times else None
+    day_end = (datetime.fromisoformat(today["date"]) + timedelta(days=1, hours=6)).strftime("%Y-%m-%dT%H:%M")
+    sky = {x["hour"]: x.get("sky_pct") for x in (cloud_today or {}).get("metar") or [] if x.get("hour")}
+    subm = (sub or {}).get("models") or {}
+
+    def at(m, key):
+        vals = m.get(key) or []
+        return {t: v for t, v in zip(m["times"], vals) if v is not None} if len(vals) == len(m["times"]) else {}
+
+    def bias(fcst, key, hours):
+        errs = [fcst[h] - ob[h][key] for h in hours if h in fcst and ob.get(h, {}).get(key) is not None]
+        return _mean(errs), errs
+
+    def precip_obs_since(t0):
+        """Observed precip from valid time t0 to the last report (the reports carry the day's running total)."""
+        p = col("precip_in")
+        tot = [(t, v) for t, v in zip(times, p) if v is not None]
+        if not tot:
+            return None
+        before = [v for t, v in tot if t <= t0]
+        return tot[-1][1] - (before[-1] if before else 0.0)
+
+    so_far, rest, hourly_cols = [], [], []
+    o = today.get("obs") or {}
+    for n in names:
+        m = models[n]
+        T, Td, W = at(m, "temp_f"), at(m, "dewpt_f"), at(m, "wind_kt")
+        past = [h for h in m["times"] if h in ob]          # hours with a report near them
+        tb, terr = bias(T, "temp_f", past)
+        # the submitted run of the same model over the same hours
+        st = at(subm[n], "temp_f") if (subm.get(n) or {}).get("times") else {}
+        sb, _ = bias(st, "temp_f", [h for h in past if h in T])
+        db, _ = bias(Td, "dewpt_f", past)
+        wb, _ = bias(W, "wind_kt", past)
+        c = (latest_clouds or {}).get(n) or {}
+        cf = {t: v for t, v in zip(c.get("times") or [], c.get("cloud_pct") or []) if v is not None}
+        cerr = [cf[h] - sky[h] for h in past if h in cf and sky.get(h) is not None]
+        pc = None
+        if m.get("precip_in") and len(m["precip_in"]) == len(m["times"]) and past:
+            fp = dict(zip(m["times"], m["precip_in"])).get(past[-1])
+            po = precip_obs_since(m["times"][0])
+            if fp is not None and po is not None:
+                pc = f"{fp:.2f} / {po:.2f}"
+        so_far.append([n, _hhz(m.get("init_time_utc")), m["times"][0][11:13] + "Z", len(terr),
+                       _s(tb, "t"), _f(_mean([abs(e) for e in terr]), "t"), _s(sb, "t"),
+                       _s(db, "t"), _s(wb, "w"), _s(_mean(cerr), "t", 0), pc or "—"])
+        ahead = [h for h in m["times"] if (not last_ob or h > last_ob) and h not in ob and h <= day_end]
+        tv = [T[h] for h in ahead if h in T]
+        wv = [W[h] for h in ahead if h in W]
+        hi = None if not tv else max(tv + ([o["high"]] if o.get("high") is not None else []))
+        lo = None if not tv else min(tv + ([o["low"]] if o.get("low") is not None else []))
+        rest.append([n, _hhz(m.get("init_time_utc")), len(tv), _f(max(tv), "t") if tv else "—",
+                     _f(min(tv), "t") if tv else "—", _f(max(wv), "w") if wv else "—",
+                     _f(hi, "t"), _f(lo, "t")])
+        hourly_cols.append((n, T, Td, W))
+
+    tz = _station_tz(fc)
+    start = min(models[n]["times"][0] for n in names)
+    hours = sorted({h for _, T, _, _ in hourly_cols for h in T if start <= h <= day_end}
+                   | {h for h in ob if start <= h <= day_end})
+    rows = []
+    for h in hours:
+        x = ob.get(h, {})
+        cells = [f"{h[5:10]} {h[11:13]}Z", _local(h, tz), _f(x.get("temp_f"), "t") if x.get("temp_f") is not None else "",
+                 _f(x.get("dewpt_f"), "t") if x.get("dewpt_f") is not None else "",
+                 "" if x.get("wind_kt") is None else f"{x['wind_kt']:.0f}"]
+        for _, T, Td, W in hourly_cols:
+            cells += ["" if h not in T else _f(T[h], "t"), "" if h not in Td else _f(Td[h], "t"),
+                      "" if h not in W else f"{W[h]:.0f}"]
+        rows.append(cells)
+    head = ["UTC", f"Local ({_zone(hours[0], tz)})" if tz and hours else "Local", "Obs T", "Obs Td", "Obs wind"]
+    for n, *_ in hourly_cols:
+        head += [f"{n} T", f"{n} Td", f"{n} wind"]
+    gen = (latest or {}).get("generated_at_utc") or ""
+    return "\n".join([
+        f"## Newest runs vs obs so far today ({today['date']})", "",
+        f"The runs that have come out since today's deadline ({', '.join(names)}; fetched "
+        f"{gen[:16].replace('T', ' ')}Z), against the METAR nearest each hour since each run's first "
+        "valid time. These runs are not scored for today; use them to judge whether the newest guidance "
+        "has the current pattern right before trusting what it says for the target day. A run already "
+        "a few degrees off a few hours in usually stays off. Compare its bias with the submitted run "
+        "of the same model over the same hours: if the newest run is no better, its change for the "
+        "target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last "
+        "report, so it has no hours to compare yet.", "",
+        "How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is "
+        "in percentage points against the METAR sky cover. Precip = the run's total since its first "
+        "valid time / what was observed over the same span:", "",
+        _table(["Model", "Run", "From", "Hours", "Temp bias", "Temp MAE", "Submitted run temp bias",
+                "Td bias", "Wind bias", "Cloud bias", "Precip fcst / obs"], so_far, right_from=2), "",
+        f"Rest of today (after the last report to {day_end[11:13]}Z; hourly values, so 3-hourly guidance "
+        "can miss the true extreme). Day high/low = the run's extreme for the rest of the day combined "
+        f"with the observed high {_f(o.get('high'), 't')} / low {_f(o.get('low'), 't')} °F so far:", "",
+        _table(["Model", "Run", "Hours left", "Max T", "Min T", "Max wind", "Day high", "Day low"],
+               rest, right_from=2), "",
+        "Hour by hour (°F, kt; obs blank after the last report):", "",
+        _table(head, rows, right_from=2)])
 
 
 def _links(fc):
@@ -762,14 +888,17 @@ def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime 
                 clouds: dict | None = None, series: dict | None = None,
                 cloud_series: dict | None = None, cloud_today: dict | None = None,
                 obs_today: dict | None = None, series_today: dict | None = None,
-                timeline: dict | None = None) -> str:
+                timeline: dict | None = None, latest_today: dict | None = None,
+                latest_clouds: dict | None = None) -> str:
     """clouds: this station's days from cloud_context.json ({date: {...}}), optional.
     series: the target day's hourly model series (series/<ICAO>_<date>_submitted.json), optional.
     cloud_series: the target day's model cloud cover (cloud_forecast.json), optional.
     cloud_today: the day in progress's observed (GOES, METAR) and forecast clouds (cloud_today.json).
     obs_today / series_today: the day in progress's METARs (timeline/<ICAO>_<date>_obs.json) and
     submitted runs (series/<ICAO>_<date>_submitted.json), for its dewpoint so far.
-    timeline: the page's timeline.json (the past days' dewpoints)."""
+    timeline: the page's timeline.json (the past days' dewpoints).
+    latest_today / latest_clouds: the day in progress's newest runs (series/<ICAO>_<date>_latest.json)
+    and their cloud cover (the "latest" group of timeline/<ICAO>_<date>_clouds.json)."""
     now = now or datetime.now(timezone.utc)
     order = _model_order(fc, verif)
     sections = [_header(fc, now), _howto(), _scoring(), _guidance(fc, order), _consensus(fc),
@@ -778,7 +907,9 @@ def build_brief(fc: dict, verif: dict, today: dict | None = None, now: datetime 
                 _daily(verif, order), _clouds(verif, clouds, order), _dewpoints(verif, timeline, order),
                 _pop_daily(verif, order),
                 _today(today), _today_clouds(fc, cloud_today, order),
-                _today_humidity(fc, obs_today, series_today, order), _links(fc)]
+                _today_humidity(fc, obs_today, series_today, order),
+                _today_latest(fc, today, obs_today, latest_today, series_today, latest_clouds,
+                              cloud_today, order), _links(fc)]
     return "\n\n".join(s for s in sections if s) + "\n"
 
 
@@ -810,10 +941,13 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
                         or (today and cloud_today.get("date") != today.get("date"))):
         cloud_today = None
     # the day in progress's METARs and submitted runs (its dewpoint so far)
-    obs_today = series_today = None
+    obs_today = series_today = latest_today = latest_clouds = None
     if today and today.get("date"):
         obs_today = load(f"timeline/{meta.get('station')}_{today['date']}_obs.json")
         series_today = load(f"series/{meta.get('station')}_{today['date']}_submitted.json")
+        # the runs out since today's deadline, and their cloud cover
+        latest_today = load(f"series/{meta.get('station')}_{today['date']}_latest.json")
+        latest_clouds = (load(f"timeline/{meta.get('station')}_{today['date']}_clouds.json") or {}).get("latest")
     timeline = load("timeline.json")
     if timeline and timeline.get("station") != meta.get("station"):
         timeline = None              # another city's
@@ -821,7 +955,8 @@ def write_brief(data_dir: Path = DATA, out: Path | None = None) -> Path:
     out.write_text(build_brief(fc, verif, today, clouds=clouds, series=series,
                                   cloud_series=cloud_series, cloud_today=cloud_today,
                                   obs_today=obs_today, series_today=series_today,
-                                  timeline=timeline), encoding="utf-8")
+                                  timeline=timeline, latest_today=latest_today,
+                                  latest_clouds=latest_clouds), encoding="utf-8")
     return out
 
 
