@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-04T19:31:59+00:00",
+  "generated_at_utc": "2026-11-04T19:57:14+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -33,10 +33,10 @@
   "models": {
     "HRRR": {
       "tmax_f": 49.5,
-      "tmin_f": 34.8,
+      "tmin_f": 35.3,
       "wind_max_kt": 13.1,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-11-04T12",
+      "precip_in": 0.04,
+      "init_time_utc": "2026-11-04T18",
       "valid_range_utc": [
         "2026-11-05T06",
         "2026-11-06T06"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 49.1,
-      "tmin_f": 37.9,
-      "wind_max_kt": 10.6,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-11-04T06",
+      "tmax_f": 48.7,
+      "tmin_f": 38.1,
+      "wind_max_kt": 11.2,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-11-04T12",
       "valid_range_utc": [
         "2026-11-05T06",
         "2026-11-06T06"
@@ -71,11 +71,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 49.8,
-      "tmin_f": 38.3,
-      "wind_max_kt": 10.8,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-11-04T06",
+      "tmax_f": 49.1,
+      "tmin_f": 39.3,
+      "wind_max_kt": 11.0,
+      "precip_in": 0.03,
+      "init_time_utc": "2026-11-04T12",
       "valid_range_utc": [
         "2026-11-05T06",
         "2026-11-06T06"
@@ -842,8 +842,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.05,
-      "init_time_utc": "2026-11-04T06",
+      "precip_in": 0.02,
+      "init_time_utc": "2026-11-04T12",
       "valid_range_utc": [
         "2026-11-05T06",
         "2026-11-06T06"
@@ -851,29 +851,29 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.767,
+        "p24": 0.635,
         "blocks": {
-          "06-12": 0.762,
-          "12-18": 0.014,
-          "18-00": 0.0,
+          "06-12": 0.489,
+          "12-18": 0.017,
+          "18-00": 0.006,
           "00-06": 0.0
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
           "10": 0.0,
-          "25": 0.01,
-          "50": 0.05,
-          "75": 0.104,
-          "90": 0.134
+          "25": 0.0,
+          "50": 0.024,
+          "75": 0.075,
+          "90": 0.119
         }
       }
     },
     "CONSENSUS": {
       "tmax_f": 51.0,
-      "tmin_f": 37.4,
-      "wind_max_kt": 18.4,
-      "precip_in": 0.03,
+      "tmin_f": 37.5,
+      "wind_max_kt": 18.5,
+      "precip_in": 0.04,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-04T19:31:59+00:00",
+    "checked_at_utc": "2026-11-04T19:57:14+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
