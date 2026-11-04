@@ -791,7 +791,7 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     sub = v.load_series("KTPA", date(2025, 9, 28), "submitted")
     lat = v.load_series("KTPA", date(2025, 9, 28), "latest")
     assert sub["hindcast"] and {"HRRR", "RRFS", "IFS", "GFS"} <= set(sub["models"])
-    assert set(lat["models"]) <= set(m.TODAY_LATEST) and "HRRR" in lat["models"]
+    assert set(lat["models"]) <= set(m.TODAY_LATEST_FETCH) and {"HRRR", "RRFS", "GFS"} <= set(lat["models"])
     assert v.load_series("KTPA", date(2025, 9, 29), "submitted")["models"]["IFS"]["times"][0] == "2025-09-29T06:00"
 
     # ---- second run: stored obs are reused where final, hindcasts are not repeated ----

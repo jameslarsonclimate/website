@@ -285,9 +285,11 @@ def _cloud_scores(ctx: Optional[dict]) -> Optional[dict]:
 
 def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict] = None,
           today_json: Optional[dict] = None, station_label: Optional[str] = None,
-          since: Optional[str] = None, lat: Optional[float] = None, lon: Optional[float] = None) -> Optional[dict]:
+          since: Optional[str] = None, lat: Optional[float] = None, lon: Optional[float] = None,
+          latest_models: Optional[list] = None) -> Optional[dict]:
     """The whole timeline for the page, or None without any submitted series. lat/lon add
-    each day's cloud windows; the scoreboard's cloud numbers come from cloud_context.json."""
+    each day's cloud windows; the scoreboard's cloud numbers come from cloud_context.json.
+    latest_models: the newest runs to draw for today (None: every one stored)."""
     icao = icao.upper()
     days = timeline_days(data_dir, icao, since)
     if not days:
@@ -319,6 +321,8 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
             newest = load_series(data_dir, icao, d, "latest") or {}
             latest = {}
             for name, m in (newest.get("models") or {}).items():
+                if latest_models is not None and name not in latest_models:
+                    continue
                 mm = _model(m, d)
                 if mm:
                     latest[name] = mm

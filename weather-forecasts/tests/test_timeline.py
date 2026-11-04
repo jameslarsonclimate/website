@@ -114,7 +114,8 @@ def test_build_bundle(tmp_path):
     _series(tmp_path, "2026-10-14", "submitted", {"HRRR": _hrrr("2026-10-14", "2026-10-13T18")}, hindcast=True)
     _series(tmp_path, "2026-10-15", "submitted", {"HRRR": _hrrr("2026-10-15", "2026-10-14T18"), "ENS": ens,
                                                   "GFS_MOS": mos})
-    _series(tmp_path, "2026-10-15", "latest", {"HRRR": _hrrr("2026-10-15", "2026-10-15T12", 52)})
+    _series(tmp_path, "2026-10-15", "latest", {"HRRR": _hrrr("2026-10-15", "2026-10-15T12", 52),
+                                               "RRFS": _hrrr("2026-10-15", "2026-10-15T12", 53)})
     _series(tmp_path, "2026-10-14", "latest", {"HRRR": _hrrr("2026-10-14", "2026-10-14T12")})
     _series(tmp_path, "2026-10-16", "submitted", {"HRRR": _hrrr("2026-10-16", "2026-10-15T12")})
     cl = {"model": "HRRR", "init_time_utc": "2026-10-14T18", "times": ["2026-10-15T06:00", "2026-10-15T07:00"],
@@ -163,6 +164,9 @@ def test_build_bundle(tmp_path):
     assert td["models"]["GFS_MOS"]["precip"] is None
     assert h["cloud"] == {"init": "2026-10-14T18", "h": [0], "pct": [10], "step": False}
     assert td["latest"]["HRRR"]["init"] == "2026-10-15T12" and td["latest"]["HRRR"]["cloud"]["h"] == [0]
+    assert "RRFS" in td["latest"]                 # every newest run stored, unless the list says otherwise
+    only = tl.build(tmp_path, "KOLM", NOW, verif, today, "Olympia, WA (KOLM)", latest_models=["HRRR"])
+    assert list({x["date"]: x for x in only["days"]}["2026-10-15"]["latest"]) == ["HRRR"]
     assert td["so_far"] == {"high": 52.0, "low": 41.0, "wind": 5, "precip": 0.0, "through": "2026-10-15T17:53"}
     assert td["obs"]["reports"]["h"] == [0.88, 11.88] and td["obs"]["goes"] == {"h": [1], "pct": [0]}
     assert "verif" not in td and "obs" not in days["2026-10-16"]

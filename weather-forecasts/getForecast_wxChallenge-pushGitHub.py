@@ -82,6 +82,9 @@ HINDCAST_HOUR = 23        # hindcasts use the runs available at 23Z the day befo
                           # deadline, like a real submission: includes the 22Z USL, 18Z GFS and GFS MOS)
 MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't posted yet
 TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
+# newest runs fetched for today: the figure and the page's timeline draw only TODAY_LATEST; the
+# AI brief compares all of them with the obs so far (grid models: once per cycle, cached)
+TODAY_LATEST_FETCH = TODAY_LATEST + ["RRFS", "GFS", "IFS"]
 # grid models: the GRIB_MODELS below plus IFS_HRES (IFS at 9 km, hourly, from Open-Meteo)
 # AIFS is left out for now (2026-10-28): its open data is 6-hourly, so its highs and lows run
 # low. ECMWF may make it hourly. To bring it back, uncomment it here and in GRIB_MODELS, take it
@@ -935,7 +938,8 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
     except (FileNotFoundError, json.JSONDecodeError):
         today_json = None
     bundle = wxc_timeline.build(DATA, icao, now, verif, today_json, station.label,
-                                since=(verif or {}).get("period_start"), lat=station.lat, lon=station.lon)
+                                since=(verif or {}).get("period_start"), lat=station.lat, lon=station.lon,
+                                latest_models=TODAY_LATEST)
     if bundle:
         path = wxc_timeline.write(DATA, bundle)
         print(f"  timeline: {len(bundle['days'])} days ({bundle['days'][0]['date']}..{bundle['days'][-1]['date']}) "
@@ -1102,11 +1106,11 @@ def today_figure(station, now, points, skip_grib=False):
             wxc_verify.save_series(station.icao, today, "submitted", as_of.isoformat(), ser, hindcast=True)
             sub = wxc_verify.load_series(station.icao, today, "submitted")
     print("  latest runs for the rest of today:")
-    r, m, _ = run_models(station, today, points, None, skip_grib, only=TODAY_LATEST, partial=True)
+    r, m, _ = run_models(station, today, points, None, skip_grib, only=TODAY_LATEST_FETCH, partial=True)
     ser = collect_series(r, m)
     prev = (wxc_verify.load_series(station.icao, today, "latest") or {}).get("models") or {}
     # a model that failed this time (e.g. offline) keeps its previous latest run
-    ser = {**{k: v for k, v in prev.items() if k in TODAY_LATEST}, **ser}
+    ser = {**{k: v for k, v in prev.items() if k in TODAY_LATEST_FETCH}, **ser}
     wxc_verify.save_series(station.icao, today, "latest", now.isoformat(), ser)
     lat = wxc_verify.load_series(station.icao, today, "latest")
     raw = None
@@ -1137,7 +1141,11 @@ def today_figure(station, now, points, skip_grib=False):
                 station.icao, today, c.get("submitted"), c.get("latest"), now))
     except Exception as exc:
         print(f"  warning: timeline files for today skipped ({type(exc).__name__}: {exc})")
-    wxc_today.plot_today(station, today, now, obs, sub, lat, IMAGES / "today.png", clouds=clouds)
+    # the figure draws only TODAY_LATEST's newest runs (the rest are for the AI brief)
+    lat_fig = lat and {**lat, "models": {k: v for k, v in (lat.get("models") or {}).items() if k in TODAY_LATEST}}
+    clouds_fig = clouds and {**clouds, "latest": {k: v for k, v in (clouds.get("latest") or {}).items()
+                                                  if k in TODAY_LATEST}}
+    wxc_today.plot_today(station, today, now, obs, sub, lat_fig, IMAGES / "today.png", clouds=clouds_fig)
     print(f"Wrote {IMAGES / 'today.png'}")
     bias = wxc_today.today_bias(obs, sub, today, now)
     bias.update({"station": station.icao, "generated_at_utc": now.isoformat()})
