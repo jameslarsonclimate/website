@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-04T19:45:08+00:00",
+  "generated_at_utc": "2026-11-04T20:15:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -71,18 +71,18 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 48.2,
-      "tmin_f": 33.6,
-      "wind_max_kt": 13.2,
+      "tmax_f": 47.6,
+      "tmin_f": 33.4,
+      "wind_max_kt": 13.8,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-04T06",
+      "init_time_utc": "2026-11-04T12",
       "valid_range_utc": [
         "2026-11-05T06",
         "2026-11-06T06"
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "newest run unavailable, used previous; not in the consensus"
+      "note": "not in the consensus"
     },
     "GFS": {
       "tmax_f": 46.4,
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-04T19:45:08+00:00",
+    "checked_at_utc": "2026-11-04T20:15:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
