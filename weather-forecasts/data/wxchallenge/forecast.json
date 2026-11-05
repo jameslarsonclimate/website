@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T19:30:07+00:00",
+  "generated_at_utc": "2026-11-05T19:43:30+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 37.8,
-      "tmin_f": 33.0,
-      "wind_max_kt": 6.5,
+      "tmax_f": 38.9,
+      "tmin_f": 34.7,
+      "wind_max_kt": 5.9,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-05T12",
+      "init_time_utc": "2026-11-05T18",
       "valid_range_utc": [
         "2026-11-06T06",
         "2026-11-07T06"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 45.4,
-      "tmin_f": 32.2,
-      "wind_max_kt": 4.1,
+      "tmax_f": 44.9,
+      "tmin_f": 31.2,
+      "wind_max_kt": 4.3,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-05T06",
+      "init_time_utc": "2026-11-05T12",
       "valid_range_utc": [
         "2026-11-06T06",
         "2026-11-07T06"
@@ -870,9 +870,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 46.2,
+      "tmax_f": 46.3,
       "tmin_f": 31.9,
-      "wind_max_kt": 10.1,
+      "wind_max_kt": 10.0,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -972,9 +972,133 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-05T19:30:07+00:00",
+    "checked_at_utc": "2026-11-05T19:43:30+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
+  },
+  "earlier_runs": {
+    "HRRR": {
+      "12": {
+        "tmax_f": 37.8,
+        "tmin_f": 33.0,
+        "wind_max_kt": 6.5,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      },
+      "18": {
+        "tmax_f": 38.9,
+        "tmin_f": 34.7,
+        "wind_max_kt": 5.9,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T18"
+      }
+    },
+    "RRFS": {
+      "12": {
+        "tmax_f": 42.0,
+        "tmin_f": 31.9,
+        "wind_max_kt": 6.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "REFS": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "GFS": {
+      "12": {
+        "tmax_f": 47.0,
+        "tmin_f": 34.9,
+        "wind_max_kt": 5.4,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "GFS_MOS": {
+      "12": {
+        "tmax_f": 49.0,
+        "tmin_f": 33.0,
+        "wind_max_kt": 5.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "USL": {
+      "12": {
+        "tmax_f": 47.0,
+        "tmin_f": 31.0,
+        "wind_max_kt": 10.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "GEFS": {
+      "12": {
+        "tmax_f": 47.2,
+        "tmin_f": 35.9,
+        "wind_max_kt": 5.9,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "IFS_HRES": {
+      "12": {
+        "tmax_f": 45.1,
+        "tmin_f": 31.3,
+        "wind_max_kt": 4.2,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "NBM": {
+      "18": {
+        "tmax_f": 46.0,
+        "tmin_f": 32.0,
+        "wind_max_kt": 5.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T18"
+      },
+      "12": {
+        "tmax_f": 46.0,
+        "tmin_f": 31.0,
+        "wind_max_kt": 6.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "HRRRCAST": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "NBM_QMD": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 44.9,
+        "tmin_f": 31.2,
+        "wind_max_kt": 4.3,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-05T12"
+      }
+    }
   }
 }

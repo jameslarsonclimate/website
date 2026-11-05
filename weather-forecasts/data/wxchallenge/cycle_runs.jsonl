@@ -161,3 +161,4 @@
 {"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-13","model":"USL","init_time_utc":"2026-10-12T22","error":"no USL run for 2026-10-13 available at 2026-10-12 22Z"}
 {"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T12","error":"no USL run for 2026-10-12 available at 2026-10-11 12Z"}
 {"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T22","error":"no USL run for 2026-10-12 available at 2026-10-11 22Z"}
+{"fetched_at_utc":"2026-11-05T19:43:30+00:00","station":"KMSP","target_date":"2026-11-06","model":"NBM","init_time_utc":"2026-11-05T12","tmax_f":46.0,"tmin_f":31.0,"wind_max_kt":6.0,"precip_in":0.0}
