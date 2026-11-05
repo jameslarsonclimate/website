@@ -484,6 +484,156 @@ def verify(station: str, start: Optional[str] = None, end: Optional[str] = None)
             "days": days, "summary": model_stats(days)}
 
 
+# ----------------------------------------------------------------------------
+# per-cycle scores (DISPLAY ONLY: the page's "12Z / 18Z runs" toggle)
+# ----------------------------------------------------------------------------
+# The scoreboard normally scores each model's last run before the 00Z deadline. With the page's
+# toggle on, each model instead gets a row per cycle below: its run initialized at that hour
+# (UTC) on the day before the forecast day, scored on its own. "sub" is a row for the submitted
+# run itself, for NBM (hourly), whose submitted run (~22Z) is neither 12Z nor 18Z. IFS, IFS HRES
+# and ENS have no 18Z row: their 18Z runs come out after the deadline. These scores never enter
+# "models", the summary or the consensus.
+CYCLES = {"HRRR": [12, 18], "RRFS": [12, 18], "GFS": [12, 18], "GFS_MOS": [12, 18],
+          "GEFS": [12, 18], "IFS": [12], "IFS_HRES": [12], "ENS": [12],
+          "NBM": [12, 18, "sub"], "USL": [12, 22]}
+# runs fetched after the fact for the toggle (wxc pipeline cycle_backfill), kept apart from
+# runs.jsonl so they can never change what was scored as submitted
+CYCLE_RUNS = DATA / "cycle_runs.jsonl"
+CYCLE_MAX_ATTEMPTS = 2       # a cycle that failed this often (not just offline) is given up on
+
+
+def cycle_hours(name: str) -> list:
+    return [h for h in CYCLES.get(name, []) if isinstance(h, int)]
+
+
+def _cycle_init(day: str, hour: int) -> datetime:
+    """Naive UTC init time of the `hour` cycle on the day before forecast day `day`."""
+    return datetime.fromisoformat(day) - timedelta(days=1) + timedelta(hours=hour)
+
+
+def cycle_forecasts(runs: list, cycle_rows: list, station: str, day: str) -> dict:
+    """{model: {hour: forecast}} for day: per CYCLES hour, the forecast from the run initialized
+    then on the day before. From the pre-deadline runs in runs.jsonl (live preferred over a
+    hindcast; the last such row wins), else from cycle_runs.jsonl."""
+    out, live = {}, {}
+    for r in _before_deadline(runs, station, day):
+        hind = bool(r.get("hindcast"))
+        for name, fc in r["models"].items():
+            hrs = cycle_hours(name)
+            t = _init_time(fc)
+            if not hrs or t is None or not all(fc.get(v) is not None for v in VARS):
+                continue
+            for h in hrs:
+                if t == _cycle_init(day, h) and not (hind and live.get((name, h))):
+                    out.setdefault(name, {})[h] = fc
+                    live[(name, h)] = not hind
+    for r in cycle_rows:
+        if r.get("station") != station or r.get("target_date") != day or r.get("error"):
+            continue
+        name, t = r.get("model"), _init_time(r)
+        if t is None or not all(r.get(v) is not None for v in VARS):
+            continue
+        for h in cycle_hours(name):
+            if t == _cycle_init(day, h):
+                out.setdefault(name, {}).setdefault(h, {k: r.get(k) for k in VARS + ["init_time_utc"]})
+    return out
+
+
+def _cycle_score(fc: dict, ob: dict) -> Optional[dict]:
+    s = score_day(fc, ob)
+    if s:
+        s["run"] = fc.get("init_time_utc")
+    return s
+
+
+def cycle_scores_for_day(runs: list, cycle_rows: list, station: str, day: str, ob: dict) -> dict:
+    """{model: {"12": score, ...}} (string hours, as in the JSON) for one day."""
+    out = {}
+    for name, by_h in cycle_forecasts(runs, cycle_rows, station, day).items():
+        for h, fc in sorted(by_h.items()):
+            s = _cycle_score(fc, ob)
+            if s:
+                out.setdefault(name, {})[str(h)] = s
+    return out
+
+
+def attach_cycles(res: dict, runs: Optional[list] = None, cycle_rows: Optional[list] = None) -> dict:
+    """Add the per-cycle scores to a verification result (in place): days[i]["cycles"], the
+    provisional today["cycles"], "cycle_summary" ({"GFS|12": model_stats entry}, over the
+    same day weights as the main summary) and "cycles_def" (the rows the page shows)."""
+    runs = read_runs() if runs is None else runs
+    cycle_rows = read_jsonl(CYCLE_RUNS) if cycle_rows is None else cycle_rows
+    st = res["station"]
+    pseudo = []
+    for d in res.get("days") or []:
+        if not d.get("models"):
+            continue
+        d["cycles"] = cycle_scores_for_day(runs, cycle_rows, st, d["date"], d["obs"])
+        pseudo.append({"date": d["date"], "models": {f"{n}|{h}": s for n, c in d["cycles"].items()
+                                                     for h, s in c.items()}})
+    t = res.get("today")
+    if t and t.get("obs"):
+        t["cycles"] = cycle_scores_for_day(runs, cycle_rows, st, t["date"], t["obs"])
+    # the same reference date as the main summary, so day weights match
+    res["cycle_summary"] = model_stats(pseudo) if pseudo else {}
+    res["cycles_def"] = {n: [str(h) for h in hs] for n, hs in CYCLES.items()}
+    for d in (res.get("days") or []) + ([t] if t else []):
+        _drop_errors(d.get("cycles") or {})
+    return res
+
+
+def _drop_errors(cycles: dict):
+    """The page works errors out as forecast minus observed (keeps verification.json smaller)."""
+    for c in cycles.values():
+        for s in c.values():
+            s.pop("error", None)
+
+
+def cycle_plan(runs: list, cycle_rows: list, station: str, days: list, models: list) -> list:
+    """(day, model, init) still to fetch for the toggle: each CYCLES hour of `models` with no
+    forecast yet, unless it already failed CYCLE_MAX_ATTEMPTS times. Newest days first."""
+    tries = {}
+    for r in cycle_rows:
+        if r.get("station") == station and r.get("error"):
+            k = (r.get("target_date"), r.get("model"), r.get("init_time_utc"))
+            tries[k] = tries.get(k, 0) + 1
+    out = []
+    for day in sorted(days, reverse=True):
+        have = cycle_forecasts(runs, cycle_rows, station, day)
+        for name in models:
+            for h in cycle_hours(name):
+                if h in have.get(name, {}):
+                    continue
+                init = _cycle_init(day, h)
+                if tries.get((day, name, init.strftime("%Y-%m-%dT%H")), 0) < CYCLE_MAX_ATTEMPTS:
+                    out.append((day, name, init))
+    return out
+
+
+def append_cycle_run(station: str, day: str, model: str, init: datetime, fc: dict,
+                     fetched_at: str, error: Optional[str] = None):
+    """Store one fetched cycle (or a failed attempt, with error) in cycle_runs.jsonl."""
+    rows = read_jsonl(CYCLE_RUNS)
+    row = {"fetched_at_utc": fetched_at, "station": station, "target_date": day, "model": model,
+           "init_time_utc": init.strftime("%Y-%m-%dT%H")}
+    if error:
+        row["error"] = error[:300]
+    else:
+        row.update({v: fc.get(v) for v in VARS})
+    rows.append(row)
+    write_jsonl(CYCLE_RUNS, rows)
+
+
+def refresh_cycles(station: str) -> bool:
+    """Recompute the per-cycle scores in the verification.json written earlier this run (after
+    cycle_backfill added runs). False if that file is for another station."""
+    res = json.loads(VERIF.read_text())
+    if res.get("station") != station:
+        return False
+    VERIF.write_text(dumps(attach_cycles(res), indent=2))
+    return True
+
+
 def current_period_start(station: str, today: date) -> str:
     """Start of the current city period (hindcast days included): first obs/run date for
     this station within the last PERIOD_DAYS + HINDCAST_DAYS + a week."""
@@ -617,6 +767,10 @@ def write_verification(station: str, today: date) -> dict:
         res["pop"] = wxc_pop.verify_pop(read_runs(), all_obs, station, start)
     except Exception as exc:
         print(f"Warning: PoP verification skipped ({type(exc).__name__}: {exc})")
+    try:                       # per-cycle scores for the page's toggle (display only)
+        attach_cycles(res)
+    except Exception as exc:
+        print(f"Warning: per-cycle scores skipped ({type(exc).__name__}: {exc})")
     VERIF.write_text(dumps(res, indent=2))
     return res
 
@@ -672,6 +826,13 @@ def write_today_column(station: str, today_json: dict) -> Optional[dict]:
     if col and col["date"] in done:    # already verified (shouldn't happen): no second column
         col = None
     res["today"] = col
+    if col:
+        try:                   # today's per-cycle scores so far (display only)
+            col["cycles"] = cycle_scores_for_day(read_runs(), read_jsonl(CYCLE_RUNS), station,
+                                                 col["date"], col["obs"])
+            _drop_errors(col["cycles"])
+        except Exception as exc:
+            print(f"Warning: today's per-cycle scores skipped ({type(exc).__name__}: {exc})")
     VERIF.write_text(dumps(res, indent=2))
     return col
 

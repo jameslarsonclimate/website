@@ -847,6 +847,79 @@ TIMELINE_GOES_DAYS = 3        # finished days that get their missing GOES hours 
                               # (scripts/backfill_timeline.py --goes)
 
 
+CYCLE_BUDGET_S = 150          # per run, for the 12Z/18Z toggle's backfill downloads
+# models the backfill can fetch at a given init (the ensembles can't: Open-Meteo serves only
+# the latest run, so their cycle rows come from the live runs alone)
+CYCLE_SOURCES = ["HRRR", "RRFS", "GFS", "IFS", wxc_ifs_hres.LABEL, "GFS_MOS", "NBM", "USL"]
+
+
+def fetch_cycle(station, label, init, day, points):
+    """One model's forecast for `day` from the run initialized at `init` (naive UTC), as metrics,
+    or {"error": ...}. GRIB models from the saved results or a download; the others by asking
+    for the runs out just after `init`, then checking the run that came back is that one."""
+    if label in GRIB_MODELS:
+        cycle_key, fn = GRIB_MODELS[label]
+        cached = wxc_cache.load(station.icao, label, init, day)
+        if cached is not None:
+            return cached["metrics"]
+        try:
+            res = fn(pd.Timestamp(init), day, points, station)
+        except Exception as exc:
+            return {"error": f"{type(exc).__name__}: {exc}"}
+        if "unavailable" not in (res["metrics"].get("note") or ""):
+            wxc_cache.save(station.icao, label, pd.Timestamp(init), day, res)
+        return res["metrics"]
+    t = init.replace(tzinfo=timezone.utc)
+    if label == wxc_ifs_hres.LABEL:
+        m = wxc_ifs_hres.get_forecast(station, day, t + timedelta(hours=wxc_ifs_hres.PUBLISH_DELAY_HOURS))["metrics"]
+    elif label == "GFS_MOS":
+        m = wxc_mos.get_mos_forecasts(station.icao, day, t + timedelta(hours=wxc_mos.MOS_CYCLES["GFS"][1]),
+                                      only=[label])[label]
+    elif label == "NBM":
+        import wxc_nbm_text
+        m = wxc_mos.get_mos_forecasts(station.icao, day, t + timedelta(hours=wxc_nbm_text.posted_delay(init.hour)),
+                                      only=[label])[label]
+    elif label == "USL":
+        m = wxc_usl.get_usl_forecast(station.icao, day, t + timedelta(minutes=30))
+    else:
+        return {"error": f"no backfill for {label}"}
+    if m.get("error"):
+        return m
+    if wxc_verify._init_time(m) != init:
+        return {"error": f"{init:%Y-%m-%d %HZ} run not found (got {m.get('init_time_utc')})"}
+    return m
+
+
+def cycle_backfill(station, verif, points, now, fetch_grib=True, budget_s=CYCLE_BUDGET_S):
+    """The 12Z/18Z runs the page's toggle scores separately (wxc_verify.CYCLES; display only),
+    for the period's days (hindcast days included) and today, where the live runs didn't keep
+    them. Stored in cycle_runs.jsonl, never runs.jsonl. Returns how many were added."""
+    import time as _time
+    t0 = _time.time()
+    days = [d["date"] for d in (verif or {}).get("days") or []]
+    days.append((now - timedelta(hours=6)).date().isoformat())     # today's forecasts (made yesterday)
+    models = [m for m in CYCLE_SOURCES if (fetch_grib or m not in GRIB_MODELS)
+              and (m != "HRRR" or station.hrrr_model) and (m != "RRFS" or station.rrfs_domain)]
+    plan = wxc_verify.cycle_plan(wxc_verify.read_runs(), wxc_verify.read_jsonl(wxc_verify.CYCLE_RUNS),
+                                 station.icao, sorted(set(days)), models)
+    added = 0
+    for i, (day, label, init) in enumerate(plan):
+        if budget_s is not None and _time.time() - t0 > budget_s:
+            print(f"  {len(plan) - i} runs left for the next run (time budget)")
+            break
+        print(f"  {label} {init:%Y-%m-%d %HZ} for {day}")
+        m = fetch_cycle(station, label, init, date.fromisoformat(day), points)
+        err = m.get("error") or (None if all(m.get(v) is not None for v in wxc_verify.VARS) else "no values")
+        if err and wxc_carryover.is_network_error(err):
+            print(f"    not reached (left for the next run): {err[:120]}")
+            continue
+        if err:
+            print(f"    failed: {err[:160]}")
+        wxc_verify.append_cycle_run(station.icao, day, label, init, m, now.isoformat(), err)
+        added += not err
+    return added
+
+
 def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMELINE_BUDGET_S,
                     goes_days=TIMELINE_GOES_DAYS):
     """The page's scrollable timeline (wxc_timeline.py; display only). Fills in what the runs
@@ -1391,6 +1464,15 @@ def main():
         timeline_update(station, now, points, verif, fetch_grib=not args.skip_grib)
     except Exception as exc:
         print(f"Warning: timeline skipped ({type(exc).__name__}: {exc})")
+
+    # 12Z/18Z runs scored separately on the page's toggle (display only; after everything scored)
+    try:
+        print("\nPer-cycle runs for the scoreboard's 12Z/18Z toggle (not scored):")
+        n = cycle_backfill(station, verif, points, now, fetch_grib=not args.skip_grib)
+        wxc_verify.refresh_cycles(station.icao)
+        print(f"  {n} run(s) added")
+    except Exception as exc:
+        print(f"Warning: per-cycle backfill skipped ({type(exc).__name__}: {exc})")
 
     # forecast-evolution links on the page (station config only; the page builds the run times)
     try:

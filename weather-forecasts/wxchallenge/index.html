@@ -89,6 +89,12 @@
                  background:var(--bg);color:var(--ink);cursor:pointer}
     .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #score{margin-top:0.5rem}
+    /* the 12Z/18Z toggle (display only: a row per model run) */
+    .split-runs{display:inline-flex;align-items:center;gap:6px;font-size:0.88rem;color:var(--ink-2);margin:0.4rem 0 0;cursor:pointer}
+    .split-runs input{margin:0;accent-color:var(--ink);cursor:inherit}
+    .split-runs.off{opacity:0.5;cursor:default}
+    #score tbody tr.grp > td{border-top:2px solid var(--line)}
+    #score td.model .cyc{font-weight:400;color:var(--ink-2);white-space:nowrap}
     /* the scoreboard and its legend keep the light-mode scales in dark mode (not inverted) */
     #score, #legend{--e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
       --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c}
@@ -295,6 +301,7 @@
       <button data-view="cloud_night" aria-pressed="false">Night clouds</button>
       <button data-view="cloud_day" aria-pressed="false">Day clouds</button>
     </div>
+    <label class="split-runs" id="split-label"><input type="checkbox" id="split-runs"> Score the 12Z and 18Z runs separately</label>
 
     <div id="score-wrap">
       <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
@@ -432,6 +439,13 @@
       far</i>) is today: the forecasts scored against the observations so far. It isn't final (the high or low
       may not have happened yet), so it is left out of the totals, the averages and the consensus's track
       record. <span id="decay-note"></span></p>
+    <p class="small">One run per model per day is scored: its last one before the deadline (mostly the 18Z run;
+      12Z for the IFS and ENS, about 22Z for NBM, 22Z for USL). <i>Score the 12Z and 18Z runs separately</i>
+      gives each model a row per run from the day before instead (12Z and 18Z; USL 12Z and 22Z; NBM also its
+      submitted run; IFS, IFS 9 km and ENS 12Z only, as their 18Z runs come out after the deadline), each with
+      its own points, average and bias. Runs the page didn't keep at the time, including the hindcast days,
+      are downloaded again where the archive has them (not the ensembles or USL's runs from before the city).
+      It is for comparing runs only: the normal view, the consensus and its weights don't change.</p>
     <h3 id="about-ensembles">Ensembles</h3>
     <p class="small">ECMWF IFS ensemble (51 members), NCEP GEFS (31; shown and scored but not part of the consensus),
       all via Open-Meteo, plus two 3 km precipitation ensembles: REFS (NOAA's new operational short-range
@@ -545,7 +559,7 @@ function modelRow(key, label, m){
 }
 
 /* ---------- verification scoreboard ---------- */
-let VERIF = null, VIEW = 'points', CONS_W = {}, CLOUD = {};
+let VERIF = null, VIEW = 'points', CONS_W = {}, CLOUD = {}, SPLIT = false;
 
 /* ---------- cloud context (cloud_context.json; display only, never scored) ----------
    Two tabs show each scored run's cloud forecast minus the observed (METAR) cloud cover,
@@ -609,14 +623,17 @@ function todayObsCell(t, CV){
     ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k => `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit}`).join('\n');
   return `<td class="cell today${CV ? ' small' : ''}" title="${title}">${txt}</td>`;
 }
-function todayCell(t, name, CV){
-  const m = t.models[name];
+// row: {name, cyc} (cyc: a cycle row of the 12Z/18Z toggle); rowsDef: every row shown, when split
+function todayCell(t, row, CV, rowsDef){
+  const name = row.name, pick = r => r.cyc ? t.cycles?.[r.name]?.[r.cyc] : t.models[r.name];
+  const m = pick(row);
   if (!m || CV) return '<td class="cell small today">—</td>';
   const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
-  const at = `class="cell today${rc}" data-day="today" data-model="${name}"`;
+  const at = `class="cell today${rc}" data-day="today" data-model="${name}"${row.cyc ? ` data-cyc="${row.cyc}"` : ''}`;
   let txt, style;
   if (VIEW === 'points') {
-    const p = Object.values(t.models).map(x => x.points), lo = Math.min(...p), hi = Math.max(...p);
+    const p = (rowsDef ? rowsDef.map(pick).filter(Boolean) : Object.values(t.models)).map(x => x.points);
+    const lo = Math.min(...p), hi = Math.max(...p);
     const f = hi > lo ? (m.points - lo) / (hi - lo) : 0;
     txt = m.points.toFixed(1);
     style = `background:${pointsFill(f)};color:${pointsInk(f, true)}`;
@@ -653,10 +670,26 @@ function renderScore(){
   const models = Object.keys(summary).filter(n => n !== 'CONSENSUS')
     .sort((a, b) => summary[a].mean_points - summary[b].mean_points)
     .concat(fresh, summary.CONSENSUS ? ['CONSENSUS'] : []);
+  // the 12Z/18Z toggle (display only): each model gets a row per cycle (verification.json
+  // "cycles", "cycle_summary"), NBM a "submitted" row too; the consensus keeps its own row.
+  // Off, or on the cloud tabs (scored runs only), the table is the normal one.
+  const SP = SPLIT && !CV;
+  const cdef = v.cycles_def || {}, csum = v.cycle_summary || {};
+  const rowsDef = !SP ? models.map(n => ({ name: n })) : models.flatMap(n => {
+    const cs = n === 'CONSENSUS' ? null : cdef[n];
+    let r = cs ? cs.map(c => c === 'sub' ? { name: n, sub: true } : { name: n, cyc: c })
+                   .filter(x => !x.cyc || csum[`${n}|${x.cyc}`] || T?.cycles?.[n]?.[x.cyc]) : [];
+    if (!r.length) r = [{ name: n }];
+    return r.map((x, i) => ({ ...x, grp: i === 0 }));
+  });
+  const scoreOf = (d, r) => r.cyc ? d.cycles?.[r.name]?.[r.cyc] : d.models[r.name];
+  const rowLabel = r => (LABEL[r.name] || r.name) +
+    (r.cyc ? ` <span class="cyc">${r.cyc}Z</span>` : r.sub ? ' <span class="cyc">submitted</span>' : '');
 
   // best / worst per day (points view) for the relative colouring and the star
   const range = days.map(d => {
-    const p = Object.values(d.models).map(m => m.points);
+    const p = SP ? rowsDef.map(r => scoreOf(d, r)?.points).filter(x => x != null)
+                 : Object.values(d.models).map(m => m.points);
     return { lo: Math.min(...p), hi: Math.max(...p) };
   });
 
@@ -694,12 +727,14 @@ function renderScore(){
     return `<td class="cell${cls[i]}" data-obs="${d.date}" title="${title}${ctitle}">${txt}${mark}</td>`;
   }).join('') + (T ? todayObsCell(T, CV) : '') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
-  const rows = models.map(name => {
-    const s = summary[name];
-    let tr = `<tr${name === 'CONSENSUS' ? ' class="consensus"' : ''}><td class="model">${LABEL[name] || name}</td>`;
+  const rows = rowsDef.map(row => {
+    const name = row.name, s = row.cyc ? csum[`${name}|${row.cyc}`] : summary[name];
+    const rcls = [name === 'CONSENSUS' ? 'consensus' : '', SP && row.grp ? 'grp' : ''].filter(Boolean).join(' ');
+    const dc = row.cyc ? ` data-cyc="${row.cyc}"` : '';
+    let tr = `<tr${rcls ? ` class="${rcls}"` : ''}><td class="model">${rowLabel(row)}</td>`;
     let cw_sum = 0, cw_abs = 0, cw_err = 0, cn = 0;      // cloud tabs: weighted error and bias
     days.forEach((d, i) => {
-      const m = d.models[name];
+      const m = scoreOf(d, row);
       if (!m) { tr += `<td class="cell small${cls[i]}">—</td>`; return; }
       const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
       if (CV) {
@@ -714,14 +749,14 @@ function renderScore(){
         const { lo, hi } = range[i];
         const t = hi > lo ? (m.points - lo) / (hi - lo) : 0;
         const star = m.points === lo ? '<span class="star" aria-label="best">★</span>' : '';
-        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${pointsFill(t)};color:${pointsInk(t, true)}">${m.points.toFixed(1)}${r}${star}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}"${dc} style="background:${pointsFill(t)};color:${pointsInk(t, true)}">${m.points.toFixed(1)}${r}${star}</td>`;
       } else {
         const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
-        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
+        tr += `<td class="cell${cls[i]}${rc}" data-day="${i}" data-model="${name}"${dc} style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, VARS[VIEW].dec)}${r}</td>`;
       }
     });
-    if (T) tr += todayCell(T, name, CV);
-    const cw = name === 'CONSENSUS' ? null : consWeight(name);
+    if (T) tr += todayCell(T, row, CV, SP ? rowsDef : null);
+    const cw = name === 'CONSENSUS' || row.cyc ? null : consWeight(name);
     const wt = cw === null ? '' : ` · ${Math.round(cw * 100)}%`;
     if (!s) {
       // nothing scored yet: same two-line cell, so rows keep their height
@@ -761,6 +796,12 @@ function renderScore(){
       <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
       <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
   }
+  if (SP) legend.insertAdjacentHTML('beforeend', `<span>· one row per model run (12Z, 18Z; USL 22Z) from
+    the day before, each scored on its own; the normal view and the consensus use the submitted run</span>`);
+  const box = document.getElementById('split-runs'), lab = document.getElementById('split-label');
+  box.disabled = !!CV;
+  lab.classList.toggle('off', !!CV);
+  lab.title = CV ? 'The cloud tabs show the submitted runs only' : '';
   const hl = v.half_life_days;
   document.getElementById('decay-note').textContent = hl
     ? `Recent days count more in each model's bias and error: a day's weight (w, under the date) halves every ` +
@@ -783,29 +824,33 @@ function cloudTip(d, name, m){
 function showTip(td, ev){
   const now = td.dataset.day === 'today';
   const d = now ? VERIF.today : VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
-  const name = td.dataset.model, m = d && d.models[name];
+  const name = td.dataset.model, cyc = td.dataset.cyc;
+  const m = d && (cyc ? d.cycles?.[name]?.[cyc] : d.models[name]);
   if (!m) return;
+  // a cycle row's score (12Z/18Z toggle): its run is the init time, not when it was fetched
+  const who = `${LABEL[name] || name}${cyc ? ` ${cyc}Z run` : ''}`;
+  const runNote = cyc ? `<br><span style="opacity:.75">run initialized ${runLabel(m.run)}; scored on its own, not submitted</span>` : null;
   if (now) {
     const f = m.forecast, o = d.obs, e = m.error;
     const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} so far (${signed(e[k], VARS[k].dec)})`;
-    tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date} so far</b><br>` +
+    tip.innerHTML = `<b>${who} · ${d.date} so far</b><br>` +
       ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
       `<br><b>${m.points.toFixed(1)} points so far</b>` +
       `<br><span style="opacity:.75">observations through ${thru(d)}; not final, so not in the totals or the consensus</span>` +
-      (m.reconstructed ? `<br><span style="opacity:.75">reconstructed, not submitted</span>`
-        : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z</span>` : '');
+      (runNote ?? (m.reconstructed ? `<br><span style="opacity:.75">reconstructed, not submitted</span>`
+        : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z</span>` : ''));
     tip.style.display = 'block';
     moveTip(ev);
     return;
   }
   const f = m.forecast, o = d.obs, e = m.error;
   const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${signed(e[k], VARS[k].dec)})`;
-  tip.innerHTML = `<b>${LABEL[name] || name} · ${d.date}</b><br>` +
+  tip.innerHTML = `<b>${who} · ${d.date}</b><br>` +
     ['tmax_f','tmin_f','wind_max_kt','precip_in'].map(line).join('<br>') +
-    `<br><b>${m.points.toFixed(1)} points</b>` + cloudTip(d, name, m) +
-    (m.reconstructed
+    `<br><b>${m.points.toFixed(1)} points</b>` + (cyc ? '' : cloudTip(d, name, m)) +
+    (runNote ?? (m.reconstructed
       ? `<br><span style="opacity:.75">reconstructed, not submitted: rebuilt from the models' forecasts with only the earlier days' track record</span>`
-      : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${m.hindcast ? ' · hindcast' : ''}</span>` : '') +
+      : m.run ? `<br><span style="opacity:.75">run ${m.run.slice(0,16).replace('T',' ')}Z${m.hindcast ? ' · hindcast' : ''}</span>` : '')) +
     (d.decay_weight ? `<br><span style="opacity:.75">day weight ${d.decay_weight[weightVar()].toFixed(2)}</span>` : '');
   tip.style.display = 'block';
   moveTip(ev);
@@ -829,6 +874,23 @@ document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('c
   try { localStorage.setItem('wxc-view', VIEW); } catch (e) {}
   if (VERIF) renderScore();
 }));
+// 12Z/18Z toggle: off by default; a reader's choice is remembered in this browser only
+const splitBox = document.getElementById('split-runs');
+try { SPLIT = localStorage.getItem('wxc-split') === '1'; } catch (e) {}
+splitBox.checked = SPLIT;
+splitBox.addEventListener('change', () => {
+  SPLIT = splitBox.checked;
+  try { localStorage.setItem('wxc-split', SPLIT ? '1' : '0'); } catch (e) {}
+  if (VERIF) renderScore();
+});
+// cycle scores come without errors (verification.json stays smaller): forecast minus observed
+function prepCycles(v){
+  for (const d of [...(v.days || []), ...(v.today ? [v.today] : [])])
+    for (const c of Object.values(d.cycles || {}))
+      for (const s of Object.values(c))
+        if (!s.error) s.error = Object.fromEntries(Object.keys(VARS).map(k =>
+          [k, Math.round((s.forecast[k] - d.obs[k]) * 100) / 100]));
+}
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
   if (VERIF) renderScore();
   if (Object.keys(POP_DATA).length) renderPop({ models: POP_DATA });
@@ -1152,6 +1214,7 @@ function renderToday(tj){
     const res = await fetch('../data/wxchallenge/verification.json' + bust, { cache: 'no-store' });
     if (!res.ok) throw new Error('Fetch failed: ' + res.status);
     VERIF = await res.json();
+    prepCycles(VERIF);
     try {        // optional: the scoreboard works without it
       const cr = await fetch('../data/wxchallenge/cloud_context.json' + bust, { cache: 'no-store' });
       if (cr.ok) CLOUD = (await cr.json())?.stations?.[VERIF.station] || {};
