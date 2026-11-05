@@ -93,7 +93,6 @@
     .split-runs{display:inline-flex;align-items:center;gap:6px;font-size:0.88rem;color:var(--ink-2);margin:0.4rem 0 0;cursor:pointer}
     .split-runs input{margin:0;accent-color:var(--ink);cursor:inherit}
     .split-runs.off{opacity:0.5;cursor:default}
-    #score tbody tr.grp > td{border-top:2px solid var(--line)}
     #score td.model .cyc{font-weight:400;color:var(--ink-2);white-space:nowrap}
     /* the scoreboard and its legend keep the light-mode scales in dark mode (not inverted) */
     #score, #legend{--e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
@@ -443,7 +442,7 @@
       12Z for the IFS and ENS, about 22Z for NBM, 22Z for USL). <i>Score the 12Z and 18Z runs separately</i>
       gives each model a row per run from the day before instead (12Z and 18Z; USL 12Z and 22Z; NBM also its
       submitted run; IFS, IFS 9 km and ENS 12Z only, as their 18Z runs come out after the deadline), each with
-      its own points, average and bias. Runs the page didn't keep at the time, including the hindcast days,
+      its own points, average and bias, and ranks every run on its own average. Runs the page didn't keep at the time, including the hindcast days,
       are downloaded again where the archive has them (not the ensembles or USL's runs from before the city).
       It is for comparing runs only: the normal view, the consensus and its weights don't change.</p>
     <h3 id="about-ensembles">Ensembles</h3>
@@ -675,13 +674,23 @@ function renderScore(){
   // Off, or on the cloud tabs (scored runs only), the table is the normal one.
   const SP = SPLIT && !CV;
   const cdef = v.cycles_def || {}, csum = v.cycle_summary || {};
-  const rowsDef = !SP ? models.map(n => ({ name: n })) : models.flatMap(n => {
+  const sumOf = r => r.cyc ? csum[`${r.name}|${r.cyc}`] : summary[r.name];
+  const todayOf = r => r.cyc ? T?.cycles?.[r.name]?.[r.cyc] : T?.models?.[r.name];
+  let rowsDef = !SP ? models.map(n => ({ name: n })) : models.flatMap(n => {
     const cs = n === 'CONSENSUS' ? null : cdef[n];
-    let r = cs ? cs.map(c => c === 'sub' ? { name: n, sub: true } : { name: n, cyc: c })
-                   .filter(x => !x.cyc || csum[`${n}|${x.cyc}`] || T?.cycles?.[n]?.[x.cyc]) : [];
-    if (!r.length) r = [{ name: n }];
-    return r.map((x, i) => ({ ...x, grp: i === 0 }));
+    const r = cs ? cs.map(c => c === 'sub' ? { name: n, sub: true } : { name: n, cyc: c })
+                     .filter(x => !x.cyc || sumOf(x) || todayOf(x)) : [];
+    return r.length ? r : [{ name: n }];
   });
+  // split: every run row ranked on its own average points, like the models in the normal view
+  // (rows with only a provisional today score after them, by today's points; the consensus last)
+  if (SP) {
+    const key = r => r.name === 'CONSENSUS' ? [2, 0]
+      : sumOf(r) ? [0, sumOf(r).total_points / sumOf(r).n_days]     // unrounded, so near-ties sort right
+      : [1, todayOf(r)?.points ?? Infinity];
+    rowsDef = rowsDef.map(r => ({ r, k: key(r) }))
+      .sort((a, b) => a.k[0] - b.k[0] || a.k[1] - b.k[1]).map(x => x.r);
+  }
   const scoreOf = (d, r) => r.cyc ? d.cycles?.[r.name]?.[r.cyc] : d.models[r.name];
   const rowLabel = r => (LABEL[r.name] || r.name) +
     (r.cyc ? ` <span class="cyc">${r.cyc}Z</span>` : r.sub ? ' <span class="cyc">submitted</span>' : '');
@@ -728,8 +737,8 @@ function renderScore(){
   }).join('') + (T ? todayObsCell(T, CV) : '') + (VIEW === 'points' ? '<td class="avg"></td>' : '') + '<td class="sum"></td></tr>';
 
   const rows = rowsDef.map(row => {
-    const name = row.name, s = row.cyc ? csum[`${name}|${row.cyc}`] : summary[name];
-    const rcls = [name === 'CONSENSUS' ? 'consensus' : '', SP && row.grp ? 'grp' : ''].filter(Boolean).join(' ');
+    const name = row.name, s = sumOf(row);
+    const rcls = name === 'CONSENSUS' ? 'consensus' : '';
     const dc = row.cyc ? ` data-cyc="${row.cyc}"` : '';
     let tr = `<tr${rcls ? ` class="${rcls}"` : ''}><td class="model">${rowLabel(row)}</td>`;
     let cw_sum = 0, cw_abs = 0, cw_err = 0, cn = 0;      // cloud tabs: weighted error and bias
@@ -797,7 +806,7 @@ function renderScore(){
       <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
   }
   if (SP) legend.insertAdjacentHTML('beforeend', `<span>· one row per model run (12Z, 18Z; USL 22Z) from
-    the day before, each scored on its own; the normal view and the consensus use the submitted run</span>`);
+    the day before, each scored and ranked on its own; the normal view and the consensus use the submitted run</span>`);
   const box = document.getElementById('split-runs'), lab = document.getElementById('split-label');
   box.disabled = !!CV;
   lab.classList.toggle('off', !!CV);
