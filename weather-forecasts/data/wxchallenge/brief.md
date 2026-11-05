@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-11-06**, scored over 2026-11-06T06Z to 2026-11-07T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-06T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-05T15:00:06+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-05T15:30:09+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -636,7 +636,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 11-05 12Z | Thu 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 83 | 100 | 90 | 94 |
 | 11-05 13Z | Thu 07:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 87 | 100 | 88 | 88 |
 | 11-05 14Z | Thu 08:00 | 97 | 100 | 100 | 100 |  | 98 |  |  | 84 | 100 | 86 | 82 |
-| 11-05 15Z | Thu 09:00 |  | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 80 | 100 | 86 | 78 |
+| 11-05 15Z | Thu 09:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 80 | 100 | 86 | 78 |
 
 ## Dewpoint so far today (2026-11-05, observed vs forecast)
 
@@ -658,7 +658,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-05)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-05 15:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-05 15:30Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
