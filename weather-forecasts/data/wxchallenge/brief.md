@@ -3,7 +3,7 @@
 - Station: **KMSP**
 - Target day: **2026-11-06**, scored over 2026-11-06T06Z to 2026-11-07T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-06T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-05T23:00:05+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-05T23:12:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -601,24 +601,24 @@ Chance (%) of ≥0.01" in each 6-hour block, 06-12/12-18/18-00/00-06 UTC, agains
 | 11-03 | 0.74" (wet: 06-12, 12-18, 18-00, 00-06) | 41/47/43/44 | 35/48/64/62 | 49/41/80/69 | 45/32/74/94 | 24h 100% | 24h 93% | 28/48/64/62 |
 | 11-04 | 0.56" (wet: 06-12, 12-18, 18-00, 00-06) | 73/51/66/68 | 96/80/81/95 | 100/96/96/98 | 90/94/94/100 | 24h 100% | 24h 100% | 96/80/79/95 |
 
-## Today so far (2026-11-05, through 2026-11-05T21:53Z)
+## Today so far (2026-11-05, through 2026-11-05T22:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 51.1 °F, low 42.1 °F, max wind 18 kt, precip 0.03" (16 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 51.1 °F, low 42.1 °F, max wind 18 kt, precip 0.03" (17 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 04/18Z | -2.1 | 2.2 | 50 (-2) | 35 (-7) pending | -1.7 | 0.04 | +0.01 |
+| HRRR | 04/18Z | -2.2 | 2.3 | 50 (-2) | 35 (-7) pending | -1.7 | 0.04 | +0.01 |
 | RRFS | 04/18Z | -0.5 | 0.9 | 50 (-1) | 37 (-5) pending | -2.8 | 0.02 | -0.01 |
-| IFS | 04/12Z | +1.6 | 2.8 | 49 (-2) | 38 (-4) pending | -3.1 | 0.02 | -0.01 |
-| IFS_HRES | 04/12Z | +1.9 | 2.9 | 49 (-2) | 39 (-3) pending | -3.6 | 0.03 | +0.00 |
-| GFS | 04/18Z | -0.5 | 1.0 | 50 (-2) | 38 (-4) pending | -2.5 | 0.01 | -0.02 |
-| GFS_MOS | 04/18Z | -0.5 | 2.1 | 49 (-2) | 37 (-5) pending | +1.1 | — | — |
-| NBM | 04/22Z | +0.0 | 1.7 | 50 (-1) | 38 (-4) pending | -0.7 | — | — |
-| USL | 04/22Z | +0.0 | 1.7 | 50 (-1) | 37 (-5) pending | -0.9 | 0.05 | +0.02 |
-| ENS | 04/12Z | +0.7 | 2.8 | 49 (-2) | 38 (-4) pending | -3.0 | 0.03 | +0.00 |
-| GEFS | 04/18Z | +0.2 | 1.1 | 51 (+0) | 39 (-3) pending | -1.6 | 0.03 | +0.00 |
+| IFS | 04/12Z | +1.8 | 2.9 | 49 (-2) | 38 (-4) pending | -3.1 | 0.02 | -0.01 |
+| IFS_HRES | 04/12Z | +2.0 | 3.0 | 49 (-2) | 39 (-3) pending | -3.6 | 0.03 | +0.00 |
+| GFS | 04/18Z | -0.4 | 0.9 | 50 (-2) | 38 (-4) pending | -2.5 | 0.01 | -0.02 |
+| GFS_MOS | 04/18Z | -0.4 | 2.1 | 49 (-2) | 37 (-5) pending | +1.1 | — | — |
+| NBM | 04/22Z | +0.1 | 1.7 | 50 (-1) | 38 (-4) pending | -0.6 | — | — |
+| USL | 04/22Z | +0.2 | 1.7 | 50 (-1) | 37 (-5) pending | -0.9 | 0.05 | +0.02 |
+| ENS | 04/12Z | +0.9 | 2.9 | 49 (-2) | 38 (-4) pending | -3.0 | 0.03 | +0.00 |
+| GEFS | 04/18Z | +0.3 | 1.1 | 51 (+0) | 39 (-3) pending | -1.5 | 0.03 | +0.00 |
 
 ## Clouds so far today (2026-11-05, observed vs forecast)
 
@@ -643,6 +643,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 11-05 20Z | Thu 14:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 87 | 100 | 97 | 89 |
 | 11-05 21Z | Thu 15:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 89 | 100 | 95 | 90 |
 | 11-05 22Z | Thu 16:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 87 | 100 | 91 | 92 |
+| 11-05 23Z | Thu 17:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 88 | 100 | 86 | 94 |
 
 ## Dewpoint so far today (2026-11-05, observed vs forecast)
 
@@ -667,18 +668,19 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 11-05 20Z | Thu 14:00 | 33.1 | 68 | 36.4 | 37.8 |  | 37.3 |  |  |  | 37.0 | 36.6 | 33.3 |
 | 11-05 21Z | Thu 15:00 | 34.0 | 70 | 35.5 | 38.3 | 36.3 | 36.7 | 31.1 | 35.0 | 35.0 | 37.0 | 36.0 | 32.8 |
 | 11-05 22Z | Thu 16:00 | 32.0 | 67 | 34.5 | 36.8 |  | 36.0 |  |  |  | 36.0 | 35.5 | 32.0 |
-| Bias so far |  |  |  | +0.0 | +0.6 | -1.9 | -1.1 | -3.6 | -2.1 | -0.8 | +0.7 | -1.2 | -3.4 |
+| 11-05 23Z | Thu 17:00 | 32.0 | 67 | 33.8 | 36.9 |  | 36.3 |  |  |  | 35.0 | 34.9 | 31.1 |
+| Bias so far |  |  |  | +0.1 | +0.8 | -1.9 | -0.8 | -3.6 | -2.1 | -0.8 | +0.8 | -1.0 | -3.2 |
 
 ## Newest runs vs obs so far today (2026-11-05)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-05 23:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-05 23:12Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
 | Model | Run | From | Hours | Temp bias | Temp MAE | Submitted run temp bias | Td bias | Wind bias | Cloud bias | Precip fcst / obs |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 05/18Z | 19Z | 4 | -1.2 | 1.2 | -2.2 | +3.6 | -3.5 | +0 | 0.00 / 0.00 |
-| RRFS | 05/18Z | 19Z | 4 | -0.9 | 0.9 | +0.5 | +3.1 | -4.4 | +0 | 0.00 / 0.00 |
+| HRRR | 05/18Z | 19Z | 5 | -1.2 | 1.2 | -2.5 | +3.8 | -3.4 | +0 | 0.00 / 0.00 |
+| RRFS | 05/18Z | 19Z | 5 | -1.0 | 1.0 | +0.3 | +3.3 | -4.2 | +0 | 0.00 / 0.00 |
 | IFS | 05/12Z | 15Z | 3 | +2.0 | 2.0 | +4.0 | +0.1 | -2.8 | -8 | 0.00 / 0.00 |
 | GFS | 05/18Z | 21Z | 1 | +1.2 | 1.2 | +0.5 | -3.5 | -1.7 | -6 | 0.00 / 0.00 |
 | GFS_MOS | 05/18Z | 00Z | 0 | — | — | — | — | — | — | — |
@@ -688,8 +690,8 @@ Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance
 
 | Model | Run | Hours left | Max T | Min T | Max wind | Day high | Day low |
 | --- | --- | --: | --: | --: | --: | --: | --: |
-| HRRR | 05/18Z | 8 | 40.6 | 37.7 | 8.4 | 51.1 | 37.7 |
-| RRFS | 05/18Z | 8 | 40.7 | 38.2 | 8.9 | 51.1 | 38.2 |
+| HRRR | 05/18Z | 7 | 39.6 | 37.7 | 8.4 | 51.1 | 37.7 |
+| RRFS | 05/18Z | 7 | 40.2 | 38.2 | 8.9 | 51.1 | 38.2 |
 | IFS | 05/12Z | 3 | 43.1 | 35.6 | 6.7 | 51.1 | 35.6 |
 | GFS | 05/18Z | 3 | 42.9 | 38.2 | 7.1 | 51.1 | 38.2 |
 | GFS_MOS | 05/18Z | 3 | 40.0 | 37.0 | 10.0 | 51.1 | 37.0 |
@@ -707,7 +709,7 @@ Hour by hour (°F, kt; obs blank after the last report):
 | 11-05 20Z | Thu 14:00 | 43.0 | 33.1 | 14 | 42.4 | 37.4 | 10 | 42.5 | 36.9 | 9 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-05 21Z | Thu 15:00 | 43.0 | 34.0 | 11 | 41.8 | 36.9 | 10 | 41.8 | 36.2 | 9 | 45.3 | 34.3 | 8 | 44.2 | 30.5 | 9 |  |  |  |  |  |  |
 | 11-05 22Z | Thu 16:00 | 42.1 | 32.0 | 15 | 41.2 | 36.7 | 9 | 41.4 | 35.9 | 8 |  |  |  |  |  |  |  |  |  |  |  |  |
-| 11-05 23Z | Thu 17:00 |  |  |  | 40.6 | 36.2 | 8 | 40.7 | 36.0 | 8 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 11-05 23Z | Thu 17:00 | 42.1 | 32.0 | 11 | 40.6 | 36.2 | 8 | 40.7 | 36.0 | 8 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-06 00Z | Thu 18:00 |  |  |  | 39.6 | 35.7 | 8 | 40.2 | 35.0 | 8 | 43.1 | 32.6 | 7 | 42.9 | 28.6 | 7 | 40.0 | 32.0 | 10 |  |  |  |
 | 11-06 01Z | Thu 19:00 |  |  |  | 39.0 | 34.8 | 8 | 39.3 | 32.9 | 9 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-06 02Z | Thu 20:00 |  |  |  | 38.6 | 34.3 | 7 | 38.9 | 33.1 | 7 |  |  |  |  |  |  |  |  |  |  |  |  |
