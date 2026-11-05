@@ -82,8 +82,8 @@ HINDCAST_HOUR = 23        # hindcasts use the runs available at 23Z the day befo
                           # deadline, like a real submission: includes the 22Z USL, 18Z GFS and GFS MOS)
 MAX_FALLBACK = 1          # also try this many older cycles if the newest isn't posted yet
 TODAY_LATEST = ["HRRR", "GFS_MOS", "NBM"]   # newest runs drawn on the "today so far" figure
-# newest runs fetched for today: the figure and the page's timeline draw only TODAY_LATEST; the
-# AI brief compares all of them with the obs so far (grid models: once per cycle, cached)
+# newest runs fetched for today (grid models: once per cycle, cached): the page's timeline and
+# the AI brief show all of them; the today figure (PNG) draws only TODAY_LATEST
 TODAY_LATEST_FETCH = TODAY_LATEST + ["RRFS", "GFS", "IFS"]
 # grid models: the GRIB_MODELS below plus IFS_HRES (IFS at 9 km, hourly, from Open-Meteo)
 # AIFS is left out for now (2026-10-28): its open data is 6-hourly, so its highs and lows run
@@ -938,8 +938,7 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
     except (FileNotFoundError, json.JSONDecodeError):
         today_json = None
     bundle = wxc_timeline.build(DATA, icao, now, verif, today_json, station.label,
-                                since=(verif or {}).get("period_start"), lat=station.lat, lon=station.lon,
-                                latest_models=TODAY_LATEST)
+                                since=(verif or {}).get("period_start"), lat=station.lat, lon=station.lon)
     if bundle:
         path = wxc_timeline.write(DATA, bundle)
         print(f"  timeline: {len(bundle['days'])} days ({bundle['days'][0]['date']}..{bundle['days'][-1]['date']}) "
