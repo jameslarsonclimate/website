@@ -130,3 +130,34 @@
 {"fetched_at_utc":"2026-11-05T00:29:25+00:00","station":"KMSP","target_date":"2026-10-12","model":"NBM","init_time_utc":"2026-10-11T18","tmax_f":84.0,"tmin_f":60,"wind_max_kt":11.0,"precip_in":0.0}
 {"fetched_at_utc":"2026-11-05T00:29:25+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T12","error":"no USL run for 2026-10-12 available at 2026-10-11 12Z"}
 {"fetched_at_utc":"2026-11-05T00:29:25+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T22","error":"no USL run for 2026-10-12 available at 2026-10-11 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-11-05","model":"NBM","init_time_utc":"2026-11-04T12","tmax_f":49,"tmin_f":39,"wind_max_kt":13.0,"precip_in":0.01}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-26","model":"USL","init_time_utc":"2026-10-25T12","error":"no USL run for 2026-10-26 available at 2026-10-25 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-26","model":"USL","init_time_utc":"2026-10-25T22","error":"no USL run for 2026-10-26 available at 2026-10-25 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-25","model":"USL","init_time_utc":"2026-10-24T12","error":"no USL run for 2026-10-25 available at 2026-10-24 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-25","model":"USL","init_time_utc":"2026-10-24T22","error":"no USL run for 2026-10-25 available at 2026-10-24 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-24","model":"USL","init_time_utc":"2026-10-23T12","error":"no USL run for 2026-10-24 available at 2026-10-23 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-24","model":"USL","init_time_utc":"2026-10-23T22","error":"no USL run for 2026-10-24 available at 2026-10-23 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-23","model":"USL","init_time_utc":"2026-10-22T12","error":"no USL run for 2026-10-23 available at 2026-10-22 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-23","model":"USL","init_time_utc":"2026-10-22T22","error":"no USL run for 2026-10-23 available at 2026-10-22 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-22","model":"USL","init_time_utc":"2026-10-21T12","error":"no USL run for 2026-10-22 available at 2026-10-21 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-22","model":"USL","init_time_utc":"2026-10-21T22","error":"no USL run for 2026-10-22 available at 2026-10-21 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-21","model":"USL","init_time_utc":"2026-10-20T12","error":"no USL run for 2026-10-21 available at 2026-10-20 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-21","model":"USL","init_time_utc":"2026-10-20T22","error":"no USL run for 2026-10-21 available at 2026-10-20 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-20","model":"USL","init_time_utc":"2026-10-19T12","error":"no USL run for 2026-10-20 available at 2026-10-19 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-20","model":"USL","init_time_utc":"2026-10-19T22","error":"no USL run for 2026-10-20 available at 2026-10-19 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-19","model":"USL","init_time_utc":"2026-10-18T12","error":"no USL run for 2026-10-19 available at 2026-10-18 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-19","model":"USL","init_time_utc":"2026-10-18T22","error":"no USL run for 2026-10-19 available at 2026-10-18 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-18","model":"USL","init_time_utc":"2026-10-17T12","error":"no USL run for 2026-10-18 available at 2026-10-17 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-18","model":"USL","init_time_utc":"2026-10-17T22","error":"no USL run for 2026-10-18 available at 2026-10-17 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-17","model":"USL","init_time_utc":"2026-10-16T12","error":"no USL run for 2026-10-17 available at 2026-10-16 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-17","model":"USL","init_time_utc":"2026-10-16T22","error":"no USL run for 2026-10-17 available at 2026-10-16 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-16","model":"USL","init_time_utc":"2026-10-15T12","error":"no USL run for 2026-10-16 available at 2026-10-15 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-16","model":"USL","init_time_utc":"2026-10-15T22","error":"no USL run for 2026-10-16 available at 2026-10-15 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-15","model":"USL","init_time_utc":"2026-10-14T12","error":"no USL run for 2026-10-15 available at 2026-10-14 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-15","model":"USL","init_time_utc":"2026-10-14T22","error":"no USL run for 2026-10-15 available at 2026-10-14 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-14","model":"USL","init_time_utc":"2026-10-13T12","error":"no USL run for 2026-10-14 available at 2026-10-13 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-14","model":"USL","init_time_utc":"2026-10-13T22","error":"no USL run for 2026-10-14 available at 2026-10-13 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-13","model":"USL","init_time_utc":"2026-10-12T12","error":"no USL run for 2026-10-13 available at 2026-10-12 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-13","model":"USL","init_time_utc":"2026-10-12T22","error":"no USL run for 2026-10-13 available at 2026-10-12 22Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T12","error":"no USL run for 2026-10-12 available at 2026-10-11 12Z"}
+{"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T22","error":"no USL run for 2026-10-12 available at 2026-10-11 22Z"}
