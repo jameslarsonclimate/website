@@ -1752,8 +1752,93 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-11-04": {
+    "date": "2026-11-04",
+    "day_hours_utc": [
+     "2026-11-04T14:00",
+     "2026-11-04T22:00"
+    ],
+    "night_hours_utc": [
+     "2026-11-04T06:00",
+     "2026-11-04T13:00"
+    ],
+    "obs": {
+     "day_pct": 100.0,
+     "night_pct": 100.0,
+     "goes_day_pct": 99.9,
+     "goes_night_pct": 100.0
+    },
+    "models": {
+     "HRRR": {
+      "init_time_utc": "2026-11-03T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "RRFS": {
+      "init_time_utc": "2026-11-03T18",
+      "day_pct": 100.0,
+      "night_pct": 99.6,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "IFS": {
+      "init_time_utc": "2026-11-03T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-11-03T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "GFS": {
+      "init_time_utc": "2026-11-03T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-11-03T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "NBM": {
+      "init_time_utc": "2026-11-03T22",
+      "day_pct": 87.2,
+      "night_pct": 90.6,
+      "day_err": -13,
+      "night_err": -9
+     },
+     "ENS": {
+      "init_time_utc": "2026-11-03T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     },
+     "GEFS": {
+      "init_time_utc": "2026-11-03T12",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 0
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-11-04T15:24:47+00:00"
+ "generated_at_utc": "2026-11-05T14:50:07+00:00"
 }
