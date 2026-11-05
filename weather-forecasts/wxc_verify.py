@@ -539,6 +539,38 @@ def cycle_forecasts(runs: list, cycle_rows: list, station: str, day: str) -> dic
     return out
 
 
+# The forecast table's "earlier runs" toggle (DISPLAY ONLY): each model's 12Z and 18Z runs (USL
+# 12Z and 22Z) for the day being forecast, read back from the runs this pipeline already pulled
+# today (runs.jsonl). Nothing is fetched for it, and it never enters the consensus or the scores.
+EARLIER_RUN_HOURS = {"USL": [12, 22]}
+EARLIER_RUN_DEFAULT = [12, 18]
+
+
+def earlier_runs(runs: list, station: str, day: str, current: Optional[dict] = None,
+                 cycle_rows: Optional[list] = None) -> dict:
+    """{model: {"12": forecast, "18": ...}} for forecast day `day`: per model, the run initialized
+    at each EARLIER_RUN_HOURS hour on the day before (UTC), from the live pre-deadline rows of
+    runs.jsonl plus `current` (this run's models), the last pull of a run winning; gaps filled
+    from cycle_runs.jsonl (the runs the live pulls skipped, fetched by the pipeline's backfill)."""
+    out = {}
+    rows = [r["models"] for r in _before_deadline(runs, station, day) if not r.get("hindcast")]
+    fill = [{r.get("model"): r} for r in cycle_rows or []
+            if r.get("station") == station and r.get("target_date") == day and not r.get("error")]
+    for i, models in enumerate(rows + ([current] if current else []) + fill):
+        for name, fc in models.items():
+            t = _init_time(fc) if name != "CONSENSUS" and isinstance(fc, dict) else None
+            if t is None or fc.get("stale") or all(fc.get(v) is None for v in VARS):
+                continue
+            for h in EARLIER_RUN_HOURS.get(name, EARLIER_RUN_DEFAULT):
+                if t == _cycle_init(day, h):
+                    by_h, val = out.setdefault(name, {}), {k: fc.get(k) for k in VARS + ["init_time_utc"]}
+                    if i < len(rows) + bool(current):
+                        by_h[str(h)] = val
+                    else:
+                        by_h.setdefault(str(h), val)
+    return out
+
+
 def _cycle_score(fc: dict, ob: dict) -> Optional[dict]:
     s = score_day(fc, ob)
     if s:

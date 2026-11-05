@@ -890,18 +890,38 @@ def fetch_cycle(station, label, init, day, points):
     return m
 
 
-def cycle_backfill(station, verif, points, now, fetch_grib=True, budget_s=CYCLE_BUDGET_S):
+def earlier_runs_for(station, day, models):
+    """The forecast table's "earlier runs" (display only): each model's 12Z/18Z runs for `day`
+    from the runs already pulled (wxc_verify.earlier_runs); nothing is downloaded."""
+    return wxc_verify.earlier_runs(wxc_verify.read_runs(), station.icao, day.isoformat(), models,
+                                   wxc_verify.read_jsonl(wxc_verify.CYCLE_RUNS))
+
+
+def cycle_backfill(station, verif, points, now, fetch_grib=True, budget_s=CYCLE_BUDGET_S, target_day=None):
     """The 12Z/18Z runs the page's toggle scores separately (wxc_verify.CYCLES; display only),
     for the period's days (hindcast days included) and today, where the live runs didn't keep
-    them. Stored in cycle_runs.jsonl, never runs.jsonl. Returns how many were added."""
+    them. Stored in cycle_runs.jsonl, never runs.jsonl. Returns how many were added.
+    With target_day (the day being forecast), also the cycles the live runs skipped for it (a
+    later run of that model already pulled, e.g. NBM 12Z before the first pull at ~15Z), for the
+    forecast table's "earlier runs" toggle: the same download the scoreboard would make the day
+    after, made sooner, so no extra downloads."""
     import time as _time
     t0 = _time.time()
     days = [d["date"] for d in (verif or {}).get("days") or []]
     days.append((now - timedelta(hours=6)).date().isoformat())     # today's forecasts (made yesterday)
     models = [m for m in CYCLE_SOURCES if (fetch_grib or m not in GRIB_MODELS)
               and (m != "HRRR" or station.hrrr_model) and (m != "RRFS" or station.rrfs_domain)]
-    plan = wxc_verify.cycle_plan(wxc_verify.read_runs(), wxc_verify.read_jsonl(wxc_verify.CYCLE_RUNS),
-                                 station.icao, sorted(set(days)), models)
+    runs, rows = wxc_verify.read_runs(), wxc_verify.read_jsonl(wxc_verify.CYCLE_RUNS)
+    plan = wxc_verify.cycle_plan(runs, rows, station.icao, sorted(set(days) - {target_day}), models)
+    if target_day:
+        newest = {}           # newest run of each model pulled live for the target day
+        for r in wxc_verify._before_deadline(runs, station.icao, target_day):
+            for name, fc in r["models"].items():
+                t = wxc_verify._init_time(fc) if not r.get("hindcast") and isinstance(fc, dict) else None
+                if t and (name not in newest or t > newest[name]):
+                    newest[name] = t
+        plan = [p for p in wxc_verify.cycle_plan(runs, rows, station.icao, [target_day], models)
+                if newest.get(p[1]) and newest[p[1]] > p[2]] + plan
     added = 0
     for i, (day, label, init) in enumerate(plan):
         if budget_s is not None and _time.time() - t0 > budget_s:
@@ -1396,6 +1416,11 @@ def main():
         "models": models,
         "run_status": status,
     }
+    # display only: the table's "earlier runs" toggle (each model's 12Z/18Z runs pulled today)
+    try:
+        payload["earlier_runs"] = earlier_runs_for(station, day, models)
+    except Exception as exc:
+        print(f"Warning: earlier runs skipped ({type(exc).__name__}: {exc})")
     # nothing at all came through (e.g. offline just after the target day moved on): leave the
     # last forecasts up and only flag the failed update
     usable_any = any(wxc_carryover.has_values(m) for k, m in models.items() if k != "CONSENSUS")
@@ -1468,9 +1493,15 @@ def main():
     # 12Z/18Z runs scored separately on the page's toggle (display only; after everything scored)
     try:
         print("\nPer-cycle runs for the scoreboard's 12Z/18Z toggle (not scored):")
-        n = cycle_backfill(station, verif, points, now, fetch_grib=not args.skip_grib)
+        n = cycle_backfill(station, verif, points, now, fetch_grib=not args.skip_grib,
+                           target_day=day.isoformat())
         wxc_verify.refresh_cycles(station.icao)
         print(f"  {n} run(s) added")
+        # a skipped run of the day being forecast may have come in: the table's earlier runs
+        fj = json.loads(json_path.read_text()) if n and json_path.exists() else None
+        if fj and (fj.get("meta") or {}).get("target_date") == day.isoformat():
+            fj["earlier_runs"] = earlier_runs_for(station, day, fj.get("models") or {})
+            json_path.write_text(wxc_verify.dumps(fj, indent=2))
     except Exception as exc:
         print(f"Warning: per-cycle backfill skipped ({type(exc).__name__}: {exc})")
 

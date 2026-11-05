@@ -79,6 +79,11 @@
     #models-table{width:auto;margin-left:auto;margin-right:auto}
     #consensus-note{max-width:44rem;margin:0.6rem auto 0;line-height:1.45}
     #models-table td.num, #models-table th.num{padding:8px 14px;min-width:4.5rem}
+    /* "earlier runs" toggle (display only): each model's 12Z/18Z runs pulled today, under its row */
+    #earlier-wrap{text-align:center}
+    #models-table tr.earlier td{color:var(--ink-2);font-size:0.88rem;padding-top:3px;padding-bottom:3px}
+    #models-table tr.earlier td:first-child{padding-left:1.6rem}
+    #models-table .chg{display:block;font-size:0.75rem;line-height:1.1;color:var(--ink-3);white-space:nowrap}
     .back{margin-bottom:1rem;display:inline-block}
     img{width:100%;height:auto;border-radius:8px;margin-top:1rem}
     h2{margin-top:2.2rem}
@@ -235,6 +240,7 @@
   <h3 id="valid-range" class="muted">Valid: —</h3>
   <p id="afd-link" class="small" hidden></p>
 
+  <div id="earlier-wrap" hidden><label class="split-runs" id="earlier-label"><input type="checkbox" id="earlier-runs"> Show the 12Z and 18Z runs too</label></div>
   <section class="scroll">
     <table id="models-table" aria-label="Model comparison table">
       <thead>
@@ -535,7 +541,9 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', 
 const localTime = iso => new Date(iso).toLocaleString([], {month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'});
 // connection-level failures (same idea as wxc_carryover.NETWORK_ERROR): show a plain message, details on hover
 const NET_ERR = /max retries exceeded|connection(error| refused| reset| aborted)|name ?resolution|failed to resolve|nodename nor servname|network is unreachable|no route to host|timed out|timeout|remotedisconnected/i;
-function modelRow(key, label, m){
+// base: with the "earlier runs" toggle on, the oldest earlier run shown under this row; each
+// value then gets its change since that run
+function modelRow(key, label, m, base){
   let cls = key === 'CONSENSUS' ? ' class="consensus"' : '';
   const none = v => v === null || v === undefined;
   if (!m || (none(m.tmax_f) && none(m.precip_in))) {
@@ -551,10 +559,48 @@ function modelRow(key, label, m){
     const when = m.stale.fetched_at_utc ? `; pulled ${localTime(m.stale.fetched_at_utc)}` : '';
     note += `<div class="note" title="${esc(m.stale.error || '')}">⚠ Not refreshed (latest update failed${when})</div>`;
   }
+  if (base) {
+    const since = `${runLabel(base.init_time_utc).slice(-3)} run`;
+    const chg = (k, d) => {
+      const a = m[k], b = base[k];
+      if (none(a) || none(b)) return '';
+      const x = Math.abs(a - b) < 0.5 * Math.pow(10, -d) ? 0 : a - b;
+      return `<span class="chg" title="change since the ${since}">${x > 0 ? '▲' : x < 0 ? '▼' : '±'}${Math.abs(x).toFixed(d)}</span>`;
+    };
+    return `<tr${cls}><td>${label}${note}</td>
+    <td class="num">${fmt(m.tmax_f,1)}${chg('tmax_f',1)}</td><td class="num">${fmt(m.tmin_f,1)}${chg('tmin_f',1)}</td>
+    <td class="num">${fmt(m.wind_max_kt,1)}${chg('wind_max_kt',1)}</td><td class="num">${fmt(m.precip_in,2)}${chg('precip_in',2)}</td>
+    <td>${runLabel(m.init_time_utc)}<span class="chg">change since ${since}</span></td></tr>`;
+  }
   return `<tr${cls}><td>${label}${note}</td>
     <td class="num">${fmt(m.tmax_f,1)}</td><td class="num">${fmt(m.tmin_f,1)}</td>
     <td class="num">${fmt(m.wind_max_kt,1)}</td><td class="num">${fmt(m.precip_in,2)}</td>
     <td>${runLabel(m.init_time_utc)}</td></tr>`;
+}
+// an earlier run of a model (forecast.json "earlier_runs"), shown under the model's row
+function earlierRow(r){
+  return `<tr class="earlier"><td>${runLabel(r.init_time_utc).slice(-3)} run</td>
+    <td class="num">${fmt(r.tmax_f,1)}</td><td class="num">${fmt(r.tmin_f,1)}</td>
+    <td class="num">${fmt(r.wind_max_kt,1)}</td><td class="num">${fmt(r.precip_in,2)}</td>
+    <td>${runLabel(r.init_time_utc)}</td></tr>`;
+}
+let FC = null, EARLIER = false;
+// the table: with the toggle on, each model's 12Z/18Z runs (USL 12Z/22Z) pulled earlier today
+// go under its row, newest first, leaving out the run already shown on the row itself
+function renderModels(){
+  const rows = [];
+  for (const g of GROUPS) {
+    rows.push(`<tr class="group"><td colspan="6">${g.title}</td></tr>`);
+    for (const [key, label] of g.rows) {
+      const m = FC?.models?.[key], cur = m?.init_time_utc?.slice(0, 13);
+      const er = !EARLIER || key === 'CONSENSUS' ? [] : Object.values(FC?.earlier_runs?.[key] || {})
+        .filter(r => r.init_time_utc && r.init_time_utc.slice(0, 13) !== cur)
+        .sort((a, b) => b.init_time_utc.localeCompare(a.init_time_utc));
+      rows.push(modelRow(key, label, m, er.length ? er[er.length - 1] : undefined));
+      for (const r of er) rows.push(earlierRow(r));
+    }
+  }
+  document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
 }
 
 /* ---------- verification scoreboard ---------- */
@@ -892,6 +938,15 @@ splitBox.addEventListener('change', () => {
   try { localStorage.setItem('wxc-split', SPLIT ? '1' : '0'); } catch (e) {}
   if (VERIF) renderScore();
 });
+// the forecast table's "earlier runs" toggle (display only), remembered per browser
+const earlierBox = document.getElementById('earlier-runs');
+try { EARLIER = localStorage.getItem('wxc-earlier') === '1'; } catch (e) {}
+earlierBox.checked = EARLIER;
+earlierBox.addEventListener('change', () => {
+  EARLIER = earlierBox.checked;
+  try { localStorage.setItem('wxc-earlier', EARLIER ? '1' : '0'); } catch (e) {}
+  if (FC) renderModels();
+});
 // cycle scores come without errors (verification.json stays smaller): forecast minus observed
 function prepCycles(v){
   for (const d of [...(v.days || []), ...(v.today ? [v.today] : [])])
@@ -1178,12 +1233,9 @@ function renderToday(tj){
       const evoAfd = document.getElementById('evo-afd');
       if (evoAfd) { evoAfd.innerHTML = afd.innerHTML; evoAfd.hidden = false; }
     }
-    const rows = [];
-    for (const g of GROUPS) {
-      rows.push(`<tr class="group"><td colspan="6">${g.title}</td></tr>`);
-      for (const [key, label] of g.rows) rows.push(modelRow(key, label, data?.models?.[key]));
-    }
-    document.querySelector('#models-table tbody').innerHTML = rows.join('\n');
+    FC = data;
+    document.getElementById('earlier-wrap').hidden = !data.earlier_runs;
+    renderModels();
     CONS_W = Object.fromEntries(Object.entries(data?.models?.CONSENSUS?.method || {})
       .filter(([, d]) => d.weights).map(([k, d]) => [k, d.weights]));
     CONS_W.station = data?.meta?.station;
