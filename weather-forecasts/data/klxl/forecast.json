@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T16:15:09+00:00",
+  "generated_at_utc": "2026-11-05T17:32:26+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -85,11 +85,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 44.6,
-      "tmin_f": 30.4,
-      "wind_max_kt": 5.8,
+      "tmax_f": 44.8,
+      "tmin_f": 30.3,
+      "wind_max_kt": 5.5,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-05T06",
+      "init_time_utc": "2026-11-05T12",
       "valid_range_utc": [
         "2026-11-06 06:00:00",
         "2026-11-07 06:00:00"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-05T15",
+      "init_time_utc": "2026-11-05T16",
       "valid_range_utc": [
         "2026-11-06T06",
         "2026-11-07T06"
@@ -859,9 +859,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 41.7,
-      "tmin_f": 27.2,
-      "wind_max_kt": 5.2,
+      "tmax_f": 41.8,
+      "tmin_f": 27.1,
+      "wind_max_kt": 5.1,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-05T16:15:09+00:00",
+    "checked_at_utc": "2026-11-05T17:32:26+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
