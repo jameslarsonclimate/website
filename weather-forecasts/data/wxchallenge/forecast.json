@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T19:34:27+00:00",
+  "generated_at_utc": "2026-11-06T20:08:42+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 52.5,
-      "tmin_f": 33.1,
-      "wind_max_kt": 8.5,
+      "tmax_f": 51.9,
+      "tmin_f": 33.8,
+      "wind_max_kt": 9.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-06T06",
+      "init_time_utc": "2026-11-06T12",
       "valid_range_utc": [
         "2026-11-07T06",
         "2026-11-08T06"
@@ -82,11 +82,7 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-11-06T19:00:05+00:00",
-        "error": "Open-Meteo meta failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
       "tmax_f": 55.1,
@@ -874,8 +870,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 55.0,
-      "tmin_f": 33.5,
+      "tmax_f": 54.9,
+      "tmin_f": 33.6,
       "wind_max_kt": 14.1,
       "precip_in": 0.0,
       "method": {
@@ -975,16 +971,11 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-06T19:34:27+00:00",
-    "connectivity": true,
-    "failed": [
-      "IFS_HRES"
-    ],
-    "carried_over": [
-      "IFS_HRES"
-    ],
-    "message": "Connectivity issues: the update at 19:34Z couldn't reach some data sources; latest forecasts not pulled for IFS_HRES. Showing the last good forecasts for IFS_HRES."
+    "ok": true,
+    "checked_at_utc": "2026-11-06T20:08:42+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   },
   "earlier_runs": {
     "HRRR": {
@@ -1096,6 +1087,15 @@
         "tmax_f": null,
         "tmin_f": null,
         "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-06T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 51.9,
+        "tmin_f": 33.8,
+        "wind_max_kt": 9.1,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-06T12"
       }
