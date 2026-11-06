@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T16:00:09+00:00",
+  "generated_at_utc": "2026-11-06T16:09:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -154,13 +154,15 @@
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-11-07 available at 2026-11-06 16Z"
+      "tmax_f": 55.0,
+      "tmin_f": 34.0,
+      "wind_max_kt": 14.0,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-11-06T12",
+      "valid_range_utc": [
+        "2026-11-07T06",
+        "2026-11-08T06"
+      ]
     },
     "ENS": {
       "tmax_f": 52.6,
@@ -789,8 +791,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 54.9,
-      "tmin_f": 34.0,
+      "tmax_f": 55.0,
+      "tmin_f": 33.8,
       "wind_max_kt": 14.0,
       "precip_in": 0.0,
       "method": {
@@ -801,14 +803,16 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "IFS": 0.163,
-            "GFS": 0.259,
-            "GFS_MOS": 0.195,
-            "NBM": 0.204,
-            "ENS": 0.179
+            "IFS": 0.132,
+            "GFS": 0.231,
+            "GFS_MOS": 0.161,
+            "NBM": 0.153,
+            "USL": 0.196,
+            "ENS": 0.127
           },
           "excluded_outliers": [
             "HRRR",
@@ -824,16 +828,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.132,
-            "RRFS": 0.119,
-            "IFS": 0.164,
-            "GFS": 0.098,
-            "GFS_MOS": 0.113,
-            "NBM": 0.184,
-            "ENS": 0.191
+            "HRRR": 0.102,
+            "RRFS": 0.092,
+            "IFS": 0.126,
+            "GFS": 0.078,
+            "GFS_MOS": 0.09,
+            "NBM": 0.149,
+            "USL": 0.216,
+            "ENS": 0.145
           }
         },
         "wind_max_kt": {
@@ -845,16 +851,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.145,
-            "RRFS": 0.139,
-            "IFS": 0.117,
-            "GFS": 0.129,
-            "GFS_MOS": 0.182,
-            "NBM": 0.17,
-            "ENS": 0.118
+            "HRRR": 0.11,
+            "RRFS": 0.106,
+            "IFS": 0.089,
+            "GFS": 0.098,
+            "GFS_MOS": 0.138,
+            "NBM": 0.129,
+            "USL": 0.24,
+            "ENS": 0.09
           }
         },
         "precip_in": {
@@ -866,16 +874,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.144,
-            "RRFS": 0.148,
-            "IFS": 0.139,
-            "GFS": 0.144,
-            "GFS_MOS": 0.144,
-            "NBM": 0.147,
-            "ENS": 0.135
+            "HRRR": 0.126,
+            "RRFS": 0.13,
+            "IFS": 0.122,
+            "GFS": 0.127,
+            "GFS_MOS": 0.127,
+            "NBM": 0.129,
+            "USL": 0.121,
+            "ENS": 0.118
           }
         }
       }
@@ -883,11 +893,10 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-06T16:00:09+00:00",
+    "checked_at_utc": "2026-11-06T16:09:08+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "USL"
+      "HRRRCAST"
     ],
     "carried_over": []
   },
@@ -915,6 +924,15 @@
         "tmax_f": null,
         "tmin_f": null,
         "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-06T12"
+      }
+    },
+    "USL": {
+      "12": {
+        "tmax_f": 55.0,
+        "tmin_f": 34.0,
+        "wind_max_kt": 14.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-06T12"
       }
