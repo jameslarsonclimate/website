@@ -1,6 +1,7 @@
 {
  "checks": [
-  "2026-11-06T15:39:02+00:00"
+  "2026-11-06T15:39:02+00:00",
+  "2026-11-06T16:08:19+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -10,7 +11,7 @@
      "year": "26-27",
      "status": "As of 15Z",
      "final": false,
-     "fetched_at_utc": "2026-11-06T15:39:02+00:00",
+     "fetched_at_utc": "2026-11-06T16:08:19+00:00",
      "forecasters": {
       "Wndigo": {
        "forecast": {
@@ -32,7 +33,8 @@
         "penalty": 0,
         "points": 12.0,
         "cum_points": 57.3,
-        "rank": 39
+        "rank": 39,
+        "prev_rank": 36
        }
       },
       "Mothmn": {
@@ -55,7 +57,8 @@
         "penalty": 0,
         "points": 12.0,
         "cum_points": 59.0,
-        "rank": 67
+        "rank": 67,
+        "prev_rank": 56
        }
       },
       "Cyclop": {
@@ -78,7 +81,8 @@
         "penalty": 0,
         "points": 11.7,
         "cum_points": 66.9,
-        "rank": 202
+        "rank": 202,
+        "prev_rank": 205
        }
       },
       "JerDvl": {
@@ -101,7 +105,8 @@
         "penalty": 0,
         "points": 13.5,
         "cum_points": 67.6,
-        "rank": 215
+        "rank": 215,
+        "prev_rank": 186
        }
       },
       "Bigfut": {
@@ -124,7 +129,8 @@
         "penalty": 0,
         "points": 11.5,
         "cum_points": 67.9,
-        "rank": 226
+        "rank": 226,
+        "prev_rank": 228
        }
       },
       "Hodags": {
@@ -147,7 +153,8 @@
         "penalty": 0,
         "points": 11.5,
         "cum_points": 72.6,
-        "rank": 307
+        "rank": 307,
+        "prev_rank": 315
        }
       },
       "Kraken": {
@@ -170,7 +177,8 @@
         "penalty": 5,
         "points": 19.0,
         "cum_points": 75.6,
-        "rank": 351
+        "rank": 351,
+        "prev_rank": 233
        }
       },
       "Nessie": {
@@ -193,7 +201,8 @@
         "penalty": 0,
         "points": 23.9,
         "cum_points": 77.3,
-        "rank": 370
+        "rank": 370,
+        "prev_rank": 168
        }
       }
      }
@@ -1551,8 +1560,9 @@
     }
    },
    "year": "26-27",
-   "school": "csu"
+   "school": "csu",
+   "done_for": "2026-11-06"
   }
  },
- "generated_at_utc": "2026-11-06T15:39:02+00:00"
+ "generated_at_utc": "2026-11-06T16:08:19+00:00"
 }

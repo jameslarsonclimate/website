@@ -3,9 +3,9 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-06T15:39:02+00:00",
- "generated_at_utc": "2026-11-06T16:00:24+00:00",
- "note": "display only; scored against this page's observed values like the models (official WxChallenge points in official_points once final)",
+ "fetched_at_utc": "2026-11-06T16:08:19+00:00",
+ "generated_at_utc": "2026-11-06T16:08:28+00:00",
+ "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Wndigo": {
    "days": {
@@ -17,13 +17,12 @@
       "precip_in": 0.26
      },
      "error": {
-      "tmax_f": -5,
-      "tmin_f": -1,
+      "tmax_f": 0,
+      "tmin_f": 0,
       "wind_max_kt": 0,
       "precip_in": 0.12
      },
-     "points": 9.5,
-     "official_points": 3.5,
+     "points": 3.5,
      "rank": 19,
      "day": 1
     },
@@ -41,7 +40,6 @@
       "precip_in": 0.17
      },
      "points": 14.2,
-     "official_points": 14.2,
      "rank": 53,
      "day": 2
     },
@@ -59,7 +57,6 @@
       "precip_in": 0.0
      },
      "points": 2.0,
-     "official_points": 2.0,
      "rank": 27,
      "day": 3
     },
@@ -77,7 +74,6 @@
       "precip_in": 0.0
      },
      "points": 3.5,
-     "official_points": 3.5,
      "rank": 29,
      "day": 4
     },
@@ -89,13 +85,12 @@
       "precip_in": 0.23
      },
      "error": {
-      "tmax_f": 0,
+      "tmax_f": -2,
       "tmin_f": 2,
       "wind_max_kt": 4,
       "precip_in": -0.51
      },
-     "points": 12.0,
-     "official_points": 14.0,
+     "points": 14.0,
      "rank": 70,
      "day": 5
     },
@@ -113,7 +108,6 @@
       "precip_in": -0.06
      },
      "points": 6.1,
-     "official_points": 6.1,
      "rank": 69,
      "day": 6
     },
@@ -131,24 +125,23 @@
       "precip_in": 0.0
      },
      "points": 2.0,
-     "official_points": 2.0,
      "rank": 36,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 49.3,
-    "mean_points": 7.04,
+    "total_points": 45.3,
+    "mean_points": 6.47,
     "bias": {
-     "tmax_f": -0.697,
-     "tmin_f": 0.627,
+     "tmax_f": -0.541,
+     "tmin_f": 0.726,
      "wind_max_kt": -1.344,
      "precip_in": -0.061
     },
     "mae": {
-     "tmax_f": 1.8,
-     "tmin_f": 1.04,
+     "tmax_f": 1.644,
+     "tmin_f": 0.94,
      "wind_max_kt": 2.929,
      "precip_in": 0.127
     },
@@ -170,13 +163,12 @@
       "precip_in": 0.22
      },
      "error": {
-      "tmax_f": -6,
-      "tmin_f": 0,
+      "tmax_f": -1,
+      "tmin_f": 1,
       "wind_max_kt": 0,
       "precip_in": 0.08
      },
-     "points": 8.4,
-     "official_points": 4.4,
+     "points": 4.4,
      "rank": 48,
      "day": 1
     },
@@ -194,7 +186,6 @@
       "precip_in": 0.25
      },
      "points": 17.7,
-     "official_points": 17.7,
      "rank": 241,
      "day": 2
     },
@@ -212,7 +203,6 @@
       "precip_in": 0.0
      },
      "points": 2.0,
-     "official_points": 2.0,
      "rank": 135,
      "day": 3
     },
@@ -230,7 +220,6 @@
       "precip_in": 0.0
      },
      "points": 5.0,
-     "official_points": 5.0,
      "rank": 148,
      "day": 4
     },
@@ -242,13 +231,12 @@
       "precip_in": 0.22
      },
      "error": {
-      "tmax_f": -1,
+      "tmax_f": -3,
       "tmin_f": 1,
       "wind_max_kt": -1,
       "precip_in": -0.52
      },
-     "points": 10.8,
-     "official_points": 12.8,
+     "points": 12.8,
      "rank": 191,
      "day": 5
     },
@@ -266,7 +254,6 @@
       "precip_in": 0.07
      },
      "points": 4.7,
-     "official_points": 4.7,
      "rank": 132,
      "day": 6
     },
@@ -284,24 +271,23 @@
       "precip_in": -0.02
      },
      "points": 6.8,
-     "official_points": 6.8,
      "rank": 168,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 55.4,
-    "mean_points": 7.91,
+    "total_points": 53.4,
+    "mean_points": 7.63,
     "bias": {
-     "tmax_f": -2.086,
-     "tmin_f": 0.754,
+     "tmax_f": -1.93,
+     "tmin_f": 0.854,
      "wind_max_kt": -2.304,
      "precip_in": -0.039
     },
     "mae": {
-     "tmax_f": 2.821,
-     "tmin_f": 0.969,
+     "tmax_f": 2.665,
+     "tmin_f": 1.068,
      "wind_max_kt": 2.304,
      "precip_in": 0.139
     },
@@ -323,13 +309,12 @@
       "precip_in": 0.2
      },
      "error": {
-      "tmax_f": -7,
-      "tmin_f": -2,
+      "tmax_f": -2,
+      "tmin_f": -1,
       "wind_max_kt": 1,
       "precip_in": 0.06
      },
-     "points": 11.3,
-     "official_points": 5.3,
+     "points": 5.3,
      "rank": 97,
      "day": 1
     },
@@ -347,7 +332,6 @@
       "precip_in": 0.18
      },
      "points": 11.5,
-     "official_points": 11.5,
      "rank": 35,
      "day": 2
     },
@@ -366,7 +350,6 @@
      },
      "points": 6.0,
      "flag": "G",
-     "official_points": 6.0,
      "rank": 94,
      "day": 3
     },
@@ -384,7 +367,6 @@
       "precip_in": 0.0
      },
      "points": 3.5,
-     "official_points": 3.5,
      "rank": 85,
      "day": 4
     },
@@ -396,15 +378,14 @@
       "precip_in": 0.2
      },
      "error": {
-      "tmax_f": 0,
+      "tmax_f": -2,
       "tmin_f": 3,
       "wind_max_kt": -5,
       "precip_in": -0.54
      },
-     "points": 19.4,
+     "points": 21.4,
      "penalty": 5,
      "flag": "G",
-     "official_points": 21.4,
      "rank": 343,
      "day": 5
     },
@@ -422,7 +403,6 @@
       "precip_in": -0.06
      },
      "points": 6.6,
-     "official_points": 6.6,
      "rank": 312,
      "day": 6
     },
@@ -440,24 +420,23 @@
       "precip_in": -0.02
      },
      "points": 6.8,
-     "official_points": 6.8,
      "rank": 315,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 65.1,
-    "mean_points": 9.3,
+    "total_points": 61.1,
+    "mean_points": 8.73,
     "bias": {
-     "tmax_f": -1.005,
-     "tmin_f": 0.92,
+     "tmax_f": -0.849,
+     "tmin_f": 1.019,
      "wind_max_kt": -3.505,
      "precip_in": -0.075
     },
     "mae": {
-     "tmax_f": 2.108,
-     "tmin_f": 1.532,
+     "tmax_f": 1.952,
+     "tmin_f": 1.432,
      "wind_max_kt": 4.399,
      "precip_in": 0.13
     },
@@ -479,13 +458,12 @@
       "precip_in": 0.31
      },
      "error": {
-      "tmax_f": -4,
-      "tmin_f": -1,
+      "tmax_f": 1,
+      "tmin_f": 0,
       "wind_max_kt": 0,
       "precip_in": 0.17
      },
-     "points": 9.5,
-     "official_points": 5.5,
+     "points": 5.5,
      "rank": 113,
      "day": 1
     },
@@ -503,7 +481,6 @@
       "precip_in": 0.24
      },
      "points": 19.0,
-     "official_points": 19.0,
      "rank": 380,
      "day": 2
     },
@@ -521,7 +498,6 @@
       "precip_in": 0.0
      },
      "points": 3.0,
-     "official_points": 3.0,
      "rank": 253,
      "day": 3
     },
@@ -539,7 +515,6 @@
       "precip_in": 0.0
      },
      "points": 6.0,
-     "official_points": 6.0,
      "rank": 281,
      "day": 4
     },
@@ -551,13 +526,12 @@
       "precip_in": 0.15
      },
      "error": {
-      "tmax_f": 1,
+      "tmax_f": -1,
       "tmin_f": 1,
       "wind_max_kt": 1,
       "precip_in": -0.59
      },
      "points": 12.9,
-     "official_points": 12.9,
      "rank": 317,
      "day": 5
     },
@@ -575,7 +549,6 @@
       "precip_in": -0.06
      },
      "points": 4.1,
-     "official_points": 4.1,
      "rank": 220,
      "day": 6
     },
@@ -593,24 +566,23 @@
       "precip_in": -0.01
      },
      "points": 5.9,
-     "official_points": 5.9,
      "rank": 228,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 60.4,
-    "mean_points": 8.63,
+    "total_points": 56.4,
+    "mean_points": 8.06,
     "bias": {
-     "tmax_f": -1.648,
-     "tmin_f": -0.117,
+     "tmax_f": -1.492,
+     "tmin_f": -0.018,
      "wind_max_kt": -2.37,
      "precip_in": -0.063
     },
     "mae": {
-     "tmax_f": 2.356,
-     "tmin_f": 1.193,
+     "tmax_f": 2.058,
+     "tmin_f": 1.094,
      "wind_max_kt": 3.012,
      "precip_in": 0.155
     },
@@ -632,13 +604,12 @@
       "precip_in": 0.24
      },
      "error": {
-      "tmax_f": -3,
-      "tmin_f": -2,
+      "tmax_f": 2,
+      "tmin_f": -1,
       "wind_max_kt": 1,
       "precip_in": 0.1
      },
-     "points": 8.5,
-     "official_points": 6.5,
+     "points": 6.5,
      "rank": 198,
      "day": 1
     },
@@ -656,7 +627,6 @@
       "precip_in": 0.19
      },
      "points": 15.3,
-     "official_points": 15.3,
      "rank": 222,
      "day": 2
     },
@@ -674,7 +644,6 @@
       "precip_in": 0.0
      },
      "points": 4.0,
-     "official_points": 4.0,
      "rank": 190,
      "day": 3
     },
@@ -692,7 +661,6 @@
       "precip_in": 0.0
      },
      "points": 4.0,
-     "official_points": 4.0,
      "rank": 171,
      "day": 4
     },
@@ -704,13 +672,12 @@
       "precip_in": 0.18
      },
      "error": {
-      "tmax_f": 0,
+      "tmax_f": -2,
       "tmin_f": 1,
       "wind_max_kt": 3,
       "precip_in": -0.56
      },
-     "points": 12.0,
-     "official_points": 14.0,
+     "points": 14.0,
      "rank": 242,
      "day": 5
     },
@@ -728,7 +695,6 @@
       "precip_in": 0.04
      },
      "points": 5.9,
-     "official_points": 5.9,
      "rank": 204,
      "day": 6
     },
@@ -746,7 +712,6 @@
       "precip_in": -0.01
      },
      "points": 4.4,
-     "official_points": 4.4,
      "rank": 186,
      "day": 7
     }
@@ -756,14 +721,14 @@
     "total_points": 54.1,
     "mean_points": 7.73,
     "bias": {
-     "tmax_f": -1.104,
-     "tmin_f": 0.532,
+     "tmax_f": -0.948,
+     "tmin_f": 0.632,
      "wind_max_kt": -1.981,
      "precip_in": -0.054
     },
     "mae": {
-     "tmax_f": 1.84,
-     "tmin_f": 1.161,
+     "tmax_f": 2.081,
+     "tmin_f": 1.062,
      "wind_max_kt": 3.491,
      "precip_in": 0.134
     },
@@ -785,13 +750,12 @@
       "precip_in": 0.27
      },
      "error": {
-      "tmax_f": -3,
-      "tmin_f": 0,
+      "tmax_f": 2,
+      "tmin_f": 1,
       "wind_max_kt": -1,
       "precip_in": 0.13
      },
      "points": 7.2,
-     "official_points": 7.2,
      "rank": 266,
      "day": 1
     },
@@ -809,7 +773,6 @@
       "precip_in": 0.16
      },
      "points": 16.4,
-     "official_points": 16.4,
      "rank": 332,
      "day": 2
     },
@@ -827,7 +790,6 @@
       "precip_in": 0.0
      },
      "points": 4.5,
-     "official_points": 4.5,
      "rank": 276,
      "day": 3
     },
@@ -846,7 +808,6 @@
      },
      "points": 5.0,
      "flag": "G",
-     "official_points": 5.0,
      "rank": 269,
      "day": 4
     },
@@ -858,13 +819,12 @@
       "precip_in": 0.16
      },
      "error": {
-      "tmax_f": 1,
+      "tmax_f": -1,
       "tmin_f": 0,
       "wind_max_kt": 1,
       "precip_in": -0.58
      },
      "points": 11.6,
-     "official_points": 11.6,
      "rank": 275,
      "day": 5
     },
@@ -882,7 +842,6 @@
       "precip_in": -0.08
      },
      "points": 5.0,
-     "official_points": 5.0,
      "rank": 204,
      "day": 6
     },
@@ -900,7 +859,6 @@
       "precip_in": -0.01
      },
      "points": 6.9,
-     "official_points": 6.9,
      "rank": 233,
      "day": 7
     }
@@ -910,14 +868,14 @@
     "total_points": 56.6,
     "mean_points": 8.09,
     "bias": {
-     "tmax_f": -1.248,
-     "tmin_f": -0.17,
+     "tmax_f": -1.092,
+     "tmin_f": -0.071,
      "wind_max_kt": -3.268,
      "precip_in": -0.078
     },
     "mae": {
-     "tmax_f": 2.324,
-     "tmin_f": 0.906,
+     "tmax_f": 2.225,
+     "tmin_f": 1.005,
      "wind_max_kt": 3.583,
      "precip_in": 0.144
     },
@@ -939,13 +897,12 @@
       "precip_in": 0.31
      },
      "error": {
-      "tmax_f": -3,
-      "tmin_f": 0,
+      "tmax_f": 2,
+      "tmin_f": 1,
       "wind_max_kt": 1,
       "precip_in": 0.17
      },
      "points": 8.0,
-     "official_points": 8.0,
      "rank": 372,
      "day": 1
     },
@@ -963,7 +920,6 @@
       "precip_in": 0.11
      },
      "points": 12.4,
-     "official_points": 12.4,
      "rank": 142,
      "day": 2
     },
@@ -981,7 +937,6 @@
       "precip_in": 0.0
      },
      "points": 1.5,
-     "official_points": 1.5,
      "rank": 68,
      "day": 3
     },
@@ -999,7 +954,6 @@
       "precip_in": 0.0
      },
      "points": 3.0,
-     "official_points": 3.0,
      "rank": 59,
      "day": 4
     },
@@ -1011,13 +965,12 @@
       "precip_in": 0.11
      },
      "error": {
-      "tmax_f": 1,
+      "tmax_f": -1,
       "tmin_f": 0,
       "wind_max_kt": 3,
       "precip_in": -0.63
      },
      "points": 14.1,
-     "official_points": 14.1,
      "rank": 106,
      "day": 5
     },
@@ -1036,7 +989,6 @@
      },
      "points": 12.2,
      "flag": "G",
-     "official_points": 12.2,
      "rank": 246,
      "day": 6
     },
@@ -1054,7 +1006,6 @@
       "precip_in": 0.0
      },
      "points": 4.0,
-     "official_points": 4.0,
      "rank": 205,
      "day": 7
     }
@@ -1064,14 +1015,14 @@
     "total_points": 55.2,
     "mean_points": 7.89,
     "bias": {
-     "tmax_f": -0.683,
-     "tmin_f": 0.444,
+     "tmax_f": -0.527,
+     "tmin_f": 0.544,
      "wind_max_kt": -1.448,
      "precip_in": -0.114
     },
     "mae": {
-     "tmax_f": 2.494,
-     "tmin_f": 0.659,
+     "tmax_f": 2.395,
+     "tmin_f": 0.758,
      "wind_max_kt": 2.631,
      "precip_in": 0.176
     },
@@ -1093,13 +1044,12 @@
       "precip_in": 0.29
      },
      "error": {
-      "tmax_f": -3,
-      "tmin_f": 0,
+      "tmax_f": 2,
+      "tmin_f": 1,
       "wind_max_kt": -2,
       "precip_in": 0.15
      },
      "points": 8.1,
-     "official_points": 8.1,
      "rank": 380,
      "day": 1
     },
@@ -1117,7 +1067,6 @@
       "precip_in": 0.26
      },
      "points": 15.9,
-     "official_points": 15.9,
      "rank": 352,
      "day": 2
     },
@@ -1135,7 +1084,6 @@
       "precip_in": 0.0
      },
      "points": 5.5,
-     "official_points": 5.5,
      "rank": 339,
      "day": 3
     },
@@ -1153,7 +1101,6 @@
       "precip_in": 0.0
      },
      "points": 3.5,
-     "official_points": 3.5,
      "rank": 268,
      "day": 4
     },
@@ -1165,13 +1112,12 @@
       "precip_in": 0.35
      },
      "error": {
-      "tmax_f": 2,
+      "tmax_f": 0,
       "tmin_f": 0,
       "wind_max_kt": 1,
       "precip_in": -0.39
      },
-     "points": 7.9,
-     "official_points": 5.9,
+     "points": 5.9,
      "rank": 103,
      "day": 5
     },
@@ -1189,7 +1135,6 @@
       "precip_in": 0.06
      },
      "points": 7.1,
-     "official_points": 7.1,
      "rank": 113,
      "day": 6
     },
@@ -1207,24 +1152,23 @@
       "precip_in": 0.0
      },
      "points": 1.0,
-     "official_points": 1.0,
      "rank": 56,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 49.0,
-    "mean_points": 7.0,
+    "total_points": 47.0,
+    "mean_points": 6.71,
     "bias": {
-     "tmax_f": -0.432,
-     "tmin_f": 0.252,
+     "tmax_f": -0.276,
+     "tmin_f": 0.351,
      "wind_max_kt": -1.724,
      "precip_in": -0.007
     },
     "mae": {
-     "tmax_f": 2.216,
-     "tmin_f": 0.483,
+     "tmax_f": 1.777,
+     "tmin_f": 0.583,
      "wind_max_kt": 3.02,
      "precip_in": 0.121
     },

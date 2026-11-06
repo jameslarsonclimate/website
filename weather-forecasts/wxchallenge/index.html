@@ -456,7 +456,9 @@
       members' RH).</p>
     <h3 id="about-verification">Model verification</h3>
     <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using WxChallenge-style points (1 per
-      °F, 0.5 per kt, tiered precip). ★ = best model that day. Shaded days come before this city's first
+      °F, 0.5 per kt, tiered precip). ★ = best model that day. Observed values come from METARs and the NWS
+      climate report until WxChallenge posts its final values for the day (each morning), which then replace
+      them; the Observed cell's tooltip says which, and gives this page's own value where the two differed. Shaded days come before this city's first
       forecast day: they are hindcasts (the runs available at 23Z the day before), there to give every model a
       track record from day one. The consensus on those days (<i>italic</i>, <sup>r</sup>) was not submitted: it
       is reconstructed the way the consensus works now, using only the days before it. The last column (<i>so
@@ -523,7 +525,7 @@ const GROUPS = [
 const LABEL = Object.fromEntries(GROUPS.flatMap(g => g.rows));
 const OBS_SRC = {'6h_group': '6-h METAR group', hourly: 'hourly / SPECI METAR groups', cli: 'NWS CLI',
   metar_override: 'METAR above the CLI', metar: 'METAR (no CLI)', cli_backup: 'CLI backup (METAR missing)',
-  pending: 'waiting for the final CLI'};
+  pending: 'waiting for the final CLI', wxc_official: 'WxChallenge official'};
 const VARS = {
   tmax_f:      { name: 'High', unit: '°F', dec: 0, bins: [1, 3, 5] },
   tmin_f:      { name: 'Low',  unit: '°F', dec: 0, bins: [1, 3, 5] },
@@ -785,6 +787,10 @@ function renderScore(){
   let obs = '<tr class="obs"><td class="model">Observed</td>';
   obs += days.map((d, i) => {
     const o = d.obs, src = d.obs_source || {}, pend = d.obs_pending || [];
+    const own = d.obs_own || {}, osrc = d.obs_own_source || {};
+    // where WxChallenge's official value replaced ours: ours, and where it came from
+    const ours = k => own[k] == null ? '' : `; ours was ${fmt(own[k], VARS[k].dec)}` +
+      (osrc[k] ? ` from ${OBS_SRC[osrc[k]] || osrc[k]}` : '');
     const shown = VIEW === 'points' ? ['tmax_f', 'tmin_f'] : CV ? [] : [VIEW];
     const mark = shown.some(k => pend.includes(k)) ? '<sup aria-label="pending">p</sup>' : '';
     const txt = VIEW === 'points' ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}`
@@ -793,7 +799,7 @@ function renderScore(){
     // where each observed value came from (wxc_obs "source"); p = still waiting for the final CLI
     const title = ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k =>
       `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} (${OBS_SRC[src[k]] || src[k] || d.wind_source || '?'}` +
-      `${pend.includes(k) ? ', pending' : ''})`).join('\n');
+      `${ours(k)}${pend.includes(k) ? ', pending' : ''})`).join('\n');
     const co = cloudDay(d.date)?.obs;
     const ctitle = co ? `\nClouds (METAR, not scored): night ${pct0(co.night_pct)}, day ${pct0(co.day_pct)}` +
       (co.goes_day_pct != null || co.goes_night_pct != null
@@ -849,8 +855,21 @@ function renderScore(){
     }
     return tr + '</tr>';
   });
+  // forecasters a reader added, ranked among the models: each goes in just before the first row
+  // that ranks below it (same key as the rows' order: average points; split view unrounded;
+  // rows with only today's provisional score after; the consensus last), the models never reorder
+  const rankKey = (s, today, cons) => cons ? [2, 0]
+    : s ? [0, SP ? s.total_points / s.n_days : s.mean_points] : [1, today ?? Infinity];
+  const after = (a, b) => a[0] - b[0] || a[1] - b[1];
+  const modelKeys = rowsDef.map(r => rankKey(sumOf(r), todayOf(r)?.points, r.name === 'CONSENSUS'));
   const people = personRows(days, T, CV, cls, range);
-  table.innerHTML = head + '<tbody>' + obs + people + rows.join('') + '</tbody>';
+  const out = rows.map((html, i) => ({ html, k: modelKeys[i] }));
+  for (const p of people) {
+    const k = rankKey(p.s, p.today, false);
+    const at = out.findIndex(x => after(x.k, k) > 0);
+    out.splice(at < 0 ? out.length : at, 0, { html: p.html, k });
+  }
+  table.innerHTML = head + '<tbody>' + obs + out.map(x => x.html).join('') + '</tbody>';
   pinAvg();
 
   // legend
@@ -871,8 +890,8 @@ function renderScore(){
       <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
       <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
   }
-  if (people) legend.insertAdjacentHTML('beforeend', `<span>· rows with a blue edge are the forecasters you added,
-    scored like the models against this page's observed values (tooltip: the official points); never in the consensus</span>`);
+  if (people.length) legend.insertAdjacentHTML('beforeend', `<span>· rows with a blue edge are the forecasters you added, ranked with the models by average points,
+    scored like the models (penalties included, so their points match WxChallenge's); never in the consensus</span>`);
   if (SP) legend.insertAdjacentHTML('beforeend', `<span>· one row per model run (12Z, 18Z; USL 22Z) from
     the day before, each scored and ranked on its own; the normal view and the consensus use the submitted run</span>`);
   const box = document.getElementById('split-runs'), lab = document.getElementById('split-label');
@@ -900,9 +919,9 @@ function teamKey(name){
   const n = name.trim().toLowerCase();
   return Object.keys(TEAM.forecasters || {}).find(k => k.toLowerCase() === n) || null;
 }
-// a forecaster's row; range: each day's best/worst model points (the colour scale is the models')
+// each forecaster's row {html, s: summary, today: today's points}; range: each day's best/worst model points (the colour scale is the models')
 function personRows(days, T, CV, cls, range){
-  if (!teamOk()) return '';
+  if (!teamOk()) return [];
   const tToday = T && TEAM.today?.date === T.date ? TEAM.today.forecasters : null;
   const tp = T ? Object.values(T.models).map(m => m.points) : [];
   return PEOPLE.map(teamKey).filter(Boolean).map(name => {
@@ -932,8 +951,8 @@ function personRows(days, T, CV, cls, range){
       const dec = VARS[VIEW].dec === 0 ? 1 : 2;
       tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}</span></td>`;
     }
-    return tr + '</tr>';
-  }).join('');
+    return { html: tr + '</tr>', s, today: tToday?.[name]?.points };
+  });
 }
 // the models' average on the forecaster's own days (the Avg column's models cover more days)
 function sameDays(P){
@@ -963,10 +982,7 @@ function personTip(td, ev){
   const extra = [];
   if (m.penalty) extra.push(`includes a ${m.penalty}-point WxChallenge penalty${m.flag ? ` (marked ${esc(m.flag)})` : ''}`);
   else if (m.flag) extra.push(`marked ${esc(m.flag)} on WxChallenge`);
-  if (m.official_points != null) extra.push(m.official_points === m.points ? 'same as the official score'
-    : `official score ${m.official_points.toFixed(1)} (WxChallenge's observed values differ from this page's)`);
-  else if (!now) extra.push('official score not final yet');
-  if (m.rank != null) extra.push(`national rank ${m.rank} after day ${m.day}`);
+  if (m.rank != null && !now) extra.push(`national rank ${m.rank} after day ${m.day}`);
   tip.innerHTML = `<b>${esc(name)} · ${d.date}${so}${m.day ? ` (day ${m.day})` : ''}</b><br>` +
     ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(line).join('<br>') +
     `<br><b>${m.points.toFixed(1)} points${so}</b> · better than ${beat} of ${others.length} models` +

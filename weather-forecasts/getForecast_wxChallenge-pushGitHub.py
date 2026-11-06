@@ -1327,6 +1327,12 @@ def main():
                     print(f"    note: {n}")
         except Exception as exc:
             print("Warning: observation update failed:", exc)
+    # WxChallenge's own results, once a day (wxc_team.due): their final observed values replace
+    # ours where they differ (before anything is scored), plus the team's forecasts for the page
+    try:
+        wxc_team.update(station.icao, now)
+    except Exception as exc:
+        print(f"Warning: WxChallenge results not read ({type(exc).__name__}: {exc})")
 
     # ---- 2. hindcasts: model runs for recent days that were never forecast ----
     if args.hindcast_days > 0:
@@ -1476,13 +1482,9 @@ def main():
         except Exception as exc:
             print("Today-so-far figure skipped:", type(exc).__name__, exc)
 
-    # team forecasters on the scoreboard (display only; after verification.json's today column).
-    # results.php is read a few times a day at most (wxc_team.due); rescoring needs no requests.
+    # team forecasters on the scoreboard (display only; after verification.json's today column;
+    # read from results.php in step 1, so no requests here)
     print("\nTeam forecasters for the scoreboard (not scored):")
-    try:
-        wxc_team.update(station.icao, now)
-    except Exception as exc:
-        print(f"  warning: team results not read ({type(exc).__name__}: {exc})")
     try:
         t = wxc_team.write_scores()
         if t:

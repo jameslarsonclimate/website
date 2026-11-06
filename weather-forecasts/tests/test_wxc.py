@@ -754,7 +754,7 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     (v.LEGACY_HISTORY).unlink(missing_ok=True)
     v.append_run("2025-09-26T22:00:00+00:00", "KTPA", date(2025, 9, 27),
                  {"GFS": {"tmax_f": 84, "tmin_f": 71, "wind_max_kt": 8, "precip_in": 0.1}})
-    monkeypatch.setattr(m.wxc_team, "_get", lambda s: pytest.fail("network call in an offline test: results.php"))
+    monkeypatch.setattr(m.wxc_team, "_post", lambda *a, **k: pytest.fail("network call in an offline test: results.php"))
     assert m.wxc_team.RAW.is_relative_to(work)              # never the real team files
     monkeypatch.setattr(m.wxc_team, "due", lambda *a, **k: False)
     monkeypatch.setattr(sys, "argv", ["x", "KTPA", "--no-push", "--obs-days", "3", "--hindcast-days", "4"])

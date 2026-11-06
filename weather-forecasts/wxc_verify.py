@@ -205,11 +205,70 @@ def wind_is_final(rec: dict) -> bool:
     return rec.get("wind_source") == "CLI" and not rec.get("cli_preliminary")
 
 
+# WxChallenge's own final values (results.php, read by wxc_team) are what forecasts are scored
+# on, so they replace ours wherever the two differ. Our value and its source are kept under
+# "own" / "own_source" (shown in the page's tooltip), and a later fetch of our own values never
+# undoes the override (upsert_observations re-applies it).
+OFFICIAL = "wxc_official"
+
+
+def apply_official(rec: dict, off: dict) -> dict:
+    """rec with WxChallenge's final values (off: {"obs": {var: value}, "status", ...})."""
+    r = dict(rec)
+    src, own, own_src = dict(r.get("source") or {}), dict(r.get("own") or {}), dict(r.get("own_source") or {})
+    for v in VARS:
+        x = (off.get("obs") or {}).get(v)
+        if x is None:
+            continue
+        mine = own.get(v, r.get(v))                 # our value, before any earlier override
+        mine_src = own_src.get(v, src.get(v))
+        if mine is not None and mine != x:
+            own[v], own_src[v], src[v] = mine, mine_src, OFFICIAL
+        else:                                       # same as ours (or nothing of ours): keep our source
+            own.pop(v, None)
+            src[v] = own_src.pop(v, None) or src.get(v) or OFFICIAL
+        r[v] = x
+    if own:
+        r["own"], r["own_source"] = own, own_src
+    else:
+        r.pop("own", None), r.pop("own_source", None)
+    if own.get("wind_max_kt") is not None:
+        r["wind_source"] = "WxChallenge"
+    r["source"], r["official"] = src, off
+    done = [v for v in VARS if (off.get("obs") or {}).get(v) is not None]
+    r["pending"] = [v for v in r.get("pending") or [] if v not in done]
+    if len(done) == len(VARS):
+        r["complete"], r["final"] = True, True
+    return r
+
+
+def set_official(station: str, official: dict) -> list:
+    """Apply WxChallenge's final values {date: off} to observations.jsonl. Returns the changes
+    [(date, var, ours, official)] that this call made (values that were already applied are not repeated)."""
+    from wxc_obs import OBS_METHOD
+    rows = {(r["station"], r["date"]): r for r in read_jsonl(OBS)}
+    changes = []
+    for day, off in sorted(official.items()):
+        old = rows.get((station, day)) or {"station": station, "date": day, "source": {}, "pending": [],
+                                            "complete": True, "obs_method": OBS_METHOD, "notes": []}
+        new = apply_official(old, off)
+        for v in VARS:
+            if new.get(v) != old.get(v):
+                changes.append((day, v, (new.get("own") or {}).get(v, old.get(v)), new.get(v)))
+        rows[(station, day)] = new
+    write_jsonl(OBS, sorted(rows.values(), key=lambda r: (r["station"], r["date"])))
+    return changes
+
+
 def upsert_observations(records: list):
     rows = {(r["station"], r["date"]): r for r in read_jsonl(OBS)}
     for r in records:
         key = (r["station"], r["date"])
         old = rows.get(key)
+        if old and old.get("official") and not r.get("official"):
+            r = apply_official(r, old["official"])      # WxChallenge's values stay over ours
+            rows[key] = r
+            continue
         # never replace a final wind with a pending one (e.g. the CLI fetch failed this time)
         if old and wind_is_final(old) and not wind_is_final(r):
             r = {**r, **{k: old[k] for k in old if k.startswith("cli_") or k in ("wind_max_kt", "wind_source")}}
@@ -369,6 +428,8 @@ def scored_days(station: str, start: Optional[str] = None, end: Optional[str] = 
         entry = {"date": o["date"], "obs": {v: o.get(v) for v in VARS},
                  "wind_source": o.get("wind_source"),
                  "obs_source": o.get("source"), "obs_pending": o.get("pending") or [],
+                 # our own values where WxChallenge's official ones differ (and replace them)
+                 **({"obs_own": o["own"], "obs_own_source": o.get("own_source") or {}} if o.get("own") else {}),
                  "run": max((t for _, t, _ in fcs.values()), default=None),
                  "hindcast": any(h for _, _, h in fcs.values()), "models": {}, "forecasts": {}}
         for name, (fc, t, hind) in fcs.items():
