@@ -1,7 +1,7 @@
 #!/bin/bash
 # Schedule the WxChallenge forecast on this Mac with launchd (macOS's built-in scheduler).
 #
-#   ./install_schedule.sh                 install: every 30 min from 8:00 am, then every 12 min
+#   ./install_schedule.sh                 install: every 30 min from 6:00 am, then every 12 min
 #                                         from 3:00 pm to the 00Z forecast cutoff
 #   ./install_schedule.sh --start 7 --end 17 --every 20 --minute 5 --late-start 14 --late-every 10
 #   ./install_schedule.sh --status        is it loaded, when did it last run
@@ -29,7 +29,7 @@ RUNNER="$DIR/getForecast_wxChallenge.sh"
 PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
 LOG="$HOME/Library/Logs/wxchallenge.log"
 DOMAIN="gui/$(id -u)"
-START=8; END=17; MINUTE=0; EVERY=30   # 8:00, 8:30, ... 14:30
+START=6; END=17; MINUTE=0; EVERY=30   # 6:00, 6:30, ... 14:30
 LATE_START=15; LATE_EVERY=12           # then 15:00, 15:12, ... 17:48; runs after 00Z skip themselves
 
 case "${1:-}" in
