@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-06T16:08:19+00:00",
- "generated_at_utc": "2026-11-06T20:33:53+00:00",
+ "generated_at_utc": "2026-11-06T21:05:48+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Wndigo": {
@@ -1193,7 +1193,7 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": -1,
      "tmin_f": 0,
      "wind_max_kt": 5,
      "precip_in": 0.0
@@ -1209,12 +1209,12 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -2,
      "tmin_f": 1,
      "wind_max_kt": 5,
      "precip_in": 0.0
     },
-    "points": 3.5,
+    "points": 5.5,
     "day": 8
    },
    "Cyclop": {
@@ -1225,12 +1225,12 @@
      "precip_in": 0.03
     },
     "error": {
-     "tmax_f": -1,
+     "tmax_f": -3,
      "tmin_f": 0,
      "wind_max_kt": 6,
      "precip_in": 0.03
     },
-    "points": 5.2,
+    "points": 7.2,
     "day": 8
    },
    "JerDvl": {
@@ -1241,12 +1241,12 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 2,
+     "tmax_f": 0,
      "tmin_f": 1,
      "wind_max_kt": 4,
      "precip_in": 0.0
     },
-    "points": 5.0,
+    "points": 3.0,
     "day": 8
    },
    "Bigfut": {
@@ -1257,7 +1257,7 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": -1,
      "tmin_f": 0,
      "wind_max_kt": 4,
      "precip_in": 0.0
@@ -1273,7 +1273,7 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": -1,
      "tmin_f": 0,
      "wind_max_kt": 4,
      "precip_in": 0.0
@@ -1289,12 +1289,12 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 3,
+     "tmax_f": 1,
      "tmin_f": 2,
      "wind_max_kt": 1,
      "precip_in": 0.0
     },
-    "points": 10.5,
+    "points": 8.5,
     "penalty": 5,
     "flag": "G",
     "day": 8
@@ -1307,7 +1307,7 @@
      "precip_in": 0.01
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": -1,
      "tmin_f": 7,
      "wind_max_kt": 14,
      "precip_in": 0.01
