@@ -4334,7 +4334,7 @@
     }
   },
   "period_start": "2026-10-13",
-  "generated_at_utc": "2026-11-06T15:45:07+00:00",
+  "generated_at_utc": "2026-11-06T16:15:08+00:00",
   "observations": [
     {
       "date": "2026-10-13",
@@ -6893,13 +6893,13 @@
   },
   "today": {
     "date": "2026-11-06",
-    "through_utc": "2026-11-06T15:35",
-    "n_obs": 5,
+    "through_utc": "2026-11-06T15:55",
+    "n_obs": 6,
     "provisional": true,
     "obs": {
-      "tmax_f": 34,
+      "tmax_f": 36,
       "tmin_f": 25,
-      "wind_max_kt": 4,
+      "wind_max_kt": 5,
       "precip_in": 0.0
     },
     "models": {
@@ -6911,12 +6911,12 @@
           "precip_in": 0.01
         },
         "error": {
-          "tmax_f": 2,
+          "tmax_f": 0,
           "tmin_f": 7,
-          "wind_max_kt": 3,
+          "wind_max_kt": 2,
           "precip_in": 0.01
         },
-        "points": 10.9,
+        "points": 8.4,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "RRFS": {
@@ -6927,12 +6927,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 4,
+          "tmax_f": 2,
           "tmin_f": 7,
-          "wind_max_kt": 3,
+          "wind_max_kt": 2,
           "precip_in": 0.0
         },
-        "points": 12.5,
+        "points": 10.0,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "IFS": {
@@ -6943,12 +6943,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 11,
+          "tmax_f": 9,
           "tmin_f": 3,
-          "wind_max_kt": 1,
+          "wind_max_kt": 0,
           "precip_in": 0.0
         },
-        "points": 14.5,
+        "points": 12.0,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "IFS_HRES": {
@@ -6959,12 +6959,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 11,
+          "tmax_f": 9,
           "tmin_f": 3,
-          "wind_max_kt": 1,
+          "wind_max_kt": 0,
           "precip_in": 0.0
         },
-        "points": 14.5,
+        "points": 12.0,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "GFS": {
@@ -6975,12 +6975,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 11,
+          "tmax_f": 9,
           "tmin_f": 5,
-          "wind_max_kt": 2,
+          "wind_max_kt": 1,
           "precip_in": 0.0
         },
-        "points": 17.0,
+        "points": 14.5,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "GFS_MOS": {
@@ -6991,12 +6991,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 12,
+          "tmax_f": 10,
           "tmin_f": -2,
-          "wind_max_kt": 1,
+          "wind_max_kt": 0,
           "precip_in": 0.0
         },
-        "points": 14.5,
+        "points": 12.0,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "NBM": {
@@ -7007,12 +7007,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 7,
+          "tmax_f": 5,
           "tmin_f": -1,
-          "wind_max_kt": -2,
+          "wind_max_kt": -3,
           "precip_in": 0.0
         },
-        "points": 9.0,
+        "points": 7.5,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "ENS": {
@@ -7023,12 +7023,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 11,
+          "tmax_f": 9,
           "tmin_f": 3,
-          "wind_max_kt": 1,
+          "wind_max_kt": 0,
           "precip_in": 0.0
         },
-        "points": 14.5,
+        "points": 12.0,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "GEFS": {
@@ -7039,12 +7039,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 11,
+          "tmax_f": 9,
           "tmin_f": 5,
-          "wind_max_kt": 2,
+          "wind_max_kt": 1,
           "precip_in": 0.0
         },
-        "points": 17.0,
+        "points": 14.5,
         "run": "2026-11-05T23:50:37+00:00"
       },
       "CONSENSUS": {
@@ -7055,12 +7055,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 8,
+          "tmax_f": 6,
           "tmin_f": 2,
-          "wind_max_kt": 1,
+          "wind_max_kt": 0,
           "precip_in": 0.0
         },
-        "points": 10.5,
+        "points": 8.0,
         "run": "2026-11-05T23:50:37+00:00"
       }
     }
