@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T20:08:42+00:00",
+  "generated_at_utc": "2026-11-06T20:31:41+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 43.9,
-      "tmin_f": 33.6,
+      "tmax_f": 44.2,
+      "tmin_f": 32.6,
       "wind_max_kt": 9.6,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-06T12",
+      "init_time_utc": "2026-11-06T18",
       "valid_range_utc": [
         "2026-11-07T06",
         "2026-11-08T06"
@@ -763,7 +763,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-11-06T12",
+      "init_time_utc": "2026-11-06T18",
       "valid_range_utc": [
         "2026-11-07T06",
         "2026-11-08T06"
@@ -786,14 +786,14 @@
         "stats": {
           "precip_in": {
             "mean": 0.001,
-            "std": 0.002,
+            "std": 0.001,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
             "p50": 0.0,
             "p75": 0.002,
             "p90": 0.003,
-            "p100": 0.005
+            "p100": 0.004
           },
           "precip_prob": {
             "0.01": 0.0,
@@ -803,37 +803,37 @@
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
             0.0,
             0.0,
             0.0,
-            0.002,
             0.0,
-            0.002,
+            0.0,
+            0.0,
             0.004,
             0.0,
             0.0,
             0.0,
-            0.005,
+            0.002,
             0.0,
             0.002,
-            0.003
+            0.004
           ]
         }
       }
@@ -871,7 +871,7 @@
     },
     "CONSENSUS": {
       "tmax_f": 54.9,
-      "tmin_f": 33.6,
+      "tmin_f": 33.5,
       "wind_max_kt": 14.1,
       "precip_in": 0.0,
       "method": {
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-06T20:08:42+00:00",
+    "checked_at_utc": "2026-11-06T20:31:41+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
@@ -1001,6 +1001,13 @@
         "wind_max_kt": 9.6,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-06T12"
+      },
+      "18": {
+        "tmax_f": 44.2,
+        "tmin_f": 32.6,
+        "wind_max_kt": 9.6,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-06T18"
       }
     },
     "REFS": {
@@ -1010,6 +1017,13 @@
         "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-06T12"
+      },
+      "18": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-06T18"
       }
     },
     "USL": {
