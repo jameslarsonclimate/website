@@ -53,6 +53,7 @@ import wxc_mos
 import wxc_nbm_qmd
 import wxc_obs
 import wxc_pop
+import wxc_team
 import wxc_timeline
 import wxc_today
 import wxc_usl
@@ -1474,6 +1475,20 @@ def main():
             today_figure(station, now, points, args.skip_grib)
         except Exception as exc:
             print("Today-so-far figure skipped:", type(exc).__name__, exc)
+
+    # team forecasters on the scoreboard (display only; after verification.json's today column).
+    # results.php is read a few times a day at most (wxc_team.due); rescoring needs no requests.
+    print("\nTeam forecasters for the scoreboard (not scored):")
+    try:
+        wxc_team.update(station.icao, now)
+    except Exception as exc:
+        print(f"  warning: team results not read ({type(exc).__name__}: {exc})")
+    try:
+        t = wxc_team.write_scores()
+        if t:
+            print(f"  {len(t['forecasters'])} forecaster(s) in {wxc_team.OUT.name}")
+    except Exception as exc:
+        print(f"  warning: team scores skipped ({type(exc).__name__}: {exc})")
 
     # cloud context for the scoreboard (display only; after the today figure saved its GOES hours)
     if wxc_clouds.CLOUDS_ENABLED:

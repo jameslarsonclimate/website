@@ -239,7 +239,7 @@ def test_model_cloud_caches_and_fills_gaps(fake_herbie, monkeypatch):
 FIXED_NOW = datetime(2025, 9, 28, 20, 0, tzinfo=timezone.utc)
 MODULES = ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations", "wxc_usl", "wxc_ens",
            "wxc_ifs_hres", "wxc_cam_ens", "wxc_cache", "wxc_clouds", "wxc_goes", "wxc_today", "wxc_timeline",
-           "wxc_nbm_text",
+           "wxc_nbm_text", "wxc_team",
            "getForecast_wxChallenge-pushGitHub"]
 
 
@@ -299,6 +299,7 @@ def _offline_main(tmp_path, monkeypatch, name, clouds_on):
     v.DATA.mkdir(parents=True, exist_ok=True)
     v.append_run("2025-09-26T22:00:00+00:00", "KTPA", date(2025, 9, 27),
                  {"GFS": {"tmax_f": 84, "tmin_f": 71, "wind_max_kt": 8, "precip_in": 0.1}})
+    monkeypatch.setattr(m.wxc_team, "due", lambda *a, **k: False)     # no results.php in tests
     monkeypatch.setattr(sys, "argv", ["x", "KTPA", "--no-push", "--obs-days", "3"])
     m.main()
     return work

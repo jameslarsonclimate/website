@@ -26,6 +26,17 @@ def _no_nbm_network(monkeypatch):
     wxc_nbm_text.station_block.cache_clear()
 
 
+@pytest.fixture(autouse=True)
+def _no_wxc_results_network(tmp_path, monkeypatch):
+    """wxchallenge.com results (wxc_team): never fetched, and never the real team files, in tests."""
+    import wxc_team
+    fail = lambda *a, **k: pytest.fail("network call in an offline test: results.php")  # noqa: E731
+    monkeypatch.setattr(wxc_team, "_get", fail)
+    monkeypatch.setattr(wxc_team, "_post", fail)
+    monkeypatch.setattr(wxc_team, "RAW", tmp_path / "team_raw.json")
+    monkeypatch.setattr(wxc_team, "OUT", tmp_path / "team.json")
+
+
 def pytest_configure(config):
     config.addinivalue_line("markers", "real_network_check: keep wxc_carryover.network_up (no stub)")
 

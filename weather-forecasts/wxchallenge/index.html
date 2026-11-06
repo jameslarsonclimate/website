@@ -99,6 +99,16 @@
     .split-runs input{margin:0;accent-color:var(--ink);cursor:inherit}
     .split-runs.off{opacity:0.5;cursor:default}
     #score td.model .cyc{font-weight:400;color:var(--ink-2);white-space:nowrap}
+    /* team forecasters a reader added (display only; wxc_team.py, team.json) */
+    .people{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:0.88rem;color:var(--ink-2);margin:0.5rem 0 0}
+    .people form{display:inline-flex;align-items:center;gap:6px;margin:0}
+    .people input{font:inherit;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:10rem}
+    .people button{font:inherit;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+    .people .chip{display:inline-flex;align-items:center;gap:2px;padding:1px 2px 1px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink);background:var(--head)}
+    .people .chip.missing{color:var(--ink-3);border-style:dashed;background:transparent}
+    .people .chip button{border:0;background:none;padding:0 6px;font-size:1rem;line-height:1.2;color:var(--ink-2)}
+    #people-msg{color:var(--note)}
+    #score tr.person td.model{box-shadow:inset 4px 0 var(--s1), inset -1px 0 var(--line)}
     /* the scoreboard and its legend keep the light-mode scales in dark mode (not inverted) */
     #score, #legend{--e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
       --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c}
@@ -307,6 +317,15 @@
       <button data-view="cloud_day" aria-pressed="false">Day clouds</button>
     </div>
     <label class="split-runs" id="split-label"><input type="checkbox" id="split-runs"> Score the 12Z and 18Z runs separately</label>
+    <div class="people" id="people">
+      <form id="people-form" autocomplete="off">
+        <label for="people-name">Add a Colorado State forecaster:</label>
+        <input id="people-name" placeholder="WxChallenge name" spellcheck="false" autocapitalize="off" autocorrect="off">
+        <button type="submit">Add</button>
+      </form>
+      <span id="people-chips"></span>
+      <span id="people-msg" aria-live="polite"></span>
+    </div>
 
     <div id="score-wrap">
       <table id="score" aria-label="Model verification by day"><tbody><tr><td>Loading…</td></tr></tbody></table>
@@ -830,7 +849,8 @@ function renderScore(){
     }
     return tr + '</tr>';
   });
-  table.innerHTML = head + '<tbody>' + obs + rows.join('') + '</tbody>';
+  const people = personRows(days, T, CV, cls, range);
+  table.innerHTML = head + '<tbody>' + obs + people + rows.join('') + '</tbody>';
   pinAvg();
 
   // legend
@@ -851,6 +871,8 @@ function renderScore(){
       <span>Too ${VIEW === 'precip_in' ? 'wet' : VIEW === 'wind_max_kt' ? 'strong' : 'warm'}</span>
       <span>· within ±${b[0].toFixed(dec)} ${u} is grey; steps at ${b[1].toFixed(dec)} and ${b[2].toFixed(dec)} ${u}</span>`;
   }
+  if (people) legend.insertAdjacentHTML('beforeend', `<span>· rows with a blue edge are the forecasters you added,
+    scored like the models against this page's observed values (tooltip: the official points); never in the consensus</span>`);
   if (SP) legend.insertAdjacentHTML('beforeend', `<span>· one row per model run (12Z, 18Z; USL 22Z) from
     the day before, each scored and ranked on its own; the normal view and the consensus use the submitted run</span>`);
   const box = document.getElementById('split-runs'), lab = document.getElementById('split-label');
@@ -865,6 +887,129 @@ function renderScore(){
       `or on the other tabs its weighted average error and bias, and its share of today's consensus.`
     : '';
 }
+
+/* ---------- team forecasters (team.json from wxc_team.py; display only) ----------
+   Only the names a reader adds are shown (remembered in this browser), never the whole team.
+   Their forecasts are scored like the models, against this page's observed values. */
+let TEAM = null, PEOPLE = [];
+try { PEOPLE = JSON.parse(localStorage.getItem('wxc-people') || '[]').filter(x => typeof x === 'string'); } catch (e) { PEOPLE = []; }
+const teamOk = () => TEAM && VERIF && TEAM.station === VERIF.station;
+// a typed name -> its spelling in team.json (WxChallenge names aren't case-sensitive here)
+function teamKey(name){
+  if (!teamOk()) return null;
+  const n = name.trim().toLowerCase();
+  return Object.keys(TEAM.forecasters || {}).find(k => k.toLowerCase() === n) || null;
+}
+// a forecaster's row; range: each day's best/worst model points (the colour scale is the models')
+function personRows(days, T, CV, cls, range){
+  if (!teamOk()) return '';
+  const tToday = T && TEAM.today?.date === T.date ? TEAM.today.forecasters : null;
+  const tp = T ? Object.values(T.models).map(m => m.points) : [];
+  return PEOPLE.map(teamKey).filter(Boolean).map(name => {
+    const P = TEAM.forecasters[name], s = P.summary, at = `data-person="${esc(name)}"`;
+    const cell = (m, i, lo, hi, extra) => {
+      if (VIEW === 'points') {
+        const t = hi > lo ? Math.min(1, Math.max(0, (m.points - lo) / (hi - lo))) : 0;
+        return `<td class="cell${extra}" ${at} data-day="${i}" style="background:${pointsFill(t)};color:${pointsInk(t, true)}">${m.points.toFixed(1)}</td>`;
+      }
+      const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
+      return `<td class="cell${extra}" ${at} data-day="${i}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, VARS[VIEW].dec)}</td>`;
+    };
+    let tr = `<tr class="person"><td class="model">${esc(name)} <span class="cyc">CSU</span></td>`;
+    days.forEach((d, i) => {
+      const m = P.days[d.date];
+      tr += !m || CV ? `<td class="cell small${cls[i]}">—</td>` : cell(m, i, range[i].lo, range[i].hi, cls[i]);
+    });
+    if (T) {
+      const m = tToday?.[name];
+      tr += !m || CV ? '<td class="cell small today">—</td>' : cell(m, 'today', Math.min(...tp), Math.max(...tp), ' today');
+    }
+    if (!s) tr += (VIEW === 'points' ? '<td class="avg"><b>—</b></td>' : '') + '<td class="sum"><b>—</b><span>0 d</span></td>';
+    else if (CV) tr += '<td class="sum"><b>—</b><span>no cloud forecast</span></td>';
+    else if (VIEW === 'points') tr += `<td class="avg" title="${esc(sameDays(P))}"><b>${s.mean_points.toFixed(1)}</b></td>` +
+                                      `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d</span></td>`;
+    else {
+      const dec = VARS[VIEW].dec === 0 ? 1 : 2;
+      tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}</span></td>`;
+    }
+    return tr + '</tr>';
+  }).join('');
+}
+// the models' average on the forecaster's own days (the Avg column's models cover more days)
+function sameDays(P){
+  const ds = (VERIF.days || []).filter(d => P.days[d.date] && Object.keys(d.models).length);
+  const avg = {};
+  for (const n of new Set(ds.flatMap(d => Object.keys(d.models)))) {
+    const p = ds.map(d => d.models[n]?.points);
+    if (p.every(x => x != null)) avg[n] = p.reduce((a, b) => a + b, 0) / p.length;
+  }
+  const best = Object.keys(avg).filter(n => n !== 'CONSENSUS').sort((a, b) => avg[a] - avg[b])[0];
+  const mine = ds.reduce((a, d) => a + P.days[d.date].points, 0) / ds.length;
+  const beat = Object.keys(avg).filter(n => avg[n] > mine).length;
+  return `On the same ${ds.length} days: ${mine.toFixed(1)} a day` +
+    (avg.CONSENSUS != null ? `, consensus ${avg.CONSENSUS.toFixed(1)}` : '') +
+    (best ? `, best model ${LABEL[best] || best} ${avg[best].toFixed(1)}` : '') +
+    ` (better than ${beat} of ${Object.keys(avg).length})`;
+}
+function personTip(td, ev){
+  const name = td.dataset.person, now = td.dataset.day === 'today';
+  const d = now ? VERIF.today : VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
+  const m = now ? TEAM.today?.forecasters?.[name] : TEAM.forecasters[name]?.days?.[d?.date];
+  if (!d || !m) return;
+  const f = m.forecast, o = d.obs, e = m.error, so = now ? ' so far' : '';
+  const line = k => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit}${so} (${signed(e[k], VARS[k].dec)})`;
+  const others = Object.entries(d.models).map(([, x]) => x.points);
+  const beat = others.filter(p => p > m.points).length;
+  const extra = [];
+  if (m.penalty) extra.push(`includes a ${m.penalty}-point WxChallenge penalty${m.flag ? ` (marked ${esc(m.flag)})` : ''}`);
+  else if (m.flag) extra.push(`marked ${esc(m.flag)} on WxChallenge`);
+  if (m.official_points != null) extra.push(m.official_points === m.points ? 'same as the official score'
+    : `official score ${m.official_points.toFixed(1)} (WxChallenge's observed values differ from this page's)`);
+  else if (!now) extra.push('official score not final yet');
+  if (m.rank != null) extra.push(`national rank ${m.rank} after day ${m.day}`);
+  tip.innerHTML = `<b>${esc(name)} · ${d.date}${so}${m.day ? ` (day ${m.day})` : ''}</b><br>` +
+    ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(line).join('<br>') +
+    `<br><b>${m.points.toFixed(1)} points${so}</b> · better than ${beat} of ${others.length} models` +
+    (extra.length ? `<br><span style="opacity:.75">${extra.join('<br>')}</span>` : '') +
+    (now ? `<br><span style="opacity:.75">observations through ${thru(d)}; not final</span>` : '');
+  tip.style.display = 'block';
+  moveTip(ev);
+}
+function renderPeople(){
+  const box = document.getElementById('people-chips');
+  box.innerHTML = PEOPLE.map((p, i) => {
+    const k = teamKey(p), miss = TEAM && !k;
+    return `<span class="chip${miss ? ' missing' : ''}"${miss ? ` title="Not in Colorado State's results for ${esc(TEAM.station)}"` : ''}>` +
+      `${esc(k || p)}<button type="button" data-i="${i}" aria-label="Remove ${esc(k || p)}">×</button></span>`;
+  }).join('');
+}
+function savePeople(){
+  try { localStorage.setItem('wxc-people', JSON.stringify(PEOPLE)); } catch (e) {}
+  renderPeople();
+  if (VERIF) renderScore();
+}
+document.getElementById('people-form').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const inp = document.getElementById('people-name'), msg = document.getElementById('people-msg');
+  const raw = inp.value.trim();
+  if (!raw) return;
+  const k = teamKey(raw);
+  if (TEAM && !k) {
+    msg.textContent = `No Colorado State forecaster named “${raw}” in the ${TEAM.station} results yet.`;
+    return;
+  }
+  const name = k || raw;
+  if (!PEOPLE.some(p => p.toLowerCase() === name.toLowerCase())) PEOPLE.push(name);
+  inp.value = ''; msg.textContent = '';
+  savePeople();
+});
+document.getElementById('people-chips').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-i]');
+  if (!b) return;
+  PEOPLE.splice(+b.dataset.i, 1);
+  savePeople();
+});
+renderPeople();
 
 function cloudTip(d, name, m){
   const c = cloudDay(d.date), cm = c?.models?.[name];
@@ -918,9 +1063,10 @@ function moveTip(ev){
 const score = document.getElementById('score');
 score.addEventListener('pointerover', ev => {
   const td = ev.target.closest('td[data-model]'); if (td) showTip(td, ev);
+  const tp = ev.target.closest('td[data-person]'); if (tp) personTip(tp, ev);
 });
 score.addEventListener('pointermove', ev => { if (tip.style.display === 'block') moveTip(ev); });
-score.addEventListener('pointerout', ev => { if (ev.target.closest('td[data-model]')) tip.style.display = 'none'; });
+score.addEventListener('pointerout', ev => { if (ev.target.closest('td[data-model], td[data-person]')) tip.style.display = 'none'; });
 document.addEventListener('scroll', () => { tip.style.display = 'none'; }, { passive: true });
 
 document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('click', () => {
@@ -1280,6 +1426,11 @@ function renderToday(tj){
       const cr = await fetch('../data/wxchallenge/cloud_context.json' + bust, { cache: 'no-store' });
       if (cr.ok) CLOUD = (await cr.json())?.stations?.[VERIF.station] || {};
     } catch (e) { CLOUD = {}; }
+    try {        // optional too: team forecasters a reader added
+      const tr = await fetch('../data/wxchallenge/team.json' + bust, { cache: 'no-store' });
+      if (tr.ok) TEAM = await tr.json();
+    } catch (e) { TEAM = null; }
+    renderPeople();
     if (CONS_W.station && CONS_W.station !== VERIF.station) CONS_W = {};    // forecast is for another city
     const scored = (VERIF.days || []).filter(d => Object.keys(d.models).length);
     const hind = scored.filter(d => d.hindcast).length;
