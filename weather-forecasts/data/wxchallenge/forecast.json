@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-07T16:32:45+00:00",
+  "generated_at_utc": "2026-11-07T17:05:43+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -87,9 +87,9 @@
     "GFS": {
       "tmax_f": 54.5,
       "tmin_f": 45.3,
-      "wind_max_kt": 8.5,
+      "wind_max_kt": 8.9,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-07T06",
+      "init_time_utc": "2026-11-07T12",
       "valid_range_utc": [
         "2026-11-08T06",
         "2026-11-09T06"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-07T15",
+      "init_time_utc": "2026-11-07T16",
       "valid_range_utc": [
         "2026-11-08T06",
         "2026-11-09T06"
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-07T16:32:45+00:00",
+    "checked_at_utc": "2026-11-07T17:05:43+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
@@ -1028,6 +1028,15 @@
         "tmax_f": 56.0,
         "tmin_f": 38.0,
         "wind_max_kt": 18.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-07T12"
+      }
+    },
+    "GFS": {
+      "12": {
+        "tmax_f": 54.5,
+        "tmin_f": 45.3,
+        "wind_max_kt": 8.9,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-07T12"
       }
