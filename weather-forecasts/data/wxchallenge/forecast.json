@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-07T18:12:12+00:00",
+  "generated_at_utc": "2026-11-07T18:44:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -82,11 +82,7 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-11-07T17:30:08+00:00",
-        "error": "Open-Meteo meta failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
       "tmax_f": 54.5,
@@ -677,8 +673,8 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-11-07T06",
+      "precip_mean_in": 0.0,
+      "init_time_utc": "2026-11-07T12",
       "valid_range_utc": [
         "2026-11-08T06",
         "2026-11-09T06"
@@ -700,15 +696,15 @@
         "n_members": 18,
         "stats": {
           "precip_in": {
-            "mean": 0.005,
-            "std": 0.006,
+            "mean": 0.003,
+            "std": 0.005,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
             "p50": 0.0,
-            "p75": 0.009,
-            "p90": 0.015,
-            "p100": 0.019
+            "p75": 0.005,
+            "p90": 0.011,
+            "p100": 0.015
           },
           "precip_prob": {
             "0.01": 0.167,
@@ -739,24 +735,24 @@
         ],
         "members": {
           "precip_in": [
-            0.018,
+            0.012,
+            0.003,
+            0.0,
+            0.007,
+            0.0,
+            0.004,
+            0.0,
+            0.0,
+            0.001,
+            0.0,
+            0.011,
             0.006,
             0.0,
-            0.009,
-            0.001,
-            0.008,
             0.0,
             0.0,
             0.0,
             0.0,
-            0.014,
-            0.009,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.019
+            0.015
           ]
         }
       }
@@ -975,16 +971,11 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-07T18:12:12+00:00",
-    "connectivity": true,
-    "failed": [
-      "IFS_HRES"
-    ],
-    "carried_over": [
-      "IFS_HRES"
-    ],
-    "message": "Connectivity issues: the update at 18:12Z couldn't reach some data sources; latest forecasts not pulled for IFS_HRES. Showing the last good forecasts for IFS_HRES."
+    "ok": true,
+    "checked_at_utc": "2026-11-07T18:44:05+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   },
   "earlier_runs": {
     "HRRR": {
@@ -1055,6 +1046,15 @@
         "tmax_f": 54.0,
         "tmin_f": 45.5,
         "wind_max_kt": 10.3,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-07T12"
+      }
+    },
+    "HRRRCAST": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-07T12"
       }
