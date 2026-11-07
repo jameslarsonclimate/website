@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-07T19:16:28+00:00",
+  "generated_at_utc": "2026-11-07T19:33:43+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 46.5,
-      "tmin_f": 38.2,
-      "wind_max_kt": 10.6,
+      "tmax_f": 50.0,
+      "tmin_f": 39.4,
+      "wind_max_kt": 10.8,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-07T12",
+      "init_time_utc": "2026-11-07T18",
       "valid_range_utc": [
         "2026-11-08T06",
         "2026-11-09T06"
@@ -843,7 +843,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-07T06",
+      "init_time_utc": "2026-11-07T12",
       "valid_range_utc": [
         "2026-11-08T06",
         "2026-11-09T06"
@@ -870,9 +870,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 54.7,
-      "tmin_f": 39.1,
-      "wind_max_kt": 15.6,
+      "tmax_f": 55.0,
+      "tmin_f": 39.2,
+      "wind_max_kt": 15.7,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-07T19:16:28+00:00",
+    "checked_at_utc": "2026-11-07T19:33:43+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
@@ -985,6 +985,13 @@
         "wind_max_kt": 10.6,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-07T12"
+      },
+      "18": {
+        "tmax_f": 50.0,
+        "tmin_f": 39.4,
+        "wind_max_kt": 10.8,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-07T18"
       }
     },
     "NBM": {
@@ -1071,6 +1078,15 @@
         "tmax_f": 54.1,
         "tmin_f": 39.6,
         "wind_max_kt": 8.7,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-07T12"
+      }
+    },
+    "NBM_QMD": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-07T12"
       }
