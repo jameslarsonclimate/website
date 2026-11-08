@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T13:11:12+00:00",
+  "generated_at_utc": "2026-11-08T16:06:07+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -21,8 +21,8 @@
       "GFS_MOS",
       "NBM",
       "USL",
-      "GEFS",
       "ENS",
+      "GEFS",
       "HRRRCAST",
       "REFS",
       "NBM_QMD",
@@ -32,20 +32,24 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, 'Connection reset by peer'))"
+      "tmax_f": 54.2,
+      "tmin_f": 36.9,
+      "wind_max_kt": 8.8,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-11-08T12",
+      "valid_range_utc": [
+        "2026-11-09T06",
+        "2026-11-10T06"
+      ],
+      "n_steps": 25,
+      "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 56.0,
-      "tmin_f": 38.5,
-      "wind_max_kt": 10.4,
+      "tmax_f": 55.7,
+      "tmin_f": 37.2,
+      "wind_max_kt": 8.3,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-08T06",
+      "init_time_utc": "2026-11-08T12",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -122,8 +126,8 @@
       ]
     },
     "NBM": {
-      "tmax_f": 60.0,
-      "tmin_f": 42.0,
+      "tmax_f": 59.0,
+      "tmin_f": 38.0,
       "wind_max_kt": 10.0,
       "precip_in": 0.0,
       "pop06_max_pct": 2,
@@ -143,36 +147,29 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-08T12",
+      "init_time_utc": "2026-11-08T15",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-11-09 available at 2026-11-08 14Z"
-    },
-    "GEFS": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Read timed out. (read timeout=45)"
+      "tmax_f": 60.0,
+      "tmin_f": 38.0,
+      "wind_max_kt": 15.0,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-11-08T12",
+      "valid_range_utc": [
+        "2026-11-09T06",
+        "2026-11-10T06"
+      ]
     },
     "ENS": {
       "tmax_f": 58.0,
       "tmin_f": 39.0,
       "wind_max_kt": 7.6,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-08T00",
+      "init_time_utc": "2026-11-08T06",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -459,6 +456,218 @@
         "basis": "member fraction"
       }
     },
+    "GEFS": {
+      "tmax_f": 58.3,
+      "tmin_f": 45.4,
+      "wind_max_kt": 9.0,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-11-08T06",
+      "valid_range_utc": [
+        "2026-11-09T06",
+        "2026-11-10T06"
+      ],
+      "note": "ensemble mean of 31 members; not in the consensus",
+      "ensemble": {
+        "n_members": 31,
+        "stats": {
+          "tmax_f": {
+            "mean": 58.29,
+            "std": 1.27,
+            "p0": 55.8,
+            "p10": 56.7,
+            "p25": 57.35,
+            "p50": 58.4,
+            "p75": 59.1,
+            "p90": 59.8,
+            "p100": 61.8
+          },
+          "tmin_f": {
+            "mean": 45.35,
+            "std": 0.59,
+            "p0": 44.1,
+            "p10": 44.6,
+            "p25": 44.9,
+            "p50": 45.4,
+            "p75": 45.7,
+            "p90": 46.1,
+            "p100": 46.4
+          },
+          "wind_max_kt": {
+            "mean": 8.96,
+            "std": 0.93,
+            "p0": 7.7,
+            "p10": 7.9,
+            "p25": 8.2,
+            "p50": 8.7,
+            "p75": 9.5,
+            "p90": 10.1,
+            "p100": 11.3
+          },
+          "precip_in": {
+            "mean": 0.0,
+            "std": 0.0,
+            "p0": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "p50": 0.0,
+            "p75": 0.0,
+            "p90": 0.0,
+            "p100": 0.0
+          },
+          "precip_prob": {
+            "0.01": 0.0,
+            "0.10": 0.0,
+            "0.25": 0.0,
+            "0.50": 0.0
+          }
+        },
+        "members": {
+          "tmax_f": [
+            58.3,
+            56.4,
+            58.0,
+            57.3,
+            59.2,
+            59.2,
+            58.4,
+            57.3,
+            56.7,
+            57.1,
+            59.1,
+            57.5,
+            55.8,
+            59.8,
+            59.7,
+            57.4,
+            59.8,
+            58.7,
+            58.9,
+            58.1,
+            56.0,
+            59.1,
+            58.5,
+            56.9,
+            59.1,
+            58.4,
+            57.9,
+            59.8,
+            61.8,
+            58.5,
+            58.4
+          ],
+          "tmin_f": [
+            45.4,
+            44.1,
+            45.5,
+            45.7,
+            45.4,
+            45.6,
+            45.5,
+            45.3,
+            44.6,
+            44.6,
+            45.9,
+            45.5,
+            45.2,
+            46.1,
+            44.9,
+            45.7,
+            45.7,
+            45.9,
+            46.3,
+            44.9,
+            45.2,
+            44.9,
+            46.3,
+            44.5,
+            45.9,
+            45.2,
+            44.6,
+            46.4,
+            45.4,
+            44.2,
+            45.6
+          ],
+          "wind_max_kt": [
+            8.6,
+            10.1,
+            8.7,
+            7.9,
+            8.0,
+            9.2,
+            8.2,
+            8.7,
+            7.8,
+            11.3,
+            8.7,
+            8.2,
+            8.6,
+            9.5,
+            9.7,
+            11.1,
+            9.5,
+            7.7,
+            9.3,
+            8.1,
+            9.0,
+            8.4,
+            8.0,
+            9.8,
+            9.9,
+            8.2,
+            7.9,
+            10.5,
+            9.0,
+            8.8,
+            9.3
+          ],
+          "precip_in": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "pop": {
+        "p24": 0.0,
+        "blocks": {
+          "06-12": 0.0,
+          "12-18": 0.0,
+          "18-00": 0.0,
+          "00-06": 0.0
+        },
+        "n_members": 31,
+        "basis": "member fraction"
+      }
+    },
     "HRRRCAST": {
       "tmax_f": null,
       "tmin_f": null,
@@ -554,12 +763,12 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-11-08T06",
+      "init_time_utc": "2026-11-08T12",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
         "p24": 0.0,
@@ -569,11 +778,11 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
             "mean": 0.0,
@@ -594,22 +803,24 @@
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.0,
             0.0,
             0.0,
             0.0,
@@ -659,101 +870,112 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 60.4,
-      "tmin_f": 39.7,
+      "tmax_f": 60.1,
+      "tmin_f": 38.2,
       "wind_max_kt": 14.0,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "RRFS": 0.131,
-            "IFS": 0.134,
-            "GFS": 0.263,
-            "GFS_MOS": 0.19,
-            "NBM": 0.154,
-            "ENS": 0.129
+            "HRRR": 0.073,
+            "RRFS": 0.101,
+            "IFS": 0.103,
+            "GFS": 0.203,
+            "GFS_MOS": 0.146,
+            "NBM": 0.119,
+            "USL": 0.155,
+            "ENS": 0.099
           }
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "RRFS": 0.148,
-            "IFS": 0.195,
-            "GFS": 0.099,
-            "GFS_MOS": 0.137,
-            "NBM": 0.239,
-            "ENS": 0.183
+            "HRRR": 0.1,
+            "RRFS": 0.1,
+            "IFS": 0.132,
+            "GFS": 0.067,
+            "GFS_MOS": 0.092,
+            "NBM": 0.162,
+            "USL": 0.224,
+            "ENS": 0.124
           }
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "RRFS": 0.164,
-            "IFS": 0.136,
-            "GFS": 0.15,
-            "GFS_MOS": 0.211,
-            "NBM": 0.198,
-            "ENS": 0.141
+            "HRRR": 0.107,
+            "RRFS": 0.107,
+            "IFS": 0.089,
+            "GFS": 0.098,
+            "GFS_MOS": 0.137,
+            "NBM": 0.129,
+            "USL": 0.242,
+            "ENS": 0.091
           }
         },
         "precip_in": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
+            "HRRR",
             "RRFS",
             "IFS",
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "RRFS": 0.172,
-            "IFS": 0.162,
-            "GFS": 0.167,
-            "GFS_MOS": 0.168,
-            "NBM": 0.17,
-            "ENS": 0.161
+            "HRRR": 0.126,
+            "RRFS": 0.129,
+            "IFS": 0.122,
+            "GFS": 0.126,
+            "GFS_MOS": 0.126,
+            "NBM": 0.128,
+            "USL": 0.123,
+            "ENS": 0.121
           }
         }
       }
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-08T13:11:12+00:00",
-    "connectivity": true,
-    "failed": [
-      "GEFS",
-      "HRRR",
-      "USL"
-    ],
-    "carried_over": [],
-    "message": "Connectivity issues: the update at 13:11Z couldn't reach some data sources; latest forecasts not pulled for GEFS, HRRR, USL."
+    "ok": true,
+    "checked_at_utc": "2026-11-08T16:06:07+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   },
   "earlier_runs": {
     "NBM": {
@@ -761,6 +983,42 @@
         "tmax_f": 60.0,
         "tmin_f": 42.0,
         "wind_max_kt": 10.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "HRRR": {
+      "12": {
+        "tmax_f": 54.2,
+        "tmin_f": 36.9,
+        "wind_max_kt": 8.8,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "RRFS": {
+      "12": {
+        "tmax_f": 55.7,
+        "tmin_f": 37.2,
+        "wind_max_kt": 8.3,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "USL": {
+      "12": {
+        "tmax_f": 60.0,
+        "tmin_f": 38.0,
+        "wind_max_kt": 15.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "REFS": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-08T12"
       }
