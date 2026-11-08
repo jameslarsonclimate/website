@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T18:12:58+00:00",
+  "generated_at_utc": "2026-11-08T19:30:43+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -71,22 +71,18 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 58.5,
-      "tmin_f": 39.1,
-      "wind_max_kt": 6.9,
+      "tmax_f": 58.9,
+      "tmin_f": 38.8,
+      "wind_max_kt": 7.0,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-08T06",
+      "init_time_utc": "2026-11-08T12",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-11-08T17:32:22+00:00",
-        "error": "Open-Meteo meta failed: ('Connection aborted.', OSError(22, 'Invalid argument'))"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
       "tmax_f": 59.4,
@@ -151,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-08T17",
+      "init_time_utc": "2026-11-08T18",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -847,7 +843,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-08T06",
+      "init_time_utc": "2026-11-08T12",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -975,16 +971,11 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-08T18:12:58+00:00",
-    "connectivity": true,
-    "failed": [
-      "IFS_HRES"
-    ],
-    "carried_over": [
-      "IFS_HRES"
-    ],
-    "message": "Connectivity issues: the update at 18:12Z couldn't reach some data sources; latest forecasts not pulled for IFS_HRES. Showing the last good forecasts for IFS_HRES."
+    "ok": true,
+    "checked_at_utc": "2026-11-08T19:30:43+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   },
   "earlier_runs": {
     "NBM": {
@@ -994,6 +985,13 @@
         "wind_max_kt": 10.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-08T12"
+      },
+      "18": {
+        "tmax_f": 59.0,
+        "tmin_f": 38.0,
+        "wind_max_kt": 10.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T18"
       }
     },
     "HRRR": {
@@ -1060,6 +1058,24 @@
       }
     },
     "HRRRCAST": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "IFS_HRES": {
+      "12": {
+        "tmax_f": 58.9,
+        "tmin_f": 38.8,
+        "wind_max_kt": 7.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "NBM_QMD": {
       "12": {
         "tmax_f": null,
         "tmin_f": null,
