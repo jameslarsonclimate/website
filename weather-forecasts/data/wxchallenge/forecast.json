@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T19:30:43+00:00",
+  "generated_at_utc": "2026-11-08T20:00:32+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 58.5,
+      "tmax_f": 58.9,
       "tmin_f": 38.7,
-      "wind_max_kt": 6.7,
+      "wind_max_kt": 7.6,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-08T06",
+      "init_time_utc": "2026-11-08T12",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-08T18",
+      "init_time_utc": "2026-11-08T19",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -763,7 +763,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-11-08T12",
+      "init_time_utc": "2026-11-08T18",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -803,20 +803,20 @@
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
@@ -872,7 +872,7 @@
     "CONSENSUS": {
       "tmax_f": 60.2,
       "tmin_f": 38.1,
-      "wind_max_kt": 13.8,
+      "wind_max_kt": 13.9,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-08T19:30:43+00:00",
+    "checked_at_utc": "2026-11-08T20:00:32+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
@@ -1028,6 +1028,13 @@
         "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-08T12"
+      },
+      "18": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T18"
       }
     },
     "GFS_MOS": {
@@ -1080,6 +1087,15 @@
         "tmax_f": null,
         "tmin_f": null,
         "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 58.9,
+        "tmin_f": 38.7,
+        "wind_max_kt": 7.6,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-08T12"
       }
