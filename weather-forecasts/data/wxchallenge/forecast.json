@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T22:18:33+00:00",
+  "generated_at_utc": "2026-11-08T22:37:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Minneapolis, MN (KMSP)",
@@ -100,26 +100,26 @@
     "GFS_MOS": {
       "tmax_f": 63.0,
       "tmin_f": 40.0,
-      "wind_max_kt": 10.0,
+      "wind_max_kt": 11.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 5,
+      "pop06_max_pct": 3,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.0,
           "12-18": 0.0,
           "18-00": 0.02,
-          "00-06": 0.05
+          "00-06": 0.03
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.05,
-          0.069
+          0.03,
+          0.049
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-08T12",
+      "init_time_utc": "2026-11-08T18",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -154,11 +154,11 @@
       ]
     },
     "USL": {
-      "tmax_f": 60.0,
-      "tmin_f": 38.0,
-      "wind_max_kt": 15.0,
+      "tmax_f": 61.0,
+      "tmin_f": 39.0,
+      "wind_max_kt": 16.0,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-08T12",
+      "init_time_utc": "2026-11-08T22",
       "valid_range_utc": [
         "2026-11-09T06",
         "2026-11-10T06"
@@ -870,9 +870,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 60.7,
-      "tmin_f": 38.3,
-      "wind_max_kt": 14.1,
+      "tmax_f": 60.9,
+      "tmin_f": 38.5,
+      "wind_max_kt": 14.4,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -972,7 +972,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-08T22:18:33+00:00",
+    "checked_at_utc": "2026-11-08T22:37:10+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
@@ -1033,6 +1033,13 @@
         "wind_max_kt": 15.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-08T12"
+      },
+      "22": {
+        "tmax_f": 61.0,
+        "tmin_f": 39.0,
+        "wind_max_kt": 16.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T22"
       }
     },
     "REFS": {
@@ -1058,6 +1065,13 @@
         "wind_max_kt": 10.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-08T12"
+      },
+      "18": {
+        "tmax_f": 63.0,
+        "tmin_f": 40.0,
+        "wind_max_kt": 11.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-08T18"
       }
     },
     "GFS": {
