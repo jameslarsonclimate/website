@@ -1,6 +1,6 @@
 {
  "checks": [
-  "2026-11-08T13:11:12+00:00"
+  "2026-11-09T13:14:28+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -10,7 +10,7 @@
      "year": "26-27",
      "status": "Final Day 8",
      "final": true,
-     "fetched_at_utc": "2026-11-08T13:11:12+00:00",
+     "fetched_at_utc": "2026-11-09T13:14:28+00:00",
      "forecasters": {
       "Wndigo": {
        "forecast": {
@@ -1560,8 +1560,8 @@
    },
    "year": "26-27",
    "school": "csu",
-   "done_for": "2026-11-08"
+   "done_for": "2026-11-09"
   }
  },
- "generated_at_utc": "2026-11-08T13:11:12+00:00"
+ "generated_at_utc": "2026-11-09T13:14:28+00:00"
 }
