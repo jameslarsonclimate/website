@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-09T20:00:10+00:00",
+  "generated_at_utc": "2026-11-09T20:30:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 44.3,
-      "tmin_f": 37.9,
-      "wind_max_kt": 21.7,
-      "precip_in": 0.25,
-      "init_time_utc": "2026-11-09T12",
+      "tmax_f": 44.2,
+      "tmin_f": 38.0,
+      "wind_max_kt": 22.0,
+      "precip_in": 0.33,
+      "init_time_utc": "2026-11-09T18",
       "valid_range_utc": [
         "2026-11-10T06",
         "2026-11-11T06"
@@ -682,9 +682,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.33,
-      "precip_mean_in": 0.36,
-      "init_time_utc": "2026-11-09T12",
+      "precip_in": 0.31,
+      "precip_mean_in": 0.31,
+      "init_time_utc": "2026-11-09T18",
       "valid_range_utc": [
         "2026-11-10T06",
         "2026-11-11T06"
@@ -706,55 +706,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.356,
-            "std": 0.154,
-            "p0": 0.118,
-            "p10": 0.215,
+            "mean": 0.306,
+            "std": 0.092,
+            "p0": 0.165,
+            "p10": 0.211,
             "p25": 0.243,
-            "p50": 0.325,
-            "p75": 0.442,
-            "p90": 0.584,
-            "p100": 0.664
+            "p50": 0.311,
+            "p75": 0.33,
+            "p90": 0.425,
+            "p100": 0.517
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
             "0.25": 0.643,
-            "0.50": 0.214
+            "0.50": 0.071
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.33,
+            0.33,
+            0.165,
+            0.256,
+            0.3,
+            0.209,
+            0.377,
             0.246,
             0.517,
             0.327,
             0.217,
             0.445,
             0.322,
-            0.243,
-            0.364,
-            0.263,
-            0.431,
-            0.118,
-            0.613,
-            0.664,
-            0.215
+            0.243
           ]
         }
       }
@@ -794,7 +794,7 @@
       "tmax_f": 46.2,
       "tmin_f": 37.2,
       "wind_max_kt": 25.8,
-      "precip_in": 0.46,
+      "precip_in": 0.47,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -916,7 +916,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-09T20:00:10+00:00",
+    "checked_at_utc": "2026-11-09T20:30:10+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -963,6 +963,13 @@
         "wind_max_kt": 21.7,
         "precip_in": 0.25,
         "init_time_utc": "2026-11-09T12"
+      },
+      "18": {
+        "tmax_f": 44.2,
+        "tmin_f": 38.0,
+        "wind_max_kt": 22.0,
+        "precip_in": 0.33,
+        "init_time_utc": "2026-11-09T18"
       }
     },
     "REFS": {
@@ -972,6 +979,13 @@
         "wind_max_kt": null,
         "precip_in": 0.33,
         "init_time_utc": "2026-11-09T12"
+      },
+      "18": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.31,
+        "init_time_utc": "2026-11-09T18"
       }
     },
     "GFS_MOS": {
