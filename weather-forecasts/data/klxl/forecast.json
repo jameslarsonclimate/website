@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-09T17:45:06+00:00",
+  "generated_at_utc": "2026-11-09T18:15:09+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -135,7 +135,7 @@
         "p24": null,
         "blocks": {
           "06-12": 0.0,
-          "12-18": 0.01,
+          "12-18": 0.0,
           "18-00": 0.03,
           "00-06": 0.31
         },
@@ -143,11 +143,11 @@
         "basis": "NBS P06",
         "p24_range": [
           0.31,
-          0.337
+          0.331
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-09T16",
+      "init_time_utc": "2026-11-09T17",
       "valid_range_utc": [
         "2026-11-10T06",
         "2026-11-11T06"
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-09T17:45:06+00:00",
+    "checked_at_utc": "2026-11-09T18:15:09+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
