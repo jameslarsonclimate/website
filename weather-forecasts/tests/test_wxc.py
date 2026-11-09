@@ -526,6 +526,12 @@ def test_station_registry():
     assert STATIONS["KMSP"].afd_url == (
         "https://forecast.weather.gov/product.php?site=mpx&issuedby=mpx&product=afd"
         "&format=ci&version=1&glossary=1")
+    paya = STATIONS["PAYA"]      # Yakutat: HRRR-Alaska, RRFS/NBM Alaska domain, GOES-18 full disk
+    assert (paya.hrrr_model, paya.rrfs_domain, paya.goes, paya.goes_sector) == ("hrrrak", "ak", "G18", "F")
+    assert paya.cli_pil == "CLIYAK" and paya.lst_offset_hours == -9
+    assert paya.afd_url == (
+        "https://forecast.weather.gov/product.php?site=ajk&issuedby=ajk&product=afd"
+        "&format=ci&version=1&glossary=1")
     assert Station("KXYZ", "Nowhere", 40.0, -100.0, tz="America/Chicago").afd_url is None
 
 

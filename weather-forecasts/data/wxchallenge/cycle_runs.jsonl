@@ -163,3 +163,19 @@
 {"fetched_at_utc":"2026-11-05T15:00:06+00:00","station":"KMSP","target_date":"2026-10-12","model":"USL","init_time_utc":"2026-10-11T22","error":"no USL run for 2026-10-12 available at 2026-10-11 22Z"}
 {"fetched_at_utc":"2026-11-05T19:43:30+00:00","station":"KMSP","target_date":"2026-11-06","model":"NBM","init_time_utc":"2026-11-05T12","tmax_f":46.0,"tmin_f":31.0,"wind_max_kt":6.0,"precip_in":0.0}
 {"fetched_at_utc":"2026-11-06T15:00:06+00:00","station":"KMSP","target_date":"2026-11-07","model":"NBM","init_time_utc":"2026-11-06T12","tmax_f":54.0,"tmin_f":32.0,"wind_max_kt":10.0,"precip_in":0.0}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"HRRR","init_time_utc":"2026-11-08T12","tmax_f":44.3,"tmin_f":34.6,"wind_max_kt":27.2,"precip_in":0.45}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"HRRR","init_time_utc":"2026-11-08T18","tmax_f":43.6,"tmin_f":33.7,"wind_max_kt":27.5,"precip_in":0.5}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"RRFS","init_time_utc":"2026-11-08T12","tmax_f":44.9,"tmin_f":32.4,"wind_max_kt":25.8,"precip_in":0.33}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"RRFS","init_time_utc":"2026-11-08T18","tmax_f":44.0,"tmin_f":32.3,"wind_max_kt":26.4,"precip_in":0.31}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"GFS","init_time_utc":"2026-11-08T12","tmax_f":47.4,"tmin_f":38.9,"wind_max_kt":26.3,"precip_in":0.12}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"GFS","init_time_utc":"2026-11-08T18","tmax_f":49.3,"tmin_f":38.9,"wind_max_kt":30.8,"precip_in":0.09}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"IFS","init_time_utc":"2026-11-08T12","tmax_f":46.4,"tmin_f":36.0,"wind_max_kt":31.7,"precip_in":0.39}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"IFS_HRES","init_time_utc":"2026-11-08T12","tmax_f":45.7,"tmin_f":35.4,"wind_max_kt":32.7,"precip_in":0.36}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"GFS_MOS","init_time_utc":"2026-11-08T12","tmax_f":45.0,"tmin_f":33.0,"wind_max_kt":20.0,"precip_in":0.39}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"GFS_MOS","init_time_utc":"2026-11-08T18","tmax_f":47.0,"tmin_f":33.0,"wind_max_kt":21.0,"precip_in":0.27}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"NBM","init_time_utc":"2026-11-08T12","tmax_f":46.0,"tmin_f":31.0,"wind_max_kt":21.0,"precip_in":0.4}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"NBM","init_time_utc":"2026-11-08T18","tmax_f":46.0,"tmin_f":31.0,"wind_max_kt":21.0,"precip_in":0.4}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"USL","init_time_utc":"2026-11-08T12","error":"no USL run for 2026-11-09 available at 2026-11-08 12Z"}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-09","model":"USL","init_time_utc":"2026-11-08T22","error":"no USL run for 2026-11-09 available at 2026-11-08 22Z"}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-08","model":"HRRR","init_time_utc":"2026-11-07T12","tmax_f":41.5,"tmin_f":34.1,"wind_max_kt":8.6,"precip_in":0.05}
+{"fetched_at_utc":"2026-11-09T14:14:11+00:00","station":"PAYA","target_date":"2026-11-08","model":"RRFS","init_time_utc":"2026-11-07T12","tmax_f":40.8,"tmin_f":32.3,"wind_max_kt":9.7,"precip_in":0.33}

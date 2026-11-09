@@ -16,7 +16,7 @@ import sys
 from dataclasses import dataclass
 from typing import Optional
 
-CURRENT_STATION = "KMSP"
+CURRENT_STATION = "PAYA"
 
 AFD_URL = ("https://forecast.weather.gov/product.php?site={wfo}&issuedby={wfo}&product=afd"
            "&format=ci&version=1&glossary=1")
@@ -159,6 +159,12 @@ SLIDER_KMSP = ("https://slider.cira.colostate.edu/?sat=goes-19&sec=conus&x=3884&
                "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
                "&draw_color=FFD700&draw_width=6")
 
+SLIDER_PAYA = ("https://slider.cira.colostate.edu/?sat=goes-18&sec=full_disk&x=9812&y=1892&z=3"
+               "&angle=0&im=24&ts=1&st=0&et=0&speed=190&motion=loop&maps%5Bborders%5D=white"
+               "&mops%5Bborders%5D=0.4&p%5B0%5D=geocolor&opacity%5B0%5D=1&pause=0&slider=-1"
+               "&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider"
+               "&draw_color=FFD700&draw_width=6")
+
 # Past and present WxChallenge sites (coordinates of the ASOS sensor).
 STATIONS = {
     s.icao: s for s in [
@@ -175,6 +181,8 @@ STATIONS = {
                 slider_url=SLIDER_KOLM, tz="America/Los_Angeles", wfo="SEW"),
         Station("KMSP", "Minneapolis, MN", 44.883962, -93.220580, pivotal_region="us_mw",
                 slider_url=SLIDER_KMSP, tz="America/Chicago", wfo="MPX"),
+        Station("PAYA", "Yakutat, AK", 59.507124, -139.659842, cli_pil="CLIYAK",
+                slider_url=SLIDER_PAYA, tz="America/Yakutat", wfo="AJK"),
     ]
 }
 
