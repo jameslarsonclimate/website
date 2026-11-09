@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-09T19:30:09+00:00",
+  "generated_at_utc": "2026-11-09T20:00:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 47.9,
-      "tmin_f": 37.7,
-      "wind_max_kt": 32.9,
+      "tmax_f": 46.0,
+      "tmin_f": 36.8,
+      "wind_max_kt": 31.9,
       "precip_in": 0.62,
-      "init_time_utc": "2026-11-09T06",
+      "init_time_utc": "2026-11-09T12",
       "valid_range_utc": [
         "2026-11-10T06",
         "2026-11-11T06"
@@ -763,8 +763,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.51,
-      "init_time_utc": "2026-11-09T06",
+      "precip_in": 0.42,
+      "init_time_utc": "2026-11-09T12",
       "valid_range_utc": [
         "2026-11-10T06",
         "2026-11-11T06"
@@ -772,28 +772,28 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.998,
+        "p24": 0.994,
         "blocks": {
-          "06-12": 0.983,
-          "12-18": 0.71,
-          "18-00": 0.313,
-          "00-06": 0.628
+          "06-12": 0.988,
+          "12-18": 0.582,
+          "18-00": 0.157,
+          "00-06": 0.795
         },
         "n_members": null,
         "basis": "NBM QMD",
         "q24_in": {
-          "10": 0.116,
-          "25": 0.284,
-          "50": 0.506,
-          "75": 0.677,
-          "90": 0.878
+          "10": 0.211,
+          "25": 0.298,
+          "50": 0.419,
+          "75": 0.639,
+          "90": 0.786
         }
       }
     },
     "CONSENSUS": {
-      "tmax_f": 46.4,
-      "tmin_f": 37.3,
-      "wind_max_kt": 26.0,
+      "tmax_f": 46.2,
+      "tmin_f": 37.2,
+      "wind_max_kt": 25.8,
       "precip_in": 0.46,
       "method": {
         "tmax_f": {
@@ -916,7 +916,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-09T19:30:09+00:00",
+    "checked_at_utc": "2026-11-09T20:00:10+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1016,6 +1016,24 @@
         "tmin_f": 36.1,
         "wind_max_kt": 30.8,
         "precip_in": 0.59,
+        "init_time_utc": "2026-11-09T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 46.0,
+        "tmin_f": 36.8,
+        "wind_max_kt": 31.9,
+        "precip_in": 0.62,
+        "init_time_utc": "2026-11-09T12"
+      }
+    },
+    "NBM_QMD": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.42,
         "init_time_utc": "2026-11-09T12"
       }
     }
