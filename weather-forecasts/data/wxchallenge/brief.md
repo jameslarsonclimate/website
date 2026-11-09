@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-10**, scored over 2026-11-10T06Z to 2026-11-11T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-10T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-09T21:00:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-09T21:30:07+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -509,21 +509,21 @@ Day dewpoint: observed mean (°F) and each model's error (forecast - observed, �
 | 11-07 h | 37.5 | +0.2 | -0.9 | +0.9 | +1.1 | -2.2 | +0.3 | +0.2 |
 | 11-08 h | 37.0 | -1.2 | -2.4 | -7.4 | -8.2 | -6.5 | -5.4 | -3.3 |
 
-## Today so far (2026-11-09, through 2026-11-09T19:53Z)
+## Today so far (2026-11-09, through 2026-11-09T20:53Z)
 
-This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 42.1 °F, low 32.0 °F, max wind 21 kt, precip 0.22" (14 hourly obs).
+This is the day in progress (not the target day), scored against the runs submitted before its deadline. Observed so far: high 42.1 °F, low 32.0 °F, max wind 21 kt, precip 0.26" (15 hourly obs).
 
 Temp bias/MAE are over the hourly obs so far. High/low columns show the model's daily value and (in brackets) its difference from the observed extreme so far; "pending" means the model's expected time of that extreme hasn't passed, so the observed value can still change.
 
 | Model | Run | Temp bias | Temp MAE | High (err) | Low (err) | Wind bias | Precip so far | Precip err |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 08/18Z | -0.8 | 1.6 | 44 (+2) pending | 34 (+2) | -1.1 | 0.37 | +0.15 |
-| RRFS | 08/18Z | -1.7 | 1.7 | 44 (+2) pending | 32 (+0) | -0.4 | 0.13 | -0.09 |
-| IFS | 08/12Z | +0.7 | 1.3 | 46 (+4) pending | 36 (+4) | +1.9 | 0.14 | -0.08 |
-| IFS_HRES | 08/12Z | +0.2 | 1.4 | 46 (+4) pending | 35 (+3) | +1.1 | 0.12 | -0.10 |
-| GFS | 08/18Z | +3.1 | 3.8 | 49 (+7) pending | 39 (+7) | +1.8 | 0.06 | -0.16 |
-| GFS_MOS | 08/18Z | -0.5 | 1.3 | 47 (+5) pending | 33 (+1) | -3.3 | — | — |
-| NBM | 08/23Z | -2.5 | 2.8 | 46 (+4) pending | 31 (-1) | -0.8 | — | — |
+| HRRR | 08/18Z | -0.6 | 1.6 | 44 (+2) pending | 34 (+2) | -1.3 | 0.38 | +0.12 |
+| RRFS | 08/18Z | -1.6 | 1.6 | 44 (+2) pending | 32 (+0) | -0.6 | 0.15 | -0.11 |
+| IFS | 08/12Z | +0.6 | 1.3 | 46 (+4) pending | 36 (+4) | +1.7 | 0.17 | -0.09 |
+| IFS_HRES | 08/12Z | +0.1 | 1.4 | 46 (+4) pending | 35 (+3) | +0.9 | 0.16 | -0.10 |
+| GFS | 08/18Z | +2.9 | 3.6 | 49 (+7) pending | 39 (+7) | +1.4 | 0.07 | -0.19 |
+| GFS_MOS | 08/18Z | -0.4 | 1.3 | 47 (+5) pending | 33 (+1) | -3.4 | — | — |
+| NBM | 08/23Z | -2.3 | 2.6 | 46 (+4) pending | 31 (-1) | -1.1 | — | — |
 
 ## Clouds so far today (2026-11-09, observed vs forecast)
 
@@ -546,6 +546,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 11-09 18Z | Mon 09:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 98 |
 | 11-09 19Z | Mon 10:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 97 |
 | 11-09 20Z | Mon 11:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 96 |
+| 11-09 21Z | Mon 12:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 95 |
 
 ## Dewpoint so far today (2026-11-09, observed vs forecast)
 
@@ -567,32 +568,33 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 | 11-09 18Z | Mon 09:00 | 37.0 | 86 | 34.9 | 33.2 | 33.9 | 33.5 | 33.6 | 33.0 | 34.0 |
 | 11-09 19Z | Mon 10:00 | 37.0 | 86 | 36.2 | 33.5 |  | 33.0 |  |  |  |
 | 11-09 20Z | Mon 11:00 | 37.0 | 86 | 36.3 | 34.0 |  | 35.6 |  |  |  |
-| Bias so far |  |  |  | +1.4 | -0.5 | -0.1 | -1.3 | +1.6 | +2.5 | +0.0 |
+| 11-09 21Z | Mon 12:00 | 37.0 | 82 | 36.0 | 34.3 | 38.2 | 37.9 | 32.6 | 35.0 | 37.0 |
+| Bias so far |  |  |  | +1.2 | -0.7 | +0.1 | -1.1 | +0.4 | +1.6 | +0.0 |
 
 ## Newest runs vs obs so far today (2026-11-09)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-09 21:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-09 21:30Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
 | Model | Run | From | Hours | Temp bias | Temp MAE | Submitted run temp bias | Td bias | Wind bias | Cloud bias | Precip fcst / obs |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| HRRR | 09/18Z | 19Z | 2 | +0.4 | 0.4 | +0.9 | -0.9 | -0.7 | +0 | 0.06 / 0.04 |
-| RRFS | 09/18Z | 19Z | 2 | -0.9 | 0.9 | -0.6 | -2.9 | -2.4 | +0 | 0.01 / 0.04 |
-| IFS | 09/12Z | 15Z | 2 | -2.3 | 2.3 | -1.4 | +1.1 | +0.9 | +0 | 0.09 / 0.22 |
-| GFS | 09/12Z | 15Z | 2 | -1.1 | 1.1 | -1.4 | +0.4 | -1.0 | +0 | 0.04 / 0.22 |
-| GFS_MOS | 09/12Z | 18Z | 1 | +2.0 | 2.0 | +0.0 | -9.0 | -6.0 | +0 | — |
+| HRRR | 09/18Z | 19Z | 3 | +0.4 | 0.4 | +1.1 | -0.6 | -0.8 | +0 | 0.10 / 0.08 |
+| RRFS | 09/18Z | 19Z | 3 | -0.6 | 0.6 | -0.4 | -2.9 | -3.0 | +0 | 0.01 / 0.08 |
+| IFS | 09/12Z | 15Z | 3 | -2.1 | 2.1 | -1.3 | +0.8 | -0.1 | +0 | 0.18 / 0.26 |
+| GFS | 09/12Z | 15Z | 3 | -0.8 | 0.8 | -1.1 | -0.4 | -0.2 | +0 | 0.11 / 0.26 |
+| GFS_MOS | 09/12Z | 18Z | 2 | +1.9 | 1.9 | +0.4 | -8.0 | -5.0 | +0 | — |
 | NBM | 09/20Z | 00Z | 0 | — | — | — | — | — | — | — |
 
 Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance can miss the true extreme). Day high/low = the run's extreme for the rest of the day combined with the observed high 42.1 / low 32.0 °F so far:
 
 | Model | Run | Hours left | Max T | Min T | Max wind | Day high | Day low |
 | --- | --- | --: | --: | --: | --: | --: | --: |
-| HRRR | 09/18Z | 10 | 43.1 | 41.5 | 20.3 | 43.1 | 32.0 |
-| RRFS | 09/18Z | 10 | 43.6 | 42.1 | 22.3 | 43.6 | 32.0 |
-| IFS | 09/12Z | 4 | 45.2 | 40.5 | 31.9 | 45.2 | 32.0 |
-| GFS | 09/12Z | 4 | 47.1 | 42.0 | 33.8 | 47.1 | 32.0 |
-| GFS_MOS | 09/12Z | 4 | 44.0 | 44.0 | 23.0 | 44.0 | 32.0 |
+| HRRR | 09/18Z | 9 | 43.1 | 41.5 | 20.3 | 43.1 | 32.0 |
+| RRFS | 09/18Z | 9 | 43.6 | 42.3 | 22.3 | 43.6 | 32.0 |
+| IFS | 09/12Z | 3 | 45.2 | 40.5 | 31.9 | 45.2 | 32.0 |
+| GFS | 09/12Z | 3 | 47.1 | 44.2 | 33.8 | 47.1 | 32.0 |
+| GFS_MOS | 09/12Z | 3 | 44.0 | 44.0 | 23.0 | 44.0 | 32.0 |
 | NBM | 09/20Z | 3 | 43.0 | 41.0 | 20.0 | 43.0 | 32.0 |
 
 Hour by hour (°F, kt; obs blank after the last report):
@@ -605,7 +607,7 @@ Hour by hour (°F, kt; obs blank after the last report):
 | 11-09 18Z | Mon 09:00 | 41.0 | 37.0 | 18 |  |  |  |  |  |  | 38.7 | 35.9 | 17 | 40.5 | 33.8 | 18 | 43.0 | 28.0 | 12 |  |  |  |
 | 11-09 19Z | Mon 10:00 | 41.0 | 37.0 | 17 | 41.4 | 35.5 | 18 | 39.5 | 33.9 | 17 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-09 20Z | Mon 11:00 | 41.0 | 37.0 | 21 | 41.4 | 36.6 | 18 | 40.6 | 34.4 | 16 |  |  |  |  |  |  |  |  |  |  |  |  |
-| 11-09 21Z | Mon 12:00 |  |  |  | 42.4 | 37.1 | 18 | 42.1 | 33.9 | 15 | 40.6 | 37.0 | 17 | 42.0 | 34.8 | 21 | 44.0 | 30.0 | 15 |  |  |  |
+| 11-09 21Z | Mon 12:00 | 42.1 | 37.0 | 19 | 42.4 | 37.1 | 18 | 42.1 | 33.9 | 15 | 40.6 | 37.0 | 17 | 42.0 | 34.8 | 21 | 44.0 | 30.0 | 15 |  |  |  |
 | 11-09 22Z | Mon 13:00 |  |  |  | 43.1 | 35.8 | 17 | 43.1 | 32.8 | 15 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-09 23Z | Mon 14:00 |  |  |  | 43.1 | 37.3 | 16 | 42.9 | 33.7 | 14 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-10 00Z | Mon 15:00 |  |  |  | 43.0 | 39.0 | 17 | 42.3 | 34.5 | 12 | 40.5 | 37.4 | 18 | 45.1 | 34.0 | 20 | 44.0 | 32.0 | 18 | 43.0 | 37.0 | 14 |
