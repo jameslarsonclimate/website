@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-09T20:30:10+00:00",
+  "generated_at_utc": "2026-11-09T21:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -128,26 +128,26 @@
     "NBM": {
       "tmax_f": 46.0,
       "tmin_f": 37.0,
-      "wind_max_kt": 21.0,
-      "precip_in": 0.26,
-      "pop06_max_pct": 98,
+      "wind_max_kt": 20.0,
+      "precip_in": 0.29,
+      "pop06_max_pct": 99,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.98,
-          "12-18": 0.71,
-          "18-00": 0.31,
-          "00-06": 0.65
+          "06-12": 0.99,
+          "12-18": 0.64,
+          "18-00": 0.16,
+          "00-06": 0.8
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.98,
+          0.99,
           0.999
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-09T18",
+      "init_time_utc": "2026-11-09T20",
       "valid_range_utc": [
         "2026-11-10T06",
         "2026-11-11T06"
@@ -793,7 +793,7 @@
     "CONSENSUS": {
       "tmax_f": 46.2,
       "tmin_f": 37.2,
-      "wind_max_kt": 25.8,
+      "wind_max_kt": 25.7,
       "precip_in": 0.47,
       "method": {
         "tmax_f": {
@@ -916,7 +916,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-09T20:30:10+00:00",
+    "checked_at_utc": "2026-11-09T21:00:09+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
