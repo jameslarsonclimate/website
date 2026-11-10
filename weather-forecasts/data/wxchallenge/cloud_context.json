@@ -5598,8 +5598,79 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-11-09": {
+    "date": "2026-11-09",
+    "day_hours_utc": [
+     "2026-11-09T18:00",
+     "2026-11-10T00:00"
+    ],
+    "night_hours_utc": [
+     "2026-11-09T06:00",
+     "2026-11-09T17:00"
+    ],
+    "obs": {
+     "day_pct": 100.0,
+     "night_pct": 48.0,
+     "goes_day_pct": 100.0,
+     "goes_night_pct": 100.0
+    },
+    "models": {
+     "HRRR": {
+      "init_time_utc": "2026-11-08T18",
+      "day_pct": 96.4,
+      "night_pct": 98.6,
+      "day_err": -4,
+      "night_err": 51
+     },
+     "RRFS": {
+      "init_time_utc": "2026-11-08T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 52
+     },
+     "IFS": {
+      "init_time_utc": "2026-11-08T12",
+      "day_pct": 87.1,
+      "night_pct": 99.5,
+      "day_err": -13,
+      "night_err": 52
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-11-08T12",
+      "day_pct": 92.3,
+      "night_pct": 99.6,
+      "day_err": -8,
+      "night_err": 52
+     },
+     "GFS": {
+      "init_time_utc": "2026-11-08T18",
+      "day_pct": 100.0,
+      "night_pct": 100.0,
+      "day_err": 0,
+      "night_err": 52
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-11-08T18",
+      "day_pct": 100.0,
+      "night_pct": 83.3,
+      "day_err": 0,
+      "night_err": 35
+     },
+     "NBM": {
+      "init_time_utc": "2026-11-08T22",
+      "day_pct": 93.6,
+      "night_pct": 91.9,
+      "day_err": -6,
+      "night_err": 44
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-11-09T14:42:42+00:00"
+ "generated_at_utc": "2026-11-10T15:11:00+00:00"
 }

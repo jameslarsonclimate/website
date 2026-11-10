@@ -319,3 +319,4 @@
 {"fetched_at_utc":"2026-11-09T15:10:33+00:00","station":"PAYA","target_date":"2026-10-27","model":"USL","init_time_utc":"2026-10-26T22","error":"no USL run for 2026-10-27 available at 2026-10-26 22Z"}
 {"fetched_at_utc":"2026-11-09T15:10:33+00:00","station":"PAYA","target_date":"2026-10-26","model":"USL","init_time_utc":"2026-10-25T12","error":"no USL run for 2026-10-26 available at 2026-10-25 12Z"}
 {"fetched_at_utc":"2026-11-09T15:10:33+00:00","station":"PAYA","target_date":"2026-10-26","model":"USL","init_time_utc":"2026-10-25T22","error":"no USL run for 2026-10-26 available at 2026-10-25 22Z"}
+{"fetched_at_utc":"2026-11-10T13:14:53+00:00","station":"PAYA","target_date":"2026-11-11","model":"NBM","init_time_utc":"2026-11-10T12","tmax_f":46.0,"tmin_f":36.0,"wind_max_kt":12.0,"precip_in":0.47}
