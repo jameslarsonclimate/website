@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T19:15:21+00:00",
+  "generated_at_utc": "2026-11-10T20:15:14+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 44.0,
-      "tmin_f": 32.0,
-      "wind_max_kt": 13.4,
-      "precip_in": 0.15,
-      "init_time_utc": "2026-11-10T12",
+      "tmax_f": 44.2,
+      "tmin_f": 34.1,
+      "wind_max_kt": 15.1,
+      "precip_in": 0.13,
+      "init_time_utc": "2026-11-10T18",
       "valid_range_utc": [
         "2026-11-11 06:00:00",
         "2026-11-12 06:00:00"
@@ -58,11 +58,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
-      "tmax_f": 47.7,
-      "tmin_f": 35.0,
-      "wind_max_kt": 10.2,
-      "precip_in": 0.04,
-      "init_time_utc": "2026-11-10T06",
+      "tmax_f": 46.9,
+      "tmin_f": 33.9,
+      "wind_max_kt": 11.8,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-11-10T12",
       "valid_range_utc": [
         "2026-11-11 06:00:00",
         "2026-11-12 06:00:00"
@@ -831,8 +831,8 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-11-10T06",
+      "precip_in": 0.01,
+      "init_time_utc": "2026-11-10T12",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -840,10 +840,10 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.386,
+        "p24": 0.499,
         "blocks": {
-          "06-12": 0.424,
-          "12-18": 0.003,
+          "06-12": 0.553,
+          "12-18": 0.048,
           "18-00": 0.0,
           "00-06": 0.013
         },
@@ -852,17 +852,17 @@
         "q24_in": {
           "10": 0.0,
           "25": 0.0,
-          "50": 0.0,
-          "75": 0.043,
-          "90": 0.11
+          "50": 0.01,
+          "75": 0.068,
+          "90": 0.147
         }
       }
     },
     "CONSENSUS": {
-      "tmax_f": 48.1,
-      "tmin_f": 31.9,
-      "wind_max_kt": 11.4,
-      "precip_in": 0.04,
+      "tmax_f": 48.0,
+      "tmin_f": 32.0,
+      "wind_max_kt": 11.9,
+      "precip_in": 0.03,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T19:15:21+00:00",
+    "checked_at_utc": "2026-11-10T20:15:14+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
