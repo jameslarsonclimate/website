@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T15:31:47+00:00",
+  "generated_at_utc": "2026-11-10T16:15:08+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -99,27 +99,27 @@
     },
     "GFS_MOS": {
       "tmax_f": 49.0,
-      "tmin_f": 34.0,
-      "wind_max_kt": 7.0,
+      "tmin_f": 33.0,
+      "wind_max_kt": 8.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 16,
+      "pop06_max_pct": 19,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.16,
-          "12-18": 0.07,
+          "06-12": 0.19,
+          "12-18": 0.06,
           "18-00": 0.02,
-          "00-06": 0.01
+          "00-06": 0.0
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.16,
-          0.242
+          0.19,
+          0.254
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-10T06",
+      "init_time_utc": "2026-11-10T12",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -130,11 +130,11 @@
       "tmin_f": 34.0,
       "wind_max_kt": 9.0,
       "precip_in": 0.02,
-      "pop06_max_pct": 42,
+      "pop06_max_pct": 46,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.42,
+          "06-12": 0.46,
           "12-18": 0.02,
           "18-00": 0.0,
           "00-06": 0.01
@@ -142,12 +142,12 @@
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.42,
-          0.437
+          0.46,
+          0.476
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-10T14",
+      "init_time_utc": "2026-11-10T15",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -860,8 +860,8 @@
     },
     "CONSENSUS": {
       "tmax_f": 48.0,
-      "tmin_f": 32.1,
-      "wind_max_kt": 11.2,
+      "tmin_f": 31.9,
+      "wind_max_kt": 11.3,
       "precip_in": 0.04,
       "method": {
         "tmax_f": {
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T15:31:47+00:00",
+    "checked_at_utc": "2026-11-10T16:15:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
