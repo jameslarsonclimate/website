@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T22:12:06+00:00",
+  "generated_at_utc": "2026-11-10T22:24:06+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -99,17 +99,17 @@
     },
     "GFS_MOS": {
       "tmax_f": 46.0,
-      "tmin_f": 38.0,
-      "wind_max_kt": 21.0,
-      "precip_in": 0.64,
+      "tmin_f": 39.0,
+      "wind_max_kt": 15.0,
+      "precip_in": 0.56,
       "pop06_max_pct": 89,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.55,
-          "12-18": 0.68,
-          "18-00": 0.88,
-          "00-06": 0.89
+          "06-12": 0.59,
+          "12-18": 0.76,
+          "18-00": 0.89,
+          "00-06": 0.85
         },
         "n_members": null,
         "basis": "GFS MOS P06",
@@ -118,8 +118,8 @@
           0.998
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 1, 2, 3] -> midpoints",
-      "init_time_utc": "2026-11-10T12",
+      "precip_note": "MOS Q06 categories [1, 2, 2, 2] -> midpoints",
+      "init_time_utc": "2026-11-10T18",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -792,9 +792,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 46.0,
-      "tmin_f": 38.2,
-      "wind_max_kt": 22.4,
-      "precip_in": 0.54,
+      "tmin_f": 38.4,
+      "wind_max_kt": 20.8,
+      "precip_in": 0.53,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -860,21 +860,20 @@
             "HRRR",
             "RRFS",
             "IFS",
-            "GFS",
             "GFS_MOS",
             "NBM",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.187,
-            "RRFS": 0.141,
-            "IFS": 0.185,
-            "GFS": 0.086,
-            "GFS_MOS": 0.112,
-            "NBM": 0.105,
-            "ENS": 0.185
+            "HRRR": 0.205,
+            "RRFS": 0.155,
+            "IFS": 0.202,
+            "GFS_MOS": 0.122,
+            "NBM": 0.114,
+            "ENS": 0.202
           },
           "excluded_outliers": [
+            "GFS",
             "USL"
           ],
           "proxy_track_record": {
@@ -916,7 +915,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T22:12:06+00:00",
+    "checked_at_utc": "2026-11-10T22:24:06+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -979,6 +978,13 @@
         "wind_max_kt": 21.0,
         "precip_in": 0.64,
         "init_time_utc": "2026-11-10T12"
+      },
+      "18": {
+        "tmax_f": 46.0,
+        "tmin_f": 39.0,
+        "wind_max_kt": 15.0,
+        "precip_in": 0.56,
+        "init_time_utc": "2026-11-10T18"
       }
     },
     "USL": {
