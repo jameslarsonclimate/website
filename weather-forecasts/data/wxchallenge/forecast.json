@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T20:00:04+00:00",
+  "generated_at_utc": "2026-11-10T20:30:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 45.2,
-      "tmin_f": 40.5,
-      "wind_max_kt": 19.2,
-      "precip_in": 0.35,
-      "init_time_utc": "2026-11-10T12",
+      "tmax_f": 45.6,
+      "tmin_f": 40.4,
+      "wind_max_kt": 17.4,
+      "precip_in": 0.28,
+      "init_time_utc": "2026-11-10T18",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -682,9 +682,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.49,
-      "precip_mean_in": 0.5,
-      "init_time_utc": "2026-11-10T12",
+      "precip_in": 0.38,
+      "precip_mean_in": 0.46,
+      "init_time_utc": "2026-11-10T18",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -706,55 +706,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.499,
-            "std": 0.162,
-            "p0": 0.285,
-            "p10": 0.33,
-            "p25": 0.372,
-            "p50": 0.487,
-            "p75": 0.577,
-            "p90": 0.747,
+            "mean": 0.462,
+            "std": 0.217,
+            "p0": 0.113,
+            "p10": 0.273,
+            "p25": 0.328,
+            "p50": 0.379,
+            "p75": 0.673,
+            "p90": 0.796,
             "p100": 0.814
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
-            "0.25": 1.0,
+            "0.25": 0.929,
             "0.50": 0.286
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.278,
+            0.322,
+            0.113,
+            0.814,
+            0.271,
+            0.421,
+            0.354,
             0.347,
             0.364,
             0.733,
             0.492,
             0.394,
             0.814,
-            0.752,
-            0.495,
-            0.322,
-            0.285,
-            0.482,
-            0.603,
-            0.399,
-            0.499
+            0.752
           ]
         }
       }
@@ -793,8 +793,8 @@
     "CONSENSUS": {
       "tmax_f": 46.0,
       "tmin_f": 38.2,
-      "wind_max_kt": 22.6,
-      "precip_in": 0.55,
+      "wind_max_kt": 22.3,
+      "precip_in": 0.54,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -916,7 +916,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T20:00:04+00:00",
+    "checked_at_utc": "2026-11-10T20:30:05+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -931,6 +931,13 @@
         "wind_max_kt": null,
         "precip_in": 0.49,
         "init_time_utc": "2026-11-10T12"
+      },
+      "18": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.38,
+        "init_time_utc": "2026-11-10T18"
       }
     },
     "HRRR": {
@@ -956,6 +963,13 @@
         "wind_max_kt": 19.2,
         "precip_in": 0.35,
         "init_time_utc": "2026-11-10T12"
+      },
+      "18": {
+        "tmax_f": 45.6,
+        "tmin_f": 40.4,
+        "wind_max_kt": 17.4,
+        "precip_in": 0.28,
+        "init_time_utc": "2026-11-10T18"
       }
     },
     "GFS_MOS": {
