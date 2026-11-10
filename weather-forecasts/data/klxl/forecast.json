@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T20:15:14+00:00",
+  "generated_at_utc": "2026-11-10T21:15:08+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 49.0,
-      "tmin_f": 32.8,
-      "wind_max_kt": 13.9,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-11-10T12",
+      "tmax_f": 47.8,
+      "tmin_f": 36.9,
+      "wind_max_kt": 13.0,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-11-10T18",
       "valid_range_utc": [
         "2026-11-11 06:00:00",
         "2026-11-12 06:00:00"
@@ -129,25 +129,25 @@
       "tmax_f": 45.0,
       "tmin_f": 34.0,
       "wind_max_kt": 9.0,
-      "precip_in": 0.02,
-      "pop06_max_pct": 46,
+      "precip_in": 0.1,
+      "pop06_max_pct": 55,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.46,
-          "12-18": 0.02,
+          "06-12": 0.55,
+          "12-18": 0.05,
           "18-00": 0.0,
           "00-06": 0.01
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.46,
-          0.476
+          0.55,
+          0.577
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-10T18",
+      "init_time_utc": "2026-11-10T20",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -751,8 +751,8 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.03,
-      "precip_mean_in": 0.04,
-      "init_time_utc": "2026-11-10T12",
+      "precip_mean_in": 0.05,
+      "init_time_utc": "2026-11-10T18",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -760,7 +760,7 @@
       "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.714,
+        "p24": 0.786,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -774,55 +774,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.044,
-            "std": 0.054,
+            "mean": 0.052,
+            "std": 0.057,
             "p0": 0.0,
-            "p10": 0.001,
-            "p25": 0.007,
-            "p50": 0.032,
-            "p75": 0.039,
-            "p90": 0.13,
+            "p10": 0.004,
+            "p25": 0.015,
+            "p50": 0.034,
+            "p75": 0.047,
+            "p90": 0.148,
             "p100": 0.18
           },
           "precip_prob": {
-            "0.01": 0.714,
-            "0.10": 0.143,
+            "0.01": 0.786,
+            "0.10": 0.214,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.039,
+            0.049,
+            0.017,
+            0.007,
+            0.002,
+            0.02,
+            0.133,
             0.015,
             0.039,
             0.0,
             0.037,
             0.032,
             0.18,
-            0.154,
-            0.076,
-            0.032,
-            0.0,
-            0.005,
-            0.017,
-            0.032,
-            0.004
+            0.154
           ]
         }
       }
@@ -859,10 +859,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 48.0,
-      "tmin_f": 32.0,
-      "wind_max_kt": 11.9,
-      "precip_in": 0.03,
+      "tmax_f": 47.9,
+      "tmin_f": 32.5,
+      "wind_max_kt": 11.8,
+      "precip_in": 0.05,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T20:15:14+00:00",
+    "checked_at_utc": "2026-11-10T21:15:08+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
