@@ -6,8 +6,8 @@
 #   ./install_klxl_schedule.sh --run-now    start one run of each now
 #   ./install_klxl_schedule.sh --uninstall  remove both
 #
-#   pilot   every 30 min, all day (:05 and :35)
-#   models  every 30 min (:15 and :45) from 7:15 to 17:45 Mac local time; like WxChallenge, a run
+#   pilot   once an hour, all day (:05)
+#   models  once an hour (:15) from 7:15 to 17:15 Mac local time; like WxChallenge, a run
 #           after the 00Z forecast cutoff skips itself
 # Log: ~/Library/Logs/klxl.log. If the laptop is asleep at a slot, launchd runs it once on wake.
 
@@ -44,10 +44,10 @@ done
 PATH_FOR_JOB="${EXTRA_PATH#:}:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 slots_pilot=""
-for m in 5 35; do slots_pilot+="    <dict><key>Minute</key><integer>$m</integer></dict>
+for m in 5; do slots_pilot+="    <dict><key>Minute</key><integer>$m</integer></dict>
 "; done
 slots_models=""
-for h in $(seq 7 17); do for m in 15 45; do
+for h in $(seq 7 17); do for m in 15; do
   slots_models+="    <dict><key>Hour</key><integer>$h</integer><key>Minute</key><integer>$m</integer></dict>
 "; done; done
 
@@ -94,5 +94,5 @@ write_plist com.jglarson.klxl-models "$slots_models" "    <string>/bin/bash</str
     <string>$GUARD</string>
     <string>$RUNNER</string>
 "
-echo "Installed: KLXL pilot every 30 min (:05, :35), KLXL models :15/:45 from 7:15 to 17:45 until the 00Z cutoff."
+echo "Installed: KLXL pilot hourly (:05), KLXL models hourly (:15) from 7:15 to 17:15 until the 00Z cutoff."
 echo "Log: $LOG    Status: $0 --status"
