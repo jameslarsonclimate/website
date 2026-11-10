@@ -102,14 +102,14 @@ def _fake(monkeypatch, tmp_path, pages):
 
 
 def test_update_is_one_request(tmp_path, monkeypatch):
-    s = _fake(monkeypatch, tmp_path, {16: DAY8, 7: DAY7})
+    s = _fake(monkeypatch, tmp_path, {8: DAY8, 7: DAY7})
     raw = {"stations": {"KMSP": {"days": {f"2026-{d}": {"forecasters": {}} for d in
                                           ["10-27", "10-28", "10-29", "10-30", "11-03", "11-04", "11-05"]}}}}
     raw["stations"]["KMSP"]["days"]["2026-11-05"] = {"day": 7, "forecasters": wxc_team.parse_results(DAY7)["forecasters"]}
     wxc_team.RAW.write_text(wxc_verify.dumps(raw))
     wxc_verify.upsert_observations([_ours("2026-10-27", 61)])
     out = wxc_team.update("KMSP", NOW)
-    assert [p["day"] for p in s.posts] == ["16"]                 # one POST, no GET
+    assert [p["day"] for p in s.posts] == ["8"]                  # one POST, no GET
     assert s.posts[0]["year"] == "26-27" and s.posts[0]["city"] == "kmsp"
     assert out["read"] == 1 and ("2026-10-27", "tmax_f", 61, 56) in [c for c in out["changes"]]
     raw = wxc_team.load_raw()
@@ -120,9 +120,9 @@ def test_update_is_one_request(tmp_path, monkeypatch):
 
 
 def test_update_catches_up_missed_days(tmp_path, monkeypatch):
-    s = _fake(monkeypatch, tmp_path, {16: DAY8, 7: DAY7, **{n: "<h5>Day 1 (x)</h5>" for n in range(1, 7)}})
+    s = _fake(monkeypatch, tmp_path, {8: DAY8, 7: DAY7, **{n: "<h5>Day 1 (x)</h5>" for n in range(1, 7)}})
     wxc_team.update("KMSP", NOW)
-    assert [p["day"] for p in s.posts] == ["16", "1", "2", "3", "4", "5", "6", "7"]
+    assert [p["day"] for p in s.posts] == ["8", "1", "2", "3", "4", "5", "6", "7"]
     assert "2026-11-05" in wxc_team.load_raw()["stations"]["KMSP"]["days"]
 
 

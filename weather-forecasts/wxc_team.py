@@ -4,9 +4,15 @@ for the page's scoreboard.
 
 WxChallenge has no API, but its results page is a plain form. POSTing year / school / city / day
 returns that day's table for the school: each forecaster's forecast, daily error, penalty and
-rank, plus a list of every day so far with WxChallenge's observed values ("Final Day N" once
-final, "As of 15Z" for today). Asking for a day past the latest returns the latest one, so a
-POST for day LAST_DAY gets today's table and every earlier day's final values at once.
+rank, plus the list of days 1..N with WxChallenge's observed values ("Final Day N" once final,
+"As of 15Z" for today). POST only: a GET with the same query returns no table.
+
+Asking for a day past the latest is NOT a shortcut while a city is in progress: the page comes
+back with no "Day N (...)" heading and no table. Only once the city is over does it clamp to the
+city's last day. So the day to ask for is counted from the city's first day (verification.json's
+city_start; WxChallenge days are Tue-Fri, CITY_DAYS per city), and the check steps down a day at
+a time when that page is empty: before 06Z today's table isn't up yet, and after a break week the
+count overshoots. Normally that is one POST for today's table and every earlier day's values.
 
 One request a day, in the morning: today's team forecasts (submitted by 00Z, public once the day
 starts) and the official values for yesterday and before. A second (third) check, two hours
@@ -42,7 +48,10 @@ SCHOOL_LABEL = "Colorado State Univ."
 RAW = DATA / "team_raw.json"
 OUT = DATA / "team.json"
 UA = "Mozilla/5.0 (compatible; weather-forecasts page; team results once a day)"
-LAST_DAY = 16              # the form's last day number: the site answers with the latest day
+LAST_DAY = 16              # the form's last day number (an in-progress city answers days past
+                           # the latest with an empty page; only a finished city clamps)
+CITY_DAYS = 8              # forecast days per city (two Tue-Fri weeks)
+STEP_DOWN = 4              # extra POSTs, one day back each, when the expected day is empty
 PAUSE_S = 2.0              # between requests (catch-up only)
 CHECKS_PER_DAY = 3         # only while yesterday isn't final on WxChallenge yet
 CHECK_GAP = timedelta(hours=2)
@@ -121,6 +130,48 @@ def _post(session, year, city, day, school=SCHOOL):
     return r.text
 
 
+def _city_start(station: str) -> Optional[date]:
+    """The current city's first forecast day (verification.json), or None if unknown."""
+    try:
+        v = json.loads(wxc_verify.VERIF.read_text())
+        if v.get("station") != station or not v.get("city_start"):
+            return None
+        return date.fromisoformat(v["city_start"])
+    except (OSError, ValueError, TypeError, AttributeError):
+        return None
+
+
+def expected_day(city_start: Optional[date], today: date) -> Optional[int]:
+    """WxChallenge day number for today: Tue-Fri dates from city_start through today (0 before the
+    city starts, None when the start is unknown). Overshoots after a break week; see fetch_latest."""
+    if city_start is None:
+        return None
+    if today < city_start:
+        return 0
+    return sum(1 for i in range((today - city_start).days + 1)
+               if (city_start + timedelta(days=i)).weekday() in (1, 2, 3, 4))
+
+
+def fetch_latest(session, year: str, city: str, guess: Optional[int]) -> dict:
+    """
+    The latest day's parsed page. Asks for the expected day (CITY_DAYS when unknown, capped at
+    CITY_DAYS) and steps down a day while the page has no table: at most STEP_DOWN extra POSTs
+    when the day is known, down to day 1 when it isn't. guess == 0 (city not started): no POST.
+    """
+    if guess == 0:
+        return parse_results("")
+    start = min(guess or CITY_DAYS, CITY_DAYS)
+    lowest = max(1, start - STEP_DOWN) if guess else 1
+    page = parse_results("")
+    for i, day in enumerate(range(start, lowest - 1, -1)):
+        if i:
+            time.sleep(PAUSE_S)
+        page = parse_results(_post(session, year, city, day))
+        if page["day"] and page["dates"]:
+            return page
+    return page
+
+
 def load_raw() -> dict:
     try:
         return json.loads(RAW.read_text())
@@ -144,7 +195,8 @@ def _save_day(st: dict, n: int, d: dict, page: dict, year: str, now: datetime):
 
 def update(station: str, now: Optional[datetime] = None, force: bool = False) -> Optional[dict]:
     """
-    Read results.php (one POST; more only to catch up on missed days), save the team's forecasts
+    Read results.php (one POST normally; a few more before 06Z or after a break week, see
+    fetch_latest, and one each to catch up on missed days), save the team's forecasts
     and put WxChallenge's final values into observations.jsonl. Returns {"read": days read,
     "changes": [(date, var, ours, official)]}, or None when not due.
     """
@@ -158,7 +210,7 @@ def update(station: str, now: Optional[datetime] = None, force: bool = False) ->
     RAW.write_text(dumps(raw, indent=1))       # count the check even if it fails below
     year, city = season(now.date()), station.lower()
     s = requests.Session()
-    latest = parse_results(_post(s, year, city, LAST_DAY))
+    latest = fetch_latest(s, year, city, expected_day(_city_start(station), now.date()))
     cur = latest["day"]
     if not cur or not latest["dates"]:
         print(f"  WxChallenge: no {year} results for {city} yet")

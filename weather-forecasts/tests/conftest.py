@@ -34,6 +34,7 @@ def _no_wxc_results_network(tmp_path, monkeypatch):
     monkeypatch.setattr(wxc_team, "_post", fail)
     monkeypatch.setattr(wxc_team, "RAW", tmp_path / "team_raw.json")
     monkeypatch.setattr(wxc_team, "OUT", tmp_path / "team.json")
+    monkeypatch.setattr(wxc_team, "_city_start", lambda station: None)   # never the real verification.json
 
 
 def pytest_configure(config):
