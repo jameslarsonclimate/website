@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T16:45:40+00:00",
+  "generated_at_utc": "2026-11-10T17:15:13+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -85,11 +85,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 48.8,
-      "tmin_f": 36.4,
-      "wind_max_kt": 10.5,
+      "tmax_f": 49.6,
+      "tmin_f": 36.5,
+      "wind_max_kt": 11.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-10T06",
+      "init_time_utc": "2026-11-10T12",
       "valid_range_utc": [
         "2026-11-11 06:00:00",
         "2026-11-12 06:00:00"
@@ -130,11 +130,11 @@
       "tmin_f": 34.0,
       "wind_max_kt": 9.0,
       "precip_in": 0.02,
-      "pop06_max_pct": 46,
+      "pop06_max_pct": 42,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.46,
+          "06-12": 0.42,
           "12-18": 0.02,
           "18-00": 0.0,
           "00-06": 0.01
@@ -142,12 +142,12 @@
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.46,
-          0.476
+          0.42,
+          0.437
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-10T15",
+      "init_time_utc": "2026-11-10T16",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -859,9 +859,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 48.0,
+      "tmax_f": 48.1,
       "tmin_f": 31.9,
-      "wind_max_kt": 11.3,
+      "wind_max_kt": 11.4,
       "precip_in": 0.04,
       "method": {
         "tmax_f": {
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T16:45:40+00:00",
+    "checked_at_utc": "2026-11-10T17:15:13+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
