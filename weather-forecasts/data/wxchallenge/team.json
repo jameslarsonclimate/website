@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-10T16:39:44+00:00",
- "generated_at_utc": "2026-11-10T23:00:59+00:00",
+ "generated_at_utc": "2026-11-10T23:12:26+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -44,12 +44,12 @@
      "precip_in": 0.47
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -1,
      "tmin_f": 1,
      "wind_max_kt": 4,
      "precip_in": 0.03
     },
-    "points": 3.6,
+    "points": 4.6,
     "day": 1
    },
    "Hodags": {
@@ -60,12 +60,12 @@
      "precip_in": 0.44
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -1,
      "tmin_f": 2,
      "wind_max_kt": 9,
      "precip_in": 0.0
     },
-    "points": 6.5,
+    "points": 7.5,
     "day": 1
    },
    "Kraken": {
@@ -76,12 +76,12 @@
      "precip_in": 0.59
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -1,
      "tmin_f": 1,
      "wind_max_kt": 3,
      "precip_in": 0.15
     },
-    "points": 4.6,
+    "points": 5.6,
     "day": 1
    },
    "JerDvl": {
@@ -92,12 +92,12 @@
      "precip_in": 0.22
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": 0,
      "tmin_f": 3,
      "wind_max_kt": -2,
      "precip_in": -0.22
     },
-    "points": 9.7,
+    "points": 8.7,
     "flag": "G",
     "day": 1
    },
@@ -109,12 +109,12 @@
      "precip_in": 0.46
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": 0,
      "tmin_f": 2,
      "wind_max_kt": 10,
      "precip_in": 0.02
     },
-    "points": 8.4,
+    "points": 7.4,
     "day": 1
    },
    "Bigfut": {
@@ -125,12 +125,12 @@
      "precip_in": 0.48
     },
     "error": {
-     "tmax_f": -1,
+     "tmax_f": -2,
      "tmin_f": 1,
      "wind_max_kt": 8,
      "precip_in": 0.04
     },
-    "points": 6.8,
+    "points": 7.8,
     "day": 1
    },
    "Cyclop": {
@@ -141,12 +141,12 @@
      "precip_in": 0.48
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -1,
      "tmin_f": 1,
      "wind_max_kt": 10,
      "precip_in": 0.04
     },
-    "points": 6.8,
+    "points": 7.8,
     "day": 1
    },
    "Wndigo": {
@@ -157,12 +157,12 @@
      "precip_in": 0.4
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -1,
      "tmin_f": 1,
      "wind_max_kt": 13,
      "precip_in": -0.04
     },
-    "points": 8.3,
+    "points": 9.3,
     "day": 1
    }
   }
