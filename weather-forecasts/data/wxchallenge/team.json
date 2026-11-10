@@ -2,10 +2,169 @@
  "station": "PAYA",
  "school": "csu",
  "school_label": "Colorado State Univ.",
- "season": null,
- "fetched_at_utc": "2026-11-09T13:14:28+00:00",
- "generated_at_utc": "2026-11-10T16:30:28+00:00",
+ "season": "26-27",
+ "fetched_at_utc": "2026-11-10T16:39:44+00:00",
+ "generated_at_utc": "2026-11-10T17:01:02+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
- "forecasters": {},
- "today": null
+ "forecasters": {
+  "Mothmn": {
+   "days": {}
+  },
+  "Hodags": {
+   "days": {}
+  },
+  "Kraken": {
+   "days": {}
+  },
+  "JerDvl": {
+   "days": {}
+  },
+  "Nessie": {
+   "days": {}
+  },
+  "Bigfut": {
+   "days": {}
+  },
+  "Cyclop": {
+   "days": {}
+  },
+  "Wndigo": {
+   "days": {}
+  }
+ },
+ "today": {
+  "date": "2026-11-10",
+  "status": "As of 16Z",
+  "forecasters": {
+   "Mothmn": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 37,
+     "wind_max_kt": 26,
+     "precip_in": 0.47
+    },
+    "error": {
+     "tmax_f": 0,
+     "tmin_f": -2,
+     "wind_max_kt": 4,
+     "precip_in": 0.03
+    },
+    "points": 4.6,
+    "day": 1
+   },
+   "Hodags": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 38,
+     "wind_max_kt": 31,
+     "precip_in": 0.44
+    },
+    "error": {
+     "tmax_f": 0,
+     "tmin_f": -1,
+     "wind_max_kt": 9,
+     "precip_in": 0.0
+    },
+    "points": 5.5,
+    "day": 1
+   },
+   "Kraken": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 37,
+     "wind_max_kt": 25,
+     "precip_in": 0.59
+    },
+    "error": {
+     "tmax_f": 0,
+     "tmin_f": -2,
+     "wind_max_kt": 3,
+     "precip_in": 0.15
+    },
+    "points": 5.6,
+    "day": 1
+   },
+   "JerDvl": {
+    "forecast": {
+     "tmax_f": 47,
+     "tmin_f": 39,
+     "wind_max_kt": 20,
+     "precip_in": 0.22
+    },
+    "error": {
+     "tmax_f": 1,
+     "tmin_f": 0,
+     "wind_max_kt": -2,
+     "precip_in": -0.22
+    },
+    "points": 6.7,
+    "flag": "G",
+    "day": 1
+   },
+   "Nessie": {
+    "forecast": {
+     "tmax_f": 47,
+     "tmin_f": 38,
+     "wind_max_kt": 32,
+     "precip_in": 0.46
+    },
+    "error": {
+     "tmax_f": 1,
+     "tmin_f": -1,
+     "wind_max_kt": 10,
+     "precip_in": 0.02
+    },
+    "points": 7.4,
+    "day": 1
+   },
+   "Bigfut": {
+    "forecast": {
+     "tmax_f": 45,
+     "tmin_f": 37,
+     "wind_max_kt": 30,
+     "precip_in": 0.48
+    },
+    "error": {
+     "tmax_f": -1,
+     "tmin_f": -2,
+     "wind_max_kt": 8,
+     "precip_in": 0.04
+    },
+    "points": 7.8,
+    "day": 1
+   },
+   "Cyclop": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 37,
+     "wind_max_kt": 32,
+     "precip_in": 0.48
+    },
+    "error": {
+     "tmax_f": 0,
+     "tmin_f": -2,
+     "wind_max_kt": 10,
+     "precip_in": 0.04
+    },
+    "points": 7.8,
+    "day": 1
+   },
+   "Wndigo": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 37,
+     "wind_max_kt": 35,
+     "precip_in": 0.4
+    },
+    "error": {
+     "tmax_f": 0,
+     "tmin_f": -2,
+     "wind_max_kt": 13,
+     "precip_in": -0.04
+    },
+    "points": 9.3,
+    "day": 1
+   }
+  }
+ }
 }
