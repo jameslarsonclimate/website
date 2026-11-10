@@ -1,14 +1,17 @@
 #!/bin/bash
-# Schedule the two KLXL jobs with launchd (separate from the WxChallenge job, which is untouched).
+# Schedule the KLXL pages with launchd (separate from the WxChallenge job, which is untouched).
 #
-#   ./install_klxl_schedule.sh              install both
+#   ./install_klxl_schedule.sh              install (replaces the old separate pilot/models jobs)
 #   ./install_klxl_schedule.sh --status     loaded? last lines of the log
-#   ./install_klxl_schedule.sh --run-now    start one run of each now
-#   ./install_klxl_schedule.sh --uninstall  remove both
+#   ./install_klxl_schedule.sh --run-now    start one run now
+#   ./install_klxl_schedule.sh --uninstall  remove it
 #
-#   pilot   once an hour, all day (:05)
-#   models  once an hour (:15) from 7:15 to 17:15 Mac local time; like WxChallenge, a run
-#           after the 00Z forecast cutoff skips itself
+# One job, com.jglarson.klxl, once an hour: the pilot page, then the model page (7:00-17:59 local,
+# before the 00Z cutoff; getForecast_klxl.sh all), then ONE push for both. Every push to GitHub
+# starts a Pages deploy and a new push cancels the one in progress, so KLXL pushes sit as far as
+# possible from the WxChallenge runs (:00/:30 from 6:00 to 14:30, every 12 min from 15:00 to 17:48):
+#   :15 each hour (15 min from :00 and :30), but :18 at 15:xx and 16:xx (6 min from :12 and :24).
+# The schedule is in Mac local time, like the WxChallenge job's, so the spacing holds year-round.
 # Log: ~/Library/Logs/klxl.log. If the laptop is asleep at a slot, launchd runs it once on wake.
 
 set -euo pipefail
@@ -16,22 +19,23 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"          # .../klxl_pipeline
 RUNNER="$DIR/getForecast_klxl.sh"
 LOG="$HOME/Library/Logs/klxl.log"
 DOMAIN="gui/$(id -u)"
-LABELS=(com.jglarson.klxl-pilot com.jglarson.klxl-models)
+LABEL=com.jglarson.klxl
+OLD_LABELS=(com.jglarson.klxl-pilot com.jglarson.klxl-models)    # before 2026-11-10
+BUSY_HOURS=(15 16)                                               # WxChallenge every 12 min
 plist() { echo "$HOME/Library/LaunchAgents/$1.plist"; }
+remove() { launchctl bootout "$DOMAIN/$1" 2>/dev/null || true; launchctl enable "$DOMAIN/$1" 2>/dev/null || true; rm -f "$(plist "$1")"; }
 
 case "${1:-}" in
   --uninstall)
-    for l in "${LABELS[@]}"; do launchctl bootout "$DOMAIN/$l" 2>/dev/null || true; rm -f "$(plist "$l")"; done
+    for l in "$LABEL" "${OLD_LABELS[@]}"; do remove "$l"; done
     echo "KLXL schedule removed."; exit 0 ;;
   --status)
-    for l in "${LABELS[@]}"; do
-      if launchctl print "$DOMAIN/$l" >/dev/null 2>&1; then echo "$l: loaded"; launchctl print "$DOMAIN/$l" | grep -E "last exit code|runs" || true
-      else echo "$l: not installed"; fi
-    done
+    if launchctl print "$DOMAIN/$LABEL" >/dev/null 2>&1; then echo "$LABEL: loaded"; launchctl print "$DOMAIN/$LABEL" | grep -E "last exit code|runs" || true
+    else echo "$LABEL: not installed"; fi
     [ -f "$LOG" ] && { echo "--- last lines of $LOG ---"; tail -n 15 "$LOG"; }
     exit 0 ;;
   --run-now)
-    for l in "${LABELS[@]}"; do launchctl kickstart "$DOMAIN/$l"; done
+    launchctl kickstart "$DOMAIN/$LABEL"
     echo "Started. Follow with:  tail -f $LOG"; exit 0 ;;
 esac
 
@@ -43,27 +47,27 @@ for tool in conda gh git; do
 done
 PATH_FOR_JOB="${EXTRA_PATH#:}:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-slots_pilot=""
-for m in 5; do slots_pilot+="    <dict><key>Minute</key><integer>$m</integer></dict>
-"; done
-slots_models=""
-for h in $(seq 7 17); do for m in 15; do
-  slots_models+="    <dict><key>Hour</key><integer>$h</integer><key>Minute</key><integer>$m</integer></dict>
-"; done; done
+slots=""
+for h in $(seq 0 23); do
+  m=15; for b in "${BUSY_HOURS[@]}"; do [ "$h" = "$b" ] && m=18; done
+  slots+="    <dict><key>Hour</key><integer>$h</integer><key>Minute</key><integer>$m</integer></dict>
+"
+done
 
-# models: skip once the 00Z deadline has passed (UTC hour 00-11 = evening/night in the US)
-GUARD='h=$(date -u +%H); if [ "$h" -ge 12 ]; then exec /bin/bash "$0" models; else echo "$(date): KLXL models: past the 00Z cutoff, skipping"; fi'
-
-write_plist() {   # label, slots, program arguments (as <string> lines)
-  cat > "$(plist "$1")" <<EOF
+mkdir -p "$HOME/Library/LaunchAgents" "$(dirname "$LOG")"
+for l in "${OLD_LABELS[@]}"; do remove "$l"; done
+cat > "$(plist "$LABEL")" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key><string>$1</string>
+  <key>Label</key><string>$LABEL</string>
   <key>ProgramArguments</key>
   <array>
-$3  </array>
+    <string>/bin/bash</string>
+    <string>$RUNNER</string>
+    <string>all</string>
+  </array>
   <key>WorkingDirectory</key><string>$(dirname "$DIR")</string>
   <key>EnvironmentVariables</key>
   <dict>
@@ -72,27 +76,16 @@ $3  </array>
   </dict>
   <key>StartCalendarInterval</key>
   <array>
-$2  </array>
+$slots  </array>
   <key>StandardOutPath</key><string>$LOG</string>
   <key>StandardErrorPath</key><string>$LOG</string>
   <key>ProcessType</key><string>Background</string>
 </dict>
 </plist>
 EOF
-  plutil -lint "$(plist "$1")" >/dev/null
-  launchctl bootout "$DOMAIN/$1" 2>/dev/null || true
-  launchctl bootstrap "$DOMAIN" "$(plist "$1")"
-}
-
-mkdir -p "$HOME/Library/LaunchAgents" "$(dirname "$LOG")"
-write_plist com.jglarson.klxl-pilot "$slots_pilot" "    <string>/bin/bash</string>
-    <string>$RUNNER</string>
-    <string>pilot</string>
-"
-write_plist com.jglarson.klxl-models "$slots_models" "    <string>/bin/bash</string>
-    <string>-c</string>
-    <string>$GUARD</string>
-    <string>$RUNNER</string>
-"
-echo "Installed: KLXL pilot hourly (:05), KLXL models hourly (:15) from 7:15 to 17:15 until the 00Z cutoff."
+plutil -lint "$(plist "$LABEL")" >/dev/null
+launchctl bootout "$DOMAIN/$LABEL" 2>/dev/null || true
+launchctl enable "$DOMAIN/$LABEL" 2>/dev/null || true
+launchctl bootstrap "$DOMAIN" "$(plist "$LABEL")"
+echo "Installed: $LABEL hourly at :15 (:18 at ${BUSY_HOURS[*]}h): pilot, then models 7:00-17:59 before 00Z, one push."
 echo "Log: $LOG    Status: $0 --status"
