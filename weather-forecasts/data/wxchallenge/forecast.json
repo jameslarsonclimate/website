@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-10T21:30:09+00:00",
+  "generated_at_utc": "2026-11-10T22:00:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-10T20",
+      "init_time_utc": "2026-11-10T21",
       "valid_range_utc": [
         "2026-11-11T06",
         "2026-11-12T06"
@@ -916,7 +916,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-10T21:30:09+00:00",
+    "checked_at_utc": "2026-11-10T22:00:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
