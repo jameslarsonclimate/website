@@ -385,6 +385,14 @@ def forecast_hours_for_day(init, target_day, step, max_fxx, partial=False):
     return fxx, truncated
 
 
+def lst_window_utc(target_day, lst_offset_hours):
+    """The NWS climate-report (CLI) day `target_day` in naive UTC: midnight to midnight local
+    STANDARD time all year (EST 05Z-05Z, CST 06Z-06Z, AKST 09Z-09Z). WxChallenge verifies the
+    max wind over this day, not 06Z-06Z (rule 15.5)."""
+    start = pd.Timestamp(target_day.year, target_day.month, target_day.day) - pd.Timedelta(hours=lst_offset_hours)
+    return start, start + pd.Timedelta(hours=24)
+
+
 def run_hour(init):
     if init is None:
         return "n/a"

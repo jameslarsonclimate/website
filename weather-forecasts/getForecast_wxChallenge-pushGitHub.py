@@ -38,7 +38,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from functions import (convert_time_to_datetime64, forecast_hours_for_day, fmt,
+from functions import (convert_time_to_datetime64, forecast_hours_for_day, lst_window_utc, fmt,
                        get_latest_forecast_cycle, previous_forecast_cycle, run_hour)
 import wxc_brief
 import wxc_cache
@@ -417,6 +417,78 @@ def fetch_aifs(init, day, points, station=None, partial=False):
                      truncated=trunc, notes=notes, dewpt_f=grib_dewpoint("AIFS", H, points, len(times)))
 
 
+# -------------------------------------------------------------------
+# max wind over the CLI's day. WxChallenge verifies wind from the NWS climate report (CLI),
+# midnight to midnight local STANDARD time (EST 05Z-05Z, AKST 09Z-09Z), not 06Z-06Z (rule
+# 15.5). The temps, precip and series stay 06Z-06Z; only metrics["wind_max_kt"] uses the LST
+# day, topped up with wind-only downloads of the hours outside 06Z-06Z.
+# -------------------------------------------------------------------
+def _wind_spec(label, init, station):
+    """(output step h, last forecast hour, Herbie kwargs, wind reader) of a GRIB model."""
+    h = pd.Timestamp(init).hour
+    if label == "HRRR":
+        return 1, 48, dict(model=station.hrrr_model, product="sfc", priority=HRRR_SOURCES), \
+            lambda H, p: pick(H, ":WIND", p, "max_10si") * MS_TO_KT
+    if label == "RRFS":
+        return 1, 84, dict(model="rrfs", product="2dfld", domain=station.rrfs_domain), \
+            lambda H, p: wind_10m(H, WIND_10M_NCEP, p)
+    if label == "IFS":
+        return 3, (144 if h in (0, 12) else 90), dict(model="ifs", product="oper"), \
+            lambda H, p: wind_10m(H, WIND_10M_ECMWF, p)
+    if label == "GFS":
+        return 3, 384, dict(model="gfs", product="pgrb2.0p25"), lambda H, p: wind_10m(H, WIND_10M_NCEP, p)
+    if label == "AIFS":
+        return 6, 360, dict(model="aifs", product="oper"), lambda H, p: wind_10m(H, WIND_10M_ECMWF, p)
+    return None
+
+
+def lst_wind(label, res, init, day, points, station):
+    """Set res["metrics"]["wind_max_kt"] to the max over the LST day. Returns True if res
+    changed. Keeps the 06Z-06Z max as wind_max_kt_06z. Hours that are not posted yet (or
+    past the run's end) are skipped and noted; the run is then marked to be topped up again."""
+    m, s = res.get("metrics") or {}, res.get("series")
+    if not s or m.get("wind_max_kt") is None or m.get("wind_window") == "LST":
+        return False
+    spec = _wind_spec(label, init, station)
+    if spec is None:
+        return False
+    step, max_fxx, kw, read = spec
+    init = pd.Timestamp(init)
+    ws, we = lst_window_utc(day, station.lst_offset_hours)
+    times = pd.to_datetime(s["times"])
+    w = np.asarray(s["wind_kt"], float)
+    inside = (times >= ws) & (times <= we)
+    vals = list(w[np.asarray(inside)])
+    have = set(times)
+    want = []
+    t = ws
+    while t <= we:
+        f = int((t - init) / pd.Timedelta(hours=1))
+        if t not in have and f >= 1 and f % step == 0:
+            want.append(f)
+        t += pd.Timedelta(hours=1)
+    beyond = [f for f in want if f > max_fxx]          # past the run's end: never coming
+    want = [f for f in want if f <= max_fxx]
+    missed = []
+    if want:
+        try:
+            vals += list(np.atleast_1d(np.asarray(read(fast_herbie(init, want, **kw), points).values, float)))
+        except Exception as exc:
+            print(f"  {label} LST-day wind hours f{want[0]:03d}-f{want[-1]:03d} not had: "
+                  f"{type(exc).__name__}: {str(exc)[:120]}")
+            missed += want
+    vals = [v for v in vals if np.isfinite(v)]
+    if not vals:
+        return False
+    m.setdefault("wind_max_kt_06z", m["wind_max_kt"])
+    m["wind_max_kt"] = round(float(max(vals)), 1)
+    m["wind_window_utc"] = [ws.strftime("%Y-%m-%dT%H"), we.strftime("%Y-%m-%dT%H")]
+    m["wind_window"] = "LST partial" if missed else "LST"      # partial: tried again next time
+    if beyond:
+        m["wind_window_note"] = f"run ends at f{max_fxx}: last LST-day hours not covered"
+    return True
+
+
 GRIB_MODELS = {
     # label: (cycle key in functions.get_latest_forecast_cycle, fetch function)
     "HRRR": ("HRRR", fetch_hrrr),
@@ -434,12 +506,15 @@ def fetch_with_fallback(label, cycle_key, fn, day, points, station, as_of=None, 
         cached = wxc_cache.load(station.icao, label, init, day, partial)
         if cached is not None:
             print(f"Using saved {label} {init:%Y-%m-%d %HZ} (already downloaded)")
-            if add_dewpoint(label, cached, points, station):     # saved before dewpoints were kept
+            changed = add_dewpoint(label, cached, points, station)  # saved before dewpoints were kept
+            changed = lst_wind(label, cached, init, day, points, station) or changed
+            if changed:
                 wxc_cache.save(station.icao, label, init, day, cached, partial)
             return cached
         try:
             print(f"Fetching {label} {init:%Y-%m-%d %HZ}...")
             res = fn(init, day, points, station, partial=partial)
+            lst_wind(label, res, init, day, points, station)
             # keep the station values so later runs don't download this model run again
             # (skip if an optional field was missing: a later run may find it posted)
             if "unavailable" not in (res["metrics"].get("note") or ""):
@@ -862,9 +937,12 @@ def fetch_cycle(station, label, init, day, points):
         cycle_key, fn = GRIB_MODELS[label]
         cached = wxc_cache.load(station.icao, label, init, day)
         if cached is not None:
+            if lst_wind(label, cached, pd.Timestamp(init), day, points, station):
+                wxc_cache.save(station.icao, label, pd.Timestamp(init), day, cached)
             return cached["metrics"]
         try:
             res = fn(pd.Timestamp(init), day, points, station)
+            lst_wind(label, res, pd.Timestamp(init), day, points, station)
         except Exception as exc:
             return {"error": f"{type(exc).__name__}: {exc}"}
         if "unavailable" not in (res["metrics"].get("note") or ""):

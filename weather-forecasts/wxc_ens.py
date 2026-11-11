@@ -88,11 +88,20 @@ def members(hourly: dict, var: str, model: str) -> dict:
     return out
 
 
-def summarize_members(hourly: dict, model: str, target_day: date) -> dict:
+def summarize_members(hourly: dict, model: str, target_day: date,
+                      lst_offset: Optional[float] = None) -> dict:
+    """lst_offset (UTC offset of local standard time): the max wind is taken over the CLI's
+    midnight-midnight LST day, as WxChallenge verifies it (rule 15.5); else 06Z-06Z."""
     times = np.array(hourly["time"], dtype="datetime64[m]")
     start = np.datetime64(datetime(target_day.year, target_day.month, target_day.day, 6), "m")
     end = start + np.timedelta64(24, "h")
-    inst = (times >= start) & (times <= end)            # temps / winds: 06Z..06Z inclusive
+    inst = (times >= start) & (times <= end)            # temps: 06Z..06Z inclusive
+    winds = inst
+    if lst_offset is not None:
+        from functions import lst_window_utc
+        ws, we = (np.datetime64(t.to_pydatetime(), "m") for t in lst_window_utc(target_day, lst_offset))
+        if ((times >= ws) & (times <= we)).sum() >= 20:
+            winds = (times >= ws) & (times <= we)
     accum = (times > start) & (times <= end)            # hourly precip ending at each hour
     if inst.sum() < 20:
         raise ValueError(f"ensemble data does not cover {target_day} 06Z-06Z")
@@ -106,7 +115,7 @@ def summarize_members(hourly: dict, model: str, target_day: date) -> dict:
     arr = lambda d, m, mask: np.array([np.nan if v is None else v for v in np.asarray(d[m], dtype=object)[mask]], float)  # noqa: E731
     per = {"tmax_f": [], "tmin_f": [], "wind_max_kt": [], "precip_in": []}
     for m in ids:
-        t, w, p = arr(T, m, inst), arr(W, m, inst), arr(P, m, accum)
+        t, w, p = arr(T, m, inst), arr(W, m, winds), arr(P, m, accum)
         per["tmax_f"].append(np.nanmax(t))
         per["tmin_f"].append(np.nanmin(t))
         per["wind_max_kt"].append(np.nanmax(w))
@@ -250,7 +259,8 @@ def get_ensembles(station, target_day: date, as_of: Optional[datetime] = None, o
     def summarize(group, data):
         for label, init in group:
             try:
-                summ = summarize_members(data["hourly"], MODELS[label], target_day)
+                summ = summarize_members(data["hourly"], MODELS[label], target_day,
+                                         getattr(station, "lst_offset_hours", None))
                 res = _result(label, init, summ, target_day)
                 wxc_cache.save(station.icao, label, init, target_day, res)
                 out[label] = res

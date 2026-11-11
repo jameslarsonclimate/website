@@ -90,7 +90,7 @@ def _vals(hourly: dict, var: str) -> np.ndarray:
     return np.array([np.nan if v is None else v for v in hourly.get(var) or []], float)
 
 
-def summarize_run(hourly: dict, init: datetime, day: date) -> dict:
+def summarize_run(hourly: dict, init: datetime, day: date, lst_offset: Optional[float] = None) -> dict:
     """{"metrics", "series"} for WxChallenge day `day` (06Z-06Z) from one run's hourly values.
     Temperature and wind at 06Z..06Z inclusive; precipitation is the hour ending at each time,
     so the day's total is the 24 hours after 06Z. Raises IncompleteRun when any is missing."""
@@ -113,10 +113,21 @@ def summarize_run(hourly: dict, init: datetime, day: date) -> dict:
     td = _vals(hourly, "dew_point_2m")
     dewpt = td[inst] if len(td) == len(times) and np.isfinite(td[inst]).any() else None
     st = times[inst]
+    wmax = float(wind.max())
+    extra = {}
+    if lst_offset is not None:    # WxChallenge verifies wind over the CLI's LST day (rule 15.5)
+        from functions import lst_window_utc
+        ws, we = lst_window_utc(day, lst_offset)
+        lw = W[np.asarray((times >= ws) & (times <= we))]
+        if np.isfinite(lw).sum() >= 24:
+            extra = {"wind_max_kt_06z": round(wmax, 1), "wind_window": "LST",
+                     "wind_window_utc": [ws.strftime("%Y-%m-%dT%H"), we.strftime("%Y-%m-%dT%H")]}
+            wmax = float(np.nanmax(lw))
     metrics = {
         "tmax_f": round(float(temp.max()), 1),
         "tmin_f": round(float(temp.min()), 1),
-        "wind_max_kt": round(float(wind.max()), 1),
+        "wind_max_kt": round(wmax, 1),
+        **extra,
         "precip_in": round(float(precip[-1]), 2),
         "init_time_utc": pd.Timestamp(init).strftime("%Y-%m-%dT%H"),
         "valid_range_utc": [st[0].strftime("%Y-%m-%dT%H"), st[-1].strftime("%Y-%m-%dT%H")],
@@ -184,7 +195,7 @@ def get_forecast(station, day: date, as_of: Optional[datetime] = None,
         try:
             print(f"Fetching {LABEL} {init:%Y-%m-%d %HZ} (Open-Meteo single run)...")
             hourly = request_run(station, init)["hourly"]
-            res = summarize_run(hourly, init, day)
+            res = summarize_run(hourly, init, day, getattr(station, "lst_offset_hours", None))
             wxc_cache.save(station.icao, LABEL, init, day, res)
             _save_cloud(station, init, hourly)
             break
