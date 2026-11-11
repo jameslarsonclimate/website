@@ -2234,8 +2234,93 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-11-10": {
+    "date": "2026-11-10",
+    "day_hours_utc": [
+     "2026-11-10T14:00",
+     "2026-11-10T22:00"
+    ],
+    "night_hours_utc": [
+     "2026-11-10T06:00",
+     "2026-11-10T13:00"
+    ],
+    "obs": {
+     "day_pct": 0.0,
+     "night_pct": 0.0,
+     "goes_day_pct": 66.7,
+     "goes_night_pct": 12.5
+    },
+    "models": {
+     "HRRR": {
+      "init_time_utc": "2026-11-09T18",
+      "day_pct": 84.6,
+      "night_pct": 9.0,
+      "day_err": 85,
+      "night_err": 9
+     },
+     "RRFS": {
+      "init_time_utc": "2026-11-09T18",
+      "day_pct": 66.9,
+      "night_pct": 1.9,
+      "day_err": 67,
+      "night_err": 2
+     },
+     "IFS": {
+      "init_time_utc": "2026-11-09T12",
+      "day_pct": 71.7,
+      "night_pct": 6.3,
+      "day_err": 72,
+      "night_err": 6
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-11-09T12",
+      "day_pct": 68.6,
+      "night_pct": 9.0,
+      "day_err": 69,
+      "night_err": 9
+     },
+     "GFS": {
+      "init_time_utc": "2026-11-09T18",
+      "day_pct": 69.0,
+      "night_pct": 8.9,
+      "day_err": 69,
+      "night_err": 9
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-11-09T18",
+      "day_pct": 33.3,
+      "night_pct": 0.0,
+      "day_err": 33,
+      "night_err": 0
+     },
+     "NBM": {
+      "init_time_utc": "2026-11-09T22",
+      "day_pct": 43.6,
+      "night_pct": 7.9,
+      "day_err": 44,
+      "night_err": 8
+     },
+     "ENS": {
+      "init_time_utc": "2026-11-09T12",
+      "day_pct": 69.3,
+      "night_pct": 12.5,
+      "day_err": 69,
+      "night_err": 12
+     },
+     "GEFS": {
+      "init_time_utc": "2026-11-09T18",
+      "day_pct": 49.2,
+      "night_pct": 16.3,
+      "day_err": 49,
+      "night_err": 16
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-11-10T15:57:33+00:00"
+ "generated_at_utc": "2026-11-11T14:18:34+00:00"
 }
