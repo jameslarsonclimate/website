@@ -3,167 +3,496 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-10T16:39:44+00:00",
- "generated_at_utc": "2026-11-10T23:48:20+00:00",
+ "fetched_at_utc": "2026-11-11T13:00:09+00:00",
+ "generated_at_utc": "2026-11-11T13:43:57+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 37,
+      "wind_max_kt": 26,
+      "precip_in": 0.47
+     },
+     "error": {
+      "tmax_f": -4,
+      "tmin_f": 1,
+      "wind_max_kt": -5,
+      "precip_in": -0.42
+     },
+     "points": 12.0,
+     "rank": 195,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 12.0,
+    "mean_points": 12.0,
+    "bias": {
+     "tmax_f": -4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": -5.0,
+     "precip_in": -0.42
+    },
+    "mae": {
+     "tmax_f": 4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 5.0,
+     "precip_in": 0.42
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "Hodags": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 38,
+      "wind_max_kt": 31,
+      "precip_in": 0.44
+     },
+     "error": {
+      "tmax_f": -4,
+      "tmin_f": 2,
+      "wind_max_kt": 0,
+      "precip_in": -0.45
+     },
+     "points": 11.1,
+     "rank": 117,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 11.1,
+    "mean_points": 11.1,
+    "bias": {
+     "tmax_f": -4.0,
+     "tmin_f": 2.0,
+     "wind_max_kt": 0.0,
+     "precip_in": -0.45
+    },
+    "mae": {
+     "tmax_f": 4.0,
+     "tmin_f": 2.0,
+     "wind_max_kt": 0.0,
+     "precip_in": 0.45
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "Kraken": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 37,
+      "wind_max_kt": 25,
+      "precip_in": 0.59
+     },
+     "error": {
+      "tmax_f": -4,
+      "tmin_f": 1,
+      "wind_max_kt": -6,
+      "precip_in": -0.3
+     },
+     "points": 11.0,
+     "rank": 113,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 11.0,
+    "mean_points": 11.0,
+    "bias": {
+     "tmax_f": -4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": -6.0,
+     "precip_in": -0.3
+    },
+    "mae": {
+     "tmax_f": 4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 6.0,
+     "precip_in": 0.3
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "JerDvl": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 47,
+      "tmin_f": 39,
+      "wind_max_kt": 20,
+      "precip_in": 0.22
+     },
+     "error": {
+      "tmax_f": -3,
+      "tmin_f": 3,
+      "wind_max_kt": -11,
+      "precip_in": -0.67
+     },
+     "points": 21.3,
+     "flag": "G",
+     "rank": 730,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 21.3,
+    "mean_points": 21.3,
+    "bias": {
+     "tmax_f": -3.0,
+     "tmin_f": 3.0,
+     "wind_max_kt": -11.0,
+     "precip_in": -0.67
+    },
+    "mae": {
+     "tmax_f": 3.0,
+     "tmin_f": 3.0,
+     "wind_max_kt": 11.0,
+     "precip_in": 0.67
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "Nessie": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 47,
+      "tmin_f": 38,
+      "wind_max_kt": 32,
+      "precip_in": 0.46
+     },
+     "error": {
+      "tmax_f": -3,
+      "tmin_f": 2,
+      "wind_max_kt": 1,
+      "precip_in": -0.43
+     },
+     "points": 10.2,
+     "rank": 58,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 10.2,
+    "mean_points": 10.2,
+    "bias": {
+     "tmax_f": -3.0,
+     "tmin_f": 2.0,
+     "wind_max_kt": 1.0,
+     "precip_in": -0.43
+    },
+    "mae": {
+     "tmax_f": 3.0,
+     "tmin_f": 2.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 0.43
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "Bigfut": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 37,
+      "wind_max_kt": 30,
+      "precip_in": 0.48
+     },
+     "error": {
+      "tmax_f": -5,
+      "tmin_f": 1,
+      "wind_max_kt": -1,
+      "precip_in": -0.41
+     },
+     "points": 10.8,
+     "rank": 90,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 10.8,
+    "mean_points": 10.8,
+    "bias": {
+     "tmax_f": -5.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": -1.0,
+     "precip_in": -0.41
+    },
+    "mae": {
+     "tmax_f": 5.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 0.41
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "Cyclop": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 37,
+      "wind_max_kt": 32,
+      "precip_in": 0.48
+     },
+     "error": {
+      "tmax_f": -4,
+      "tmin_f": 1,
+      "wind_max_kt": 1,
+      "precip_in": -0.41
+     },
+     "points": 9.8,
+     "rank": 39,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 9.8,
+    "mean_points": 9.8,
+    "bias": {
+     "tmax_f": -4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": -0.41
+    },
+    "mae": {
+     "tmax_f": 4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 0.41
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   },
   "Wndigo": {
-   "days": {}
+   "days": {
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 37,
+      "wind_max_kt": 35,
+      "precip_in": 0.4
+     },
+     "error": {
+      "tmax_f": -4,
+      "tmin_f": 1,
+      "wind_max_kt": 4,
+      "precip_in": -0.49
+     },
+     "points": 12.9,
+     "rank": 257,
+     "day": 1
+    }
+   },
+   "summary": {
+    "n_days": 1,
+    "total_points": 12.9,
+    "mean_points": 12.9,
+    "bias": {
+     "tmax_f": -4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 4.0,
+     "precip_in": -0.49
+    },
+    "mae": {
+     "tmax_f": 4.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 4.0,
+     "precip_in": 0.49
+    },
+    "n_eff": {
+     "tmax_f": 1.0,
+     "tmin_f": 1.0,
+     "wind_max_kt": 1.0,
+     "precip_in": 1.0
+    }
+   }
   }
  },
  "today": {
-  "date": "2026-11-10",
-  "status": "As of 16Z",
+  "date": "2026-11-11",
+  "status": "As of 13Z",
   "forecasters": {
-   "Mothmn": {
-    "forecast": {
-     "tmax_f": 46,
-     "tmin_f": 37,
-     "wind_max_kt": 26,
-     "precip_in": 0.47
-    },
-    "error": {
-     "tmax_f": -1,
-     "tmin_f": 1,
-     "wind_max_kt": 4,
-     "precip_in": 0.03
-    },
-    "points": 4.6,
-    "day": 1
-   },
-   "Hodags": {
-    "forecast": {
-     "tmax_f": 46,
-     "tmin_f": 38,
-     "wind_max_kt": 31,
-     "precip_in": 0.44
-    },
-    "error": {
-     "tmax_f": -1,
-     "tmin_f": 2,
-     "wind_max_kt": 9,
-     "precip_in": 0.0
-    },
-    "points": 7.5,
-    "day": 1
-   },
    "Kraken": {
     "forecast": {
      "tmax_f": 46,
-     "tmin_f": 37,
-     "wind_max_kt": 25,
-     "precip_in": 0.59
-    },
-    "error": {
-     "tmax_f": -1,
-     "tmin_f": 1,
-     "wind_max_kt": 3,
-     "precip_in": 0.15
-    },
-    "points": 5.6,
-    "day": 1
-   },
-   "JerDvl": {
-    "forecast": {
-     "tmax_f": 47,
      "tmin_f": 39,
-     "wind_max_kt": 20,
-     "precip_in": 0.22
+     "wind_max_kt": 15,
+     "precip_in": 0.56
     },
     "error": {
-     "tmax_f": 0,
-     "tmin_f": 3,
-     "wind_max_kt": -2,
-     "precip_in": -0.22
+     "tmax_f": 2,
+     "tmin_f": 0,
+     "wind_max_kt": 5,
+     "precip_in": 0.5
     },
-    "points": 8.7,
+    "points": 16.2,
     "flag": "G",
-    "day": 1
+    "day": 2
    },
    "Nessie": {
     "forecast": {
-     "tmax_f": 47,
-     "tmin_f": 38,
-     "wind_max_kt": 32,
-     "precip_in": 0.46
+     "tmax_f": 46,
+     "tmin_f": 36,
+     "wind_max_kt": 18,
+     "precip_in": 0.52
     },
     "error": {
-     "tmax_f": 0,
-     "tmin_f": 2,
-     "wind_max_kt": 10,
-     "precip_in": 0.02
+     "tmax_f": 2,
+     "tmin_f": -3,
+     "wind_max_kt": 8,
+     "precip_in": 0.46
     },
-    "points": 7.4,
-    "day": 1
+    "points": 20.3,
+    "day": 2
    },
    "Bigfut": {
     "forecast": {
-     "tmax_f": 45,
+     "tmax_f": 47,
      "tmin_f": 37,
-     "wind_max_kt": 30,
-     "precip_in": 0.48
+     "wind_max_kt": 18,
+     "precip_in": 0.65
     },
     "error": {
-     "tmax_f": -2,
-     "tmin_f": 1,
+     "tmax_f": 3,
+     "tmin_f": -2,
      "wind_max_kt": 8,
-     "precip_in": 0.04
+     "precip_in": 0.59
     },
-    "points": 7.8,
-    "day": 1
+    "points": 21.6,
+    "day": 2
+   },
+   "Mothmn": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 38,
+     "wind_max_kt": 22,
+     "precip_in": 0.54
+    },
+    "error": {
+     "tmax_f": 2,
+     "tmin_f": -1,
+     "wind_max_kt": 12,
+     "precip_in": 0.48
+    },
+    "points": 20.5,
+    "day": 2
    },
    "Cyclop": {
     "forecast": {
      "tmax_f": 46,
-     "tmin_f": 37,
-     "wind_max_kt": 32,
-     "precip_in": 0.48
+     "tmin_f": 38,
+     "wind_max_kt": 25,
+     "precip_in": 0.77
     },
     "error": {
-     "tmax_f": -1,
-     "tmin_f": 1,
-     "wind_max_kt": 10,
-     "precip_in": 0.04
+     "tmax_f": 2,
+     "tmin_f": -1,
+     "wind_max_kt": 15,
+     "precip_in": 0.71
     },
-    "points": 7.8,
-    "day": 1
+    "points": 24.3,
+    "day": 2
    },
    "Wndigo": {
     "forecast": {
      "tmax_f": 46,
-     "tmin_f": 37,
-     "wind_max_kt": 35,
-     "precip_in": 0.4
+     "tmin_f": 38,
+     "wind_max_kt": 23,
+     "precip_in": 0.6
     },
     "error": {
-     "tmax_f": -1,
-     "tmin_f": 1,
+     "tmax_f": 2,
+     "tmin_f": -1,
      "wind_max_kt": 13,
-     "precip_in": -0.04
+     "precip_in": 0.54
     },
-    "points": 9.3,
-    "day": 1
+    "points": 21.6,
+    "day": 2
+   },
+   "Hodags": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 36,
+     "wind_max_kt": 33,
+     "precip_in": 0.47
+    },
+    "error": {
+     "tmax_f": 2,
+     "tmin_f": -3,
+     "wind_max_kt": 23,
+     "precip_in": 0.41
+    },
+    "points": 27.0,
+    "day": 2
+   },
+   "JerDvl": {
+    "forecast": {
+     "tmax_f": 46,
+     "tmin_f": 38,
+     "wind_max_kt": 26,
+     "precip_in": 0.52
+    },
+    "error": {
+     "tmax_f": 2,
+     "tmin_f": -1,
+     "wind_max_kt": 16,
+     "precip_in": 0.46
+    },
+    "points": 22.3,
+    "day": 2
    }
   }
  }
