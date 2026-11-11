@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-11T13:00:09+00:00",
- "generated_at_utc": "2026-11-11T22:00:23+00:00",
+ "generated_at_utc": "2026-11-11T22:12:23+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -375,10 +375,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": 0,
-     "wind_max_kt": -3,
+     "wind_max_kt": -6,
      "precip_in": 0.33
     },
-    "points": 8.7,
+    "points": 10.2,
     "flag": "G",
     "day": 2
    },
@@ -392,10 +392,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": -3,
-     "wind_max_kt": 0,
+     "wind_max_kt": -3,
      "precip_in": 0.29
     },
-    "points": 9.8,
+    "points": 11.3,
     "day": 2
    },
    "Bigfut": {
@@ -408,10 +408,10 @@
     "error": {
      "tmax_f": 0,
      "tmin_f": -2,
-     "wind_max_kt": 0,
+     "wind_max_kt": -3,
      "precip_in": 0.42
     },
-    "points": 9.1,
+    "points": 10.6,
     "day": 2
    },
    "Mothmn": {
@@ -424,10 +424,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": -1,
-     "wind_max_kt": 4,
+     "wind_max_kt": 1,
      "precip_in": 0.31
     },
-    "points": 10.0,
+    "points": 8.5,
     "day": 2
    },
    "Cyclop": {
@@ -440,10 +440,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": -1,
-     "wind_max_kt": 7,
+     "wind_max_kt": 4,
      "precip_in": 0.54
     },
-    "points": 13.8,
+    "points": 12.3,
     "day": 2
    },
    "Wndigo": {
@@ -456,10 +456,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": -1,
-     "wind_max_kt": 5,
+     "wind_max_kt": 2,
      "precip_in": 0.37
     },
-    "points": 11.1,
+    "points": 9.6,
     "day": 2
    },
    "Hodags": {
@@ -472,10 +472,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": -3,
-     "wind_max_kt": 15,
+     "wind_max_kt": 12,
      "precip_in": 0.24
     },
-    "points": 16.5,
+    "points": 15.0,
     "day": 2
    },
    "JerDvl": {
@@ -488,10 +488,10 @@
     "error": {
      "tmax_f": -1,
      "tmin_f": -1,
-     "wind_max_kt": 8,
+     "wind_max_kt": 5,
      "precip_in": 0.29
     },
-    "points": 11.8,
+    "points": 10.3,
     "day": 2
    }
   }
