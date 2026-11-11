@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-11T16:30:05+00:00",
+  "generated_at_utc": "2026-11-11T17:00:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -82,18 +82,14 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-11-11T16:13:48+00:00",
-        "error": "Open-Meteo meta failed: Open-Meteo: The service is overloaded"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 45.2,
-      "tmin_f": 39.2,
-      "wind_max_kt": 17.3,
-      "precip_in": 0.57,
-      "init_time_utc": "2026-11-11T06",
+      "tmax_f": 45.8,
+      "tmin_f": 40.3,
+      "wind_max_kt": 18.8,
+      "precip_in": 0.4,
+      "init_time_utc": "2026-11-11T12",
       "valid_range_utc": [
         "2026-11-12T06",
         "2026-11-13T06"
@@ -140,7 +136,7 @@
         "blocks": {
           "06-12": 0.99,
           "12-18": 0.93,
-          "18-00": 0.51,
+          "18-00": 0.65,
           "00-06": 0.35
         },
         "n_members": null,
@@ -151,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-11T15",
+      "init_time_utc": "2026-11-11T16",
       "valid_range_utc": [
         "2026-11-12T06",
         "2026-11-13T06"
@@ -795,10 +791,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 43.8,
-      "tmin_f": 34.1,
-      "wind_max_kt": 14.2,
-      "precip_in": 0.57,
+      "tmax_f": 43.9,
+      "tmin_f": 34.2,
+      "wind_max_kt": 14.3,
+      "precip_in": 0.55,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -920,17 +916,13 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-11T16:30:05+00:00",
+    "ok": true,
+    "checked_at_utc": "2026-11-11T17:00:05+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "IFS_HRES"
+      "HRRRCAST"
     ],
-    "carried_over": [
-      "IFS_HRES"
-    ],
-    "message": "The update at 16:30Z failed for some sources; latest forecasts not pulled for HRRRCAST, IFS_HRES. Showing the last good forecasts for IFS_HRES."
+    "carried_over": []
   },
   "earlier_runs": {
     "HRRR": {
@@ -984,6 +976,15 @@
         "tmin_f": 36,
         "wind_max_kt": 10.0,
         "precip_in": 0.32,
+        "init_time_utc": "2026-11-11T12"
+      }
+    },
+    "GFS": {
+      "12": {
+        "tmax_f": 45.8,
+        "tmin_f": 40.3,
+        "wind_max_kt": 18.8,
+        "precip_in": 0.4,
         "init_time_utc": "2026-11-11T12"
       }
     }
