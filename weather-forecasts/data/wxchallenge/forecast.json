@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-11T16:13:48+00:00",
+  "generated_at_utc": "2026-11-11T16:30:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -82,7 +82,11 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus"
+      "note": "not in the consensus",
+      "stale": {
+        "fetched_at_utc": "2026-11-11T16:13:48+00:00",
+        "error": "Open-Meteo meta failed: Open-Meteo: The service is overloaded"
+      }
     },
     "GFS": {
       "tmax_f": 45.2,
@@ -916,13 +920,17 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-11-11T16:13:48+00:00",
+    "ok": false,
+    "checked_at_utc": "2026-11-11T16:30:05+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST"
+      "HRRRCAST",
+      "IFS_HRES"
     ],
-    "carried_over": []
+    "carried_over": [
+      "IFS_HRES"
+    ],
+    "message": "The update at 16:30Z failed for some sources; latest forecasts not pulled for HRRRCAST, IFS_HRES. Showing the last good forecasts for IFS_HRES."
   },
   "earlier_runs": {
     "HRRR": {
