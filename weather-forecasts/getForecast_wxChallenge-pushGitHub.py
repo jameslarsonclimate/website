@@ -1110,7 +1110,8 @@ def timeline_update(station, now, points, verif, fetch_grib=True, budget_s=TIMEL
     except (FileNotFoundError, json.JSONDecodeError):
         today_json = None
     bundle = wxc_timeline.build(DATA, icao, now, verif, today_json, station.label,
-                                since=(verif or {}).get("period_start"), lat=station.lat, lon=station.lon)
+                                since=(verif or {}).get("period_start"), lat=station.lat, lon=station.lon,
+                                lst_offset=station.lst_offset_hours)
     if bundle:
         path = wxc_timeline.write(DATA, bundle)
         print(f"  timeline: {len(bundle['days'])} days ({bundle['days'][0]['date']}..{bundle['days'][-1]['date']}) "

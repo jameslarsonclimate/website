@@ -286,7 +286,7 @@ def _cloud_scores(ctx: Optional[dict]) -> Optional[dict]:
 def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict] = None,
           today_json: Optional[dict] = None, station_label: Optional[str] = None,
           since: Optional[str] = None, lat: Optional[float] = None, lon: Optional[float] = None,
-          latest_models: Optional[list] = None) -> Optional[dict]:
+          latest_models: Optional[list] = None, lst_offset: Optional[float] = None) -> Optional[dict]:
     """The whole timeline for the page, or None without any submitted series. lat/lon add
     each day's cloud windows; the scoreboard's cloud numbers come from cloud_context.json.
     latest_models: the newest runs to draw for today (None: every one stored)."""
@@ -350,7 +350,10 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
         if cs:
             rec["cloud_scores"] = cs
         out_days.append(rec)
-    return {"station": icao, "label": station_label, "generated_at_utc": now.isoformat(),
+    extra = {}
+    if lst_offset is not None:    # the CLI day (wind is verified over it): hours after 06Z it starts
+        extra["wind_day_h"] = -lst_offset - 6
+    return {**extra, "station": icao, "label": station_label, "generated_at_utc": now.isoformat(),
             "now_utc": _iso(now), "today": today.isoformat(), "forecast_day": days[-1].isoformat(),
             "note": "Display only. Hours (h) count from 06Z of each day. Temperatures in °F, wind in kt, "
                     "precip in inches (running total since 06Z), cloud cover in %, dewpoint (td) in °F. Each day's models are "

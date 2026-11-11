@@ -333,6 +333,17 @@
     }
     // day boundaries (06Z), day names, hour ticks
     for (let k = 0; k <= ND; k++) o.push(`<line x1="${k * DW}" x2="${k * DW}" y1="2" y2="${bottom}" stroke="var(--ink-3)" stroke-width="1"/>`);
+    // wind panel: where the CLI day starts (midnight local standard time), the day wind is verified over
+    const wd = T.wind_day_h;
+    if (wd && P.wind && VIS.includes(P.wind)) {
+      for (let k = 0; k <= ND; k++) {
+        const h = 24 * k + wd;
+        if (h < 0 || h > 24 * ND) continue;
+        const x = X(h).toFixed(1), y0 = P.wind.y0, y1 = P.wind.y0 + P.wind.h;
+        o.push(`<line x1="${x}" x2="${x}" y1="${y0}" y2="${y1}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.8"/>`);
+        if (h < 24 * ND - 3) o.push(`<text x="${(+x + 3).toFixed(1)}" y="${y0 + 10}" font-size="9.5" fill="var(--ink-3)">wind day</text>`);
+      }
+    }
     // days before the city's first forecast day: tinted like the scoreboard's hindcast columns
     T.days.forEach((d, k) => {
       const hind = d.verif && d.verif.hindcast;
