@@ -107,7 +107,7 @@ def test_update_is_one_request(tmp_path, monkeypatch):
                                           ["10-27", "10-28", "10-29", "10-30", "11-03", "11-04", "11-05"]}}}}
     raw["stations"]["KMSP"]["days"]["2026-11-05"] = {"day": 7, "forecasters": wxc_team.parse_results(DAY7)["forecasters"]}
     wxc_team.RAW.write_text(wxc_verify.dumps(raw))
-    wxc_verify.upsert_observations([_ours("2026-10-27", 61)])
+    wxc_verify.upsert_observations([_ours("2026-10-27", 61), {**_ours("2026-11-05", 51), "cli_wind_kt": 21}])
     out = wxc_team.update("KMSP", NOW)
     assert [p["day"] for p in s.posts] == ["8"]                  # one POST, no GET
     assert s.posts[0]["year"] == "26-27" and s.posts[0]["city"] == "kmsp"
@@ -117,6 +117,19 @@ def test_update_is_one_request(tmp_path, monkeypatch):
     assert "2026-11-06" in raw["stations"]["KMSP"]["days"]
     assert raw["stations"]["KMSP"]["days"]["2026-11-05"]["forecasters"]["Kraken"]["official"]["rank"] == 233
     assert wxc_team.update("KMSP", NOW.replace(hour=20)) is None and len(s.posts) == 1
+
+
+def test_unconfirmed_final_wind_checks_again(tmp_path, monkeypatch):
+    # WxChallenge can show "Final" with a wrong wind and fix it later (PAYA 11/10/2026: 31 -> 19 kt)
+    s = _fake(monkeypatch, tmp_path, {8: DAY8, 7: DAY7, **{n: "<h5>Day 1 (x)</h5>" for n in range(1, 7)}})
+    wxc_verify.upsert_observations([{**_ours("2026-11-05", 51), "cli_wind_kt": 31}])
+    wxc_team.update("KMSP", NOW)
+    assert "done_for" not in wxc_team.load_raw()["stations"]["KMSP"]       # CLI 31 vs official 21
+    assert wxc_team.due(wxc_team.load_raw(), "KMSP", NOW + wxc_team.CHECK_GAP)
+    wxc_verify.upsert_observations([{**_ours("2026-11-05", 51), "cli_wind_kt": 21}])
+    assert wxc_team._wind_unconfirmed("KMSP", {"2026-11-05": {"obs": {"wind_max_kt": 21}}}, "2026-11-06") == []
+    assert wxc_team._wind_unconfirmed("KMSP", {"2026-11-05": {"obs": {"wind_max_kt": 22}}}, "2026-11-06") == []
+    assert wxc_team._wind_unconfirmed("KMSP", {"2026-11-05": {"obs": {"wind_max_kt": 23}}}, "2026-11-06") == ["2026-11-05"]
 
 
 def test_update_catches_up_missed_days(tmp_path, monkeypatch):

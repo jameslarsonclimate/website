@@ -188,6 +188,26 @@ def due(raw: dict, station: str, now: datetime) -> bool:
     return len(checks) < CHECKS_PER_DAY and (not checks or now - max(checks) >= CHECK_GAP)
 
 
+WIND_TOL_KT = 1             # CLI mph -> kt rounding
+
+
+def _wind_unconfirmed(station: str, official: dict, today: str) -> list:
+    """Yesterday's final days whose official wind our CLI wind doesn't back up (CLI missing or more
+    than WIND_TOL_KT apart). WxChallenge has shown "Final" with a wrong wind early in the morning and
+    fixed it later (PAYA 11/10/2026: 31 kt, the day before's, then 19), so keep checking that day."""
+    y = (date.fromisoformat(today) - timedelta(days=1)).isoformat()
+    rows = {r["date"]: r for r in wxc_verify.read_jsonl(wxc_verify.OBS) if r.get("station") == station}
+    out = []
+    for day, off in official.items():
+        if day != y:
+            continue
+        w, rec = (off.get("obs") or {}).get("wind_max_kt"), rows.get(day) or {}
+        cli = rec.get("cli_wind_kt") if not rec.get("cli_preliminary") else None
+        if w is not None and (cli is None or abs(cli - w) > WIND_TOL_KT):
+            out.append(day)
+    return out
+
+
 def _save_day(st: dict, n: int, d: dict, page: dict, year: str, now: datetime):
     st["days"][d["date"]] = {"day": n, "year": year, "status": d["status"], "final": d["final"],
                              "fetched_at_utc": now.isoformat(), "forecasters": page["forecasters"]}
@@ -242,7 +262,10 @@ def update(station: str, now: Optional[datetime] = None, force: bool = False) ->
                 for d in latest["dates"].values()
                 if d["final"] and all(d["obs"].get(v) is not None for v in VARS)}
     changes = wxc_verify.set_official(station, official) if official else []
-    if all(d["final"] for d in latest["dates"].values() if d["date"] < today):
+    unsure = _wind_unconfirmed(station, official, today)
+    if unsure:
+        print(f"  WxChallenge: final wind not confirmed by the CLI for {', '.join(unsure)}; checking again later")
+    elif all(d["final"] for d in latest["dates"].values() if d["date"] < today):
         st["done_for"] = today                 # yesterday is final: nothing more to read today
     raw["generated_at_utc"] = now.isoformat()
     RAW.write_text(dumps(raw, indent=1))
