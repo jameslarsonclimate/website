@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-11T17:48:59+00:00",
+  "generated_at_utc": "2026-11-11T19:00:31+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -151,7 +151,11 @@
       "valid_range_utc": [
         "2026-11-12T06",
         "2026-11-13T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
+        "error": "HTTPSConnectionPool(host='noaa-nbm-grib2-pds.s3.amazonaws.com', port=443): Read timed out."
+      }
     },
     "USL": {
       "tmax_f": 43.0,
@@ -162,7 +166,11 @@
       "valid_range_utc": [
         "2026-11-12T06",
         "2026-11-13T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
+        "error": "USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max retries exceeded with url: /forecast/PAYA/ (Caused by NameResolutionError(\"HTTPConnection(host='www.microclimates.org', port=80): Failed to resolve 'www.microclimates.org' ([Errno 8] nodename nor servname provided, or not known)\"))"
+      }
     },
     "ENS": {
       "tmax_f": 42.7,
@@ -454,6 +462,10 @@
         },
         "n_members": 51,
         "basis": "member fraction"
+      },
+      "stale": {
+        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "GEFS": {
@@ -666,6 +678,10 @@
         },
         "n_members": 31,
         "basis": "member fraction"
+      },
+      "stale": {
+        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
+        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ncep_gefs025/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "HRRRCAST": {
@@ -757,6 +773,10 @@
             0.409
           ]
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
+        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -788,6 +808,10 @@
           "75": 0.66,
           "90": 0.938
         }
+      },
+      "stale": {
+        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
+        "error": "no NBM QMD cycle covering the day is posted yet"
       }
     },
     "CONSENSUS": {
@@ -916,13 +940,27 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-11-11T17:48:59+00:00",
-    "connectivity": false,
+    "ok": false,
+    "checked_at_utc": "2026-11-11T19:00:31+00:00",
+    "connectivity": true,
     "failed": [
-      "HRRRCAST"
+      "ENS",
+      "GEFS",
+      "HRRRCAST",
+      "NBM",
+      "NBM_QMD",
+      "REFS",
+      "USL"
     ],
-    "carried_over": []
+    "carried_over": [
+      "ENS",
+      "GEFS",
+      "NBM",
+      "NBM_QMD",
+      "REFS",
+      "USL"
+    ],
+    "message": "Connectivity issues: the update at 19:00Z couldn't reach some data sources; latest forecasts not pulled for ENS, GEFS, HRRRCAST, NBM, NBM_QMD, REFS, USL. Showing the last good forecasts for ENS, GEFS, NBM, NBM_QMD, REFS, USL."
   },
   "earlier_runs": {
     "HRRR": {
