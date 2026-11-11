@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-11T19:00:31+00:00",
+  "generated_at_utc": "2026-11-11T19:25:50+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -34,7 +34,7 @@
     "HRRR": {
       "tmax_f": 40.8,
       "tmin_f": 33.8,
-      "wind_max_kt": 13.4,
+      "wind_max_kt": 9.6,
       "precip_in": 0.66,
       "init_time_utc": "2026-11-11T12",
       "valid_range_utc": [
@@ -42,7 +42,13 @@
         "2026-11-13T06"
       ],
       "n_steps": 25,
-      "temp_source": "instantaneous 2 m T"
+      "temp_source": "instantaneous 2 m T",
+      "wind_max_kt_06z": 13.4,
+      "wind_window_utc": [
+        "2026-11-12T09",
+        "2026-11-13T09"
+      ],
+      "wind_window": "LST"
     },
     "RRFS": {
       "tmax_f": 43.1,
@@ -55,7 +61,13 @@
         "2026-11-13T06"
       ],
       "n_steps": 25,
-      "temp_source": "2 m T + interval max/min fields"
+      "temp_source": "2 m T + interval max/min fields",
+      "wind_max_kt_06z": 15.5,
+      "wind_window_utc": [
+        "2026-11-12T09",
+        "2026-11-13T09"
+      ],
+      "wind_window": "LST"
     },
     "IFS": {
       "tmax_f": 43.4,
@@ -68,7 +80,13 @@
         "2026-11-13T06"
       ],
       "n_steps": 9,
-      "temp_source": "2 m T + interval max/min fields"
+      "temp_source": "2 m T + interval max/min fields",
+      "wind_max_kt_06z": 17.1,
+      "wind_window_utc": [
+        "2026-11-12T09",
+        "2026-11-13T09"
+      ],
+      "wind_window": "LST"
     },
     "IFS_HRES": {
       "tmax_f": 42.5,
@@ -87,7 +105,7 @@
     "GFS": {
       "tmax_f": 45.8,
       "tmin_f": 40.3,
-      "wind_max_kt": 18.8,
+      "wind_max_kt": 16.3,
       "precip_in": 0.4,
       "init_time_utc": "2026-11-11T12",
       "valid_range_utc": [
@@ -95,7 +113,13 @@
         "2026-11-13T06"
       ],
       "n_steps": 9,
-      "temp_source": "2 m T + interval max/min fields"
+      "temp_source": "2 m T + interval max/min fields",
+      "wind_max_kt_06z": 18.8,
+      "wind_window_utc": [
+        "2026-11-12T09",
+        "2026-11-13T09"
+      ],
+      "wind_window": "LST"
     },
     "GFS_MOS": {
       "tmax_f": 43,
@@ -136,8 +160,8 @@
         "blocks": {
           "06-12": 0.99,
           "12-18": 0.93,
-          "18-00": 0.65,
-          "00-06": 0.35
+          "18-00": 0.72,
+          "00-06": 0.75
         },
         "n_members": null,
         "basis": "NBS P06",
@@ -147,15 +171,11 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-11T16",
+      "init_time_utc": "2026-11-11T18",
       "valid_range_utc": [
         "2026-11-12T06",
         "2026-11-13T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
-        "error": "HTTPSConnectionPool(host='noaa-nbm-grib2-pds.s3.amazonaws.com', port=443): Read timed out."
-      }
+      ]
     },
     "USL": {
       "tmax_f": 43.0,
@@ -166,11 +186,7 @@
       "valid_range_utc": [
         "2026-11-12T06",
         "2026-11-13T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
-        "error": "USL fetch failed: HTTPConnectionPool(host='www.microclimates.org', port=80): Max retries exceeded with url: /forecast/PAYA/ (Caused by NameResolutionError(\"HTTPConnection(host='www.microclimates.org', port=80): Failed to resolve 'www.microclimates.org' ([Errno 8] nodename nor servname provided, or not known)\"))"
-      }
+      ]
     },
     "ENS": {
       "tmax_f": 42.7,
@@ -462,10 +478,6 @@
         },
         "n_members": 51,
         "basis": "member fraction"
-      },
-      "stale": {
-        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ecmwf_ifs025_ensemble/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "GEFS": {
@@ -678,10 +690,6 @@
         },
         "n_members": 31,
         "basis": "member fraction"
-      },
-      "stale": {
-        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Max retries exceeded with url: /data/ncep_gefs025/static/meta.json (Caused by NameResolutionError(\"HTTPSConnection(host='ensemble-api.open-meteo.com', port=443): Failed to resolve 'ensemble-api.open-meteo.com' ([Errno 8] nodename nor servname provided, or not known)\"))"
       }
     },
     "HRRRCAST": {
@@ -773,10 +781,6 @@
             0.409
           ]
         }
-      },
-      "stale": {
-        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
-        "error": "no RRFS ensemble cycle covering the day found on NOMADS (prod or para)"
       }
     },
     "NBM_QMD": {
@@ -808,16 +812,12 @@
           "75": 0.66,
           "90": 0.938
         }
-      },
-      "stale": {
-        "fetched_at_utc": "2026-11-11T17:48:59+00:00",
-        "error": "no NBM QMD cycle covering the day is posted yet"
       }
     },
     "CONSENSUS": {
       "tmax_f": 43.9,
       "tmin_f": 34.2,
-      "wind_max_kt": 14.3,
+      "wind_max_kt": 13.5,
       "precip_in": 0.55,
       "method": {
         "tmax_f": {
@@ -940,34 +940,20 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-11T19:00:31+00:00",
-    "connectivity": true,
+    "ok": true,
+    "checked_at_utc": "2026-11-11T19:25:50+00:00",
+    "connectivity": false,
     "failed": [
-      "ENS",
-      "GEFS",
-      "HRRRCAST",
-      "NBM",
-      "NBM_QMD",
-      "REFS",
-      "USL"
+      "HRRRCAST"
     ],
-    "carried_over": [
-      "ENS",
-      "GEFS",
-      "NBM",
-      "NBM_QMD",
-      "REFS",
-      "USL"
-    ],
-    "message": "Connectivity issues: the update at 19:00Z couldn't reach some data sources; latest forecasts not pulled for ENS, GEFS, HRRRCAST, NBM, NBM_QMD, REFS, USL. Showing the last good forecasts for ENS, GEFS, NBM, NBM_QMD, REFS, USL."
+    "carried_over": []
   },
   "earlier_runs": {
     "HRRR": {
       "12": {
         "tmax_f": 40.8,
         "tmin_f": 33.8,
-        "wind_max_kt": 13.4,
+        "wind_max_kt": 9.6,
         "precip_in": 0.66,
         "init_time_utc": "2026-11-11T12"
       }
@@ -979,6 +965,13 @@
         "wind_max_kt": 10.0,
         "precip_in": 0.32,
         "init_time_utc": "2026-11-11T12"
+      },
+      "18": {
+        "tmax_f": 42.0,
+        "tmin_f": 34,
+        "wind_max_kt": 10.0,
+        "precip_in": 0.29,
+        "init_time_utc": "2026-11-11T18"
       }
     },
     "RRFS": {
@@ -1021,7 +1014,7 @@
       "12": {
         "tmax_f": 45.8,
         "tmin_f": 40.3,
-        "wind_max_kt": 18.8,
+        "wind_max_kt": 16.3,
         "precip_in": 0.4,
         "init_time_utc": "2026-11-11T12"
       }
