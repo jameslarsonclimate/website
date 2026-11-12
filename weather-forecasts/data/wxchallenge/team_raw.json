@@ -1,6 +1,7 @@
 {
  "checks": [
-  "2026-11-12T13:00:05+00:00"
+  "2026-11-12T13:00:05+00:00",
+  "2026-11-12T15:34:54+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -1792,7 +1793,7 @@
         "penalty": 0,
         "points": 16.2,
         "cum_points": 27.2,
-        "rank": 14,
+        "rank": 22,
         "prev_rank": 113
        }
       },
@@ -1816,7 +1817,7 @@
         "penalty": 0,
         "points": 20.3,
         "cum_points": 30.5,
-        "rank": 220,
+        "rank": 253,
         "prev_rank": 58
        }
       },
@@ -1840,7 +1841,7 @@
         "penalty": 0,
         "points": 21.6,
         "cum_points": 32.4,
-        "rank": 146,
+        "rank": 177,
         "prev_rank": 90
        }
       },
@@ -1864,7 +1865,7 @@
         "penalty": 0,
         "points": 20.5,
         "cum_points": 32.5,
-        "rank": 43,
+        "rank": 23,
         "prev_rank": 195
        }
       },
@@ -1888,7 +1889,7 @@
         "penalty": 0,
         "points": 24.3,
         "cum_points": 34.1,
-        "rank": 378,
+        "rank": 278,
         "prev_rank": 39
        }
       },
@@ -1912,7 +1913,7 @@
         "penalty": 0,
         "points": 21.6,
         "cum_points": 34.5,
-        "rank": 400,
+        "rank": 301,
         "prev_rank": 257
        }
       },
@@ -1936,7 +1937,7 @@
         "penalty": 0,
         "points": 27.0,
         "cum_points": 38.1,
-        "rank": 718,
+        "rank": 658,
         "prev_rank": 117
        }
       },
@@ -1960,7 +1961,7 @@
         "penalty": 0,
         "points": 22.3,
         "cum_points": 43.6,
-        "rank": 287,
+        "rank": 206,
         "prev_rank": 730
        }
       }
@@ -1969,9 +1970,9 @@
     "2026-11-12": {
      "day": 3,
      "year": "26-27",
-     "status": "As of 12Z",
+     "status": "As of 15Z",
      "final": false,
-     "fetched_at_utc": "2026-11-12T13:00:05+00:00",
+     "fetched_at_utc": "2026-11-12T15:34:54+00:00",
      "forecasters": {
       "Kraken": {
        "forecast": {
@@ -1988,13 +1989,13 @@
          "tmax_f": 0,
          "tmin_f": 5,
          "wind_max_kt": 1.5,
-         "precip_in": 8.7
+         "precip_in": 8.4
         },
         "penalty": 0,
-        "points": 15.2,
-        "cum_points": 29.5,
-        "rank": 46,
-        "prev_rank": 14
+        "points": 14.9,
+        "cum_points": 30.2,
+        "rank": 60,
+        "prev_rank": 22
        }
       },
       "Mothmn": {
@@ -2012,13 +2013,13 @@
          "tmax_f": 0,
          "tmin_f": 5,
          "wind_max_kt": 1.5,
-         "precip_in": 9.4
+         "precip_in": 9.1
         },
         "penalty": 0,
-        "points": 15.9,
-        "cum_points": 32.5,
-        "rank": 130,
-        "prev_rank": 43
+        "points": 15.6,
+        "cum_points": 31.2,
+        "rank": 84,
+        "prev_rank": 23
        }
       },
       "Nessie": {
@@ -2036,13 +2037,13 @@
          "tmax_f": 1,
          "tmin_f": 5,
          "wind_max_kt": 1.0,
-         "precip_in": 5.5
+         "precip_in": 5.2
         },
         "penalty": 0,
-        "points": 12.5,
-        "cum_points": 33.3,
-        "rank": 157,
-        "prev_rank": 220
+        "points": 12.2,
+        "cum_points": 34.0,
+        "rank": 178,
+        "prev_rank": 253
        }
       },
       "Bigfut": {
@@ -2060,13 +2061,13 @@
          "tmax_f": 1,
          "tmin_f": 5,
          "wind_max_kt": 1.5,
-         "precip_in": 9.1
+         "precip_in": 8.8
         },
         "penalty": 0,
-        "points": 16.6,
-        "cum_points": 36.1,
-        "rank": 281,
-        "prev_rank": 146
+        "points": 16.3,
+        "cum_points": 36.8,
+        "rank": 312,
+        "prev_rank": 177
        }
       },
       "JerDvl": {
@@ -2084,13 +2085,13 @@
          "tmax_f": 2,
          "tmin_f": 4,
          "wind_max_kt": 2.5,
-         "precip_in": 8.1
+         "precip_in": 7.8
         },
         "penalty": 0,
-        "points": 16.6,
-        "cum_points": 38.5,
-        "rank": 411,
-        "prev_rank": 287
+        "points": 16.3,
+        "cum_points": 37.2,
+        "rank": 330,
+        "prev_rank": 206
        }
       },
       "Wndigo": {
@@ -2108,13 +2109,13 @@
          "tmax_f": 0,
          "tmin_f": 5,
          "wind_max_kt": 2.0,
-         "precip_in": 8.9
+         "precip_in": 8.6
         },
         "penalty": 0,
-        "points": 15.9,
-        "cum_points": 39.5,
-        "rank": 467,
-        "prev_rank": 400
+        "points": 15.6,
+        "cum_points": 38.2,
+        "rank": 398,
+        "prev_rank": 301
        }
       },
       "Cyclop": {
@@ -2132,13 +2133,13 @@
          "tmax_f": 0,
          "tmin_f": 5,
          "wind_max_kt": 3.0,
-         "precip_in": 9.5
+         "precip_in": 9.2
         },
         "penalty": 0,
-        "points": 17.5,
-        "cum_points": 40.7,
-        "rank": 518,
-        "prev_rank": 378
+        "points": 17.2,
+        "cum_points": 39.4,
+        "rank": 459,
+        "prev_rank": 278
        }
       },
       "Hodags": {
@@ -2156,13 +2157,13 @@
          "tmax_f": 2,
          "tmin_f": 5,
          "wind_max_kt": 1.0,
-         "precip_in": 9.5
+         "precip_in": 9.2
         },
         "penalty": 0,
-        "points": 17.5,
-        "cum_points": 46.5,
-        "rank": 734,
-        "prev_rank": 718
+        "points": 17.2,
+        "cum_points": 45.2,
+        "rank": 708,
+        "prev_rank": 658
        }
       }
      }
@@ -2173,5 +2174,5 @@
    "done_for": "2026-11-11"
   }
  },
- "generated_at_utc": "2026-11-12T13:00:05+00:00"
+ "generated_at_utc": "2026-11-12T15:34:54+00:00"
 }
