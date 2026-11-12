@@ -1,7 +1,8 @@
 {
  "checks": [
   "2026-11-12T13:00:05+00:00",
-  "2026-11-12T15:34:54+00:00"
+  "2026-11-12T15:34:54+00:00",
+  "2026-11-12T18:00:09+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -1970,9 +1971,9 @@
     "2026-11-12": {
      "day": 3,
      "year": "26-27",
-     "status": "As of 15Z",
+     "status": "As of 17Z",
      "final": false,
-     "fetched_at_utc": "2026-11-12T15:34:54+00:00",
+     "fetched_at_utc": "2026-11-12T18:00:09+00:00",
      "forecasters": {
       "Kraken": {
        "forecast": {
@@ -1987,14 +1988,14 @@
        "official": {
         "error": {
          "tmax_f": 0,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 1.5,
-         "precip_in": 8.4
+         "precip_in": 3.2
         },
         "penalty": 0,
-        "points": 14.9,
-        "cum_points": 30.2,
-        "rank": 60,
+        "points": 6.7,
+        "cum_points": 22.0,
+        "rank": 35,
         "prev_rank": 22
        }
       },
@@ -2011,14 +2012,14 @@
        "official": {
         "error": {
          "tmax_f": 0,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 1.5,
-         "precip_in": 9.1
+         "precip_in": 3.9
         },
         "penalty": 0,
-        "points": 15.6,
-        "cum_points": 31.2,
-        "rank": 84,
+        "points": 7.4,
+        "cum_points": 23.0,
+        "rank": 45,
         "prev_rank": 23
        }
       },
@@ -2035,14 +2036,14 @@
        "official": {
         "error": {
          "tmax_f": 1,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 1.0,
-         "precip_in": 5.2
+         "precip_in": 0.0
         },
         "penalty": 0,
-        "points": 12.2,
-        "cum_points": 34.0,
-        "rank": 178,
+        "points": 4.0,
+        "cum_points": 25.8,
+        "rank": 114,
         "prev_rank": 253
        }
       },
@@ -2059,14 +2060,14 @@
        "official": {
         "error": {
          "tmax_f": 1,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 1.5,
-         "precip_in": 8.8
+         "precip_in": 3.6
         },
         "penalty": 0,
-        "points": 16.3,
-        "cum_points": 36.8,
-        "rank": 312,
+        "points": 8.1,
+        "cum_points": 28.6,
+        "rank": 233,
         "prev_rank": 177
        }
       },
@@ -2083,14 +2084,14 @@
        "official": {
         "error": {
          "tmax_f": 2,
-         "tmin_f": 4,
+         "tmin_f": 1,
          "wind_max_kt": 2.5,
-         "precip_in": 7.8
+         "precip_in": 2.6
         },
         "penalty": 0,
-        "points": 16.3,
-        "cum_points": 37.2,
-        "rank": 330,
+        "points": 8.1,
+        "cum_points": 29.0,
+        "rank": 253,
         "prev_rank": 206
        }
       },
@@ -2107,14 +2108,14 @@
        "official": {
         "error": {
          "tmax_f": 0,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 2.0,
-         "precip_in": 8.6
+         "precip_in": 3.4
         },
         "penalty": 0,
-        "points": 15.6,
-        "cum_points": 38.2,
-        "rank": 398,
+        "points": 7.4,
+        "cum_points": 30.0,
+        "rank": 309,
         "prev_rank": 301
        }
       },
@@ -2131,14 +2132,14 @@
        "official": {
         "error": {
          "tmax_f": 0,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 3.0,
-         "precip_in": 9.2
+         "precip_in": 4.0
         },
         "penalty": 0,
-        "points": 17.2,
-        "cum_points": 39.4,
-        "rank": 459,
+        "points": 9.0,
+        "cum_points": 31.2,
+        "rank": 373,
         "prev_rank": 278
        }
       },
@@ -2155,14 +2156,14 @@
        "official": {
         "error": {
          "tmax_f": 2,
-         "tmin_f": 5,
+         "tmin_f": 2,
          "wind_max_kt": 1.0,
-         "precip_in": 9.2
+         "precip_in": 4.0
         },
         "penalty": 0,
-        "points": 17.2,
-        "cum_points": 45.2,
-        "rank": 708,
+        "points": 9.0,
+        "cum_points": 37.0,
+        "rank": 628,
         "prev_rank": 658
        }
       }
@@ -2174,5 +2175,5 @@
    "done_for": "2026-11-11"
   }
  },
- "generated_at_utc": "2026-11-12T15:34:54+00:00"
+ "generated_at_utc": "2026-11-12T18:00:09+00:00"
 }

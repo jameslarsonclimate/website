@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-12T15:34:54+00:00",
- "generated_at_utc": "2026-11-12T17:31:17+00:00",
+ "fetched_at_utc": "2026-11-12T18:00:09+00:00",
+ "generated_at_utc": "2026-11-12T18:00:50+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -500,7 +500,7 @@
  },
  "today": {
   "date": "2026-11-12",
-  "status": "As of 15Z",
+  "status": "As of 17Z",
   "forecasters": {
    "Kraken": {
     "forecast": {
@@ -513,9 +513,9 @@
      "tmax_f": 0,
      "tmin_f": -2,
      "wind_max_kt": 1,
-     "precip_in": 0.14
+     "precip_in": 0.12
     },
-    "points": 5.3,
+    "points": 4.9,
     "day": 3
    },
    "Mothmn": {
@@ -529,9 +529,9 @@
      "tmax_f": 0,
      "tmin_f": -2,
      "wind_max_kt": 1,
-     "precip_in": 0.2
+     "precip_in": 0.18
     },
-    "points": 6.0,
+    "points": 5.6,
     "day": 3
    },
    "Nessie": {
@@ -545,9 +545,9 @@
      "tmax_f": -1,
      "tmin_f": -2,
      "wind_max_kt": 0,
-     "precip_in": -0.02
+     "precip_in": -0.04
     },
-    "points": 3.4,
+    "points": 3.8,
     "day": 3
    },
    "Bigfut": {
@@ -561,9 +561,9 @@
      "tmax_f": -1,
      "tmin_f": -2,
      "wind_max_kt": 1,
-     "precip_in": 0.17
+     "precip_in": 0.15
     },
-    "points": 6.7,
+    "points": 6.3,
     "day": 3
    },
    "JerDvl": {
@@ -577,9 +577,9 @@
      "tmax_f": 2,
      "tmin_f": -1,
      "wind_max_kt": 3,
-     "precip_in": 0.11
+     "precip_in": 0.09
     },
-    "points": 6.7,
+    "points": 6.3,
     "day": 3
    },
    "Wndigo": {
@@ -593,9 +593,9 @@
      "tmax_f": 0,
      "tmin_f": -2,
      "wind_max_kt": 2,
-     "precip_in": 0.15
+     "precip_in": 0.13
     },
-    "points": 6.0,
+    "points": 5.6,
     "day": 3
    },
    "Cyclop": {
@@ -609,9 +609,9 @@
      "tmax_f": 0,
      "tmin_f": -2,
      "wind_max_kt": 4,
-     "precip_in": 0.21
+     "precip_in": 0.19
     },
-    "points": 7.6,
+    "points": 7.2,
     "day": 3
    },
    "Hodags": {
@@ -625,9 +625,9 @@
      "tmax_f": 2,
      "tmin_f": -2,
      "wind_max_kt": 0,
-     "precip_in": 0.21
+     "precip_in": 0.19
     },
-    "points": 7.6,
+    "points": 7.2,
     "day": 3
    }
   }
