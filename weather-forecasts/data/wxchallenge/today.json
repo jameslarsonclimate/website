@@ -1,11 +1,11 @@
 {
   "date": "2026-11-12",
-  "through_utc": "2026-11-12T22:53",
+  "through_utc": "2026-11-12T23:07",
   "obs": {
     "high": 44.06,
     "low": 35.96,
     "wind": 12,
-    "precip": 0.55,
+    "precip": 0.59,
     "n_obs": 17
   },
   "models": {
@@ -26,7 +26,7 @@
       "low_pending": false,
       "wind_bias": 1.9,
       "precip_so_far": 0.73,
-      "precip_err": 0.18
+      "precip_err": 0.15
     },
     "RRFS": {
       "init_time_utc": "2026-11-11T18",
@@ -45,7 +45,7 @@
       "low_pending": true,
       "wind_bias": 3.8,
       "precip_so_far": 0.44,
-      "precip_err": -0.11
+      "precip_err": -0.15
     },
     "IFS": {
       "init_time_utc": "2026-11-11T12",
@@ -63,8 +63,8 @@
       "low_err": -1.5,
       "low_pending": true,
       "wind_bias": 2.9,
-      "precip_so_far": 0.86,
-      "precip_err": 0.31
+      "precip_so_far": 0.87,
+      "precip_err": 0.28
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-11T12",
@@ -82,8 +82,8 @@
       "low_err": -2.3,
       "low_pending": true,
       "wind_bias": 2.5,
-      "precip_so_far": 0.84,
-      "precip_err": 0.29
+      "precip_so_far": 0.85,
+      "precip_err": 0.26
     },
     "GFS": {
       "init_time_utc": "2026-11-11T18",
@@ -102,7 +102,7 @@
       "low_pending": false,
       "wind_bias": 5.5,
       "precip_so_far": 0.34,
-      "precip_err": -0.21
+      "precip_err": -0.25
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-11T18",
@@ -155,7 +155,7 @@
       "low_pending": true,
       "wind_bias": 0.8,
       "precip_so_far": 0.41,
-      "precip_err": -0.14
+      "precip_err": -0.18
     },
     "ENS": {
       "init_time_utc": "2026-11-11T12",
@@ -174,7 +174,7 @@
       "low_pending": true,
       "wind_bias": 3.3,
       "precip_so_far": 0.63,
-      "precip_err": 0.08
+      "precip_err": 0.04
     },
     "GEFS": {
       "init_time_utc": "2026-11-11T18",
@@ -193,9 +193,9 @@
       "low_pending": false,
       "wind_bias": 2.7,
       "precip_so_far": 0.26,
-      "precip_err": -0.29
+      "precip_err": -0.33
     }
   },
   "station": "PAYA",
-  "generated_at_utc": "2026-11-12T23:02:49+00:00"
+  "generated_at_utc": "2026-11-12T23:12:08+00:00"
 }
