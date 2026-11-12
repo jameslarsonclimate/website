@@ -1,19 +1,19 @@
 {
   "date": "2026-11-12",
-  "through_utc": "2026-11-12T18:38",
+  "through_utc": "2026-11-12T18:53",
   "obs": {
     "high": 44.06,
     "low": 35.96,
     "wind": 12,
-    "precip": 0.4,
-    "n_obs": 12
+    "precip": 0.41,
+    "n_obs": 13
   },
   "models": {
     "HRRR": {
       "init_time_utc": "2026-11-11T18",
-      "n": 12,
-      "temp_bias": -2.1,
-      "temp_mae": 2.1,
+      "n": 13,
+      "temp_bias": -2.0,
+      "temp_mae": 2.0,
       "high_fcst": 40.1,
       "high_at": "2026-11-12T06:00",
       "high_source": "daily",
@@ -24,14 +24,14 @@
       "low_source": "daily",
       "low_err": -1.6,
       "low_pending": false,
-      "wind_bias": 0.5,
+      "wind_bias": 0.8,
       "precip_so_far": 0.57,
-      "precip_err": 0.17
+      "precip_err": 0.16
     },
     "RRFS": {
       "init_time_utc": "2026-11-11T18",
-      "n": 12,
-      "temp_bias": -0.0,
+      "n": 13,
+      "temp_bias": -0.1,
       "temp_mae": 0.8,
       "high_fcst": 43.0,
       "high_at": "2026-11-12T07:00",
@@ -43,14 +43,14 @@
       "low_source": "daily",
       "low_err": -2.4,
       "low_pending": true,
-      "wind_bias": 3.1,
-      "precip_so_far": 0.29,
+      "wind_bias": 3.5,
+      "precip_so_far": 0.3,
       "precip_err": -0.11
     },
     "IFS": {
       "init_time_utc": "2026-11-11T12",
-      "n": 12,
-      "temp_bias": -0.9,
+      "n": 13,
+      "temp_bias": -1.0,
       "temp_mae": 1.1,
       "high_fcst": 42.8,
       "high_at": "2026-11-12T06:00",
@@ -62,15 +62,15 @@
       "low_source": "daily",
       "low_err": -1.5,
       "low_pending": true,
-      "wind_bias": 2.8,
-      "precip_so_far": 0.67,
+      "wind_bias": 2.9,
+      "precip_so_far": 0.68,
       "precip_err": 0.27
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-11T12",
-      "n": 12,
+      "n": 13,
       "temp_bias": -1.7,
-      "temp_mae": 1.7,
+      "temp_mae": 1.8,
       "high_fcst": 42.2,
       "high_at": "2026-11-12T11:00",
       "high_source": "daily",
@@ -81,13 +81,13 @@
       "low_source": "daily",
       "low_err": -2.3,
       "low_pending": true,
-      "wind_bias": 2.5,
-      "precip_so_far": 0.72,
-      "precip_err": 0.32
+      "wind_bias": 2.7,
+      "precip_so_far": 0.74,
+      "precip_err": 0.33
     },
     "GFS": {
       "init_time_utc": "2026-11-11T18",
-      "n": 12,
+      "n": 13,
       "temp_bias": 3.1,
       "temp_mae": 3.1,
       "high_fcst": 46.1,
@@ -102,13 +102,13 @@
       "low_pending": false,
       "wind_bias": 5.6,
       "precip_so_far": 0.28,
-      "precip_err": -0.12
+      "precip_err": -0.13
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-11T18",
-      "n": 12,
-      "temp_bias": 0.8,
-      "temp_mae": 1.7,
+      "n": 13,
+      "temp_bias": 0.9,
+      "temp_mae": 1.8,
       "high_fcst": 45.0,
       "high_at": "2026-11-12T06:00",
       "high_source": "daily",
@@ -119,13 +119,13 @@
       "low_source": "daily",
       "low_err": -1.0,
       "low_pending": true,
-      "wind_bias": 0.8
+      "wind_bias": 1.2
     },
     "NBM": {
       "init_time_utc": "2026-11-11T22",
-      "n": 12,
-      "temp_bias": -2.8,
-      "temp_mae": 2.8,
+      "n": 13,
+      "temp_bias": -2.7,
+      "temp_mae": 2.7,
       "high_fcst": 42.0,
       "high_at": "2026-11-12T06:00",
       "high_source": "daily",
@@ -136,12 +136,12 @@
       "low_source": "daily",
       "low_err": -2.0,
       "low_pending": true,
-      "wind_bias": 1.2
+      "wind_bias": 1.6
     },
     "USL": {
       "init_time_utc": "2026-11-11T22",
-      "n": 12,
-      "temp_bias": -0.9,
+      "n": 13,
+      "temp_bias": -0.7,
       "temp_mae": 0.9,
       "high_fcst": 43.0,
       "high_at": "2026-11-12T06:00",
@@ -153,13 +153,13 @@
       "low_source": "daily",
       "low_err": -2.0,
       "low_pending": true,
-      "wind_bias": -0.2,
+      "wind_bias": 0.2,
       "precip_so_far": 0.39,
-      "precip_err": -0.01
+      "precip_err": -0.02
     },
     "ENS": {
       "init_time_utc": "2026-11-11T12",
-      "n": 12,
+      "n": 13,
       "temp_bias": -0.3,
       "temp_mae": 0.9,
       "high_fcst": 42.6,
@@ -172,15 +172,15 @@
       "low_source": "daily",
       "low_err": -0.1,
       "low_pending": true,
-      "wind_bias": 3.4,
-      "precip_so_far": 0.51,
+      "wind_bias": 3.5,
+      "precip_so_far": 0.52,
       "precip_err": 0.11
     },
     "GEFS": {
       "init_time_utc": "2026-11-11T18",
-      "n": 12,
-      "temp_bias": -0.5,
-      "temp_mae": 1.2,
+      "n": 13,
+      "temp_bias": -0.4,
+      "temp_mae": 1.1,
       "high_fcst": 42.1,
       "high_at": "2026-11-12T06:00",
       "high_source": "daily",
@@ -191,11 +191,11 @@
       "low_source": "daily",
       "low_err": 0.4,
       "low_pending": false,
-      "wind_bias": 2.2,
-      "precip_so_far": 0.23,
+      "wind_bias": 2.5,
+      "precip_so_far": 0.24,
       "precip_err": -0.17
     }
   },
   "station": "PAYA",
-  "generated_at_utc": "2026-11-12T19:00:09+00:00"
+  "generated_at_utc": "2026-11-12T19:30:08+00:00"
 }
