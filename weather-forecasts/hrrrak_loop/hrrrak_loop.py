@@ -62,7 +62,7 @@ CYCLES = (12, 18)
 # boundary is ~51.8N at 140W and 53.2N at 128W, so the bottom-right corner can be off the grid
 # (drawn hatched).
 MAP_CENTER_LON = -139.588
-MAP_LAT_S, MAP_LAT_N = 52.5, 61.6
+MAP_LAT_S, MAP_LAT_N = 53.5, 61.6
 MAP_ASPECT = 1.26
 
 OUT_ROOT = Path.home() / "Documents" / "HRRR-AK" / STATION
