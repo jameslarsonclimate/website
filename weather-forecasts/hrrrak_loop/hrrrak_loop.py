@@ -59,16 +59,16 @@ CYCLES = (12, 18)
 
 # Map view: a polar-stereographic frame whose central meridian runs through PAYA, spanning
 # MAP_LAT_S-MAP_LAT_N along that meridian, MAP_ASPECT (width/height) wide. HRRR-AK's southern
-# boundary is ~51.8N at 140W and 53.2N at 128W, so the bottom corners can be off the grid
+# boundary is ~51.8N at 140W and 53.2N at 128W, so the bottom-right corner can be off the grid
 # (drawn hatched).
 MAP_CENTER_LON = -139.588
-MAP_LAT_S, MAP_LAT_N = 51.5, 61.6
+MAP_LAT_S, MAP_LAT_N = 52.5, 61.6
 MAP_ASPECT = 1.26
 
 OUT_ROOT = Path.home() / "Documents" / "HRRR-AK" / STATION
 DPI = 300
 FIGSIZE = (10.0, 8.7)            # inches -> 3000 x 2610 px at 300 dpi (H.264 level 5.1)
-FPS = 3                          # frames (forecast hours) per second in the MP4
+FPS = 2.4                        # frames (forecast hours) per second in the MP4 (3 was ~20% too fast)
 WORKERS = 4                      # parallel download + render processes
 WAIT_MAX_MIN = 120               # how long to wait for the last needed hour to be posted
 SOURCES = ["aws", "nomads"]
