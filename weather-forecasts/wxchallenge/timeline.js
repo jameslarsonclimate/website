@@ -71,7 +71,7 @@
   stack();
   const shown = v => VIS.includes(P[v]);
 
-  let T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
+  let TAIL = 0, T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
   const SC = {};
   let curH = null, pinned = null, touched = false;
   const LENS = 250, ZOOM = 2;     // lens diameter (px) and magnification
@@ -317,7 +317,9 @@
   }
 
   function render() {
-    W = Math.round(DW * ND);
+    // the last day's wind runs on to the end of its LST (CLI) day, e.g. 09Z in Alaska
+    TAIL = Math.max(0, T.wind_day_h || 0);
+    W = Math.round(DW * ND + X(TAIL));
     average();
     const o = [];
     const bottom = H - BOT;
@@ -338,10 +340,10 @@
     if (wd && P.wind && VIS.includes(P.wind)) {
       for (let k = 0; k <= ND; k++) {
         const h = 24 * k + wd;
-        if (h < 0 || h > 24 * ND) continue;
+        if (h < 0 || h > 24 * ND + TAIL) continue;
         const x = X(h).toFixed(1), y0 = P.wind.y0, y1 = P.wind.y0 + P.wind.h;
         o.push(`<line x1="${x}" x2="${x}" y1="${y0}" y2="${y1}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.8"/>`);
-        if (h < 24 * ND - 3) o.push(`<text x="${(+x + 3).toFixed(1)}" y="${y0 + 10}" font-size="9.5" fill="var(--ink-3)">wind day</text>`);
+        if (h < 24 * ND + TAIL - 3) o.push(`<text x="${(+x + 3).toFixed(1)}" y="${y0 + 10}" font-size="9.5" fill="var(--ink-3)">wind day</text>`);
       }
     }
     // days before the city's first forecast day: tinted like the scoreboard's hindcast columns
@@ -351,12 +353,15 @@
       o.push(`<text x="${k * DW + 6}" y="15" font-size="12" font-weight="600" fill="${hind ? 'var(--hind-ink)' : 'var(--ink-2)'}">${esc(dayLabel(k))}</text>`);
     });
     const every = DW >= 260 ? 6 : 12;
-    for (let h = 0; h <= 24 * ND; h += every) {
+    for (let h = 0; h <= 24 * ND + TAIL; h += (h < 24 * ND ? every : TAIL || 1)) {
       const x = Math.min(W - 13, Math.max(13, X(h)));
       o.push(`<text x="${x.toFixed(1)}" y="${H - 7}" font-size="11" text-anchor="middle" fill="var(--ink-3)">${hourLabel(h)}</text>`);
     }
 
     const bands = [], lines = [], latest = [], avg = [];
+    // a model's wind with its hours past 06Z added (last day only)
+    const windHK = (m, k) => (k === ND - 1 && m.wind_tail && m.wind)
+      ? [m.h.concat(m.wind_tail.h), m.wind.concat(m.wind_tail.kt)] : [m.h, m.wind];
     T.days.forEach((d, k) => {
       const off = 24 * k;
       for (const n of ORDER) {
@@ -374,14 +379,20 @@
           const hi = c.pct.map((v, i) => c.sd[i] == null ? null : Math.min(100, v + c.sd[i]));
           bands.push(...bandPolys(c.h, lo, hi, P.cloud, off, COL[n]));
         }
-        for (const v of LINE_VARS) if (m[v] && shown(v)) lines.push(ln(path(m.h, m[v], P[v], off), COL[n], 1.6, dash, 0.9));
+        for (const v of LINE_VARS) if (m[v] && shown(v)) {
+          const [hh, vv] = v === 'wind' ? windHK(m, k) : [m.h, m[v]];
+          lines.push(ln(path(hh, vv, P[v], off), COL[n], 1.6, dash, 0.9));
+        }
         if (m.cloud) lines.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 1.5, dash, 0.9));
       }
       if (st.latest) {
         for (const n of ORDER) {
           const m = (d.latest || {})[n];
           if (!m || !st.on.has(n)) continue;
-          for (const v of LINE_VARS) if (m[v] && shown(v)) latest.push(ln(path(m.h, m[v], P[v], off), COL[n], 2, LATEST_DASH));
+          for (const v of LINE_VARS) if (m[v] && shown(v)) {
+            const [hh, vv] = v === 'wind' ? windHK(m, k) : [m.h, m[v]];
+            latest.push(ln(path(hh, vv, P[v], off), COL[n], 2, LATEST_DASH));
+          }
           if (m.cloud) latest.push(ln((m.cloud.step ? stepPath : path)(m.cloud.h, m.cloud.pct, P.cloud, off), COL[n], 2, LATEST_DASH));
         }
       }

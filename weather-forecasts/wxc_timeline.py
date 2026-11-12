@@ -210,6 +210,10 @@ def _model(rec: dict, day: date) -> Optional[dict]:
     rh = pick("rh_pct", 0)
     if rh:
         out["rh"] = rh
+    tt, tk = rec.get("wind_tail_times"), rec.get("wind_tail_kt")
+    if isinstance(tt, list) and isinstance(tk, list) and len(tt) == len(tk) and tt:
+        th = _hours(tt, day)          # wind past 06Z, to the end of the LST (CLI) day
+        out["wind_tail"] = {"h": th, "kt": [_num(v, 1) for v in tk]}
     p10, p90 = pick("temp_p10", 1), pick("temp_p90", 1)
     if p10 and p90:
         out["p10"], out["p90"] = p10, p90

@@ -447,7 +447,7 @@ def lst_wind(label, res, init, day, points, station):
     changed. Keeps the 06Z-06Z max as wind_max_kt_06z. Hours that are not posted yet (or
     past the run's end) are skipped and noted; the run is then marked to be topped up again."""
     m, s = res.get("metrics") or {}, res.get("series")
-    if not s or m.get("wind_max_kt") is None or m.get("wind_window") == "LST":
+    if not s or m.get("wind_max_kt") is None or (m.get("wind_window") == "LST" and "wind_tail" in s):
         return False
     spec = _wind_spec(label, init, station)
     if spec is None:
@@ -470,9 +470,18 @@ def lst_wind(label, res, init, day, points, station):
     beyond = [f for f in want if f > max_fxx]          # past the run's end: never coming
     want = [f for f in want if f <= max_fxx]
     missed = []
+    day_end = pd.Timestamp(day.year, day.month, day.day, 6) + pd.Timedelta(hours=24)
+    tail = {"times": [], "kt": []}          # display: the LST-day hours after the 06Z day ends
     if want:
         try:
-            vals += list(np.atleast_1d(np.asarray(read(fast_herbie(init, want, **kw), points).values, float)))
+            da = read(fast_herbie(init, want, **kw), points)
+            got = np.atleast_1d(np.asarray(da.values, float))
+            vals += list(got)
+            for t, v in zip(convert_time_to_datetime64(da.valid_time.values), got):
+                t = pd.Timestamp(t)
+                if t > day_end and np.isfinite(v):
+                    tail["times"].append(t.strftime("%Y-%m-%dT%H:%M"))
+                    tail["kt"].append(round(float(v), 1))
         except Exception as exc:
             print(f"  {label} LST-day wind hours f{want[0]:03d}-f{want[-1]:03d} not had: "
                   f"{type(exc).__name__}: {str(exc)[:120]}")
@@ -483,6 +492,7 @@ def lst_wind(label, res, init, day, points, station):
     m.setdefault("wind_max_kt_06z", m["wind_max_kt"])
     m["wind_max_kt"] = round(float(max(vals)), 1)
     m["wind_window_utc"] = [ws.strftime("%Y-%m-%dT%H"), we.strftime("%Y-%m-%dT%H")]
+    s["wind_tail"] = tail
     m["wind_window"] = "LST partial" if missed else "LST"      # partial: tried again next time
     if beyond:
         m["wind_window_note"] = f"run ends at f{max_fxx}: last LST-day hours not covered"
@@ -841,6 +851,8 @@ def collect_series(results, mos):
                       "temp_f": [round(float(v), 1) for v in s["temp_f"]],
                       "wind_kt": [round(float(v), 1) for v in s["wind_kt"]],
                       "precip_in": [round(float(v), 3) for v in s["precip_in"]]}
+            if (s.get("wind_tail") or {}).get("times"):   # display: wind past 06Z, to the LST day's end
+                out[k]["wind_tail_times"], out[k]["wind_tail_kt"] = s["wind_tail"]["times"], s["wind_tail"]["kt"]
             if s.get("dewpt_f") is not None:            # display only
                 out[k]["dewpt_f"] = [None if not np.isfinite(v) else round(float(v), 1) for v in s["dewpt_f"]]
     for k in MOS_ORDER + ENS_ORDER:
@@ -853,6 +865,8 @@ def collect_series(results, mos):
                       "tmax_f": m.get("tmax_f"), "tmin_f": m.get("tmin_f"),
                       "temp_f": s.get("tmp_f"), "wind_kt": s.get("wsp_kt"),
                       "precip_in": s.get("precip_cum_in")}
+            if s.get("wsp_tail_times"):                  # ensembles: wind past 06Z, to the LST day's end
+                out[k]["wind_tail_times"], out[k]["wind_tail_kt"] = s["wsp_tail_times"], s["wsp_tail_kt"]
             if s.get("dpt_f"):                           # MOS / NBM / ensemble dewpoint, display only
                 out[k]["dewpt_f"] = s["dpt_f"]
             if s.get("rh_pct"):                          # ensembles: the members' mean RH, display only

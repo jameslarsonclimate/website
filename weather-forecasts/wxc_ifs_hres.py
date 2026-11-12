@@ -114,7 +114,7 @@ def summarize_run(hourly: dict, init: datetime, day: date, lst_offset: Optional[
     dewpt = td[inst] if len(td) == len(times) and np.isfinite(td[inst]).any() else None
     st = times[inst]
     wmax = float(wind.max())
-    extra = {}
+    extra, extra_series = {}, {}
     if lst_offset is not None:    # WxChallenge verifies wind over the CLI's LST day (rule 15.5)
         from functions import lst_window_utc
         ws, we = lst_window_utc(day, lst_offset)
@@ -123,6 +123,9 @@ def summarize_run(hourly: dict, init: datetime, day: date, lst_offset: Optional[
             extra = {"wind_max_kt_06z": round(wmax, 1), "wind_window": "LST",
                      "wind_window_utc": [ws.strftime("%Y-%m-%dT%H"), we.strftime("%Y-%m-%dT%H")]}
             wmax = float(np.nanmax(lw))
+            tl = np.asarray((times > end) & (times <= we))
+            extra_series = {"wind_tail": {"times": [t.strftime("%Y-%m-%dT%H:%M") for t in times[tl]],
+                                          "kt": [round(float(v), 1) for v in W[tl]]}}
     metrics = {
         "tmax_f": round(float(temp.max()), 1),
         "tmin_f": round(float(temp.min()), 1),
@@ -135,7 +138,7 @@ def summarize_run(hourly: dict, init: datetime, day: date, lst_offset: Optional[
         "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
     }
     return {"metrics": metrics,
-            "series": {"times": st, "temp_f": temp, "wind_kt": wind, "precip_in": precip, "dewpt_f": dewpt}}
+            "series": {"times": st, "temp_f": temp, "wind_kt": wind, "precip_in": precip, "dewpt_f": dewpt, **extra_series}}
 
 
 def cloud_record(hourly: dict, init: datetime) -> Optional[dict]:

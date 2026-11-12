@@ -96,12 +96,13 @@ def summarize_members(hourly: dict, model: str, target_day: date,
     start = np.datetime64(datetime(target_day.year, target_day.month, target_day.day, 6), "m")
     end = start + np.timedelta64(24, "h")
     inst = (times >= start) & (times <= end)            # temps: 06Z..06Z inclusive
-    winds = inst
+    winds, tail = inst, None
     if lst_offset is not None:
         from functions import lst_window_utc
         ws, we = (np.datetime64(t.to_pydatetime(), "m") for t in lst_window_utc(target_day, lst_offset))
         if ((times >= ws) & (times <= we)).sum() >= 20:
             winds = (times >= ws) & (times <= we)
+            tail = winds & (times > end)            # display: the LST-day hours after 06Z
     accum = (times > start) & (times <= end)            # hourly precip ending at each hour
     if inst.sum() < 20:
         raise ValueError(f"ensemble data does not cover {target_day} 06Z-06Z")
@@ -148,6 +149,9 @@ def summarize_members(hourly: dict, model: str, target_day: date,
         "wsp_kt": [round(float(x), 1) for x in np.nanmean(ww, 0)],
         "precip_cum_in": [round(float(x), 3) for x in np.nanmean(pp, 0)],
     }
+    if tail is not None and tail.any():
+        series["wsp_tail_times"] = [str(t)[:16] for t in times[tail]]
+        series["wsp_tail_kt"] = [round(float(x), 1) for x in np.nanmean(np.array([arr(W, m, tail) for m in ids]), 0)]
     cloud = None
     try:
         series.update(_display_means(hourly, model, ids, sel, arr))
