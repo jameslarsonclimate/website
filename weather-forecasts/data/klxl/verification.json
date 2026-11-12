@@ -5406,7 +5406,7 @@
     }
   },
   "period_start": "2026-10-13",
-  "generated_at_utc": "2026-11-12T17:15:14+00:00",
+  "generated_at_utc": "2026-11-12T18:18:45+00:00",
   "observations": [
     {
       "date": "2026-10-13",
@@ -8632,11 +8632,11 @@
   },
   "today": {
     "date": "2026-11-12",
-    "through_utc": "2026-11-12T16:55",
-    "n_obs": 11,
+    "through_utc": "2026-11-12T17:55",
+    "n_obs": 12,
     "provisional": true,
     "obs": {
-      "tmax_f": 36,
+      "tmax_f": 37,
       "tmin_f": 34,
       "wind_max_kt": 7,
       "precip_in": 0.0
@@ -8650,12 +8650,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 1,
+          "tmax_f": 0,
           "tmin_f": -4,
           "wind_max_kt": 4,
           "precip_in": 0.0
         },
-        "points": 7.0,
+        "points": 6.0,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "RRFS": {
@@ -8666,12 +8666,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 4,
+          "tmax_f": 3,
           "tmin_f": -2,
           "wind_max_kt": 3,
           "precip_in": 0.0
         },
-        "points": 7.5,
+        "points": 6.5,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "IFS": {
@@ -8682,12 +8682,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 2,
+          "tmax_f": 1,
           "tmin_f": -3,
           "wind_max_kt": 1,
           "precip_in": 0.0
         },
-        "points": 5.5,
+        "points": 4.5,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "IFS_HRES": {
@@ -8698,12 +8698,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 2,
+          "tmax_f": 1,
           "tmin_f": -3,
           "wind_max_kt": 1,
           "precip_in": 0.0
         },
-        "points": 5.5,
+        "points": 4.5,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "GFS": {
@@ -8714,12 +8714,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 3,
+          "tmax_f": 2,
           "tmin_f": -6,
           "wind_max_kt": 2,
           "precip_in": 0.0
         },
-        "points": 10.0,
+        "points": 9.0,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "GFS_MOS": {
@@ -8730,12 +8730,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 4,
+          "tmax_f": 3,
           "tmin_f": -8,
           "wind_max_kt": -2,
           "precip_in": 0.0
         },
-        "points": 13.0,
+        "points": 12.0,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "NBM": {
@@ -8746,12 +8746,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 2,
+          "tmax_f": 1,
           "tmin_f": -9,
           "wind_max_kt": -1,
           "precip_in": 0.0
         },
-        "points": 11.5,
+        "points": 10.5,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "ENS": {
@@ -8762,12 +8762,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 2,
+          "tmax_f": 1,
           "tmin_f": -3,
           "wind_max_kt": 2,
           "precip_in": 0.0
         },
-        "points": 6.0,
+        "points": 5.0,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "GEFS": {
@@ -8778,12 +8778,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 3,
+          "tmax_f": 2,
           "tmin_f": -6,
           "wind_max_kt": 3,
           "precip_in": 0.0
         },
-        "points": 10.5,
+        "points": 9.5,
         "run": "2026-11-11T23:18:14+00:00"
       },
       "CONSENSUS": {
@@ -8794,12 +8794,12 @@
           "precip_in": 0.0
         },
         "error": {
-          "tmax_f": 3,
+          "tmax_f": 2,
           "tmin_f": -8,
           "wind_max_kt": 2,
           "precip_in": 0.0
         },
-        "points": 12.0,
+        "points": 11.0,
         "run": "2026-11-11T23:18:14+00:00"
       }
     }
