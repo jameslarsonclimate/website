@@ -52,6 +52,9 @@ LOOKBACK_H = 48                   # default mode: runs initialised in the last 4
 CLOUDY_TCDC = 50.0                # HRRR "cloudy" threshold for the agreement panel
 NN_MAX_KM = 10.0                  # no GOES pixel within this distance -> no data
 WORKERS = 3
+# Bump when the frame layout changes: frames made under another version are all re-rendered,
+# so one MP4 never mixes layouts.
+LAYOUT_VERSION = 2
 
 
 # ------------------------------------------------------------------ data
@@ -323,6 +326,13 @@ def process(init, now, only_fxx=None, force=False):
     tag = f"GOESvsHRRRAK_{hl.STATION}_{init:%Y%m%d_%H}z"
     fxx = only_fxx if only_fxx is not None else verified_fxx(init, now)
     path = lambda f: frames_dir / f"{tag}_f{f:03d}.png"
+    stamp = rd / ".layout_version"
+    if stamp.exists() and stamp.read_text().strip() != str(LAYOUT_VERSION) or (
+            not stamp.exists() and any(frames_dir.glob("*.png"))):
+        force = True                                  # old layout on disk: redo every frame
+        for old in frames_dir.glob(f"{tag}_f*.png"):
+            if int(old.stem[-3:]) not in fxx:
+                old.unlink()
     todo = [f for f in fxx if force or only_fxx is not None or not path(f).exists()]
     if not todo:
         hl.log(f"GOES vs HRRR {init:%Y-%m-%d %HZ}: nothing new ({len(fxx)} verified hours done)")
@@ -349,6 +359,8 @@ def process(init, now, only_fxx=None, force=False):
                 ok = False
                 hl.log(f"  f{f:03d} FAILED: {type(exc).__name__}: {str(exc)[:200]}")
     shutil.rmtree(grib_dir, ignore_errors=True)
+    if ok and only_fxx is None:
+        stamp.write_text(str(LAYOUT_VERSION))
     csv.write_text("fxx,valid_utc,goes_scan_utc,hrrr_tcdc_pt,hrrr_tcdc_15km,goes_cloudy_15km,"
                    "map_agree_pct,map_hrrr_cloudy_pct,map_goes_cloudy_pct,sun_elev_deg\n"
                    + "\n".join(rows[k] for k in sorted(rows)) + "\n")
