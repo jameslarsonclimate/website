@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-12T20:02:38+00:00",
+  "generated_at_utc": "2026-11-12T20:30:04+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -51,18 +51,18 @@
       "wind_window": "LST"
     },
     "RRFS": {
-      "tmax_f": 42.3,
-      "tmin_f": 34.5,
-      "wind_max_kt": 6.0,
-      "precip_in": 0.03,
-      "init_time_utc": "2026-11-12T12",
+      "tmax_f": 41.7,
+      "tmin_f": 34.1,
+      "wind_max_kt": 8.1,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-11-12T18",
       "valid_range_utc": [
         "2026-11-13T06",
         "2026-11-14T06"
       ],
       "n_steps": 25,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 5.7,
+      "wind_max_kt_06z": 5.8,
       "wind_window_utc": [
         "2026-11-13T09",
         "2026-11-14T09"
@@ -712,9 +712,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.02,
-      "precip_mean_in": 0.03,
-      "init_time_utc": "2026-11-12T12",
+      "precip_in": 0.03,
+      "precip_mean_in": 0.04,
+      "init_time_utc": "2026-11-12T18",
       "valid_range_utc": [
         "2026-11-13T06",
         "2026-11-14T06"
@@ -722,7 +722,7 @@
       "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.571,
+        "p24": 0.643,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -736,55 +736,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.033,
-            "std": 0.038,
+            "mean": 0.04,
+            "std": 0.046,
             "p0": 0.0,
             "p10": 0.0,
-            "p25": 0.004,
-            "p50": 0.016,
-            "p75": 0.07,
-            "p90": 0.084,
-            "p100": 0.111
+            "p25": 0.009,
+            "p50": 0.027,
+            "p75": 0.052,
+            "p90": 0.083,
+            "p100": 0.172
           },
           "precip_prob": {
-            "0.01": 0.571,
+            "0.01": 0.643,
             "0.10": 0.071,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.044,
+            0.0,
+            0.02,
+            0.01,
+            0.172,
+            0.054,
+            0.036,
             0.034,
             0.0,
             0.015,
             0.0,
             0.081,
             0.084,
-            0.009,
-            0.017,
-            0.0,
-            0.007,
-            0.084,
-            0.111,
-            0.017,
-            0.003
+            0.009
           ]
         }
       }
@@ -822,8 +822,8 @@
     },
     "CONSENSUS": {
       "tmax_f": 42.3,
-      "tmin_f": 31.3,
-      "wind_max_kt": 6.5,
+      "tmin_f": 31.2,
+      "wind_max_kt": 6.9,
       "precip_in": 0.02,
       "method": {
         "tmax_f": {
@@ -923,7 +923,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-12T20:02:38+00:00",
+    "checked_at_utc": "2026-11-12T20:30:04+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -970,6 +970,13 @@
         "wind_max_kt": 6.0,
         "precip_in": 0.03,
         "init_time_utc": "2026-11-12T12"
+      },
+      "18": {
+        "tmax_f": 41.7,
+        "tmin_f": 34.1,
+        "wind_max_kt": 8.1,
+        "precip_in": 0.04,
+        "init_time_utc": "2026-11-12T18"
       }
     },
     "REFS": {
@@ -979,6 +986,13 @@
         "wind_max_kt": null,
         "precip_in": 0.02,
         "init_time_utc": "2026-11-12T12"
+      },
+      "18": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.03,
+        "init_time_utc": "2026-11-12T18"
       }
     },
     "GFS": {
