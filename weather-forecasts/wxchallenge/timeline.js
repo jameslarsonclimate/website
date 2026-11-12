@@ -8,13 +8,15 @@
    bring their own: the mean of their members' RH).
    The "Magnifier" button turns on a round lens that follows the pointer and shows the chart
    under it enlarged (a <use> of the chart, so it tracks the crosshair too); Esc turns it off.
+   The "Day / night" button next to it shades night and civil twilight faintly behind the lines
+   (on by default), from the sun's elevation at the station's lat/lon, computed here.
    Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
   const sec = $('timeline'), ctl = $('tl-controls'), wrap = $('tl-wrap'), sc = $('tl-scroll'),
         chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card'),
-        lens = $('tl-lens'), lensSvg = $('tl-lens-svg'), zoomBtn = $('tl-zoom');
+        lens = $('tl-lens'), lensSvg = $('tl-lens-svg'), zoomBtn = $('tl-zoom'), sunBtn = $('tl-sun');
   if (!sec || !chart) return;
 
   // AIFS and AIFS_ENS left out for now (6-hourly), see GRIB_ORDER in the pipeline
@@ -42,7 +44,7 @@
   const H25 = Array.from({ length: 25 }, (_, j) => j);
 
   const STORE = 'wxc-timeline';
-  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: true };
+  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: true, sun: true };
   try {
     const s = JSON.parse(localStorage.getItem(STORE) || 'null');
     if (s) {
@@ -51,12 +53,12 @@
         const known = new Set(Array.isArray(s.known) ? s.known : ORDER.filter(n => n !== 'IFS_HRES'));
         st.on = new Set([...s.on, ...ORDER.filter(n => !known.has(n))]);
       }
-      for (const k of ['avg', 'obs', 'latest', 'band']) if (typeof s[k] === 'boolean') st[k] = s[k];
+      for (const k of ['avg', 'obs', 'latest', 'band', 'sun']) if (typeof s[k] === 'boolean') st[k] = s[k];
       if (typeof s.hum2 === 'boolean') st.hum = s.hum2;   // not 'hum': before they were on by default, every save wrote hum: false
     }
   } catch (e) {}
   const save = () => {
-    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum2: st.hum })); }
+    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum2: st.hum, sun: st.sun })); }
     catch (e) {}
   };
 
@@ -71,6 +73,7 @@
   stack();
   const shown = v => VIS.includes(P[v]);
 
+  let SHADE = [];               // night / civil-twilight spans [a, b, kind], hours since day 0's 06Z
   let TAIL = 0, T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
   const SC = {};
   let curH = null, pinned = null, touched = false;
@@ -134,6 +137,32 @@
     }
   }
 
+  /* ---------- day and night ---------- */
+  // the sun's elevation (degrees) at time ms (epoch) and lat/lon: the low-precision almanac
+  // formulas, good to ~0.01°, plenty for shading
+  const RAD = Math.PI / 180;
+  function sunElev(ms, lat, lon) {
+    const n = ms / 864e5 - 10957.5;                       // days since J2000.0
+    const g = (357.529 + 0.98560028 * n) * RAD;
+    const L = (280.459 + 0.98564736 * n + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    const e = (23.439 - 3.6e-7 * n) * RAD;
+    const ra = Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)), dec = Math.asin(Math.sin(e) * Math.sin(L));
+    const ha = ((18.697374558 + 24.06570982441908 * n) * 15 + lon) * RAD - ra;
+    return Math.asin(Math.sin(lat * RAD) * Math.sin(dec) + Math.cos(lat * RAD) * Math.cos(dec) * Math.cos(ha)) / RAD;
+  }
+  // night (sun below -6°) and civil twilight (-6° to sunrise/sunset at -0.833°), every 5 min
+  function sunSpans(t0, hours) {
+    const out = [], STEP = 1 / 12;
+    let kind = null, a = 0;
+    for (let h = 0; h <= hours + 1e-9; h += STEP) {
+      const el = sunElev(t0 + h * 36e5, T.lat, T.lon);
+      const k = el < -6 ? 'night' : el < -0.833 ? 'civil' : null;
+      if (k !== kind) { if (kind) out.push([a, h, kind]); kind = k; a = h; }
+    }
+    if (kind) out.push([a, hours, kind]);
+    return out;
+  }
+
   /* ---------- data ---------- */
   function hourly(m) {
     const out = {};
@@ -151,6 +180,9 @@
     const t0 = Date.UTC(+d0.slice(0, 4), +d0.slice(5, 7) - 1, +d0.slice(8, 10), 6);
     NOW_H = (Date.now() - t0) / 36e5;
     TODAY_K = Math.floor(NOW_H / 24);          // the WxChallenge day (06Z-06Z) the clock is in
+    const hasSun = isFinite(T.lat) && isFinite(T.lon);
+    SHADE = hasSun ? sunSpans(t0, 24 * ND + Math.max(0, T.wind_day_h || 0)) : [];
+    if (sunBtn) sunBtn.hidden = !hasSun;
     present = ORDER.filter(n => T.days.some(d => d.models[n] || (d.latest || {})[n]));
     HI = T.days.map(d => Object.fromEntries(Object.entries(d.models).map(([n, m]) => [n, hourly(m)])));
     // fixed ranges over the whole period (robust: a bad report can't flatten a panel)
@@ -325,6 +357,11 @@
     const bottom = H - BOT;
     // the part of the timeline still to come
     const nowIn = NOW_H > 0 && NOW_H < 24 * ND, nx = X(Math.max(0, Math.min(NOW_H, 24 * ND)));
+    // night and civil twilight, behind everything
+    if (st.sun) for (const [a, b, k] of SHADE) {
+      o.push(`<rect x="${X(a).toFixed(1)}" y="${TOP}" width="${(X(b) - X(a)).toFixed(1)}" height="${bottom - TOP}" ` +
+             `fill="var(${k === 'night' ? '--night' : '--civil'})"/>`);
+    }
     if (NOW_H < 24 * ND) o.push(`<rect x="${nx.toFixed(1)}" y="${TOP}" width="${(W - nx).toFixed(1)}" height="${bottom - TOP}" fill="var(--ink)" fill-opacity="0.035"/>`);
     for (const p of VIS) {
       const c = SC[p.v];
@@ -645,6 +682,10 @@
     zoomBtn.addEventListener('click', () => setZoom(!zoomOn));
     document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && zoomOn) setZoom(false); });
   }
+
+  function setSun() { if (sunBtn) sunBtn.setAttribute('aria-pressed', String(st.sun)); }
+  setSun();
+  if (sunBtn) sunBtn.addEventListener('click', () => { st.sun = !st.sun; setSun(); save(); if (T) render(); });
 
   chart.addEventListener('pointermove', ev => { curH = hourAt(ev); hover(); lensAt(ev); });
   chart.addEventListener('pointerleave', () => { curH = null; hover(); if (lens) lens.hidden = true; });

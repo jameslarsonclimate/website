@@ -174,6 +174,7 @@ def test_build_bundle(tmp_path):
     # verification of another city is ignored
     other = tl.build(tmp_path, "KOLM", NOW, {**verif, "station": "KTPA"}, None)
     assert all("verif" not in d and "cloud_win" not in d for d in other["days"])     # no lat/lon: no windows
+    assert "lat" not in other and (b["lat"], b["lon"]) == (46.97, -122.9)
     assert tl.build(tmp_path, "KXXX", NOW) is None
     p = tl.write(tmp_path, b)
     assert json.loads(p.read_text())["station"] == "KOLM"

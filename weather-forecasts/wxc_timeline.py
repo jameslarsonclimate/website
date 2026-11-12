@@ -355,6 +355,8 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
             rec["cloud_scores"] = cs
         out_days.append(rec)
     extra = {}
+    if lat is not None and lon is not None:    # the page shades night and twilight from these
+        extra["lat"], extra["lon"] = round(float(lat), 4), round(float(lon), 4)
     if lst_offset is not None:    # the CLI day (wind is verified over it): hours after 06Z it starts
         extra["wind_day_h"] = -lst_offset - 6
     return {**extra, "station": icao, "label": station_label, "generated_at_utc": now.isoformat(),
@@ -362,7 +364,8 @@ def build(data_dir: Path, icao: str, now: datetime, verification: Optional[dict]
             "note": "Display only. Hours (h) count from 06Z of each day. Temperatures in °F, wind in kt, "
                     "precip in inches (running total since 06Z), cloud cover in %, dewpoint (td) in °F. Each day's models are "
                     "the runs available before its 00Z deadline; 'latest' are today's newest runs; "
-                    "'verif' holds the official observations and the scored forecasts; 'cloud_win' the "
+                    "'verif' holds the official observations and the scored forecasts; lat/lon the station "
+                    "(for the page's night shading); 'cloud_win' the "
                     "night (06Z to sunrise) and day (sunrise to sunset) hours; 'cloud_scores' the "
                     "scoreboard's night/day cloud cover (not scored).",
             "days": out_days}
