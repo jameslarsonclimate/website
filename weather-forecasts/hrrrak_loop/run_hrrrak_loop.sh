@@ -22,5 +22,16 @@ if ! mkdir "$LOCK" 2>/dev/null; then
 fi
 trap 'rmdir "$LOCK"' EXIT
 
-cd "$DIR" && "$PY" -W ignore hrrrak_loop.py "$@" 2>&1 | grep -v -E "Warning|create_collection|logic = df"
-exit "${PIPESTATUS[0]}"
+FILTER="Warning|create_collection|logic = df"
+cd "$DIR" || exit 1
+"$PY" -W ignore hrrrak_loop.py "$@" 2>&1 | grep -v -E "$FILTER"
+rc=${PIPESTATUS[0]}
+
+# Scheduled runs (no arguments) also compare GOES-18 clouds with HRRR-AK for the hours that
+# have verified since the last firing, for every run made in the last 48 h (goes_vs_hrrr.py
+# skips frames it already made and rebuilds each run's MP4). Manual calls with arguments don't.
+if [ $# -eq 0 ]; then
+  "$PY" -W ignore goes_vs_hrrr.py 2>&1 | grep -v -E "$FILTER"
+  [ "${PIPESTATUS[0]}" -ne 0 ] && rc=1
+fi
+exit "$rc"
