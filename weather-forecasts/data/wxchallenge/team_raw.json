@@ -1,6 +1,6 @@
 {
  "checks": [
-  "2026-11-11T13:00:09+00:00"
+  "2026-11-12T13:00:05+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -1792,7 +1792,7 @@
         "penalty": 0,
         "points": 16.2,
         "cum_points": 27.2,
-        "rank": 46,
+        "rank": 14,
         "prev_rank": 113
        }
       },
@@ -1816,7 +1816,7 @@
         "penalty": 0,
         "points": 20.3,
         "cum_points": 30.5,
-        "rank": 141,
+        "rank": 220,
         "prev_rank": 58
        }
       },
@@ -1840,7 +1840,7 @@
         "penalty": 0,
         "points": 21.6,
         "cum_points": 32.4,
-        "rank": 253,
+        "rank": 146,
         "prev_rank": 90
        }
       },
@@ -1864,7 +1864,7 @@
         "penalty": 0,
         "points": 20.5,
         "cum_points": 32.5,
-        "rank": 258,
+        "rank": 43,
         "prev_rank": 195
        }
       },
@@ -1888,7 +1888,7 @@
         "penalty": 0,
         "points": 24.3,
         "cum_points": 34.1,
-        "rank": 361,
+        "rank": 378,
         "prev_rank": 39
        }
       },
@@ -1912,7 +1912,7 @@
         "penalty": 0,
         "points": 21.6,
         "cum_points": 34.5,
-        "rank": 379,
+        "rank": 400,
         "prev_rank": 257
        }
       },
@@ -1936,7 +1936,7 @@
         "penalty": 0,
         "points": 27.0,
         "cum_points": 38.1,
-        "rank": 613,
+        "rank": 718,
         "prev_rank": 117
        }
       },
@@ -1960,8 +1960,209 @@
         "penalty": 0,
         "points": 22.3,
         "cum_points": 43.6,
-        "rank": 842,
+        "rank": 287,
         "prev_rank": 730
+       }
+      }
+     }
+    },
+    "2026-11-12": {
+     "day": 3,
+     "year": "26-27",
+     "status": "As of 12Z",
+     "final": false,
+     "fetched_at_utc": "2026-11-12T13:00:05+00:00",
+     "forecasters": {
+      "Kraken": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 34,
+        "wind_max_kt": 13,
+        "precip_in": 0.49
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 1,
+       "official": {
+        "error": {
+         "tmax_f": 0,
+         "tmin_f": 5,
+         "wind_max_kt": 1.5,
+         "precip_in": 8.7
+        },
+        "penalty": 0,
+        "points": 15.2,
+        "cum_points": 29.5,
+        "rank": 46,
+        "prev_rank": 14
+       }
+      },
+      "Mothmn": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 34,
+        "wind_max_kt": 13,
+        "precip_in": 0.55
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 0,
+         "tmin_f": 5,
+         "wind_max_kt": 1.5,
+         "precip_in": 9.4
+        },
+        "penalty": 0,
+        "points": 15.9,
+        "cum_points": 32.5,
+        "rank": 130,
+        "prev_rank": 43
+       }
+      },
+      "Nessie": {
+       "forecast": {
+        "tmax_f": 43,
+        "tmin_f": 34,
+        "wind_max_kt": 12,
+        "precip_in": 0.33
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 1,
+         "tmin_f": 5,
+         "wind_max_kt": 1.0,
+         "precip_in": 5.5
+        },
+        "penalty": 0,
+        "points": 12.5,
+        "cum_points": 33.3,
+        "rank": 157,
+        "prev_rank": 220
+       }
+      },
+      "Bigfut": {
+       "forecast": {
+        "tmax_f": 43,
+        "tmin_f": 34,
+        "wind_max_kt": 13,
+        "precip_in": 0.52
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 1,
+         "tmin_f": 5,
+         "wind_max_kt": 1.5,
+         "precip_in": 9.1
+        },
+        "penalty": 0,
+        "points": 16.6,
+        "cum_points": 36.1,
+        "rank": 281,
+        "prev_rank": 146
+       }
+      },
+      "JerDvl": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 35,
+        "wind_max_kt": 15,
+        "precip_in": 0.46
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 1,
+       "official": {
+        "error": {
+         "tmax_f": 2,
+         "tmin_f": 4,
+         "wind_max_kt": 2.5,
+         "precip_in": 8.1
+        },
+        "penalty": 0,
+        "points": 16.6,
+        "cum_points": 38.5,
+        "rank": 411,
+        "prev_rank": 287
+       }
+      },
+      "Wndigo": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 34,
+        "wind_max_kt": 14,
+        "precip_in": 0.5
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 0,
+         "tmin_f": 5,
+         "wind_max_kt": 2.0,
+         "precip_in": 8.9
+        },
+        "penalty": 0,
+        "points": 15.9,
+        "cum_points": 39.5,
+        "rank": 467,
+        "prev_rank": 400
+       }
+      },
+      "Cyclop": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 34,
+        "wind_max_kt": 16,
+        "precip_in": 0.56
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 0,
+         "tmin_f": 5,
+         "wind_max_kt": 3.0,
+         "precip_in": 9.5
+        },
+        "penalty": 0,
+        "points": 17.5,
+        "cum_points": 40.7,
+        "rank": 518,
+        "prev_rank": 378
+       }
+      },
+      "Hodags": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 34,
+        "wind_max_kt": 12,
+        "precip_in": 0.56
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 2,
+         "tmin_f": 5,
+         "wind_max_kt": 1.0,
+         "precip_in": 9.5
+        },
+        "penalty": 0,
+        "points": 17.5,
+        "cum_points": 46.5,
+        "rank": 734,
+        "prev_rank": 718
        }
       }
      }
@@ -1972,5 +2173,5 @@
    "done_for": "2026-11-11"
   }
  },
- "generated_at_utc": "2026-11-11T13:00:09+00:00"
+ "generated_at_utc": "2026-11-12T13:00:05+00:00"
 }
