@@ -52,8 +52,13 @@ LST_OFFSET_H = 9                 # AKST: the CLI / WxChallenge day is 09Z-09Z al
 FORECAST_DAYS = [date(2026, 11, d) for d in (10, 11, 12, 13, 17, 18, 19, 20)]
 CYCLES = (12, 18)
 
-# Map extent (lon0, lon1, lat0, lat1): northern Gulf of Alaska coast around Yakutat
-EXTENT = (-147.0, -132.0, 56.5, 62.6)
+# Map view: a polar-stereographic frame whose central meridian runs through PAYA, spanning
+# MAP_LAT_S-MAP_LAT_N along that meridian, MAP_ASPECT (width/height) wide. HRRR-AK's southern
+# boundary is ~51.8N at 140W and 53.2N at 128W, so the bottom corners can be off the grid
+# (drawn hatched).
+MAP_CENTER_LON = -139.588
+MAP_LAT_S, MAP_LAT_N = 51.5, 61.6
+MAP_ASPECT = 1.26
 
 OUT_ROOT = Path.home() / "Documents" / "HRRR-AK" / STATION
 DPI = 300
@@ -74,6 +79,24 @@ LOV = -135.0                     # HRRR-AK grid orientation (225 E)
 
 def k_to_f(k):
     return (k - 273.15) * 9 / 5 + 32
+
+
+def map_crs():
+    """Display projection: polar stereographic centred on PAYA's meridian (north is up there)."""
+    import cartopy.crs as ccrs
+    globe = ccrs.Globe(ellipse=None, semimajor_axis=6371229.0, semiminor_axis=6371229.0)
+    return ccrs.NorthPolarStereo(central_longitude=MAP_CENTER_LON, true_scale_latitude=60.0,
+                                 globe=globe)
+
+
+def map_bounds(crs):
+    """(x0, x1, y0, y1) of the view in map_crs coordinates."""
+    import cartopy.crs as ccrs
+    pc = ccrs.PlateCarree()
+    y0 = crs.transform_point(MAP_CENTER_LON, MAP_LAT_S, pc)[1]
+    y1 = crs.transform_point(MAP_CENTER_LON, MAP_LAT_N, pc)[1]
+    half_w = (y1 - y0) * MAP_ASPECT / 2
+    return -half_w, half_w, y0, y1
 
 
 def native_crs():
@@ -149,17 +172,21 @@ def load_hour(init: datetime, fxx: int, grib_dir: Path):
     lon = ((np.asarray(dss[0].longitude.values) + 180) % 360) - 180
     valid = dss[0].valid_time.values
 
-    # crop to the map extent (+ margin) to keep plotting fast
-    lo0, lo1, la0, la1 = EXTENT
-    m = (lon > lo0 - 3) & (lon < lo1 + 3) & (lat > la0 - 1.5) & (lat < la1 + 1.5)
+    # crop to the map view (+ margin) to keep plotting fast
+    import cartopy.crs as ccrs
+    crs = map_crs()
+    x0, x1, y0, y1 = map_bounds(crs)
+    pad = 0.05 * (x1 - x0)
+    xyz = crs.transform_points(ccrs.PlateCarree(), lon, lat)
+    m = ((xyz[..., 0] > x0 - pad) & (xyz[..., 0] < x1 + pad)
+         & (xyz[..., 1] > y0 - pad) & (xyz[..., 1] < y1 + pad))
     jj, ii = np.where(m)
     sl = (slice(jj.min(), jj.max() + 1), slice(ii.min(), ii.max() + 1))
     out = {k: v[sl] for k, v in f.items()}
     out["lat"], out["lon"] = lat[sl], lon[sl]
     out["valid"] = datetime.utcfromtimestamp(valid.astype("datetime64[s]").astype(int))
 
-    # grid-relative -> earth-relative wind (for the station's direction only; the map uses
-    # the native projection, where grid-relative barbs are already drawn correctly)
+    # grid-relative (HRRR-AK grid, LoV 225E) -> earth-relative wind
     a = np.deg2rad(out["lon"] - LOV)
     out["ue"] = out["u10"] * np.cos(a) + out["v10"] * np.sin(a)
     out["ve"] = -out["u10"] * np.sin(a) + out["v10"] * np.cos(a)
@@ -188,7 +215,8 @@ def render(init: datetime, fxx: int, panel4: str, frame_path: Path, grib_dir: Pa
     import cartopy.feature as cfeature
 
     d = load_hour(init, fxx, grib_dir)
-    crs = native_crs()
+    crs = map_crs()
+    bounds = map_bounds(crs)
     pc = ccrs.PlateCarree()
     xyz = crs.transform_points(pc, d["lon"], d["lat"])
     X, Y = xyz[..., 0], xyz[..., 1]
@@ -215,13 +243,16 @@ def render(init: datetime, fxx: int, panel4: str, frame_path: Path, grib_dir: Pa
     lakes = cfeature.NaturalEarthFeature("physical", "lakes", "10m")
 
     def base(ax, line="k"):
-        ax.set_extent(EXTENT, crs=pc)
+        ax.set_extent(bounds, crs=crs)
+        ax.patch.set_facecolor("white")
+        ax.patch.set_hatch("////")          # shows only where HRRR-AK has no data
+        ax.patch.set_edgecolor("0.75")
         ax.add_feature(coast, facecolor="none", edgecolor=line, linewidth=0.5, zorder=5)
         ax.add_feature(lakes, facecolor="none", edgecolor=line, linewidth=0.25, zorder=5)
         ax.add_feature(border, facecolor="none", edgecolor=line, linewidth=0.5,
                        linestyle=(0, (4, 2)), zorder=5)
         ax.gridlines(crs=pc, linewidth=0.25, color="0.35", alpha=0.6,
-                          xlocs=range(-150, -125, 4), ylocs=range(54, 66, 2))
+                          xlocs=range(-160, -115, 5), ylocs=range(48, 68, 2))
         ax.plot(STATION_LON, STATION_LAT, marker="*", ms=9, mfc="white", mec="k",
                 mew=0.8, transform=pc, zorder=8)
 
@@ -268,9 +299,10 @@ def render(init: datetime, fxx: int, panel4: str, frame_path: Path, grib_dir: Pa
     cf2 = ax.contourf(X, Y, spd, levels=wlev, cmap=wcmap, extend="max", zorder=1)
     n = max(1, X.shape[1] // 22)
     o = n // 2
-    ax.barbs(X[o::n, o::n], Y[o::n, o::n], d["u10"][o::n, o::n] * MS_TO_KT,
-             d["v10"][o::n, o::n] * MS_TO_KT, length=4.2, linewidth=0.45, zorder=6,
-             sizes=dict(emptybarb=0.12), transform=crs)
+    # earth-relative winds on lon/lat: cartopy rotates them into the PAYA-centred projection
+    ax.barbs(d["lon"][o::n, o::n], d["lat"][o::n, o::n], d["ue"][o::n, o::n] * MS_TO_KT,
+             d["ve"][o::n, o::n] * MS_TO_KT, length=4.2, linewidth=0.45, zorder=6,
+             sizes=dict(emptybarb=0.12), transform=pc)
     cbar(ax, cf2, "kt", ticks=np.arange(0, 65, 10))
     title(ax, "10 m wind speed + barbs (kt)")
     station_box(ax, f"{STATION} {st_dir} {spd[sj, si]:.0f} kt")
