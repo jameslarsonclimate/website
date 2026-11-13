@@ -477,7 +477,9 @@ def lst_wind(label, res, init, day, points, station):
             da = read(fast_herbie(init, want, **kw), points)
             got = np.atleast_1d(np.asarray(da.values, float))
             vals += list(got)
-            for t, v in zip(convert_time_to_datetime64(da.valid_time.values), got):
+            # one forecast hour: convert_time_to_datetime64 returns a bare datetime64 scalar
+            vt = np.atleast_1d(convert_time_to_datetime64(da.valid_time.values))
+            for t, v in zip(vt, got):
                 t = pd.Timestamp(t)
                 if t > day_end and np.isfinite(v):
                     tail["times"].append(t.strftime("%Y-%m-%dT%H:%M"))

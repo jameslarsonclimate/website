@@ -124,3 +124,45 @@ def test_herbie_tracebacks_are_dropped(caplog):
         log.error("Exception details : Max retries exceeded")
         log.error("Traceback (most recent call last):\n  File ...")
     assert [r.getMessage() for r in caplog.records] == ["Exception has occured : Max retries exceeded"]
+
+
+
+@pytest.mark.parametrize("n_missing", [1, 2])
+def test_lst_wind_single_hour_read(monkeypatch, n_missing):
+    """A one-hour top-up (f045-f045) gives a scalar valid_time; it must not raise
+    "'numpy.datetime64' object is not iterable" and the topped-up hour must count."""
+    from datetime import date
+    import numpy as np
+    import xarray as xr
+    from wxc_stations import STATIONS
+    m = _main_module()
+    station = next(iter(STATIONS.values()))
+    init = pd.Timestamp("2026-11-12T00:00")
+    day = date(2026, 11, 13)
+    ws, we = m.lst_window_utc(day, station.lst_offset_hours)
+    every3 = [t for t in pd.date_range(ws, we, freq="1h") if t.hour % 3 == 0]
+    gone = every3[-n_missing:]                 # the hours lst_wind has to download
+    times = [t for t in every3 if t not in gone]
+    res = {"metrics": {"wind_max_kt": 10.0},
+           "series": {"times": [t.strftime("%Y-%m-%dT%H:%M") for t in times],
+                      "wind_kt": [10.0] * len(times)}}
+    asked = {}
+
+    def fake_herbie(init_, fxx, **kw):
+        asked["fxx"] = list(fxx)
+
+    def fake_read(H, points):
+        # valid_time as epoch seconds, like the GRIB reads; one hour has no step dim
+        vt = [int((init + pd.Timedelta(hours=f)).timestamp()) for f in asked["fxx"]]
+        if len(vt) == 1:
+            return xr.DataArray(25.0, coords={"valid_time": vt[0]})
+        return xr.DataArray(np.full(len(vt), 25.0), dims="step",
+                            coords={"valid_time": ("step", np.array(vt))})
+
+    spec = m._wind_spec("GFS", init, station)
+    monkeypatch.setattr(m, "_wind_spec", lambda *a: (spec[0], spec[1], {}, fake_read))
+    monkeypatch.setattr(m, "fast_herbie", fake_herbie)
+    assert m.lst_wind("GFS", res, init, day, None, station)
+    assert asked["fxx"] == [int((t - init) / pd.Timedelta(hours=1)) for t in gone]
+    assert res["metrics"]["wind_max_kt"] == 25.0
+    assert res["metrics"]["wind_window"] == "LST"
