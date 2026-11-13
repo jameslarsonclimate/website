@@ -477,6 +477,13 @@
       its own points, average and bias, and ranks every run on its own average. Runs the page didn't keep at the time, including the hindcast days,
       are downloaded again where the archive has them (not the ensembles or USL's runs from before the city).
       It is for comparing runs only: the normal view, the consensus and its weights don't change.</p>
+    <p class="small">Clouds are context only, never scored. The <i>Night clouds</i> and <i>Day clouds</i> tabs, and the
+      cloud lines in each cell's tooltip, compare each scored run's total cloud cover with the observed cover:
+      forecast minus observed, in percentage points (negative = too clear, positive = too cloudy). Night is 06Z to
+      sunrise (it drives the low); day is sunrise to sunset (it drives the high). Day observed = METAR sky cover.
+      Night observed = 70% METAR + 30% GOES satellite cloud fraction, because the two often disagree at night
+      (METAR alone when GOES is missing). Today's night value appears in the <i>so far</i> column once the sun is
+      up, and is final once the day is verified; today's day value waits for verification.</p>
     <h3 id="about-ensembles">Ensembles</h3>
     <p class="small">ECMWF IFS ensemble (51 members), NCEP GEFS (31; shown and scored but not part of the consensus),
       all via Open-Meteo, plus two 3 km precipitation ensembles: REFS (NOAA's new operational short-range
@@ -687,17 +694,31 @@ function todayHead(t){
   return `<th class="day today" title="Today, observations through ${thru(t)}: not final">${t.date.slice(5)}<span>${wd}</span>` +
     `<span class="w">so far</span></th>`;
 }
+// today's night clouds (verification.json today.cloud): only once the night is over; the
+// day's clouds wait for the day to be verified
+let CLOUD_TODAY = null;              // cloud_today.json "night" (wxc_clouds.provisional_night)
+const todayCloud = (t, CV) => CV && CV.obs === 'night_pct' && CLOUD_TODAY?.date === t.date ? CLOUD_TODAY.night : null;
 function todayObsCell(t, CV){
-  const o = t.obs;
-  const txt = CV ? '—' : VIEW === 'points' ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}` : fmt(o[VIEW], VARS[VIEW].dec);
-  const title = `Observed so far through ${thru(t)}${t.n_obs ? ` (${t.n_obs} hourly obs)` : ''}, not final:\n` +
+  const o = t.obs, tc = todayCloud(t, CV), co = tc?.obs;
+  const txt = CV ? (co?.night_pct != null ? pct0(co.night_pct) : '—')
+    : VIEW === 'points' ? `${fmt(o.tmax_f)}/${fmt(o.tmin_f)}` : fmt(o[VIEW], VARS[VIEW].dec);
+  let title = `Observed so far through ${thru(t)}${t.n_obs ? ` (${t.n_obs} hourly obs)` : ''}, not final:\n` +
     ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(k => `${VARS[k].name}: ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit}`).join('\n');
-  return `<td class="cell today${CV ? ' small' : ''}" title="${title}">${txt}</td>`;
+  if (co?.night_pct != null) title += `\nNight clouds (not scored): ${pct0(co.night_pct)} (70% METAR + 30% GOES)` +
+    `\nMETAR ${pct0(co.metar_night_pct)}, GOES ${pct0(co.goes_night_pct)}; final once the day is verified`;
+  else if (CV) title += CV.obs === 'night_pct' ? '\nNight clouds: shown after sunrise' : '\nDay clouds: shown once the day is verified';
+  return `<td class="cell today${CV && co?.night_pct == null ? ' small' : ''}" title="${title}">${txt}</td>`;
 }
 // row: {name, cyc} (cyc: a cycle row of the 12Z/18Z toggle); rowsDef: every row shown, when split
 function todayCell(t, row, CV, rowsDef){
   const name = row.name, pick = r => r.cyc ? t.cycles?.[r.name]?.[r.cyc] : t.models[r.name];
   const m = pick(row);
+  if (m && CV && !row.cyc) {
+    const e = todayCloud(t, CV)?.models?.[name]?.[CV.err];
+    if (e == null) return '<td class="cell small today">—</td>';
+    const step = biasStep(e, CLOUD_BINS);
+    return `<td class="cell today" data-day="today" data-model="${name}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, 0)}</td>`;
+  }
   if (!m || CV) return '<td class="cell small today">—</td>';
   const rc = m.reconstructed ? ' recon' : '', r = m.reconstructed ? '<sup aria-label="reconstructed">r</sup>' : '';
   const at = `class="cell today${rc}" data-day="today" data-model="${name}"${row.cyc ? ` data-cyc="${row.cyc}"` : ''}`;
@@ -886,7 +907,7 @@ function renderScore(){
   } else if (CV) {
     const sw = [-3, -2, -1, 0, 1, 2, 3].map(s => `<i style="background:${biasFill(s)}"></i>`).join('');
     legend.innerHTML = `<span>Too clear</span><span class="swatches">${sw}</span><span>Too cloudy</span>
-      <span>· forecast minus observed (METAR) cloud cover over the ${CV.when}, in percentage points;
+      <span>· forecast minus observed cloud cover (${CV.obs === 'night_pct' ? '70% METAR + 30% GOES' : 'METAR'}) over the ${CV.when}, in percentage points;
       within ±${CLOUD_BINS[0]} is grey, steps at ${CLOUD_BINS[1]} and ${CLOUD_BINS[2]} · not scored</span>`;
   } else {
     const b = VARS[VIEW].bins, u = VARS[VIEW].unit, dec = VARS[VIEW].dec;
@@ -1039,8 +1060,7 @@ function cloudTip(d, name, m){
   if (!cm) return name in (c.missing || {}) ? `<br><span style="opacity:.75">clouds: no data for this run</span>` : '';
   const lines = [cloudLine('Night clouds', cm.night_pct, c.obs.night_pct, cm.night_err),
                  cloudLine('Day clouds', cm.day_pct, c.obs.day_pct, cm.day_err)].filter(Boolean);
-  return `<br><span style="opacity:.85">${lines.join('<br>')}</span>` +
-    `<br><span style="opacity:.6">clouds: forecast vs observed (night 70% METAR + 30% GOES), not scored</span>`;
+  return `<br><span style="opacity:.85">${lines.join('<br>')}</span>`;
 }
 
 function showTip(td, ev){
@@ -1052,6 +1072,17 @@ function showTip(td, ev){
   // a cycle row's score (12Z/18Z toggle): its run is the init time, not when it was fetched
   const who = `${LABEL[name] || name}${cyc ? ` ${cyc}Z run` : ''}`;
   const runNote = cyc ? `<br><span style="opacity:.75">run initialized ${runLabel(m.run)}; scored on its own, not submitted</span>` : null;
+  const tc = now && todayCloud(d, CLOUD_VIEWS[VIEW]);
+  if (now && CLOUD_VIEWS[VIEW]) {      // a cloud tab: today's night clouds only
+    const cm = tc?.models?.[name];
+    if (!cm) return;
+    tip.innerHTML = `<b>${who} · ${d.date} night</b><br>` +
+      cloudLine('Night clouds', cm.night_pct, tc.obs.night_pct, cm.night_err) +
+      `<br><span style="opacity:.75">observations through sunrise; final once the day is verified</span>`;
+    tip.style.display = 'block';
+    moveTip(ev);
+    return;
+  }
   if (now) {
     const f = m.forecast, o = d.obs, e = m.error;
     const line = (k) => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit} so far (${signed(e[k], VARS[k].dec)})`;
@@ -1448,6 +1479,11 @@ function renderToday(tj){
       const cr = await fetch('../data/wxchallenge/cloud_context.json' + bust, { cache: 'no-store' });
       if (cr.ok) CLOUD = (await cr.json())?.stations?.[VERIF.station] || {};
     } catch (e) { CLOUD = {}; }
+    try {        // optional: today's night clouds once the night is over
+      const ct = await fetch('../data/wxchallenge/cloud_today.json' + bust, { cache: 'no-store' });
+      const j = ct.ok ? await ct.json() : null;
+      CLOUD_TODAY = j && j.station === VERIF.station && j.night ? { date: j.date, night: j.night } : null;
+    } catch (e) { CLOUD_TODAY = null; }
     try {        // optional too: team forecasters a reader added
       const tr = await fetch('../data/wxchallenge/team.json' + bust, { cache: 'no-store' });
       if (tr.ok) TEAM = await tr.json();

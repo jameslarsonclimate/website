@@ -372,6 +372,27 @@ def day_context(day: date, lat: float, lon: float, sky: pd.DataFrame, goes: dict
     return out
 
 
+def provisional_night(day: date, lat: float, lon: float, sky: pd.DataFrame, goes: dict, models: dict,
+                      now) -> Optional[dict]:
+    """Today's night cloud context once the night (06Z to sunrise) is over, for the scoreboard's
+    provisional today column: the same numbers day_context gives a verified day, night only
+    (the day is still under way). None before sunrise or without an observed night value.
+    goes: {'YYYY-mm-ddTHH:MM': cloud %}; models as day_context."""
+    _, night_h = day_night_hours(day, lat, lon)
+    now = pd.Timestamp(now)
+    now = now.tz_convert(None) if now.tz is not None else now
+    if not night_h or now < night_h[-1] + pd.Timedelta(minutes=35):   # wait for the last hour's ob
+        return None
+    ctx = day_context(day, lat, lon, sky, goes, models)
+    obs = {k: ctx["obs"][k] for k in ("night_pct", "metar_night_pct", "goes_night_pct")}
+    if obs["night_pct"] is None:
+        return None
+    return {"provisional": True, "night_hours_utc": ctx["night_hours_utc"], "obs": obs,
+            "models": {n: {k: m[k] for k in ("init_time_utc", "night_pct", "night_err")}
+                       for n, m in ctx["models"].items()},
+            "missing": ctx["missing"]}
+
+
 # ----------------------------------------------------------------------------
 # plotting (shared by the forecast and today-so-far figures)
 # ----------------------------------------------------------------------------

@@ -928,9 +928,17 @@ def write_cloud_today(station, today, now, clouds):
                  for h, p in zip(s["hour"], s["sky_pct"])]
     goes = [{k: r.get(k) for k in ("hour", "cloud_pct", "satellite", "n_pixels")}
             for r in clouds.get("goes") or []]
+    night = None      # the scoreboard's today column: night clouds once the night is over
+    try:
+        models = {n: (r.get("init_time_utc"), r) for n, r in (clouds.get("submitted") or {}).items()}
+        night = wxc_clouds.provisional_night(
+            today, station.lat, station.lon, sky,
+            {r["hour"]: r["cloud_pct"] for r in goes if r.get("cloud_pct") is not None}, models, now)
+    except Exception as exc:
+        print(f"  warning: today's night clouds skipped ({type(exc).__name__}: {exc})")
     CLOUD_TODAY.write_text(wxc_verify.dumps(
         {"station": station.icao, "date": today.isoformat(), "generated_at_utc": now.isoformat(),
-         "goes": goes, "metar": metar, "models": clouds.get("submitted") or {}}))
+         "goes": goes, "metar": metar, "models": clouds.get("submitted") or {}, "night": night}))
 CONTEXT_ATTEMPTS = 3          # runs that may retry a day with missing pieces before it is frozen
 CONTEXT_BUDGET_S = 240        # per run: older days still to fill are left for the next runs
 TIMELINE_BUDGET_S = 180       # per run, for the timeline's catch-up downloads (GOES, old cloud cover)

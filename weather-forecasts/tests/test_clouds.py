@@ -8,7 +8,7 @@ import importlib
 import json
 import shutil
 import sys
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -451,3 +451,18 @@ def test_reblend_stored_night():
     assert old["obs"]["metar_night_pct"] == 100.0 and old["obs"]["night_pct"] == 70.0
     assert old["models"]["GFS"]["night_err"] == -30 and old["models"]["GFS"]["day_err"] == 0
     assert not wxc_clouds.reblend_night(old)                     # idempotent
+
+
+def test_provisional_night_after_sunrise_only():
+    day = date(2026, 10, 13)
+    sky = pd.DataFrame({"valid": pd.date_range("2026-10-13 05:53", periods=25, freq="h", tz="UTC"),
+                        "sky_pct": [100.0] * 25, "clear": False})
+    goes = {f"2026-10-13T{h:02d}:00": 0.0 for h in range(6, 24)}
+    rec = {"times": [f"2026-10-13T{h:02d}:00" for h in range(6, 24)], "cloud_pct": [50.0] * 18}
+    models = {"GFS": ("2026-10-12T12", rec)}
+    _, night = wxc_clouds.day_night_hours(day, 46.97, -122.90)
+    before = night[-1].to_pydatetime().replace(tzinfo=timezone.utc)
+    assert wxc_clouds.provisional_night(day, 46.97, -122.90, sky, goes, models, before) is None
+    p = wxc_clouds.provisional_night(day, 46.97, -122.90, sky, goes, models, before + timedelta(hours=1))
+    assert p["provisional"] and p["obs"] == {"night_pct": 70.0, "metar_night_pct": 100.0, "goes_night_pct": 0.0}
+    assert p["models"]["GFS"]["night_err"] == -20 and "day_pct" not in p["obs"]
