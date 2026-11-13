@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-13T13:00:41+00:00",
- "generated_at_utc": "2026-11-13T19:28:38+00:00",
+ "fetched_at_utc": "2026-11-13T19:30:08+00:00",
+ "generated_at_utc": "2026-11-13T19:33:38+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -53,28 +53,28 @@
      "error": {
       "tmax_f": 0,
       "tmin_f": -2,
-      "wind_max_kt": -8,
+      "wind_max_kt": -5,
       "precip_in": -0.22
      },
-     "points": 8.2,
-     "rank": 14,
+     "points": 6.7,
+     "rank": 10,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 23.8,
-    "mean_points": 7.93,
+    "total_points": 22.3,
+    "mean_points": 7.43,
     "bias": {
      "tmax_f": -1.565,
      "tmin_f": -0.743,
-     "wind_max_kt": -0.193,
+     "wind_max_kt": 0.846,
      "precip_in": -0.206
     },
     "mae": {
      "tmax_f": 1.565,
      "tmin_f": 1.359,
-     "wind_max_kt": 5.347,
+     "wind_max_kt": 4.308,
      "precip_in": 0.213
     },
     "n_eff": {
@@ -131,28 +131,28 @@
      "error": {
       "tmax_f": 2,
       "tmin_f": -2,
-      "wind_max_kt": -9,
+      "wind_max_kt": -6,
       "precip_in": -0.21
      },
-     "points": 10.6,
-     "rank": 519,
+     "points": 9.1,
+     "rank": 514,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 38.6,
-    "mean_points": 12.87,
+    "total_points": 37.1,
+    "mean_points": 12.37,
     "bias": {
      "tmax_f": -0.846,
      "tmin_f": -1.101,
-     "wind_max_kt": 4.729,
+     "wind_max_kt": 5.768,
      "precip_in": -0.235
     },
     "mae": {
      "tmax_f": 2.283,
      "tmin_f": 2.333,
-     "wind_max_kt": 10.961,
+     "wind_max_kt": 9.923,
      "precip_in": 0.235
     },
     "n_eff": {
@@ -210,28 +210,28 @@
      "error": {
       "tmax_f": 0,
       "tmin_f": -2,
-      "wind_max_kt": -8,
+      "wind_max_kt": -5,
       "precip_in": -0.28
      },
-     "points": 8.9,
-     "rank": 20,
+     "points": 7.4,
+     "rank": 16,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 24.2,
-    "mean_points": 8.07,
+    "total_points": 22.7,
+    "mean_points": 7.57,
     "bias": {
      "tmax_f": -1.565,
      "tmin_f": -0.411,
-     "wind_max_kt": -2.846,
+     "wind_max_kt": -1.807,
      "precip_in": -0.183
     },
     "mae": {
      "tmax_f": 1.565,
      "tmin_f": 1.027,
-     "wind_max_kt": 6.692,
+     "wind_max_kt": 5.654,
      "precip_in": 0.203
     },
     "n_eff": {
@@ -289,28 +289,28 @@
      "error": {
       "tmax_f": 2,
       "tmin_f": -1,
-      "wind_max_kt": -6,
+      "wind_max_kt": -3,
       "precip_in": -0.31
      },
-     "points": 9.5,
-     "rank": 143,
+     "points": 8.0,
+     "rank": 138,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 30.4,
-    "mean_points": 10.13,
+    "total_points": 28.9,
+    "mean_points": 9.63,
     "bias": {
      "tmax_f": -0.538,
      "tmin_f": 0.232,
-     "wind_max_kt": -0.091,
+     "wind_max_kt": 0.948,
      "precip_in": -0.323
     },
     "mae": {
      "tmax_f": 1.975,
      "tmin_f": 1.616,
-     "wind_max_kt": 4.064,
+     "wind_max_kt": 3.025,
      "precip_in": 0.323
     },
     "n_eff": {
@@ -367,28 +367,28 @@
      "error": {
       "tmax_f": -1,
       "tmin_f": -2,
-      "wind_max_kt": -9,
+      "wind_max_kt": -6,
       "precip_in": -0.44
      },
-     "points": 13.6,
-     "rank": 376,
+     "points": 12.1,
+     "rank": 370,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 35.4,
-    "mean_points": 11.8,
+    "total_points": 33.9,
+    "mean_points": 11.3,
     "bias": {
      "tmax_f": -1.616,
      "tmin_f": -1.101,
-     "wind_max_kt": 0.052,
+     "wind_max_kt": 1.091,
      "precip_in": -0.294
     },
     "mae": {
      "tmax_f": 1.616,
      "tmin_f": 2.333,
-     "wind_max_kt": 8.283,
+     "wind_max_kt": 7.245,
      "precip_in": 0.294
     },
     "n_eff": {
@@ -445,28 +445,28 @@
      "error": {
       "tmax_f": -1,
       "tmin_f": -2,
-      "wind_max_kt": -8,
+      "wind_max_kt": -5,
       "precip_in": -0.25
      },
-     "points": 9.5,
-     "rank": 136,
+     "points": 8.0,
+     "rank": 131,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 30.0,
-    "mean_points": 10.0,
+    "total_points": 28.5,
+    "mean_points": 9.5,
     "bias": {
      "tmax_f": -1.899,
      "tmin_f": -1.076,
-     "wind_max_kt": -0.243,
+     "wind_max_kt": 0.796,
      "precip_in": -0.177
     },
     "mae": {
      "tmax_f": 1.899,
      "tmin_f": 1.692,
-     "wind_max_kt": 7.296,
+     "wind_max_kt": 6.257,
      "precip_in": 0.257
     },
     "n_eff": {
@@ -523,28 +523,28 @@
      "error": {
       "tmax_f": 0,
       "tmin_f": -2,
-      "wind_max_kt": -5,
+      "wind_max_kt": -2,
       "precip_in": -0.21
      },
-     "points": 6.6,
-     "rank": 97,
+     "points": 5.1,
+     "rank": 90,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 28.8,
-    "mean_points": 9.6,
+    "total_points": 27.3,
+    "mean_points": 9.1,
     "bias": {
      "tmax_f": -1.565,
      "tmin_f": -0.743,
-     "wind_max_kt": 3.769,
+     "wind_max_kt": 4.808,
      "precip_in": -0.123
     },
     "mae": {
      "tmax_f": 1.565,
      "tmin_f": 1.359,
-     "wind_max_kt": 7.231,
+     "wind_max_kt": 6.193,
      "precip_in": 0.283
     },
     "n_eff": {
@@ -601,28 +601,28 @@
      "error": {
       "tmax_f": 0,
       "tmin_f": -2,
-      "wind_max_kt": -7,
+      "wind_max_kt": -4,
       "precip_in": -0.27
      },
-     "points": 8.2,
-     "rank": 151,
+     "points": 6.7,
+     "rank": 146,
      "day": 3
     }
    },
    "summary": {
     "n_days": 3,
-    "total_points": 30.8,
-    "mean_points": 10.27,
+    "total_points": 29.3,
+    "mean_points": 9.77,
     "bias": {
      "tmax_f": -1.565,
      "tmin_f": -0.743,
-     "wind_max_kt": 3.372,
+     "wind_max_kt": 4.411,
      "precip_in": -0.226
     },
     "mae": {
      "tmax_f": 1.565,
      "tmin_f": 1.359,
-     "wind_max_kt": 8.219,
+     "wind_max_kt": 7.181,
      "precip_in": 0.273
     },
     "n_eff": {
@@ -636,7 +636,7 @@
  },
  "today": {
   "date": "2026-11-13",
-  "status": "As of 12Z",
+  "status": "As of 19Z",
   "forecasters": {
    "Kraken": {
     "forecast": {
@@ -647,11 +647,11 @@
     },
     "error": {
      "tmax_f": 4,
-     "tmin_f": 1,
+     "tmin_f": 2,
      "wind_max_kt": 2,
      "precip_in": 0.01
     },
-    "points": 6.4,
+    "points": 7.4,
     "day": 4
    },
    "Mothmn": {
@@ -663,27 +663,11 @@
     },
     "error": {
      "tmax_f": 5,
-     "tmin_f": 1,
+     "tmin_f": 2,
      "wind_max_kt": 3,
      "precip_in": 0.02
     },
-    "points": 8.3,
-    "day": 4
-   },
-   "JerDvl": {
-    "forecast": {
-     "tmax_f": 42,
-     "tmin_f": 30,
-     "wind_max_kt": 7,
-     "precip_in": 0.0
-    },
-    "error": {
-     "tmax_f": 5,
-     "tmin_f": 0,
-     "wind_max_kt": 3,
-     "precip_in": 0.0
-    },
-    "points": 6.5,
+    "points": 9.3,
     "day": 4
    },
    "Cyclop": {
@@ -695,11 +679,27 @@
     },
     "error": {
      "tmax_f": 6,
-     "tmin_f": -1,
+     "tmin_f": 0,
      "wind_max_kt": 2,
      "precip_in": 0.01
     },
-    "points": 8.4,
+    "points": 7.4,
+    "day": 4
+   },
+   "JerDvl": {
+    "forecast": {
+     "tmax_f": 42,
+     "tmin_f": 30,
+     "wind_max_kt": 7,
+     "precip_in": 0.0
+    },
+    "error": {
+     "tmax_f": 5,
+     "tmin_f": 1,
+     "wind_max_kt": 3,
+     "precip_in": 0.0
+    },
+    "points": 7.5,
     "day": 4
    },
    "Bigfut": {
@@ -711,11 +711,11 @@
     },
     "error": {
      "tmax_f": 5,
-     "tmin_f": 1,
+     "tmin_f": 2,
      "wind_max_kt": 3,
      "precip_in": 0.02
     },
-    "points": 8.3,
+    "points": 9.3,
     "day": 4
    },
    "Wndigo": {
@@ -727,11 +727,11 @@
     },
     "error": {
      "tmax_f": 5,
-     "tmin_f": 1,
+     "tmin_f": 2,
      "wind_max_kt": 4,
      "precip_in": 0.01
     },
-    "points": 8.4,
+    "points": 9.4,
     "day": 4
    },
    "Nessie": {
@@ -743,11 +743,11 @@
     },
     "error": {
      "tmax_f": 5,
-     "tmin_f": 1,
+     "tmin_f": 2,
      "wind_max_kt": 3,
      "precip_in": 0.02
     },
-    "points": 8.3,
+    "points": 9.3,
     "day": 4
    },
    "Hodags": {
@@ -759,11 +759,11 @@
     },
     "error": {
      "tmax_f": 6,
-     "tmin_f": 1,
+     "tmin_f": 2,
      "wind_max_kt": 3,
      "precip_in": 0.0
     },
-    "points": 8.5,
+    "points": 9.5,
     "day": 4
    }
   }
