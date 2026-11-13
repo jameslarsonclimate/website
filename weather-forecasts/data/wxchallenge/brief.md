@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-14**, scored over 2026-11-14T06Z to 2026-11-15T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-14T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-13T20:51:04+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-13T21:00:05+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,7 +35,7 @@ Run = day/hour (UTC) of the model initialization.
 | IFS_HRES | 13/12Z | 42.8 | 35.1 | 11.1 | 0.65 |
 | GFS | 13/12Z | 45.6 | 37.8 | 15.1 | 0.21 |
 | GFS_MOS | 13/12Z | 48.0 | 35.0 | 8.0 | 0.27 |
-| NBM | 13/19Z | 45.0 | 32.0 | 9.0 | 0.33 |
+| NBM | 13/20Z | 45.0 | 32.0 | 9.0 | 0.33 |
 | USL | 13/12Z | 43.0 | 33.0 | 12.0 | 0.24 |
 | ENS | 13/06Z | 44.9 | 36.8 | 11.4 | 0.60 |
 | GEFS | 13/12Z | 40.3 | 35.7 | 12.9 | 0.23 |
@@ -97,7 +97,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.18", p25 0.30", p50 0.47", p75
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
 | GFS_MOS | GFS MOS P06 | 94% | 72% | 55% | 24% | 94% to 99% | 0.12 (12) |
-| NBM | NBS P06 | 97% | 95% | 85% | 51% | 97% to 100% | 0.05 (12) |
+| NBM | NBS P06 | 99% | 95% | 85% | 53% | 99% to 100% | 0.05 (12) |
 | ENS | member fraction | 100% | 100% | 96% | 71% | 100% | 0.04 (12) |
 | GEFS | member fraction | 97% | 84% | 94% | 26% | 100% | 0.08 (12) |
 | REFS | member fraction | — | — | — | — | 100% | — |
@@ -272,15 +272,15 @@ Total cloud cover (%):
 | 11-14 08Z | Fri 23:00 | 100 | 100 |  | 100 |  |  | 98 | 100 | 100 | 100 |
 | 11-14 09Z | Sat 00:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 100 | 100 |
 | 11-14 10Z | Sat 01:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
-| 11-14 11Z | Sat 02:00 | 100 | 100 |  | 100 |  |  | 96 | 100 | 100 | 100 |
-| 11-14 12Z | Sat 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 100 | 100 |
+| 11-14 11Z | Sat 02:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
+| 11-14 12Z | Sat 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 96 | 100 | 100 | 100 |
 | 11-14 13Z | Sat 04:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
 | 11-14 14Z | Sat 05:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
 | 11-14 15Z | Sat 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 96 | 100 | 100 | 100 |
 | 11-14 16Z | Sat 07:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 98 | 100 |
 | 11-14 17Z | Sat 08:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 96 | 100 |
 | 11-14 18Z | Sat 09:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 95 | 100 |
-| 11-14 19Z | Sat 10:00 | 100 | 100 |  | 88 |  |  | 96 | 100 | 94 | 100 |
+| 11-14 19Z | Sat 10:00 | 100 | 100 |  | 88 |  |  | 95 | 100 | 94 | 100 |
 | 11-14 20Z | Sat 11:00 | 100 | 100 |  | 100 |  |  | 96 | 100 | 94 | 99 |
 | 11-14 21Z | Sat 12:00 | 100 | 100 | 100 | 100 | 100 | 100 | 93 | 100 | 93 | 98 |
 | 11-14 22Z | Sat 13:00 | 100 | 100 |  | 100 |  |  |  | 100 | 92 | 97 |
@@ -631,7 +631,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-13)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-13 20:51Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-13 21:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
@@ -642,7 +642,7 @@ How each run is doing so far (forecast - observed; Hours = hours compared). Clou
 | IFS | 13/12Z | 15Z | 2 | +5.8 | 5.8 | +6.1 | +3.7 | +3.3 | +88 | 0.00 / 0.00 |
 | GFS | 13/12Z | 15Z | 2 | +12.6 | 12.6 | +12.3 | -0.7 | +6.0 | +90 | 0.00 / 0.00 |
 | GFS_MOS | 13/12Z | 18Z | 1 | +3.1 | 3.1 | +2.1 | +4.0 | +1.0 | +19 | — |
-| NBM | 13/19Z | 00Z | 0 | — | — | — | — | — | — | — |
+| NBM | 13/20Z | 00Z | 0 | — | — | — | — | — | — | — |
 
 Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance can miss the true extreme). Day high/low = the run's extreme for the rest of the day combined with the observed high 37.0 / low 28.9 °F so far:
 
@@ -653,7 +653,7 @@ Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance
 | IFS | 13/12Z | 4 | 38.0 | 37.0 | 2.5 | 38.0 | 28.9 |
 | GFS | 13/12Z | 4 | 42.9 | 38.8 | 8.3 | 42.9 | 28.9 |
 | GFS_MOS | 13/12Z | 4 | 41.0 | 37.0 | 4.0 | 41.0 | 28.9 |
-| NBM | 13/19Z | 3 | 40.0 | 34.0 | 4.0 | 40.0 | 28.9 |
+| NBM | 13/20Z | 3 | 40.0 | 34.0 | 4.0 | 40.0 | 28.9 |
 
 Hour by hour (°F, kt; obs blank after the last report):
 
