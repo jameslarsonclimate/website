@@ -374,8 +374,9 @@ def _clouds(verif, clouds, order):
         "from 06Z to sunrise, which drive the low; day = sun up, which drives the high. Observed = "
         "METAR sky cover (highest layer: FEW 19%, SCT 44%, BKN 75%, OVC 100%); automated stations "
         "see clouds only up to 12,000 ft. GOES = the satellite's cloud fraction within 15 km over "
-        "the same hours (GOES Clear Sky Mask), shown for comparison; the errors are against the "
-        "METAR value. At night the satellite mask relies on infrared and often misses low stratus "
+        "the same hours (GOES Clear Sky Mask). Day errors are against the METAR value; night "
+        "observed (and its errors) = 70% METAR + 30% GOES, since the two often disagree at night. "
+        "At night the satellite mask relies on infrared and often misses low stratus "
         "and fog. — = no data (e.g. a station outage, or a model without a "
         "cloud forecast). Bias / MAE are decay-weighted like the low (night) and high (day).", "",
         _table(["Model", "Days", "Night bias", "Night MAE", "Day bias", "Day MAE"], rows)]

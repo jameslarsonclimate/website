@@ -235,8 +235,12 @@ def fetch_text_cloud(icao: str, label: str, init) -> Optional[dict]:
 # Observed: METAR sky cover (the ASOS ceilometer works day and night, up to 12,000 ft at
 # automated sites). GOES is kept beside it from the hourly values already saved by the
 # today figure (no extra downloads); at night it misses low stratus and fog.
+# Night observed = 70% METAR + 30% GOES (METAR alone when GOES is missing; none without
+# METAR): the two often disagree at night and METAR is the better of the two there. The
+# METAR-only night mean is kept as metar_night_pct.
 # ----------------------------------------------------------------------------
 CONTEXT_MIN_COVER = 0.5      # a window mean needs at least this share of its hours
+NIGHT_METAR_WEIGHT = 0.7     # METAR's share of the observed night cloud (the rest is GOES)
 
 
 def sun_elevation(t, lat: float, lon: float) -> float:
@@ -310,14 +314,46 @@ def goes_window_mean(values: dict, hours) -> Optional[float]:
     return round(float(np.mean(got)), 1)
 
 
+def night_blend(metar: Optional[float], goes: Optional[float]) -> Optional[float]:
+    """Observed night cloud: NIGHT_METAR_WEIGHT * METAR + the rest GOES; METAR alone
+    without GOES, None without METAR."""
+    if metar is None:
+        return None
+    if goes is None:
+        return metar
+    return round(NIGHT_METAR_WEIGHT * metar + (1 - NIGHT_METAR_WEIGHT) * goes, 1)
+
+
+def reblend_night(ctx: dict) -> bool:
+    """Bring a stored cloud-context day to the current night blend (a day saved before the
+    blend has night_pct = the METAR mean): sets metar_night_pct, night_pct and each model's
+    night_err. True if anything changed."""
+    obs = ctx.get("obs")
+    if not obs:
+        return False
+    if "metar_night_pct" not in obs:
+        obs["metar_night_pct"] = obs.get("night_pct")
+    new = night_blend(obs["metar_night_pct"], obs.get("goes_night_pct"))
+    changed = new != obs.get("night_pct")
+    obs["night_pct"] = new
+    for m in (ctx.get("models") or {}).values():
+        f = m.get("night_pct")
+        err = None if f is None or new is None else round(f - new)
+        changed = changed or err != m.get("night_err")
+        m["night_err"] = err
+    return changed
+
+
 def day_context(day: date, lat: float, lon: float, sky: pd.DataFrame, goes: dict, models: dict) -> dict:
     """Cloud context of one verified day. models: {name: (init_time_utc, cloud record or
     None)} for the scored runs. Errors are forecast minus observed, in percentage points
     (positive = too cloudy)."""
     day_h, night_h = day_night_hours(day, lat, lon)
     fmt = "%Y-%m-%dT%H:%M"
-    obs = {"day_pct": obs_window_mean(sky, day_h), "night_pct": obs_window_mean(sky, night_h),
-           "goes_day_pct": goes_window_mean(goes, day_h), "goes_night_pct": goes_window_mean(goes, night_h)}
+    metar_night, goes_night = obs_window_mean(sky, night_h), goes_window_mean(goes, night_h)
+    obs = {"day_pct": obs_window_mean(sky, day_h), "night_pct": night_blend(metar_night, goes_night),
+           "metar_night_pct": metar_night,
+           "goes_day_pct": goes_window_mean(goes, day_h), "goes_night_pct": goes_night}
     out = {"date": day.isoformat(),
            "day_hours_utc": [day_h[0].strftime(fmt), day_h[-1].strftime(fmt)] if day_h else None,
            "night_hours_utc": [night_h[0].strftime(fmt), night_h[-1].strftime(fmt)] if night_h else None,

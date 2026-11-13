@@ -580,7 +580,7 @@
       notes.push('Official observations not in yet.');
     }
     if (hasCloud) notes.push('Night and day cloud are the mean cover from 06Z to sunrise (drives the low) and from sunrise ' +
-                             'to sunset (drives the high); observed by ASOS, not scored.');
+                             'to sunset (drives the high); observed by ASOS (night on verified days: 70% ASOS + 30% GOES), not scored.');
     const ns = ORDER.filter(n => st.on.has(n) && d.models[n] && d.models[n].h && d.models[n].h.length);
     const nums = {}, clouds = {};
     for (const n of ns) {

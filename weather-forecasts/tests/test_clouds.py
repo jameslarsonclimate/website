@@ -428,3 +428,26 @@ def test_day_context_errors():
     g = ctx["models"]["GFS"]
     assert (g["night_err"], g["day_err"]) == (-100, -25)              # too clear, mostly at night
     assert "IFS" in ctx["missing"] and ctx["night_hours_utc"][0] == "2026-10-13T06:00"
+
+
+def test_night_blend_metar_goes():
+    assert wxc_clouds.night_blend(100.0, 0.0) == 70.0          # 70% METAR + 30% GOES
+    assert wxc_clouds.night_blend(80.0, None) == 80.0          # no GOES: METAR alone
+    assert wxc_clouds.night_blend(None, 50.0) is None          # no METAR: none
+    sky = pd.DataFrame({"valid": pd.date_range("2026-10-13 05:53", periods=25, freq="h", tz="UTC"),
+                        "sky_pct": [100.0] * 25, "clear": False})
+    goes = {f"2026-10-13T{h:02d}:00": 0.0 for h in range(6, 24)}
+    rec = {"times": [f"2026-10-13T{h:02d}:00" for h in range(6, 24)], "cloud_pct": [100.0] * 18}
+    ctx = wxc_clouds.day_context(date(2026, 10, 13), 46.97, -122.90, sky, goes, {"GFS": ("2026-10-12T12", rec)})
+    o = ctx["obs"]
+    assert (o["metar_night_pct"], o["goes_night_pct"], o["night_pct"]) == (100.0, 0.0, 70.0)
+    assert o["day_pct"] == 100.0 and ctx["models"]["GFS"]["night_err"] == 30
+
+
+def test_reblend_stored_night():
+    old = {"obs": {"night_pct": 100.0, "goes_night_pct": 0.0, "day_pct": 50.0},      # saved before the blend
+           "models": {"GFS": {"night_pct": 40.0, "night_err": -60, "day_pct": 50.0, "day_err": 0}}}
+    assert wxc_clouds.reblend_night(old)
+    assert old["obs"]["metar_night_pct"] == 100.0 and old["obs"]["night_pct"] == 70.0
+    assert old["models"]["GFS"]["night_err"] == -30 and old["models"]["GFS"]["day_err"] == 0
+    assert not wxc_clouds.reblend_night(old)                     # idempotent

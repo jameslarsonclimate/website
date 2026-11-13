@@ -1205,6 +1205,8 @@ def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDG
                              "observed in percentage points (positive = too cloudy).")
     days_store = store.setdefault("stations", {}).setdefault(station.icao, {})
     eligible = set(GRIB_ORDER) | set(wxc_clouds.TEXT_MODELS) | set(wxc_ens.MODELS)
+    # stored days follow the current METAR/GOES night blend (no downloads)
+    reblended = sum(wxc_clouds.reblend_night(c) for c in days_store.values())
     todo = []
     for d in verif.get("days", []):
         old = days_store.get(d["date"])
@@ -1212,7 +1214,11 @@ def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDG
             continue
         todo.append(d)
     if not todo:
-        print("  cloud context: up to date")
+        if reblended:
+            CLOUD_CONTEXT.write_text(wxc_verify.dumps(store, indent=1))
+            print(f"  cloud context: night blend updated on {reblended} stored day(s)")
+        else:
+            print("  cloud context: up to date")
         return 0
     todo.sort(key=lambda d: d["date"], reverse=True)        # newest first: what you look at
     first, last = date.fromisoformat(todo[-1]["date"]), date.fromisoformat(todo[0]["date"])
@@ -1261,6 +1267,7 @@ def cloud_context(station, verif, points, fetch_grib=True, budget_s=CONTEXT_BUDG
                 ctx["missing"].pop(name, None)
         if ctx["obs"]["day_pct"] is None and (old.get("obs") or {}).get("day_pct") is not None:
             ctx["obs"] = old["obs"]
+        wxc_clouds.reblend_night(ctx)        # night errors of models kept from an earlier attempt
         ctx["attempts"] = old.get("attempts", 0) + 1
         ctx["complete"] = not ctx["missing"] and ctx["obs"]["day_pct"] is not None \
             and ctx["obs"]["night_pct"] is not None
