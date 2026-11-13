@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-13T20:30:08+00:00",
+  "generated_at_utc": "2026-11-13T20:51:04+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -159,14 +159,14 @@
       "tmax_f": 45.0,
       "tmin_f": 32.0,
       "wind_max_kt": 9.0,
-      "precip_in": 0.18,
+      "precip_in": 0.33,
       "pop06_max_pct": 97,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.97,
           "12-18": 0.95,
-          "18-00": 0.82,
+          "18-00": 0.85,
           "00-06": 0.51
         },
         "n_members": null,
@@ -177,7 +177,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-13T18",
+      "init_time_utc": "2026-11-13T19",
       "valid_range_utc": [
         "2026-11-14T06",
         "2026-11-15T06"
@@ -824,7 +824,7 @@
       "tmax_f": 46.2,
       "tmin_f": 35.2,
       "wind_max_kt": 10.9,
-      "precip_in": 0.38,
+      "precip_in": 0.4,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -923,7 +923,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-13T20:30:08+00:00",
+    "checked_at_utc": "2026-11-13T20:51:04+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
