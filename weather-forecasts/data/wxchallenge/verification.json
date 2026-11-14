@@ -6333,7 +6333,7 @@
     }
   },
   "period_start": "2026-10-26",
-  "generated_at_utc": "2026-11-14T17:30:09+00:00",
+  "generated_at_utc": "2026-11-14T18:00:10+00:00",
   "observations": [
     {
       "date": "2026-10-26",
@@ -7369,7 +7369,7 @@
         },
         "status": "Final Day 1",
         "review": false,
-        "fetched_at_utc": "2026-11-14T16:00:08+00:00"
+        "fetched_at_utc": "2026-11-14T18:00:08+00:00"
       }
     },
     {
@@ -7432,7 +7432,7 @@
         },
         "status": "Final Day 2",
         "review": false,
-        "fetched_at_utc": "2026-11-14T16:00:08+00:00"
+        "fetched_at_utc": "2026-11-14T18:00:08+00:00"
       }
     },
     {
@@ -7501,7 +7501,7 @@
         },
         "status": "Final Day 3",
         "review": false,
-        "fetched_at_utc": "2026-11-14T16:00:08+00:00"
+        "fetched_at_utc": "2026-11-14T18:00:08+00:00"
       }
     },
     {
@@ -7570,7 +7570,7 @@
         },
         "status": "Final Day 4",
         "review": false,
-        "fetched_at_utc": "2026-11-14T16:00:08+00:00"
+        "fetched_at_utc": "2026-11-14T18:00:08+00:00"
       }
     }
   ],
