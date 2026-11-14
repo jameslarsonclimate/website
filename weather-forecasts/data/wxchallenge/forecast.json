@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-14T16:00:08+00:00",
+  "generated_at_utc": "2026-11-14T16:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -128,28 +128,28 @@
       "wind_window": "LST"
     },
     "GFS_MOS": {
-      "tmax_f": 47.0,
-      "tmin_f": 35.0,
+      "tmax_f": 50.0,
+      "tmin_f": 37.0,
       "wind_max_kt": 5.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 44,
+      "pop06_max_pct": 41,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.22,
-          "12-18": 0.21,
-          "18-00": 0.44,
-          "00-06": 0.4
+          "12-18": 0.41,
+          "18-00": 0.34,
+          "00-06": 0.31
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.44,
-          0.793
+          0.41,
+          0.79
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-14T06",
+      "init_time_utc": "2026-11-14T12",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
@@ -184,13 +184,15 @@
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-11-15 available at 2026-11-14 16Z"
+      "tmax_f": 44.0,
+      "tmin_f": 35.0,
+      "wind_max_kt": 10.0,
+      "precip_in": 0.03,
+      "init_time_utc": "2026-11-14T12",
+      "valid_range_utc": [
+        "2026-11-15T06",
+        "2026-11-16T06"
+      ]
     },
     "ENS": {
       "tmax_f": 46.9,
@@ -202,7 +204,7 @@
         "2026-11-15T06",
         "2026-11-16T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 28 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 29 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -819,9 +821,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 47.4,
+      "tmax_f": 47.6,
       "tmin_f": 37.9,
-      "wind_max_kt": 9.4,
+      "wind_max_kt": 9.3,
       "precip_in": 0.03,
       "method": {
         "tmax_f": {
@@ -832,15 +834,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.11,
-            "RRFS": 0.138,
-            "IFS": 0.179,
-            "GFS": 0.21,
-            "GFS_MOS": 0.178,
-            "NBM": 0.185
+            "HRRR": 0.098,
+            "RRFS": 0.124,
+            "IFS": 0.16,
+            "GFS": 0.188,
+            "GFS_MOS": 0.159,
+            "NBM": 0.165,
+            "USL": 0.106
           },
           "excluded_stale": [
             "ENS"
@@ -854,15 +858,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.166,
-            "RRFS": 0.182,
-            "IFS": 0.156,
-            "GFS": 0.074,
-            "GFS_MOS": 0.252,
-            "NBM": 0.17
+            "HRRR": 0.129,
+            "RRFS": 0.142,
+            "IFS": 0.121,
+            "GFS": 0.058,
+            "GFS_MOS": 0.197,
+            "NBM": 0.132,
+            "USL": 0.22
           },
           "excluded_stale": [
             "ENS"
@@ -876,15 +882,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.23,
-            "RRFS": 0.19,
-            "IFS": 0.175,
-            "GFS": 0.114,
-            "GFS_MOS": 0.154,
-            "NBM": 0.137
+            "HRRR": 0.21,
+            "RRFS": 0.173,
+            "IFS": 0.16,
+            "GFS": 0.104,
+            "GFS_MOS": 0.141,
+            "NBM": 0.125,
+            "USL": 0.086
           },
           "excluded_stale": [
             "ENS"
@@ -898,15 +906,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.163,
-            "RRFS": 0.169,
-            "IFS": 0.184,
-            "GFS": 0.155,
-            "GFS_MOS": 0.154,
-            "NBM": 0.175
+            "HRRR": 0.138,
+            "RRFS": 0.144,
+            "IFS": 0.156,
+            "GFS": 0.132,
+            "GFS_MOS": 0.131,
+            "NBM": 0.149,
+            "USL": 0.152
           },
           "excluded_stale": [
             "ENS"
@@ -917,11 +927,10 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-14T16:00:08+00:00",
+    "checked_at_utc": "2026-11-14T16:30:08+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "USL"
+      "HRRRCAST"
     ],
     "carried_over": []
   },
@@ -958,6 +967,24 @@
         "tmax_f": null,
         "tmin_f": null,
         "wind_max_kt": null,
+        "precip_in": 0.03,
+        "init_time_utc": "2026-11-14T12"
+      }
+    },
+    "GFS_MOS": {
+      "12": {
+        "tmax_f": 50.0,
+        "tmin_f": 37.0,
+        "wind_max_kt": 5.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-14T12"
+      }
+    },
+    "USL": {
+      "12": {
+        "tmax_f": 44.0,
+        "tmin_f": 35.0,
+        "wind_max_kt": 10.0,
         "precip_in": 0.03,
         "init_time_utc": "2026-11-14T12"
       }
