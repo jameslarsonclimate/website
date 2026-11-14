@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-14T16:30:08+00:00",
+  "generated_at_utc": "2026-11-14T17:06:22+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -109,18 +109,18 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 46.4,
-      "tmin_f": 43.3,
-      "wind_max_kt": 10.5,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-11-14T06",
+      "tmax_f": 47.1,
+      "tmin_f": 42.0,
+      "wind_max_kt": 13.6,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-11-14T12",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 10.5,
+      "wind_max_kt_06z": 13.6,
       "wind_window_utc": [
         "2026-11-15T09",
         "2026-11-16T09"
@@ -160,24 +160,24 @@
       "tmin_f": 37.0,
       "wind_max_kt": 9.0,
       "precip_in": 0.01,
-      "pop06_max_pct": 38,
+      "pop06_max_pct": 45,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.0,
           "12-18": 0.38,
-          "18-00": 0.29,
+          "18-00": 0.45,
           "00-06": 0.17
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.38,
-          0.635
+          0.45,
+          0.717
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-14T15",
+      "init_time_utc": "2026-11-14T16",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
@@ -821,9 +821,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 47.6,
-      "tmin_f": 37.9,
-      "wind_max_kt": 9.3,
+      "tmax_f": 47.7,
+      "tmin_f": 37.8,
+      "wind_max_kt": 9.6,
       "precip_in": 0.03,
       "method": {
         "tmax_f": {
@@ -927,7 +927,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-14T16:30:08+00:00",
+    "checked_at_utc": "2026-11-14T17:06:22+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -986,6 +986,15 @@
         "tmin_f": 35.0,
         "wind_max_kt": 10.0,
         "precip_in": 0.03,
+        "init_time_utc": "2026-11-14T12"
+      }
+    },
+    "GFS": {
+      "12": {
+        "tmax_f": 47.1,
+        "tmin_f": 42.0,
+        "wind_max_kt": 13.6,
+        "precip_in": 0.04,
         "init_time_utc": "2026-11-14T12"
       }
     }
