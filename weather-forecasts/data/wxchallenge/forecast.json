@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-14T22:29:48+00:00",
+  "generated_at_utc": "2026-11-14T22:36:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -185,10 +185,10 @@
     },
     "USL": {
       "tmax_f": 44.0,
-      "tmin_f": 35.0,
+      "tmin_f": 36.0,
       "wind_max_kt": 10.0,
       "precip_in": 0.03,
-      "init_time_utc": "2026-11-14T12",
+      "init_time_utc": "2026-11-14T22",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
@@ -204,7 +204,7 @@
         "2026-11-15T06",
         "2026-11-16T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 34 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 35 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -822,7 +822,7 @@
     },
     "CONSENSUS": {
       "tmax_f": 47.4,
-      "tmin_f": 37.9,
+      "tmin_f": 38.1,
       "wind_max_kt": 10.3,
       "precip_in": 0.04,
       "method": {
@@ -927,7 +927,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-14T22:29:48+00:00",
+    "checked_at_utc": "2026-11-14T22:36:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1022,6 +1022,13 @@
         "wind_max_kt": 10.0,
         "precip_in": 0.03,
         "init_time_utc": "2026-11-14T12"
+      },
+      "22": {
+        "tmax_f": 44.0,
+        "tmin_f": 36.0,
+        "wind_max_kt": 10.0,
+        "precip_in": 0.03,
+        "init_time_utc": "2026-11-14T22"
       }
     },
     "GFS": {
