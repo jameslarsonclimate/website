@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-14T22:48:08+00:00",
+  "generated_at_utc": "2026-11-14T23:03:42+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -109,18 +109,18 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 47.1,
-      "tmin_f": 42.0,
-      "wind_max_kt": 13.6,
-      "precip_in": 0.04,
-      "init_time_utc": "2026-11-14T12",
+      "tmax_f": 46.2,
+      "tmin_f": 42.6,
+      "wind_max_kt": 11.8,
+      "precip_in": 0.03,
+      "init_time_utc": "2026-11-14T18",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 13.6,
+      "wind_max_kt_06z": 11.8,
       "wind_window_utc": [
         "2026-11-15T09",
         "2026-11-16T09"
@@ -160,24 +160,24 @@
       "tmin_f": 37.0,
       "wind_max_kt": 9.0,
       "precip_in": 0.01,
-      "pop06_max_pct": 46,
+      "pop06_max_pct": 34,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.0,
+          "06-12": 0.01,
           "12-18": 0.34,
-          "18-00": 0.46,
+          "18-00": 0.3,
           "00-06": 0.22
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.46,
-          0.722
+          0.34,
+          0.643
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-14T21",
+      "init_time_utc": "2026-11-14T22",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
@@ -821,9 +821,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 47.4,
+      "tmax_f": 47.2,
       "tmin_f": 38.1,
-      "wind_max_kt": 10.3,
+      "wind_max_kt": 10.1,
       "precip_in": 0.04,
       "method": {
         "tmax_f": {
@@ -927,7 +927,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-14T22:48:08+00:00",
+    "checked_at_utc": "2026-11-14T23:03:42+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1038,6 +1038,13 @@
         "wind_max_kt": 13.6,
         "precip_in": 0.04,
         "init_time_utc": "2026-11-14T12"
+      },
+      "18": {
+        "tmax_f": 46.2,
+        "tmin_f": 42.6,
+        "wind_max_kt": 11.8,
+        "precip_in": 0.03,
+        "init_time_utc": "2026-11-14T18"
       }
     },
     "GEFS": {
