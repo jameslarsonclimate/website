@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-14T22:19:51+00:00",
+  "generated_at_utc": "2026-11-14T23:21:14+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -85,11 +85,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 46.6,
+      "tmax_f": 46.4,
       "tmin_f": 28.3,
       "wind_max_kt": 11.0,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-14T12",
+      "init_time_utc": "2026-11-14T18",
       "valid_range_utc": [
         "2026-11-15 06:00:00",
         "2026-11-16 06:00:00"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-14T21",
+      "init_time_utc": "2026-11-14T22",
       "valid_range_utc": [
         "2026-11-15T06",
         "2026-11-16T06"
@@ -163,7 +163,7 @@
         "2026-11-15T06",
         "2026-11-16T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 34 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 35 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -957,7 +957,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-14T22:19:51+00:00",
+    "checked_at_utc": "2026-11-14T23:21:14+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
