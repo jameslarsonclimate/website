@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-15**, scored over 2026-11-15T06Z to 2026-11-16T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-15T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-14T17:06:22+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-14T17:30:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -48,7 +48,7 @@ Notes:
 - IFS_HRES: not in the consensus
 - GFS_MOS: MOS Q06 categories [0, 0, 0, 0] -> midpoints
 - NBM: NBS Q06 amounts
-- ENS: ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 29 h old (limit 24 h); not scored and left out of the consensus
+- ENS: ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 30 h old (limit 24 h); not scored and left out of the consensus
 - GEFS: ensemble mean of 31 members; not in the consensus
 - HRRRCAST: failed this run (HRRRCast covers the CONUS HRRR domain only)
 - REFS: median of 14 members
@@ -612,7 +612,7 @@ Cloud cover (%) each hour of the day in progress. GOES = satellite cloud fractio
 | 11-14 14Z | Sat 05:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 96 | 100 | 100 | 100 |
 | 11-14 15Z | Sat 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 100 | 100 |
 | 11-14 16Z | Sat 07:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 96 | 100 | 99 | 100 |
-| 11-14 17Z | Sat 08:00 |  | 100 | 100 | 100 |  | 100 |  |  | 97 | 100 | 98 | 100 |
+| 11-14 17Z | Sat 08:00 | 100 | 100 | 100 | 100 |  | 100 |  |  | 97 | 100 | 98 | 100 |
 
 ## Dewpoint so far today (2026-11-14, observed vs forecast)
 
@@ -635,7 +635,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-14)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-14 17:06Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-14 17:30Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
