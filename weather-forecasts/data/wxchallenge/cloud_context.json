@@ -6019,8 +6019,101 @@
     "missing": {},
     "attempts": 1,
     "complete": true
+   },
+   "2026-11-13": {
+    "date": "2026-11-13",
+    "day_hours_utc": [
+     "2026-11-13T18:00",
+     "2026-11-14T00:00"
+    ],
+    "night_hours_utc": [
+     "2026-11-13T06:00",
+     "2026-11-13T17:00"
+    ],
+    "obs": {
+     "day_pct": 13.4,
+     "night_pct": 31.5,
+     "metar_night_pct": 5.2,
+     "goes_day_pct": 100.0,
+     "goes_night_pct": 92.7
+    },
+    "models": {
+     "HRRR": {
+      "init_time_utc": "2026-11-12T18",
+      "day_pct": 100.0,
+      "night_pct": 91.6,
+      "day_err": 87,
+      "night_err": 60
+     },
+     "RRFS": {
+      "init_time_utc": "2026-11-12T18",
+      "day_pct": 100.0,
+      "night_pct": 97.1,
+      "day_err": 87,
+      "night_err": 66
+     },
+     "IFS": {
+      "init_time_utc": "2026-11-12T12",
+      "day_pct": 100.0,
+      "night_pct": 82.0,
+      "day_err": 87,
+      "night_err": 50
+     },
+     "IFS_HRES": {
+      "init_time_utc": "2026-11-12T12",
+      "day_pct": 100.0,
+      "night_pct": 82.2,
+      "day_err": 87,
+      "night_err": 51
+     },
+     "GFS": {
+      "init_time_utc": "2026-11-12T18",
+      "day_pct": 100.0,
+      "night_pct": 79.3,
+      "day_err": 87,
+      "night_err": 48
+     },
+     "GFS_MOS": {
+      "init_time_utc": "2026-11-12T18",
+      "day_pct": 73.3,
+      "night_pct": 16.2,
+      "day_err": 60,
+      "night_err": -15
+     },
+     "NBM": {
+      "init_time_utc": "2026-11-12T22",
+      "day_pct": 92.0,
+      "night_pct": 73.2,
+      "day_err": 79,
+      "night_err": 42
+     },
+     "ENS": {
+      "init_time_utc": "2026-11-12T12",
+      "day_pct": 99.5,
+      "night_pct": 76.7,
+      "day_err": 86,
+      "night_err": 45
+     },
+     "GEFS": {
+      "init_time_utc": "2026-11-12T18",
+      "day_pct": 99.8,
+      "night_pct": 75.3,
+      "day_err": 86,
+      "night_err": 44
+     },
+     "USL": {
+      "init_time_utc": "2026-11-12T22",
+      "day_pct": 99.0,
+      "night_pct": 79.8,
+      "day_err": 86,
+      "night_err": 48
+     }
+    },
+    "missing": {},
+    "attempts": 1,
+    "complete": true
    }
   }
  },
- "generated_at_utc": "2026-11-13T19:28:39+00:00"
+ "generated_at_utc": "2026-11-14T15:18:17+00:00"
 }

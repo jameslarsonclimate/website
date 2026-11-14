@@ -1,8 +1,6 @@
 {
  "checks": [
-  "2026-11-13T13:00:41+00:00",
-  "2026-11-13T19:30:08+00:00",
-  "2026-11-13T21:30:08+00:00"
+  "2026-11-14T13:05:09+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -2172,9 +2170,9 @@
     "2026-11-13": {
      "day": 4,
      "year": "26-27",
-     "status": "As of 21Z",
-     "final": false,
-     "fetched_at_utc": "2026-11-13T21:30:08+00:00",
+     "status": "Final Day 4",
+     "final": true,
+     "fetched_at_utc": "2026-11-14T13:05:09+00:00",
      "forecasters": {
       "Kraken": {
        "forecast": {
@@ -2190,13 +2188,13 @@
         "error": {
          "tmax_f": 4,
          "tmin_f": 2,
-         "wind_max_kt": 1.0,
+         "wind_max_kt": 6.0,
          "precip_in": 0.4
         },
         "penalty": 0,
-        "points": 7.4,
-        "cum_points": 30.1,
-        "rank": 9,
+        "points": 12.4,
+        "cum_points": 35.1,
+        "rank": 21,
         "prev_rank": 16
        }
       },
@@ -2214,13 +2212,13 @@
         "error": {
          "tmax_f": 5,
          "tmin_f": 2,
-         "wind_max_kt": 1.5,
+         "wind_max_kt": 5.5,
          "precip_in": 0.8
         },
         "penalty": 0,
-        "points": 9.3,
-        "cum_points": 31.6,
-        "rank": 22,
+        "points": 13.3,
+        "cum_points": 35.6,
+        "rank": 27,
         "prev_rank": 10
        }
       },
@@ -2238,13 +2236,13 @@
         "error": {
          "tmax_f": 6,
          "tmin_f": 0,
-         "wind_max_kt": 1.0,
+         "wind_max_kt": 6.0,
          "precip_in": 0.4
         },
         "penalty": 0,
-        "points": 7.4,
-        "cum_points": 34.7,
-        "rank": 63,
+        "points": 12.4,
+        "cum_points": 39.7,
+        "rank": 103,
         "prev_rank": 90
        }
       },
@@ -2262,38 +2260,14 @@
         "error": {
          "tmax_f": 5,
          "tmin_f": 1,
-         "wind_max_kt": 1.5,
+         "wind_max_kt": 5.5,
          "precip_in": 0.0
         },
         "penalty": 0,
-        "points": 7.5,
-        "cum_points": 36.4,
-        "rank": 109,
+        "points": 11.5,
+        "cum_points": 40.4,
+        "rank": 120,
         "prev_rank": 138
-       }
-      },
-      "Bigfut": {
-       "forecast": {
-        "tmax_f": 42,
-        "tmin_f": 31,
-        "wind_max_kt": 7,
-        "precip_in": 0.02
-       },
-       "flag": null,
-       "cat": 2,
-       "absences": 0,
-       "official": {
-        "error": {
-         "tmax_f": 5,
-         "tmin_f": 2,
-         "wind_max_kt": 1.5,
-         "precip_in": 0.8
-        },
-        "penalty": 0,
-        "points": 9.3,
-        "cum_points": 37.8,
-        "rank": 149,
-        "prev_rank": 131
        }
       },
       "Wndigo": {
@@ -2310,14 +2284,38 @@
         "error": {
          "tmax_f": 5,
          "tmin_f": 2,
-         "wind_max_kt": 2.0,
+         "wind_max_kt": 5.0,
          "precip_in": 0.4
         },
         "penalty": 0,
-        "points": 9.4,
-        "cum_points": 38.7,
-        "rank": 179,
+        "points": 12.4,
+        "cum_points": 41.7,
+        "rank": 165,
         "prev_rank": 146
+       }
+      },
+      "Bigfut": {
+       "forecast": {
+        "tmax_f": 42,
+        "tmin_f": 31,
+        "wind_max_kt": 7,
+        "precip_in": 0.02
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 5,
+         "tmin_f": 2,
+         "wind_max_kt": 5.5,
+         "precip_in": 0.8
+        },
+        "penalty": 0,
+        "points": 13.3,
+        "cum_points": 41.8,
+        "rank": 169,
+        "prev_rank": 131
        }
       },
       "Nessie": {
@@ -2334,13 +2332,13 @@
         "error": {
          "tmax_f": 5,
          "tmin_f": 2,
-         "wind_max_kt": 1.5,
+         "wind_max_kt": 5.5,
          "precip_in": 0.8
         },
         "penalty": 0,
-        "points": 9.3,
-        "cum_points": 43.2,
-        "rank": 361,
+        "points": 13.3,
+        "cum_points": 47.2,
+        "rank": 379,
         "prev_rank": 370
        }
       },
@@ -2358,12 +2356,12 @@
         "error": {
          "tmax_f": 6,
          "tmin_f": 2,
-         "wind_max_kt": 1.5,
+         "wind_max_kt": 5.5,
          "precip_in": 0.0
         },
         "penalty": 0,
-        "points": 9.5,
-        "cum_points": 46.6,
+        "points": 13.5,
+        "cum_points": 50.6,
         "rank": 481,
         "prev_rank": 514
        }
@@ -2376,5 +2374,5 @@
    "done_for": "2026-11-11"
   }
  },
- "generated_at_utc": "2026-11-13T21:30:08+00:00"
+ "generated_at_utc": "2026-11-14T13:05:09+00:00"
 }
