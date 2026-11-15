@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-16**, scored over 2026-11-16T06Z to 2026-11-17T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-16T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-15T17:00:23+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-15T17:30:05+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -48,7 +48,7 @@ Notes:
 - IFS_HRES: not in the consensus
 - GFS_MOS: MOS Q06 categories [1, 3, 3, 2] -> midpoints
 - NBM: NBS Q06 amounts
-- ENS: ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 53 h old (limit 24 h); not scored and left out of the consensus
+- ENS: ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 54 h old (limit 24 h); not scored and left out of the consensus
 - GEFS: ensemble mean of 31 members; not in the consensus
 - HRRRCAST: failed this run (HRRRCast covers the CONUS HRRR domain only)
 - REFS: median of 14 members
@@ -265,33 +265,33 @@ Precipitation (in), accumulated since the start of the day (06Z):
 
 Total cloud cover (%):
 
-| UTC | Local (AKST) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | USL | ENS | GEFS |
-| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-16 06Z | Sun 21:00 | 43 | 67 | 100 | 100 | 97 | 100 | 83 | 98 | 81 |
-| 11-16 07Z | Sun 22:00 | 100 | 78 |  | 100 |  |  | 89 | 98 | 82 |
-| 11-16 08Z | Sun 23:00 | 100 | 100 |  | 99 |  |  | 96 | 99 | 84 |
-| 11-16 09Z | Mon 00:00 | 100 | 100 | 100 | 100 | 100 | 75 | 100 | 99 | 86 |
-| 11-16 10Z | Mon 01:00 | 100 | 100 |  | 100 |  |  | 100 | 100 | 88 |
-| 11-16 11Z | Mon 02:00 | 100 | 100 |  | 100 |  |  | 100 | 100 | 90 |
-| 11-16 12Z | Mon 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 92 |
-| 11-16 13Z | Mon 04:00 | 100 | 100 |  | 100 |  |  | 100 | 98 | 94 |
-| 11-16 14Z | Mon 05:00 | 100 | 100 |  | 100 |  |  | 100 | 95 | 97 |
-| 11-16 15Z | Mon 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 93 | 100 |
-| 11-16 16Z | Mon 07:00 | 100 | 100 |  | 100 |  |  | 100 | 90 | 99 |
-| 11-16 17Z | Mon 08:00 | 100 | 100 |  | 100 |  |  | 100 | 86 | 99 |
-| 11-16 18Z | Mon 09:00 | 100 | 100 | 47 | 44 | 100 | 100 | 100 | 85 | 99 |
-| 11-16 19Z | Mon 10:00 | 100 | 100 |  | 100 |  |  | 100 | 86 | 98 |
-| 11-16 20Z | Mon 11:00 | 100 | 100 |  | 100 |  |  | 100 | 89 | 98 |
-| 11-16 21Z | Mon 12:00 | 100 | 99 | 100 | 100 | 100 | 100 | 100 | 92 | 98 |
-| 11-16 22Z | Mon 13:00 | 100 | 100 |  | 100 |  |  | 100 | 92 | 98 |
-| 11-16 23Z | Mon 14:00 | 100 | 100 |  | 100 |  |  | 100 | 93 | 99 |
-| 11-17 00Z | Mon 15:00 | 100 | 98 | 100 | 100 | 100 | 100 | 100 | 94 | 99 |
-| 11-17 01Z | Mon 16:00 | 100 | 86 |  | 100 |  |  | 100 | 93 | 100 |
-| 11-17 02Z | Mon 17:00 | 100 | 84 |  | 98 |  |  | 100 | 93 | 100 |
-| 11-17 03Z | Mon 18:00 | 33 | 50 | 100 | 100 | 100 | 100 | 100 | 92 | 100 |
-| 11-17 04Z | Mon 19:00 | 98 | 57 |  | 100 |  |  | 100 | 91 | 100 |
-| 11-17 05Z | Mon 20:00 | 100 | 66 |  | 100 |  |  | 100 | 90 | 100 |
-| 11-17 06Z | Mon 21:00 | 100 | 81 | 98 | 100 | 100 | 100 | 100 | 90 | 100 |
+| UTC | Local (AKST) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS | GEFS |
+| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
+| 11-16 06Z | Sun 21:00 | 43 | 67 | 100 | 100 | 97 | 100 | 74 | 83 | 98 | 81 |
+| 11-16 07Z | Sun 22:00 | 100 | 78 |  | 100 |  |  | 75 | 89 | 98 | 82 |
+| 11-16 08Z | Sun 23:00 | 100 | 100 |  | 99 |  |  | 74 | 96 | 99 | 84 |
+| 11-16 09Z | Mon 00:00 | 100 | 100 | 100 | 100 | 100 | 75 | 74 | 100 | 99 | 86 |
+| 11-16 10Z | Mon 01:00 | 100 | 100 |  | 100 |  |  | 86 | 100 | 100 | 88 |
+| 11-16 11Z | Mon 02:00 | 100 | 100 |  | 100 |  |  | 91 | 100 | 100 | 90 |
+| 11-16 12Z | Mon 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 92 | 100 | 100 | 92 |
+| 11-16 13Z | Mon 04:00 | 100 | 100 |  | 100 |  |  | 95 | 100 | 98 | 94 |
+| 11-16 14Z | Mon 05:00 | 100 | 100 |  | 100 |  |  | 95 | 100 | 95 | 97 |
+| 11-16 15Z | Mon 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 96 | 100 | 93 | 100 |
+| 11-16 16Z | Mon 07:00 | 100 | 100 |  | 100 |  |  | 96 | 100 | 90 | 99 |
+| 11-16 17Z | Mon 08:00 | 100 | 100 |  | 100 |  |  | 94 | 100 | 86 | 99 |
+| 11-16 18Z | Mon 09:00 | 100 | 100 | 47 | 44 | 100 | 100 | 94 | 100 | 85 | 99 |
+| 11-16 19Z | Mon 10:00 | 100 | 100 |  | 100 |  |  |  | 100 | 86 | 98 |
+| 11-16 20Z | Mon 11:00 | 100 | 100 |  | 100 |  |  |  | 100 | 89 | 98 |
+| 11-16 21Z | Mon 12:00 | 100 | 99 | 100 | 100 | 100 | 100 | 95 | 100 | 92 | 98 |
+| 11-16 22Z | Mon 13:00 | 100 | 100 |  | 100 |  |  |  | 100 | 92 | 98 |
+| 11-16 23Z | Mon 14:00 | 100 | 100 |  | 100 |  |  |  | 100 | 93 | 99 |
+| 11-17 00Z | Mon 15:00 | 100 | 98 | 100 | 100 | 100 | 100 | 92 | 100 | 94 | 99 |
+| 11-17 01Z | Mon 16:00 | 100 | 86 |  | 100 |  |  |  | 100 | 93 | 100 |
+| 11-17 02Z | Mon 17:00 | 100 | 84 |  | 98 |  |  |  | 100 | 93 | 100 |
+| 11-17 03Z | Mon 18:00 | 33 | 50 | 100 | 100 | 100 | 100 | 77 | 100 | 92 | 100 |
+| 11-17 04Z | Mon 19:00 | 98 | 57 |  | 100 |  |  |  | 100 | 91 | 100 |
+| 11-17 05Z | Mon 20:00 | 100 | 66 |  | 100 |  |  |  | 100 | 90 | 100 |
+| 11-17 06Z | Mon 21:00 | 100 | 81 | 98 | 100 | 100 | 100 | 78 | 100 | 90 | 100 |
 
 ## Track record this period
 
@@ -645,7 +645,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-15)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-15 17:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-15 17:30Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
