@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-15T18:30:08+00:00",
+  "generated_at_utc": "2026-11-15T19:01:03+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -89,17 +89,17 @@
       "wind_window": "LST"
     },
     "IFS_HRES": {
-      "tmax_f": 46.9,
-      "tmin_f": 37.9,
-      "wind_max_kt": 20.5,
-      "wind_max_kt_06z": 20.5,
+      "tmax_f": 44.2,
+      "tmin_f": 37.4,
+      "wind_max_kt": 20.4,
+      "wind_max_kt_06z": 20.4,
       "wind_window": "LST",
       "wind_window_utc": [
         "2026-11-16T09",
         "2026-11-17T09"
       ],
-      "precip_in": 1.11,
-      "init_time_utc": "2026-11-15T06",
+      "precip_in": 0.94,
+      "init_time_utc": "2026-11-15T12",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
@@ -177,7 +177,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-15T17",
+      "init_time_utc": "2026-11-15T18",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
@@ -927,7 +927,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-15T18:30:08+00:00",
+    "checked_at_utc": "2026-11-15T19:01:03+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -942,6 +942,13 @@
         "wind_max_kt": 13.0,
         "precip_in": 0.54,
         "init_time_utc": "2026-11-15T12"
+      },
+      "18": {
+        "tmax_f": 44.0,
+        "tmin_f": 37.0,
+        "wind_max_kt": 14.0,
+        "precip_in": 0.54,
+        "init_time_utc": "2026-11-15T18"
       }
     },
     "HRRR": {
@@ -1004,6 +1011,15 @@
         "tmin_f": 38.1,
         "wind_max_kt": 14.3,
         "precip_in": 0.77,
+        "init_time_utc": "2026-11-15T12"
+      }
+    },
+    "IFS_HRES": {
+      "12": {
+        "tmax_f": 44.2,
+        "tmin_f": 37.4,
+        "wind_max_kt": 20.4,
+        "precip_in": 0.94,
         "init_time_utc": "2026-11-15T12"
       }
     }
