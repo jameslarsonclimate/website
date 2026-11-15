@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-15T15:05:26+00:00",
+  "generated_at_utc": "2026-11-15T15:37:04+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -202,7 +202,7 @@
         "2026-11-16T06",
         "2026-11-17T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 51 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 52 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -917,7 +917,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-15T15:05:26+00:00",
+    "checked_at_utc": "2026-11-15T15:37:04+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST",
