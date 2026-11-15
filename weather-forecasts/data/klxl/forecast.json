@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-15T20:16:13+00:00",
+  "generated_at_utc": "2026-11-15T22:18:25+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 49.4,
-      "tmin_f": 32.3,
-      "wind_max_kt": 10.2,
+      "tmax_f": 50.5,
+      "tmin_f": 32.5,
+      "wind_max_kt": 10.4,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-15T12",
+      "init_time_utc": "2026-11-15T18",
       "valid_range_utc": [
         "2026-11-16 06:00:00",
         "2026-11-17 06:00:00"
@@ -119,7 +119,7 @@
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-15T12",
+      "init_time_utc": "2026-11-15T18",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-15T20",
+      "init_time_utc": "2026-11-15T21",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
@@ -163,7 +163,7 @@
         "2026-11-16T06",
         "2026-11-17T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 57 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 58 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -655,10 +655,6 @@
         },
         "n_members": 31,
         "basis": "member fraction"
-      },
-      "stale": {
-        "fetched_at_utc": "2026-11-15T19:15:14+00:00",
-        "error": "Open-Meteo meta failed: HTTPSConnectionPool(host='ensemble-api.open-meteo.com', port=443): Read timed out. (read timeout=45)"
       }
     },
     "HRRRCAST": {
@@ -863,8 +859,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 53.1,
-      "tmin_f": 30.5,
+      "tmax_f": 53.2,
+      "tmin_f": 30.6,
       "wind_max_kt": 11.4,
       "precip_in": 0.0,
       "method": {
@@ -960,15 +956,10 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-15T20:16:13+00:00",
-    "connectivity": true,
-    "failed": [
-      "GEFS"
-    ],
-    "carried_over": [
-      "GEFS"
-    ],
-    "message": "Connectivity issues: the update at 20:16Z couldn't reach some data sources; latest forecasts not pulled for GEFS. Showing the last good forecasts for GEFS."
+    "ok": true,
+    "checked_at_utc": "2026-11-15T22:18:25+00:00",
+    "connectivity": false,
+    "failed": [],
+    "carried_over": []
   }
 }
