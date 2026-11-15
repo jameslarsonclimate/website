@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-15T22:57:51+00:00",
+  "generated_at_utc": "2026-11-15T23:35:33+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -106,25 +106,21 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-11-15T22:25:26+00:00",
-        "error": "Open-Meteo meta failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 45.1,
-      "tmin_f": 37.7,
-      "wind_max_kt": 21.5,
-      "precip_in": 1.34,
-      "init_time_utc": "2026-11-15T12",
+      "tmax_f": 45.2,
+      "tmin_f": 38.2,
+      "wind_max_kt": 23.6,
+      "precip_in": 0.95,
+      "init_time_utc": "2026-11-15T18",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 21.5,
+      "wind_max_kt_06z": 23.6,
       "wind_window_utc": [
         "2026-11-16T09",
         "2026-11-17T09"
@@ -208,7 +204,7 @@
         "2026-11-16T06",
         "2026-11-17T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 59 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 60 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -825,10 +821,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 44.6,
+      "tmax_f": 44.7,
       "tmin_f": 37.1,
-      "wind_max_kt": 16.6,
-      "precip_in": 0.78,
+      "wind_max_kt": 16.9,
+      "precip_in": 0.72,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -930,17 +926,13 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-15T22:57:51+00:00",
-    "connectivity": true,
+    "ok": true,
+    "checked_at_utc": "2026-11-15T23:35:33+00:00",
+    "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "IFS_HRES"
+      "HRRRCAST"
     ],
-    "carried_over": [
-      "IFS_HRES"
-    ],
-    "message": "Connectivity issues: the update at 22:57Z couldn't reach some data sources; latest forecasts not pulled for HRRRCAST, IFS_HRES. Showing the last good forecasts for IFS_HRES."
+    "carried_over": []
   },
   "earlier_runs": {
     "NBM": {
@@ -1046,6 +1038,13 @@
         "wind_max_kt": 21.5,
         "precip_in": 1.34,
         "init_time_utc": "2026-11-15T12"
+      },
+      "18": {
+        "tmax_f": 45.2,
+        "tmin_f": 38.2,
+        "wind_max_kt": 23.6,
+        "precip_in": 0.95,
+        "init_time_utc": "2026-11-15T18"
       }
     },
     "GEFS": {
