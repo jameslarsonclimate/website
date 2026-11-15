@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-15T16:00:08+00:00",
+  "generated_at_utc": "2026-11-15T16:45:33+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -128,28 +128,28 @@
       "wind_window": "LST"
     },
     "GFS_MOS": {
-      "tmax_f": 46.0,
-      "tmin_f": 39.0,
+      "tmax_f": 44,
+      "tmin_f": 40,
       "wind_max_kt": 15.0,
-      "precip_in": 0.71,
-      "pop06_max_pct": 91,
+      "precip_in": 0.96,
+      "pop06_max_pct": 89,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.3,
-          "12-18": 0.77,
-          "18-00": 0.91,
+          "06-12": 0.48,
+          "12-18": 0.89,
+          "18-00": 0.89,
           "00-06": 0.81
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.91,
-          0.997
+          0.89,
+          0.999
         ]
       },
-      "precip_note": "MOS Q06 categories [0, 2, 3, 2] -> midpoints",
-      "init_time_utc": "2026-11-15T06",
+      "precip_note": "MOS Q06 categories [1, 3, 3, 2] -> midpoints",
+      "init_time_utc": "2026-11-15T12",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
@@ -184,13 +184,15 @@
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-11-16 available at 2026-11-15 16Z"
+      "tmax_f": 42.0,
+      "tmin_f": 35.0,
+      "wind_max_kt": 18.0,
+      "precip_in": 1.07,
+      "init_time_utc": "2026-11-15T12",
+      "valid_range_utc": [
+        "2026-11-16T06",
+        "2026-11-17T06"
+      ]
     },
     "ENS": {
       "tmax_f": 44.3,
@@ -202,7 +204,7 @@
         "2026-11-16T06",
         "2026-11-17T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 52 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 53 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -819,10 +821,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 45.1,
-      "tmin_f": 37.4,
-      "wind_max_kt": 16.8,
-      "precip_in": 0.73,
+      "tmax_f": 44.5,
+      "tmin_f": 37.3,
+      "wind_max_kt": 16.7,
+      "precip_in": 0.82,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -832,15 +834,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.111,
-            "RRFS": 0.138,
-            "IFS": 0.183,
-            "GFS": 0.204,
-            "GFS_MOS": 0.175,
-            "NBM": 0.189
+            "HRRR": 0.099,
+            "RRFS": 0.123,
+            "IFS": 0.164,
+            "GFS": 0.182,
+            "GFS_MOS": 0.156,
+            "NBM": 0.169,
+            "USL": 0.108
           },
           "excluded_stale": [
             "ENS"
@@ -854,15 +858,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.15,
-            "RRFS": 0.167,
-            "IFS": 0.155,
-            "GFS": 0.076,
-            "GFS_MOS": 0.273,
-            "NBM": 0.179
+            "HRRR": 0.116,
+            "RRFS": 0.129,
+            "IFS": 0.12,
+            "GFS": 0.059,
+            "GFS_MOS": 0.211,
+            "NBM": 0.138,
+            "USL": 0.227
           },
           "excluded_stale": [
             "ENS"
@@ -876,15 +882,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.232,
-            "RRFS": 0.185,
-            "IFS": 0.181,
-            "GFS": 0.116,
-            "GFS_MOS": 0.15,
-            "NBM": 0.138
+            "HRRR": 0.209,
+            "RRFS": 0.166,
+            "IFS": 0.163,
+            "GFS": 0.104,
+            "GFS_MOS": 0.135,
+            "NBM": 0.124,
+            "USL": 0.1
           },
           "excluded_stale": [
             "ENS"
@@ -898,15 +906,17 @@
             "IFS",
             "GFS",
             "GFS_MOS",
-            "NBM"
+            "NBM",
+            "USL"
           ],
           "weights": {
-            "HRRR": 0.164,
-            "RRFS": 0.171,
-            "IFS": 0.18,
-            "GFS": 0.156,
-            "GFS_MOS": 0.154,
-            "NBM": 0.175
+            "HRRR": 0.14,
+            "RRFS": 0.146,
+            "IFS": 0.153,
+            "GFS": 0.132,
+            "GFS_MOS": 0.131,
+            "NBM": 0.149,
+            "USL": 0.149
           },
           "excluded_stale": [
             "ENS"
@@ -917,11 +927,10 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-15T16:00:08+00:00",
+    "checked_at_utc": "2026-11-15T16:45:33+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "USL"
+      "HRRRCAST"
     ],
     "carried_over": []
   },
@@ -959,6 +968,24 @@
         "tmin_f": null,
         "wind_max_kt": null,
         "precip_in": 0.42,
+        "init_time_utc": "2026-11-15T12"
+      }
+    },
+    "GFS_MOS": {
+      "12": {
+        "tmax_f": 44,
+        "tmin_f": 40,
+        "wind_max_kt": 15.0,
+        "precip_in": 0.96,
+        "init_time_utc": "2026-11-15T12"
+      }
+    },
+    "USL": {
+      "12": {
+        "tmax_f": 42.0,
+        "tmin_f": 35.0,
+        "wind_max_kt": 18.0,
+        "precip_in": 1.07,
         "init_time_utc": "2026-11-15T12"
       }
     }
