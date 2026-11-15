@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-15T19:01:03+00:00",
+  "generated_at_utc": "2026-11-15T19:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -32,18 +32,18 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 42.0,
-      "tmin_f": 38.1,
-      "wind_max_kt": 12.0,
+      "tmax_f": 41.3,
+      "tmin_f": 38.0,
+      "wind_max_kt": 13.3,
       "precip_in": 0.35,
-      "init_time_utc": "2026-11-15T12",
+      "init_time_utc": "2026-11-15T18",
       "valid_range_utc": [
         "2026-11-16T06",
         "2026-11-17T06"
       ],
       "n_steps": 25,
       "temp_source": "instantaneous 2 m T",
-      "wind_max_kt_06z": 12.0,
+      "wind_max_kt_06z": 13.3,
       "wind_window_utc": [
         "2026-11-16T09",
         "2026-11-17T09"
@@ -204,7 +204,7 @@
         "2026-11-16T06",
         "2026-11-17T06"
       ],
-      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 55 h old (limit 24 h); not scored and left out of the consensus",
+      "note": "ensemble mean of 51 members; STALE RUN: Open-Meteo's latest ENS run is 2026-11-13 12Z, 56 h old (limit 24 h); not scored and left out of the consensus",
       "ensemble": {
         "n_members": 51,
         "stats": {
@@ -821,9 +821,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 44.6,
+      "tmax_f": 44.5,
       "tmin_f": 37.3,
-      "wind_max_kt": 16.6,
+      "wind_max_kt": 16.8,
       "precip_in": 0.85,
       "method": {
         "tmax_f": {
@@ -927,7 +927,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-15T19:01:03+00:00",
+    "checked_at_utc": "2026-11-15T19:30:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -958,6 +958,13 @@
         "wind_max_kt": 12.0,
         "precip_in": 0.35,
         "init_time_utc": "2026-11-15T12"
+      },
+      "18": {
+        "tmax_f": 41.3,
+        "tmin_f": 38.0,
+        "wind_max_kt": 13.3,
+        "precip_in": 0.35,
+        "init_time_utc": "2026-11-15T18"
       }
     },
     "RRFS": {
