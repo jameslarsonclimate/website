@@ -1,11 +1,11 @@
 {
   "date": "2026-11-16",
-  "through_utc": "2026-11-16T14:53",
+  "through_utc": "2026-11-16T15:00",
   "obs": {
     "high": 46.94,
     "low": 39.02,
     "wind": 16,
-    "precip": 0.4,
+    "precip": 0.42,
     "n_obs": 9
   },
   "models": {
@@ -26,7 +26,7 @@
       "low_pending": true,
       "wind_bias": -0.8,
       "precip_so_far": 0.0,
-      "precip_err": -0.4
+      "precip_err": -0.42
     },
     "RRFS": {
       "init_time_utc": "2026-11-15T18",
@@ -45,7 +45,7 @@
       "low_pending": true,
       "wind_bias": 0.5,
       "precip_so_far": 0.09,
-      "precip_err": -0.31
+      "precip_err": -0.33
     },
     "IFS": {
       "init_time_utc": "2026-11-15T12",
@@ -63,8 +63,8 @@
       "low_err": -0.8,
       "low_pending": true,
       "wind_bias": 4.0,
-      "precip_so_far": 0.23,
-      "precip_err": -0.17
+      "precip_so_far": 0.24,
+      "precip_err": -0.18
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-15T12",
@@ -82,8 +82,8 @@
       "low_err": -1.6,
       "low_pending": true,
       "wind_bias": 2.6,
-      "precip_so_far": 0.24,
-      "precip_err": -0.16
+      "precip_so_far": 0.25,
+      "precip_err": -0.17
     },
     "GFS": {
       "init_time_utc": "2026-11-15T18",
@@ -101,8 +101,8 @@
       "low_err": -0.8,
       "low_pending": true,
       "wind_bias": 4.3,
-      "precip_so_far": 0.15,
-      "precip_err": -0.25
+      "precip_so_far": 0.16,
+      "precip_err": -0.26
     },
     "GFS_MOS": {
       "init_time_utc": "2026-11-15T18",
@@ -154,8 +154,8 @@
       "low_err": -4.0,
       "low_pending": false,
       "wind_bias": -1.2,
-      "precip_so_far": 0.12,
-      "precip_err": -0.28
+      "precip_so_far": 0.13,
+      "precip_err": -0.29
     },
     "ENS": {
       "init_time_utc": "2026-11-13T12",
@@ -173,8 +173,8 @@
       "low_err": -0.7,
       "low_pending": true,
       "wind_bias": 5.0,
-      "precip_so_far": 0.39,
-      "precip_err": -0.01
+      "precip_so_far": 0.4,
+      "precip_err": -0.02
     },
     "GEFS": {
       "init_time_utc": "2026-11-15T12",
@@ -193,9 +193,9 @@
       "low_pending": true,
       "wind_bias": 1.5,
       "precip_so_far": 0.09,
-      "precip_err": -0.31
+      "precip_err": -0.33
     }
   },
   "station": "PAYA",
-  "generated_at_utc": "2026-11-16T15:00:05+00:00"
+  "generated_at_utc": "2026-11-16T15:30:09+00:00"
 }
