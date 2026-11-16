@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T20:17:14+00:00",
+  "generated_at_utc": "2026-11-16T21:17:04+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 49.4,
-      "tmin_f": 38.8,
-      "wind_max_kt": 12.8,
+      "tmax_f": 50.1,
+      "tmin_f": 39.5,
+      "wind_max_kt": 12.4,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-16T12",
+      "init_time_utc": "2026-11-16T18",
       "valid_range_utc": [
         "2026-11-17 06:00:00",
         "2026-11-18 06:00:00"
@@ -127,7 +127,7 @@
     },
     "NBM": {
       "tmax_f": 53.0,
-      "tmin_f": 39.0,
+      "tmin_f": 38.0,
       "wind_max_kt": 10.0,
       "precip_in": 0.0,
       "pop06_max_pct": 0,
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-16T18",
+      "init_time_utc": "2026-11-16T20",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
@@ -752,7 +752,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-11-16T12",
+      "init_time_utc": "2026-11-16T18",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
@@ -774,15 +774,15 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.001,
+            "mean": 0.002,
             "std": 0.002,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
-            "p50": 0.0,
+            "p50": 0.001,
             "p75": 0.002,
-            "p90": 0.003,
-            "p100": 0.005
+            "p90": 0.004,
+            "p100": 0.006
           },
           "precip_prob": {
             "0.01": 0.0,
@@ -792,20 +792,20 @@
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
@@ -814,15 +814,15 @@
             0.0,
             0.002,
             0.0,
-            0.0,
-            0.005,
-            0.0,
+            0.002,
+            0.006,
+            0.002,
             0.0,
             0.0,
             0.002,
             0.0,
             0.0,
-            0.003
+            0.005
           ]
         }
       }
@@ -859,9 +859,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 52.9,
-      "tmin_f": 36.5,
-      "wind_max_kt": 12.7,
+      "tmax_f": 53.0,
+      "tmin_f": 36.4,
+      "wind_max_kt": 12.6,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T20:17:14+00:00",
+    "checked_at_utc": "2026-11-16T21:17:04+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
