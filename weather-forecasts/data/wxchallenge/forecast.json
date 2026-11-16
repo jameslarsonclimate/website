@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T22:02:14+00:00",
+  "generated_at_utc": "2026-11-16T22:16:23+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -127,28 +127,28 @@
       "wind_window": "LST"
     },
     "GFS_MOS": {
-      "tmax_f": 43.0,
-      "tmin_f": 39.0,
-      "wind_max_kt": 14.0,
-      "precip_in": 1.54,
-      "pop06_max_pct": 97,
+      "tmax_f": 46.0,
+      "tmin_f": 38.0,
+      "wind_max_kt": 13.0,
+      "precip_in": 1.72,
+      "pop06_max_pct": 98,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.72,
-          "12-18": 0.88,
-          "18-00": 0.94,
+          "06-12": 0.69,
+          "12-18": 0.81,
+          "18-00": 0.98,
           "00-06": 0.97
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.97,
+          0.98,
           1.0
         ]
       },
-      "precip_note": "MOS Q06 categories [1, 3, 3, 4] -> midpoints",
-      "init_time_utc": "2026-11-16T12",
+      "precip_note": "MOS Q06 categories [1, 2, 4, 4] -> midpoints",
+      "init_time_utc": "2026-11-16T18",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
@@ -820,10 +820,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 43.3,
-      "tmin_f": 36.6,
-      "wind_max_kt": 15.9,
-      "precip_in": 1.03,
+      "tmax_f": 43.7,
+      "tmin_f": 36.3,
+      "wind_max_kt": 15.8,
+      "precip_in": 1.04,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -934,7 +934,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T22:02:14+00:00",
+    "checked_at_utc": "2026-11-16T22:16:23+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1013,6 +1013,13 @@
         "wind_max_kt": 14.0,
         "precip_in": 1.54,
         "init_time_utc": "2026-11-16T12"
+      },
+      "18": {
+        "tmax_f": 46.0,
+        "tmin_f": 38.0,
+        "wind_max_kt": 13.0,
+        "precip_in": 1.72,
+        "init_time_utc": "2026-11-16T18"
       }
     },
     "USL": {
