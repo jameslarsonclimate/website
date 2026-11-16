@@ -1135,3 +1135,20 @@ def test_cam_ens_outside_grid(monkeypatch):
     assert "CONUS" in ce.get_hrrrcast(STATIONS["PHNL"] if "PHNL" in STATIONS else
                                       type("S", (), {"hrrr_model": None})(), date(2026, 10, 1),
                                       datetime(2026, 9, 30, tzinfo=timezone.utc))["error"]
+
+
+def test_consensus_precip_weights_follow_track_record():
+    """Precip uses its own small MAE offset, so a model with a quarter of another's error
+    gets far more weight (with the shared 0.5 it was ~1.3x), and it is not bias-corrected."""
+    models = {"A": {"tmax_f": 80, "tmin_f": 60, "wind_max_kt": 10, "precip_in": 0.0},
+              "B": {"tmax_f": 80, "tmin_f": 60, "wind_max_kt": 10, "precip_in": 0.30}}
+    summary = {n: {"n_days": 5, "bias": {"tmax_f": 0, "tmin_f": 0, "wind_max_kt": 0, "precip_in": b},
+                   "mae": {"tmax_f": 1, "tmin_f": 1, "wind_max_kt": 1, "precip_in": m}}
+               for n, m, b in (("A", 0.03, 0.0), ("B", 0.20, 0.15))}
+    c = wxc_verify.consensus(models, summary)
+    w = c["method"]["precip_in"]["weights"]
+    assert w["A"] / w["B"] == pytest.approx(0.21 / 0.04, rel=0.01)
+    assert c["precip_in"] == pytest.approx(0.30 * 0.04 / 0.25, abs=0.005)
+    m = c["method"]["precip_in"]["method"]
+    assert m.startswith("not bias-corrected") and "1/(MAE+0.01)" in m
+    assert "1/(MAE+0.5)" in c["method"]["tmax_f"]["method"]
