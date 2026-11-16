@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T19:00:08+00:00",
+  "generated_at_utc": "2026-11-16T19:11:49+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -820,10 +820,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 43.6,
-      "tmin_f": 36.4,
-      "wind_max_kt": 16.7,
-      "precip_in": 0.96,
+      "tmax_f": 43.5,
+      "tmin_f": 36.5,
+      "wind_max_kt": 15.9,
+      "precip_in": 0.93,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -831,7 +831,6 @@
             "HRRR",
             "RRFS",
             "IFS",
-            "IFS_HRES",
             "GFS",
             "GFS_MOS",
             "NBM",
@@ -839,23 +838,24 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.082,
-            "RRFS": 0.096,
-            "IFS": 0.137,
-            "IFS_HRES": 0.116,
-            "GFS": 0.126,
-            "GFS_MOS": 0.121,
-            "NBM": 0.124,
-            "USL": 0.07,
-            "ENS": 0.128
-          }
+            "HRRR": 0.093,
+            "RRFS": 0.108,
+            "IFS": 0.155,
+            "GFS": 0.142,
+            "GFS_MOS": 0.137,
+            "NBM": 0.14,
+            "USL": 0.079,
+            "ENS": 0.145
+          },
+          "excluded_same_model": [
+            "IFS_HRES"
+          ]
         },
         "tmin_f": {
           "method": "bias-corrected (n_eff/(n_eff+1) of each model's decay-weighted mean error), 1/(MAE+0.5)^2 weighted",
           "members": [
             "HRRR",
             "RRFS",
-            "IFS",
             "IFS_HRES",
             "GFS",
             "GFS_MOS",
@@ -864,23 +864,24 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.068,
-            "RRFS": 0.085,
-            "IFS": 0.071,
-            "IFS_HRES": 0.097,
-            "GFS": 0.019,
-            "GFS_MOS": 0.19,
-            "NBM": 0.103,
-            "USL": 0.308,
-            "ENS": 0.059
-          }
+            "HRRR": 0.073,
+            "RRFS": 0.092,
+            "IFS_HRES": 0.105,
+            "GFS": 0.02,
+            "GFS_MOS": 0.204,
+            "NBM": 0.11,
+            "USL": 0.332,
+            "ENS": 0.063
+          },
+          "excluded_same_model": [
+            "IFS"
+          ]
         },
         "wind_max_kt": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
           "members": [
             "HRRR",
             "RRFS",
-            "IFS",
             "IFS_HRES",
             "GFS",
             "GFS_MOS",
@@ -889,16 +890,18 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.138,
-            "RRFS": 0.114,
-            "IFS": 0.128,
-            "IFS_HRES": 0.149,
-            "GFS": 0.087,
-            "GFS_MOS": 0.092,
-            "NBM": 0.093,
-            "USL": 0.086,
-            "ENS": 0.113
-          }
+            "HRRR": 0.158,
+            "RRFS": 0.131,
+            "IFS_HRES": 0.171,
+            "GFS": 0.099,
+            "GFS_MOS": 0.106,
+            "NBM": 0.107,
+            "USL": 0.099,
+            "ENS": 0.13
+          },
+          "excluded_same_model": [
+            "IFS"
+          ]
         },
         "precip_in": {
           "method": "not bias-corrected, 1/(MAE+0.01) weighted",
@@ -906,7 +909,6 @@
             "HRRR",
             "RRFS",
             "IFS",
-            "IFS_HRES",
             "GFS",
             "GFS_MOS",
             "NBM",
@@ -914,23 +916,25 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.1,
-            "RRFS": 0.111,
-            "IFS": 0.123,
-            "IFS_HRES": 0.119,
-            "GFS": 0.089,
-            "GFS_MOS": 0.08,
-            "NBM": 0.112,
-            "USL": 0.136,
-            "ENS": 0.13
-          }
+            "HRRR": 0.114,
+            "RRFS": 0.126,
+            "IFS": 0.139,
+            "GFS": 0.101,
+            "GFS_MOS": 0.091,
+            "NBM": 0.127,
+            "USL": 0.154,
+            "ENS": 0.148
+          },
+          "excluded_same_model": [
+            "IFS_HRES"
+          ]
         }
       }
     }
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T19:00:08+00:00",
+    "checked_at_utc": "2026-11-16T19:11:49+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
