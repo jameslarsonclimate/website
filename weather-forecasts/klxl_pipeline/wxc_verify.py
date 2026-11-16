@@ -49,7 +49,10 @@ HALF_LIFE_DAYS = {"tmax_f": 9.0, "tmin_f": 9.0, "wind_max_kt": 18.0, "precip_in"
 # lows on clear nights at KOLM), so more of the bias is removed sooner. Chosen by judgment: on
 # the 38 stored days (KOLM, KTPA) the backtest can't tell K=1 from K=3 for lows.
 BIAS_SHRINK_DAYS = {"tmax_f": 3, "tmin_f": 1, "wind_max_kt": 3, "precip_in": 3}
-MAE_OFFSET = 0.5   # consensus weight = 1/(MAE + MAE_OFFSET)
+# consensus weight = 1/(MAE + MAE_OFFSET), MAE in each variable's units. Precip MAEs are
+# ~0.02-0.2", so a 0.5 offset made its weights nearly equal; 0.01" lets the track record count
+# (same change as the WxC wxc_verify.py, 2026-11-16)
+MAE_OFFSET = {"tmax_f": 0.5, "tmin_f": 0.5, "wind_max_kt": 0.5, "precip_in": 0.01}
 OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from the member median
 # shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble, and
 # IFS HRES at 9 km (wxc_ifs_hres; added 2026-10-21) until it has a track record of its own
@@ -581,8 +584,9 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
             # weight of the verified ones and no bias correction
             w_med = known[len(known) // 2]
             wts = [w_med if w is None else w for w in wts]
-            method = (f"bias-corrected (n_eff/(n_eff+{K:g}) of each model's decay-weighted mean error), "
-                      f"1/(MAE+{off:g}) weighted")
+            method = ("not bias-corrected, " if v == "precip_in" else
+                      f"bias-corrected (n_eff/(n_eff+{K:g}) of each model's decay-weighted mean error), ") \
+                + f"1/(MAE+{off:g}) weighted"
         else:
             wts = [1.0] * len(vals)
             method = "equal-weight mean (not enough verified days)"
