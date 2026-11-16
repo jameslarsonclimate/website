@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-17**, scored over 2026-11-17T06Z to 2026-11-18T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-17T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-16T23:12:09+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-16T23:18:34+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,14 +35,14 @@ Run = day/hour (UTC) of the model initialization.
 | IFS_HRES | 16/12Z | 43.3 | 34.9 | 19.4 | 1.16 |
 | GFS | 16/18Z | 46.4 | 38.1 | 26.5 | 1.55 |
 | GFS_MOS | 16/18Z | 46.0 | 38.0 | 13.0 | 1.72 |
-| NBM | 16/22Z | 40.0 | 35.0 | 12.0 | 0.64 |
+| NBM | 16/22Z | 40.0 | 35.0 | 10.0 | 0.64 |
 | USL | 16/22Z | 44.0 | 36.0 | 23.0 | 1.39 |
 | ENS | 16/06Z | 43.0 | 37.5 | 16.9 | 0.78 |
 | GEFS | 16/12Z | 41.8 | 38.7 | 14.1 | 1.14 |
 | HRRRCAST (precip only) | — | — | — | — | — |
 | REFS (precip only) | 16/18Z | — | — | — | 0.59 |
 | NBM_QMD (precip only) | 16/12Z | — | — | — | 0.84 |
-| **CONSENSUS** |  | **43.8** | **36.0** | **16.6** | **1.07** |
+| **CONSENSUS** |  | **43.8** | **36.0** | **16.4** | **1.07** |
 
 Notes:
 - GFS_MOS: MOS Q06 categories [1, 2, 4, 4] -> midpoints
@@ -793,7 +793,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-16)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-16 23:12Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-16 23:18Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
