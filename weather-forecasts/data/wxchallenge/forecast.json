@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T19:30:08+00:00",
+  "generated_at_utc": "2026-11-16T20:00:09+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -70,18 +70,18 @@
       "wind_window": "LST"
     },
     "IFS": {
-      "tmax_f": 43.7,
-      "tmin_f": 37.5,
-      "wind_max_kt": 23.0,
-      "precip_in": 0.56,
-      "init_time_utc": "2026-11-16T06",
+      "tmax_f": 43.9,
+      "tmin_f": 35.1,
+      "wind_max_kt": 20.6,
+      "precip_in": 1.14,
+      "init_time_utc": "2026-11-16T12",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 23.0,
+      "wind_max_kt_06z": 20.6,
       "wind_window_utc": [
         "2026-11-17T09",
         "2026-11-18T09"
@@ -823,7 +823,7 @@
       "tmax_f": 43.3,
       "tmin_f": 36.4,
       "wind_max_kt": 16.3,
-      "precip_in": 0.94,
+      "precip_in": 1.02,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -934,7 +934,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T19:30:08+00:00",
+    "checked_at_utc": "2026-11-16T20:00:09+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1043,6 +1043,15 @@
         "tmin_f": null,
         "wind_max_kt": null,
         "precip_in": 0.84,
+        "init_time_utc": "2026-11-16T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 43.9,
+        "tmin_f": 35.1,
+        "wind_max_kt": 20.6,
+        "precip_in": 1.14,
         "init_time_utc": "2026-11-16T12"
       }
     }
