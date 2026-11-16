@@ -812,7 +812,8 @@ def run_models(station, day, points, as_of=None, skip_grib=False, only=None, par
     mos = {}
     if only is None or any(k in only for k in MOS_ORDER):
         print("Fetching MOS / NBM text guidance...")
-        mos = wxc_mos.get_mos_forecasts(station.icao, day, as_of, only)
+        mos = wxc_mos.get_mos_forecasts(station.icao, day, as_of, only,
+                                         lst_offset=station.lst_offset_hours)
     if only is None or "USL" in only:
         mos["USL"] = wxc_usl.get_usl_forecast(station.icao, day, as_of)
         u = mos["USL"]
@@ -977,11 +978,11 @@ def fetch_cycle(station, label, init, day, points):
         m = wxc_ifs_hres.get_forecast(station, day, t + timedelta(hours=wxc_ifs_hres.PUBLISH_DELAY_HOURS))["metrics"]
     elif label == "GFS_MOS":
         m = wxc_mos.get_mos_forecasts(station.icao, day, t + timedelta(hours=wxc_mos.MOS_CYCLES["GFS"][1]),
-                                      only=[label])[label]
+                                      only=[label], lst_offset=station.lst_offset_hours)[label]
     elif label == "NBM":
         import wxc_nbm_text
         m = wxc_mos.get_mos_forecasts(station.icao, day, t + timedelta(hours=wxc_nbm_text.posted_delay(init.hour)),
-                                      only=[label])[label]
+                                      only=[label], lst_offset=station.lst_offset_hours)[label]
     elif label == "USL":
         m = wxc_usl.get_usl_forecast(station.icao, day, t + timedelta(minutes=30))
     else:

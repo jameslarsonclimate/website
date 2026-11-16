@@ -149,6 +149,24 @@ def test_summarize_mos(model, precip):
     assert res["valid_range_utc"] == ["2026-09-29T06", "2026-09-30T06"]
 
 
+def test_summarize_mos_lst_wind():
+    """With lst_offset the max wind is over the CLI (LST) day; everything else stays 06Z-06Z."""
+    df = _mos_rows("GFS")
+    ft = pd.to_datetime(df["ftime"])
+    df.loc[ft == "2026-09-29 06:00", "wsp"] = 30          # 06Z D: inside 06Z-06Z, before the AKST day
+    df.loc[ft == "2026-09-30 09:00", "wsp"] = 25          # 09Z D+1: end of the AKST day
+    base = wxc_mos.summarize_mos(df, date(2026, 9, 29), "GFS")
+    res = wxc_mos.summarize_mos(df, date(2026, 9, 29), "GFS", lst_offset=-9)
+    assert base["wind_max_kt"] == 30 and "wind_window" not in base
+    assert res["wind_max_kt"] == 25 and res["wind_max_kt_06z"] == 30
+    assert res["wind_window"] == "LST" and res["wind_window_utc"] == ["2026-09-29T09", "2026-09-30T09"]
+    assert (res["tmax_f"], res["tmin_f"], res["precip_in"]) == (base["tmax_f"], base["tmin_f"], base["precip_in"])
+    # a run that ends before the LST day does keeps the 06Z-06Z wind, untagged
+    short = df[ft <= "2026-09-30 06:00"]
+    r2 = wxc_mos.summarize_mos(short, date(2026, 9, 29), "GFS", lst_offset=-9)
+    assert r2["wind_max_kt"] == 30 and "wind_window" not in r2
+
+
 def test_summarize_mos_short_run():
     df = _mos_rows("NBS")
     df = df[pd.to_datetime(df["ftime"]) < "2026-09-30 00:00"]

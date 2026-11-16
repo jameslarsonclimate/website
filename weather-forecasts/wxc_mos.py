@@ -62,8 +62,12 @@ def _ts(col):
     return t.dt.tz_localize("UTC") if t.dt.tz is None else t.dt.tz_convert("UTC")
 
 
-def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
-    """Summarize one MOS run (rows from the IEM API) for WxChallenge day `target_day`."""
+def summarize_mos(df: pd.DataFrame, target_day: date, model: str,
+                  lst_offset: Optional[float] = None) -> dict:
+    """Summarize one MOS run (rows from the IEM API) for WxChallenge day `target_day`.
+    lst_offset (UTC offset of local standard time): the max wind is taken over the CLI's
+    midnight-midnight LST day, as WxChallenge verifies it (rule 15.5), when the run reaches
+    its end; temps, precip and the series stay 06Z-06Z. Else the wind is 06Z-06Z too."""
     empty = {"tmax_f": None, "tmin_f": None, "wind_max_kt": None, "precip_in": None,
              "init_time_utc": None, "valid_range_utc": None}
     if df is None or df.empty:
@@ -97,6 +101,18 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
     tmin_cands = [v for v in [n, tmp.min() if not tmp.empty else None] if v is not None]
 
     wsp = pd.to_numeric(win.get("wsp"), errors="coerce").dropna()
+    wind_extra = {}
+    if lst_offset is not None and "wsp" in df:
+        from functions import lst_window_utc
+        ws, we = (t.tz_localize("UTC") for t in lst_window_utc(target_day, lst_offset))
+        if df["ft"].max() >= we:
+            lw = df[(df["ft"] >= ws) & (df["ft"] <= we)]
+            lsp = pd.to_numeric(lw["wsp"], errors="coerce").dropna()
+            if not lsp.empty:
+                wind_extra = {"wind_max_kt_06z": round(float(wsp.max()), 1) if not wsp.empty else None,
+                              "wind_window": "LST",
+                              "wind_window_utc": [ws.strftime("%Y-%m-%dT%H"), we.strftime("%Y-%m-%dT%H")]}
+                wsp = lsp
 
     q = win[(win["ft"] > start) & win["ft"].dt.hour.isin([0, 6, 12, 18])]
     q06 = pd.to_numeric(q["q06"], errors="coerce").dropna() if "q06" in q else pd.Series(dtype=float)
@@ -122,6 +138,7 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str) -> dict:
         "tmax_f": round(max(tmax_cands), 1) if tmax_cands else None,
         "tmin_f": round(min(tmin_cands), 1) if tmin_cands else None,
         "wind_max_kt": round(float(wsp.max()), 1) if not wsp.empty else None,
+        **wind_extra,
         "precip_in": round(precip, 2) if precip is not None else None,
         "pop06_max_pct": int(p06.max()) if not p06.empty else None,
         "pop": pop,
@@ -160,11 +177,13 @@ def candidate_runtimes(model: str, as_of: datetime, n: int = 3) -> list:
 
 
 def get_mos_forecasts(station: str, target_day: date, as_of: Optional[datetime] = None,
-                      only: Optional[list] = None) -> dict:
+                      only: Optional[list] = None, lst_offset: Optional[float] = None) -> dict:
     """
     GFS MOS and NBM (NBS) summaries for the target day.
     Live (as_of=None): the newest run, falling back to older runs if it doesn't cover
     the day. Hindcast (as_of set): the newest run that was out at `as_of`.
+    lst_offset: max wind over the CLI (LST) day; see summarize_mos. A saved run summarised
+    before that (no "wind_window") is fetched again, and kept if that fails.
     """
     out = {}
     for label, model in MOS_PRODUCTS.items():
@@ -175,15 +194,25 @@ def get_mos_forecasts(station: str, target_day: date, as_of: Optional[datetime] 
             tries = ([None] if as_of is None else []) + candidate_runtimes(
                 model, as_of or datetime.now(timezone.utc))
             for rt in tries:
+                old = None
                 if rt is not None:              # a specific run: maybe saved by an earlier script run
                     hit = wxc_cache.load(station, label, rt, target_day)
-                    if hit is not None:
+                    if hit is not None and (lst_offset is None or hit.get("wind_window")):
                         res = hit
                         break
-                df = fetch_mos(station, model, rt)
-                res = summarize_mos(df, target_day, model)
+                    old = hit                   # saved with the 06Z-06Z wind: try to redo it
+                try:
+                    df = fetch_mos(station, model, rt)
+                    res = summarize_mos(df, target_day, model, lst_offset)
+                except Exception:
+                    if old is None:
+                        raise
+                    res = {"error": "refetch failed"}
                 if not res.get("error"):
                     wxc_cache.save(station, label, res["init_time_utc"] + ":00", target_day, res)
+                    break
+                if old is not None:
+                    res = old
                     break
         except Exception as exc:
             res = {"tmax_f": None, "tmin_f": None, "wind_max_kt": None, "precip_in": None,
