@@ -503,15 +503,18 @@ def notify(msg, path=None):
     reveals `path` (the MP4) in Finder; without it, a plain notification that names the folder."""
     try:
         if TERMINAL_NOTIFIER and path:
-            subprocess.run([TERMINAL_NOTIFIER, "-title", "HRRR-AK loop", "-message", msg,
-                            "-subtitle", "Click to show in Finder", "-group", f"hrrrak-{path}",
-                            "-execute", f"/usr/bin/open -R '{path}'"], timeout=10, check=False)
-        else:
-            if path:
-                msg = f"{msg} ({Path(path).parent.name})"
-            subprocess.run(["osascript", "-e",
-                            f'display notification "{msg}" with title "HRRR-AK loop"'],
-                           timeout=10, check=False)
+            r = subprocess.run([TERMINAL_NOTIFIER, "-title", "HRRR-AK loop", "-message", msg,
+                                "-subtitle", "Click to show in Finder", "-group", f"hrrrak-{path}",
+                                "-execute", f"/usr/bin/open -R '{path}'"],
+                               timeout=10, check=False, capture_output=True, text=True)
+            # until it's allowed in System Settings > Notifications it prints "not allowed"
+            if r.returncode == 0 and "not allowed" not in (r.stdout + r.stderr):
+                return
+        if path:
+            msg = f"{msg} ({Path(path).parent.name})"
+        subprocess.run(["osascript", "-e",
+                        f'display notification "{msg}" with title "HRRR-AK loop"'],
+                       timeout=10, check=False)
     except Exception:
         pass
 
