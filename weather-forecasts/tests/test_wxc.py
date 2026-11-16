@@ -791,7 +791,8 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     assert not {"REFS", "HRRRCAST", "NBM_QMD", "GEFS"} & set(fc["models"]["CONSENSUS"]["method"]["precip_in"]["members"])
     assert fc["models"]["GEFS"]["tmax_f"] is not None                    # shown, just not blended
     assert fc["models"]["IFS_HRES"]["tmax_f"] == 60.0 and fc["models"]["IFS_HRES"]["init_time_utc"] == "2025-09-28T06"
-    assert all("IFS_HRES" not in d.get("members", []) for d in fc["models"]["CONSENSUS"]["method"].values())
+    assert all("IFS_HRES" in d["members"] + d.get("excluded_outliers", [])     # a member (fake data:
+               for d in fc["models"]["CONSENSUS"]["method"].values())          # its high is an outlier)
     # PoP: MOS bounds from P06, QMD from the (faked) file values; kept in runs.jsonl for live runs
     assert fc["models"]["NBM"]["pop"]["p24"] is None and fc["models"]["NBM"]["pop"]["p24_range"] == [0.3, pytest.approx(1 - 0.7 ** 4, abs=1e-3)]
     assert fc["models"]["NBM_QMD"]["pop"]["p24"] == 0.62 and fc["models"]["NBM_QMD"]["pop"]["q24_in"]["50"] == 0.05
@@ -1152,3 +1153,19 @@ def test_consensus_precip_weights_follow_track_record():
     m = c["method"]["precip_in"]["method"]
     assert m.startswith("not bias-corrected") and "1/(MAE+0.01)" in m
     assert "1/(MAE+0.5)" in c["method"]["tmax_f"]["method"]
+
+
+def test_consensus_lows_weighted_by_the_square():
+    """Lows weight models by 1/(MAE+offset)^2, so a model with poor lows counts much less;
+    highs keep power 1."""
+    models = {"A": {"tmax_f": 50, "tmin_f": 40, "wind_max_kt": 10, "precip_in": 0.0},
+              "B": {"tmax_f": 54, "tmin_f": 44, "wind_max_kt": 10, "precip_in": 0.0}}
+    summary = {n: {"n_days": 5, "bias": {k: 0 for k in wxc_verify.VARS},
+                   "mae": {"tmax_f": m, "tmin_f": m, "wind_max_kt": 1, "precip_in": 0.05}}
+               for n, m in (("A", 1.5), ("B", 5.5))}
+    c = wxc_verify.consensus(models, summary)
+    lo, hi = c["method"]["tmin_f"]["weights"], c["method"]["tmax_f"]["weights"]
+    assert lo["A"] / lo["B"] == pytest.approx(9.0, rel=0.01)     # (6/2)^2
+    assert hi["A"] / hi["B"] == pytest.approx(3.0, rel=0.01)
+    assert c["tmin_f"] == pytest.approx(40.4) and c["tmax_f"] == pytest.approx(51.0)
+    assert "1/(MAE+0.5)^2 weighted" in c["method"]["tmin_f"]["method"]

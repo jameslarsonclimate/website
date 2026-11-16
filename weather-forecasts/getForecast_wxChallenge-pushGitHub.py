@@ -5,7 +5,7 @@ For the current station (see wxc_stations.py, or pass an ICAO id on the command 
   1. pulls observations for the last few completed days (IEM METARs + NWS CLI wind)
   2. verifies earlier runs against those observations (data/wxchallenge/verification.json)
   3. fetches HRRR, RRFS, ECMWF IFS and GFS grids (Herbie; AIFS left out for now), ECMWF IFS HRES at 9 km
-     (Open-Meteo single runs, wxc_ifs_hres.py; not in the consensus yet) plus GFS MOS and
+     (Open-Meteo single runs, wxc_ifs_hres.py; in the consensus since 2026-11-16) plus GFS MOS and
      NBM text guidance (AWS, every hourly cycle), each summarised for the next WxChallenge day (06Z-06Z),
      the ECMWF and GEFS ensembles (Open-Meteo; GEFS not in the consensus), the 3 km
      precip ensembles REFS and HRRRCast (wxc_cam_ens.py) and NBM QMD probabilistic precip

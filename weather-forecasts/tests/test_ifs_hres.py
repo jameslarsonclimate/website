@@ -117,7 +117,7 @@ def test_get_forecast_caches_the_run_and_saves_cloud(api):
     now = datetime(2026, 10, 19, 21, tzinfo=timezone.utc)
     res = hr.get_forecast(ST, DAY, now=now)
     assert res["metrics"]["tmax_f"] == 60.0 and res["metrics"]["init_time_utc"] == "2026-10-19T12"
-    assert "not in the consensus" in res["metrics"]["note"]
+    assert "not in the consensus" not in (res["metrics"].get("note") or "")    # a member since 2026-11-16
     assert api.calls == ["meta", "2026-10-19T12:00"]
     assert wxc_cache.load(ST.icao, "IFS_HRES", datetime(2026, 10, 19, 12), DAY) is not None
     cloud = wxc_clouds.load_cloud(ST.icao, "IFS_HRES", datetime(2026, 10, 19, 12))
@@ -127,7 +127,7 @@ def test_get_forecast_caches_the_run_and_saves_cloud(api):
     again = hr.get_forecast(ST, DAY, now=now)
     assert api.calls == ["meta", "2026-10-19T12:00", "meta"]
     assert again["metrics"]["tmax_f"] == 60.0 and list(again["series"]["temp_f"]) == list(res["series"]["temp_f"])
-    assert again["metrics"]["note"].count("not in the consensus") == 1
+    assert "note" not in again["metrics"]
 
 
 def test_falls_back_to_the_previous_run(api):
@@ -178,12 +178,13 @@ def test_fetch_cloud_asks_again_for_an_archived_run(api):
     assert hr.fetch_cloud(ST, init) == rec and api.calls == ["2026-10-01T00:00"]     # now from its file
 
 
-def test_not_in_the_consensus():
+def test_in_the_consensus():
     models = {"IFS": {"tmax_f": 60, "tmin_f": 40, "wind_max_kt": 5, "precip_in": 0.1},
               "GFS": {"tmax_f": 62, "tmin_f": 42, "wind_max_kt": 7, "precip_in": 0.2},
-              "IFS_HRES": {"tmax_f": 90, "tmin_f": 70, "wind_max_kt": 30, "precip_in": 2.0}}
+              "IFS_HRES": {"tmax_f": 64, "tmin_f": 44, "wind_max_kt": 9, "precip_in": 0.3}}
     c = wxc_verify.consensus(models, {})
-    assert c["tmax_f"] == 61 and c["precip_in"] == pytest.approx(0.15)
+    assert c["tmax_f"] == 62 and c["precip_in"] == pytest.approx(0.2)
+    assert "IFS_HRES" in c["method"]["tmax_f"]["members"]
     assert "IFS_HRES" in wxc_verify.STYLE
 
 

@@ -51,10 +51,15 @@ BIAS_SHRINK_DAYS = {"tmax_f": 3, "tmin_f": 1, "wind_max_kt": 3, "precip_in": 3}
 # ~0.02-0.2", so a 0.5 offset made its weights nearly equal; 0.01" let the track record count
 # (scripts/tune_precip.py, 2026-11-16: -6.8 +/- 4.3 pts over 99 days, no city worse)
 MAE_OFFSET = {"tmax_f": 0.5, "tmin_f": 0.5, "wind_max_kt": 0.5, "precip_in": 0.01}
+# weight = 1/(MAE + offset)^WEIGHT_POWER. Lows use 2: a model whose lows are poor even after bias
+# correction (GFS at PAYA: +6 F with big swings) kept ~1/3 of the best model's weight at power 1.
+# Backtest 2026-11-16 (113 days, 4 cities): lows -14 pts total, no city worse.
+WEIGHT_POWER = {"tmax_f": 1, "tmin_f": 2, "wind_max_kt": 1, "precip_in": 1}
 OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from the member median
-# shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble, and
-# IFS HRES at 9 km (wxc_ifs_hres; added 2026-10-21) until it has a track record of its own
-NOT_IN_CONSENSUS = {"GEFS", "IFS_HRES"}
+# shown and scored, but never consensus members (live or reconstructed): the GEFS ensemble.
+# IFS HRES at 9 km (wxc_ifs_hres; added 2026-10-21) joined on 2026-11-16 once it had a track
+# record: best single model at PAYA; backtest -11.8 +/- 5.0 pts there, within noise elsewhere.
+NOT_IN_CONSENSUS = {"GEFS"}
 # A member whose run is more than STALE_HOURS older than the newest member's is left out of the
 # consensus (e.g. Open-Meteo's ECMWF ensemble feed stalling while every other model updates).
 STALE_HOURS = 36
@@ -774,7 +779,7 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
     Bias-corrected, skill-weighted blend of today's model values.
     Models with >= MIN_DAYS_FOR_CORRECTION verified days are bias-corrected (by the shrunk
     decay-weighted bias n_eff/(n_eff + BIAS_SHRINK_DAYS[var]) x mean error) and weighted by
-    1/(MAE + MAE_OFFSET); a model without that track record uses its PROXY_TRACK_RECORD
+    1/(MAE + MAE_OFFSET)^WEIGHT_POWER; a model without that track record uses its PROXY_TRACK_RECORD
     parent's if that has one, otherwise it joins uncorrected at the median weight.
     With no verified models at all, an equal-weight mean is used. Members whose run is more
     than STALE_HOURS older than the newest member's, or (given now) more than
@@ -803,7 +808,7 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
                 n = s.get("n_eff", {}).get(v, s["n_days"])
                 shrink = n / (n + K)
                 x = m[v] - (shrink * s["bias"][v] if v != "precip_in" else 0.0)
-                w = 1.0 / (s["mae"][v] + off)
+                w = 1.0 / (s["mae"][v] + off) ** WEIGHT_POWER.get(v, 1)
             else:
                 x, w = m[v], None
             vals.append(x); wts.append(w); used.append(name)
@@ -830,7 +835,7 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
             wts = [w_med if w is None else w for w in wts]
             method = ("not bias-corrected, " if v == "precip_in" else
                       f"bias-corrected (n_eff/(n_eff+{K:g}) of each model's decay-weighted mean error), ") \
-                + f"1/(MAE+{off:g}) weighted"
+                + f"1/(MAE+{off:g}){'^%g' % WEIGHT_POWER[v] if WEIGHT_POWER.get(v, 1) != 1 else ''} weighted"
         else:
             wts = [1.0] * len(vals)
             method = "equal-weight mean (not enough verified days)"

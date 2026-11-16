@@ -16,8 +16,8 @@ display only). Results are cached per run (wxc_cache).
 Which run: live, the newest complete run in Open-Meteo's meta.json; a hindcast (as_of), the
 newest run that was out at as_of (PUBLISH_DELAY_HOURS after its init). A run still being written
 answers with nulls past the hours done so far, so a run without every hour of the day is
-skipped for the run before it. Shown and scored, but kept out of the consensus
-(wxc_verify.NOT_IN_CONSENSUS) until it has a track record.
+skipped for the run before it. Shown, scored and (since 2026-11-16,
+once it had a track record) a consensus member.
 """
 
 from datetime import date, datetime, timedelta, timezone

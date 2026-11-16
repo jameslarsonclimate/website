@@ -172,8 +172,8 @@ def _guidance(fc, order):
            _table(["Model", "Run", *VAR_NAMES.values()], rows, right_from=2)]
     if notes:
         out += ["", "Notes:", *notes]
-    out += ["", "GEFS and IFS_HRES (the IFS run at its native 9 km, hourly; IFS is the same run on the 0.25 deg "
-            "open-data grid) are shown and scored but not used in the consensus. Precip-only ensembles (REFS, HRRRCAST) "
+    out += ["", "GEFS is shown and scored but not used in the consensus. IFS_HRES (the IFS run at its native 9 km, hourly; "
+            "IFS is the same run on the 0.25 deg open-data grid) is a consensus member. Precip-only ensembles (REFS, HRRRCAST) "
             "and NBM QMD are not in the consensus either; they inform the precip choice."]
     return "\n".join(out)
 
