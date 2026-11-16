@@ -1771,15 +1771,15 @@
             "tmax_f": 71,
             "tmin_f": 48,
             "wind_max_kt": 16,
-            "precip_in": 0.14
+            "precip_in": 0.13
           },
           "error": {
             "tmax_f": -1,
             "tmin_f": -6,
             "wind_max_kt": 1,
-            "precip_in": 0.14
+            "precip_in": 0.13
           },
-          "points": 12.7,
+          "points": 12.4,
           "reconstructed": true
         }
       },
@@ -1933,15 +1933,15 @@
             "tmax_f": 66,
             "tmin_f": 41,
             "wind_max_kt": 14,
-            "precip_in": 0.04
+            "precip_in": 0.03
           },
           "error": {
             "tmax_f": -2,
             "tmin_f": -2,
             "wind_max_kt": 0,
-            "precip_in": -0.05
+            "precip_in": -0.06
           },
-          "points": 6.0,
+          "points": 6.4,
           "reconstructed": true
         }
       },
@@ -2095,15 +2095,15 @@
             "tmax_f": 55,
             "tmin_f": 33,
             "wind_max_kt": 6,
-            "precip_in": 0.05
+            "precip_in": 0.04
           },
           "error": {
             "tmax_f": 5,
             "tmin_f": 1,
             "wind_max_kt": 2,
-            "precip_in": 0.0
+            "precip_in": -0.01
           },
-          "points": 7.0,
+          "points": 7.4,
           "reconstructed": true
         }
       },
@@ -2419,15 +2419,15 @@
             "tmax_f": 49,
             "tmin_f": 34,
             "wind_max_kt": 10,
-            "precip_in": 0.45
+            "precip_in": 0.44
           },
           "error": {
             "tmax_f": 3,
             "tmin_f": -3,
             "wind_max_kt": 1,
-            "precip_in": -0.03
+            "precip_in": -0.04
           },
-          "points": 7.1,
+          "points": 7.3,
           "reconstructed": true
         }
       },
@@ -6069,8 +6069,8 @@
     },
     "CONSENSUS": {
       "n_days": 34,
-      "total_points": 255.7,
-      "mean_points": 7.52,
+      "total_points": 256.4,
+      "mean_points": 7.54,
       "bias": {
         "tmax_f": -1.204,
         "tmin_f": 0.556,
@@ -6138,7 +6138,7 @@
     }
   },
   "period_start": "2026-10-13",
-  "generated_at_utc": "2026-11-16T18:17:24+00:00",
+  "generated_at_utc": "2026-11-16T18:22:19+00:00",
   "observations": [
     {
       "date": "2026-10-13",
@@ -9952,7 +9952,7 @@
   },
   "today": {
     "date": "2026-11-16",
-    "through_utc": "2026-11-16T17:55",
+    "through_utc": "2026-11-16T18:15",
     "n_obs": 12,
     "provisional": true,
     "obs": {

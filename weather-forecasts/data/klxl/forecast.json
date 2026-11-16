@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T18:17:24+00:00",
+  "generated_at_utc": "2026-11-16T18:22:18+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -928,7 +928,7 @@
           }
         },
         "precip_in": {
-          "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
+          "method": "not bias-corrected, 1/(MAE+0.01) weighted",
           "members": [
             "HRRR",
             "RRFS",
@@ -939,13 +939,13 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.138,
-            "RRFS": 0.146,
-            "IFS": 0.142,
-            "GFS": 0.146,
-            "GFS_MOS": 0.141,
-            "NBM": 0.146,
-            "ENS": 0.14
+            "HRRR": 0.11,
+            "RRFS": 0.169,
+            "IFS": 0.131,
+            "GFS": 0.169,
+            "GFS_MOS": 0.126,
+            "NBM": 0.172,
+            "ENS": 0.122
           }
         }
       }
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T18:17:24+00:00",
+    "checked_at_utc": "2026-11-16T18:22:18+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
