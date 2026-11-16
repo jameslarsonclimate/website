@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T13:01:26+00:00",
+  "generated_at_utc": "2026-11-16T15:00:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -32,40 +32,37 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 40.0,
-      "tmin_f": 34.0,
-      "wind_max_kt": 12.3,
-      "precip_in": 0.83,
-      "init_time_utc": "2026-11-16T00",
+      "tmax_f": 40.8,
+      "tmin_f": 35.2,
+      "wind_max_kt": 10.0,
+      "precip_in": 0.53,
+      "init_time_utc": "2026-11-16T12",
       "valid_range_utc": [
         "2026-11-17T06",
-        "2026-11-18T00"
+        "2026-11-18T06"
       ],
-      "n_steps": 19,
+      "n_steps": 25,
       "temp_source": "instantaneous 2 m T",
-      "partial_window": true,
-      "note": "00Z HRRR stops at f48: window truncated; newest cycle unavailable, used previous",
-      "wind_max_kt_06z": 12.3,
+      "wind_max_kt_06z": 14.9,
       "wind_window_utc": [
         "2026-11-17T09",
         "2026-11-18T09"
       ],
-      "wind_window": "LST",
-      "wind_window_note": "run ends at f48: last LST-day hours not covered"
+      "wind_window": "LST"
     },
     "RRFS": {
-      "tmax_f": 41.6,
-      "tmin_f": 36.4,
-      "wind_max_kt": 11.0,
-      "precip_in": 0.53,
-      "init_time_utc": "2026-11-16T06",
+      "tmax_f": 41.4,
+      "tmin_f": 36.0,
+      "wind_max_kt": 11.1,
+      "precip_in": 0.92,
+      "init_time_utc": "2026-11-16T12",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
       ],
       "n_steps": 25,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 11.0,
+      "wind_max_kt_06z": 11.1,
       "wind_window_utc": [
         "2026-11-17T09",
         "2026-11-18T09"
@@ -159,18 +156,18 @@
       ]
     },
     "NBM": {
-      "tmax_f": 43.0,
+      "tmax_f": 40.0,
       "tmin_f": 35.0,
       "wind_max_kt": 12.0,
-      "precip_in": 0.62,
+      "precip_in": 0.55,
       "pop06_max_pct": 97,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.84,
-          "12-18": 0.76,
+          "06-12": 0.8,
+          "12-18": 0.73,
           "18-00": 0.97,
-          "00-06": 0.93
+          "00-06": 0.94
         },
         "n_members": null,
         "basis": "NBS P06",
@@ -180,7 +177,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-16T12",
+      "init_time_utc": "2026-11-16T14",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
@@ -193,7 +190,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-11-17 available at 2026-11-16 14Z"
+      "error": "no USL run for 2026-11-17 available at 2026-11-16 15Z"
     },
     "ENS": {
       "tmax_f": 42.1,
@@ -713,14 +710,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.62,
-      "precip_mean_in": 0.6,
-      "init_time_utc": "2026-11-16T06",
+      "precip_in": 0.63,
+      "precip_mean_in": 0.67,
+      "init_time_utc": "2026-11-16T12",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -730,60 +727,62 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.6,
-            "std": 0.165,
-            "p0": 0.308,
-            "p10": 0.376,
-            "p25": 0.527,
-            "p50": 0.623,
-            "p75": 0.684,
-            "p90": 0.732,
-            "p100": 0.965
+            "mean": 0.666,
+            "std": 0.225,
+            "p0": 0.342,
+            "p10": 0.401,
+            "p25": 0.53,
+            "p50": 0.633,
+            "p75": 0.731,
+            "p90": 1.025,
+            "p100": 1.112
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
             "0.25": 1.0,
-            "0.50": 0.846
+            "0.50": 0.786
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.92,
+            0.359,
+            1.07,
+            0.5,
+            1.112,
+            0.578,
+            0.531,
             0.529,
             0.738,
             0.623,
             0.674,
             0.342,
             0.709,
-            0.643,
-            0.684,
-            0.514,
-            0.965,
-            0.527,
-            0.308,
-            0.541
+            0.643
           ]
         }
       }
@@ -820,10 +819,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 43.5,
-      "tmin_f": 35.5,
+      "tmax_f": 43.1,
+      "tmin_f": 35.6,
       "wind_max_kt": 15.6,
-      "precip_in": 0.86,
+      "precip_in": 0.87,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -879,13 +878,13 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.194,
-            "RRFS": 0.164,
-            "IFS": 0.142,
-            "GFS": 0.099,
-            "GFS_MOS": 0.134,
-            "NBM": 0.12,
-            "ENS": 0.147
+            "HRRR": 0.198,
+            "RRFS": 0.154,
+            "IFS": 0.154,
+            "GFS": 0.103,
+            "GFS_MOS": 0.127,
+            "NBM": 0.121,
+            "ENS": 0.143
           }
         },
         "precip_in": {
@@ -914,7 +913,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T13:01:26+00:00",
+    "checked_at_utc": "2026-11-16T15:00:05+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST",
@@ -929,6 +928,33 @@
         "tmin_f": 35.0,
         "wind_max_kt": 12.0,
         "precip_in": 0.62,
+        "init_time_utc": "2026-11-16T12"
+      }
+    },
+    "HRRR": {
+      "12": {
+        "tmax_f": 40.8,
+        "tmin_f": 35.2,
+        "wind_max_kt": 10.0,
+        "precip_in": 0.53,
+        "init_time_utc": "2026-11-16T12"
+      }
+    },
+    "RRFS": {
+      "12": {
+        "tmax_f": 41.4,
+        "tmin_f": 36.0,
+        "wind_max_kt": 11.1,
+        "precip_in": 0.92,
+        "init_time_utc": "2026-11-16T12"
+      }
+    },
+    "REFS": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.63,
         "init_time_utc": "2026-11-16T12"
       }
     }
