@@ -493,10 +493,25 @@ def make_video(frames, out_mp4: Path, fps: int):
     lst.unlink()
 
 
-def notify(msg):
+TERMINAL_NOTIFIER = next((p for p in ("/opt/homebrew/bin/terminal-notifier",
+                                       "/usr/local/bin/terminal-notifier") if os.path.exists(p)),
+                         None)
+
+
+def notify(msg, path=None):
+    """macOS notification. With terminal-notifier (brew install terminal-notifier), clicking it
+    reveals `path` (the MP4) in Finder; without it, a plain notification that names the folder."""
     try:
-        subprocess.run(["osascript", "-e", f'display notification "{msg}" with title "HRRR-AK loop"'],
-                       timeout=10, check=False)
+        if TERMINAL_NOTIFIER and path:
+            subprocess.run([TERMINAL_NOTIFIER, "-title", "HRRR-AK loop", "-message", msg,
+                            "-subtitle", "Click to show in Finder", "-group", f"hrrrak-{path}",
+                            "-execute", f"/usr/bin/open -R '{path}'"], timeout=10, check=False)
+        else:
+            if path:
+                msg = f"{msg} ({Path(path).parent.name})"
+            subprocess.run(["osascript", "-e",
+                            f'display notification "{msg}" with title "HRRR-AK loop"'],
+                           timeout=10, check=False)
     except Exception:
         pass
 
@@ -559,7 +574,7 @@ def process_run(init: datetime, panel4: str, only_fxx=None, force=False, wait=Tr
                      f"{v['p1']},{v['ptype']},{v['since06']}\n")
     done.write_text(datetime.now(timezone.utc).isoformat())
     log(f"  video: {mp4} ({mp4.stat().st_size / 1e6:.1f} MB)")
-    notify(f"{init:%HZ %d %b} loop ready: {mp4.name}")
+    notify(f"{init:%HZ %d %b} loop ready: {mp4.name}", mp4)
     return True
 
 
