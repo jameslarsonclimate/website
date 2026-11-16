@@ -381,3 +381,22 @@
 {"fetched_at_utc":"2026-11-16T18:51:38+00:00","station":"PAYA","target_date":"2026-10-20","model":"USL","init_time_utc":"2026-10-19T22","error":"no USL run for 2026-10-20 available at 2026-10-19 22Z"}
 {"fetched_at_utc":"2026-11-16T18:51:38+00:00","station":"PAYA","target_date":"2026-10-19","model":"HRRR","init_time_utc":"2026-10-18T12","tmax_f":47.5,"tmin_f":38.3,"wind_max_kt":24.0,"precip_in":2.1}
 {"fetched_at_utc":"2026-11-16T18:51:38+00:00","station":"PAYA","target_date":"2026-10-19","model":"RRFS","init_time_utc":"2026-10-18T12","tmax_f":49.0,"tmin_f":38.5,"wind_max_kt":20.4,"precip_in":1.79}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-21","model":"USL","init_time_utc":"2026-10-20T12","error":"no USL run for 2026-10-21 available at 2026-10-20 12Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-21","model":"USL","init_time_utc":"2026-10-20T22","error":"no USL run for 2026-10-21 available at 2026-10-20 22Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-20","model":"USL","init_time_utc":"2026-10-19T12","error":"no USL run for 2026-10-20 available at 2026-10-19 12Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-20","model":"USL","init_time_utc":"2026-10-19T22","error":"no USL run for 2026-10-20 available at 2026-10-19 22Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-19","model":"GFS","init_time_utc":"2026-10-18T12","tmax_f":48.2,"tmin_f":42.5,"wind_max_kt":32.3,"precip_in":2.02}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-19","model":"GFS_MOS","init_time_utc":"2026-10-18T12","tmax_f":48,"tmin_f":38.0,"wind_max_kt":16.0,"precip_in":1.62}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-19","model":"NBM","init_time_utc":"2026-10-18T12","tmax_f":48.0,"tmin_f":35.0,"wind_max_kt":19.0,"precip_in":2.04}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-19","model":"NBM","init_time_utc":"2026-10-18T18","tmax_f":48.0,"tmin_f":36.0,"wind_max_kt":19.0,"precip_in":1.94}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-19","model":"USL","init_time_utc":"2026-10-18T12","error":"no USL run for 2026-10-19 available at 2026-10-18 12Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-19","model":"USL","init_time_utc":"2026-10-18T22","error":"no USL run for 2026-10-19 available at 2026-10-18 22Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"HRRR","init_time_utc":"2026-10-17T12","tmax_f":47.9,"tmin_f":38.6,"wind_max_kt":5.9,"precip_in":0.42}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"RRFS","init_time_utc":"2026-10-17T12","tmax_f":48.1,"tmin_f":36.0,"wind_max_kt":7.3,"precip_in":0.08}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"GFS","init_time_utc":"2026-10-17T12","tmax_f":49.9,"tmin_f":44.6,"wind_max_kt":16.6,"precip_in":0.29}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"GFS_MOS","init_time_utc":"2026-10-17T12","tmax_f":47.0,"tmin_f":41.0,"wind_max_kt":7.0,"precip_in":0.44}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"NBM","init_time_utc":"2026-10-17T12","tmax_f":47.0,"tmin_f":37.0,"wind_max_kt":7.0,"precip_in":0.25}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"NBM","init_time_utc":"2026-10-17T18","tmax_f":47.0,"tmin_f":37.0,"wind_max_kt":7.0,"precip_in":0.19}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"USL","init_time_utc":"2026-10-17T12","error":"no USL run for 2026-10-18 available at 2026-10-17 12Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-18","model":"USL","init_time_utc":"2026-10-17T22","error":"no USL run for 2026-10-18 available at 2026-10-17 22Z"}
+{"fetched_at_utc":"2026-11-16T19:00:08+00:00","station":"PAYA","target_date":"2026-10-17","model":"HRRR","init_time_utc":"2026-10-16T12","tmax_f":48.1,"tmin_f":39.7,"wind_max_kt":10.3,"precip_in":0.17}

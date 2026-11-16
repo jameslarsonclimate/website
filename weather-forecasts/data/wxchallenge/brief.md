@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-17**, scored over 2026-11-17T06Z to 2026-11-18T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-17T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-16T18:51:38+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-16T19:00:08+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,7 +35,7 @@ Run = day/hour (UTC) of the model initialization.
 | IFS_HRES | 16/12Z | 43.3 | 34.9 | 19.4 | 1.16 |
 | GFS | 16/12Z | 45.4 | 39.1 | 22.1 | 1.36 |
 | GFS_MOS | 16/12Z | 43.0 | 39.0 | 14.0 | 1.54 |
-| NBM | 16/17Z | 40.0 | 35.0 | 12.0 | 0.55 |
+| NBM | 16/18Z | 40.0 | 35.0 | 12.0 | 0.55 |
 | USL | 16/12Z | 45.0 | 37.0 | 19.0 | 1.37 |
 | ENS | 16/06Z | 43.0 | 37.5 | 16.9 | 0.78 |
 | GEFS | 16/12Z | 41.8 | 38.7 | 14.1 | 1.14 |
@@ -97,7 +97,7 @@ NBM QMD calibrated 24-h precip percentiles: p10 0.31", p25 0.56", p50 0.74", p75
 | Source | Basis | 06-12 | 12-18 | 18-00 | 00-06 | 24 h | Brier 6h (n) |
 | --- | --- | --: | --: | --: | --: | --: | --: |
 | GFS_MOS | GFS MOS P06 | 72% | 88% | 94% | 97% | 97% to 100% | 0.11 (24) |
-| NBM | NBS P06 | 80% | 83% | 100% | 94% | 100% to 100% | 0.07 (24) |
+| NBM | NBS P06 | 80% | 73% | 100% | 100% | 100% to 100% | 0.07 (24) |
 | ENS | member fraction | 100% | 98% | 100% | 100% | 100% | 0.12 (24) |
 | GEFS | member fraction | 100% | 100% | 100% | 100% | 100% | 0.10 (24) |
 | REFS | member fraction | — | — | — | — | 100% | — |
@@ -267,31 +267,31 @@ Total cloud cover (%):
 
 | UTC | Local (AKST) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS | GEFS |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-17 06Z | Mon 21:00 | 78 | 26 | 100 | 89 | 100 | 100 | 67 | 100 | 92 | 98 |
-| 11-17 07Z | Mon 22:00 | 100 | 84 |  | 86 |  |  | 79 | 100 | 92 | 98 |
-| 11-17 08Z | Mon 23:00 | 100 | 48 |  | 95 |  |  | 81 | 100 | 92 | 99 |
-| 11-17 09Z | Tue 00:00 | 100 | 100 | 100 | 100 | 100 | 100 | 89 | 100 | 93 | 100 |
-| 11-17 10Z | Tue 01:00 | 100 | 100 |  | 100 |  |  | 95 | 100 | 95 | 100 |
+| 11-17 06Z | Mon 21:00 | 78 | 26 | 100 | 89 | 100 | 100 | 68 | 100 | 92 | 98 |
+| 11-17 07Z | Mon 22:00 | 100 | 84 |  | 86 |  |  | 85 | 100 | 92 | 98 |
+| 11-17 08Z | Mon 23:00 | 100 | 48 |  | 95 |  |  | 86 | 100 | 92 | 99 |
+| 11-17 09Z | Tue 00:00 | 100 | 100 | 100 | 100 | 100 | 100 | 92 | 100 | 93 | 100 |
+| 11-17 10Z | Tue 01:00 | 100 | 100 |  | 100 |  |  | 94 | 100 | 95 | 100 |
 | 11-17 11Z | Tue 02:00 | 100 | 100 |  | 100 |  |  | 96 | 100 | 97 | 100 |
-| 11-17 12Z | Tue 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 95 | 100 | 99 | 100 |
+| 11-17 12Z | Tue 03:00 | 100 | 100 | 100 | 100 | 100 | 100 | 96 | 100 | 99 | 100 |
 | 11-17 13Z | Tue 04:00 | 100 | 100 |  | 100 |  |  | 96 | 100 | 100 | 100 |
 | 11-17 14Z | Tue 05:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
 | 11-17 15Z | Tue 06:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 100 | 100 |
 | 11-17 16Z | Tue 07:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
 | 11-17 17Z | Tue 08:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
 | 11-17 18Z | Tue 09:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 100 | 100 |
-| 11-17 19Z | Tue 10:00 | 100 | 100 |  | 100 |  |  |  | 100 | 100 | 100 |
+| 11-17 19Z | Tue 10:00 | 100 | 100 |  | 100 |  |  | 97 | 100 | 100 | 100 |
 | 11-17 20Z | Tue 11:00 | 100 | 100 |  | 100 |  |  |  | 100 | 100 | 100 |
-| 11-17 21Z | Tue 12:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 100 | 100 |
+| 11-17 21Z | Tue 12:00 | 100 | 100 | 100 | 100 | 100 | 100 | 98 | 100 | 100 | 100 |
 | 11-17 22Z | Tue 13:00 | 100 | 100 |  | 100 |  |  |  | 100 | 100 | 100 |
 | 11-17 23Z | Tue 14:00 | 100 | 100 |  | 100 |  |  |  | 100 | 99 | 100 |
 | 11-18 00Z | Tue 15:00 | 100 | 100 | 100 | 100 | 100 | 100 | 98 | 100 | 99 | 100 |
 | 11-18 01Z | Tue 16:00 | 100 | 100 |  | 100 |  |  |  | 100 | 98 | 100 |
 | 11-18 02Z | Tue 17:00 | 100 | 100 |  | 100 |  |  |  | 100 | 96 | 100 |
-| 11-18 03Z | Tue 18:00 | 100 | 100 | 100 | 100 | 100 | 100 | 97 | 100 | 95 | 100 |
+| 11-18 03Z | Tue 18:00 | 100 | 100 | 100 | 100 | 100 | 100 | 98 | 100 | 95 | 100 |
 | 11-18 04Z | Tue 19:00 | 100 | 100 |  | 100 |  |  |  | 100 | 93 | 100 |
 | 11-18 05Z | Tue 20:00 | 100 | 100 |  | 100 |  |  |  | 100 | 91 | 100 |
-| 11-18 06Z | Tue 21:00 | 100 | 100 | 94 | 100 | 100 | 100 | 93 | 100 | 89 | 100 |
+| 11-18 06Z | Tue 21:00 | 100 | 100 | 94 | 100 | 100 | 100 | 95 | 100 | 89 | 100 |
 
 ## Track record this period
 
@@ -783,7 +783,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-16)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-16 18:51Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-16 19:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
@@ -794,7 +794,7 @@ How each run is doing so far (forecast - observed; Hours = hours compared). Clou
 | IFS | 16/06Z | 09Z | 4 | -1.1 | 1.8 | -0.3 | -3.2 | +3.9 | -9 | 0.45 / 0.48 |
 | GFS | 16/12Z | 15Z | 2 | +1.7 | 1.7 | -0.6 | -0.3 | +9.7 | +0 | 0.03 / 0.07 |
 | GFS_MOS | 16/12Z | 18Z | 1 | +0.0 | 0.0 | -1.0 | +5.0 | +3.0 | +0 | — |
-| NBM | 16/17Z | 21Z | 0 | — | — | — | — | — | — | — |
+| NBM | 16/18Z | 00Z | 0 | — | — | — | — | — | — | — |
 
 Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance can miss the true extreme). Day high/low = the run's extreme for the rest of the day combined with the observed high 46.9 / low 39.0 °F so far:
 
@@ -805,7 +805,7 @@ Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance
 | IFS | 16/06Z | 4 | 41.4 | 37.5 | 20.0 | 46.9 | 37.5 |
 | GFS | 16/12Z | 4 | 44.2 | 39.8 | 23.5 | 46.9 | 39.0 |
 | GFS_MOS | 16/12Z | 4 | 43.0 | 41.0 | 14.0 | 46.9 | 39.0 |
-| NBM | 16/17Z | 4 | 41.0 | 39.0 | 14.0 | 46.9 | 39.0 |
+| NBM | 16/18Z | 3 | 39.0 | 39.0 | 13.0 | 46.9 | 39.0 |
 
 Hour by hour (°F, kt; obs blank after the last report):
 
@@ -823,7 +823,7 @@ Hour by hour (°F, kt; obs blank after the last report):
 | 11-16 18Z | Mon 09:00 | 43.0 | 37.0 | 9 | 39.7 | 34.8 | 9 | 40.9 | 34.8 | 10 | 44.3 | 34.3 | 14 | 45.1 | 37.9 | 19 | 43.0 | 42.0 | 12 |  |  |  |
 | 11-16 19Z | Mon 10:00 |  |  |  | 39.5 | 36.3 | 7 | 41.5 | 37.6 | 9 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-16 20Z | Mon 11:00 |  |  |  | 40.1 | 36.9 | 10 | 41.6 | 37.5 | 7 |  |  |  |  |  |  |  |  |  |  |  |  |
-| 11-16 21Z | Mon 12:00 |  |  |  | 40.4 | 37.0 | 12 | 41.4 | 37.7 | 10 | 41.2 | 39.0 | 18 | 44.2 | 38.7 | 22 | 42.0 | 40.0 | 14 | 41.0 | 41.0 | 14 |
+| 11-16 21Z | Mon 12:00 |  |  |  | 40.4 | 37.0 | 12 | 41.4 | 37.7 | 10 | 41.2 | 39.0 | 18 | 44.2 | 38.7 | 22 | 42.0 | 40.0 | 14 |  |  |  |
 | 11-16 22Z | Mon 13:00 |  |  |  | 40.9 | 38.2 | 12 | 41.8 | 37.9 | 12 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-16 23Z | Mon 14:00 |  |  |  | 41.3 | 39.3 | 14 | 41.4 | 38.1 | 12 |  |  |  |  |  |  |  |  |  |  |  |  |
 | 11-17 00Z | Mon 15:00 |  |  |  | 41.3 | 39.5 | 16 | 40.5 | 38.1 | 17 | 37.5 | 36.4 | 12 | 39.8 | 37.3 | 15 | 41.0 | 40.0 | 13 | 39.0 | 39.0 | 13 |
