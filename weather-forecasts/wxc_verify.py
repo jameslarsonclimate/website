@@ -67,6 +67,9 @@ PROXY_TRACK_RECORD = {"ENS": "IFS"}
 # PROXY_TRACK_RECORD = {"ENS": "IFS", "AIFS_ENS": "AIFS"}
 PERIOD_DAYS = 14   # a city period is two weeks (Mon-Thu x2, ~8 forecast days)
 HINDCAST_DAYS = 14   # days hindcast before a city's first forecast day, for its track record
+# How far back current_period_start looks for a station's first date. Was PERIOD_DAYS +
+# HINDCAST_DAYS + 7 (35); widened so a longer backfill (e.g. PAYA 2026-10-12) keeps counting.
+PERIOD_LOOKBACK_DAYS = 60
 
 
 # ----------------------------------------------------------------------------
@@ -729,10 +732,10 @@ def refresh_cycles(station: str) -> bool:
 
 def current_period_start(station: str, today: date) -> str:
     """Start of the current city period (hindcast days included): first obs/run date for
-    this station within the last PERIOD_DAYS + HINDCAST_DAYS + a week."""
+    this station within the last PERIOD_LOOKBACK_DAYS (room for a longer backfill, e.g. 4 weeks)."""
     dates = [r["target_date"] for r in read_jsonl(RUNS) if r["station"] == station]
     dates += [o["date"] for o in read_jsonl(OBS) if o["station"] == station]
-    cutoff = (today - timedelta(days=PERIOD_DAYS + HINDCAST_DAYS + 7)).isoformat()
+    cutoff = (today - timedelta(days=PERIOD_LOOKBACK_DAYS)).isoformat()
     recent = sorted(d for d in dates if d >= cutoff)
     return recent[0] if recent else today.isoformat()
 
