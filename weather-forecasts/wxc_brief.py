@@ -173,7 +173,8 @@ def _guidance(fc, order):
     if notes:
         out += ["", "Notes:", *notes]
     out += ["", "GEFS is shown and scored but not used in the consensus. IFS_HRES (the IFS run at its native 9 km, hourly; "
-            "IFS is the same run on the 0.25 deg open-data grid) is a consensus member. Precip-only ensembles (REFS, HRRRCAST) "
+            "IFS is the same run on the 0.25 deg open-data grid) and IFS are the same model: for each variable only the one "
+            "with the lower MAE is a consensus member. Precip-only ensembles (REFS, HRRRCAST) "
             "and NBM QMD are not in the consensus either; they inform the precip choice."]
     return "\n".join(out)
 

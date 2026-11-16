@@ -178,13 +178,14 @@ def test_fetch_cloud_asks_again_for_an_archived_run(api):
     assert hr.fetch_cloud(ST, init) == rec and api.calls == ["2026-10-01T00:00"]     # now from its file
 
 
-def test_in_the_consensus():
+def test_in_the_consensus_when_better_than_ifs():
     models = {"IFS": {"tmax_f": 60, "tmin_f": 40, "wind_max_kt": 5, "precip_in": 0.1},
               "GFS": {"tmax_f": 62, "tmin_f": 42, "wind_max_kt": 7, "precip_in": 0.2},
               "IFS_HRES": {"tmax_f": 64, "tmin_f": 44, "wind_max_kt": 9, "precip_in": 0.3}}
     c = wxc_verify.consensus(models, {})
-    assert c["tmax_f"] == 62 and c["precip_in"] == pytest.approx(0.2)
-    assert "IFS_HRES" in c["method"]["tmax_f"]["members"]
+    # same model as IFS: with no track record IFS is the member, IFS_HRES waits its turn
+    assert c["tmax_f"] == 61 and c["precip_in"] == pytest.approx(0.15)
+    assert c["method"]["tmax_f"]["excluded_same_model"] == ["IFS_HRES"]
     assert "IFS_HRES" in wxc_verify.STYLE
 
 

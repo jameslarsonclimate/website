@@ -60,6 +60,10 @@ OUTLIER_TOLERANCE = {"tmax_f": 8.0, "tmin_f": 8.0, "wind_max_kt": 10.0}   # from
 # IFS HRES at 9 km (wxc_ifs_hres; added 2026-10-21) joined on 2026-11-16 once it had a track
 # record: best single model at PAYA; backtest -11.8 +/- 5.0 pts there, within noise elsewhere.
 NOT_IN_CONSENSUS = {"GEFS"}
+# Runs of the same model (errors correlate 0.91-0.99): only the one with the lower MAE for a
+# variable joins the consensus for it, so ECMWF isn't counted twice. Without a track record
+# for both, the first listed is used.
+SAME_MODEL = [("IFS", "IFS_HRES")]
 # A member whose run is more than STALE_HOURS older than the newest member's is left out of the
 # consensus (e.g. Open-Meteo's ECMWF ensemble feed stalling while every other model updates).
 STALE_HOURS = 36
@@ -773,6 +777,19 @@ def _stale_members(models: dict, now: Optional[datetime] = None) -> list:
                                                   or (now is not None and run_too_old(models[n], now)))]
 
 
+def _same_model_losers(models: dict, summary: dict, v: str, stale) -> set:
+    """Members of each SAME_MODEL group left out for variable v: all but the lowest-MAE one."""
+    out = set()
+    for group in SAME_MODEL:
+        have = [n for n in group if n not in stale and (models.get(n) or {}).get(v) is not None]
+        if len(have) < 2:
+            continue
+        ok = [n for n in have if (summary.get(n) or {}).get("n_days", 0) >= MIN_DAYS_FOR_CORRECTION]
+        keep = min(have, key=lambda n: summary[n]["mae"][v]) if len(ok) == len(have) else have[0]
+        out |= set(have) - {keep}
+    return out
+
+
 def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
               now: Optional[datetime] = None) -> dict:
     """
@@ -795,8 +812,10 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
         off = mae_offset if mae_offset is not None else MAE_OFFSET
         off = off[v] if isinstance(off, dict) else off
         vals, wts, used, proxied = [], [], [], {}
+        twins = _same_model_losers(models, summary, v, stale)
         for name, m in models.items():
-            if name == "CONSENSUS" or name in NOT_IN_CONSENSUS or name in stale or m.get(v) is None:
+            if name == "CONSENSUS" or name in NOT_IN_CONSENSUS or name in stale or m.get(v) is None \
+                    or name in twins:
                 continue
             s = summary.get(name)
             if not (s and s["n_days"] >= MIN_DAYS_FOR_CORRECTION):
@@ -846,6 +865,8 @@ def consensus(models: dict, summary: dict, shrink_days=None, mae_offset=None,
                      "weights": {n: round(w / sum(wts), 3) for n, w in zip(used, wts)}}
         if excluded:
             detail[v]["excluded_outliers"] = excluded
+        if twins:
+            detail[v]["excluded_same_model"] = sorted(twins)
         if stale:
             detail[v]["excluded_stale"] = [n for n in stale if models[n].get(v) is not None]
         if any(n in used for n in proxied):
