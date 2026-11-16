@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-16T22:48:09+00:00",
+  "generated_at_utc": "2026-11-16T23:00:07+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -108,18 +108,18 @@
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)"
     },
     "GFS": {
-      "tmax_f": 45.4,
-      "tmin_f": 39.1,
-      "wind_max_kt": 22.1,
-      "precip_in": 1.36,
-      "init_time_utc": "2026-11-16T12",
+      "tmax_f": 46.4,
+      "tmin_f": 38.1,
+      "wind_max_kt": 26.5,
+      "precip_in": 1.55,
+      "init_time_utc": "2026-11-16T18",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 22.1,
+      "wind_max_kt_06z": 26.5,
       "wind_window_utc": [
         "2026-11-17T09",
         "2026-11-18T09"
@@ -176,7 +176,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-16T21",
+      "init_time_utc": "2026-11-16T22",
       "valid_range_utc": [
         "2026-11-17T06",
         "2026-11-18T06"
@@ -820,10 +820,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 43.6,
+      "tmax_f": 43.8,
       "tmin_f": 36.0,
-      "wind_max_kt": 16.2,
-      "precip_in": 1.05,
+      "wind_max_kt": 16.6,
+      "precip_in": 1.07,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -934,7 +934,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-16T22:48:09+00:00",
+    "checked_at_utc": "2026-11-16T23:00:07+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1045,6 +1045,13 @@
         "wind_max_kt": 22.1,
         "precip_in": 1.36,
         "init_time_utc": "2026-11-16T12"
+      },
+      "18": {
+        "tmax_f": 46.4,
+        "tmin_f": 38.1,
+        "wind_max_kt": 26.5,
+        "precip_in": 1.55,
+        "init_time_utc": "2026-11-16T18"
       }
     },
     "GEFS": {
