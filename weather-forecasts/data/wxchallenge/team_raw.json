@@ -1,6 +1,6 @@
 {
  "checks": [
-  "2026-11-16T13:01:26+00:00"
+  "2026-11-17T13:00:05+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -2367,12 +2367,213 @@
        }
       }
      }
+    },
+    "2026-11-17": {
+     "day": 5,
+     "year": "26-27",
+     "status": "As of 12Z",
+     "final": false,
+     "fetched_at_utc": "2026-11-17T13:00:05+00:00",
+     "forecasters": {
+      "Mothmn": {
+       "forecast": {
+        "tmax_f": 43,
+        "tmin_f": 37,
+        "wind_max_kt": 16,
+        "precip_in": 1.03
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 2,
+         "tmin_f": 3,
+         "wind_max_kt": 0.5,
+         "precip_in": 14.2
+        },
+        "penalty": 0,
+        "points": 19.7,
+        "cum_points": 50.3,
+        "rank": 13,
+        "prev_rank": 19
+       }
+      },
+      "Cyclop": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 38,
+        "wind_max_kt": 20,
+        "precip_in": 1.14
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 4,
+         "tmin_f": 2,
+         "wind_max_kt": 2.5,
+         "precip_in": 15.3
+        },
+        "penalty": 0,
+        "points": 23.8,
+        "cum_points": 57.5,
+        "rank": 111,
+        "prev_rank": 60
+       }
+      },
+      "Bigfut": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 36,
+        "wind_max_kt": 14,
+        "precip_in": 1.0
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 3,
+         "tmin_f": 4,
+         "wind_max_kt": 0.5,
+         "precip_in": 13.9
+        },
+        "penalty": 0,
+        "points": 21.4,
+        "cum_points": 58.2,
+        "rank": 132,
+        "prev_rank": 146
+       }
+      },
+      "JerDvl": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 36,
+        "wind_max_kt": 17,
+        "precip_in": 1.05
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 1,
+       "official": {
+        "error": {
+         "tmax_f": 4,
+         "tmin_f": 4,
+         "wind_max_kt": 1.0,
+         "precip_in": 14.4
+        },
+        "penalty": 0,
+        "points": 23.4,
+        "cum_points": 58.8,
+        "rank": 148,
+        "prev_rank": 99
+       }
+      },
+      "Wndigo": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 36,
+        "wind_max_kt": 17,
+        "precip_in": 1.2
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 4,
+         "tmin_f": 4,
+         "wind_max_kt": 1.0,
+         "precip_in": 15.9
+        },
+        "penalty": 0,
+        "points": 24.9,
+        "cum_points": 62.6,
+        "rank": 259,
+        "prev_rank": 174
+       }
+      },
+      "Kraken": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 38,
+        "wind_max_kt": 13,
+        "precip_in": 1.72
+       },
+       "flag": "G",
+       "cat": 2,
+       "absences": 2,
+       "official": {
+        "error": {
+         "tmax_f": 5,
+         "tmin_f": 2,
+         "wind_max_kt": 1.0,
+         "precip_in": 21.1
+        },
+        "penalty": 5,
+        "points": 34.1,
+        "cum_points": 63.2,
+        "rank": 278,
+        "prev_rank": 6
+       }
+      },
+      "Nessie": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 36,
+        "wind_max_kt": 14,
+        "precip_in": 0.9
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 5,
+         "tmin_f": 4,
+         "wind_max_kt": 0.5,
+         "precip_in": 12.9
+        },
+        "penalty": 0,
+        "points": 22.4,
+        "cum_points": 64.6,
+        "rank": 321,
+        "prev_rank": 353
+       }
+      },
+      "Hodags": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 36,
+        "wind_max_kt": 17,
+        "precip_in": 1.29
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 0,
+       "official": {
+        "error": {
+         "tmax_f": 4,
+         "tmin_f": 4,
+         "wind_max_kt": 1.0,
+         "precip_in": 16.8
+        },
+        "penalty": 0,
+        "points": 25.8,
+        "cum_points": 71.4,
+        "rank": 516,
+        "prev_rank": 464
+       }
+      }
+     }
     }
    },
    "year": "26-27",
    "school": "csu",
-   "done_for": "2026-11-16"
+   "done_for": "2026-11-17"
   }
  },
- "generated_at_utc": "2026-11-16T13:01:26+00:00"
+ "generated_at_utc": "2026-11-17T13:00:05+00:00"
 }
