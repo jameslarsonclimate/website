@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-17T22:00:05+00:00",
+  "generated_at_utc": "2026-11-17T22:12:07+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -127,34 +127,34 @@
       "wind_window": "LST"
     },
     "GFS_MOS": {
-      "tmax_f": 40.0,
-      "tmin_f": 34.0,
-      "wind_max_kt": 5.0,
-      "wind_max_kt_06z": 5.0,
+      "tmax_f": 41.0,
+      "tmin_f": 34,
+      "wind_max_kt": 4.0,
+      "wind_max_kt_06z": 4.0,
       "wind_window": "LST",
       "wind_window_utc": [
         "2026-11-18T09",
         "2026-11-19T09"
       ],
       "precip_in": 0.05,
-      "pop06_max_pct": 71,
+      "pop06_max_pct": 62,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.71,
-          "12-18": 0.33,
-          "18-00": 0.23,
+          "06-12": 0.62,
+          "12-18": 0.38,
+          "18-00": 0.22,
           "00-06": 0.09
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.71,
-          0.864
+          0.62,
+          0.833
         ]
       },
       "precip_note": "MOS Q06 categories [1, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-17T12",
+      "init_time_utc": "2026-11-17T18",
       "valid_range_utc": [
         "2026-11-18T06",
         "2026-11-19T06"
@@ -832,9 +832,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 42.3,
+      "tmax_f": 42.4,
       "tmin_f": 34.6,
-      "wind_max_kt": 7.7,
+      "wind_max_kt": 7.6,
       "precip_in": 0.19,
       "method": {
         "tmax_f": {
@@ -946,7 +946,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-17T22:00:05+00:00",
+    "checked_at_utc": "2026-11-17T22:12:07+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1025,6 +1025,13 @@
         "wind_max_kt": 5.0,
         "precip_in": 0.05,
         "init_time_utc": "2026-11-17T12"
+      },
+      "18": {
+        "tmax_f": 41.0,
+        "tmin_f": 34,
+        "wind_max_kt": 4.0,
+        "precip_in": 0.05,
+        "init_time_utc": "2026-11-17T18"
       }
     },
     "USL": {
