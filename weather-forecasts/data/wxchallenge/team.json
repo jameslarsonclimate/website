@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-17T13:00:05+00:00",
- "generated_at_utc": "2026-11-17T21:30:26+00:00",
+ "generated_at_utc": "2026-11-17T22:00:22+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -782,12 +782,12 @@
      "precip_in": 1.03
     },
     "error": {
-     "tmax_f": 0,
+     "tmax_f": -3,
      "tmin_f": 0,
      "wind_max_kt": 1,
-     "precip_in": 0.42
+     "precip_in": 0.41
     },
-    "points": 4.7,
+    "points": 7.6,
     "day": 5
    },
    "Cyclop": {
@@ -798,12 +798,12 @@
      "precip_in": 1.14
     },
     "error": {
-     "tmax_f": 2,
+     "tmax_f": -1,
      "tmin_f": 1,
      "wind_max_kt": 5,
-     "precip_in": 0.53
+     "precip_in": 0.52
     },
-    "points": 10.8,
+    "points": 9.7,
     "day": 5
    },
    "Bigfut": {
@@ -814,12 +814,12 @@
      "precip_in": 1.0
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": -2,
      "tmin_f": -1,
      "wind_max_kt": -1,
-     "precip_in": 0.39
+     "precip_in": 0.38
     },
-    "points": 6.4,
+    "points": 7.3,
     "day": 5
    },
    "JerDvl": {
@@ -830,12 +830,12 @@
      "precip_in": 1.05
     },
     "error": {
-     "tmax_f": 2,
+     "tmax_f": -1,
      "tmin_f": -1,
      "wind_max_kt": 2,
-     "precip_in": 0.44
+     "precip_in": 0.43
     },
-    "points": 8.4,
+    "points": 7.3,
     "day": 5
    },
    "Wndigo": {
@@ -846,12 +846,12 @@
      "precip_in": 1.2
     },
     "error": {
-     "tmax_f": 2,
+     "tmax_f": -1,
      "tmin_f": -1,
      "wind_max_kt": 2,
-     "precip_in": 0.59
+     "precip_in": 0.58
     },
-    "points": 9.9,
+    "points": 8.8,
     "day": 5
    },
    "Kraken": {
@@ -862,12 +862,12 @@
      "precip_in": 1.72
     },
     "error": {
-     "tmax_f": 3,
+     "tmax_f": 0,
      "tmin_f": 1,
      "wind_max_kt": -2,
-     "precip_in": 1.11
+     "precip_in": 1.1
     },
-    "points": 21.1,
+    "points": 18.0,
     "penalty": 5,
     "flag": "G",
     "day": 5
@@ -880,12 +880,12 @@
      "precip_in": 0.9
     },
     "error": {
-     "tmax_f": 3,
+     "tmax_f": 0,
      "tmin_f": -1,
      "wind_max_kt": -1,
-     "precip_in": 0.29
+     "precip_in": 0.28
     },
-    "points": 7.4,
+    "points": 4.3,
     "day": 5
    },
    "Hodags": {
@@ -896,12 +896,12 @@
      "precip_in": 1.29
     },
     "error": {
-     "tmax_f": 2,
+     "tmax_f": -1,
      "tmin_f": -1,
      "wind_max_kt": 2,
-     "precip_in": 0.68
+     "precip_in": 0.67
     },
-    "points": 10.8,
+    "points": 9.7,
     "day": 5
    }
   }
