@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-17T13:00:05+00:00",
- "generated_at_utc": "2026-11-17T17:00:59+00:00",
+ "generated_at_utc": "2026-11-17T17:48:17+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -785,9 +785,9 @@
      "tmax_f": 2,
      "tmin_f": -1,
      "wind_max_kt": 1,
-     "precip_in": 0.9
+     "precip_in": 0.88
     },
-    "points": 17.4,
+    "points": 16.8,
     "day": 5
    },
    "Cyclop": {
@@ -801,9 +801,9 @@
      "tmax_f": 4,
      "tmin_f": 0,
      "wind_max_kt": 5,
-     "precip_in": 1.01
+     "precip_in": 0.99
     },
-    "points": 21.5,
+    "points": 20.9,
     "day": 5
    },
    "Bigfut": {
@@ -817,9 +817,9 @@
      "tmax_f": 3,
      "tmin_f": -2,
      "wind_max_kt": -1,
-     "precip_in": 0.87
+     "precip_in": 0.85
     },
-    "points": 19.1,
+    "points": 18.5,
     "day": 5
    },
    "JerDvl": {
@@ -833,9 +833,9 @@
      "tmax_f": 4,
      "tmin_f": -2,
      "wind_max_kt": 2,
-     "precip_in": 0.92
+     "precip_in": 0.9
     },
-    "points": 21.1,
+    "points": 20.5,
     "day": 5
    },
    "Wndigo": {
@@ -849,9 +849,9 @@
      "tmax_f": 4,
      "tmin_f": -2,
      "wind_max_kt": 2,
-     "precip_in": 1.07
+     "precip_in": 1.05
     },
-    "points": 22.6,
+    "points": 22.0,
     "day": 5
    },
    "Kraken": {
@@ -865,9 +865,9 @@
      "tmax_f": 5,
      "tmin_f": 0,
      "wind_max_kt": -2,
-     "precip_in": 1.59
+     "precip_in": 1.57
     },
-    "points": 31.8,
+    "points": 31.2,
     "penalty": 5,
     "flag": "G",
     "day": 5
@@ -883,9 +883,9 @@
      "tmax_f": 5,
      "tmin_f": -2,
      "wind_max_kt": -1,
-     "precip_in": 0.77
+     "precip_in": 0.75
     },
-    "points": 20.1,
+    "points": 19.5,
     "day": 5
    },
    "Hodags": {
@@ -899,9 +899,9 @@
      "tmax_f": 4,
      "tmin_f": -2,
      "wind_max_kt": 2,
-     "precip_in": 1.16
+     "precip_in": 1.14
     },
-    "points": 23.5,
+    "points": 22.9,
     "day": 5
    }
   }
