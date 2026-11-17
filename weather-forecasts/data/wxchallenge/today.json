@@ -1,11 +1,11 @@
 {
   "date": "2026-11-17",
-  "through_utc": "2026-11-17T23:00",
+  "through_utc": "2026-11-17T23:11",
   "obs": {
     "high": 46.04,
     "low": 37.04,
     "wind": 15,
-    "precip": 0.63,
+    "precip": 0.64,
     "n_obs": 17
   },
   "models": {
@@ -25,7 +25,7 @@
       "low_err": -2.3,
       "low_pending": true,
       "wind_bias": 0.8,
-      "precip_so_far": 0.3,
+      "precip_so_far": 0.31,
       "precip_err": -0.33
     },
     "RRFS": {
@@ -44,7 +44,7 @@
       "low_err": 0.4,
       "low_pending": false,
       "wind_bias": -0.6,
-      "precip_so_far": 0.56,
+      "precip_so_far": 0.57,
       "precip_err": -0.07
     },
     "IFS": {
@@ -63,8 +63,8 @@
       "low_err": -1.9,
       "low_pending": false,
       "wind_bias": 3.4,
-      "precip_so_far": 0.88,
-      "precip_err": 0.24
+      "precip_so_far": 0.89,
+      "precip_err": 0.25
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-16T12",
@@ -82,7 +82,7 @@
       "low_err": -2.1,
       "low_pending": false,
       "wind_bias": 2.1,
-      "precip_so_far": 0.94,
+      "precip_so_far": 0.95,
       "precip_err": 0.31
     },
     "GFS": {
@@ -101,7 +101,7 @@
       "low_err": 1.1,
       "low_pending": false,
       "wind_bias": 6.8,
-      "precip_so_far": 0.9,
+      "precip_so_far": 0.91,
       "precip_err": 0.27
     },
     "GFS_MOS": {
@@ -154,8 +154,8 @@
       "low_err": -1.0,
       "low_pending": false,
       "wind_bias": 0.6,
-      "precip_so_far": 0.65,
-      "precip_err": 0.02
+      "precip_so_far": 0.67,
+      "precip_err": 0.03
     },
     "ENS": {
       "init_time_utc": "2026-11-16T12",
@@ -173,7 +173,7 @@
       "low_err": 0.1,
       "low_pending": false,
       "wind_bias": 2.8,
-      "precip_so_far": 0.68,
+      "precip_so_far": 0.69,
       "precip_err": 0.05
     },
     "GEFS": {
@@ -192,10 +192,10 @@
       "low_err": 1.2,
       "low_pending": false,
       "wind_bias": 2.0,
-      "precip_so_far": 0.69,
-      "precip_err": 0.06
+      "precip_so_far": 0.71,
+      "precip_err": 0.07
     }
   },
   "station": "PAYA",
-  "generated_at_utc": "2026-11-17T23:12:06+00:00"
+  "generated_at_utc": "2026-11-17T23:24:04+00:00"
 }
