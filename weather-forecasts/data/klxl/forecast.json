@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-17T21:15:11+00:00",
+  "generated_at_utc": "2026-11-17T22:18:12+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -98,28 +98,28 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
-      "tmax_f": 55.0,
-      "tmin_f": 41.0,
-      "wind_max_kt": 16.0,
+      "tmax_f": 56.0,
+      "tmin_f": 42.0,
+      "wind_max_kt": 15.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 3,
+      "pop06_max_pct": 5,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.01,
-          "12-18": 0.03,
+          "06-12": 0.0,
+          "12-18": 0.02,
           "18-00": 0.02,
-          "00-06": 0.03
+          "00-06": 0.05
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.03,
-          0.087
+          0.05,
+          0.088
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-17T12",
+      "init_time_utc": "2026-11-17T18",
       "valid_range_utc": [
         "2026-11-18T06",
         "2026-11-19T06"
@@ -147,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-17T20",
+      "init_time_utc": "2026-11-17T21",
       "valid_range_utc": [
         "2026-11-18T06",
         "2026-11-19T06"
@@ -859,9 +859,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 55.5,
-      "tmin_f": 40.4,
-      "wind_max_kt": 15.1,
+      "tmax_f": 55.7,
+      "tmin_f": 40.6,
+      "wind_max_kt": 15.0,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-17T21:15:11+00:00",
+    "checked_at_utc": "2026-11-17T22:18:12+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
