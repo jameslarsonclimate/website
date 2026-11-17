@@ -6309,7 +6309,7 @@
     }
   },
   "period_start": "2026-10-13",
-  "generated_at_utc": "2026-11-17T16:22:58+00:00",
+  "generated_at_utc": "2026-11-17T17:15:30+00:00",
   "observations": [
     {
       "date": "2026-10-13",
@@ -10270,13 +10270,13 @@
   },
   "today": {
     "date": "2026-11-17",
-    "through_utc": "2026-11-17T16:15",
-    "n_obs": 10,
+    "through_utc": "2026-11-17T16:55",
+    "n_obs": 11,
     "provisional": true,
     "obs": {
       "tmax_f": 46,
       "tmin_f": 37,
-      "wind_max_kt": 8,
+      "wind_max_kt": 9,
       "precip_in": 0.0
     },
     "models": {
@@ -10290,10 +10290,10 @@
         "error": {
           "tmax_f": 1,
           "tmin_f": 6,
-          "wind_max_kt": 4,
+          "wind_max_kt": 3,
           "precip_in": 0.01
         },
-        "points": 9.4,
+        "points": 8.9,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "RRFS": {
@@ -10306,10 +10306,10 @@
         "error": {
           "tmax_f": 4,
           "tmin_f": 3,
-          "wind_max_kt": 4,
+          "wind_max_kt": 3,
           "precip_in": 0.0
         },
-        "points": 9.0,
+        "points": 8.5,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "IFS": {
@@ -10322,10 +10322,10 @@
         "error": {
           "tmax_f": 6,
           "tmin_f": 1,
-          "wind_max_kt": 5,
+          "wind_max_kt": 4,
           "precip_in": 0.0
         },
-        "points": 9.5,
+        "points": 9.0,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "IFS_HRES": {
@@ -10338,10 +10338,10 @@
         "error": {
           "tmax_f": 6,
           "tmin_f": 1,
-          "wind_max_kt": 4,
+          "wind_max_kt": 3,
           "precip_in": 0.0
         },
-        "points": 9.0,
+        "points": 8.5,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "GFS": {
@@ -10354,10 +10354,10 @@
         "error": {
           "tmax_f": 7,
           "tmin_f": 3,
-          "wind_max_kt": 6,
+          "wind_max_kt": 5,
           "precip_in": 0.0
         },
-        "points": 13.0,
+        "points": 12.5,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "GFS_MOS": {
@@ -10370,10 +10370,10 @@
         "error": {
           "tmax_f": 8,
           "tmin_f": 2,
-          "wind_max_kt": 5,
+          "wind_max_kt": 4,
           "precip_in": 0.0
         },
-        "points": 12.5,
+        "points": 12.0,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "NBM": {
@@ -10386,10 +10386,10 @@
         "error": {
           "tmax_f": 7,
           "tmin_f": 1,
-          "wind_max_kt": 2,
+          "wind_max_kt": 1,
           "precip_in": 0.0
         },
-        "points": 9.0,
+        "points": 8.5,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "ENS": {
@@ -10402,10 +10402,10 @@
         "error": {
           "tmax_f": 7,
           "tmin_f": 1,
-          "wind_max_kt": 4,
+          "wind_max_kt": 3,
           "precip_in": 0.0
         },
-        "points": 10.0,
+        "points": 9.5,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "GEFS": {
@@ -10418,10 +10418,10 @@
         "error": {
           "tmax_f": 5,
           "tmin_f": 5,
-          "wind_max_kt": 7,
+          "wind_max_kt": 6,
           "precip_in": 0.0
         },
-        "points": 13.5,
+        "points": 13.0,
         "run": "2026-11-16T23:18:10+00:00"
       },
       "CONSENSUS": {
@@ -10434,10 +10434,10 @@
         "error": {
           "tmax_f": 7,
           "tmin_f": 0,
-          "wind_max_kt": 5,
+          "wind_max_kt": 4,
           "precip_in": 0.0
         },
-        "points": 9.5,
+        "points": 9.0,
         "run": "2026-11-16T23:18:10+00:00"
       }
     }
