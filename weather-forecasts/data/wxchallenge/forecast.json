@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-18T15:00:04+00:00",
+  "generated_at_utc": "2026-11-18T15:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -158,11 +158,7 @@
       "valid_range_utc": [
         "2026-11-19T06",
         "2026-11-20T06"
-      ],
-      "stale": {
-        "fetched_at_utc": "2026-11-18T13:08:43+00:00",
-        "error": "502 Server Error: Bad Gateway for url: https://mesonet.agron.iastate.edu/api/1/mos.json?station=PAYA&model=GFS"
-      }
+      ]
     },
     "NBM": {
       "tmax_f": 43.0,
@@ -836,7 +832,7 @@
     "CONSENSUS": {
       "tmax_f": 44.1,
       "tmin_f": 35.5,
-      "wind_max_kt": 18.6,
+      "wind_max_kt": 18.4,
       "precip_in": 0.85,
       "method": {
         "tmax_f": {
@@ -899,13 +895,13 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.161,
-            "RRFS": 0.133,
-            "IFS_HRES": 0.208,
-            "GFS": 0.109,
-            "GFS_MOS": 0.117,
-            "NBM": 0.114,
-            "ENS": 0.159
+            "HRRR": 0.165,
+            "RRFS": 0.136,
+            "IFS_HRES": 0.194,
+            "GFS": 0.104,
+            "GFS_MOS": 0.119,
+            "NBM": 0.116,
+            "ENS": 0.165
           },
           "excluded_same_model": [
             "IFS"
@@ -939,18 +935,14 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-18T15:00:04+00:00",
+    "ok": true,
+    "checked_at_utc": "2026-11-18T15:30:08+00:00",
     "connectivity": false,
     "failed": [
-      "GFS_MOS",
       "HRRRCAST",
       "USL"
     ],
-    "carried_over": [
-      "GFS_MOS"
-    ],
-    "message": "The update at 15:00Z failed for some sources; latest forecasts not pulled for GFS_MOS, HRRRCAST, USL. Showing the last good forecasts for GFS_MOS."
+    "carried_over": []
   },
   "earlier_runs": {
     "NBM": {
