@@ -204,6 +204,8 @@
     #tl-zoom[aria-pressed="false"]{color:var(--ink)}   /* off is a mode, not a hidden line: no grey */
     #tl-zoom[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #tl-sun[hidden]{display:none}
+    #tl-log[aria-pressed="false"]{color:var(--ink)}
+    #tl-log[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
     #tl-lens{position:absolute;width:250px;height:250px;border-radius:50%;overflow:hidden;pointer-events:none;z-index:3;
              background:var(--bg);border:2px solid var(--ink-2);box-shadow:0 4px 18px rgba(0,0,0,0.28)}
     #tl-lens svg{display:block}
@@ -279,6 +281,7 @@
     <div id="tl-nav">
       <button type="button" class="tl-btn" id="tl-zoom" aria-pressed="false" title="Magnify the chart under the pointer (Esc to turn off)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" style="flex:none;opacity:1"><circle cx="5.8" cy="5.8" r="4.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 9l3.8 3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Magnifier</button>
       <button type="button" class="tl-btn" id="tl-sun" aria-pressed="true" title="Shade night and civil twilight behind the lines"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" style="flex:none"><rect x="0.5" y="0.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1"/><rect x="7" y="1" width="6" height="12" rx="1.5" fill="currentColor" fill-opacity="0.35"/><circle cx="4" cy="7" r="1.8" fill="currentColor"/></svg>Day / night</button>
+      <button type="button" class="tl-btn" id="tl-log" aria-pressed="false" title="Log scale for the wind and precip panels">Log scale: wind &amp; precip</button>
       <button type="button" class="tl-btn" data-go="-1">◀ Earlier</button>
       <button type="button" class="tl-btn" data-go="today">Today</button>
       <button type="button" class="tl-btn" data-go="1">Later ▶</button>
@@ -460,7 +463,9 @@
       runs; the dashed grey line is the hourly average of the models switched on (a plain mean, not the
       consensus). The <i>Dewpoint &amp; RH panels</i> button hides or shows dewpoint and relative humidity below
       the cloud panel (RH worked out from each temperature and dewpoint; for the ensembles, the mean of their
-      members' RH).</p>
+      members' RH). The <i>Log scale</i> button puts the wind and precip panels on a log-like axis (log of 1 + value / c,
+      with c = 3 kt for wind and 0.01 in for precip), so zero stays at the bottom while light winds and small amounts
+      get more room. Only the spacing changes, never the values.</p>
     <h3 id="about-verification">Model verification</h3>
     <p class="small">Each day is scored with the model's last forecast before the 00Z deadline, using WxChallenge-style points (1 per
       °F, 0.5 per kt, tiered precip). ★ = best model that day. Observed values come from METARs and the NWS
@@ -1524,7 +1529,7 @@ function renderToday(tj){
 })();
 </script>
 <!-- ?v=: bump it whenever timeline.js changes, so a browser never pairs this page with a cached older script -->
-<script src="timeline.js?v=2026-11-13a" defer></script>
+<script src="timeline.js?v=2026-11-17a" defer></script>
 <!-- Not drawn on screen. This page fills its tables with JavaScript, so tools that fetch it
      without running scripts see only "Loading…"; this points them to the same data as text. -->
 <p class="sr-only">

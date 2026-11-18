@@ -10,13 +10,16 @@
    under it enlarged (a <use> of the chart, so it tracks the crosshair too); Esc turns it off.
    The "Day / night" button next to it shades night and civil twilight faintly behind the lines
    (on by default), from the sun's elevation at the station's lat/lon, computed here.
+   The "Log scale" button (off by default) puts the wind and precip panels on a log-like axis,
+   log10(1 + v / c) with c = 3 kt (wind) and 0.01 in (precip), so 0 stays at the bottom; those
+   panels are a little taller while it is on. Only the axis changes, never the values.
    Data: ../data/wxchallenge/timeline.json, written by wxc_timeline.py (display only). */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
   const sec = $('timeline'), ctl = $('tl-controls'), wrap = $('tl-wrap'), sc = $('tl-scroll'),
         chart = $('tl-chart'), axisEl = $('tl-axis'), card = $('tl-card'),
-        lens = $('tl-lens'), lensSvg = $('tl-lens-svg'), zoomBtn = $('tl-zoom'), sunBtn = $('tl-sun');
+        lens = $('tl-lens'), lensSvg = $('tl-lens-svg'), zoomBtn = $('tl-zoom'), sunBtn = $('tl-sun'), logBtn = $('tl-log');
   if (!sec || !chart) return;
 
   // AIFS and AIFS_ENS left out for now (6-hourly), see GRIB_ORDER in the pipeline
@@ -32,8 +35,8 @@
   const OBS_W = 2.1;            // every observed line, all panels
   const PANELS = [
     { v: 'temp', title: 'Temperature (°F)', h: 200 },
-    { v: 'wind', title: 'Wind (kt)', h: 110 },
-    { v: 'precip', title: 'Precip since 06Z (in)', h: 90 },
+    { v: 'wind', title: 'Wind (kt)', h: 110, hLog: 140 },
+    { v: 'precip', title: 'Precip since 06Z (in)', h: 90, hLog: 130 },
     { v: 'cloud', title: 'Cloud cover (%)', h: 100 },
     { v: 'td', title: 'Dewpoint (°F)', h: 120, opt: true },
     { v: 'rh', title: 'Relative humidity (%)', h: 100, opt: true },
@@ -44,7 +47,8 @@
   const H25 = Array.from({ length: 25 }, (_, j) => j);
 
   const STORE = 'wxc-timeline';
-  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: true, sun: true };
+  const st = { on: new Set(ORDER), avg: true, obs: true, latest: true, band: true, hum: true, sun: true, log: false };
+  const LOGC = { wind: 3, precip: 0.01 };   // log axis: where it bends from even to log spacing
   try {
     const s = JSON.parse(localStorage.getItem(STORE) || 'null');
     if (s) {
@@ -53,12 +57,12 @@
         const known = new Set(Array.isArray(s.known) ? s.known : ORDER.filter(n => n !== 'IFS_HRES'));
         st.on = new Set([...s.on, ...ORDER.filter(n => !known.has(n))]);
       }
-      for (const k of ['avg', 'obs', 'latest', 'band', 'sun']) if (typeof s[k] === 'boolean') st[k] = s[k];
+      for (const k of ['avg', 'obs', 'latest', 'band', 'sun', 'log']) if (typeof s[k] === 'boolean') st[k] = s[k];
       if (typeof s.hum2 === 'boolean') st.hum = s.hum2;   // not 'hum': before they were on by default, every save wrote hum: false
     }
   } catch (e) {}
   const save = () => {
-    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum2: st.hum, sun: st.sun })); }
+    try { localStorage.setItem(STORE, JSON.stringify({ on: [...st.on], known: ORDER, avg: st.avg, obs: st.obs, latest: st.latest, band: st.band, hum2: st.hum, sun: st.sun, log: st.log })); }
     catch (e) {}
   };
 
@@ -67,6 +71,7 @@
   function stack() {
     VIS = PANELS.filter(p => !p.opt || st.hum);
     let yy = TOP;
+    for (const p of PANELS) { if (p.h0 == null) p.h0 = p.h; p.h = st.log && p.hLog ? p.hLog : p.h0; }
     for (const p of VIS) { yy += HEAD; p.y0 = yy; yy += p.h; }
     H = yy + BOT;
   }
@@ -75,7 +80,7 @@
 
   let SHADE = [];               // night / civil-twilight spans [a, b, kind], hours since day 0's 06Z
   let TAIL = 0, T = null, ND = 0, DW = 320, W = 0, NOW_H = 0, TODAY_K = 0, present = [], HI = [], AV = [];
-  const SC = {};
+  const SC = {}, RAW = {};
   let curH = null, pinned = null, touched = false;
   const LENS = 250, ZOOM = 2;     // lens diameter (px) and magnification
   let zoomOn = false;
@@ -95,7 +100,21 @@
   const mean = a => { const f = finite(a); return f.length ? f.reduce((s, x) => s + x, 0) / f.length : null; };
   const dayOf = h => Math.max(0, Math.min(ND - 1, Math.floor(h / 24)));
   const X = h => h / 24 * DW;
-  const Y = (p, v) => { const s = SC[p.v], c = Math.max(s.lo, Math.min(s.hi, v)); return p.y0 + p.h * (1 - (c - s.lo) / (s.hi - s.lo)); };
+  // a panel's axis transform: linear, or log10(1 + v / c) on a log panel
+  const tf = (s, v) => s.log ? Math.log10(1 + Math.max(0, v) / s.log) : v;
+  const Y = (p, v) => {
+    const s = SC[p.v], c = Math.max(s.lo, Math.min(s.hi, v)), a = tf(s, s.lo), b = tf(s, s.hi);
+    return p.y0 + p.h * (1 - (tf(s, c) - a) / (b - a));
+  };
+  // the values a panel's gridlines and labels sit at
+  function ticks(s) {
+    if (s.ticks) return s.ticks;
+    const out = [];
+    for (let v = s.lo; v <= s.hi + 1e-9; v += s.step) out.push(v);
+    return out;
+  }
+  // a precip label with as few decimals as it needs (log axis)
+  const pLabel = v => v === 0 ? '0' : v < 0.1 ? v.toFixed(2).replace(/^0/, '') : v < 1 ? v.toFixed(2).replace(/0$/, '').replace(/^0/, '') : String(v);
 
   function lerp(hs, vs, h) {
     if (!hs || !vs || !hs.length || h < hs[0] - 1e-6 || h > hs[hs.length - 1] + 1e-6) return null;
@@ -203,11 +222,9 @@
     lo = Math.floor((lo - 2) / tstep) * tstep;
     hi = Math.max(Math.ceil((hi + 2) / tstep) * tstep, lo + 3 * tstep);
     SC.temp = { lo, hi, step: tstep };
-    const wmax = Math.max(10, Math.ceil((pct(vals.wind, 0.995) || 0) / 5) * 5);
-    SC.wind = { lo: 0, hi: wmax, step: wmax > 30 ? 10 : 5 };
-    const pmax = Math.max(0.1, pct(vals.precip, 0.995) || 0);
-    const pstep = [0.05, 0.1, 0.25, 0.5, 1, 2, 5].find(s => pmax / s <= 4) || 10;
-    SC.precip = { lo: 0, hi: Math.ceil(pmax / pstep - 1e-9) * pstep, step: pstep, dec: pstep < 0.1 || pstep === 0.25 ? 2 : pstep < 1 ? 1 : 0 };
+    RAW.wind = pct(vals.wind, 0.995) || 0;
+    RAW.precip = pct(vals.precip, 0.995) || 0;
+    setScales();
     SC.cloud = { lo: 0, hi: 100, step: 25 };
     // dewpoint: its own range (it varies less than temperature, so finer ticks)
     const tds = [];
@@ -222,6 +239,24 @@
     dhi = Math.max(Math.ceil((dhi + 2) / dstep) * dstep, dlo + 3 * dstep);
     SC.td = { lo: dlo, hi: dhi, step: dstep };
     SC.rh = { lo: 0, hi: 100, step: 25 };
+  }
+
+  // wind and precip ranges, linear or log
+  function setScales() {
+    const wmax = Math.max(10, Math.ceil(RAW.wind / 5) * 5);
+    const pmax = Math.max(0.1, RAW.precip);
+    if (st.log) {
+      const whi = [20, 30, 40, 50, 60, 80, 100].find(v => v >= RAW.wind - 1e-9) || wmax;
+      SC.wind = { lo: 0, hi: whi, log: LOGC.wind,
+                  ticks: [0, 2, 5, 10, 20, 30, 40, 50, 60, 80, 100].filter(v => v <= whi + 1e-9 && (v <= 30 || v === whi)) };
+      const phi = [0.1, 0.25, 0.5, 1, 2, 3, 5, 10].find(v => v >= pmax - 1e-9) || Math.ceil(pmax);
+      SC.precip = { lo: 0, hi: phi, log: LOGC.precip,
+                    ticks: [0, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 3, 5, 10].filter(v => v <= phi + 1e-9) };
+    } else {
+      SC.wind = { lo: 0, hi: wmax, step: wmax > 30 ? 10 : 5 };
+      const pstep = [0.05, 0.1, 0.25, 0.5, 1, 2, 5].find(s => pmax / s <= 4) || 10;
+      SC.precip = { lo: 0, hi: Math.ceil(pmax / pstep - 1e-9) * pstep, step: pstep, dec: pstep < 0.1 || pstep === 0.25 ? 2 : pstep < 1 ? 1 : 0 };
+    }
   }
 
   // hourly mean of the models switched on (not the consensus); an hour needs 3 models
@@ -328,8 +363,8 @@
     let s = '';
     for (const p of VIS) {
       const c = SC[p.v];
-      for (let v = c.lo; v <= c.hi + 1e-9; v += c.step) {
-        const t = p.v === 'precip' ? v.toFixed(c.dec) : Math.round(v);
+      for (const v of ticks(c)) {
+        const t = p.v === 'precip' ? (c.log ? pLabel(v) : v.toFixed(c.dec)) : Math.round(v);
         s += `<text x="${AXW - 5}" y="${(Y(p, v) + 4).toFixed(1)}" font-size="11" text-anchor="end" fill="var(--ink-3)">${t}</text>`;
       }
     }
@@ -341,7 +376,7 @@
     for (const p of VIS) {
       const e = document.createElement('div');
       e.className = 'tl-ptitle';
-      e.textContent = p.title;
+      e.textContent = p.title + (st.log && p.hLog ? ' · log scale' : '');
       e.style.left = (AXW + 4) + 'px';
       e.style.top = (p.y0 - HEAD + 3) + 'px';
       wrap.appendChild(e);
@@ -365,7 +400,7 @@
     if (NOW_H < 24 * ND) o.push(`<rect x="${nx.toFixed(1)}" y="${TOP}" width="${(W - nx).toFixed(1)}" height="${bottom - TOP}" fill="var(--ink)" fill-opacity="0.035"/>`);
     for (const p of VIS) {
       const c = SC[p.v];
-      for (let v = c.lo; v <= c.hi + 1e-9; v += c.step) {
+      for (const v of ticks(c)) {
         const y = Y(p, v).toFixed(1);
         o.push(`<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/>`);
       }
@@ -683,6 +718,14 @@
     document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && zoomOn) setZoom(false); });
   }
 
+  function setLog() { if (logBtn) logBtn.setAttribute('aria-pressed', String(st.log)); }
+  setLog();
+  if (logBtn) logBtn.addEventListener('click', () => {
+    st.log = !st.log; setLog(); save();
+    if (!T) return;
+    setScales(); stack(); titles(); render();
+  });
+
   function setSun() { if (sunBtn) sunBtn.setAttribute('aria-pressed', String(st.sun)); }
   setSun();
   if (sunBtn) sunBtn.addEventListener('click', () => { st.sun = !st.sun; setSun(); save(); if (T) render(); });
@@ -731,7 +774,7 @@
   });
   $('tl-nav').addEventListener('click', ev => {
     const b = ev.target.closest('button');
-    if (!b) return;
+    if (!b || !b.dataset.go) return;      // Magnifier, Day / night and Log scale have their own handlers
     touched = true;
     const go = b.dataset.go;
     if (go === 'today') sc.scrollTo({ left: sc.scrollWidth, behavior: 'smooth' });
