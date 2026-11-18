@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-18T17:30:09+00:00",
- "generated_at_utc": "2026-11-18T19:00:35+00:00",
+ "generated_at_utc": "2026-11-18T19:31:30+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -923,9 +923,9 @@
      "tmax_f": 3,
      "tmin_f": 1,
      "wind_max_kt": 2,
-     "precip_in": -0.01
+     "precip_in": -0.02
     },
-    "points": 5.3,
+    "points": 5.6,
     "day": 6
    },
    "JerDvl": {
@@ -939,9 +939,9 @@
      "tmax_f": 3,
      "tmin_f": 1,
      "wind_max_kt": 1,
-     "precip_in": -0.03
+     "precip_in": -0.04
     },
-    "points": 5.4,
+    "points": 5.7,
     "day": 6
    },
    "Cyclop": {
@@ -955,9 +955,9 @@
      "tmax_f": 3,
      "tmin_f": 1,
      "wind_max_kt": 1,
-     "precip_in": -0.07
+     "precip_in": -0.08
     },
-    "points": 6.6,
+    "points": 6.9,
     "day": 6
    },
    "Bigfut": {
@@ -971,9 +971,9 @@
      "tmax_f": 3,
      "tmin_f": 1,
      "wind_max_kt": 1,
-     "precip_in": -0.09
+     "precip_in": -0.1
     },
-    "points": 7.2,
+    "points": 7.5,
     "day": 6
    },
    "Wndigo": {
@@ -987,9 +987,9 @@
      "tmax_f": 4,
      "tmin_f": 1,
      "wind_max_kt": 1,
-     "precip_in": -0.04
+     "precip_in": -0.05
     },
-    "points": 6.7,
+    "points": 7.0,
     "day": 6
    },
    "Nessie": {
@@ -1003,9 +1003,9 @@
      "tmax_f": 2,
      "tmin_f": 1,
      "wind_max_kt": 0,
-     "precip_in": 0.05
+     "precip_in": 0.04
     },
-    "points": 4.5,
+    "points": 4.2,
     "day": 6
    },
    "Hodags": {
@@ -1019,9 +1019,9 @@
      "tmax_f": 2,
      "tmin_f": 0,
      "wind_max_kt": -2,
-     "precip_in": -0.14
+     "precip_in": -0.15
     },
-    "points": 7.7,
+    "points": 8.0,
     "flag": "G",
     "day": 6
    },
@@ -1036,9 +1036,9 @@
      "tmax_f": 6,
      "tmin_f": 3,
      "wind_max_kt": 11,
-     "precip_in": 0.68
+     "precip_in": 0.67
     },
-    "points": 25.0,
+    "points": 24.7,
     "day": 6
    }
   }
