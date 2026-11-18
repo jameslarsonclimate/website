@@ -160,6 +160,8 @@ def test_summarize_mos_lst_wind():
     assert base["wind_max_kt"] == 30 and "wind_window" not in base
     assert res["wind_max_kt"] == 25 and res["wind_max_kt_06z"] == 30
     assert res["wind_window"] == "LST" and res["wind_window_utc"] == ["2026-09-29T09", "2026-09-30T09"]
+    assert res["series"]["wsp_tail_times"] == ["2026-09-30T09:00"] and res["series"]["wsp_tail_kt"] == [25]
+    assert "wsp_tail_times" not in base["series"]
     assert (res["tmax_f"], res["tmin_f"], res["precip_in"]) == (base["tmax_f"], base["tmin_f"], base["precip_in"])
     # a run that ends before the LST day does keeps the 06Z-06Z wind, untagged
     short = df[ft <= "2026-09-30 06:00"]

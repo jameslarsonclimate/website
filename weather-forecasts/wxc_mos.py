@@ -101,7 +101,7 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str,
     tmin_cands = [v for v in [n, tmp.min() if not tmp.empty else None] if v is not None]
 
     wsp = pd.to_numeric(win.get("wsp"), errors="coerce").dropna()
-    wind_extra = {}
+    wind_extra, wind_tail = {}, {}
     if lst_offset is not None and "wsp" in df:
         from functions import lst_window_utc
         ws, we = (t.tz_localize("UTC") for t in lst_window_utc(target_day, lst_offset))
@@ -113,6 +113,10 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str,
                               "wind_window": "LST",
                               "wind_window_utc": [ws.strftime("%Y-%m-%dT%H"), we.strftime("%Y-%m-%dT%H")]}
                 wsp = lsp
+                tail = lw[lw["ft"] > end]           # display: the LST-day hours after 06Z
+                wind_tail = {"wsp_tail_times": [t.strftime("%Y-%m-%dT%H:%M") for t in tail["ft"]],
+                             "wsp_tail_kt": [None if pd.isna(v) else float(v)
+                                             for v in pd.to_numeric(tail["wsp"], errors="coerce")]}
 
     q = win[(win["ft"] > start) & win["ft"].dt.hour.isin([0, 6, 12, 18])]
     q06 = pd.to_numeric(q["q06"], errors="coerce").dropna() if "q06" in q else pd.Series(dtype=float)
@@ -152,6 +156,7 @@ def summarize_mos(df: pd.DataFrame, target_day: date, model: str,
             # display only (the page's dewpoint panel)
             "dpt_f": ([None if pd.isna(v) else float(v) for v in pd.to_numeric(win["dpt"], errors="coerce")]
                       if "dpt" in win else None),
+            **wind_tail,
         },
     }
 
@@ -197,10 +202,11 @@ def get_mos_forecasts(station: str, target_day: date, as_of: Optional[datetime] 
                 old = None
                 if rt is not None:              # a specific run: maybe saved by an earlier script run
                     hit = wxc_cache.load(station, label, rt, target_day)
-                    if hit is not None and (lst_offset is None or hit.get("wind_window")):
+                    if hit is not None and (lst_offset is None or (
+                            hit.get("wind_window") and "wsp_tail_times" in (hit.get("series") or {}))):
                         res = hit
                         break
-                    old = hit                   # saved with the 06Z-06Z wind: try to redo it
+                    old = hit                   # saved with the 06Z-06Z wind (or no tail): redo it
                 try:
                     df = fetch_mos(station, model, rt)
                     res = summarize_mos(df, target_day, model, lst_offset)
