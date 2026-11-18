@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-18T13:08:43+00:00",
+  "generated_at_utc": "2026-11-18T15:00:04+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -32,40 +32,37 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 40.7,
-      "tmin_f": 37.3,
-      "wind_max_kt": 9.2,
-      "precip_in": 0.15,
-      "init_time_utc": "2026-11-18T00",
+      "tmax_f": 43.3,
+      "tmin_f": 37.5,
+      "wind_max_kt": 19.1,
+      "precip_in": 0.96,
+      "init_time_utc": "2026-11-18T12",
       "valid_range_utc": [
         "2026-11-19T06",
-        "2026-11-20T00"
+        "2026-11-20T06"
       ],
-      "n_steps": 19,
+      "n_steps": 25,
       "temp_source": "instantaneous 2 m T",
-      "partial_window": true,
-      "note": "00Z HRRR stops at f48: window truncated; newest cycle unavailable, used previous",
-      "wind_max_kt_06z": 9.2,
+      "wind_max_kt_06z": 17.2,
       "wind_window_utc": [
         "2026-11-19T09",
         "2026-11-20T09"
       ],
-      "wind_window": "LST",
-      "wind_window_note": "run ends at f48: last LST-day hours not covered"
+      "wind_window": "LST"
     },
     "RRFS": {
-      "tmax_f": 44.7,
-      "tmin_f": 37.3,
-      "wind_max_kt": 15.6,
-      "precip_in": 1.05,
-      "init_time_utc": "2026-11-18T06",
+      "tmax_f": 44.3,
+      "tmin_f": 36.0,
+      "wind_max_kt": 14.2,
+      "precip_in": 0.96,
+      "init_time_utc": "2026-11-18T12",
       "valid_range_utc": [
         "2026-11-19T06",
         "2026-11-20T06"
       ],
       "n_steps": 25,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 13.9,
+      "wind_max_kt_06z": 13.5,
       "wind_window_utc": [
         "2026-11-19T09",
         "2026-11-20T09"
@@ -73,18 +70,18 @@
       "wind_window": "LST"
     },
     "IFS": {
-      "tmax_f": 44.5,
-      "tmin_f": 38.6,
-      "wind_max_kt": 23.6,
-      "precip_in": 0.97,
-      "init_time_utc": "2026-11-18T00",
+      "tmax_f": 44.0,
+      "tmin_f": 38.4,
+      "wind_max_kt": 22.7,
+      "precip_in": 0.87,
+      "init_time_utc": "2026-11-18T06",
       "valid_range_utc": [
         "2026-11-19T06",
         "2026-11-20T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 19.5,
+      "wind_max_kt_06z": 20.9,
       "wind_window_utc": [
         "2026-11-19T09",
         "2026-11-20T09"
@@ -161,27 +158,31 @@
       "valid_range_utc": [
         "2026-11-19T06",
         "2026-11-20T06"
-      ]
+      ],
+      "stale": {
+        "fetched_at_utc": "2026-11-18T13:08:43+00:00",
+        "error": "502 Server Error: Bad Gateway for url: https://mesonet.agron.iastate.edu/api/1/mos.json?station=PAYA&model=GFS"
+      }
     },
     "NBM": {
-      "tmax_f": 42.0,
+      "tmax_f": 43.0,
       "tmin_f": 34.0,
-      "wind_max_kt": 11.0,
-      "wind_max_kt_06z": 11.0,
+      "wind_max_kt": 12.0,
+      "wind_max_kt_06z": 12.0,
       "wind_window": "LST",
       "wind_window_utc": [
         "2026-11-19T09",
         "2026-11-20T09"
       ],
-      "precip_in": 0.76,
+      "precip_in": 0.93,
       "pop06_max_pct": 100,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.26,
-          "12-18": 0.92,
+          "06-12": 0.38,
+          "12-18": 0.91,
           "18-00": 1.0,
-          "00-06": 0.95
+          "00-06": 0.99
         },
         "n_members": null,
         "basis": "NBS P06",
@@ -191,7 +192,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-18T12",
+      "init_time_utc": "2026-11-18T14",
       "valid_range_utc": [
         "2026-11-19T06",
         "2026-11-20T06"
@@ -204,7 +205,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-11-19 available at 2026-11-18 14Z"
+      "error": "no USL run for 2026-11-19 available at 2026-11-18 15Z"
     },
     "ENS": {
       "tmax_f": 44.4,
@@ -724,14 +725,14 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 1.04,
-      "precip_mean_in": 1.15,
-      "init_time_utc": "2026-11-18T06",
+      "precip_in": 0.99,
+      "precip_mean_in": 1.07,
+      "init_time_utc": "2026-11-18T12",
       "valid_range_utc": [
         "2026-11-19T06",
         "2026-11-20T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
         "p24": 1.0,
@@ -741,60 +742,62 @@
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 1.148,
-            "std": 0.474,
+            "mean": 1.068,
+            "std": 0.412,
             "p0": 0.352,
-            "p10": 0.636,
-            "p25": 0.935,
-            "p50": 1.036,
-            "p75": 1.457,
-            "p90": 1.842,
+            "p10": 0.68,
+            "p25": 0.824,
+            "p50": 0.987,
+            "p75": 1.268,
+            "p90": 1.545,
             "p100": 2.069
           },
           "precip_prob": {
             "0.01": 1.0,
             "0.10": 1.0,
             "0.25": 1.0,
-            "0.50": 0.923
+            "0.50": 0.929
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.965,
+            0.637,
+            1.366,
+            1.302,
+            0.812,
+            0.861,
+            0.956,
             1.048,
             0.78,
             1.622,
             2.069,
             0.352,
             1.009,
-            1.167,
-            1.036,
-            0.957,
-            1.457,
-            1.897,
-            0.6,
-            0.935
+            1.167
           ]
         }
       }
@@ -831,10 +834,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 43.8,
-      "tmin_f": 35.7,
-      "wind_max_kt": 17.0,
-      "precip_in": 0.76,
+      "tmax_f": 44.1,
+      "tmin_f": 35.5,
+      "wind_max_kt": 18.6,
+      "precip_in": 0.85,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -936,14 +939,18 @@
     }
   },
   "run_status": {
-    "ok": true,
-    "checked_at_utc": "2026-11-18T13:08:43+00:00",
+    "ok": false,
+    "checked_at_utc": "2026-11-18T15:00:04+00:00",
     "connectivity": false,
     "failed": [
+      "GFS_MOS",
       "HRRRCAST",
       "USL"
     ],
-    "carried_over": []
+    "carried_over": [
+      "GFS_MOS"
+    ],
+    "message": "The update at 15:00Z failed for some sources; latest forecasts not pulled for GFS_MOS, HRRRCAST, USL. Showing the last good forecasts for GFS_MOS."
   },
   "earlier_runs": {
     "NBM": {
@@ -952,6 +959,33 @@
         "tmin_f": 34.0,
         "wind_max_kt": 11.0,
         "precip_in": 0.76,
+        "init_time_utc": "2026-11-18T12"
+      }
+    },
+    "HRRR": {
+      "12": {
+        "tmax_f": 43.3,
+        "tmin_f": 37.5,
+        "wind_max_kt": 19.1,
+        "precip_in": 0.96,
+        "init_time_utc": "2026-11-18T12"
+      }
+    },
+    "RRFS": {
+      "12": {
+        "tmax_f": 44.3,
+        "tmin_f": 36.0,
+        "wind_max_kt": 14.2,
+        "precip_in": 0.96,
+        "init_time_utc": "2026-11-18T12"
+      }
+    },
+    "REFS": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.99,
         "init_time_utc": "2026-11-18T12"
       }
     }
