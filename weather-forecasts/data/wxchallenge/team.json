@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-17T13:00:05+00:00",
- "generated_at_utc": "2026-11-17T23:48:23+00:00",
+ "fetched_at_utc": "2026-11-18T13:08:43+00:00",
+ "generated_at_utc": "2026-11-18T14:33:05+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -76,29 +76,46 @@
      "points": 8.3,
      "rank": 19,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 43,
+      "tmin_f": 37,
+      "wind_max_kt": 16,
+      "precip_in": 1.03
+     },
+     "error": {
+      "tmax_f": -3,
+      "tmin_f": 0,
+      "wind_max_kt": -3,
+      "precip_in": 0.07
+     },
+     "points": 5.2,
+     "rank": 8,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 30.6,
-    "mean_points": 7.65,
+    "n_days": 5,
+    "total_points": 35.8,
+    "mean_points": 7.16,
     "bias": {
-     "tmax_f": 0.271,
-     "tmin_f": 0.024,
-     "wind_max_kt": 0.887,
-     "precip_in": -0.145
+     "tmax_f": -0.631,
+     "tmin_f": 0.017,
+     "wind_max_kt": -0.03,
+     "precip_in": -0.09
     },
     "mae": {
-     "tmax_f": 2.525,
-     "tmin_f": 1.538,
-     "wind_max_kt": 3.433,
-     "precip_in": 0.16
+     "tmax_f": 2.656,
+     "tmin_f": 1.114,
+     "wind_max_kt": 3.331,
+     "precip_in": 0.137
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -171,29 +188,46 @@
      "points": 8.5,
      "rank": 464,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 36,
+      "wind_max_kt": 17,
+      "precip_in": 1.29
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": -1,
+      "wind_max_kt": -2,
+      "precip_in": 0.33
+     },
+     "points": 6.3,
+     "rank": 359,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 45.6,
-    "mean_points": 11.4,
+    "n_days": 5,
+    "total_points": 51.9,
+    "mean_points": 10.38,
     "bias": {
-     "tmax_f": 1.068,
-     "tmin_f": -0.234,
-     "wind_max_kt": 4.506,
-     "precip_in": -0.171
+     "tmax_f": 0.498,
+     "tmin_f": -0.445,
+     "wind_max_kt": 2.971,
+     "precip_in": -0.043
     },
     "mae": {
-     "tmax_f": 3.322,
-     "tmin_f": 2.24,
-     "wind_max_kt": 7.561,
-     "precip_in": 0.171
+     "tmax_f": 2.682,
+     "tmin_f": 1.898,
+     "wind_max_kt": 6.25,
+     "precip_in": 0.212
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -267,29 +301,48 @@
      "points": 6.4,
      "rank": 6,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 38,
+      "wind_max_kt": 13,
+      "precip_in": 1.72
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": 1,
+      "wind_max_kt": -6,
+      "precip_in": 0.76
+     },
+     "points": 16.6,
+     "penalty": 5,
+     "flag": "G",
+     "rank": 174,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 29.1,
-    "mean_points": 7.28,
+    "n_days": 5,
+    "total_points": 45.7,
+    "mean_points": 9.14,
     "bias": {
-     "tmax_f": -0.009,
-     "tmin_f": 0.263,
-     "wind_max_kt": -1.329,
-     "precip_in": -0.131
+     "tmax_f": -0.006,
+     "tmin_f": 0.466,
+     "wind_max_kt": -2.431,
+     "precip_in": 0.097
     },
     "mae": {
-     "tmax_f": 2.246,
-     "tmin_f": 1.299,
-     "wind_max_kt": 4.158,
-     "precip_in": 0.151
+     "tmax_f": 1.627,
+     "tmin_f": 1.216,
+     "wind_max_kt": 4.592,
+     "precip_in": 0.306
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -363,29 +416,46 @@
      "points": 6.5,
      "rank": 99,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 36,
+      "wind_max_kt": 17,
+      "precip_in": 1.05
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": -1,
+      "wind_max_kt": -2,
+      "precip_in": 0.09
+     },
+     "points": 3.9,
+     "rank": 32,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 35.4,
-    "mean_points": 8.85,
+    "n_days": 5,
+    "total_points": 39.3,
+    "mean_points": 7.86,
     "bias": {
-     "tmax_f": 1.01,
-     "tmin_f": 0.447,
-     "wind_max_kt": 0.962,
-     "precip_in": -0.235
+     "tmax_f": 0.456,
+     "tmin_f": 0.048,
+     "wind_max_kt": 0.263,
+     "precip_in": -0.152
     },
     "mae": {
-     "tmax_f": 2.821,
-     "tmin_f": 1.444,
-     "wind_max_kt": 2.489,
-     "precip_in": 0.235
+     "tmax_f": 2.319,
+     "tmin_f": 1.321,
+     "wind_max_kt": 2.374,
+     "precip_in": 0.198
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -458,29 +528,46 @@
      "points": 8.3,
      "rank": 353,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 36,
+      "wind_max_kt": 14,
+      "precip_in": 0.9
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": -1,
+      "wind_max_kt": -5,
+      "precip_in": -0.06
+     },
+     "points": 4.1,
+     "rank": 197,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 42.2,
-    "mean_points": 10.55,
+    "n_days": 5,
+    "total_points": 46.3,
+    "mean_points": 9.26,
     "bias": {
-     "tmax_f": 0.234,
-     "tmin_f": -0.234,
-     "wind_max_kt": 1.067,
-     "precip_in": -0.208
+     "tmax_f": 0.169,
+     "tmin_f": -0.445,
+     "wind_max_kt": -0.364,
+     "precip_in": -0.17
     },
     "mae": {
-     "tmax_f": 2.562,
-     "tmin_f": 2.24,
-     "wind_max_kt": 5.592,
-     "precip_in": 0.219
+     "tmax_f": 1.856,
+     "tmin_f": 1.898,
+     "wind_max_kt": 5.452,
+     "precip_in": 0.179
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -553,29 +640,46 @@
      "points": 8.3,
      "rank": 146,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 44,
+      "tmin_f": 36,
+      "wind_max_kt": 14,
+      "precip_in": 1.0
+     },
+     "error": {
+      "tmax_f": -2,
+      "tmin_f": -1,
+      "wind_max_kt": -5,
+      "precip_in": 0.04
+     },
+     "points": 5.9,
+     "rank": 89,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 36.8,
-    "mean_points": 9.2,
+    "n_days": 5,
+    "total_points": 42.7,
+    "mean_points": 8.54,
     "bias": {
-     "tmax_f": 0.03,
-     "tmin_f": -0.216,
-     "wind_max_kt": 0.85,
-     "precip_in": -0.123
+     "tmax_f": -0.53,
+     "tmin_f": -0.432,
+     "wind_max_kt": -0.53,
+     "precip_in": -0.082
     },
     "mae": {
-     "tmax_f": 2.766,
-     "tmin_f": 1.778,
-     "wind_max_kt": 4.866,
-     "precip_in": 0.193
+     "tmax_f": 2.555,
+     "tmin_f": 1.564,
+     "wind_max_kt": 4.898,
+     "precip_in": 0.154
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -648,29 +752,46 @@
      "points": 6.4,
      "rank": 60,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 38,
+      "wind_max_kt": 20,
+      "precip_in": 1.14
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": 1,
+      "wind_max_kt": 1,
+      "precip_in": 0.18
+     },
+     "points": 4.3,
+     "rank": 18,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 33.7,
-    "mean_points": 8.43,
+    "n_days": 5,
+    "total_points": 38.0,
+    "mean_points": 7.6,
     "bias": {
-     "tmax_f": 0.55,
-     "tmin_f": -0.535,
-     "wind_max_kt": 3.536,
-     "precip_in": -0.087
+     "tmax_f": 0.123,
+     "tmin_f": -0.112,
+     "wind_max_kt": 2.937,
+     "precip_in": -0.019
     },
     "mae": {
-     "tmax_f": 2.805,
-     "tmin_f": 0.979,
-     "wind_max_kt": 4.554,
-     "precip_in": 0.209
+     "tmax_f": 2.307,
+     "tmin_f": 0.985,
+     "wind_max_kt": 3.716,
+     "precip_in": 0.201
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   },
@@ -743,166 +864,182 @@
      "points": 8.4,
      "rank": 174,
      "day": 4
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 36,
+      "wind_max_kt": 17,
+      "precip_in": 1.2
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": -1,
+      "wind_max_kt": -2,
+      "precip_in": 0.24
+     },
+     "points": 5.4,
+     "rank": 99,
+     "day": 5
     }
    },
    "summary": {
-    "n_days": 4,
-    "total_points": 37.7,
-    "mean_points": 9.43,
+    "n_days": 5,
+    "total_points": 43.1,
+    "mean_points": 8.62,
     "bias": {
-     "tmax_f": 0.271,
-     "tmin_f": 0.024,
-     "wind_max_kt": 3.773,
-     "precip_in": -0.162
+     "tmax_f": -0.08,
+     "tmin_f": -0.258,
+     "wind_max_kt": 2.411,
+     "precip_in": -0.059
     },
     "mae": {
-     "tmax_f": 2.525,
-     "tmin_f": 1.538,
-     "wind_max_kt": 5.81,
-     "precip_in": 0.201
+     "tmax_f": 2.105,
+     "tmin_f": 1.39,
+     "wind_max_kt": 4.911,
+     "precip_in": 0.211
     },
     "n_eff": {
-     "tmax_f": 3.97,
-     "tmin_f": 3.97,
-     "wind_max_kt": 3.99,
-     "precip_in": 3.98
+     "tmax_f": 4.81,
+     "tmin_f": 4.81,
+     "wind_max_kt": 4.95,
+     "precip_in": 4.89
     }
    }
   }
  },
  "today": {
-  "date": "2026-11-17",
-  "status": "As of 12Z",
+  "date": "2026-11-18",
+  "status": "As of 13Z",
   "forecasters": {
-   "Mothmn": {
-    "forecast": {
-     "tmax_f": 43,
-     "tmin_f": 37,
-     "wind_max_kt": 16,
-     "precip_in": 1.03
-    },
-    "error": {
-     "tmax_f": -3,
-     "tmin_f": 0,
-     "wind_max_kt": 1,
-     "precip_in": 0.39
-    },
-    "points": 7.4,
-    "day": 5
-   },
    "Cyclop": {
     "forecast": {
-     "tmax_f": 45,
-     "tmin_f": 38,
-     "wind_max_kt": 20,
-     "precip_in": 1.14
+     "tmax_f": 42,
+     "tmin_f": 35,
+     "wind_max_kt": 7,
+     "precip_in": 0.12
     },
     "error": {
-     "tmax_f": -1,
+     "tmax_f": 3,
      "tmin_f": 1,
-     "wind_max_kt": 5,
-     "precip_in": 0.5
+     "wind_max_kt": 1,
+     "precip_in": 0.09
     },
-    "points": 9.5,
-    "day": 5
+    "points": 7.9,
+    "day": 6
    },
-   "Bigfut": {
+   "Mothmn": {
     "forecast": {
-     "tmax_f": 44,
-     "tmin_f": 36,
-     "wind_max_kt": 14,
-     "precip_in": 1.0
+     "tmax_f": 42,
+     "tmin_f": 35,
+     "wind_max_kt": 8,
+     "precip_in": 0.18
     },
     "error": {
-     "tmax_f": -2,
-     "tmin_f": -1,
-     "wind_max_kt": -1,
-     "precip_in": 0.36
+     "tmax_f": 3,
+     "tmin_f": 1,
+     "wind_max_kt": 2,
+     "precip_in": 0.15
     },
-    "points": 7.1,
-    "day": 5
+    "points": 10.2,
+    "day": 6
    },
    "JerDvl": {
     "forecast": {
-     "tmax_f": 45,
-     "tmin_f": 36,
-     "wind_max_kt": 17,
-     "precip_in": 1.05
+     "tmax_f": 42,
+     "tmin_f": 35,
+     "wind_max_kt": 7,
+     "precip_in": 0.16
     },
     "error": {
-     "tmax_f": -1,
-     "tmin_f": -1,
-     "wind_max_kt": 2,
-     "precip_in": 0.41
+     "tmax_f": 3,
+     "tmin_f": 1,
+     "wind_max_kt": 1,
+     "precip_in": 0.13
     },
-    "points": 7.1,
-    "day": 5
+    "points": 9.1,
+    "day": 6
+   },
+   "Bigfut": {
+    "forecast": {
+     "tmax_f": 42,
+     "tmin_f": 35,
+     "wind_max_kt": 7,
+     "precip_in": 0.1
+    },
+    "error": {
+     "tmax_f": 3,
+     "tmin_f": 1,
+     "wind_max_kt": 1,
+     "precip_in": 0.07
+    },
+    "points": 7.3,
+    "day": 6
    },
    "Wndigo": {
     "forecast": {
-     "tmax_f": 45,
-     "tmin_f": 36,
-     "wind_max_kt": 17,
-     "precip_in": 1.2
+     "tmax_f": 43,
+     "tmin_f": 35,
+     "wind_max_kt": 7,
+     "precip_in": 0.15
     },
     "error": {
-     "tmax_f": -1,
-     "tmin_f": -1,
-     "wind_max_kt": 2,
-     "precip_in": 0.56
-    },
-    "points": 8.6,
-    "day": 5
-   },
-   "Kraken": {
-    "forecast": {
-     "tmax_f": 46,
-     "tmin_f": 38,
-     "wind_max_kt": 13,
-     "precip_in": 1.72
-    },
-    "error": {
-     "tmax_f": 0,
+     "tmax_f": 4,
      "tmin_f": 1,
-     "wind_max_kt": -2,
-     "precip_in": 1.08
+     "wind_max_kt": 1,
+     "precip_in": 0.12
     },
-    "points": 17.8,
-    "penalty": 5,
-    "flag": "G",
-    "day": 5
-   },
-   "Nessie": {
-    "forecast": {
-     "tmax_f": 46,
-     "tmin_f": 36,
-     "wind_max_kt": 14,
-     "precip_in": 0.9
-    },
-    "error": {
-     "tmax_f": 0,
-     "tmin_f": -1,
-     "wind_max_kt": -1,
-     "precip_in": 0.26
-    },
-    "points": 4.1,
-    "day": 5
+    "points": 9.8,
+    "day": 6
    },
    "Hodags": {
     "forecast": {
-     "tmax_f": 45,
-     "tmin_f": 36,
-     "wind_max_kt": 17,
-     "precip_in": 1.29
+     "tmax_f": 41,
+     "tmin_f": 34,
+     "wind_max_kt": 4,
+     "precip_in": 0.05
     },
     "error": {
-     "tmax_f": -1,
-     "tmin_f": -1,
-     "wind_max_kt": 2,
-     "precip_in": 0.65
+     "tmax_f": 2,
+     "tmin_f": 0,
+     "wind_max_kt": -2,
+     "precip_in": 0.02
     },
-    "points": 9.5,
-    "day": 5
+    "points": 3.8,
+    "flag": "G",
+    "day": 6
+   },
+   "Nessie": {
+    "forecast": {
+     "tmax_f": 41,
+     "tmin_f": 35,
+     "wind_max_kt": 6,
+     "precip_in": 0.24
+    },
+    "error": {
+     "tmax_f": 2,
+     "tmin_f": 1,
+     "wind_max_kt": 0,
+     "precip_in": 0.21
+    },
+    "points": 10.0,
+    "day": 6
+   },
+   "Kraken": {
+    "forecast": {
+     "tmax_f": 45,
+     "tmin_f": 37,
+     "wind_max_kt": 17,
+     "precip_in": 0.87
+    },
+    "error": {
+     "tmax_f": 6,
+     "tmin_f": 3,
+     "wind_max_kt": 11,
+     "precip_in": 0.84
+    },
+    "points": 30.5,
+    "day": 6
    }
   }
  }
