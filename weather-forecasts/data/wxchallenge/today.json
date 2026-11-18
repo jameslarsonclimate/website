@@ -1,6 +1,6 @@
 {
   "date": "2026-11-18",
-  "through_utc": "2026-11-18T17:53",
+  "through_utc": "2026-11-18T18:26",
   "obs": {
     "high": 39.02,
     "low": 33.98,
@@ -63,8 +63,8 @@
       "low_err": 2.8,
       "low_pending": false,
       "wind_bias": 2.8,
-      "precip_so_far": 0.22,
-      "precip_err": 0.03
+      "precip_so_far": 0.23,
+      "precip_err": 0.04
     },
     "IFS_HRES": {
       "init_time_utc": "2026-11-17T12",
@@ -82,8 +82,8 @@
       "low_err": 1.7,
       "low_pending": false,
       "wind_bias": 3.0,
-      "precip_so_far": 0.22,
-      "precip_err": 0.03
+      "precip_so_far": 0.23,
+      "precip_err": 0.04
     },
     "GFS": {
       "init_time_utc": "2026-11-17T18",
@@ -197,5 +197,5 @@
     }
   },
   "station": "PAYA",
-  "generated_at_utc": "2026-11-18T18:30:09+00:00"
+  "generated_at_utc": "2026-11-18T19:00:09+00:00"
 }
