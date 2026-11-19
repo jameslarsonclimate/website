@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-19T15:30:05+00:00",
- "generated_at_utc": "2026-11-19T17:00:57+00:00",
+ "generated_at_utc": "2026-11-19T17:30:27+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1654,9 +1654,9 @@
        "tmax_f": 6,
        "tmin_f": 1,
        "wind_max_kt": 11,
-       "precip_in": 0.88
+       "precip_in": 0.87
       },
-      "points": 29.8,
+      "points": 29.4,
       "summary": "Warm-advection rain ahead of Thursday's front: temperatures climb to about 44F late, the low near 37 under overcast and moist air, winds rising to about 18 kt by evening, and a soaking of about 0.9 in near the ensemble medians."
      }
     }
@@ -1678,9 +1678,9 @@
      "tmax_f": 6,
      "tmin_f": 0,
      "wind_max_kt": 11,
-     "precip_in": 0.8
+     "precip_in": 0.79
     },
-    "points": 28.0,
+    "points": 27.6,
     "day": 7
    },
    "JerDvl": {
@@ -1694,9 +1694,9 @@
      "tmax_f": 6,
      "tmin_f": -1,
      "wind_max_kt": 11,
-     "precip_in": 0.82
+     "precip_in": 0.81
     },
-    "points": 29.2,
+    "points": 28.8,
     "day": 7
    },
    "Nessie": {
@@ -1710,9 +1710,9 @@
      "tmax_f": 5,
      "tmin_f": -1,
      "wind_max_kt": 12,
-     "precip_in": 0.72
+     "precip_in": 0.71
     },
-    "points": 27.7,
+    "points": 27.3,
     "day": 7
    },
    "Cyclop": {
@@ -1726,9 +1726,9 @@
      "tmax_f": 6,
      "tmin_f": -1,
      "wind_max_kt": 14,
-     "precip_in": 0.88
+     "precip_in": 0.87
     },
-    "points": 31.3,
+    "points": 30.9,
     "day": 7
    },
    "Wndigo": {
@@ -1742,9 +1742,9 @@
      "tmax_f": 6,
      "tmin_f": 0,
      "wind_max_kt": 13,
-     "precip_in": 0.8
+     "precip_in": 0.79
     },
-    "points": 29.0,
+    "points": 28.6,
     "day": 7
    },
    "Bigfut": {
@@ -1758,9 +1758,9 @@
      "tmax_f": 6,
      "tmin_f": 1,
      "wind_max_kt": 12,
-     "precip_in": 0.88
+     "precip_in": 0.87
     },
-    "points": 30.3,
+    "points": 29.9,
     "day": 7
    },
    "Hodags": {
@@ -1774,9 +1774,9 @@
      "tmax_f": 6,
      "tmin_f": -1,
      "wind_max_kt": 10,
-     "precip_in": 0.77
+     "precip_in": 0.76
     },
-    "points": 28.2,
+    "points": 27.8,
     "day": 7
    },
    "Kraken": {
@@ -1790,9 +1790,9 @@
      "tmax_f": 5,
      "tmin_f": -2,
      "wind_max_kt": 8,
-     "precip_in": 0.62
+     "precip_in": 0.61
     },
-    "points": 25.7,
+    "points": 25.3,
     "day": 7
    },
    "Claude": {
@@ -1806,9 +1806,9 @@
      "tmax_f": 6,
      "tmin_f": 1,
      "wind_max_kt": 11,
-     "precip_in": 0.88
+     "precip_in": 0.87
     },
-    "points": 29.8,
+    "points": 29.4,
     "summary": "Warm-advection rain ahead of Thursday's front: temperatures climb to about 44F late, the low near 37 under overcast and moist air, winds rising to about 18 kt by evening, and a soaking of about 0.9 in near the ensemble medians."
    }
   }
