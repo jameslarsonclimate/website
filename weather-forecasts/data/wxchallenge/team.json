@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-18T17:30:09+00:00",
- "generated_at_utc": "2026-11-18T23:49:12+00:00",
+ "fetched_at_utc": "2026-11-19T00:15:23+00:00",
+ "generated_at_utc": "2026-11-19T00:17:14+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -906,140 +906,740 @@
      "precip_in": 4.89
     }
    }
+  },
+  "Claude": {
+   "ai": true,
+   "model": "claude-opus-5-5",
+   "days": {
+    "2026-11-03": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 37,
+      "wind_max_kt": 17,
+      "precip_in": 0.45
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": 1,
+      "wind_max_kt": 2,
+      "precip_in": -0.19
+     },
+     "points": 4.4,
+     "summary": "Wet regime: cloudy, mild night, then a gale-force Gulf front Tuesday afternoon puts most of the rain late in the window. Low from the raw blend (not NBM), wind from IFS nudged up, rain near the middle of the guidance.",
+     "hindcast": true
+    },
+    "2026-11-04": {
+     "forecast": {
+      "tmax_f": 47,
+      "tmin_f": 39,
+      "wind_max_kt": 17,
+      "precip_in": 0.65
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": -2,
+      "wind_max_kt": 3,
+      "precip_in": 0.14
+     },
+     "points": 4.9,
+     "summary": "Wet frontal day: heavy rain early in the window, then a second band and a possible midday dry slot. Going with near-consensus temps (47/39), IFS-weighted wind of 17 kt and 0.65\" of rain, just under the IFS/HRRR ~0.72\".",
+     "hindcast": true
+    },
+    "2026-11-05": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 38,
+      "wind_max_kt": 14,
+      "precip_in": 0.55
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": -2,
+      "wind_max_kt": 0,
+      "precip_in": -0.2
+     },
+     "points": 4.0,
+     "summary": "A wet morning from low #2's rain, then drying Thursday afternoon before the next big front, which mostly arrives after the window. Near-consensus temperatures, wind nudged toward IFS, precip slightly above consensus toward IFS.",
+     "hindcast": true
+    },
+    "2026-11-06": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 39,
+      "wind_max_kt": 24,
+      "precip_in": 0.65
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": -1,
+      "wind_max_kt": -1,
+      "precip_in": -0.52
+     },
+     "points": 6.7,
+     "summary": "My forecast for PAYA is high 46 \u00b0F, low 39 \u00b0F, max wind 24 kt and precip 0.65\". A deep Gulf low passes to the west, and it's a gale day, so I'm forecasting wind well above the 18 kt consensus, using the models' errors on past gale days and the AFD's 20\u201325 kt. Temperatures are near the consensus. Precip is shaded below the guidance median toward the AFD's half inch.",
+     "hindcast": true
+    },
+    "2026-11-07": {
+     "forecast": {
+      "tmax_f": 44,
+      "tmin_f": 35,
+      "wind_max_kt": 16,
+      "precip_in": 0.62
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": -1,
+      "wind_max_kt": 1,
+      "precip_in": 0.26
+     },
+     "points": 6.5,
+     "summary": "The departing gale gives a wet, breezy start: about 16 kt early and about 0.6\" of rain before 15Z. It then turns calm and partly clear, with the low around 35 late Saturday evening. Values are near consensus, shaded slightly lower on precip and the low.",
+     "hindcast": true
+    },
+    "2026-11-08": {
+     "forecast": {
+      "tmax_f": 42,
+      "tmin_f": 33,
+      "wind_max_kt": 10,
+      "precip_in": 0.03
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": 1,
+      "wind_max_kt": 1,
+      "precip_in": 0.03
+     },
+     "points": 3.7,
+     "summary": "A lull between storms: the front stays south and the next rain arrives after the window. Near consensus: high 42, low 33 under clouds, 10 kt from early NE outflow (per IFS), and light precip of 0.03.",
+     "hindcast": true
+    },
+    "2026-11-09": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 33,
+      "wind_max_kt": 27,
+      "precip_in": 0.42
+     },
+     "error": {
+      "tmax_f": -2,
+      "tmin_f": 1,
+      "wind_max_kt": -4,
+      "precip_in": -0.03
+     },
+     "points": 5.6,
+     "summary": "A short lull before a storm-force Gulf low, with the front's wind and rain arriving at the end of the window. High at consensus 46; low 33 from early clearing; wind 27 for the late gale ramp; precip 0.42, in the upper third of guidance.",
+     "hindcast": true
+    },
+    "2026-11-10": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 38,
+      "wind_max_kt": 28,
+      "precip_in": 0.38
+     },
+     "error": {
+      "tmax_f": -4,
+      "tmin_f": 2,
+      "wind_max_kt": 9,
+      "precip_in": -0.51
+     },
+     "points": 16.8,
+     "summary": "Departing storm: strong S/SE wind at Yakutat through about 12Z, a midday lull, then the next low's rain late. Wind 28 kt, between the 26 kt consensus and IFS. Mild 38 low, high 46 per consensus, and mid-guidance precip of 0.38\".",
+     "hindcast": true
+    },
+    "2026-11-11": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 40,
+      "wind_max_kt": 24,
+      "precip_in": 0.65
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": 1,
+      "wind_max_kt": 3,
+      "precip_in": 0.12
+     },
+     "points": 4.7,
+     "summary": "A strong second Gulf low brings a wet, windy day: high at consensus, low from the warm end of the raw models (NBM cold-biased), wind well above consensus following IFS, precip in the upper third of guidance.",
+     "hindcast": true
+    },
+    "2026-11-12": {
+     "forecast": {
+      "tmax_f": 44,
+      "tmin_f": 34,
+      "wind_max_kt": 15,
+      "precip_in": 0.58
+     },
+     "error": {
+      "tmax_f": 0,
+      "tmin_f": -2,
+      "wind_max_kt": -3,
+      "precip_in": -0.19
+     },
+     "points": 5.4,
+     "summary": "The storm peaks just before 06Z and moves off, so I'm capping wind at 15 kt instead of carrying the gale into the new day. Lingering rain from the nearby low puts precip at 0.58\", slightly above consensus. High and low stay near consensus: 44/34.",
+     "hindcast": true
+    },
+    "2026-11-13": {
+     "forecast": {
+      "tmax_f": 42,
+      "tmin_f": 30,
+      "wind_max_kt": 7,
+      "precip_in": 0.03
+     },
+     "error": {
+      "tmax_f": 5,
+      "tmin_f": 1,
+      "wind_max_kt": 1,
+      "precip_in": 0.03
+     },
+     "points": 7.7,
+     "summary": "A lull with weak northerly outflow overnight, then a weak wave Friday night bringing light rain near the end of the window. I'm staying close to consensus with a slightly cool low and a light precip amount.",
+     "hindcast": true
+    },
+    "2026-11-14": {
+     "forecast": {
+      "tmax_f": 46,
+      "tmin_f": 36,
+      "wind_max_kt": 12,
+      "precip_in": 0.47
+     },
+     "error": {
+      "tmax_f": 1,
+      "tmin_f": 3,
+      "wind_max_kt": 1,
+      "precip_in": 0.02
+     },
+     "points": 4.9,
+     "summary": "Weak front brings rain overnight into Saturday morning, then a lull before Sunday's big low, which mostly arrives after 06Z. Close to consensus: precip shaded up to 0.47 for my repeat dry misses, low warm for the wet regime, wind modest at 12 kt.",
+     "hindcast": true
+    },
+    "2026-11-15": {
+     "forecast": {
+      "tmax_f": 48,
+      "tmin_f": 38,
+      "wind_max_kt": 12,
+      "precip_in": 0.09
+     },
+     "error": {
+      "tmax_f": -3,
+      "tmin_f": 3,
+      "wind_max_kt": 1,
+      "precip_in": 0.08
+     },
+     "points": 9.7,
+     "summary": "The deep SE Gulf low brings E/NE flow first, then the front late in the window. I'm near consensus on temps (48/38), partway toward IFS on wind (12), and wetter than the 0.04 consensus on precip (0.09) given the high ensemble rain chances.",
+     "hindcast": true
+    },
+    "2026-11-16": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 37,
+      "wind_max_kt": 18,
+      "precip_in": 0.85
+     },
+     "error": {
+      "tmax_f": -2,
+      "tmin_f": -1,
+      "wind_max_kt": -1,
+      "precip_in": -0.33
+     },
+     "points": 6.8,
+     "summary": "This is a wet day with a front. Monday's front brings rain and gusty S/SE winds after a possible early lull. I'm near consensus on temperatures, with wind nudged toward IFS (18 kt) and precip in the upper middle of guidance (0.85\").",
+     "hindcast": true
+    },
+    "2026-11-17": {
+     "forecast": {
+      "tmax_f": 45,
+      "tmin_f": 36,
+      "wind_max_kt": 18,
+      "precip_in": 1.15
+     },
+     "error": {
+      "tmax_f": -1,
+      "tmin_f": -1,
+      "wind_max_kt": 2,
+      "precip_in": 0.19
+     },
+     "points": 4.9,
+     "summary": "Wet, breezy day as a third system and a lingering plume keep rain going all 24 h. I'm near consensus, with the high nudged up for S flow, wind partway to IFS and precip in the upper third of guidance: 45/36/18 kt/1.15\".",
+     "hindcast": true
+    }
+   },
+   "summary_hindcast": {
+    "n_days": 15,
+    "total_points": 96.7,
+    "mean_points": 6.45,
+    "bias": {
+     "tmax_f": -0.645,
+     "tmin_f": 0.342,
+     "wind_max_kt": 0.97,
+     "precip_in": -0.064
+    },
+    "mae": {
+     "tmax_f": 1.612,
+     "tmin_f": 1.577,
+     "wind_max_kt": 2.181,
+     "precip_in": 0.183
+    },
+    "n_eff": {
+     "tmax_f": 13.53,
+     "tmin_f": 13.53,
+     "wind_max_kt": 14.6,
+     "precip_in": 14.13
+    }
+   },
+   "runs": {
+    "2350Z": {
+     "days": {
+      "2026-11-03": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 37,
+        "wind_max_kt": 17,
+        "precip_in": 0.45
+       },
+       "error": {
+        "tmax_f": 0,
+        "tmin_f": 1,
+        "wind_max_kt": 2,
+        "precip_in": -0.19
+       },
+       "points": 4.4,
+       "summary": "Wet regime: cloudy, mild night, then a gale-force Gulf front Tuesday afternoon puts most of the rain late in the window. Low from the raw blend (not NBM), wind from IFS nudged up, rain near the middle of the guidance.",
+       "hindcast": true
+      },
+      "2026-11-04": {
+       "forecast": {
+        "tmax_f": 47,
+        "tmin_f": 39,
+        "wind_max_kt": 17,
+        "precip_in": 0.65
+       },
+       "error": {
+        "tmax_f": 0,
+        "tmin_f": -2,
+        "wind_max_kt": 3,
+        "precip_in": 0.14
+       },
+       "points": 4.9,
+       "summary": "Wet frontal day: heavy rain early in the window, then a second band and a possible midday dry slot. Going with near-consensus temps (47/39), IFS-weighted wind of 17 kt and 0.65\" of rain, just under the IFS/HRRR ~0.72\".",
+       "hindcast": true
+      },
+      "2026-11-05": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 38,
+        "wind_max_kt": 14,
+        "precip_in": 0.55
+       },
+       "error": {
+        "tmax_f": 0,
+        "tmin_f": -2,
+        "wind_max_kt": 0,
+        "precip_in": -0.2
+       },
+       "points": 4.0,
+       "summary": "A wet morning from low #2's rain, then drying Thursday afternoon before the next big front, which mostly arrives after the window. Near-consensus temperatures, wind nudged toward IFS, precip slightly above consensus toward IFS.",
+       "hindcast": true
+      },
+      "2026-11-06": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 39,
+        "wind_max_kt": 24,
+        "precip_in": 0.65
+       },
+       "error": {
+        "tmax_f": 0,
+        "tmin_f": -1,
+        "wind_max_kt": -1,
+        "precip_in": -0.52
+       },
+       "points": 6.7,
+       "summary": "My forecast for PAYA is high 46 \u00b0F, low 39 \u00b0F, max wind 24 kt and precip 0.65\". A deep Gulf low passes to the west, and it's a gale day, so I'm forecasting wind well above the 18 kt consensus, using the models' errors on past gale days and the AFD's 20\u201325 kt. Temperatures are near the consensus. Precip is shaded below the guidance median toward the AFD's half inch.",
+       "hindcast": true
+      },
+      "2026-11-07": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 35,
+        "wind_max_kt": 16,
+        "precip_in": 0.62
+       },
+       "error": {
+        "tmax_f": -1,
+        "tmin_f": -1,
+        "wind_max_kt": 1,
+        "precip_in": 0.26
+       },
+       "points": 6.5,
+       "summary": "The departing gale gives a wet, breezy start: about 16 kt early and about 0.6\" of rain before 15Z. It then turns calm and partly clear, with the low around 35 late Saturday evening. Values are near consensus, shaded slightly lower on precip and the low.",
+       "hindcast": true
+      },
+      "2026-11-08": {
+       "forecast": {
+        "tmax_f": 42,
+        "tmin_f": 33,
+        "wind_max_kt": 10,
+        "precip_in": 0.03
+       },
+       "error": {
+        "tmax_f": -1,
+        "tmin_f": 1,
+        "wind_max_kt": 1,
+        "precip_in": 0.03
+       },
+       "points": 3.7,
+       "summary": "A lull between storms: the front stays south and the next rain arrives after the window. Near consensus: high 42, low 33 under clouds, 10 kt from early NE outflow (per IFS), and light precip of 0.03.",
+       "hindcast": true
+      },
+      "2026-11-09": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 33,
+        "wind_max_kt": 27,
+        "precip_in": 0.42
+       },
+       "error": {
+        "tmax_f": -2,
+        "tmin_f": 1,
+        "wind_max_kt": -4,
+        "precip_in": -0.03
+       },
+       "points": 5.6,
+       "summary": "A short lull before a storm-force Gulf low, with the front's wind and rain arriving at the end of the window. High at consensus 46; low 33 from early clearing; wind 27 for the late gale ramp; precip 0.42, in the upper third of guidance.",
+       "hindcast": true
+      },
+      "2026-11-10": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 38,
+        "wind_max_kt": 28,
+        "precip_in": 0.38
+       },
+       "error": {
+        "tmax_f": -4,
+        "tmin_f": 2,
+        "wind_max_kt": 9,
+        "precip_in": -0.51
+       },
+       "points": 16.8,
+       "summary": "Departing storm: strong S/SE wind at Yakutat through about 12Z, a midday lull, then the next low's rain late. Wind 28 kt, between the 26 kt consensus and IFS. Mild 38 low, high 46 per consensus, and mid-guidance precip of 0.38\".",
+       "hindcast": true
+      },
+      "2026-11-11": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 40,
+        "wind_max_kt": 24,
+        "precip_in": 0.65
+       },
+       "error": {
+        "tmax_f": -1,
+        "tmin_f": 1,
+        "wind_max_kt": 3,
+        "precip_in": 0.12
+       },
+       "points": 4.7,
+       "summary": "A strong second Gulf low brings a wet, windy day: high at consensus, low from the warm end of the raw models (NBM cold-biased), wind well above consensus following IFS, precip in the upper third of guidance.",
+       "hindcast": true
+      },
+      "2026-11-12": {
+       "forecast": {
+        "tmax_f": 44,
+        "tmin_f": 34,
+        "wind_max_kt": 15,
+        "precip_in": 0.58
+       },
+       "error": {
+        "tmax_f": 0,
+        "tmin_f": -2,
+        "wind_max_kt": -3,
+        "precip_in": -0.19
+       },
+       "points": 5.4,
+       "summary": "The storm peaks just before 06Z and moves off, so I'm capping wind at 15 kt instead of carrying the gale into the new day. Lingering rain from the nearby low puts precip at 0.58\", slightly above consensus. High and low stay near consensus: 44/34.",
+       "hindcast": true
+      },
+      "2026-11-13": {
+       "forecast": {
+        "tmax_f": 42,
+        "tmin_f": 30,
+        "wind_max_kt": 7,
+        "precip_in": 0.03
+       },
+       "error": {
+        "tmax_f": 5,
+        "tmin_f": 1,
+        "wind_max_kt": 1,
+        "precip_in": 0.03
+       },
+       "points": 7.7,
+       "summary": "A lull with weak northerly outflow overnight, then a weak wave Friday night bringing light rain near the end of the window. I'm staying close to consensus with a slightly cool low and a light precip amount.",
+       "hindcast": true
+      },
+      "2026-11-14": {
+       "forecast": {
+        "tmax_f": 46,
+        "tmin_f": 36,
+        "wind_max_kt": 12,
+        "precip_in": 0.47
+       },
+       "error": {
+        "tmax_f": 1,
+        "tmin_f": 3,
+        "wind_max_kt": 1,
+        "precip_in": 0.02
+       },
+       "points": 4.9,
+       "summary": "Weak front brings rain overnight into Saturday morning, then a lull before Sunday's big low, which mostly arrives after 06Z. Close to consensus: precip shaded up to 0.47 for my repeat dry misses, low warm for the wet regime, wind modest at 12 kt.",
+       "hindcast": true
+      },
+      "2026-11-15": {
+       "forecast": {
+        "tmax_f": 48,
+        "tmin_f": 38,
+        "wind_max_kt": 12,
+        "precip_in": 0.09
+       },
+       "error": {
+        "tmax_f": -3,
+        "tmin_f": 3,
+        "wind_max_kt": 1,
+        "precip_in": 0.08
+       },
+       "points": 9.7,
+       "summary": "The deep SE Gulf low brings E/NE flow first, then the front late in the window. I'm near consensus on temps (48/38), partway toward IFS on wind (12), and wetter than the 0.04 consensus on precip (0.09) given the high ensemble rain chances.",
+       "hindcast": true
+      },
+      "2026-11-16": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 37,
+        "wind_max_kt": 18,
+        "precip_in": 0.85
+       },
+       "error": {
+        "tmax_f": -2,
+        "tmin_f": -1,
+        "wind_max_kt": -1,
+        "precip_in": -0.33
+       },
+       "points": 6.8,
+       "summary": "This is a wet day with a front. Monday's front brings rain and gusty S/SE winds after a possible early lull. I'm near consensus on temperatures, with wind nudged toward IFS (18 kt) and precip in the upper middle of guidance (0.85\").",
+       "hindcast": true
+      },
+      "2026-11-17": {
+       "forecast": {
+        "tmax_f": 45,
+        "tmin_f": 36,
+        "wind_max_kt": 18,
+        "precip_in": 1.15
+       },
+       "error": {
+        "tmax_f": -1,
+        "tmin_f": -1,
+        "wind_max_kt": 2,
+        "precip_in": 0.19
+       },
+       "points": 4.9,
+       "summary": "Wet, breezy day as a third system and a lingering plume keep rain going all 24 h. I'm near consensus, with the high nudged up for S flow, wind partway to IFS and precip in the upper third of guidance: 45/36/18 kt/1.15\".",
+       "hindcast": true
+      }
+     },
+     "summary_hindcast": {
+      "n_days": 15,
+      "total_points": 96.7,
+      "mean_points": 6.45,
+      "bias": {
+       "tmax_f": -0.645,
+       "tmin_f": 0.342,
+       "wind_max_kt": 0.97,
+       "precip_in": -0.064
+      },
+      "mae": {
+       "tmax_f": 1.612,
+       "tmin_f": 1.577,
+       "wind_max_kt": 2.181,
+       "precip_in": 0.183
+      },
+      "n_eff": {
+       "tmax_f": 13.53,
+       "tmin_f": 13.53,
+       "wind_max_kt": 14.6,
+       "precip_in": 14.13
+      }
+     },
+     "today": {
+      "forecast": {
+       "tmax_f": 42,
+       "tmin_f": 34,
+       "wind_max_kt": 8,
+       "precip_in": 0.2
+      },
+      "error": {
+       "tmax_f": 2,
+       "tmin_f": 0,
+       "wind_max_kt": 2,
+       "precip_in": -0.02
+      },
+      "points": 3.6,
+      "summary": "A weak front stalls and dissipates as a ridge builds, giving showers early in the window and then a lull. I'm near consensus: 42/34, 8 kt, and 0.20\" of precip, a touch above the consensus 0.18 because showers linger early."
+     }
+    }
+   }
   }
  },
  "today": {
   "date": "2026-11-18",
-  "status": "As of 17Z",
+  "status": "As of 00Z",
   "forecasters": {
    "Mothmn": {
     "forecast": {
-     "tmax_f": 42,
-     "tmin_f": 35,
-     "wind_max_kt": 8,
-     "precip_in": 0.18
+     "tmax_f": 44,
+     "tmin_f": 36,
+     "wind_max_kt": 18,
+     "precip_in": 0.8
     },
     "error": {
-     "tmax_f": 2,
-     "tmin_f": 1,
-     "wind_max_kt": 2,
-     "precip_in": -0.03
+     "tmax_f": 4,
+     "tmin_f": 2,
+     "wind_max_kt": 12,
+     "precip_in": 0.58
     },
-    "points": 4.9,
-    "day": 6
+    "points": 20.9,
+    "day": 7
    },
    "JerDvl": {
     "forecast": {
-     "tmax_f": 42,
+     "tmax_f": 44,
      "tmin_f": 35,
-     "wind_max_kt": 7,
-     "precip_in": 0.16
+     "wind_max_kt": 18,
+     "precip_in": 0.82
     },
     "error": {
-     "tmax_f": 2,
+     "tmax_f": 4,
      "tmin_f": 1,
-     "wind_max_kt": 1,
-     "precip_in": -0.05
+     "wind_max_kt": 12,
+     "precip_in": 0.6
     },
-    "points": 5.0,
-    "day": 6
+    "points": 20.1,
+    "day": 7
    },
-   "Cyclop": {
-    "forecast": {
-     "tmax_f": 42,
-     "tmin_f": 35,
-     "wind_max_kt": 7,
-     "precip_in": 0.12
-    },
-    "error": {
-     "tmax_f": 2,
-     "tmin_f": 1,
-     "wind_max_kt": 1,
-     "precip_in": -0.09
-    },
-    "points": 6.2,
-    "day": 6
-   },
-   "Bigfut": {
-    "forecast": {
-     "tmax_f": 42,
-     "tmin_f": 35,
-     "wind_max_kt": 7,
-     "precip_in": 0.1
-    },
-    "error": {
-     "tmax_f": 2,
-     "tmin_f": 1,
-     "wind_max_kt": 1,
-     "precip_in": -0.11
-    },
-    "points": 6.8,
-    "day": 6
-   },
-   "Wndigo": {
+   "Nessie": {
     "forecast": {
      "tmax_f": 43,
      "tmin_f": 35,
-     "wind_max_kt": 7,
-     "precip_in": 0.15
+     "wind_max_kt": 19,
+     "precip_in": 0.72
     },
     "error": {
      "tmax_f": 3,
      "tmin_f": 1,
-     "wind_max_kt": 1,
-     "precip_in": -0.06
+     "wind_max_kt": 13,
+     "precip_in": 0.5
     },
-    "points": 6.3,
-    "day": 6
+    "points": 18.6,
+    "day": 7
    },
-   "Nessie": {
+   "Cyclop": {
     "forecast": {
-     "tmax_f": 41,
+     "tmax_f": 44,
      "tmin_f": 35,
-     "wind_max_kt": 6,
-     "precip_in": 0.24
+     "wind_max_kt": 21,
+     "precip_in": 0.88
     },
     "error": {
-     "tmax_f": 1,
+     "tmax_f": 4,
      "tmin_f": 1,
-     "wind_max_kt": 0,
-     "precip_in": 0.03
+     "wind_max_kt": 15,
+     "precip_in": 0.66
     },
-    "points": 2.9,
-    "day": 6
+    "points": 22.2,
+    "day": 7
+   },
+   "Wndigo": {
+    "forecast": {
+     "tmax_f": 44,
+     "tmin_f": 36,
+     "wind_max_kt": 20,
+     "precip_in": 0.8
+    },
+    "error": {
+     "tmax_f": 4,
+     "tmin_f": 2,
+     "wind_max_kt": 14,
+     "precip_in": 0.58
+    },
+    "points": 21.9,
+    "day": 7
+   },
+   "Bigfut": {
+    "forecast": {
+     "tmax_f": 44,
+     "tmin_f": 37,
+     "wind_max_kt": 19,
+     "precip_in": 0.88
+    },
+    "error": {
+     "tmax_f": 4,
+     "tmin_f": 3,
+     "wind_max_kt": 13,
+     "precip_in": 0.66
+    },
+    "points": 23.2,
+    "day": 7
    },
    "Hodags": {
     "forecast": {
-     "tmax_f": 41,
-     "tmin_f": 34,
-     "wind_max_kt": 4,
-     "precip_in": 0.05
+     "tmax_f": 44,
+     "tmin_f": 35,
+     "wind_max_kt": 17,
+     "precip_in": 0.77
     },
     "error": {
-     "tmax_f": 1,
-     "tmin_f": 0,
-     "wind_max_kt": -2,
-     "precip_in": -0.16
+     "tmax_f": 4,
+     "tmin_f": 1,
+     "wind_max_kt": 11,
+     "precip_in": 0.55
     },
-    "points": 7.3,
-    "flag": "G",
-    "day": 6
+    "points": 19.1,
+    "day": 7
    },
    "Kraken": {
     "forecast": {
-     "tmax_f": 45,
-     "tmin_f": 37,
-     "wind_max_kt": 17,
-     "precip_in": 0.87
+     "tmax_f": 43,
+     "tmin_f": 34,
+     "wind_max_kt": 15,
+     "precip_in": 0.62
     },
     "error": {
-     "tmax_f": 5,
-     "tmin_f": 3,
-     "wind_max_kt": 11,
-     "precip_in": 0.66
+     "tmax_f": 3,
+     "tmin_f": 0,
+     "wind_max_kt": 9,
+     "precip_in": 0.4
     },
-    "points": 23.4,
-    "day": 6
+    "points": 14.6,
+    "day": 7
+   },
+   "Claude": {
+    "forecast": {
+     "tmax_f": 42,
+     "tmin_f": 34,
+     "wind_max_kt": 8,
+     "precip_in": 0.2
+    },
+    "error": {
+     "tmax_f": 2,
+     "tmin_f": 0,
+     "wind_max_kt": 2,
+     "precip_in": -0.02
+    },
+    "points": 3.6,
+    "summary": "A weak front stalls and dissipates as a ridge builds, giving showers early in the window and then a lull. I'm near consensus: 42/34, 8 kt, and 0.20\" of precip, a touch above the consensus 0.18 because showers linger early.",
+    "hindcast": true
    }
   }
  }
