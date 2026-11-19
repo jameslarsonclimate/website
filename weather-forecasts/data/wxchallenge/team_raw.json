@@ -1,7 +1,8 @@
 {
  "checks": [
   "2026-11-19T00:15:23+00:00",
-  "2026-11-19T13:00:09+00:00"
+  "2026-11-19T13:00:09+00:00",
+  "2026-11-19T15:30:05+00:00"
  ],
  "stations": {
   "KMSP": {
@@ -2621,7 +2622,7 @@
         "penalty": 0,
         "points": 5.8,
         "cum_points": 44.6,
-        "rank": 33,
+        "rank": 31,
         "prev_rank": 25
        }
       },
@@ -2645,7 +2646,7 @@
         "penalty": 0,
         "points": 6.4,
         "cum_points": 45.9,
-        "rank": 64,
+        "rank": 55,
         "prev_rank": 34
        }
       },
@@ -2669,7 +2670,7 @@
         "penalty": 0,
         "points": 7.0,
         "cum_points": 48.2,
-        "rank": 95,
+        "rank": 90,
         "prev_rank": 65
        }
       },
@@ -2693,7 +2694,7 @@
         "penalty": 0,
         "points": 6.5,
         "cum_points": 49.1,
-        "rank": 120,
+        "rank": 111,
         "prev_rank": 100
        }
       },
@@ -2717,7 +2718,7 @@
         "penalty": 0,
         "points": 6.7,
         "cum_points": 51.5,
-        "rank": 101,
+        "rank": 95,
         "prev_rank": 159
        }
       },
@@ -2741,7 +2742,7 @@
         "penalty": 0,
         "points": 5.5,
         "cum_points": 56.9,
-        "rank": 383,
+        "rank": 374,
         "prev_rank": 341
        }
       },
@@ -2765,7 +2766,7 @@
         "penalty": 0,
         "points": 27.2,
         "cum_points": 71.4,
-        "rank": 344,
+        "rank": 485,
         "prev_rank": 143
        }
       }
@@ -2774,9 +2775,9 @@
     "2026-11-19": {
      "day": 7,
      "year": "26-27",
-     "status": "As of 12Z",
+     "status": "As of 15Z",
      "final": false,
-     "fetched_at_utc": "2026-11-19T13:00:09+00:00",
+     "fetched_at_utc": "2026-11-19T15:30:05+00:00",
      "forecasters": {
       "Mothmn": {
        "forecast": {
@@ -2797,7 +2798,7 @@
         },
         "penalty": 0,
         "points": 28.0,
-        "cum_points": 70.5,
+        "cum_points": 66.5,
         "rank": 25,
         "prev_rank": 3
        }
@@ -2821,9 +2822,9 @@
         },
         "penalty": 0,
         "points": 29.2,
-        "cum_points": 77.3,
-        "rank": 113,
-        "prev_rank": 33
+        "cum_points": 73.3,
+        "rank": 107,
+        "prev_rank": 31
        }
       },
       "Nessie": {
@@ -2845,9 +2846,9 @@
         },
         "penalty": 0,
         "points": 27.7,
-        "cum_points": 80.1,
-        "rank": 186,
-        "prev_rank": 101
+        "cum_points": 76.1,
+        "rank": 179,
+        "prev_rank": 95
        }
       },
       "Cyclop": {
@@ -2869,9 +2870,9 @@
         },
         "penalty": 0,
         "points": 31.3,
-        "cum_points": 81.3,
-        "rank": 223,
-        "prev_rank": 64
+        "cum_points": 77.3,
+        "rank": 211,
+        "prev_rank": 55
        }
       },
       "Wndigo": {
@@ -2893,9 +2894,9 @@
         },
         "penalty": 0,
         "points": 29.0,
-        "cum_points": 82.2,
-        "rank": 251,
-        "prev_rank": 120
+        "cum_points": 78.2,
+        "rank": 241,
+        "prev_rank": 111
        }
       },
       "Bigfut": {
@@ -2917,33 +2918,9 @@
         },
         "penalty": 0,
         "points": 30.3,
-        "cum_points": 82.6,
-        "rank": 261,
-        "prev_rank": 95
-       }
-      },
-      "Kraken": {
-       "forecast": {
-        "tmax_f": 43,
-        "tmin_f": 34,
-        "wind_max_kt": 15,
-        "precip_in": 0.62
-       },
-       "flag": null,
-       "cat": 2,
-       "absences": 2,
-       "official": {
-        "error": {
-         "tmax_f": 5,
-         "tmin_f": 2,
-         "wind_max_kt": 4.0,
-         "precip_in": 14.7
-        },
-        "penalty": 0,
-        "points": 25.7,
-        "cum_points": 88.0,
-        "rank": 379,
-        "prev_rank": 344
+        "cum_points": 78.6,
+        "rank": 251,
+        "prev_rank": 90
        }
       },
       "Hodags": {
@@ -2965,9 +2942,33 @@
         },
         "penalty": 0,
         "points": 28.2,
-        "cum_points": 92.2,
-        "rank": 468,
-        "prev_rank": 383
+        "cum_points": 88.2,
+        "rank": 447,
+        "prev_rank": 374
+       }
+      },
+      "Kraken": {
+       "forecast": {
+        "tmax_f": 43,
+        "tmin_f": 34,
+        "wind_max_kt": 15,
+        "precip_in": 0.62
+       },
+       "flag": null,
+       "cat": 2,
+       "absences": 2,
+       "official": {
+        "error": {
+         "tmax_f": 5,
+         "tmin_f": 2,
+         "wind_max_kt": 4.0,
+         "precip_in": 14.7
+        },
+        "penalty": 0,
+        "points": 25.7,
+        "cum_points": 92.0,
+        "rank": 516,
+        "prev_rank": 485
        }
       }
      }
@@ -2978,5 +2979,5 @@
    "done_for": "2026-11-17"
   }
  },
- "generated_at_utc": "2026-11-19T13:00:09+00:00"
+ "generated_at_utc": "2026-11-19T15:30:05+00:00"
 }

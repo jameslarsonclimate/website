@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-19T13:00:09+00:00",
- "generated_at_utc": "2026-11-19T15:01:28+00:00",
+ "fetched_at_utc": "2026-11-19T15:30:05+00:00",
+ "generated_at_utc": "2026-11-19T15:30:24+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -104,28 +104,28 @@
      "error": {
       "tmax_f": 2,
       "tmin_f": 1,
-      "wind_max_kt": -8,
+      "wind_max_kt": 0,
       "precip_in": -0.04
      },
-     "points": 8.2,
+     "points": 4.2,
      "rank": 3,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 42.5,
-    "mean_points": 7.08,
+    "total_points": 38.5,
+    "mean_points": 6.42,
     "bias": {
      "tmax_f": -0.027,
      "tmin_f": 0.243,
-     "wind_max_kt": -1.031,
+     "wind_max_kt": 0.544,
      "precip_in": -0.079
     },
     "mae": {
      "tmax_f": 2.506,
      "tmin_f": 1.088,
-     "wind_max_kt": 3.682,
+     "wind_max_kt": 2.107,
      "precip_in": 0.117
     },
     "n_eff": {
@@ -233,29 +233,29 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": 0,
-      "wind_max_kt": -12,
+      "wind_max_kt": -4,
       "precip_in": -0.17
      },
-     "points": 12.6,
+     "points": 8.6,
      "flag": "G",
-     "rank": 383,
+     "rank": 374,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 64.0,
-    "mean_points": 10.67,
+    "total_points": 60.0,
+    "mean_points": 10.0,
     "bias": {
      "tmax_f": 0.613,
      "tmin_f": -0.343,
-     "wind_max_kt": 0.592,
+     "wind_max_kt": 2.167,
      "precip_in": -0.07
     },
     "mae": {
      "tmax_f": 2.296,
      "tmin_f": 1.463,
-     "wind_max_kt": 7.192,
+     "wind_max_kt": 5.617,
      "precip_in": 0.203
     },
     "n_eff": {
@@ -366,28 +366,28 @@
      "error": {
       "tmax_f": 5,
       "tmin_f": 3,
-      "wind_max_kt": 1,
+      "wind_max_kt": 9,
       "precip_in": 0.65
      },
-     "points": 18.1,
-     "rank": 344,
+     "points": 22.1,
+     "rank": 485,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 62.3,
-    "mean_points": 10.38,
+    "total_points": 66.3,
+    "mean_points": 11.05,
     "bias": {
      "tmax_f": 1.142,
      "tmin_f": 1.048,
-     "wind_max_kt": -1.187,
+     "wind_max_kt": 0.388,
      "precip_in": 0.215
     },
     "mae": {
      "tmax_f": 2.4,
      "tmin_f": 1.626,
-     "wind_max_kt": 3.317,
+     "wind_max_kt": 4.892,
      "precip_in": 0.379
     },
     "n_eff": {
@@ -496,28 +496,28 @@
      "error": {
       "tmax_f": 2,
       "tmin_f": 1,
-      "wind_max_kt": -9,
+      "wind_max_kt": -1,
       "precip_in": -0.06
      },
-     "points": 9.3,
-     "rank": 33,
+     "points": 5.3,
+     "rank": 31,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 48.1,
-    "mean_points": 8.02,
+    "total_points": 44.1,
+    "mean_points": 7.35,
     "bias": {
      "tmax_f": 0.81,
      "tmin_f": 0.266,
-     "wind_max_kt": -0.992,
+     "wind_max_kt": 0.583,
      "precip_in": -0.133
     },
     "mae": {
      "tmax_f": 2.246,
      "tmin_f": 1.248,
-     "wind_max_kt": 3.489,
+     "wind_max_kt": 1.914,
      "precip_in": 0.169
     },
     "n_eff": {
@@ -625,28 +625,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": 1,
-      "wind_max_kt": -10,
+      "wind_max_kt": -2,
       "precip_in": 0.02
      },
-     "points": 7.6,
-     "rank": 101,
+     "points": 3.6,
+     "rank": 95,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 52.4,
-    "mean_points": 8.73,
+    "total_points": 48.4,
+    "mean_points": 8.07,
     "bias": {
      "tmax_f": 0.36,
      "tmin_f": -0.113,
-     "wind_max_kt": -1.693,
+     "wind_max_kt": -0.118,
      "precip_in": -0.13
     },
     "mae": {
      "tmax_f": 1.66,
      "tmin_f": 1.692,
-     "wind_max_kt": 5.779,
+     "wind_max_kt": 4.204,
      "precip_in": 0.145
     },
     "n_eff": {
@@ -754,28 +754,28 @@
      "error": {
       "tmax_f": 2,
       "tmin_f": 1,
-      "wind_max_kt": -9,
+      "wind_max_kt": -1,
       "precip_in": -0.12
      },
-     "points": 11.1,
-     "rank": 95,
+     "points": 7.1,
+     "rank": 90,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 52.3,
-    "mean_points": 8.72,
+    "total_points": 48.3,
+    "mean_points": 8.05,
     "bias": {
      "tmax_f": 0.05,
      "tmin_f": -0.104,
-     "wind_max_kt": -1.629,
+     "wind_max_kt": -0.054,
      "precip_in": -0.09
     },
     "mae": {
      "tmax_f": 2.428,
      "tmin_f": 1.434,
-     "wind_max_kt": 5.137,
+     "wind_max_kt": 3.562,
      "precip_in": 0.146
     },
     "n_eff": {
@@ -883,28 +883,28 @@
      "error": {
       "tmax_f": 2,
       "tmin_f": 1,
-      "wind_max_kt": -9,
+      "wind_max_kt": -1,
       "precip_in": -0.1
      },
-     "points": 10.5,
-     "rank": 64,
+     "points": 6.5,
+     "rank": 55,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 50.0,
-    "mean_points": 8.33,
+    "total_points": 46.0,
+    "mean_points": 7.67,
     "bias": {
      "tmax_f": 0.554,
      "tmin_f": 0.143,
-     "wind_max_kt": 1.156,
+     "wind_max_kt": 2.731,
      "precip_in": -0.036
     },
     "mae": {
      "tmax_f": 2.237,
      "tmin_f": 0.988,
-     "wind_max_kt": 5.324,
+     "wind_max_kt": 3.749,
      "precip_in": 0.18
     },
     "n_eff": {
@@ -1012,28 +1012,28 @@
      "error": {
       "tmax_f": 3,
       "tmin_f": 1,
-      "wind_max_kt": -9,
+      "wind_max_kt": -1,
       "precip_in": -0.07
      },
-     "points": 10.6,
-     "rank": 120,
+     "points": 6.6,
+     "rank": 111,
      "day": 6
     }
    },
    "summary": {
     "n_days": 6,
-    "total_points": 53.2,
-    "mean_points": 8.87,
+    "total_points": 49.2,
+    "mean_points": 8.2,
     "bias": {
      "tmax_f": 0.627,
      "tmin_f": 0.03,
-     "wind_max_kt": 0.733,
+     "wind_max_kt": 2.308,
      "precip_in": -0.061
     },
     "mae": {
      "tmax_f": 2.31,
      "tmin_f": 1.301,
-     "wind_max_kt": 5.527,
+     "wind_max_kt": 3.952,
      "precip_in": 0.181
     },
     "n_eff": {
@@ -1313,28 +1313,28 @@
      "error": {
       "tmax_f": 3,
       "tmin_f": 2,
-      "wind_max_kt": -8,
+      "wind_max_kt": 0,
       "precip_in": -0.05
      },
-     "points": 10.5,
+     "points": 6.5,
      "summary": "The front's showery tail fades as a ridge builds. Warm air that models are under-forecasting means a high of 43 and low of 36 (both 1\u20132F above consensus); light winds near 8 kt; showers near the ensemble medians at 0.17\".",
      "hindcast": true
     }
    },
    "summary_hindcast": {
     "n_days": 16,
-    "total_points": 102.6,
-    "mean_points": 6.41,
+    "total_points": 98.6,
+    "mean_points": 6.16,
     "bias": {
      "tmax_f": -0.344,
      "tmin_f": 0.574,
-     "wind_max_kt": -0.298,
+     "wind_max_kt": 0.359,
      "precip_in": -0.08
     },
     "mae": {
      "tmax_f": 1.958,
      "tmin_f": 1.429,
-     "wind_max_kt": 2.268,
+     "wind_max_kt": 1.611,
      "precip_in": 0.156
     },
     "n_eff": {
@@ -1612,28 +1612,28 @@
        "error": {
         "tmax_f": 3,
         "tmin_f": 2,
-        "wind_max_kt": -8,
+        "wind_max_kt": 0,
         "precip_in": -0.05
        },
-       "points": 10.5,
+       "points": 6.5,
        "summary": "The front's showery tail fades as a ridge builds. Warm air that models are under-forecasting means a high of 43 and low of 36 (both 1\u20132F above consensus); light winds near 8 kt; showers near the ensemble medians at 0.17\".",
        "hindcast": true
       }
      },
      "summary_hindcast": {
       "n_days": 16,
-      "total_points": 102.6,
-      "mean_points": 6.41,
+      "total_points": 98.6,
+      "mean_points": 6.16,
       "bias": {
        "tmax_f": -0.344,
        "tmin_f": 0.574,
-       "wind_max_kt": -0.298,
+       "wind_max_kt": 0.359,
        "precip_in": -0.08
       },
       "mae": {
        "tmax_f": 1.958,
        "tmin_f": 1.429,
-       "wind_max_kt": 2.268,
+       "wind_max_kt": 1.611,
        "precip_in": 0.156
       },
       "n_eff": {
@@ -1665,7 +1665,7 @@
  },
  "today": {
   "date": "2026-11-19",
-  "status": "As of 12Z",
+  "status": "As of 15Z",
   "forecasters": {
    "Mothmn": {
     "forecast": {
@@ -1763,22 +1763,6 @@
     "points": 30.3,
     "day": 7
    },
-   "Kraken": {
-    "forecast": {
-     "tmax_f": 43,
-     "tmin_f": 34,
-     "wind_max_kt": 15,
-     "precip_in": 0.62
-    },
-    "error": {
-     "tmax_f": 5,
-     "tmin_f": -2,
-     "wind_max_kt": 8,
-     "precip_in": 0.62
-    },
-    "points": 25.7,
-    "day": 7
-   },
    "Hodags": {
     "forecast": {
      "tmax_f": 44,
@@ -1793,6 +1777,22 @@
      "precip_in": 0.77
     },
     "points": 28.2,
+    "day": 7
+   },
+   "Kraken": {
+    "forecast": {
+     "tmax_f": 43,
+     "tmin_f": 34,
+     "wind_max_kt": 15,
+     "precip_in": 0.62
+    },
+    "error": {
+     "tmax_f": 5,
+     "tmin_f": -2,
+     "wind_max_kt": 8,
+     "precip_in": 0.62
+    },
+    "points": 25.7,
     "day": 7
    },
    "Claude": {

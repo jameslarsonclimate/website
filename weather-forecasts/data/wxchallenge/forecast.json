@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T15:00:05+00:00",
+  "generated_at_utc": "2026-11-19T15:30:05+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -832,7 +832,7 @@
     "CONSENSUS": {
       "tmax_f": 45.0,
       "tmin_f": 35.0,
-      "wind_max_kt": 20.6,
+      "wind_max_kt": 20.2,
       "precip_in": 0.68,
       "method": {
         "tmax_f": {
@@ -895,13 +895,13 @@
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.164,
-            "RRFS": 0.138,
-            "IFS_HRES": 0.197,
-            "GFS": 0.112,
-            "GFS_MOS": 0.12,
-            "NBM": 0.119,
-            "ENS": 0.151
+            "HRRR": 0.162,
+            "RRFS": 0.134,
+            "IFS_HRES": 0.193,
+            "GFS": 0.105,
+            "GFS_MOS": 0.116,
+            "NBM": 0.114,
+            "ENS": 0.177
           },
           "excluded_same_model": [
             "IFS"
@@ -936,7 +936,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-19T15:00:05+00:00",
+    "checked_at_utc": "2026-11-19T15:30:05+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST",
