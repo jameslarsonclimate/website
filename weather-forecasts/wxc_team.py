@@ -327,11 +327,60 @@ def scores(raw: dict, verif: dict) -> dict:
                 s["day"] = t.get("day")
                 today["forecasters"][name] = s
                 people.setdefault(name, {"days": {}})
+    ai = claude_scores(station, days, T)
+    if ai:
+        name = "Claude" if "Claude" not in people else "Claude (AI)"
+        tday = ai.pop("today", None)
+        people[name] = ai
+        if tday:
+            today = today or {"date": T["date"], "status": None, "forecasters": {}}
+            today["forecasters"][name] = tday
     return {"station": station, "school": st.get("school", SCHOOL), "school_label": SCHOOL_LABEL,
             "season": st.get("year"), "fetched_at_utc": raw.get("generated_at_utc"),
             "generated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
             "note": "display only; scored like the models against the scoreboard's observed values",
             "forecasters": people, "today": today}
+
+
+def claude_scores(station: str, days: list, T: Optional[dict]) -> Optional[dict]:
+    """The "Claude" forecaster (wxc_claude.py; display only): its days scored like the team's.
+    Hindcast days are marked and left out of `summary` (the rank), which counts live days only;
+    `summary_hindcast` is the same over the hindcast days. Only days with observations are
+    included, so a forecast for a day not started yet never reaches team.json."""
+    try:
+        import wxc_claude
+        recs = wxc_claude.best_records(station)
+    except Exception as exc:
+        print(f"  warning: Claude's forecasts skipped ({type(exc).__name__}: {exc})")
+        return None
+    if not recs:
+        return None
+    out = {"ai": True, "model": None, "days": {}}
+    live, hind = [], []
+    for d in days:
+        rec = recs.get(d["date"])
+        s = score_day(rec["forecast"], d["obs"]) if rec else None
+        if not s:
+            continue
+        s["summary"] = rec.get("summary", "")
+        if rec.get("hindcast"):
+            s["hindcast"] = True
+        out["model"] = rec.get("model")
+        out["days"][d["date"]] = s
+        (hind if rec.get("hindcast") else live).append({"date": d["date"], "models": {"x": s}})
+    if live:
+        out["summary"] = model_stats(live)["x"]
+    if hind:
+        out["summary_hindcast"] = model_stats(hind)["x"]
+    if T and T.get("obs") and T["obs"].get("wind_max_kt") is not None and recs.get(T["date"]):
+        rec = recs[T["date"]]
+        s = score_day(rec["forecast"], T["obs"])
+        if s:
+            s["summary"] = rec.get("summary", "")
+            if rec.get("hindcast"):
+                s["hindcast"] = True
+            out["today"] = s
+    return out if out["days"] or out.get("today") else None
 
 
 def write_scores() -> Optional[dict]:

@@ -37,6 +37,20 @@ def _no_wxc_results_network(tmp_path, monkeypatch):
     monkeypatch.setattr(wxc_team, "_city_start", lambda station: None)   # never the real verification.json
 
 
+@pytest.fixture(autouse=True)
+def _isolated_claude(tmp_path, monkeypatch):
+    """The Claude forecaster (wxc_claude): never the real records, never the CLI, never IEM."""
+    import wxc_claude
+    home = tmp_path / "claude_forecaster"
+    for k, v in {"HOME_DIR": home, "RUNS": home / "runs.jsonl", "NOTES_DIR": home / "notes",
+                 "INPUTS_DIR": home / "inputs", "LOG": home / "log.jsonl",
+                 "TOKEN_FILE": home / ".oauth_token"}.items():
+        monkeypatch.setattr(wxc_claude, k, v)
+    monkeypatch.setattr(wxc_claude, "call_claude",
+                        lambda *a, **k: pytest.fail("claude CLI called in an offline test"))
+    monkeypatch.setattr(wxc_claude, "_get", lambda *a, **k: pytest.fail(f"network call in an offline test: {a[:1]}"))
+
+
 def pytest_configure(config):
     config.addinivalue_line("markers", "real_network_check: keep wxc_carryover.network_up (no stub)")
 

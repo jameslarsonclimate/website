@@ -7,3 +7,6 @@ __pycache__/
 weather-forecasts/cache/
 # drawn locally only; not shown on the page, so not pushed every run
 weather-forecasts/images/wxchallenge/verification.png
+
+# Claude forecaster raw records (wxc_claude.py): local only, so the next day's forecast is never public before the deadline
+weather-forecasts/claude_forecaster/

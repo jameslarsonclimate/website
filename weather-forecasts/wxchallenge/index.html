@@ -112,6 +112,8 @@
     .people .chip button{border:0;background:none;padding:0 6px;font-size:1rem;line-height:1.2;color:var(--ink-2)}
     #people-msg{color:var(--note)}
     #score tr.person td.model{box-shadow:inset 4px 0 var(--s1), inset -1px 0 var(--line)}
+    /* Claude's hindcast days (made after the fact from what was known at 23Z the day before; not in its average) */
+    #score tr.person td.hc{outline:1px dashed var(--ink-3);outline-offset:-3px;font-style:italic}
     /* the scoreboard and its legend keep the light-mode scales in dark mode (not inverted) */
     #score, #legend{--e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
       --neu:#f0efec; --c1:#86b6ef; --c2:#2a78d6; --c3:#184f95; --w1:#f09a99; --w2:#e34948; --w3:#a82c2c}
@@ -328,7 +330,7 @@
     <div class="people" id="people">
       <form id="people-form" autocomplete="off">
         <label for="people-name">Add a Colorado State forecaster:</label>
-        <input id="people-name" placeholder="WxChallenge name" spellcheck="false" autocapitalize="off" autocorrect="off">
+        <input id="people-name" placeholder="WxChallenge name or Claude" spellcheck="false" autocapitalize="off" autocorrect="off">
         <button type="submit">Add</button>
       </form>
       <span id="people-chips"></span>
@@ -958,8 +960,11 @@ function personRows(days, T, CV, cls, range){
   const tToday = T && TEAM.today?.date === T.date ? TEAM.today.forecasters : null;
   const tp = T ? Object.values(T.models).map(m => m.points) : [];
   return PEOPLE.map(teamKey).filter(Boolean).map(name => {
-    const P = TEAM.forecasters[name], s = P.summary, at = `data-person="${esc(name)}"`;
+    const P = TEAM.forecasters[name], at = `data-person="${esc(name)}"`;
+    // Claude (wxc_claude.py): ranked on its live days; before it has any, on its hindcasts (labelled)
+    const hindOnly = !!P.ai && !P.summary && !!P.summary_hindcast, s = P.summary || P.summary_hindcast;
     const cell = (m, i, lo, hi, extra) => {
+      if (m.hindcast) extra += ' hc';
       if (VIEW === 'points') {
         const t = hi > lo ? Math.min(1, Math.max(0, (m.points - lo) / (hi - lo))) : 0;
         return `<td class="cell${extra}" ${at} data-day="${i}" style="background:${pointsFill(t)};color:${pointsInk(t, true)}">${m.points.toFixed(1)}</td>`;
@@ -967,7 +972,7 @@ function personRows(days, T, CV, cls, range){
       const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
       return `<td class="cell${extra}" ${at} data-day="${i}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, VARS[VIEW].dec)}</td>`;
     };
-    let tr = `<tr class="person"><td class="model">${esc(name)} <span class="cyc">CSU</span></td>`;
+    let tr = `<tr class="person"><td class="model">${esc(name)} <span class="cyc">${P.ai ? 'AI' : 'CSU'}</span></td>`;
     days.forEach((d, i) => {
       const m = P.days[d.date];
       tr += !m || CV ? `<td class="cell small${cls[i]}">—</td>` : cell(m, i, range[i].lo, range[i].hi, cls[i]);
@@ -979,7 +984,7 @@ function personRows(days, T, CV, cls, range){
     if (!s) tr += (VIEW === 'points' ? '<td class="avg"><b>—</b></td>' : '') + '<td class="sum"><b>—</b><span>0 d</span></td>';
     else if (CV) tr += '<td class="sum"><b>—</b><span>no cloud forecast</span></td>';
     else if (VIEW === 'points') tr += `<td class="avg" title="${esc(sameDays(P))}"><b>${s.mean_points.toFixed(1)}</b></td>` +
-                                      `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d</span></td>`;
+                                      `<td class="sum"><b>${s.total_points.toFixed(1)}</b><span>${s.n_days} d${hindOnly ? ' hindcast' : ''}</span></td>`;
     else {
       const dec = VARS[VIEW].dec === 0 ? 1 : 2;
       tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}</span></td>`;
@@ -989,7 +994,9 @@ function personRows(days, T, CV, cls, range){
 }
 // the models' average on the forecaster's own days (the Avg column's models cover more days)
 function sameDays(P){
-  const ds = (VERIF.days || []).filter(d => P.days[d.date] && Object.keys(d.models).length);
+  // Claude: the days its average counts (live days, or its hindcasts before it has any)
+  const counted = m => !P.ai || (P.summary ? !m.hindcast : !!m.hindcast);
+  const ds = (VERIF.days || []).filter(d => P.days[d.date] && counted(P.days[d.date]) && Object.keys(d.models).length);
   const avg = {};
   for (const n of new Set(ds.flatMap(d => Object.keys(d.models)))) {
     const p = ds.map(d => d.models[n]?.points);
@@ -1016,6 +1023,8 @@ function personTip(td, ev){
   if (m.penalty) extra.push(`includes a ${m.penalty}-point WxChallenge penalty${m.flag ? ` (marked ${esc(m.flag)})` : ''}`);
   else if (m.flag) extra.push(`marked ${esc(m.flag)} on WxChallenge`);
   if (m.rank != null && !now) extra.push(`national rank ${m.rank} after day ${m.day}`);
+  if (m.hindcast) extra.push('hindcast: made afterwards from only what was known at 23Z the day before; not in the live average');
+  if (m.summary) extra.push(`“${esc(m.summary)}”`);
   tip.innerHTML = `<b>${esc(name)} · ${d.date}${so}${m.day ? ` (day ${m.day})` : ''}</b><br>` +
     ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(line).join('<br>') +
     `<br><b>${m.points.toFixed(1)} points${so}</b> · better than ${beat} of ${others.length} models` +
