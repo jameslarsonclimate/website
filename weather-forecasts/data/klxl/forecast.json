@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T14:15:18+00:00",
+  "generated_at_utc": "2026-11-19T15:15:12+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 58.2,
-      "tmin_f": 32.4,
-      "wind_max_kt": 16.8,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-11-19T06",
+      "tmax_f": 57.5,
+      "tmin_f": 31.4,
+      "wind_max_kt": 14.1,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-11-19T12",
       "valid_range_utc": [
         "2026-11-20 06:00:00",
         "2026-11-21 06:00:00"
@@ -128,26 +128,26 @@
     "NBM": {
       "tmax_f": 59.0,
       "tmin_f": 34.0,
-      "wind_max_kt": 11.0,
-      "precip_in": 0.02,
-      "pop06_max_pct": 21,
+      "wind_max_kt": 10.0,
+      "precip_in": 0.0,
+      "pop06_max_pct": 16,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.0,
           "12-18": 0.05,
-          "18-00": 0.09,
-          "00-06": 0.21
+          "18-00": 0.06,
+          "00-06": 0.16
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.21,
-          0.317
+          0.16,
+          0.25
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-19T12",
+      "init_time_utc": "2026-11-19T14",
       "valid_range_utc": [
         "2026-11-20T06",
         "2026-11-21T06"
@@ -752,75 +752,77 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.01,
-      "init_time_utc": "2026-11-19T06",
+      "init_time_utc": "2026-11-19T12",
       "valid_range_utc": [
         "2026-11-20T06",
         "2026-11-21T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.154,
+        "p24": 0.143,
         "blocks": {
           "06-12": null,
           "12-18": null,
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.014,
-            "std": 0.039,
+            "mean": 0.008,
+            "std": 0.014,
             "p0": 0.0,
             "p10": 0.0,
-            "p25": 0.0,
+            "p25": 0.002,
             "p50": 0.002,
             "p75": 0.005,
-            "p90": 0.011,
-            "p100": 0.148
+            "p90": 0.019,
+            "p100": 0.052
           },
           "precip_prob": {
-            "0.01": 0.154,
-            "0.10": 0.077,
+            "0.01": 0.143,
+            "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.025,
+            0.002,
+            0.052,
+            0.002,
+            0.0,
+            0.002,
+            0.002,
             0.005,
             0.002,
             0.005,
             0.005,
             0.0,
             0.002,
-            0.0,
-            0.012,
-            0.0,
-            0.002,
-            0.148,
-            0.0,
-            0.002
+            0.0
           ]
         }
       }
@@ -857,9 +859,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 58.8,
-      "tmin_f": 33.7,
-      "wind_max_kt": 15.0,
+      "tmax_f": 58.7,
+      "tmin_f": 33.6,
+      "wind_max_kt": 14.5,
       "precip_in": 0.02,
       "method": {
         "tmax_f": {
@@ -951,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-19T14:15:18+00:00",
+    "checked_at_utc": "2026-11-19T15:15:12+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
