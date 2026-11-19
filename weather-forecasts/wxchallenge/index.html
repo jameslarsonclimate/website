@@ -112,7 +112,7 @@
     .people .chip button{border:0;background:none;padding:0 6px;font-size:1rem;line-height:1.2;color:var(--ink-2)}
     #people-msg{color:var(--note)}
     #score tr.person td.model{box-shadow:inset 4px 0 var(--s1), inset -1px 0 var(--line)}
-    /* Claude's hindcast days (made after the fact from what was known at 23Z the day before; not in its average) */
+    /* hindcast days (made after the fact; not in the row's average) */
     #score tr.person td.hc{outline:1px dashed var(--ink-3);outline-offset:-3px;font-style:italic}
     /* the scoreboard and its legend keep the light-mode scales in dark mode (not inverted) */
     #score, #legend{--e0:#fbe1d3; --e1:#eb6834; --e2:#8f3510;
@@ -330,7 +330,7 @@
     <div class="people" id="people">
       <form id="people-form" autocomplete="off">
         <label for="people-name">Add a Colorado State forecaster:</label>
-        <input id="people-name" placeholder="WxChallenge name or Claude" spellcheck="false" autocapitalize="off" autocorrect="off">
+        <input id="people-name" placeholder="WxChallenge name" spellcheck="false" autocapitalize="off" autocorrect="off">
         <button type="submit">Add</button>
       </form>
       <span id="people-chips"></span>
@@ -959,8 +959,7 @@ function personRows(days, T, CV, cls, range){
   if (!teamOk()) return [];
   const tToday = T && TEAM.today?.date === T.date ? TEAM.today.forecasters : null;
   const tp = T ? Object.values(T.models).map(m => m.points) : [];
-  // Claude in the split view: one row per run (18Z, 21Z, 23:50Z the day before), each ranked on its
-  // own; otherwise its ranked forecast (the latest run before the deadline), like a team member
+  // split view: a forecaster with several runs a day gets one row per run, each ranked on its own
   const SP = SPLIT && !CV;
   const views = PEOPLE.map(teamKey).filter(Boolean).flatMap(name => {
     const F = TEAM.forecasters[name];
@@ -972,7 +971,7 @@ function personRows(days, T, CV, cls, range){
   });
   return views.map(({ name, run, P, todayM, label }) => {
     const at = `data-person="${esc(name)}"${run ? ` data-run="${run}"` : ''}`;
-    // Claude (wxc_claude.py): ranked on its live days; before it has any, on its hindcasts (labelled)
+    // ranked on live days; before there are any, on hindcasts (labelled)
     const hindOnly = !!P.ai && !P.summary && !!P.summary_hindcast, s = P.summary || P.summary_hindcast;
     const cell = (m, i, lo, hi, extra) => {
       if (m.hindcast) extra += ' hc';
@@ -1005,7 +1004,7 @@ function personRows(days, T, CV, cls, range){
 }
 // the models' average on the forecaster's own days (the Avg column's models cover more days)
 function sameDays(P){
-  // Claude: the days its average counts (live days, or its hindcasts before it has any)
+  // the days the average counts (live days, or hindcasts before there are any)
   const counted = m => !P.ai || (P.summary ? !m.hindcast : !!m.hindcast);
   const ds = (VERIF.days || []).filter(d => P.days[d.date] && counted(P.days[d.date]) && Object.keys(d.models).length);
   const avg = {};
@@ -1024,7 +1023,7 @@ function sameDays(P){
 function personTip(td, ev){
   const name = td.dataset.person, now = td.dataset.day === 'today';
   const d = now ? VERIF.today : VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
-  const R = td.dataset.run ? TEAM.forecasters[name]?.runs?.[td.dataset.run] : null;   // Claude, split view
+  const R = td.dataset.run ? TEAM.forecasters[name]?.runs?.[td.dataset.run] : null;   // split view, per run
   const m = R ? (now ? R.today : R.days?.[d?.date])
     : now ? TEAM.today?.forecasters?.[name] : TEAM.forecasters[name]?.days?.[d?.date];
   if (!d || !m) return;
