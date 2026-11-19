@@ -10,3 +10,6 @@ weather-forecasts/images/wxchallenge/verification.png
 
 # Claude forecaster raw records (wxc_claude.py): local only, so the next day's forecast is never public before the deadline
 weather-forecasts/claude_forecaster/
+
+# every AI brief the pipeline wrote (wxc_brief_archive.py): local only, brief.md history is in git
+weather-forecasts/briefs/

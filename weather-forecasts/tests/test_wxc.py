@@ -23,6 +23,7 @@ import functions  # noqa: E402
 import wxc_mos  # noqa: E402
 import wxc_obs  # noqa: E402
 import wxc_usl  # noqa: E402
+import wxc_brief_archive  # noqa: E402
 import wxc_verify  # noqa: E402
 from wxc_stations import STATIONS, Station, default_hrrr_model  # noqa: E402
 
@@ -726,7 +727,8 @@ def test_fallback_to_previous_cycle(fake_herbie, monkeypatch):
 def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     """Full run in a scratch copy with every network call faked."""
     work = tmp_path / "wf"
-    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns("tests", "__pycache__", "*.ipynb", "images", "data", "cache"))
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns("tests", "__pycache__", "*.ipynb", "images", "data", "cache",
+                                                       "briefs"))
     monkeypatch.syspath_prepend(str(work))
     for name in ["functions", "wxc_obs", "wxc_mos", "wxc_verify", "wxc_stations", "wxc_timeline", "wxc_team",
                  "getForecast_wxChallenge-pushGitHub"]:
@@ -800,6 +802,9 @@ def test_main_end_to_end(tmp_path, monkeypatch, fake_herbie):
     runs = wxc_verify.read_jsonl(work / "data/wxchallenge/runs.jsonl")
     assert runs[-1]["target_date"] == "2025-09-29" and "series" not in json.dumps(runs[-1])
     assert (work / "images/wxchallenge/latest.png").exists()
+    # the brief is archived too (wxc_brief_archive; conftest points its root at tmp_path/briefs)
+    kept = wxc_brief_archive.brief_as_of("KTPA", "2025-09-29")
+    assert kept and kept[1] == (work / "data/wxchallenge/brief.md").read_text()
     assert (work / "images/wxchallenge/verification.png").exists()
     # "today so far": pre-deadline series rebuilt for 9/28, latest runs for the rest of the day
     assert (work / "images/wxchallenge/today.png").exists()

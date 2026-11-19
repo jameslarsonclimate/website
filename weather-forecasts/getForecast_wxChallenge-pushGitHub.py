@@ -41,6 +41,7 @@ import pandas as pd
 from functions import (convert_time_to_datetime64, forecast_hours_for_day, lst_window_utc, fmt,
                        get_latest_forecast_cycle, previous_forecast_cycle, run_hour)
 import wxc_brief
+import wxc_brief_archive
 import wxc_cache
 import wxc_cam_ens
 import wxc_carryover
@@ -1642,9 +1643,17 @@ def main():
 
     # plain-text brief for AI assistants (after today.json, which it summarises)
     try:
-        print(f"Wrote {wxc_brief.write_brief(DATA)}")
+        brief = wxc_brief.write_brief(DATA)
+        print(f"Wrote {brief}")
     except Exception as exc:
+        brief = None
         print(f"Warning: AI brief skipped ({type(exc).__name__}: {exc})")
+    # keep a copy of every brief (briefs/<ICAO>/<day>/, local only: brief.md's history is in git)
+    try:
+        kept = brief and wxc_brief_archive.archive_brief(brief)
+        print(f"Archived brief: {kept}" if kept else "Archived brief: unchanged since the last copy")
+    except Exception as exc:
+        print(f"Warning: brief archive skipped ({type(exc).__name__}: {exc})")
 
     # ---- 6. publish ----
     if not args.no_push:

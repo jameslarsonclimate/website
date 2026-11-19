@@ -63,3 +63,10 @@ def _assume_online(request, monkeypatch):
     if request.node.get_closest_marker("real_network_check"):
         return
     monkeypatch.setattr(wxc_carryover, "network_up", lambda *a, **k: True)
+
+
+@pytest.fixture(autouse=True)
+def _isolated_brief_archive(tmp_path, monkeypatch):
+    """Never add test briefs to the real brief archive (briefs/)."""
+    import wxc_brief_archive
+    monkeypatch.setattr(wxc_brief_archive, "ARCHIVE", tmp_path / "briefs")
