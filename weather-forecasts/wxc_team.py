@@ -89,11 +89,15 @@ def parse_results(page: str, school: str = SCHOOL) -> dict:
     head = re.search(r"<h5>\s*Day\s+(\d+)\s*\(([^)]*)\)", page, re.I)
     out = {"day": int(head.group(1)) if head else None, "status": head.group(2).strip() if head else None,
            "dates": {}, "forecasters": {}}
+    last = 0
     for c in _rows(page):
         if len(c) == 6 and re.fullmatch(r"\d{8}", c[0]):        # the day list: date, values, status
+            # days 1..N in order; only final days say "Day N", so an unlabeled row ("As of 15Z") is
+            # the day after the one above it, NOT the heading's day: right after the 00Z deadline
+            # the heading is already tomorrow (Day 7, no row yet) while today's row is Day 6
             m = re.search(r"Day\s+(\d+)", c[5])
-            n = int(m.group(1)) if m else out["day"]
-            if n is not None:
+            n = last = int(m.group(1)) if m else last + 1
+            if n:
                 out["dates"][n] = {"date": f"{c[0][:4]}-{c[0][4:6]}-{c[0][6:]}", "status": c[5],
                                    "final": c[5].lower().startswith("final"),
                                    "obs": dict(zip(VARS, (_num(x) for x in c[1:5]))),
@@ -243,7 +247,7 @@ def update(station: str, now: Optional[datetime] = None, force: bool = False) ->
         read += 1
     # the rank after the day before is final on today's page ("Prev")
     prev = latest["dates"].get(cur - 1)
-    if prev and prev["date"] in st["days"]:
+    if prev and prev["final"] and prev["date"] in st["days"]:
         for name, rec in st["days"][prev["date"]]["forecasters"].items():
             pr = (latest["forecasters"].get(name) or {}).get("official", {}).get("prev_rank")
             if pr is not None:

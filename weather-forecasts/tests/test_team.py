@@ -173,3 +173,26 @@ def test_check_limit():
     assert wxc_team.due(raw, "KMSP", datetime(2026, 11, 7, 12, tzinfo=timezone.utc))
     raw = {"stations": {"KMSP": {"done_for": "2026-11-06"}}}
     assert not wxc_team.due(raw, "KMSP", now)                       # yesterday was final: done
+
+
+# right after the 00Z deadline the page's heading is already the next day (its forecasts are up)
+# while the in-progress day's row still reads "As of ..": PAYA 2026-11-19T00:15Z saved day 7's
+# (Nov 19) forecasts under Nov 18 and the today column scored them against Nov 18's obs
+DAY9_AT_00Z = DAY8.replace("<h5>Day 8 (As of 15Z)", "<h5>Day 9 (As of 00Z)")
+
+
+def test_unlabeled_row_is_the_day_after_the_last_final_one():
+    r = wxc_team.parse_results(DAY9_AT_00Z)
+    assert r["day"] == 9 and r["dates"][8]["date"] == "2026-11-06" and 9 not in r["dates"]
+
+
+def test_check_after_deadline_keeps_todays_team_forecasts(tmp_path, monkeypatch):
+    _fake(monkeypatch, tmp_path, {9: DAY9_AT_00Z, 8: DAY8, 7: DAY7})
+    monkeypatch.setattr(wxc_team, "expected_day", lambda start, d: 9)
+    day8 = {"day": 8, "final": False, "status": "As of 15Z", "forecasters": wxc_team.parse_results(DAY8)["forecasters"]}
+    days = {"2026-11-05": {"day": 7, "forecasters": {}}, "2026-11-06": day8}
+    days.update({f"2026-{d}": {"forecasters": {}} for d in ["10-27", "10-28", "10-29", "10-30", "11-03", "11-04"]})
+    wxc_team.RAW.write_text(wxc_verify.dumps({"stations": {"KMSP": {"days": days}}}))
+    wxc_team.update("KMSP", datetime(2026, 11, 7, 0, 15, tzinfo=timezone.utc), force=True)
+    saved = wxc_team.load_raw()["stations"]["KMSP"]["days"]["2026-11-06"]
+    assert saved["day"] == 8 and saved["forecasters"] == day8["forecasters"]
