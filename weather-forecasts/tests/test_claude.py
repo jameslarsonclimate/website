@@ -67,6 +67,21 @@ def test_asof_brief_uses_nothing_after_the_cutoff(data):
     assert "| HRRR " in text and "| GFS " in text and "**46.0**" in text  # 23:00Z run counts
 
 
+def test_asof_brief_prefers_the_archived_brief_before_the_cutoff(data):
+    import wxc_brief_archive
+
+    def brief(gen):
+        return (f"# WxChallenge forecast brief: Yakutat\n\n- Station: **PAYA**\n"
+                f"- Target day: **2026-11-15**, scored over ...\n- Generated: {gen}\n\nbody {gen}\n")
+    for gen in ("2026-11-14T22:48:05+00:00", "2026-11-14T23:12:00+00:00"):
+        wxc_brief_archive.archive_text(brief(gen))
+    text, info = wxc_claude.asof_brief(D, STATION)
+    assert info["source"] == "archive" and "body 2026-11-14T22:48:05" in text
+    assert "23:12" not in text                         # written after 23Z: never used
+    _, info = wxc_claude.asof_brief(date(2026, 11, 14) + timedelta(days=1), STATION, archived=False)
+    assert info["source"] == "rebuilt"
+
+
 def test_models_as_of_prefers_live_over_hindcast():
     runs = [{"generated_at_utc": "2026-11-14T20:00:00+00:00", "station": "PAYA", "target_date": "2026-11-15",
              "models": {"GFS": _fc(40)}},

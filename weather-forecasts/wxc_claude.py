@@ -291,11 +291,24 @@ def models_as_of(runs: list, station: str, day: str, as_of: datetime) -> dict:
     return {n: fc for n, (fc, _) in out.items()}
 
 
-def asof_brief(day: date, station=None, now: Optional[datetime] = None) -> tuple:
-    """(brief text, info) for `day` from only what was known at 23Z on day-1."""
+def asof_brief(day: date, station=None, now: Optional[datetime] = None, archived: bool = True) -> tuple:
+    """(brief text, info) for `day` from only what was known at 23Z on day-1: the real brief the
+    pipeline wrote by then (wxc_brief_archive, all sections) when there is one, else rebuilt."""
     import wxc_stations
     station = station or wxc_stations.get_station()
     as_of = _as_of(day)
+    if archived:
+        import wxc_brief_archive
+        hit = wxc_brief_archive.brief_as_of(station.icao, day.isoformat(), as_of)
+        if hit:
+            gen, text = hit
+            return text, {"as_of": as_of.isoformat(), "source": "archive", "generated_at_utc": gen.isoformat()}
+    return rebuilt_brief(day, station, as_of)
+
+
+def rebuilt_brief(day: date, station, as_of: datetime) -> tuple:
+    """The brief for `day` rebuilt from runs.jsonl and verification.json as of `as_of` (no
+    archived brief: e.g. days before the pipeline moved to this city)."""
     verif = _load("verification.json") or {}
     runs = wxc_verify.read_runs()
     models = models_as_of(runs, station.icao, day.isoformat(), as_of)
@@ -327,7 +340,7 @@ def asof_brief(day: date, station=None, now: Optional[datetime] = None) -> tuple
             f"out by then and verification through {last_ok}. The live brief's ensemble, PoP, cloud, "
             "dewpoint and \"today so far\" sections are not available here.\n\n")
     head, _, rest = text.partition("\n\n")
-    return head + "\n\n" + note + rest, {"as_of": as_of.isoformat(), "n_models": len(models),
+    return head + "\n\n" + note + rest, {"as_of": as_of.isoformat(), "source": "rebuilt", "n_models": len(models),
                                          "verified_through": last_ok, "series": bool(series)}
 
 
