@@ -7,9 +7,10 @@ when a reader types "Claude" into the "Add a Colorado State forecaster" box.
 How a forecast is made
   * Python collects every input. Claude gets no tools (`claude -p --tools ""`), so a forecast
     depends only on what it was given, and a hindcast can't look anything up.
-  * Live (23Z, an hour before the 00Z deadline): the page's brief (data/wxchallenge/brief.md,
-    which includes the consensus), the latest Area Forecast Discussion (IEM's AFOS archive,
-    plain text), and Claude's own notes for the station.
+  * Live (three runs the day before, at 18Z, 21Z and 23:50Z; see SLOTS): the page's brief
+    (data/wxchallenge/brief.md, which includes the consensus), the latest Area Forecast
+    Discussion (IEM's AFOS archive, plain text), and Claude's own notes for the station. Each
+    run is kept and scored on its own (the page's split view); the latest before 00Z is ranked.
   * Hindcast (a day D already past): an as-of brief rebuilt from only what was known at 23Z on
     D-1: the model runs out by then, and the verification of days up to D-2 (D-1 wasn't over
     yet). Plus the AFD in effect at 23Z D-1, and the notes as they stood then. It has fewer
@@ -71,7 +72,11 @@ MODEL = "claude-opus-5-5"
 EFFORT = "high"
 CALL_TIMEOUT_S = 1200
 AS_OF_HOUR = 23                 # 23Z the day before the target day: an hour before the deadline
-LIVE_WINDOW = (timedelta(hours=22, minutes=50), timedelta(hours=24))   # of the UTC day
+# Live runs for day D, at fixed UTC times on D-1 (11:00, 14:00, 16:50 MST). Each is saved and
+# scored on its own (the page's split view); the latest one before the 00Z deadline is THE
+# forecast. A run that starts late (laptop asleep) takes the newest slot whose time has passed.
+SLOTS = [("18Z", 18, 0), ("21Z", 21, 0), ("2350Z", 23, 50)]
+HINDCAST_SLOT = "2350Z"         # hindcasts (as of 23Z) sit in the last run's row in the split view
 BRIEF_MAX_AGE = timedelta(minutes=40)
 BRIEF_WAIT = timedelta(minutes=15)
 HINDCAST_DAYS = 16
@@ -537,7 +542,7 @@ def forecast_prompt(brief: str, afd: str, notes: Optional[str], day: date, as_of
 
 
 def make_forecast(station, day: date, as_of: datetime, brief: str, kind: str, call=None,
-                  dry_run=False, brief_info=None) -> Optional[dict]:
+                  dry_run=False, brief_info=None, slot: Optional[str] = None) -> Optional[dict]:
     call = call or call_claude
     afd = fetch_afd(station.wfo, as_of)
     notes, ver = notes_at(station.icao, as_of)
@@ -561,6 +566,7 @@ def make_forecast(station, day: date, as_of: datetime, brief: str, kind: str, ca
         return None
     rec = {"station": station.icao, "target_date": day.isoformat(), "kind": kind,
            "hindcast": kind == "hindcast", "as_of_utc": as_of.isoformat(),
+           "slot": slot or (HINDCAST_SLOT if kind == "hindcast" else slot_for(as_of, day) or SLOTS[-1][0]),
            "issued_at_utc": _now().isoformat(), "model": MODEL, "effort": EFFORT,
            "forecast": fc, "summary": str(out.get("summary", ""))[:400],
            "reasoning": out.get("reasoning", ""), "notes_version": ver, "input_sha": digest,
@@ -579,16 +585,54 @@ def make_forecast(station, day: date, as_of: datetime, brief: str, kind: str, ca
 # ----------------------------------------------------------------------------
 # records for scoring (wxc_team.scores)
 # ----------------------------------------------------------------------------
+def slot_for(t: datetime, day: date) -> Optional[str]:
+    """The newest of `day`'s run slots (on day-1, UTC) at or before t; None before the first."""
+    prev = day - timedelta(days=1)
+    out = None
+    for name, h, m in SLOTS:
+        if datetime(prev.year, prev.month, prev.day, h, m, tzinfo=timezone.utc) <= t:
+            out = name
+    return out
+
+
+def rec_slot(r: dict) -> str:
+    """A record's slot (records from before slots existed: from their issue time)."""
+    if r.get("slot"):
+        return r["slot"]
+    if r.get("hindcast"):
+        return HINDCAST_SLOT
+    return slot_for(_t(r["issued_at_utc"]), date.fromisoformat(r["target_date"])) or SLOTS[0][0]
+
+
 def best_records(icao: str) -> dict:
-    """{date: record}: per day the live forecast if there is one, else the newest hindcast."""
+    """{date: record}: per day THE forecast: the latest live (or late) one, else the newest
+    hindcast."""
+    key = lambda r: (not r.get("hindcast"), r["issued_at_utc"])      # noqa: E731
     out = {}
     for r in read_runs():
         if r.get("station") != icao:
             continue
         cur = out.get(r["target_date"])
-        if cur is None or (cur.get("hindcast") and (not r.get("hindcast") or r["issued_at_utc"] > cur["issued_at_utc"])):
+        if cur is None or key(r) > key(cur):
             out[r["target_date"]] = r
     return out
+
+
+def slot_records(icao: str) -> dict:
+    """{slot: {date: record}}: each run slot's live forecasts (the latest per slot and day), and
+    the hindcasts in HINDCAST_SLOT on days that slot has no live forecast."""
+    out = {name: {} for name, _, _ in SLOTS}
+    hind = {}
+    for r in sorted(read_runs(), key=lambda r: r["issued_at_utc"]):
+        if r.get("station") != icao:
+            continue
+        if r.get("hindcast"):
+            hind[r["target_date"]] = r
+        else:
+            out.setdefault(rec_slot(r), {})[r["target_date"]] = r
+    for d, r in hind.items():
+        out[HINDCAST_SLOT].setdefault(d, r)
+    return {k: v for k, v in out.items() if v}
 
 
 # ----------------------------------------------------------------------------
@@ -630,9 +674,15 @@ def live(dry_run=False, call=None, now: Optional[datetime] = None) -> Optional[d
     station = wxc_stations.get_station()
     now = now or _now()
     day = now.date() + timedelta(days=1)
+    slot = slot_for(now, day)
+    if slot is None:
+        if not dry_run:
+            print(f"Before the first run slot ({SLOTS[0][0]}) for {day}: nothing to do.")
+            return None
+        slot = SLOTS[0][0]
     if not dry_run and any(r["target_date"] == day.isoformat() and not r.get("hindcast")
-                           and r["station"] == station.icao for r in read_runs()):
-        print(f"Already forecast {station.icao} {day}.")
+                           and r["station"] == station.icao and rec_slot(r) == slot for r in read_runs()):
+        print(f"Already forecast {station.icao} {day} in the {slot} slot.")
         return None
     brief = _brief_fresh(day)
     if brief is None and not dry_run:
@@ -653,7 +703,7 @@ def live(dry_run=False, call=None, now: Optional[datetime] = None) -> Optional[d
     maybe_update_notes(station, now, call=call, dry_run=dry_run)
     gen = (_load("forecast.json") or {}).get("generated_at_utc")
     return make_forecast(station, day, now, brief, "live", call=call, dry_run=dry_run,
-                         brief_info={"generated_at_utc": gen, "source": "brief.md"})
+                         brief_info={"generated_at_utc": gen, "source": "brief.md"}, slot=slot)
 
 
 def hindcast_days(icao: str, n: int = HINDCAST_DAYS, now: Optional[datetime] = None) -> list:
@@ -691,14 +741,10 @@ def hindcast(n: int = HINDCAST_DAYS, dry_run=False, call=None) -> list:
 
 
 def auto():
-    """The schedule's entry point: the live forecast inside its window; otherwise a new city's
-    study and hindcasts (kept out of the hour before the deadline)."""
-    now = _now()
-    since_midnight = now - now.replace(hour=0, minute=0, second=0)
-    if LIVE_WINDOW[0] <= since_midnight < LIVE_WINDOW[1]:
-        live()
-    elif not (timedelta(hours=21, minutes=45) <= since_midnight):
-        hindcast()
+    """The schedule's entry point: the run slot due now (if any, and not done yet), then a new
+    city's study and hindcasts of any missed days."""
+    live()
+    hindcast()
 
 
 def status():

@@ -959,8 +959,19 @@ function personRows(days, T, CV, cls, range){
   if (!teamOk()) return [];
   const tToday = T && TEAM.today?.date === T.date ? TEAM.today.forecasters : null;
   const tp = T ? Object.values(T.models).map(m => m.points) : [];
-  return PEOPLE.map(teamKey).filter(Boolean).map(name => {
-    const P = TEAM.forecasters[name], at = `data-person="${esc(name)}"`;
+  // Claude in the split view: one row per run (18Z, 21Z, 23:50Z the day before), each ranked on its
+  // own; otherwise its ranked forecast (the latest run before the deadline), like a team member
+  const SP = SPLIT && !CV;
+  const views = PEOPLE.map(teamKey).filter(Boolean).flatMap(name => {
+    const F = TEAM.forecasters[name];
+    if (SP && F.ai && F.runs) return Object.entries(F.runs).map(([run, R]) =>
+      ({ name, run, P: { ...R, ai: true }, todayM: R.today,
+         label: `${esc(name)} <span class="cyc">${run === '2350Z' ? '23:50Z' : run}</span>` }));
+    return [{ name, run: '', P: F, todayM: tToday?.[name],
+              label: `${esc(name)} <span class="cyc">${F.ai ? 'AI' : 'CSU'}</span>` }];
+  });
+  return views.map(({ name, run, P, todayM, label }) => {
+    const at = `data-person="${esc(name)}"${run ? ` data-run="${run}"` : ''}`;
     // Claude (wxc_claude.py): ranked on its live days; before it has any, on its hindcasts (labelled)
     const hindOnly = !!P.ai && !P.summary && !!P.summary_hindcast, s = P.summary || P.summary_hindcast;
     const cell = (m, i, lo, hi, extra) => {
@@ -972,13 +983,13 @@ function personRows(days, T, CV, cls, range){
       const e = m.error[VIEW], step = biasStep(e, VARS[VIEW].bins);
       return `<td class="cell${extra}" ${at} data-day="${i}" style="background:${biasFill(step)};color:${biasInk(step, true)}">${signed(e, VARS[VIEW].dec)}</td>`;
     };
-    let tr = `<tr class="person"><td class="model">${esc(name)} <span class="cyc">${P.ai ? 'AI' : 'CSU'}</span></td>`;
+    let tr = `<tr class="person"><td class="model">${label}</td>`;
     days.forEach((d, i) => {
       const m = P.days[d.date];
       tr += !m || CV ? `<td class="cell small${cls[i]}">—</td>` : cell(m, i, range[i].lo, range[i].hi, cls[i]);
     });
     if (T) {
-      const m = tToday?.[name];
+      const m = todayM;
       tr += !m || CV ? '<td class="cell small today">—</td>' : cell(m, 'today', Math.min(...tp), Math.max(...tp), ' today');
     }
     if (!s) tr += (VIEW === 'points' ? '<td class="avg"><b>—</b></td>' : '') + '<td class="sum"><b>—</b><span>0 d</span></td>';
@@ -989,7 +1000,7 @@ function personRows(days, T, CV, cls, range){
       const dec = VARS[VIEW].dec === 0 ? 1 : 2;
       tr += `<td class="sum"><b>${s.mae[VIEW].toFixed(dec)}</b><span>bias ${signed(s.bias[VIEW], dec)}</span></td>`;
     }
-    return { html: tr + '</tr>', s, today: tToday?.[name]?.points };
+    return { html: tr + '</tr>', s, today: todayM?.points };
   });
 }
 // the models' average on the forecaster's own days (the Avg column's models cover more days)
@@ -1013,7 +1024,9 @@ function sameDays(P){
 function personTip(td, ev){
   const name = td.dataset.person, now = td.dataset.day === 'today';
   const d = now ? VERIF.today : VERIF.days.filter(x => Object.keys(x.models).length)[+td.dataset.day];
-  const m = now ? TEAM.today?.forecasters?.[name] : TEAM.forecasters[name]?.days?.[d?.date];
+  const R = td.dataset.run ? TEAM.forecasters[name]?.runs?.[td.dataset.run] : null;   // Claude, split view
+  const m = R ? (now ? R.today : R.days?.[d?.date])
+    : now ? TEAM.today?.forecasters?.[name] : TEAM.forecasters[name]?.days?.[d?.date];
   if (!d || !m) return;
   const f = m.forecast, o = d.obs, e = m.error, so = now ? ' so far' : '';
   const line = k => `${VARS[k].name}: ${fmt(f[k], VARS[k].dec)} vs ${fmt(o[k], VARS[k].dec)} ${VARS[k].unit}${so} (${signed(e[k], VARS[k].dec)})`;
@@ -1025,7 +1038,7 @@ function personTip(td, ev){
   if (m.rank != null && !now) extra.push(`national rank ${m.rank} after day ${m.day}`);
   if (m.hindcast) extra.push('hindcast: made afterwards from only what was known at 23Z the day before; not in the live average');
   if (m.summary) extra.push(`“${esc(m.summary)}”`);
-  tip.innerHTML = `<b>${esc(name)} · ${d.date}${so}${m.day ? ` (day ${m.day})` : ''}</b><br>` +
+  tip.innerHTML = `<b>${esc(name)}${R ? ` ${td.dataset.run} run` : ''} · ${d.date}${so}${m.day ? ` (day ${m.day})` : ''}</b><br>` +
     ['tmax_f', 'tmin_f', 'wind_max_kt', 'precip_in'].map(line).join('<br>') +
     `<br><b>${m.points.toFixed(1)} points${so}</b> · better than ${beat} of ${others.length} models` +
     (extra.length ? `<br><span style="opacity:.75">${extra.join('<br>')}</span>` : '') +

@@ -49,6 +49,7 @@ def _isolated_claude(tmp_path, monkeypatch):
     monkeypatch.setattr(wxc_claude, "call_claude",
                         lambda *a, **k: pytest.fail("claude CLI called in an offline test"))
     monkeypatch.setattr(wxc_claude, "_get", lambda *a, **k: pytest.fail(f"network call in an offline test: {a[:1]}"))
+    monkeypatch.setattr(wxc_claude, "_kick_pipeline", lambda: pytest.fail("pipeline started in a test"))
 
 
 def pytest_configure(config):

@@ -380,6 +380,33 @@ def claude_scores(station: str, days: list, T: Optional[dict]) -> Optional[dict]
             if rec.get("hindcast"):
                 s["hindcast"] = True
             out["today"] = s
+    # each run slot (18Z, 21Z, 23:50Z) on its own, for the page's split view
+    runs = {}
+    for slot, by_day in wxc_claude.slot_records(station).items():
+        r_out, r_live, r_hind = {"days": {}}, [], []
+        for d in days:
+            rec = by_day.get(d["date"])
+            s = score_day(rec["forecast"], d["obs"]) if rec else None
+            if not s:
+                continue
+            s["summary"] = rec.get("summary", "")
+            if rec.get("hindcast"):
+                s["hindcast"] = True
+            r_out["days"][d["date"]] = s
+            (r_hind if rec.get("hindcast") else r_live).append({"date": d["date"], "models": {"x": s}})
+        if r_live:
+            r_out["summary"] = model_stats(r_live)["x"]
+        if r_hind:
+            r_out["summary_hindcast"] = model_stats(r_hind)["x"]
+        if T and T.get("obs") and T["obs"].get("wind_max_kt") is not None and by_day.get(T["date"]):
+            s = score_day(by_day[T["date"]]["forecast"], T["obs"])
+            if s:
+                s["summary"] = by_day[T["date"]].get("summary", "")
+                r_out["today"] = s
+        if r_out["days"] or r_out.get("today"):
+            runs[slot] = r_out
+    if runs:
+        out["runs"] = runs
     return out if out["days"] or out.get("today") else None
 
 

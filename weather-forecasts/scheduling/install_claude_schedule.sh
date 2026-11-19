@@ -6,11 +6,12 @@
 #   ./install_claude_schedule.sh --run-now    one `wxc_claude.py auto` now
 #   ./install_claude_schedule.sh --uninstall  remove it
 #
-# Slots (Mac local time): 16:05 and 17:05, which is 23:05Z in MST and in MDT, so one of
-# them falls in the live window (22:50Z-00Z) whatever the season. The other one, and the 10:05
-# slot, run `auto`'s other job: a new city's station study and hindcasts (missed days too).
-# The script checks the UTC clock itself, and a forecast finished after the 00Z deadline is
-# thrown away.
+# Runs for day D at fixed UTC times on D-1: 18Z, 21Z and 23:50Z (11:00, 14:00, 16:50 MST).
+# launchd only knows local time, so both the MST and the MDT local times are listed (11:00 12:00
+# 14:00 15:00 16:50 17:50); wxc_claude.py checks the UTC clock and runs the newest slot that is
+# due and not done yet, so the extra triggers do nothing. A run that starts late (laptop asleep)
+# still counts until 00Z; one that finishes after 00Z is thrown away. Each run also hindcasts
+# any missed days (a new city: its station study first).
 #
 # Needs the claude CLI signed in once (see the docstring of wxc_claude.py):
 #   "<claude>" auth login          or   "<claude>" setup-token  (then save the token in
@@ -46,6 +47,8 @@ esac
 # one run at a time (a hindcast can take most of an hour)
 CMD='LOCK=/tmp/wxc-claude-$(id -u).lock; if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK")" 2>/dev/null; then echo "$(date): still running, skip"; exit 0; fi; echo $$ > "$LOCK"; trap "rm -f $LOCK" EXIT; echo "=== $(date -u +%FT%TZ)"; "$0" -u wxc_claude.py auto'
 
+CMD_XML="$(printf '%s' "$CMD" | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g')"   # plist is XML
+
 mkdir -p "$(dirname "$PLIST")" "$(dirname "$LOG")"
 cat > "$PLIST" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -57,7 +60,7 @@ cat > "$PLIST" <<EOF
   <array>
     <string>/bin/bash</string>
     <string>-c</string>
-    <string>$CMD</string>
+    <string>$CMD_XML</string>
     <string>$PY</string>
   </array>
   <key>WorkingDirectory</key><string>$DIR</string>
@@ -68,9 +71,12 @@ cat > "$PLIST" <<EOF
   </dict>
   <key>StartCalendarInterval</key>
   <array>
-    <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>5</integer></dict>
-    <dict><key>Hour</key><integer>16</integer><key>Minute</key><integer>5</integer></dict>
-    <dict><key>Hour</key><integer>17</integer><key>Minute</key><integer>5</integer></dict>
+    <dict><key>Hour</key><integer>11</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>14</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>16</integer><key>Minute</key><integer>50</integer></dict>
+    <dict><key>Hour</key><integer>17</integer><key>Minute</key><integer>50</integer></dict>
   </array>
   <key>StandardOutPath</key><string>$LOG</string>
   <key>StandardErrorPath</key><string>$LOG</string>
@@ -82,4 +88,4 @@ EOF
 plutil -lint "$PLIST" >/dev/null
 launchctl bootout "$DOMAIN/$LABEL" 2>/dev/null || true
 launchctl bootstrap "$DOMAIN" "$PLIST"
-echo "Installed: 10:05, 16:05, 17:05 local (live forecast at 23:05Z). Log: $LOG"
+echo "Installed: runs at 18Z, 21Z, 23:50Z (local 11:00/12:00, 14:00/15:00, 16:50/17:50). Log: $LOG"

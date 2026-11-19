@@ -148,6 +148,64 @@ def test_late_forecast_counts_as_live(data, monkeypatch):
     assert rec["kind"] == "late" and rec["hindcast"] is False
 
 
+def _utc(*a):
+    return datetime(*a, tzinfo=timezone.utc)
+
+
+def test_slots_are_fixed_utc_times_the_day_before():
+    day = date(2026, 11, 20)
+    assert wxc_claude.slot_for(_utc(2026, 11, 19, 17, 59), day) is None
+    assert wxc_claude.slot_for(_utc(2026, 11, 19, 18, 0), day) == "18Z"
+    assert wxc_claude.slot_for(_utc(2026, 11, 19, 20, 30), day) == "18Z"     # laptop woke late
+    assert wxc_claude.slot_for(_utc(2026, 11, 19, 22, 50), day) == "21Z"     # 16:50 MDT trigger
+    assert wxc_claude.slot_for(_utc(2026, 11, 19, 23, 55), day) == "2350Z"
+    # after 00Z the next target day has no slot due until 18Z
+    assert wxc_claude.slot_for(_utc(2026, 11, 20, 0, 30), date(2026, 11, 21)) is None
+
+
+def test_live_runs_once_per_slot(data, monkeypatch):
+    monkeypatch.setattr(wxc_claude, "fetch_afd", lambda wfo, t: "AFD")
+    monkeypatch.setattr(wxc_stations, "get_station", lambda *a: STATION)
+    (data / "forecast.json").write_text(json.dumps({"generated_at_utc": "2026-11-14T17:50:00+00:00",
+                                                   "meta": {"target_date": "2026-11-15"}}))
+    brief = data / "brief.md"
+    brief.write_text("brief")
+    monkeypatch.setattr(wxc_claude.wxc_brief, "BRIEF", brief)
+    wxc_claude.save_notes("PAYA", _utc(2026, 11, 1, 23), "notes")
+    calls = []
+
+    def fake(prompt, schema, system=None):
+        calls.append(1)
+        return {"reasoning": "r", "summary": "s", "tmax_f": 47, "tmin_f": 38, "wind_max_kt": 11,
+                "precip_in": 0.04, "_meta": {}}
+    for t in (_utc(2026, 11, 14, 18, 5), _utc(2026, 11, 14, 18, 40), _utc(2026, 11, 14, 21, 3)):
+        monkeypatch.setattr(wxc_claude, "_now", lambda t=t: t)
+        (data / "forecast.json").write_text(json.dumps({"generated_at_utc": (t - timedelta(minutes=10)).isoformat(),
+                                                       "meta": {"target_date": "2026-11-15"}}))
+        wxc_claude.live(call=fake, now=t)
+    assert len(calls) == 2                                  # the second 18Z trigger did nothing
+    assert [r["slot"] for r in wxc_claude.read_runs()] == ["18Z", "21Z"]
+    assert wxc_claude.best_records("PAYA")["2026-11-15"]["slot"] == "21Z"   # latest is ranked
+
+
+def test_team_json_runs_split_by_slot():
+    rows = [("2026-11-14", "hindcast", True, None, 44, "2026-11-20T00:00:00+00:00"),
+            ("2026-11-15", "live", False, "18Z", 50, "2026-11-14T18:05:00+00:00"),
+            ("2026-11-15", "live", False, "2350Z", 47, "2026-11-14T23:51:00+00:00")]
+    for d, kind, h, slot, t, at in rows:
+        wxc_claude._append(wxc_claude.RUNS, {"station": "PAYA", "target_date": d, "kind": kind, "hindcast": h,
+                                             "slot": slot, "issued_at_utc": at, "forecast": {**OBS, "tmax_f": t}})
+    verif = {"station": "PAYA", "days": [_day("2026-11-14", OBS), _day("2026-11-15", OBS)]}
+    c = wxc_team.scores({"stations": {}}, verif)["forecasters"]["Claude"]
+    assert c["days"]["2026-11-15"]["forecast"]["tmax_f"] == 47        # the ranked one: latest run
+    runs = c["runs"]
+    assert set(runs) == {"18Z", "2350Z"}
+    assert runs["18Z"]["summary"]["total_points"] == 4.0
+    assert runs["2350Z"]["summary"]["total_points"] == 1.0
+    assert runs["2350Z"]["days"]["2026-11-14"]["hindcast"]             # hindcasts: last run's row
+    assert "2026-11-14" not in runs["18Z"]["days"]
+
+
 def test_no_claude_row_without_records():
     verif = {"station": "PAYA", "days": [_day("2026-11-14", OBS)]}
     assert "Claude" not in wxc_team.scores({"stations": {}}, verif)["forecasters"]
