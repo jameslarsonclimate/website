@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T21:13:24+00:00",
+  "generated_at_utc": "2026-11-20T23:20:39+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,7 +45,7 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 53.3,
+      "tmax_f": 53.5,
       "tmin_f": 40.2,
       "wind_max_kt": 11.1,
       "precip_in": 0.02,
@@ -55,8 +55,7 @@
         "2026-11-22 06:00:00"
       ],
       "n_steps": 25,
-      "temp_source": "instantaneous 2 m T",
-      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, )"
+      "temp_source": "2 m T + interval max/min fields"
     },
     "IFS": {
       "tmax_f": 52.7,
@@ -86,11 +85,11 @@
       "note": "not in the consensus"
     },
     "GFS": {
-      "tmax_f": 59.5,
-      "tmin_f": 40.9,
-      "wind_max_kt": 12.2,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T12",
+      "tmax_f": 58.9,
+      "tmin_f": 41.7,
+      "wind_max_kt": 11.0,
+      "precip_in": 0.01,
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21 06:00:00",
         "2026-11-22 06:00:00"
@@ -131,11 +130,11 @@
       "tmin_f": 39.0,
       "wind_max_kt": 8.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 10,
+      "pop06_max_pct": 19,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.06,
+          "06-12": 0.19,
           "12-18": 0.1,
           "18-00": 0.01,
           "00-06": 0.02
@@ -143,12 +142,12 @@
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.1,
-          0.179
+          0.19,
+          0.293
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-20T21",
+      "init_time_utc": "2026-11-20T22",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -781,9 +780,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 54.6,
-      "tmin_f": 37.5,
-      "wind_max_kt": 10.0,
+      "tmax_f": 54.5,
+      "tmin_f": 37.6,
+      "wind_max_kt": 9.8,
       "precip_in": 0.01,
       "method": {
         "tmax_f": {
@@ -875,7 +874,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-20T21:13:24+00:00",
+    "checked_at_utc": "2026-11-20T23:20:39+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
