@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T19:15:13+00:00",
+  "generated_at_utc": "2026-11-20T21:13:24+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -32,11 +32,11 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 52.6,
-      "tmin_f": 39.4,
-      "wind_max_kt": 11.2,
+      "tmax_f": 52.4,
+      "tmin_f": 40.1,
+      "wind_max_kt": 11.3,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T12",
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21 06:00:00",
         "2026-11-22 06:00:00"
@@ -45,24 +45,25 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 53.5,
-      "tmin_f": 40.7,
-      "wind_max_kt": 10.6,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T12",
+      "tmax_f": 53.3,
+      "tmin_f": 40.2,
+      "wind_max_kt": 11.1,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21 06:00:00",
         "2026-11-22 06:00:00"
       ],
       "n_steps": 25,
-      "temp_source": "2 m T + interval max/min fields"
+      "temp_source": "instantaneous 2 m T",
+      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: (\"Connection broken: ConnectionResetError(54, 'Connection reset by peer')\", ConnectionResetError(54, )"
     },
     "IFS": {
-      "tmax_f": 52.8,
-      "tmin_f": 42.0,
-      "wind_max_kt": 9.3,
-      "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T06",
+      "tmax_f": 52.7,
+      "tmin_f": 41.4,
+      "wind_max_kt": 8.4,
+      "precip_in": 0.02,
+      "init_time_utc": "2026-11-20T12",
       "valid_range_utc": [
         "2026-11-21 06:00:00",
         "2026-11-22 06:00:00"
@@ -98,28 +99,28 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "GFS_MOS": {
-      "tmax_f": 52.0,
-      "tmin_f": 37.0,
-      "wind_max_kt": 9.0,
+      "tmax_f": 51.0,
+      "tmin_f": 38.0,
+      "wind_max_kt": 8.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 14,
+      "pop06_max_pct": 24,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.06,
-          "12-18": 0.14,
-          "18-00": 0.02,
-          "00-06": 0.02
+          "06-12": 0.08,
+          "12-18": 0.24,
+          "18-00": 0.03,
+          "00-06": 0.07
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.14,
-          0.224
+          0.24,
+          0.369
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-20T12",
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -128,26 +129,26 @@
     "NBM": {
       "tmax_f": 55.0,
       "tmin_f": 39.0,
-      "wind_max_kt": 7.0,
-      "precip_in": 0.02,
-      "pop06_max_pct": 22,
+      "wind_max_kt": 8.0,
+      "precip_in": 0.0,
+      "pop06_max_pct": 10,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.22,
-          "12-18": 0.14,
-          "18-00": 0.03,
-          "00-06": 0.05
+          "06-12": 0.06,
+          "12-18": 0.1,
+          "18-00": 0.01,
+          "00-06": 0.02
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.22,
-          0.382
+          0.1,
+          0.179
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-20T18",
+      "init_time_utc": "2026-11-20T21",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -671,9 +672,9 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.01,
-      "precip_mean_in": 0.02,
-      "init_time_utc": "2026-11-20T12",
+      "precip_in": 0.0,
+      "precip_mean_in": 0.03,
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -695,55 +696,55 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.019,
-            "std": 0.033,
+            "mean": 0.033,
+            "std": 0.058,
             "p0": 0.0,
-            "p10": 0.001,
-            "p25": 0.003,
-            "p50": 0.005,
-            "p75": 0.016,
-            "p90": 0.055,
-            "p100": 0.118
+            "p10": 0.0,
+            "p25": 0.001,
+            "p50": 0.004,
+            "p75": 0.023,
+            "p90": 0.121,
+            "p100": 0.192
           },
           "precip_prob": {
             "0.01": 0.357,
-            "0.10": 0.071,
+            "0.10": 0.143,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
+            0.025,
+            0.0,
+            0.192,
+            0.064,
+            0.0,
+            0.145,
+            0.001,
             0.005,
             0.0,
             0.002,
             0.002,
             0.005,
             0.017,
-            0.003,
-            0.071,
-            0.005,
-            0.118,
-            0.007,
-            0.012,
-            0.017,
-            0.001
+            0.003
           ]
         }
       }
@@ -753,7 +754,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T06",
+      "init_time_utc": "2026-11-20T12",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -761,12 +762,12 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.303,
+        "p24": 0.164,
         "blocks": {
-          "06-12": 0.219,
-          "12-18": 0.138,
-          "18-00": 0.025,
-          "00-06": 0.045
+          "06-12": 0.043,
+          "12-18": 0.095,
+          "18-00": 0.006,
+          "00-06": 0.024
         },
         "n_members": null,
         "basis": "NBM QMD",
@@ -774,15 +775,15 @@
           "10": 0.0,
           "25": 0.0,
           "50": 0.0,
-          "75": 0.03,
-          "90": 0.112
+          "75": 0.0,
+          "90": 0.062
         }
       }
     },
     "CONSENSUS": {
-      "tmax_f": 54.8,
-      "tmin_f": 37.4,
-      "wind_max_kt": 10.1,
+      "tmax_f": 54.6,
+      "tmin_f": 37.5,
+      "wind_max_kt": 10.0,
       "precip_in": 0.01,
       "method": {
         "tmax_f": {
@@ -874,7 +875,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-20T19:15:13+00:00",
+    "checked_at_utc": "2026-11-20T21:13:24+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
