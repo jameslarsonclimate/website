@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T19:00:05+00:00",
+  "generated_at_utc": "2026-11-20T21:13:19+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -32,18 +32,18 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 36.9,
+      "tmax_f": 36.7,
       "tmin_f": 32.9,
-      "wind_max_kt": 5.5,
+      "wind_max_kt": 5.3,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T12",
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
       ],
       "n_steps": 25,
       "temp_source": "instantaneous 2 m T",
-      "wind_max_kt_06z": 5.0,
+      "wind_max_kt_06z": 5.3,
       "wind_window_utc": [
         "2026-11-21T09",
         "2026-11-22T09"
@@ -51,18 +51,19 @@
       "wind_window": "LST"
     },
     "RRFS": {
-      "tmax_f": 37.3,
-      "tmin_f": 32.1,
-      "wind_max_kt": 4.4,
+      "tmax_f": 37.5,
+      "tmin_f": 32.5,
+      "wind_max_kt": 4.7,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T12",
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
       ],
       "n_steps": 25,
-      "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 4.5,
+      "temp_source": "instantaneous 2 m T",
+      "note": "TMAX/TMIN unavailable (RuntimeError: Processing failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer')))",
+      "wind_max_kt_06z": 4.7,
       "wind_window_utc": [
         "2026-11-21T09",
         "2026-11-22T09"
@@ -70,11 +71,11 @@
       "wind_window": "LST"
     },
     "IFS": {
-      "tmax_f": 37.0,
-      "tmin_f": 32.1,
+      "tmax_f": 37.2,
+      "tmin_f": 32.4,
       "wind_max_kt": 5.5,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T06",
+      "init_time_utc": "2026-11-20T12",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -127,8 +128,8 @@
       "wind_window": "LST"
     },
     "GFS_MOS": {
-      "tmax_f": 37.0,
-      "tmin_f": 24,
+      "tmax_f": 36.0,
+      "tmin_f": 22.0,
       "wind_max_kt": 3.0,
       "wind_max_kt_06z": 3.0,
       "wind_window": "LST",
@@ -137,24 +138,24 @@
         "2026-11-22T09"
       ],
       "precip_in": 0.0,
-      "pop06_max_pct": 8,
+      "pop06_max_pct": 6,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.08,
-          "12-18": 0.03,
+          "06-12": 0.06,
+          "12-18": 0.06,
           "18-00": 0.0,
           "00-06": 0.0
         },
         "n_members": null,
         "basis": "GFS MOS P06",
         "p24_range": [
-          0.08,
-          0.108
+          0.06,
+          0.116
         ]
       },
       "precip_note": "MOS Q06 categories [0, 0, 0, 0] -> midpoints",
-      "init_time_utc": "2026-11-20T12",
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -171,24 +172,24 @@
         "2026-11-22T09"
       ],
       "precip_in": 0.0,
-      "pop06_max_pct": 4,
+      "pop06_max_pct": 6,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.04,
-          "12-18": 0.02,
-          "18-00": 0.04,
-          "00-06": 0.02
+          "06-12": 0.0,
+          "12-18": 0.03,
+          "18-00": 0.06,
+          "00-06": 0.01
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.04,
-          0.115
+          0.06,
+          0.097
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-20T18",
+      "init_time_utc": "2026-11-20T21",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -724,8 +725,8 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-11-20T12",
+      "precip_mean_in": 0.0,
+      "init_time_utc": "2026-11-20T18",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -733,7 +734,7 @@
       "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.143,
+        "p24": 0.071,
         "blocks": {
           "06-12": null,
           "12-18": null,
@@ -747,38 +748,38 @@
         "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.007,
-            "std": 0.017,
+            "mean": 0.003,
+            "std": 0.011,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
             "p50": 0.0,
             "p75": 0.0,
-            "p90": 0.032,
-            "p100": 0.054
+            "p90": 0.0,
+            "p100": 0.044
           },
           "precip_prob": {
-            "0.01": 0.143,
+            "0.01": 0.071,
             "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 18Z",
+          "RRFS m001 18Z",
+          "RRFS m002 18Z",
+          "RRFS m003 18Z",
+          "RRFS m004 18Z",
+          "RRFS m005 18Z",
+          "HRRR 18Z",
           "RRFS 12Z",
           "RRFS m001 12Z",
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
           "RRFS m005 12Z",
-          "HRRR 12Z",
-          "RRFS 06Z",
-          "RRFS m001 06Z",
-          "RRFS m002 06Z",
-          "RRFS m003 06Z",
-          "RRFS m004 06Z",
-          "RRFS m005 06Z",
-          "HRRR 06Z"
+          "HRRR 12Z"
         ],
         "members": {
           "precip_in": [
@@ -787,14 +788,14 @@
             0.0,
             0.0,
             0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
             0.044,
-            0.0,
-            0.0,
-            0.054,
-            0.0,
-            0.0,
-            0.0,
-            0.005,
             0.0
           ]
         }
@@ -805,7 +806,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-20T06",
+      "init_time_utc": "2026-11-20T12",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -813,12 +814,12 @@
       "note": null,
       "precip_only": true,
       "pop": {
-        "p24": 0.063,
+        "p24": 0.045,
         "blocks": {
-          "06-12": 0.038,
-          "12-18": 0.02,
-          "18-00": 0.039,
-          "00-06": 0.016
+          "06-12": 0.0,
+          "12-18": 0.033,
+          "18-00": 0.063,
+          "00-06": 0.014
         },
         "n_members": null,
         "basis": "NBM QMD",
@@ -832,8 +833,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 38.6,
-      "tmin_f": 27.6,
+      "tmax_f": 38.4,
+      "tmin_f": 28.7,
       "wind_max_kt": 5.9,
       "precip_in": 0.0,
       "method": {
@@ -870,21 +871,22 @@
             "RRFS",
             "IFS_HRES",
             "GFS",
-            "GFS_MOS",
             "NBM",
             "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.089,
-            "RRFS": 0.107,
-            "IFS_HRES": 0.102,
-            "GFS": 0.024,
-            "GFS_MOS": 0.244,
-            "NBM": 0.125,
-            "USL": 0.24,
-            "ENS": 0.069
+            "HRRR": 0.117,
+            "RRFS": 0.142,
+            "IFS_HRES": 0.135,
+            "GFS": 0.032,
+            "NBM": 0.165,
+            "USL": 0.317,
+            "ENS": 0.091
           },
+          "excluded_outliers": [
+            "GFS_MOS"
+          ],
           "excluded_same_model": [
             "IFS"
           ]
@@ -946,7 +948,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-20T19:00:05+00:00",
+    "checked_at_utc": "2026-11-20T21:13:19+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -961,6 +963,13 @@
         "wind_max_kt": 5.5,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-20T12"
+      },
+      "18": {
+        "tmax_f": 36.7,
+        "tmin_f": 32.9,
+        "wind_max_kt": 5.3,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-20T18"
       }
     },
     "NBM": {
@@ -986,6 +995,13 @@
         "wind_max_kt": 4.4,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-20T12"
+      },
+      "18": {
+        "tmax_f": 37.5,
+        "tmin_f": 32.5,
+        "wind_max_kt": 4.7,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-20T18"
       }
     },
     "REFS": {
@@ -995,6 +1011,13 @@
         "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-20T12"
+      },
+      "18": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-20T18"
       }
     },
     "GFS_MOS": {
@@ -1004,6 +1027,13 @@
         "wind_max_kt": 3.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-20T12"
+      },
+      "18": {
+        "tmax_f": 36.0,
+        "tmin_f": 22.0,
+        "wind_max_kt": 3.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-20T18"
       }
     },
     "USL": {
@@ -1038,6 +1068,24 @@
         "tmax_f": 36.4,
         "tmin_f": 31.1,
         "wind_max_kt": 6.2,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-20T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 37.2,
+        "tmin_f": 32.4,
+        "wind_max_kt": 5.5,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-20T12"
+      }
+    },
+    "NBM_QMD": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-20T12"
       }
