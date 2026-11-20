@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T15:00:05+00:00",
+  "generated_at_utc": "2026-11-20T15:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -728,35 +728,35 @@
         "2026-11-21T06",
         "2026-11-22T06"
       ],
-      "note": "median of 13 members; missing: RRFS m005 12Z",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.077,
+        "p24": 0.143,
         "blocks": {
           "06-12": null,
           "12-18": null,
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.005,
-            "std": 0.014,
+            "mean": 0.007,
+            "std": 0.017,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
             "p50": 0.0,
             "p75": 0.0,
-            "p90": 0.004,
+            "p90": 0.032,
             "p100": 0.054
           },
           "precip_prob": {
-            "0.01": 0.077,
+            "0.01": 0.143,
             "0.10": 0.0,
             "0.25": 0.0,
             "0.50": 0.0
@@ -768,6 +768,7 @@
           "RRFS m002 12Z",
           "RRFS m003 12Z",
           "RRFS m004 12Z",
+          "RRFS m005 12Z",
           "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
@@ -784,6 +785,7 @@
             0.0,
             0.0,
             0.0,
+            0.044,
             0.0,
             0.0,
             0.054,
@@ -830,7 +832,7 @@
     "CONSENSUS": {
       "tmax_f": 38.1,
       "tmin_f": 28.4,
-      "wind_max_kt": 5.7,
+      "wind_max_kt": 6.0,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -894,12 +896,12 @@
           ],
           "weights": {
             "HRRR": 0.158,
-            "RRFS": 0.147,
-            "IFS_HRES": 0.189,
-            "GFS": 0.113,
-            "GFS_MOS": 0.129,
-            "NBM": 0.129,
-            "ENS": 0.135
+            "RRFS": 0.135,
+            "IFS_HRES": 0.194,
+            "GFS": 0.109,
+            "GFS_MOS": 0.116,
+            "NBM": 0.114,
+            "ENS": 0.174
           },
           "excluded_same_model": [
             "IFS"
@@ -934,7 +936,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-20T15:00:05+00:00",
+    "checked_at_utc": "2026-11-20T15:30:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST",

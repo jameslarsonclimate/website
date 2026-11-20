@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-20T13:00:09+00:00",
- "generated_at_utc": "2026-11-20T15:01:35+00:00",
+ "fetched_at_utc": "2026-11-20T15:30:08+00:00",
+ "generated_at_utc": "2026-11-20T15:30:31+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -121,28 +121,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": 0,
-      "wind_max_kt": 10,
+      "wind_max_kt": 0,
       "precip_in": -0.21
      },
-     "points": 8.1,
-     "rank": 4,
+     "points": 3.1,
+     "rank": 3,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 46.6,
-    "mean_points": 6.66,
+    "total_points": 41.6,
+    "mean_points": 5.94,
     "bias": {
      "tmax_f": 0.177,
      "tmin_f": 0.194,
-     "wind_max_kt": 2.15,
+     "wind_max_kt": 0.452,
      "precip_in": -0.103
     },
     "mae": {
      "tmax_f": 2.207,
      "tmin_f": 0.872,
-     "wind_max_kt": 3.447,
+     "wind_max_kt": 1.749,
      "precip_in": 0.134
     },
     "n_eff": {
@@ -268,28 +268,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": -1,
-      "wind_max_kt": 9,
+      "wind_max_kt": -1,
       "precip_in": -0.24
      },
-     "points": 8.9,
-     "rank": 337,
+     "points": 4.9,
+     "rank": 279,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 68.9,
-    "mean_points": 9.84,
+    "total_points": 64.9,
+    "mean_points": 9.27,
     "bias": {
      "tmax_f": 0.69,
      "tmin_f": -0.473,
-     "wind_max_kt": 3.328,
+     "wind_max_kt": 1.629,
      "precip_in": -0.102
     },
     "mae": {
      "tmax_f": 2.039,
      "tmin_f": 1.371,
-     "wind_max_kt": 6.192,
+     "wind_max_kt": 4.833,
      "precip_in": 0.21
     },
     "n_eff": {
@@ -417,28 +417,28 @@
      "error": {
       "tmax_f": 0,
       "tmin_f": -2,
-      "wind_max_kt": 7,
+      "wind_max_kt": -3,
       "precip_in": -0.39
      },
-     "points": 9.4,
-     "rank": 462,
+     "points": 7.4,
+     "rank": 455,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 75.7,
-    "mean_points": 10.81,
+    "total_points": 73.7,
+    "mean_points": 10.53,
     "bias": {
      "tmax_f": 0.915,
      "tmin_f": 0.442,
-     "wind_max_kt": 1.511,
+     "wind_max_kt": -0.187,
      "precip_in": 0.103
     },
     "mae": {
      "tmax_f": 1.924,
      "tmin_f": 1.7,
-     "wind_max_kt": 5.25,
+     "wind_max_kt": 4.57,
      "precip_in": 0.381
     },
     "n_eff": {
@@ -564,28 +564,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": -1,
-      "wind_max_kt": 10,
+      "wind_max_kt": 0,
       "precip_in": -0.19
      },
-     "points": 8.9,
-     "rank": 38,
+     "points": 3.9,
+     "rank": 19,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 53.0,
-    "mean_points": 7.57,
+    "total_points": 48.0,
+    "mean_points": 6.86,
     "bias": {
      "tmax_f": 0.848,
      "tmin_f": 0.015,
-     "wind_max_kt": 2.182,
+     "wind_max_kt": 0.484,
      "precip_in": -0.143
     },
     "mae": {
      "tmax_f": 1.999,
      "tmin_f": 1.199,
-     "wind_max_kt": 3.287,
+     "wind_max_kt": 1.589,
      "precip_in": 0.173
     },
     "n_eff": {
@@ -710,28 +710,28 @@
      "error": {
       "tmax_f": 0,
       "tmin_f": -1,
-      "wind_max_kt": 11,
+      "wind_max_kt": 1,
       "precip_in": -0.29
      },
-     "points": 9.4,
-     "rank": 121,
+     "points": 4.4,
+     "rank": 66,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 57.8,
-    "mean_points": 8.26,
+    "total_points": 52.8,
+    "mean_points": 7.54,
     "bias": {
      "tmax_f": 0.288,
      "tmin_f": -0.29,
-     "wind_max_kt": 1.77,
+     "wind_max_kt": 0.072,
      "precip_in": -0.159
     },
     "mae": {
      "tmax_f": 1.33,
      "tmin_f": 1.555,
-     "wind_max_kt": 5.359,
+     "wind_max_kt": 3.66,
      "precip_in": 0.172
     },
     "n_eff": {
@@ -856,28 +856,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": 1,
-      "wind_max_kt": 11,
+      "wind_max_kt": 1,
       "precip_in": -0.13
      },
-     "points": 8.8,
-     "rank": 104,
+     "points": 3.8,
+     "rank": 57,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 57.1,
-    "mean_points": 8.16,
+    "total_points": 52.1,
+    "mean_points": 7.44,
     "bias": {
      "tmax_f": 0.239,
      "tmin_f": 0.116,
-     "wind_max_kt": 1.823,
+     "wind_max_kt": 0.125,
      "precip_in": -0.097
     },
     "mae": {
      "tmax_f": 2.144,
      "tmin_f": 1.348,
-     "wind_max_kt": 4.825,
+     "wind_max_kt": 3.127,
      "precip_in": 0.143
     },
     "n_eff": {
@@ -1002,28 +1002,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": -1,
-      "wind_max_kt": 13,
+      "wind_max_kt": 3,
       "precip_in": -0.13
      },
-     "points": 9.8,
-     "rank": 79,
+     "points": 4.8,
+     "rank": 39,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 55.8,
-    "mean_points": 7.97,
+    "total_points": 50.8,
+    "mean_points": 7.26,
     "bias": {
      "tmax_f": 0.642,
      "tmin_f": -0.084,
-     "wind_max_kt": 4.475,
+     "wind_max_kt": 2.776,
      "precip_in": -0.053
     },
     "mae": {
      "tmax_f": 1.991,
      "tmin_f": 0.991,
-     "wind_max_kt": 5.321,
+     "wind_max_kt": 3.622,
      "precip_in": 0.171
     },
     "n_eff": {
@@ -1148,28 +1148,28 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": 0,
-      "wind_max_kt": 12,
+      "wind_max_kt": 2,
       "precip_in": -0.21
      },
-     "points": 9.1,
-     "rank": 136,
+     "points": 4.1,
+     "rank": 77,
      "day": 7
     }
    },
    "summary": {
     "n_days": 7,
-    "total_points": 58.3,
-    "mean_points": 8.33,
+    "total_points": 53.3,
+    "mean_points": 7.61,
     "bias": {
      "tmax_f": 0.701,
      "tmin_f": 0.024,
-     "wind_max_kt": 3.954,
+     "wind_max_kt": 2.256,
      "precip_in": -0.089
     },
     "mae": {
      "tmax_f": 2.05,
      "tmin_f": 1.042,
-     "wind_max_kt": 5.319,
+     "wind_max_kt": 3.62,
      "precip_in": 0.186
     },
     "n_eff": {
@@ -1466,27 +1466,27 @@
      "error": {
       "tmax_f": 1,
       "tmin_f": 1,
-      "wind_max_kt": 10,
+      "wind_max_kt": 0,
       "precip_in": -0.13
      },
-     "points": 8.3,
+     "points": 3.3,
      "summary": "Warm-advection rain ahead of Thursday's front: temperatures climb to about 44F late, the low near 37 under overcast and moist air, winds rising to about 18 kt by evening, and a soaking of about 0.9 in near the ensemble medians."
     }
    },
    "summary": {
     "n_days": 1,
-    "total_points": 8.3,
-    "mean_points": 8.3,
+    "total_points": 3.3,
+    "mean_points": 3.3,
     "bias": {
      "tmax_f": 1.0,
      "tmin_f": 1.0,
-     "wind_max_kt": 10.0,
+     "wind_max_kt": 0.0,
      "precip_in": -0.13
     },
     "mae": {
      "tmax_f": 1.0,
      "tmin_f": 1.0,
-     "wind_max_kt": 10.0,
+     "wind_max_kt": 0.0,
      "precip_in": 0.13
     },
     "n_eff": {
@@ -1533,9 +1533,9 @@
        "tmax_f": -1,
        "tmin_f": -5,
        "wind_max_kt": 4,
-       "precip_in": 0.13
+       "precip_in": 0.07
       },
-      "points": 9.3,
+      "points": 8.7,
       "summary": "Front overhead at the window start: warm high near 45 and peak wind near 19 kt early, then clearing and calm bring a 33 low by evening. Rain 0.70\", upper-middle of guidance because the front is running late."
      }
     },
@@ -1552,7 +1552,7 @@
        "tmax_f": -2,
        "tmin_f": -4,
        "wind_max_kt": 4,
-       "precip_in": 0.03
+       "precip_in": -0.03
       },
       "points": 8.3,
       "summary": "The front is running late and weak. Its overnight warm sector sets a high near 44, and post-frontal drying gives a 34 low at 06Z. Wind is trimmed to 19 kt because IFS and GFS are overdoing today's wind. Rain is 0.60\", near the consensus and QMD median."
@@ -1842,27 +1842,27 @@
        "error": {
         "tmax_f": 1,
         "tmin_f": 1,
-        "wind_max_kt": 10,
+        "wind_max_kt": 0,
         "precip_in": -0.13
        },
-       "points": 8.3,
+       "points": 3.3,
        "summary": "Warm-advection rain ahead of Thursday's front: temperatures climb to about 44F late, the low near 37 under overcast and moist air, winds rising to about 18 kt by evening, and a soaking of about 0.9 in near the ensemble medians."
       }
      },
      "summary": {
       "n_days": 1,
-      "total_points": 8.3,
-      "mean_points": 8.3,
+      "total_points": 3.3,
+      "mean_points": 3.3,
       "bias": {
        "tmax_f": 1.0,
        "tmin_f": 1.0,
-       "wind_max_kt": 10.0,
+       "wind_max_kt": 0.0,
        "precip_in": -0.13
       },
       "mae": {
        "tmax_f": 1.0,
        "tmin_f": 1.0,
-       "wind_max_kt": 10.0,
+       "wind_max_kt": 0.0,
        "precip_in": 0.13
       },
       "n_eff": {
@@ -1906,9 +1906,9 @@
        "tmax_f": -2,
        "tmin_f": -6,
        "wind_max_kt": 5,
-       "precip_in": 0.13
+       "precip_in": 0.07
       },
-      "points": 11.8,
+      "points": 11.2,
       "summary": "The front's warm sector gives a high near 44 in heavy early rain, about 0.70\" of rain overall and southeast winds near 20 kt. Then drier air and partial clearing behind the front drop the low to about 32 by 06Z Saturday."
      }
     }
@@ -1917,7 +1917,7 @@
  },
  "today": {
   "date": "2026-11-20",
-  "status": "As of 12Z",
+  "status": "As of 15Z",
   "forecasters": {
    "Mothmn": {
     "forecast": {
@@ -1930,9 +1930,9 @@
      "tmax_f": -2,
      "tmin_f": -7,
      "wind_max_kt": 2,
-     "precip_in": 0.53
+     "precip_in": 0.47
     },
-    "points": 15.3,
+    "points": 14.7,
     "flag": "G",
     "day": 8
    },
@@ -1947,9 +1947,9 @@
      "tmax_f": -1,
      "tmin_f": -3,
      "wind_max_kt": 7,
-     "precip_in": 0.15
+     "precip_in": 0.09
     },
-    "points": 9.0,
+    "points": 8.4,
     "day": 8
    },
    "JerDvl": {
@@ -1963,9 +1963,9 @@
      "tmax_f": -2,
      "tmin_f": -6,
      "wind_max_kt": 6,
-     "precip_in": 0.09
+     "precip_in": 0.03
     },
-    "points": 11.9,
+    "points": 11.3,
     "day": 8
    },
    "Bigfut": {
@@ -1979,9 +1979,9 @@
      "tmax_f": -2,
      "tmin_f": -4,
      "wind_max_kt": 5,
-     "precip_in": 0.05
+     "precip_in": -0.01
     },
-    "points": 9.0,
+    "points": 8.6,
     "day": 8
    },
    "Wndigo": {
@@ -1995,9 +1995,9 @@
      "tmax_f": -1,
      "tmin_f": -6,
      "wind_max_kt": 5,
-     "precip_in": 0.08
+     "precip_in": 0.02
     },
-    "points": 10.3,
+    "points": 9.7,
     "day": 8
    },
    "Nessie": {
@@ -2011,9 +2011,9 @@
      "tmax_f": -1,
      "tmin_f": -6,
      "wind_max_kt": 6,
-     "precip_in": 0.12
+     "precip_in": 0.06
     },
-    "points": 11.2,
+    "points": 10.6,
     "day": 8
    },
    "Hodags": {
@@ -2027,9 +2027,9 @@
      "tmax_f": -2,
      "tmin_f": -6,
      "wind_max_kt": 6,
-     "precip_in": 0.09
+     "precip_in": 0.03
     },
-    "points": 11.9,
+    "points": 11.3,
     "day": 8
    },
    "Kraken": {
@@ -2043,9 +2043,9 @@
      "tmax_f": -2,
      "tmin_f": -7,
      "wind_max_kt": 2,
-     "precip_in": 0.53
+     "precip_in": 0.47
     },
-    "points": 20.3,
+    "points": 19.7,
     "penalty": 5,
     "flag": "G",
     "day": 8
@@ -2061,9 +2061,9 @@
      "tmax_f": -2,
      "tmin_f": -6,
      "wind_max_kt": 5,
-     "precip_in": 0.13
+     "precip_in": 0.07
     },
-    "points": 11.8,
+    "points": 11.2,
     "summary": "The front's warm sector gives a high near 44 in heavy early rain, about 0.70\" of rain overall and southeast winds near 20 kt. Then drier air and partial clearing behind the front drop the low to about 32 by 06Z Saturday."
    }
   }
