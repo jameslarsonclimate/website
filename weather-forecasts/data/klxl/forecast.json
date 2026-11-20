@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T14:15:11+00:00",
+  "generated_at_utc": "2026-11-20T15:15:10+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -45,11 +45,11 @@
       "temp_source": "instantaneous 2 m T"
     },
     "RRFS": {
-      "tmax_f": 53.9,
-      "tmin_f": 39.7,
-      "wind_max_kt": 12.3,
-      "precip_in": 0.07,
-      "init_time_utc": "2026-11-20T06",
+      "tmax_f": 53.5,
+      "tmin_f": 40.7,
+      "wind_max_kt": 10.6,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-11-20T12",
       "valid_range_utc": [
         "2026-11-21 06:00:00",
         "2026-11-22 06:00:00"
@@ -127,27 +127,27 @@
     },
     "NBM": {
       "tmax_f": 55.0,
-      "tmin_f": 38.0,
-      "wind_max_kt": 8.0,
-      "precip_in": 0.09,
-      "pop06_max_pct": 29,
+      "tmin_f": 39.0,
+      "wind_max_kt": 7.0,
+      "precip_in": 0.02,
+      "pop06_max_pct": 24,
       "pop": {
         "p24": null,
         "blocks": {
-          "06-12": 0.29,
-          "12-18": 0.11,
-          "18-00": 0.02,
+          "06-12": 0.24,
+          "12-18": 0.14,
+          "18-00": 0.03,
           "00-06": 0.05
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.29,
-          0.412
+          0.24,
+          0.398
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-20T12",
+      "init_time_utc": "2026-11-20T14",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -671,77 +671,79 @@
       "tmax_f": null,
       "tmin_f": null,
       "wind_max_kt": null,
-      "precip_in": 0.02,
-      "precip_mean_in": 0.06,
-      "init_time_utc": "2026-11-20T06",
+      "precip_in": 0.01,
+      "precip_mean_in": 0.02,
+      "init_time_utc": "2026-11-20T12",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.615,
+        "p24": 0.357,
         "blocks": {
           "06-12": null,
           "12-18": null,
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.062,
-            "std": 0.085,
+            "mean": 0.019,
+            "std": 0.033,
             "p0": 0.0,
-            "p10": 0.002,
-            "p25": 0.005,
-            "p50": 0.017,
-            "p75": 0.071,
-            "p90": 0.209,
-            "p100": 0.258
+            "p10": 0.001,
+            "p25": 0.003,
+            "p50": 0.005,
+            "p75": 0.016,
+            "p90": 0.055,
+            "p100": 0.118
           },
           "precip_prob": {
-            "0.01": 0.615,
-            "0.10": 0.231,
-            "0.25": 0.077,
+            "0.01": 0.357,
+            "0.10": 0.071,
+            "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.005,
+            0.0,
+            0.002,
+            0.002,
+            0.005,
+            0.017,
+            0.003,
             0.071,
             0.005,
             0.118,
             0.007,
             0.012,
             0.017,
-            0.001,
-            0.231,
-            0.0,
-            0.258,
-            0.005,
-            0.057,
-            0.017
+            0.001
           ]
         }
       }
@@ -779,9 +781,9 @@
     },
     "CONSENSUS": {
       "tmax_f": 54.6,
-      "tmin_f": 37.0,
-      "wind_max_kt": 10.9,
-      "precip_in": 0.03,
+      "tmin_f": 37.4,
+      "wind_max_kt": 10.5,
+      "precip_in": 0.01,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -872,7 +874,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-20T14:15:11+00:00",
+    "checked_at_utc": "2026-11-20T15:15:10+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
