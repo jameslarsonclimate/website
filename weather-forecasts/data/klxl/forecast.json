@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T17:26:03+00:00",
+  "generated_at_utc": "2026-11-20T18:16:20+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -82,11 +82,7 @@
       ],
       "n_steps": 25,
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)",
-      "note": "not in the consensus",
-      "stale": {
-        "fetched_at_utc": "2026-11-20T16:15:13+00:00",
-        "error": "Open-Meteo meta failed: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
-      }
+      "note": "not in the consensus"
     },
     "GFS": {
       "tmax_f": 59.5,
@@ -151,7 +147,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-20T16",
+      "init_time_utc": "2026-11-20T17",
       "valid_range_utc": [
         "2026-11-21T06",
         "2026-11-22T06"
@@ -877,16 +873,12 @@
     }
   },
   "run_status": {
-    "ok": false,
-    "checked_at_utc": "2026-11-20T17:26:03+00:00",
-    "connectivity": true,
+    "ok": true,
+    "checked_at_utc": "2026-11-20T18:16:20+00:00",
+    "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "IFS_HRES"
+      "HRRRCAST"
     ],
-    "carried_over": [
-      "IFS_HRES"
-    ],
-    "message": "Connectivity issues: the update at 17:26Z couldn't reach some data sources; latest forecasts not pulled for HRRRCAST, IFS_HRES. Showing the last good forecasts for IFS_HRES."
+    "carried_over": []
   }
 }
