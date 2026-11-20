@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-20T15:30:08+00:00",
- "generated_at_utc": "2026-11-20T16:30:27+00:00",
+ "generated_at_utc": "2026-11-20T17:09:35+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1531,11 +1531,11 @@
       },
       "error": {
        "tmax_f": -1,
-       "tmin_f": -5,
+       "tmin_f": -3,
        "wind_max_kt": 4,
        "precip_in": 0.05
       },
-      "points": 8.5,
+      "points": 6.5,
       "summary": "Front overhead at the window start: warm high near 45 and peak wind near 19 kt early, then clearing and calm bring a 33 low by evening. Rain 0.70\", upper-middle of guidance because the front is running late."
      }
     },
@@ -1550,11 +1550,11 @@
       },
       "error": {
        "tmax_f": -2,
-       "tmin_f": -4,
+       "tmin_f": -2,
        "wind_max_kt": 4,
        "precip_in": -0.05
       },
-      "points": 8.5,
+      "points": 6.5,
       "summary": "The front is running late and weak. Its overnight warm sector sets a high near 44, and post-frontal drying gives a 34 low at 06Z. Wind is trimmed to 19 kt because IFS and GFS are overdoing today's wind. Rain is 0.60\", near the consensus and QMD median."
      }
     },
@@ -1904,11 +1904,11 @@
       },
       "error": {
        "tmax_f": -2,
-       "tmin_f": -6,
+       "tmin_f": -4,
        "wind_max_kt": 5,
        "precip_in": 0.05
       },
-      "points": 11.0,
+      "points": 9.0,
       "summary": "The front's warm sector gives a high near 44 in heavy early rain, about 0.70\" of rain overall and southeast winds near 20 kt. Then drier air and partial clearing behind the front drop the low to about 32 by 06Z Saturday."
      }
     }
@@ -1928,11 +1928,11 @@
     },
     "error": {
      "tmax_f": -2,
-     "tmin_f": -7,
+     "tmin_f": -5,
      "wind_max_kt": 2,
      "precip_in": 0.45
     },
-    "points": 14.5,
+    "points": 12.5,
     "flag": "G",
     "day": 8
    },
@@ -1945,11 +1945,11 @@
     },
     "error": {
      "tmax_f": -1,
-     "tmin_f": -3,
+     "tmin_f": -1,
      "wind_max_kt": 7,
      "precip_in": 0.07
     },
-    "points": 8.2,
+    "points": 6.2,
     "day": 8
    },
    "JerDvl": {
@@ -1961,11 +1961,11 @@
     },
     "error": {
      "tmax_f": -2,
-     "tmin_f": -6,
+     "tmin_f": -4,
      "wind_max_kt": 6,
      "precip_in": 0.01
     },
-    "points": 11.1,
+    "points": 9.1,
     "day": 8
    },
    "Bigfut": {
@@ -1977,11 +1977,11 @@
     },
     "error": {
      "tmax_f": -2,
-     "tmin_f": -4,
+     "tmin_f": -2,
      "wind_max_kt": 5,
      "precip_in": -0.03
     },
-    "points": 8.8,
+    "points": 6.8,
     "day": 8
    },
    "Wndigo": {
@@ -1993,11 +1993,11 @@
     },
     "error": {
      "tmax_f": -1,
-     "tmin_f": -6,
+     "tmin_f": -4,
      "wind_max_kt": 5,
      "precip_in": 0.0
     },
-    "points": 9.5,
+    "points": 7.5,
     "day": 8
    },
    "Nessie": {
@@ -2009,11 +2009,11 @@
     },
     "error": {
      "tmax_f": -1,
-     "tmin_f": -6,
+     "tmin_f": -4,
      "wind_max_kt": 6,
      "precip_in": 0.04
     },
-    "points": 10.4,
+    "points": 8.4,
     "day": 8
    },
    "Hodags": {
@@ -2025,11 +2025,11 @@
     },
     "error": {
      "tmax_f": -2,
-     "tmin_f": -6,
+     "tmin_f": -4,
      "wind_max_kt": 6,
      "precip_in": 0.01
     },
-    "points": 11.1,
+    "points": 9.1,
     "day": 8
    },
    "Kraken": {
@@ -2041,11 +2041,11 @@
     },
     "error": {
      "tmax_f": -2,
-     "tmin_f": -7,
+     "tmin_f": -5,
      "wind_max_kt": 2,
      "precip_in": 0.45
     },
-    "points": 19.5,
+    "points": 17.5,
     "penalty": 5,
     "flag": "G",
     "day": 8
@@ -2059,11 +2059,11 @@
     },
     "error": {
      "tmax_f": -2,
-     "tmin_f": -6,
+     "tmin_f": -4,
      "wind_max_kt": 5,
      "precip_in": 0.05
     },
-    "points": 11.0,
+    "points": 9.0,
     "summary": "The front's warm sector gives a high near 44 in heavy early rain, about 0.70\" of rain overall and southeast winds near 20 kt. Then drier air and partial clearing behind the front drop the low to about 32 by 06Z Saturday."
    }
   }
