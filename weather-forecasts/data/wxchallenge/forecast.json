@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-21T20:12:54+00:00",
+  "generated_at_utc": "2026-11-21T22:39:27+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -48,7 +48,7 @@
         "2026-11-22T09",
         "2026-11-23T09"
       ],
-      "wind_window": "LST partial"
+      "wind_window": "LST"
     },
     "RRFS": {
       "tmax_f": 36.2,
@@ -70,18 +70,18 @@
       "wind_window": "LST"
     },
     "IFS": {
-      "tmax_f": 36.6,
-      "tmin_f": 31.4,
-      "wind_max_kt": 5.0,
+      "tmax_f": 36.4,
+      "tmin_f": 31.2,
+      "wind_max_kt": 5.7,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-21T06",
+      "init_time_utc": "2026-11-21T12",
       "valid_range_utc": [
         "2026-11-22T06",
         "2026-11-23T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 5.8,
+      "wind_max_kt_06z": 5.7,
       "wind_window_utc": [
         "2026-11-22T09",
         "2026-11-23T09"
@@ -197,9 +197,9 @@
     "USL": {
       "tmax_f": 36.0,
       "tmin_f": 21.0,
-      "wind_max_kt": 7.0,
+      "wind_max_kt": 8.0,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-21T12",
+      "init_time_utc": "2026-11-21T22",
       "valid_range_utc": [
         "2026-11-22T06",
         "2026-11-23T06"
@@ -832,9 +832,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 37.3,
+      "tmax_f": 37.2,
       "tmin_f": 26.7,
-      "wind_max_kt": 5.3,
+      "wind_max_kt": 5.4,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -947,7 +947,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-21T20:12:54+00:00",
+    "checked_at_utc": "2026-11-21T22:39:27+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1010,6 +1010,13 @@
         "wind_max_kt": 7.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-21T12"
+      },
+      "22": {
+        "tmax_f": 36.0,
+        "tmin_f": 21.0,
+        "wind_max_kt": 8.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-21T22"
       }
     },
     "REFS": {
@@ -1076,6 +1083,15 @@
         "tmax_f": null,
         "tmin_f": null,
         "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-21T12"
+      }
+    },
+    "IFS": {
+      "12": {
+        "tmax_f": 36.4,
+        "tmin_f": 31.2,
+        "wind_max_kt": 5.7,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-21T12"
       }
