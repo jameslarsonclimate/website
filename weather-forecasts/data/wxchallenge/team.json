@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-21T16:00:07+00:00",
- "generated_at_utc": "2026-11-21T16:34:52+00:00",
+ "generated_at_utc": "2026-11-21T17:48:12+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1726,11 +1726,11 @@
       },
       "error": {
        "tmax_f": 6,
-       "tmin_f": -2,
+       "tmin_f": -1,
        "wind_max_kt": 6,
        "precip_in": 0.0
       },
-      "points": 11.0,
+      "points": 10.0,
       "summary": "Clearing and a building ridge behind today's front give a dry, calm day. The low goes below consensus toward MOS for a clear night, and the high sits near consensus with cold air arriving: 38/26/6/0.00."
      }
     },
@@ -1785,11 +1785,11 @@
       },
       "error": {
        "tmax_f": 5,
-       "tmin_f": -2,
+       "tmin_f": -1,
        "wind_max_kt": 6,
        "precip_in": 0.0
       },
-      "points": 10.0,
+      "points": 9.0,
       "summary": "Dry and clearing behind the front as northerly outflow begins. I go near or below consensus on the high because cold air is arriving, lean toward MOS on the low for the clear Saturday evening, keep winds light, and enter zero precip."
      }
     },
@@ -2155,11 +2155,11 @@
       },
       "error": {
        "tmax_f": 5,
-       "tmin_f": -1,
+       "tmin_f": 0,
        "wind_max_kt": 6,
        "precip_in": 0.0
       },
-      "points": 9.0,
+      "points": 8.0,
       "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
      }
     }
@@ -2179,11 +2179,11 @@
     },
     "error": {
      "tmax_f": 5,
-     "tmin_f": -1,
+     "tmin_f": 0,
      "wind_max_kt": 6,
      "precip_in": 0.0
     },
-    "points": 9.0,
+    "points": 8.0,
     "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
    }
   }
