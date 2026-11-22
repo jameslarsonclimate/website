@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-22T13:01:20+00:00",
- "generated_at_utc": "2026-11-22T17:44:06+00:00",
+ "generated_at_utc": "2026-11-22T18:06:40+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1758,11 +1758,11 @@
       },
       "error": {
        "tmax_f": 9,
-       "tmin_f": 3,
+       "tmin_f": 4,
        "wind_max_kt": 0,
        "precip_in": 0.0
       },
-      "points": 12.0,
+      "points": 13.0,
       "summary": "A clear, calm ridge with drier air: the low goes well below consensus toward USL and MOS, the high runs a few degrees under the warm-biased models, wind stays light and it stays dry."
      }
     },
@@ -1833,11 +1833,11 @@
       },
       "error": {
        "tmax_f": 10,
-       "tmin_f": 4,
+       "tmin_f": 5,
        "wind_max_kt": 1,
        "precip_in": 0.0
       },
-      "points": 14.5,
+      "points": 15.5,
       "summary": "Clear, calm and dry under a ridge with offshore flow. Low and high go colder than the consensus because the models ran 3\u20136\u00b0F warm today and drier air arrives tonight. Wind stays light at 5 kt and precip is 0.00."
      }
     },
@@ -2219,11 +2219,11 @@
       },
       "error": {
        "tmax_f": 10,
-       "tmin_f": 4,
+       "tmin_f": 5,
        "wind_max_kt": 0,
        "precip_in": 0.0
       },
-      "points": 14.0,
+      "points": 15.0,
       "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
      }
     }
@@ -2243,11 +2243,11 @@
     },
     "error": {
      "tmax_f": 10,
-     "tmin_f": 4,
+     "tmin_f": 5,
      "wind_max_kt": 0,
      "precip_in": 0.0
     },
-    "points": 14.0,
+    "points": 15.0,
     "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
    }
   }
