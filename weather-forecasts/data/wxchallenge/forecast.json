@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-22T19:10:38+00:00",
+  "generated_at_utc": "2026-11-22T19:30:08+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -32,18 +32,18 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 33.3,
-      "tmin_f": 25.0,
-      "wind_max_kt": 8.3,
+      "tmax_f": 33.0,
+      "tmin_f": 26.9,
+      "wind_max_kt": 7.8,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-22T12",
+      "init_time_utc": "2026-11-22T18",
       "valid_range_utc": [
         "2026-11-23T06",
         "2026-11-24T06"
       ],
       "n_steps": 25,
       "temp_source": "instantaneous 2 m T",
-      "wind_max_kt_06z": 8.3,
+      "wind_max_kt_06z": 7.8,
       "wind_window_utc": [
         "2026-11-23T09",
         "2026-11-24T09"
@@ -805,7 +805,7 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-22T06",
+      "init_time_utc": "2026-11-22T12",
       "valid_range_utc": [
         "2026-11-23T06",
         "2026-11-24T06"
@@ -832,9 +832,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 37.1,
-      "tmin_f": 24.8,
-      "wind_max_kt": 5.2,
+      "tmax_f": 37.0,
+      "tmin_f": 25.0,
+      "wind_max_kt": 5.1,
       "precip_in": 0.0,
       "method": {
         "tmax_f": {
@@ -946,7 +946,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-22T19:10:38+00:00",
+    "checked_at_utc": "2026-11-22T19:30:08+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -961,6 +961,13 @@
         "wind_max_kt": 8.3,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-22T12"
+      },
+      "18": {
+        "tmax_f": 33.0,
+        "tmin_f": 26.9,
+        "wind_max_kt": 7.8,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-22T18"
       }
     },
     "RRFS": {
@@ -1038,6 +1045,15 @@
         "tmax_f": 37.0,
         "tmin_f": 28.0,
         "wind_max_kt": 4.0,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-22T12"
+      }
+    },
+    "NBM_QMD": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-22T12"
       }
