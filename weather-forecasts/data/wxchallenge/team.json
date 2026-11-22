@@ -3,8 +3,8 @@
  "school": "csu",
  "school_label": "Colorado State Univ.",
  "season": "26-27",
- "fetched_at_utc": "2026-11-21T16:00:07+00:00",
- "generated_at_utc": "2026-11-21T23:48:26+00:00",
+ "fetched_at_utc": "2026-11-22T13:01:20+00:00",
+ "generated_at_utc": "2026-11-22T14:35:31+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1626,29 +1626,45 @@
      },
      "points": 4.0,
      "summary": "The front's warm sector gives a high near 44 in heavy early rain, about 0.70\" of rain overall and southeast winds near 20 kt. Then drier air and partial clearing behind the front drop the low to about 32 by 06Z Saturday."
+    },
+    "2026-11-21": {
+     "forecast": {
+      "tmax_f": 37,
+      "tmin_f": 27,
+      "wind_max_kt": 6,
+      "precip_in": 0.0
+     },
+     "error": {
+      "tmax_f": 3,
+      "tmin_f": 2,
+      "wind_max_kt": 2,
+      "precip_in": 0.0
+     },
+     "points": 6.0,
+     "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
     }
    },
    "summary": {
-    "n_days": 2,
-    "total_points": 7.3,
-    "mean_points": 3.65,
+    "n_days": 3,
+    "total_points": 13.3,
+    "mean_points": 4.43,
     "bias": {
-     "tmax_f": -0.558,
-     "tmin_f": 1.0,
-     "wind_max_kt": 0.51,
-     "precip_in": -0.037
+     "tmax_f": 0.721,
+     "tmin_f": 1.359,
+     "wind_max_kt": 1.026,
+     "precip_in": -0.024
     },
     "mae": {
-     "tmax_f": 1.519,
-     "tmin_f": 1.0,
-     "wind_max_kt": 0.51,
-     "precip_in": 0.089
+     "tmax_f": 2.051,
+     "tmin_f": 1.359,
+     "wind_max_kt": 1.026,
+     "precip_in": 0.058
     },
     "n_eff": {
-     "tmax_f": 2.0,
-     "tmin_f": 2.0,
-     "wind_max_kt": 2.0,
-     "precip_in": 2.0
+     "tmax_f": 2.99,
+     "tmin_f": 2.99,
+     "wind_max_kt": 3.0,
+     "precip_in": 2.99
     }
    },
    "summary_hindcast": {
@@ -1692,46 +1708,62 @@
        },
        "points": 3.5,
        "summary": "Front overhead at the window start: warm high near 45 and peak wind near 19 kt early, then clearing and calm bring a 33 low by evening. Rain 0.70\", upper-middle of guidance because the front is running late."
+      },
+      "2026-11-21": {
+       "forecast": {
+        "tmax_f": 38,
+        "tmin_f": 26,
+        "wind_max_kt": 6,
+        "precip_in": 0.0
+       },
+       "error": {
+        "tmax_f": 4,
+        "tmin_f": 1,
+        "wind_max_kt": 2,
+        "precip_in": 0.0
+       },
+       "points": 6.0,
+       "summary": "Clearing and a building ridge behind today's front give a dry, calm day. The low goes below consensus toward MOS for a clear night, and the high sits near consensus with cold air arriving: 38/26/6/0.00."
       }
      },
      "summary": {
-      "n_days": 1,
-      "total_points": 3.5,
-      "mean_points": 3.5,
+      "n_days": 2,
+      "total_points": 9.5,
+      "mean_points": 4.75,
       "bias": {
-       "tmax_f": -1.0,
-       "tmin_f": 2.0,
-       "wind_max_kt": 0.0,
-       "precip_in": 0.05
+       "tmax_f": 1.596,
+       "tmin_f": 1.481,
+       "wind_max_kt": 1.019,
+       "precip_in": 0.024
       },
       "mae": {
-       "tmax_f": 1.0,
-       "tmin_f": 2.0,
-       "wind_max_kt": 0.0,
-       "precip_in": 0.05
+       "tmax_f": 2.558,
+       "tmin_f": 1.481,
+       "wind_max_kt": 1.019,
+       "precip_in": 0.024
       },
       "n_eff": {
-       "tmax_f": 1.0,
-       "tmin_f": 1.0,
-       "wind_max_kt": 1.0,
-       "precip_in": 1.0
+       "tmax_f": 2.0,
+       "tmin_f": 2.0,
+       "wind_max_kt": 2.0,
+       "precip_in": 2.0
       }
      },
      "today": {
       "forecast": {
-       "tmax_f": 38,
-       "tmin_f": 26,
-       "wind_max_kt": 6,
+       "tmax_f": 34,
+       "tmin_f": 22,
+       "wind_max_kt": 4,
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 5,
-       "tmin_f": -1,
-       "wind_max_kt": 6,
+       "tmax_f": 9,
+       "tmin_f": 2,
+       "wind_max_kt": 0,
        "precip_in": 0.0
       },
-      "points": 9.0,
-      "summary": "Clearing and a building ridge behind today's front give a dry, calm day. The low goes below consensus toward MOS for a clear night, and the high sits near consensus with cold air arriving: 38/26/6/0.00."
+      "points": 11.0,
+      "summary": "A clear, calm ridge with drier air: the low goes well below consensus toward USL and MOS, the high runs a few degrees under the warm-biased models, wind stays light and it stays dry."
      }
     },
     "21Z": {
@@ -1751,46 +1783,62 @@
        },
        "points": 5.5,
        "summary": "The front is running late and weak. Its overnight warm sector sets a high near 44, and post-frontal drying gives a 34 low at 06Z. Wind is trimmed to 19 kt because IFS and GFS are overdoing today's wind. Rain is 0.60\", near the consensus and QMD median."
+      },
+      "2026-11-21": {
+       "forecast": {
+        "tmax_f": 37,
+        "tmin_f": 26,
+        "wind_max_kt": 6,
+        "precip_in": 0.0
+       },
+       "error": {
+        "tmax_f": 3,
+        "tmin_f": 1,
+        "wind_max_kt": 2,
+        "precip_in": 0.0
+       },
+       "points": 5.0,
+       "summary": "Dry and clearing behind the front as northerly outflow begins. I go near or below consensus on the high because cold air is arriving, lean toward MOS on the low for the clear Saturday evening, keep winds light, and enter zero precip."
       }
      },
      "summary": {
-      "n_days": 1,
-      "total_points": 5.5,
-      "mean_points": 5.5,
+      "n_days": 2,
+      "total_points": 10.5,
+      "mean_points": 5.25,
       "bias": {
-       "tmax_f": -2.0,
-       "tmin_f": 3.0,
-       "wind_max_kt": 0.0,
-       "precip_in": -0.05
+       "tmax_f": 0.596,
+       "tmin_f": 1.962,
+       "wind_max_kt": 1.019,
+       "precip_in": -0.024
       },
       "mae": {
-       "tmax_f": 2.0,
-       "tmin_f": 3.0,
-       "wind_max_kt": 0.0,
-       "precip_in": 0.05
+       "tmax_f": 2.519,
+       "tmin_f": 1.962,
+       "wind_max_kt": 1.019,
+       "precip_in": 0.024
       },
       "n_eff": {
-       "tmax_f": 1.0,
-       "tmin_f": 1.0,
-       "wind_max_kt": 1.0,
-       "precip_in": 1.0
+       "tmax_f": 2.0,
+       "tmin_f": 2.0,
+       "wind_max_kt": 2.0,
+       "precip_in": 2.0
       }
      },
      "today": {
       "forecast": {
-       "tmax_f": 37,
-       "tmin_f": 26,
-       "wind_max_kt": 6,
+       "tmax_f": 35,
+       "tmin_f": 23,
+       "wind_max_kt": 5,
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 4,
-       "tmin_f": -1,
-       "wind_max_kt": 6,
+       "tmax_f": 10,
+       "tmin_f": 3,
+       "wind_max_kt": 1,
        "precip_in": 0.0
       },
-      "points": 8.0,
-      "summary": "Dry and clearing behind the front as northerly outflow begins. I go near or below consensus on the high because cold air is arriving, lean toward MOS on the low for the clear Saturday evening, keep winds light, and enter zero precip."
+      "points": 13.5,
+      "summary": "Clear, calm and dry under a ridge with offshore flow. Low and high go colder than the consensus because the models ran 3\u20136\u00b0F warm today and drier air arrives tonight. Wind stays light at 5 kt and precip is 0.00."
      }
     },
     "2350Z": {
@@ -2098,29 +2146,45 @@
        },
        "points": 4.0,
        "summary": "The front's warm sector gives a high near 44 in heavy early rain, about 0.70\" of rain overall and southeast winds near 20 kt. Then drier air and partial clearing behind the front drop the low to about 32 by 06Z Saturday."
+      },
+      "2026-11-21": {
+       "forecast": {
+        "tmax_f": 37,
+        "tmin_f": 27,
+        "wind_max_kt": 6,
+        "precip_in": 0.0
+       },
+       "error": {
+        "tmax_f": 3,
+        "tmin_f": 2,
+        "wind_max_kt": 2,
+        "precip_in": 0.0
+       },
+       "points": 6.0,
+       "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
       }
      },
      "summary": {
-      "n_days": 2,
-      "total_points": 7.3,
-      "mean_points": 3.65,
+      "n_days": 3,
+      "total_points": 13.3,
+      "mean_points": 4.43,
       "bias": {
-       "tmax_f": -0.558,
-       "tmin_f": 1.0,
-       "wind_max_kt": 0.51,
-       "precip_in": -0.037
+       "tmax_f": 0.721,
+       "tmin_f": 1.359,
+       "wind_max_kt": 1.026,
+       "precip_in": -0.024
       },
       "mae": {
-       "tmax_f": 1.519,
-       "tmin_f": 1.0,
-       "wind_max_kt": 0.51,
-       "precip_in": 0.089
+       "tmax_f": 2.051,
+       "tmin_f": 1.359,
+       "wind_max_kt": 1.026,
+       "precip_in": 0.058
       },
       "n_eff": {
-       "tmax_f": 2.0,
-       "tmin_f": 2.0,
-       "wind_max_kt": 2.0,
-       "precip_in": 2.0
+       "tmax_f": 2.99,
+       "tmin_f": 2.99,
+       "wind_max_kt": 3.0,
+       "precip_in": 2.99
       }
      },
      "summary_hindcast": {
@@ -2148,43 +2212,43 @@
      },
      "today": {
       "forecast": {
-       "tmax_f": 37,
-       "tmin_f": 27,
-       "wind_max_kt": 6,
+       "tmax_f": 35,
+       "tmin_f": 23,
+       "wind_max_kt": 4,
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 4,
-       "tmin_f": 0,
-       "wind_max_kt": 6,
+       "tmax_f": 10,
+       "tmin_f": 3,
+       "wind_max_kt": 0,
        "precip_in": 0.0
       },
-      "points": 7.0,
-      "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
+      "points": 13.0,
+      "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
      }
     }
    }
   }
  },
  "today": {
-  "date": "2026-11-21",
+  "date": "2026-11-22",
   "status": null,
   "forecasters": {
    "Claude": {
     "forecast": {
-     "tmax_f": 37,
-     "tmin_f": 27,
-     "wind_max_kt": 6,
+     "tmax_f": 35,
+     "tmin_f": 23,
+     "wind_max_kt": 4,
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 4,
-     "tmin_f": 0,
-     "wind_max_kt": 6,
+     "tmax_f": 10,
+     "tmin_f": 3,
+     "wind_max_kt": 0,
      "precip_in": 0.0
     },
-    "points": 7.0,
-    "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
+    "points": 13.0,
+    "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
    }
   }
  }
