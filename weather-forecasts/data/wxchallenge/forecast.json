@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-22T15:33:49+00:00",
+  "generated_at_utc": "2026-11-22T16:08:36+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -188,20 +188,22 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-22T14",
+      "init_time_utc": "2026-11-22T15",
       "valid_range_utc": [
         "2026-11-23T06",
         "2026-11-24T06"
       ]
     },
     "USL": {
-      "tmax_f": null,
-      "tmin_f": null,
-      "wind_max_kt": null,
-      "precip_in": null,
-      "init_time_utc": null,
-      "valid_range_utc": null,
-      "error": "no USL run for 2026-11-23 available at 2026-11-22 15Z"
+      "tmax_f": 38.0,
+      "tmin_f": 24.0,
+      "wind_max_kt": 6.0,
+      "precip_in": 0.0,
+      "init_time_utc": "2026-11-22T12",
+      "valid_range_utc": [
+        "2026-11-23T06",
+        "2026-11-24T06"
+      ]
     },
     "ENS": {
       "tmax_f": 36.2,
@@ -830,8 +832,8 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 37.0,
-      "tmin_f": 25.3,
+      "tmax_f": 37.2,
+      "tmin_f": 25.2,
       "wind_max_kt": 5.2,
       "precip_in": 0.0,
       "method": {
@@ -844,16 +846,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.104,
-            "RRFS": 0.123,
-            "IFS": 0.162,
-            "GFS": 0.152,
-            "GFS_MOS": 0.174,
-            "NBM": 0.133,
-            "ENS": 0.152
+            "HRRR": 0.094,
+            "RRFS": 0.112,
+            "IFS": 0.148,
+            "GFS": 0.139,
+            "GFS_MOS": 0.159,
+            "NBM": 0.121,
+            "USL": 0.089,
+            "ENS": 0.138
           },
           "excluded_same_model": [
             "IFS_HRES"
@@ -868,16 +872,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.102,
-            "RRFS": 0.128,
-            "IFS_HRES": 0.13,
-            "GFS": 0.032,
-            "GFS_MOS": 0.375,
-            "NBM": 0.169,
-            "ENS": 0.064
+            "HRRR": 0.075,
+            "RRFS": 0.094,
+            "IFS_HRES": 0.095,
+            "GFS": 0.024,
+            "GFS_MOS": 0.275,
+            "NBM": 0.124,
+            "USL": 0.267,
+            "ENS": 0.047
           },
           "excluded_same_model": [
             "IFS"
@@ -892,16 +898,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.16,
-            "RRFS": 0.14,
-            "IFS_HRES": 0.186,
-            "GFS": 0.102,
-            "GFS_MOS": 0.117,
-            "NBM": 0.115,
-            "ENS": 0.179
+            "HRRR": 0.143,
+            "RRFS": 0.125,
+            "IFS_HRES": 0.166,
+            "GFS": 0.091,
+            "GFS_MOS": 0.105,
+            "NBM": 0.103,
+            "USL": 0.107,
+            "ENS": 0.16
           },
           "excluded_same_model": [
             "IFS"
@@ -916,16 +924,18 @@
             "GFS",
             "GFS_MOS",
             "NBM",
+            "USL",
             "ENS"
           ],
           "weights": {
-            "HRRR": 0.104,
-            "RRFS": 0.124,
-            "IFS": 0.163,
-            "GFS": 0.108,
-            "GFS_MOS": 0.082,
-            "NBM": 0.125,
-            "ENS": 0.295
+            "HRRR": 0.093,
+            "RRFS": 0.111,
+            "IFS": 0.146,
+            "GFS": 0.097,
+            "GFS_MOS": 0.073,
+            "NBM": 0.112,
+            "USL": 0.103,
+            "ENS": 0.264
           },
           "excluded_same_model": [
             "IFS_HRES"
@@ -936,11 +946,10 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-22T15:33:49+00:00",
+    "checked_at_utc": "2026-11-22T16:08:36+00:00",
     "connectivity": false,
     "failed": [
-      "HRRRCAST",
-      "USL"
+      "HRRRCAST"
     ],
     "carried_over": []
   },
@@ -968,6 +977,15 @@
         "tmax_f": null,
         "tmin_f": null,
         "wind_max_kt": null,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-22T12"
+      }
+    },
+    "USL": {
+      "12": {
+        "tmax_f": 38.0,
+        "tmin_f": 24.0,
+        "wind_max_kt": 6.0,
         "precip_in": 0.0,
         "init_time_utc": "2026-11-22T12"
       }
