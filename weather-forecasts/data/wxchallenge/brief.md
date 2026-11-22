@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-23**, scored over 2026-11-23T06Z to 2026-11-24T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-23T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-22T22:43:31+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-22T22:59:15+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -35,7 +35,7 @@ Run = day/hour (UTC) of the model initialization.
 | IFS_HRES | 22/12Z | 34.9 | 28.3 | 3.0 | 0.00 |
 | GFS | 22/12Z | 40.5 | 37.7 | 7.5 | 0.00 |
 | GFS_MOS | 22/18Z | 37.0 | 22.0 | 4.0 | 0.00 |
-| NBM | 22/21Z | 37.0 | 28.0 | 4.0 | 0.00 |
+| NBM | 22/22Z | 37.0 | 28.0 | 4.0 | 0.00 |
 | USL | 22/22Z | 38.0 | 25.0 | 7.0 | 0.00 |
 | ENS | 22/06Z | 36.2 | 31.2 | 3.8 | 0.00 |
 | GEFS | 22/12Z | 32.9 | 29.8 | 10.2 | 0.00 |
@@ -239,24 +239,24 @@ Total cloud cover (%):
 
 | UTC | Local (AKST) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS | GEFS |
 | --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-23 06Z | Sun 21:00 | 98 | 1 | 0 | 0 | 5 | 0 | 29 | 56 | 8 | 8 |
-| 11-23 07Z | Sun 22:00 | 6 | 1 |  | 0 |  |  | 8 | 37 | 4 | 7 |
-| 11-23 08Z | Sun 23:00 | 0 | 0 |  | 0 |  |  | 4 | 17 | 2 | 6 |
+| 11-23 06Z | Sun 21:00 | 98 | 1 | 0 | 0 | 5 | 0 | 23 | 56 | 8 | 8 |
+| 11-23 07Z | Sun 22:00 | 6 | 1 |  | 0 |  |  | 5 | 37 | 4 | 7 |
+| 11-23 08Z | Sun 23:00 | 0 | 0 |  | 0 |  |  | 3 | 17 | 2 | 6 |
 | 11-23 09Z | Mon 00:00 | 3 | 0 | 0 | 0 | 2 | 0 | 4 | 5 | 0 | 5 |
 | 11-23 10Z | Mon 01:00 | 5 | 0 |  | 0 |  |  | 3 | 3 | 0 | 4 |
 | 11-23 11Z | Mon 02:00 | 5 | 0 |  | 0 |  |  | 2 | 3 | 1 | 4 |
 | 11-23 12Z | Mon 03:00 | 3 | 0 | 0 | 1 | 0 | 0 | 2 | 4 | 1 | 3 |
 | 11-23 13Z | Mon 04:00 | 1 | 0 |  | 2 |  |  | 2 | 5 | 3 | 3 |
-| 11-23 14Z | Mon 05:00 | 2 | 0 |  | 3 |  |  | 3 | 7 | 6 | 3 |
-| 11-23 15Z | Mon 06:00 | 1 | 0 | 5 | 5 | 11 | 0 | 3 | 8 | 7 | 4 |
-| 11-23 16Z | Mon 07:00 | 1 | 0 |  | 5 |  |  | 4 | 10 | 7 | 7 |
+| 11-23 14Z | Mon 05:00 | 2 | 0 |  | 3 |  |  | 4 | 7 | 6 | 3 |
+| 11-23 15Z | Mon 06:00 | 1 | 0 | 5 | 5 | 11 | 0 | 4 | 8 | 7 | 4 |
+| 11-23 16Z | Mon 07:00 | 1 | 0 |  | 5 |  |  | 3 | 10 | 7 | 7 |
 | 11-23 17Z | Mon 08:00 | 2 | 0 |  | 2 |  |  | 3 | 13 | 6 | 10 |
 | 11-23 18Z | Mon 09:00 | 0 | 0 | 2 | 2 | 4 | 0 | 3 | 14 | 5 | 14 |
-| 11-23 19Z | Mon 10:00 | 0 | 2 |  | 1 |  |  | 3 | 13 | 5 | 18 |
+| 11-23 19Z | Mon 10:00 | 0 | 2 |  | 1 |  |  | 4 | 13 | 5 | 18 |
 | 11-23 20Z | Mon 11:00 | 0 | 0 |  | 0 |  |  | 3 | 12 | 4 | 22 |
 | 11-23 21Z | Mon 12:00 | 0 | 0 | 0 | 0 | 5 | 0 | 3 | 10 | 3 | 24 |
 | 11-23 22Z | Mon 13:00 | 1 | 1 |  | 0 |  |  | 3 | 9 | 4 | 24 |
-| 11-23 23Z | Mon 14:00 | 2 | 0 |  | 0 |  |  |  | 8 | 4 | 22 |
+| 11-23 23Z | Mon 14:00 | 2 | 0 |  | 0 |  |  | 2 | 8 | 4 | 22 |
 | 11-24 00Z | Mon 15:00 | 2 | 1 | 0 | 0 | 0 | 0 | 2 | 7 | 5 | 19 |
 | 11-24 01Z | Mon 16:00 | 2 | 0 |  | 0 |  |  |  | 5 | 5 | 13 |
 | 11-24 02Z | Mon 17:00 | 2 | 0 |  | 3 |  |  |  | 2 | 5 | 7 |
@@ -823,7 +823,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-22)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-22 22:43Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-22 22:59Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
@@ -834,7 +834,7 @@ How each run is doing so far (forecast - observed; Hours = hours compared). Clou
 | IFS | 22/12Z | 15Z | 3 | +10.2 | 10.2 | +10.6 | +1.0 | +1.8 | +65 | 0.00 / 0.00 |
 | GFS | 22/12Z | 15Z | 3 | +15.9 | 15.9 | +13.7 | -7.8 | +3.4 | +73 | 0.00 / 0.00 |
 | GFS_MOS | 22/18Z | 00Z | 0 | — | — | — | — | — | — | — |
-| NBM | 22/21Z | 03Z | 0 | — | — | — | — | — | — | — |
+| NBM | 22/22Z | 03Z | 0 | — | — | — | — | — | — | — |
 
 Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance can miss the true extreme). Day high/low = the run's extreme for the rest of the day combined with the observed high 30.9 / low 18.0 °F so far:
 
@@ -845,7 +845,7 @@ Rest of today (after the last report to 06Z; hourly values, so 3-hourly guidance
 | IFS | 22/12Z | 3 | 34.2 | 32.0 | 4.1 | 34.2 | 18.0 |
 | GFS | 22/12Z | 3 | 39.6 | 39.0 | 5.8 | 39.6 | 18.0 |
 | GFS_MOS | 22/18Z | 3 | 33.0 | 28.0 | 3.0 | 33.0 | 18.0 |
-| NBM | 22/21Z | 2 | 32.0 | 32.0 | 4.0 | 32.0 | 18.0 |
+| NBM | 22/22Z | 2 | 32.0 | 32.0 | 4.0 | 32.0 | 18.0 |
 
 Hour by hour (°F, kt; obs blank after the last report):
 
