@@ -3,7 +3,7 @@
 - Station: **PAYA**
 - Target day: **2026-11-24**, scored over 2026-11-24T06Z to 2026-11-25T06Z (UTC, 06Z to 06Z)
 - Submission deadline: 2026-11-24T00Z (forecasts for a day are due at 00Z that day)
-- Generated: 2026-11-23T20:00:08+00:00 (refreshed several times an hour while the forecast job runs)
+- Generated: 2026-11-23T21:42:41+00:00 (refreshed several times an hour while the forecast job runs)
 - Units: temperature °F, wind kt (max sustained), precipitation inches (liquid)
 
 ## How to use this brief (for AI assistants)
@@ -145,63 +145,63 @@ Temperature (°F):
 
 Dewpoint (°F):
 
-| UTC | Local (AKST) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS |
-| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-24 06Z | Mon 21:00 | 23.6 | 22.0 | 24.9 | 24.4 | 20.0 | 23.0 | 25.0 | 23.0 | 24.8 |
-| 11-24 07Z | Mon 22:00 | 24.1 | 22.3 |  | 21.9 |  |  |  | 22.0 | 23.4 |
-| 11-24 08Z | Mon 23:00 | 14.2 | 23.3 |  | 18.5 |  |  |  | 23.0 | 21.6 |
-| 11-24 09Z | Tue 00:00 | 17.9 | 14.2 | 19.5 | 18.0 | 23.1 | 23.0 | 25.0 | 23.0 | 20.2 |
-| 11-24 10Z | Tue 01:00 | 19.0 | 13.0 |  | 12.7 |  |  |  | 23.0 | 19.4 |
-| 11-24 11Z | Tue 02:00 | 17.1 | 16.8 |  | 8.0 |  |  |  | 23.0 | 18.3 |
-| 11-24 12Z | Tue 03:00 | 19.6 | 19.0 | 13.9 | 11.7 | 22.5 | 23.0 | 25.0 | 23.0 | 18.5 |
-| 11-24 13Z | Tue 04:00 | 24.0 | 19.8 |  | 19.5 |  |  |  | 23.0 | 22.5 |
-| 11-24 14Z | Tue 05:00 | 26.4 | 20.2 |  | 31.2 |  |  |  | 24.0 | 26.9 |
-| 11-24 15Z | Tue 06:00 | 29.3 | 22.6 | 30.2 | 29.7 | 23.9 | 24.0 | 28.0 | 25.0 | 29.0 |
-| 11-24 16Z | Tue 07:00 | 31.0 | 24.6 |  | 26.1 |  |  |  | 26.0 | 28.7 |
-| 11-24 17Z | Tue 08:00 | 31.1 | 25.6 |  | 22.4 |  |  |  | 27.0 | 27.0 |
-| 11-24 18Z | Tue 09:00 | 30.3 | 27.4 | 22.0 | 20.7 | 26.6 | 26.0 | 29.0 | 28.0 | 25.5 |
-| 11-24 19Z | Tue 10:00 | 29.4 | 28.7 |  | 22.6 |  |  |  | 29.0 | 25.3 |
-| 11-24 20Z | Tue 11:00 | 30.9 | 29.9 |  | 21.9 |  |  |  | 30.0 | 25.5 |
-| 11-24 21Z | Tue 12:00 | 31.7 | 29.9 | 25.1 | 23.7 | 24.6 | 27.0 | 31.0 | 30.0 | 25.9 |
-| 11-24 22Z | Tue 13:00 | 32.3 | 29.8 |  | 23.9 |  |  |  | 30.0 | 26.7 |
-| 11-24 23Z | Tue 14:00 | 28.5 | 31.3 |  | 23.5 |  |  |  | 29.0 | 27.7 |
-| 11-25 00Z | Tue 15:00 | 29.3 | 30.6 | 28.4 | 27.1 | 21.9 | 28.0 | 29.0 | 27.0 | 28.3 |
-| 11-25 01Z | Tue 16:00 | 27.6 | 30.2 |  | 28.7 |  |  |  | 26.0 | 28.2 |
-| 11-25 02Z | Tue 17:00 | 27.4 | 30.7 |  | 27.1 |  |  |  | 26.0 | 27.8 |
-| 11-25 03Z | Tue 18:00 | 27.3 | 32.9 | 29.3 | 28.4 | 21.1 | 30.0 | 29.0 | 26.0 | 27.7 |
-| 11-25 04Z | Tue 19:00 | 32.7 | 31.9 |  | 31.3 |  |  |  | 26.0 | 28.3 |
-| 11-25 05Z | Tue 20:00 | 33.3 | 25.6 |  | 23.3 |  |  |  | 26.0 | 29.0 |
-| 11-25 06Z | Tue 21:00 | 33.8 | 26.2 | 25.2 | 23.6 | 23.3 | 30.0 | 29.0 | 26.0 | 29.5 |
+| UTC | Local (AKST) | HRRR | RRFS | IFS | GFS |
+| --- | --- | --: | --: | --: | --: |
+| 11-24 06Z | Mon 21:00 | 23.6 | 22.0 | 24.9 | 20.0 |
+| 11-24 07Z | Mon 22:00 | 24.1 | 22.3 |  |  |
+| 11-24 08Z | Mon 23:00 | 14.2 | 23.3 |  |  |
+| 11-24 09Z | Tue 00:00 | 17.9 | 14.2 | 19.5 | 23.1 |
+| 11-24 10Z | Tue 01:00 | 19.0 | 13.0 |  |  |
+| 11-24 11Z | Tue 02:00 | 17.1 | 16.8 |  |  |
+| 11-24 12Z | Tue 03:00 | 19.6 | 19.0 | 13.9 | 22.5 |
+| 11-24 13Z | Tue 04:00 | 24.0 | 19.8 |  |  |
+| 11-24 14Z | Tue 05:00 | 26.4 | 20.2 |  |  |
+| 11-24 15Z | Tue 06:00 | 29.3 | 22.6 | 30.2 | 23.9 |
+| 11-24 16Z | Tue 07:00 | 31.0 | 24.6 |  |  |
+| 11-24 17Z | Tue 08:00 | 31.1 | 25.6 |  |  |
+| 11-24 18Z | Tue 09:00 | 30.3 | 27.4 | 22.0 | 26.6 |
+| 11-24 19Z | Tue 10:00 | 29.4 | 28.7 |  |  |
+| 11-24 20Z | Tue 11:00 | 30.9 | 29.9 |  |  |
+| 11-24 21Z | Tue 12:00 | 31.7 | 29.9 | 25.1 | 24.6 |
+| 11-24 22Z | Tue 13:00 | 32.3 | 29.8 |  |  |
+| 11-24 23Z | Tue 14:00 | 28.5 | 31.3 |  |  |
+| 11-25 00Z | Tue 15:00 | 29.3 | 30.6 | 28.4 | 21.9 |
+| 11-25 01Z | Tue 16:00 | 27.6 | 30.2 |  |  |
+| 11-25 02Z | Tue 17:00 | 27.4 | 30.7 |  |  |
+| 11-25 03Z | Tue 18:00 | 27.3 | 32.9 | 29.3 | 21.1 |
+| 11-25 04Z | Tue 19:00 | 32.7 | 31.9 |  |  |
+| 11-25 05Z | Tue 20:00 | 33.3 | 25.6 |  |  |
+| 11-25 06Z | Tue 21:00 | 33.8 | 26.2 | 25.2 | 23.3 |
 
 Relative humidity (%), from each model's temperature and dewpoint (ensembles: the mean of their members' RH):
 
-| UTC | Local (AKST) | HRRR | RRFS | IFS | IFS_HRES | GFS | GFS_MOS | NBM | USL | ENS |
-| --- | --- | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-| 11-24 06Z | Mon 21:00 | 79 | 90 | 81 | 84 | 49 | 81 | 81 | 88 | 78 |
-| 11-24 07Z | Mon 22:00 | 73 | 90 |  | 77 |  |  |  | 85 | 73 |
-| 11-24 08Z | Mon 23:00 | 40 | 74 |  | 66 |  |  |  | 88 | 67 |
-| 11-24 09Z | Tue 00:00 | 58 | 44 | 58 | 56 | 54 | 85 | 85 | 85 | 61 |
-| 11-24 10Z | Tue 01:00 | 60 | 45 |  | 37 |  |  |  | 85 | 55 |
-| 11-24 11Z | Tue 02:00 | 47 | 58 |  | 29 |  |  |  | 85 | 49 |
-| 11-24 12Z | Tue 03:00 | 57 | 63 | 37 | 34 | 50 | 85 | 81 | 78 | 48 |
-| 11-24 13Z | Tue 04:00 | 74 | 66 |  | 51 |  |  |  | 75 | 55 |
-| 11-24 14Z | Tue 05:00 | 75 | 64 |  | 90 |  |  |  | 81 | 67 |
-| 11-24 15Z | Tue 06:00 | 76 | 70 | 77 | 77 | 60 | 85 | 92 | 88 | 75 |
-| 11-24 16Z | Tue 07:00 | 85 | 75 |  | 66 |  |  |  | 88 | 74 |
-| 11-24 17Z | Tue 08:00 | 84 | 76 |  | 61 |  |  |  | 85 | 69 |
-| 11-24 18Z | Tue 09:00 | 76 | 82 | 59 | 58 | 57 | 81 | 92 | 82 | 65 |
-| 11-24 19Z | Tue 10:00 | 75 | 85 |  | 59 |  |  |  | 79 | 62 |
-| 11-24 20Z | Tue 11:00 | 78 | 87 |  | 53 |  |  |  | 79 | 59 |
-| 11-24 21Z | Tue 12:00 | 75 | 81 | 57 | 55 | 49 | 62 | 85 | 73 | 58 |
-| 11-24 22Z | Tue 13:00 | 75 | 79 |  | 57 |  |  |  | 73 | 61 |
-| 11-24 23Z | Tue 14:00 | 61 | 83 |  | 58 |  |  |  | 73 | 66 |
-| 11-25 00Z | Tue 15:00 | 66 | 82 | 73 | 73 | 51 | 62 | 75 | 72 | 69 |
-| 11-25 01Z | Tue 16:00 | 64 | 83 |  | 77 |  |  |  | 75 | 70 |
-| 11-25 02Z | Tue 17:00 | 65 | 85 |  | 78 |  |  |  | 78 | 70 |
-| 11-25 03Z | Tue 18:00 | 64 | 87 | 79 | 81 | 47 | 79 | 85 | 75 | 70 |
-| 11-25 04Z | Tue 19:00 | 80 | 79 |  | 85 |  |  |  | 78 | 71 |
-| 11-25 05Z | Tue 20:00 | 85 | 59 |  | 56 |  |  |  | 81 | 73 |
-| 11-25 06Z | Tue 21:00 | 87 | 69 | 58 | 56 | 55 | 82 | 85 | 81 | 75 |
+| UTC | Local (AKST) | HRRR | RRFS | IFS | GFS |
+| --- | --- | --: | --: | --: | --: |
+| 11-24 06Z | Mon 21:00 | 79 | 90 | 81 | 49 |
+| 11-24 07Z | Mon 22:00 | 73 | 90 |  |  |
+| 11-24 08Z | Mon 23:00 | 40 | 74 |  |  |
+| 11-24 09Z | Tue 00:00 | 58 | 44 | 58 | 54 |
+| 11-24 10Z | Tue 01:00 | 60 | 45 |  |  |
+| 11-24 11Z | Tue 02:00 | 47 | 58 |  |  |
+| 11-24 12Z | Tue 03:00 | 57 | 63 | 37 | 50 |
+| 11-24 13Z | Tue 04:00 | 74 | 66 |  |  |
+| 11-24 14Z | Tue 05:00 | 75 | 64 |  |  |
+| 11-24 15Z | Tue 06:00 | 76 | 70 | 77 | 60 |
+| 11-24 16Z | Tue 07:00 | 85 | 75 |  |  |
+| 11-24 17Z | Tue 08:00 | 84 | 76 |  |  |
+| 11-24 18Z | Tue 09:00 | 76 | 82 | 59 | 57 |
+| 11-24 19Z | Tue 10:00 | 75 | 85 |  |  |
+| 11-24 20Z | Tue 11:00 | 78 | 87 |  |  |
+| 11-24 21Z | Tue 12:00 | 75 | 81 | 57 | 49 |
+| 11-24 22Z | Tue 13:00 | 75 | 79 |  |  |
+| 11-24 23Z | Tue 14:00 | 61 | 83 |  |  |
+| 11-25 00Z | Tue 15:00 | 66 | 82 | 73 | 51 |
+| 11-25 01Z | Tue 16:00 | 64 | 83 |  |  |
+| 11-25 02Z | Tue 17:00 | 65 | 85 |  |  |
+| 11-25 03Z | Tue 18:00 | 64 | 87 | 79 | 47 |
+| 11-25 04Z | Tue 19:00 | 80 | 79 |  |  |
+| 11-25 05Z | Tue 20:00 | 85 | 59 |  |  |
+| 11-25 06Z | Tue 21:00 | 87 | 69 | 58 | 55 |
 
 Wind speed (kt) at the hour:
 
@@ -857,7 +857,7 @@ Observed dewpoint (°F) and RH (%) from the METAR nearest each hour, against the
 
 ## Newest runs vs obs so far today (2026-11-23)
 
-The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-23 20:00Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
+The runs that have come out since today's deadline (HRRR, RRFS, IFS, GFS, GFS_MOS, NBM; fetched 2026-11-23 21:42Z), against the METAR nearest each hour since each run's first valid time. These runs are not scored for today; use them to judge whether the newest guidance has the current pattern right before trusting what it says for the target day. A run already a few degrees off a few hours in usually stays off. Compare its bias with the submitted run of the same model over the same hours: if the newest run is no better, its change for the target day deserves less weight. Text guidance (GFS_MOS, NBM) often starts after the last report, so it has no hours to compare yet.
 
 How each run is doing so far (forecast - observed; Hours = hours compared). Cloud bias is in percentage points against the METAR sky cover. Precip = the run's total since its first valid time / what was observed over the same span:
 
