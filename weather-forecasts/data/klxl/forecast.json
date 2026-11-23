@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-23T18:16:04+00:00",
+  "generated_at_utc": "2026-11-23T19:16:12+00:00",
   "meta": {
     "page": "klxl",
     "site": "Little Falls, MN (KLXL)",
@@ -71,11 +71,11 @@
       "temp_source": "2 m T + interval max/min fields"
     },
     "IFS_HRES": {
-      "tmax_f": 33.9,
-      "tmin_f": 19.7,
-      "wind_max_kt": 6.2,
+      "tmax_f": 33.0,
+      "tmin_f": 19.5,
+      "wind_max_kt": 5.7,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-23T06",
+      "init_time_utc": "2026-11-23T12",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
@@ -130,24 +130,24 @@
       "tmin_f": 12.0,
       "wind_max_kt": 5.0,
       "precip_in": 0.0,
-      "pop06_max_pct": 6,
+      "pop06_max_pct": 9,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.0,
           "12-18": 0.0,
           "18-00": 0.06,
-          "00-06": 0.01
+          "00-06": 0.09
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.06,
-          0.069
+          0.09,
+          0.145
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-23T17",
+      "init_time_utc": "2026-11-23T18",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
@@ -663,7 +663,7 @@
       "wind_max_kt": null,
       "precip_in": 0.0,
       "precip_mean_in": 0.0,
-      "init_time_utc": "2026-11-23T06",
+      "init_time_utc": "2026-11-23T12",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
@@ -692,8 +692,8 @@
             "p25": 0.0,
             "p50": 0.002,
             "p75": 0.005,
-            "p90": 0.008,
-            "p100": 0.009
+            "p90": 0.006,
+            "p100": 0.008
           },
           "precip_prob": {
             "0.01": 0.0,
@@ -725,22 +725,22 @@
         "members": {
           "precip_in": [
             0.0,
-            0.002,
-            0.003,
             0.001,
-            0.002,
-            0.005,
-            0.0,
-            0.007,
-            0.006,
-            0.0,
-            0.0,
-            0.006,
-            0.009,
             0.004,
             0.0,
+            0.003,
+            0.004,
             0.0,
+            0.003,
+            0.006,
+            0.002,
+            0.0,
+            0.005,
             0.008,
+            0.005,
+            0.0,
+            0.0,
+            0.007,
             0.0
           ]
         }
@@ -953,7 +953,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-23T18:16:04+00:00",
+    "checked_at_utc": "2026-11-23T19:16:12+00:00",
     "connectivity": false,
     "failed": [],
     "carried_over": []
