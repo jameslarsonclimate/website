@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-22T13:01:20+00:00",
- "generated_at_utc": "2026-11-22T23:58:57+00:00",
+ "generated_at_utc": "2026-11-23T14:20:04+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1642,29 +1642,45 @@
      },
      "points": 6.0,
      "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
+    },
+    "2026-11-22": {
+     "forecast": {
+      "tmax_f": 35,
+      "tmin_f": 23,
+      "wind_max_kt": 4,
+      "precip_in": 0.0
+     },
+     "error": {
+      "tmax_f": 3,
+      "tmin_f": 5,
+      "wind_max_kt": 0,
+      "precip_in": 0.0
+     },
+     "points": 8.0,
+     "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
     }
    },
    "summary": {
-    "n_days": 3,
-    "total_points": 13.3,
-    "mean_points": 4.43,
+    "n_days": 4,
+    "total_points": 21.3,
+    "mean_points": 5.33,
     "bias": {
-     "tmax_f": 0.721,
-     "tmin_f": 1.359,
-     "wind_max_kt": 1.026,
-     "precip_in": -0.024
+     "tmax_f": 1.358,
+     "tmin_f": 2.377,
+     "wind_max_kt": 0.754,
+     "precip_in": -0.018
     },
     "mae": {
-     "tmax_f": 2.051,
-     "tmin_f": 1.359,
-     "wind_max_kt": 1.026,
-     "precip_in": 0.058
+     "tmax_f": 2.317,
+     "tmin_f": 2.377,
+     "wind_max_kt": 0.754,
+     "precip_in": 0.042
     },
     "n_eff": {
-     "tmax_f": 2.99,
-     "tmin_f": 2.99,
-     "wind_max_kt": 3.0,
-     "precip_in": 2.99
+     "tmax_f": 3.97,
+     "tmin_f": 3.97,
+     "wind_max_kt": 3.99,
+     "precip_in": 3.98
     }
    },
    "summary_hindcast": {
@@ -1724,46 +1740,62 @@
        },
        "points": 6.0,
        "summary": "Clearing and a building ridge behind today's front give a dry, calm day. The low goes below consensus toward MOS for a clear night, and the high sits near consensus with cold air arriving: 38/26/6/0.00."
+      },
+      "2026-11-22": {
+       "forecast": {
+        "tmax_f": 34,
+        "tmin_f": 22,
+        "wind_max_kt": 4,
+        "precip_in": 0.0
+       },
+       "error": {
+        "tmax_f": 2,
+        "tmin_f": 4,
+        "wind_max_kt": 0,
+        "precip_in": 0.0
+       },
+       "points": 6.0,
+       "summary": "A clear, calm ridge with drier air: the low goes well below consensus toward USL and MOS, the high runs a few degrees under the warm-biased models, wind stays light and it stays dry."
       }
      },
      "summary": {
-      "n_days": 2,
-      "total_points": 9.5,
-      "mean_points": 4.75,
+      "n_days": 3,
+      "total_points": 15.5,
+      "mean_points": 5.17,
       "bias": {
-       "tmax_f": 1.596,
-       "tmin_f": 1.481,
-       "wind_max_kt": 1.019,
-       "precip_in": 0.024
+       "tmax_f": 1.741,
+       "tmin_f": 2.386,
+       "wind_max_kt": 0.666,
+       "precip_in": 0.016
       },
       "mae": {
-       "tmax_f": 2.558,
-       "tmin_f": 1.481,
-       "wind_max_kt": 1.019,
-       "precip_in": 0.024
+       "tmax_f": 2.357,
+       "tmin_f": 2.386,
+       "wind_max_kt": 0.666,
+       "precip_in": 0.016
       },
       "n_eff": {
-       "tmax_f": 2.0,
-       "tmin_f": 2.0,
-       "wind_max_kt": 2.0,
-       "precip_in": 2.0
+       "tmax_f": 2.99,
+       "tmin_f": 2.99,
+       "wind_max_kt": 3.0,
+       "precip_in": 2.99
       }
      },
      "today": {
       "forecast": {
        "tmax_f": 34,
-       "tmin_f": 22,
-       "wind_max_kt": 4,
+       "tmin_f": 23,
+       "wind_max_kt": 5,
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 2,
-       "tmin_f": 4,
-       "wind_max_kt": 0,
+       "tmax_f": 9,
+       "tmin_f": 1,
+       "wind_max_kt": 2,
        "precip_in": 0.0
       },
-      "points": 6.0,
-      "summary": "A clear, calm ridge with drier air: the low goes well below consensus toward USL and MOS, the high runs a few degrees under the warm-biased models, wind stays light and it stays dry."
+      "points": 11.0,
+      "summary": "Clear, calm ridge day with a cold pool. High trimmed below consensus because the models are running much too warm; low between MOS (+3 for its recent cold bias) and USL; light wind; dry."
      }
     },
     "21Z": {
@@ -1799,46 +1831,62 @@
        },
        "points": 5.0,
        "summary": "Dry and clearing behind the front as northerly outflow begins. I go near or below consensus on the high because cold air is arriving, lean toward MOS on the low for the clear Saturday evening, keep winds light, and enter zero precip."
+      },
+      "2026-11-22": {
+       "forecast": {
+        "tmax_f": 35,
+        "tmin_f": 23,
+        "wind_max_kt": 5,
+        "precip_in": 0.0
+       },
+       "error": {
+        "tmax_f": 3,
+        "tmin_f": 5,
+        "wind_max_kt": 1,
+        "precip_in": 0.0
+       },
+       "points": 8.5,
+       "summary": "Clear, calm and dry under a ridge with offshore flow. Low and high go colder than the consensus because the models ran 3\u20136\u00b0F warm today and drier air arrives tonight. Wind stays light at 5 kt and precip is 0.00."
       }
      },
      "summary": {
-      "n_days": 2,
-      "total_points": 10.5,
-      "mean_points": 5.25,
+      "n_days": 3,
+      "total_points": 19.0,
+      "mean_points": 6.33,
       "bias": {
-       "tmax_f": 0.596,
-       "tmin_f": 1.962,
-       "wind_max_kt": 1.019,
-       "precip_in": -0.024
+       "tmax_f": 1.46,
+       "tmin_f": 3.053,
+       "wind_max_kt": 1.013,
+       "precip_in": -0.016
       },
       "mae": {
-       "tmax_f": 2.519,
-       "tmin_f": 1.962,
-       "wind_max_kt": 1.019,
-       "precip_in": 0.024
+       "tmax_f": 2.692,
+       "tmin_f": 3.053,
+       "wind_max_kt": 1.013,
+       "precip_in": 0.016
       },
       "n_eff": {
-       "tmax_f": 2.0,
-       "tmin_f": 2.0,
-       "wind_max_kt": 2.0,
-       "precip_in": 2.0
+       "tmax_f": 2.99,
+       "tmin_f": 2.99,
+       "wind_max_kt": 3.0,
+       "precip_in": 2.99
       }
      },
      "today": {
       "forecast": {
-       "tmax_f": 35,
-       "tmin_f": 23,
-       "wind_max_kt": 5,
+       "tmax_f": 30,
+       "tmin_f": 21,
+       "wind_max_kt": 6,
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 3,
-       "tmin_f": 5,
-       "wind_max_kt": 1,
+       "tmax_f": 5,
+       "tmin_f": -1,
+       "wind_max_kt": 3,
        "precip_in": 0.0
       },
-      "points": 8.5,
-      "summary": "Clear, calm and dry under a ridge with offshore flow. Low and high go colder than the consensus because the models ran 3\u20136\u00b0F warm today and drier air arrives tonight. Wind stays light at 5 kt and precip is 0.00."
+      "points": 7.5,
+      "summary": "Clear, calm ridge day: models ran about 11 F warm in today's cold pool, so the high goes well under consensus at 30 (newest HRRR minus a bit) and the low near MOS at 21. Light wind with some evening outflow risk; dry."
      }
     },
     "2350Z": {
@@ -2162,29 +2210,45 @@
        },
        "points": 6.0,
        "summary": "Post-frontal clearing with northerly outflow starting: 37 \u00b0F high, slightly below consensus with cold air arriving. Low 27 \u00b0F, below consensus, for a clear, drying Saturday evening that fog and wet ground keep off the MOS extreme. Light wind, dry."
+      },
+      "2026-11-22": {
+       "forecast": {
+        "tmax_f": 35,
+        "tmin_f": 23,
+        "wind_max_kt": 4,
+        "precip_in": 0.0
+       },
+       "error": {
+        "tmax_f": 3,
+        "tmin_f": 5,
+        "wind_max_kt": 0,
+        "precip_in": 0.0
+       },
+       "points": 8.0,
+       "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
       }
      },
      "summary": {
-      "n_days": 3,
-      "total_points": 13.3,
-      "mean_points": 4.43,
+      "n_days": 4,
+      "total_points": 21.3,
+      "mean_points": 5.33,
       "bias": {
-       "tmax_f": 0.721,
-       "tmin_f": 1.359,
-       "wind_max_kt": 1.026,
-       "precip_in": -0.024
+       "tmax_f": 1.358,
+       "tmin_f": 2.377,
+       "wind_max_kt": 0.754,
+       "precip_in": -0.018
       },
       "mae": {
-       "tmax_f": 2.051,
-       "tmin_f": 1.359,
-       "wind_max_kt": 1.026,
-       "precip_in": 0.058
+       "tmax_f": 2.317,
+       "tmin_f": 2.377,
+       "wind_max_kt": 0.754,
+       "precip_in": 0.042
       },
       "n_eff": {
-       "tmax_f": 2.99,
-       "tmin_f": 2.99,
-       "wind_max_kt": 3.0,
-       "precip_in": 2.99
+       "tmax_f": 3.97,
+       "tmin_f": 3.97,
+       "wind_max_kt": 3.99,
+       "precip_in": 3.98
       }
      },
      "summary_hindcast": {
@@ -2212,43 +2276,43 @@
      },
      "today": {
       "forecast": {
-       "tmax_f": 35,
+       "tmax_f": 33,
        "tmin_f": 23,
-       "wind_max_kt": 4,
+       "wind_max_kt": 5,
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 3,
-       "tmin_f": 5,
-       "wind_max_kt": 0,
+       "tmax_f": 8,
+       "tmin_f": 1,
+       "wind_max_kt": 2,
        "precip_in": 0.0
       },
-      "points": 8.0,
-      "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
+      "points": 10.0,
+      "summary": "Clear, calm ridge day at PAYA. The high is cut to 33\u00b0F, below the 36.5 consensus, because every model ran 4\u20136\u00b0F too warm on the last two clear days. The low is 23\u00b0F, between GFS MOS and the consensus, since the air is moister than last night. Light wind and no precipitation."
      }
     }
    }
   }
  },
  "today": {
-  "date": "2026-11-22",
+  "date": "2026-11-23",
   "status": null,
   "forecasters": {
    "Claude": {
     "forecast": {
-     "tmax_f": 35,
+     "tmax_f": 33,
      "tmin_f": 23,
-     "wind_max_kt": 4,
+     "wind_max_kt": 5,
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 3,
-     "tmin_f": 5,
-     "wind_max_kt": 0,
+     "tmax_f": 8,
+     "tmin_f": 1,
+     "wind_max_kt": 2,
      "precip_in": 0.0
     },
-    "points": 8.0,
-    "summary": "Clear, calm and dry under offshore flow. The low goes colder than consensus toward MOS/USL, since raw models ran 4\u20136\u00b0F warm today; the high and wind are slightly under consensus, and precip is 0.00."
+    "points": 10.0,
+    "summary": "Clear, calm ridge day at PAYA. The high is cut to 33\u00b0F, below the 36.5 consensus, because every model ran 4\u20136\u00b0F too warm on the last two clear days. The low is 23\u00b0F, between GFS MOS and the consensus, since the air is moister than last night. Light wind and no precipitation."
    }
   }
  }
