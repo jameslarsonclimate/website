@@ -4,7 +4,7 @@
  "school_label": "Colorado State Univ.",
  "season": "26-27",
  "fetched_at_utc": "2026-11-22T13:01:20+00:00",
- "generated_at_utc": "2026-11-23T19:36:25+00:00",
+ "generated_at_utc": "2026-11-23T21:19:26+00:00",
  "note": "display only; scored like the models against the scoreboard's observed values",
  "forecasters": {
   "Mothmn": {
@@ -1789,12 +1789,12 @@
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 9,
+       "tmax_f": 7,
        "tmin_f": 3,
        "wind_max_kt": 2,
        "precip_in": 0.0
       },
-      "points": 13.0,
+      "points": 11.0,
       "summary": "Clear, calm ridge day with a cold pool. High trimmed below consensus because the models are running much too warm; low between MOS (+3 for its recent cold bias) and USL; light wind; dry."
      }
     },
@@ -1880,12 +1880,12 @@
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 5,
+       "tmax_f": 3,
        "tmin_f": 1,
        "wind_max_kt": 3,
        "precip_in": 0.0
       },
-      "points": 7.5,
+      "points": 5.5,
       "summary": "Clear, calm ridge day: models ran about 11 F warm in today's cold pool, so the high goes well under consensus at 30 (newest HRRR minus a bit) and the low near MOS at 21. Light wind with some evening outflow risk; dry."
      }
     },
@@ -2282,12 +2282,12 @@
        "precip_in": 0.0
       },
       "error": {
-       "tmax_f": 8,
+       "tmax_f": 6,
        "tmin_f": 3,
        "wind_max_kt": 2,
        "precip_in": 0.0
       },
-      "points": 12.0,
+      "points": 10.0,
       "summary": "Clear, calm ridge day at PAYA. The high is cut to 33\u00b0F, below the 36.5 consensus, because every model ran 4\u20136\u00b0F too warm on the last two clear days. The low is 23\u00b0F, between GFS MOS and the consensus, since the air is moister than last night. Light wind and no precipitation."
      }
     }
@@ -2306,12 +2306,12 @@
      "precip_in": 0.0
     },
     "error": {
-     "tmax_f": 8,
+     "tmax_f": 6,
      "tmin_f": 3,
      "wind_max_kt": 2,
      "precip_in": 0.0
     },
-    "points": 12.0,
+    "points": 10.0,
     "summary": "Clear, calm ridge day at PAYA. The high is cut to 33\u00b0F, below the 36.5 consensus, because every model ran 4\u20136\u00b0F too warm on the last two clear days. The low is 23\u00b0F, between GFS MOS and the consensus, since the air is moister than last night. Light wind and no precipitation."
    }
   }
