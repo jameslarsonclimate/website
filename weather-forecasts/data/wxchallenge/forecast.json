@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-23T13:10:19+00:00",
+  "generated_at_utc": "2026-11-23T15:01:39+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -32,38 +32,37 @@
   },
   "models": {
     "HRRR": {
-      "tmax_f": 40.9,
-      "tmin_f": 29.4,
-      "wind_max_kt": 10.2,
+      "tmax_f": 41.2,
+      "tmin_f": 30.6,
+      "wind_max_kt": 11.1,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-23T06",
+      "init_time_utc": "2026-11-23T12",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
       ],
       "n_steps": 25,
       "temp_source": "instantaneous 2 m T",
-      "wind_max_kt_06z": 10.2,
+      "wind_max_kt_06z": 11.1,
       "wind_window_utc": [
         "2026-11-24T09",
         "2026-11-25T09"
       ],
-      "wind_window": "LST",
-      "wind_window_note": "run ends at f48: last LST-day hours not covered"
+      "wind_window": "LST"
     },
     "RRFS": {
-      "tmax_f": 33.9,
-      "tmin_f": 26.1,
-      "wind_max_kt": 7.2,
+      "tmax_f": 39.0,
+      "tmin_f": 24.4,
+      "wind_max_kt": 8.9,
       "precip_in": 0.0,
-      "init_time_utc": "2026-11-23T06",
+      "init_time_utc": "2026-11-23T12",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
       ],
       "n_steps": 25,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 7.2,
+      "wind_max_kt_06z": 8.4,
       "wind_window_utc": [
         "2026-11-24T09",
         "2026-11-25T09"
@@ -71,18 +70,18 @@
       "wind_window": "LST"
     },
     "IFS": {
-      "tmax_f": 40.0,
-      "tmin_f": 29.4,
-      "wind_max_kt": 14.0,
-      "precip_in": 0.06,
-      "init_time_utc": "2026-11-23T00",
+      "tmax_f": 39.4,
+      "tmin_f": 30.0,
+      "wind_max_kt": 14.3,
+      "precip_in": 0.03,
+      "init_time_utc": "2026-11-23T06",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 14.0,
+      "wind_max_kt_06z": 14.3,
       "wind_window_utc": [
         "2026-11-24T09",
         "2026-11-25T09"
@@ -172,24 +171,24 @@
         "2026-11-25T09"
       ],
       "precip_in": 0.0,
-      "pop06_max_pct": 26,
+      "pop06_max_pct": 38,
       "pop": {
         "p24": null,
         "blocks": {
           "06-12": 0.0,
-          "12-18": 0.26,
+          "12-18": 0.38,
           "18-00": 0.0,
           "00-06": 0.08
         },
         "n_members": null,
         "basis": "NBS P06",
         "p24_range": [
-          0.26,
-          0.319
+          0.38,
+          0.43
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-23T12",
+      "init_time_utc": "2026-11-23T14",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
@@ -202,7 +201,7 @@
       "precip_in": null,
       "init_time_utc": null,
       "valid_range_utc": null,
-      "error": "no USL run for 2026-11-24 available at 2026-11-23 14Z"
+      "error": "no USL run for 2026-11-24 available at 2026-11-23 15Z"
     },
     "ENS": {
       "tmax_f": 39.9,
@@ -723,76 +722,78 @@
       "tmin_f": null,
       "wind_max_kt": null,
       "precip_in": 0.01,
-      "precip_mean_in": 0.01,
-      "init_time_utc": "2026-11-23T06",
+      "precip_mean_in": 0.02,
+      "init_time_utc": "2026-11-23T12",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
       ],
-      "note": "median of 13 members",
+      "note": "median of 14 members",
       "precip_only": true,
       "pop": {
-        "p24": 0.385,
+        "p24": 0.5,
         "blocks": {
           "06-12": null,
           "12-18": null,
           "18-00": null,
           "00-06": null
         },
-        "n_members": 13,
+        "n_members": 14,
         "basis": "member fraction"
       },
       "ensemble": {
-        "n_members": 13,
+        "n_members": 14,
         "stats": {
           "precip_in": {
-            "mean": 0.01,
-            "std": 0.011,
+            "mean": 0.019,
+            "std": 0.031,
             "p0": 0.0,
             "p10": 0.0,
             "p25": 0.0,
-            "p50": 0.005,
-            "p75": 0.022,
-            "p90": 0.027,
-            "p100": 0.027
+            "p50": 0.01,
+            "p75": 0.025,
+            "p90": 0.026,
+            "p100": 0.123
           },
           "precip_prob": {
-            "0.01": 0.385,
-            "0.10": 0.0,
+            "0.01": 0.5,
+            "0.10": 0.071,
             "0.25": 0.0,
             "0.50": 0.0
           }
         },
         "member_names": [
+          "RRFS 12Z",
+          "RRFS m001 12Z",
+          "RRFS m002 12Z",
+          "RRFS m003 12Z",
+          "RRFS m004 12Z",
+          "RRFS m005 12Z",
+          "HRRR 12Z",
           "RRFS 06Z",
           "RRFS m001 06Z",
           "RRFS m002 06Z",
           "RRFS m003 06Z",
           "RRFS m004 06Z",
           "RRFS m005 06Z",
-          "HRRR 06Z",
-          "RRFS 00Z",
-          "RRFS m001 00Z",
-          "RRFS m002 00Z",
-          "RRFS m003 00Z",
-          "RRFS m004 00Z",
-          "RRFS m005 00Z"
+          "HRRR 06Z"
         ],
         "members": {
           "precip_in": [
+            0.0,
+            0.025,
+            0.0,
+            0.002,
+            0.123,
+            0.025,
+            0.002,
             0.0,
             0.022,
             0.025,
             0.002,
             0.027,
             0.017,
-            0.0,
-            0.0,
-            0.027,
-            0.0,
-            0.005,
-            0.002,
-            0.007
+            0.0
           ]
         }
       }
@@ -829,10 +830,10 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 39.5,
-      "tmin_f": 25.4,
-      "wind_max_kt": 10.9,
-      "precip_in": 0.04,
+      "tmax_f": 40.1,
+      "tmin_f": 25.3,
+      "wind_max_kt": 11.2,
+      "precip_in": 0.03,
       "method": {
         "tmax_f": {
           "method": "bias-corrected (n_eff/(n_eff+3) of each model's decay-weighted mean error), 1/(MAE+0.5) weighted",
@@ -935,7 +936,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-23T13:10:19+00:00",
+    "checked_at_utc": "2026-11-23T15:01:39+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST",
@@ -950,6 +951,33 @@
         "tmin_f": 28.0,
         "wind_max_kt": 7.0,
         "precip_in": 0.0,
+        "init_time_utc": "2026-11-23T12"
+      }
+    },
+    "HRRR": {
+      "12": {
+        "tmax_f": 41.2,
+        "tmin_f": 30.6,
+        "wind_max_kt": 11.1,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-23T12"
+      }
+    },
+    "RRFS": {
+      "12": {
+        "tmax_f": 39.0,
+        "tmin_f": 24.4,
+        "wind_max_kt": 8.9,
+        "precip_in": 0.0,
+        "init_time_utc": "2026-11-23T12"
+      }
+    },
+    "REFS": {
+      "12": {
+        "tmax_f": null,
+        "tmin_f": null,
+        "wind_max_kt": null,
+        "precip_in": 0.01,
         "init_time_utc": "2026-11-23T12"
       }
     }
