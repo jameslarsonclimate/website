@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-23T16:30:08+00:00",
+  "generated_at_utc": "2026-11-23T17:00:10+00:00",
   "meta": {
     "page": "wxchallenge",
     "site": "Yakutat, AK (PAYA)",
@@ -108,18 +108,18 @@
       "temp_source": "hourly 2 m T (Open-Meteo ecmwf_ifs, 9 km)"
     },
     "GFS": {
-      "tmax_f": 41.9,
-      "tmin_f": 34.8,
-      "wind_max_kt": 15.5,
-      "precip_in": 0.01,
-      "init_time_utc": "2026-11-23T06",
+      "tmax_f": 42.6,
+      "tmin_f": 36.1,
+      "wind_max_kt": 13.7,
+      "precip_in": 0.04,
+      "init_time_utc": "2026-11-23T12",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
       ],
       "n_steps": 9,
       "temp_source": "2 m T + interval max/min fields",
-      "wind_max_kt_06z": 15.5,
+      "wind_max_kt_06z": 13.7,
       "wind_window_utc": [
         "2026-11-24T09",
         "2026-11-25T09"
@@ -188,7 +188,7 @@
         ]
       },
       "precip_note": "NBS Q06 amounts",
-      "init_time_utc": "2026-11-23T15",
+      "init_time_utc": "2026-11-23T16",
       "valid_range_utc": [
         "2026-11-24T06",
         "2026-11-25T06"
@@ -832,9 +832,9 @@
       }
     },
     "CONSENSUS": {
-      "tmax_f": 40.1,
+      "tmax_f": 40.2,
       "tmin_f": 24.8,
-      "wind_max_kt": 10.9,
+      "wind_max_kt": 10.7,
       "precip_in": 0.04,
       "method": {
         "tmax_f": {
@@ -946,7 +946,7 @@
   },
   "run_status": {
     "ok": true,
-    "checked_at_utc": "2026-11-23T16:30:08+00:00",
+    "checked_at_utc": "2026-11-23T17:00:10+00:00",
     "connectivity": false,
     "failed": [
       "HRRRCAST"
@@ -1005,6 +1005,15 @@
         "tmin_f": 24.0,
         "wind_max_kt": 9.0,
         "precip_in": 0.03,
+        "init_time_utc": "2026-11-23T12"
+      }
+    },
+    "GFS": {
+      "12": {
+        "tmax_f": 42.6,
+        "tmin_f": 36.1,
+        "wind_max_kt": 13.7,
+        "precip_in": 0.04,
         "init_time_utc": "2026-11-23T12"
       }
     }
